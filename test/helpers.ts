@@ -1,8 +1,8 @@
 import {
-  PresetAllowEntry,
-  applyPermissions,
-  checkPermissionsIntegrity,
-  fillPreset,
+  Permission,
+  applyTargets,
+  checkIntegrity,
+  processPermissions,
 } from "zodiac-roles-sdk";
 import { Roles__factory } from "./rolesModTypechain";
 import { ROLES_ADDRESS, getMemberWallet, getOwnerWallet } from "./accounts";
@@ -13,13 +13,16 @@ const owner = getOwnerWallet();
 export const rolesMod = Roles__factory.connect(ROLES_ADDRESS, owner);
 export const testRoleKey = formatBytes32String("TEST-ROLE");
 
-export const configurePermissions = async (entries: PresetAllowEntry[]) => {
-  const calls = await applyPermissions(
+export const configurePermissions = async (permissions: Permission[]) => {
+  const targets = processPermissions(permissions);
+  checkIntegrity(targets);
+
+  const calls = await applyTargets(
     testRoleKey,
-    derivePermissions(entries),
+    targets,
     {
       address: rolesMod.address,
-      currentPermissions: [],
+      currentTargets: [],
       mode: "replace",
       log: console.debug,
     },
@@ -59,13 +62,3 @@ export const execThroughRole = async ({
       testRoleKey,
       false,
     );
-
-const derivePermissions = (entries: PresetAllowEntry[]) => {
-  const permissions = fillPreset({
-    allow: entries,
-    placeholders: {},
-    chainId: 1, // This won't be used (presets only set this field for informational purposes)
-  });
-  checkPermissionsIntegrity(permissions);
-  return permissions;
-};

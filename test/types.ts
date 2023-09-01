@@ -41,5 +41,7 @@ export interface TestTransaction {
   to: `0x${string}`;
   data?: `0x${string}`;
   value?: `0x${string}`;
+  operation?: 0 | 1;
   expectRevert?: boolean;
+  revertOnFailingExecution?: boolean;
 }

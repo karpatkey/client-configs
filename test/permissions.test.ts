@@ -1,11 +1,11 @@
-import { PresetAllowEntry } from "zodiac-roles-sdk";
+import { Permission } from "zodiac-roles-sdk";
 import ensManageTestTransactions from "../clients/ens/roles/manage/test/transactions";
 import { roles as ensRoles } from "../clients/ens";
 import { TestTransaction } from "./types";
 import { configurePermissions, execThroughRole } from "./helpers";
 
 const makePermissionsTest =
-  (permissions: PresetAllowEntry[], testTransactions: TestTransaction[]) =>
+  (permissions: Permission[], testTransactions: TestTransaction[]) =>
   () =>
     it("should allow all test transactions", async () => {
       await configurePermissions(permissions);
