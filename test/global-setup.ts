@@ -94,7 +94,7 @@ async function deployRolesMod() {
 
   if (roles.address !== ROLES_ADDRESS) {
     throw new Error(
-      "Roles mod was not deployed at the expected address. Something must have changed in the setup, please update the ROLES_ADDRESS constant",
+      `Roles mod was not deployed at the expected address (expected: ${ROLES_ADDRESS}, got: ${roles.address}). Something must have changed in the setup, please update the ROLES_ADDRESS constant`,
     );
   }
 }
