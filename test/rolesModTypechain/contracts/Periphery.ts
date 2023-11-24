@@ -82,7 +82,7 @@ export interface PeripheryInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "unwrappers", data: BytesLike): Result;
 
   events: {
-    "Initialized(uint8)": EventFragment;
+    "Initialized(uint64)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "SetUnwrapAdapter(address,bytes4,address)": EventFragment;
   };
@@ -93,9 +93,9 @@ export interface PeripheryInterface extends utils.Interface {
 }
 
 export interface InitializedEventObject {
-  version: number;
+  version: BigNumber;
 }
-export type InitializedEvent = TypedEvent<[number], InitializedEventObject>;
+export type InitializedEvent = TypedEvent<[BigNumber], InitializedEventObject>;
 
 export type InitializedEventFilter = TypedEventFilter<InitializedEvent>;
 
@@ -222,7 +222,7 @@ export interface Periphery extends BaseContract {
   };
 
   filters: {
-    "Initialized(uint8)"(version?: null): InitializedEventFilter;
+    "Initialized(uint64)"(version?: null): InitializedEventFilter;
     Initialized(version?: null): InitializedEventFilter;
 
     "OwnershipTransferred(address,address)"(

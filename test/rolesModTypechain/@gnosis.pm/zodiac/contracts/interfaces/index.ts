@@ -2,4 +2,3 @@
 /* tslint:disable */
 /* eslint-disable */
 export type { IAvatar } from "./IAvatar";
-export type { IGuard } from "./IGuard";

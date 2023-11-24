@@ -80,6 +80,7 @@ export interface TestContractInterface extends utils.Interface {
     "dynamicDynamic32(string,bytes2[])": FunctionFragment;
     "dynamicString(string)": FunctionFragment;
     "emitTheSender()": FunctionFragment;
+    "fnThatMaybeReverts(uint256,bool)": FunctionFragment;
     "fnThatReverts()": FunctionFragment;
     "fnWithSingleParam(uint256)": FunctionFragment;
     "fnWithThreeParams(uint256,uint256,uint256)": FunctionFragment;
@@ -121,6 +122,7 @@ export interface TestContractInterface extends utils.Interface {
       | "dynamicDynamic32"
       | "dynamicString"
       | "emitTheSender"
+      | "fnThatMaybeReverts"
       | "fnThatReverts"
       | "fnWithSingleParam"
       | "fnWithThreeParams"
@@ -180,6 +182,10 @@ export interface TestContractInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "emitTheSender",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "fnThatMaybeReverts",
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<boolean>]
   ): string;
   encodeFunctionData(
     functionFragment: "fnThatReverts",
@@ -328,6 +334,10 @@ export interface TestContractInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "emitTheSender",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "fnThatMaybeReverts",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -681,6 +691,12 @@ export interface TestContract extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    fnThatMaybeReverts(
+      a: PromiseOrValue<BigNumberish>,
+      maybe: PromiseOrValue<boolean>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
     fnThatReverts(overrides?: CallOverrides): Promise<[void]>;
 
     fnWithSingleParam(
@@ -872,6 +888,12 @@ export interface TestContract extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  fnThatMaybeReverts(
+    a: PromiseOrValue<BigNumberish>,
+    maybe: PromiseOrValue<boolean>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
   fnThatReverts(overrides?: CallOverrides): Promise<void>;
 
   fnWithSingleParam(
@@ -1056,6 +1078,12 @@ export interface TestContract extends BaseContract {
     ): Promise<void>;
 
     emitTheSender(overrides?: CallOverrides): Promise<void>;
+
+    fnThatMaybeReverts(
+      a: PromiseOrValue<BigNumberish>,
+      maybe: PromiseOrValue<boolean>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     fnThatReverts(overrides?: CallOverrides): Promise<void>;
 
@@ -1332,6 +1360,12 @@ export interface TestContract extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    fnThatMaybeReverts(
+      a: PromiseOrValue<BigNumberish>,
+      maybe: PromiseOrValue<boolean>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     fnThatReverts(overrides?: CallOverrides): Promise<BigNumber>;
 
     fnWithSingleParam(
@@ -1522,6 +1556,12 @@ export interface TestContract extends BaseContract {
 
     emitTheSender(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    fnThatMaybeReverts(
+      a: PromiseOrValue<BigNumberish>,
+      maybe: PromiseOrValue<boolean>,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     fnThatReverts(overrides?: CallOverrides): Promise<PopulatedTransaction>;

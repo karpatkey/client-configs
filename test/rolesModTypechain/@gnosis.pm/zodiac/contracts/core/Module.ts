@@ -29,12 +29,9 @@ import type {
 export interface ModuleInterface extends utils.Interface {
   functions: {
     "avatar()": FunctionFragment;
-    "getGuard()": FunctionFragment;
-    "guard()": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "setAvatar(address)": FunctionFragment;
-    "setGuard(address)": FunctionFragment;
     "setTarget(address)": FunctionFragment;
     "setUp(bytes)": FunctionFragment;
     "target()": FunctionFragment;
@@ -44,12 +41,9 @@ export interface ModuleInterface extends utils.Interface {
   getFunction(
     nameOrSignatureOrTopic:
       | "avatar"
-      | "getGuard"
-      | "guard"
       | "owner"
       | "renounceOwnership"
       | "setAvatar"
-      | "setGuard"
       | "setTarget"
       | "setUp"
       | "target"
@@ -57,8 +51,6 @@ export interface ModuleInterface extends utils.Interface {
   ): FunctionFragment;
 
   encodeFunctionData(functionFragment: "avatar", values?: undefined): string;
-  encodeFunctionData(functionFragment: "getGuard", values?: undefined): string;
-  encodeFunctionData(functionFragment: "guard", values?: undefined): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "renounceOwnership",
@@ -66,10 +58,6 @@ export interface ModuleInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "setAvatar",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setGuard",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -87,15 +75,12 @@ export interface ModuleInterface extends utils.Interface {
   ): string;
 
   decodeFunctionResult(functionFragment: "avatar", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "getGuard", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "guard", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "setAvatar", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "setGuard", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "setTarget", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "setUp", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "target", data: BytesLike): Result;
@@ -106,14 +91,12 @@ export interface ModuleInterface extends utils.Interface {
 
   events: {
     "AvatarSet(address,address)": EventFragment;
-    "ChangedGuard(address)": EventFragment;
-    "Initialized(uint8)": EventFragment;
+    "Initialized(uint64)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "TargetSet(address,address)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "AvatarSet"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "ChangedGuard"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Initialized"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "TargetSet"): EventFragment;
@@ -127,17 +110,10 @@ export type AvatarSetEvent = TypedEvent<[string, string], AvatarSetEventObject>;
 
 export type AvatarSetEventFilter = TypedEventFilter<AvatarSetEvent>;
 
-export interface ChangedGuardEventObject {
-  guard: string;
-}
-export type ChangedGuardEvent = TypedEvent<[string], ChangedGuardEventObject>;
-
-export type ChangedGuardEventFilter = TypedEventFilter<ChangedGuardEvent>;
-
 export interface InitializedEventObject {
-  version: number;
+  version: BigNumber;
 }
-export type InitializedEvent = TypedEvent<[number], InitializedEventObject>;
+export type InitializedEvent = TypedEvent<[BigNumber], InitializedEventObject>;
 
 export type InitializedEventFilter = TypedEventFilter<InitializedEvent>;
 
@@ -190,10 +166,6 @@ export interface Module extends BaseContract {
   functions: {
     avatar(overrides?: CallOverrides): Promise<[string]>;
 
-    getGuard(overrides?: CallOverrides): Promise<[string] & { _guard: string }>;
-
-    guard(overrides?: CallOverrides): Promise<[string]>;
-
     owner(overrides?: CallOverrides): Promise<[string]>;
 
     renounceOwnership(
@@ -202,11 +174,6 @@ export interface Module extends BaseContract {
 
     setAvatar(
       _avatar: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    setGuard(
-      _guard: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -230,10 +197,6 @@ export interface Module extends BaseContract {
 
   avatar(overrides?: CallOverrides): Promise<string>;
 
-  getGuard(overrides?: CallOverrides): Promise<string>;
-
-  guard(overrides?: CallOverrides): Promise<string>;
-
   owner(overrides?: CallOverrides): Promise<string>;
 
   renounceOwnership(
@@ -242,11 +205,6 @@ export interface Module extends BaseContract {
 
   setAvatar(
     _avatar: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  setGuard(
-    _guard: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -270,21 +228,12 @@ export interface Module extends BaseContract {
   callStatic: {
     avatar(overrides?: CallOverrides): Promise<string>;
 
-    getGuard(overrides?: CallOverrides): Promise<string>;
-
-    guard(overrides?: CallOverrides): Promise<string>;
-
     owner(overrides?: CallOverrides): Promise<string>;
 
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
     setAvatar(
       _avatar: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setGuard(
-      _guard: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -316,10 +265,7 @@ export interface Module extends BaseContract {
       newAvatar?: PromiseOrValue<string> | null
     ): AvatarSetEventFilter;
 
-    "ChangedGuard(address)"(guard?: null): ChangedGuardEventFilter;
-    ChangedGuard(guard?: null): ChangedGuardEventFilter;
-
-    "Initialized(uint8)"(version?: null): InitializedEventFilter;
+    "Initialized(uint64)"(version?: null): InitializedEventFilter;
     Initialized(version?: null): InitializedEventFilter;
 
     "OwnershipTransferred(address,address)"(
@@ -344,10 +290,6 @@ export interface Module extends BaseContract {
   estimateGas: {
     avatar(overrides?: CallOverrides): Promise<BigNumber>;
 
-    getGuard(overrides?: CallOverrides): Promise<BigNumber>;
-
-    guard(overrides?: CallOverrides): Promise<BigNumber>;
-
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
     renounceOwnership(
@@ -356,11 +298,6 @@ export interface Module extends BaseContract {
 
     setAvatar(
       _avatar: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    setGuard(
-      _guard: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -385,10 +322,6 @@ export interface Module extends BaseContract {
   populateTransaction: {
     avatar(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    getGuard(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    guard(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     renounceOwnership(
@@ -397,11 +330,6 @@ export interface Module extends BaseContract {
 
     setAvatar(
       _avatar: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setGuard(
-      _guard: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

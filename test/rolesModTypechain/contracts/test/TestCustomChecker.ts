@@ -23,7 +23,7 @@ import type {
 
 export interface TestCustomCheckerInterface extends utils.Interface {
   functions: {
-    "check(uint256,bytes,uint256,uint256,bytes12)": FunctionFragment;
+    "check(address,uint256,bytes,uint256,uint256,bytes12)": FunctionFragment;
   };
 
   getFunction(nameOrSignatureOrTopic: "check"): FunctionFragment;
@@ -31,6 +31,7 @@ export interface TestCustomCheckerInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "check",
     values: [
+      PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<BytesLike>,
       PromiseOrValue<BigNumberish>,
@@ -72,7 +73,8 @@ export interface TestCustomChecker extends BaseContract {
 
   functions: {
     check(
-      arg0: PromiseOrValue<BigNumberish>,
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<BigNumberish>,
       data: PromiseOrValue<BytesLike>,
       location: PromiseOrValue<BigNumberish>,
       size: PromiseOrValue<BigNumberish>,
@@ -82,7 +84,8 @@ export interface TestCustomChecker extends BaseContract {
   };
 
   check(
-    arg0: PromiseOrValue<BigNumberish>,
+    arg0: PromiseOrValue<string>,
+    arg1: PromiseOrValue<BigNumberish>,
     data: PromiseOrValue<BytesLike>,
     location: PromiseOrValue<BigNumberish>,
     size: PromiseOrValue<BigNumberish>,
@@ -92,7 +95,8 @@ export interface TestCustomChecker extends BaseContract {
 
   callStatic: {
     check(
-      arg0: PromiseOrValue<BigNumberish>,
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<BigNumberish>,
       data: PromiseOrValue<BytesLike>,
       location: PromiseOrValue<BigNumberish>,
       size: PromiseOrValue<BigNumberish>,
@@ -105,7 +109,8 @@ export interface TestCustomChecker extends BaseContract {
 
   estimateGas: {
     check(
-      arg0: PromiseOrValue<BigNumberish>,
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<BigNumberish>,
       data: PromiseOrValue<BytesLike>,
       location: PromiseOrValue<BigNumberish>,
       size: PromiseOrValue<BigNumberish>,
@@ -116,7 +121,8 @@ export interface TestCustomChecker extends BaseContract {
 
   populateTransaction: {
     check(
-      arg0: PromiseOrValue<BigNumberish>,
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<BigNumberish>,
       data: PromiseOrValue<BytesLike>,
       location: PromiseOrValue<BigNumberish>,
       size: PromiseOrValue<BigNumberish>,

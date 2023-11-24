@@ -35,12 +35,33 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
+    ],
+    name: "HashAlreadyConsumed",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidInitialization",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
         internalType: "address",
         name: "module",
         type: "address",
       },
     ],
     name: "InvalidModule",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidPageSize",
     type: "error",
   },
   {
@@ -55,14 +76,30 @@ const _abi = [
     type: "error",
   },
   {
+    inputs: [],
+    name: "NotInitializing",
+    type: "error",
+  },
+  {
     inputs: [
       {
         internalType: "address",
-        name: "guard_",
+        name: "owner",
         type: "address",
       },
     ],
-    name: "NotIERC165Compliant",
+    name: "OwnableInvalidOwner",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "OwnableUnauthorizedAccount",
     type: "error",
   },
   {
@@ -87,19 +124,6 @@ const _abi = [
       },
     ],
     name: "AvatarSet",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "address",
-        name: "guard",
-        type: "address",
-      },
-    ],
-    name: "ChangedGuard",
     type: "event",
   },
   {
@@ -159,9 +183,35 @@ const _abi = [
     inputs: [
       {
         indexed: false,
-        internalType: "uint8",
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
+    ],
+    name: "HashExecuted",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
+    ],
+    name: "HashInvalidated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint64",
         name: "version",
-        type: "uint8",
+        type: "uint64",
       },
     ],
     name: "Initialized",
@@ -217,17 +267,17 @@ const _abi = [
     outputs: [
       {
         internalType: "uint128",
-        name: "refillAmount",
+        name: "refill",
         type: "uint128",
       },
       {
         internalType: "uint128",
-        name: "maxBalance",
+        name: "maxRefill",
         type: "uint128",
       },
       {
         internalType: "uint64",
-        name: "refillInterval",
+        name: "period",
         type: "uint64",
       },
       {
@@ -237,7 +287,7 @@ const _abi = [
       },
       {
         internalType: "uint64",
-        name: "refillTimestamp",
+        name: "timestamp",
         type: "uint64",
       },
     ],
@@ -252,6 +302,30 @@ const _abi = [
         internalType: "address",
         name: "",
         type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
+    ],
+    name: "consumed",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
       },
     ],
     stateMutability: "view",
@@ -362,19 +436,6 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [],
-    name: "getGuard",
-    outputs: [
-      {
-        internalType: "address",
-        name: "_guard",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [
       {
         internalType: "address",
@@ -404,16 +465,16 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [],
-    name: "guard",
-    outputs: [
+    inputs: [
       {
-        internalType: "address",
-        name: "",
-        type: "address",
+        internalType: "bytes32",
+        name: "hash",
+        type: "bytes32",
       },
     ],
-    stateMutability: "view",
+    name: "invalidate",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -430,6 +491,30 @@ const _abi = [
         internalType: "bool",
         name: "",
         type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes",
+        name: "data",
+        type: "bytes",
+      },
+      {
+        internalType: "bytes32",
+        name: "salt",
+        type: "bytes32",
+      },
+    ],
+    name: "moduleTxHash",
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
       },
     ],
     stateMutability: "view",
@@ -464,19 +549,6 @@ const _abi = [
       },
     ],
     name: "setAvatar",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_guard",
-        type: "address",
-      },
-    ],
-    name: "setGuard",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

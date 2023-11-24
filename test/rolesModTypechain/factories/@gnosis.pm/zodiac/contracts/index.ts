@@ -3,5 +3,5 @@
 /* eslint-disable */
 export * as core from "./core";
 export * as factory from "./factory";
-export * as guard from "./guard";
 export * as interfaces from "./interfaces";
+export * as signature from "./signature";

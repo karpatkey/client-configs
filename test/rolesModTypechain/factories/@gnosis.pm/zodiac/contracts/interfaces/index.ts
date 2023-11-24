@@ -2,4 +2,3 @@
 /* tslint:disable */
 /* eslint-disable */
 export { IAvatar__factory } from "./IAvatar__factory";
-export { IGuard__factory } from "./IGuard__factory";

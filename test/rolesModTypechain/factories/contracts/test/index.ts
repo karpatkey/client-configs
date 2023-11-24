@@ -3,6 +3,7 @@
 /* eslint-disable */
 export { MockConsumptions__factory } from "./MockConsumptions__factory";
 export { MockDecoder__factory } from "./MockDecoder__factory";
+export { MockERC721__factory } from "./MockERC721__factory";
 export { MockIntegrity__factory } from "./MockIntegrity__factory";
 export { MultiSend__factory } from "./MultiSend__factory";
 export { TestAvatar__factory } from "./TestAvatar__factory";

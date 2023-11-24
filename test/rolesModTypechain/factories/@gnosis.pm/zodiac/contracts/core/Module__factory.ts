@@ -11,14 +11,35 @@ import type {
 
 const _abi = [
   {
+    inputs: [],
+    name: "InvalidInitialization",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "NotInitializing",
+    type: "error",
+  },
+  {
     inputs: [
       {
         internalType: "address",
-        name: "guard_",
+        name: "owner",
         type: "address",
       },
     ],
-    name: "NotIERC165Compliant",
+    name: "OwnableInvalidOwner",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "OwnableUnauthorizedAccount",
     type: "error",
   },
   {
@@ -45,22 +66,9 @@ const _abi = [
     inputs: [
       {
         indexed: false,
-        internalType: "address",
-        name: "guard",
-        type: "address",
-      },
-    ],
-    name: "ChangedGuard",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "uint8",
+        internalType: "uint64",
         name: "version",
-        type: "uint8",
+        type: "uint64",
       },
     ],
     name: "Initialized",
@@ -119,32 +127,6 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "getGuard",
-    outputs: [
-      {
-        internalType: "address",
-        name: "_guard",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "guard",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
     name: "owner",
     outputs: [
       {
@@ -172,19 +154,6 @@ const _abi = [
       },
     ],
     name: "setAvatar",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_guard",
-        type: "address",
-      },
-    ],
-    name: "setGuard",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

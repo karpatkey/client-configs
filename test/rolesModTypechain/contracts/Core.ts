@@ -31,18 +31,18 @@ export interface CoreInterface extends utils.Interface {
   functions: {
     "allowances(bytes32)": FunctionFragment;
     "avatar()": FunctionFragment;
+    "consumed(address,bytes32)": FunctionFragment;
     "disableModule(address,address)": FunctionFragment;
     "enableModule(address)": FunctionFragment;
     "execTransactionFromModule(address,uint256,bytes,uint8)": FunctionFragment;
     "execTransactionFromModuleReturnData(address,uint256,bytes,uint8)": FunctionFragment;
-    "getGuard()": FunctionFragment;
     "getModulesPaginated(address,uint256)": FunctionFragment;
-    "guard()": FunctionFragment;
+    "invalidate(bytes32)": FunctionFragment;
     "isModuleEnabled(address)": FunctionFragment;
+    "moduleTxHash(bytes,bytes32)": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "setAvatar(address)": FunctionFragment;
-    "setGuard(address)": FunctionFragment;
     "setTarget(address)": FunctionFragment;
     "setUp(bytes)": FunctionFragment;
     "target()": FunctionFragment;
@@ -53,18 +53,18 @@ export interface CoreInterface extends utils.Interface {
     nameOrSignatureOrTopic:
       | "allowances"
       | "avatar"
+      | "consumed"
       | "disableModule"
       | "enableModule"
       | "execTransactionFromModule"
       | "execTransactionFromModuleReturnData"
-      | "getGuard"
       | "getModulesPaginated"
-      | "guard"
+      | "invalidate"
       | "isModuleEnabled"
+      | "moduleTxHash"
       | "owner"
       | "renounceOwnership"
       | "setAvatar"
-      | "setGuard"
       | "setTarget"
       | "setUp"
       | "target"
@@ -76,6 +76,10 @@ export interface CoreInterface extends utils.Interface {
     values: [PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(functionFragment: "avatar", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "consumed",
+    values: [PromiseOrValue<string>, PromiseOrValue<BytesLike>]
+  ): string;
   encodeFunctionData(
     functionFragment: "disableModule",
     values: [PromiseOrValue<string>, PromiseOrValue<string>]
@@ -102,15 +106,21 @@ export interface CoreInterface extends utils.Interface {
       PromiseOrValue<BigNumberish>
     ]
   ): string;
-  encodeFunctionData(functionFragment: "getGuard", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "getModulesPaginated",
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
-  encodeFunctionData(functionFragment: "guard", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "invalidate",
+    values: [PromiseOrValue<BytesLike>]
+  ): string;
   encodeFunctionData(
     functionFragment: "isModuleEnabled",
     values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "moduleTxHash",
+    values: [PromiseOrValue<BytesLike>, PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
@@ -119,10 +129,6 @@ export interface CoreInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "setAvatar",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setGuard",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -141,6 +147,7 @@ export interface CoreInterface extends utils.Interface {
 
   decodeFunctionResult(functionFragment: "allowances", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "avatar", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "consumed", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "disableModule",
     data: BytesLike
@@ -157,14 +164,17 @@ export interface CoreInterface extends utils.Interface {
     functionFragment: "execTransactionFromModuleReturnData",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "getGuard", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getModulesPaginated",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "guard", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "invalidate", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "isModuleEnabled",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "moduleTxHash",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
@@ -173,7 +183,6 @@ export interface CoreInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "setAvatar", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "setGuard", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "setTarget", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "setUp", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "target", data: BytesLike): Result;
@@ -184,22 +193,24 @@ export interface CoreInterface extends utils.Interface {
 
   events: {
     "AvatarSet(address,address)": EventFragment;
-    "ChangedGuard(address)": EventFragment;
     "DisabledModule(address)": EventFragment;
     "EnabledModule(address)": EventFragment;
     "ExecutionFromModuleFailure(address)": EventFragment;
     "ExecutionFromModuleSuccess(address)": EventFragment;
-    "Initialized(uint8)": EventFragment;
+    "HashExecuted(bytes32)": EventFragment;
+    "HashInvalidated(bytes32)": EventFragment;
+    "Initialized(uint64)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "TargetSet(address,address)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "AvatarSet"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "ChangedGuard"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "DisabledModule"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "EnabledModule"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ExecutionFromModuleFailure"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ExecutionFromModuleSuccess"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "HashExecuted"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "HashInvalidated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Initialized"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "TargetSet"): EventFragment;
@@ -212,13 +223,6 @@ export interface AvatarSetEventObject {
 export type AvatarSetEvent = TypedEvent<[string, string], AvatarSetEventObject>;
 
 export type AvatarSetEventFilter = TypedEventFilter<AvatarSetEvent>;
-
-export interface ChangedGuardEventObject {
-  guard: string;
-}
-export type ChangedGuardEvent = TypedEvent<[string], ChangedGuardEventObject>;
-
-export type ChangedGuardEventFilter = TypedEventFilter<ChangedGuardEvent>;
 
 export interface DisabledModuleEventObject {
   module: string;
@@ -259,10 +263,27 @@ export type ExecutionFromModuleSuccessEvent = TypedEvent<
 export type ExecutionFromModuleSuccessEventFilter =
   TypedEventFilter<ExecutionFromModuleSuccessEvent>;
 
-export interface InitializedEventObject {
-  version: number;
+export interface HashExecutedEventObject {
+  arg0: string;
 }
-export type InitializedEvent = TypedEvent<[number], InitializedEventObject>;
+export type HashExecutedEvent = TypedEvent<[string], HashExecutedEventObject>;
+
+export type HashExecutedEventFilter = TypedEventFilter<HashExecutedEvent>;
+
+export interface HashInvalidatedEventObject {
+  arg0: string;
+}
+export type HashInvalidatedEvent = TypedEvent<
+  [string],
+  HashInvalidatedEventObject
+>;
+
+export type HashInvalidatedEventFilter = TypedEventFilter<HashInvalidatedEvent>;
+
+export interface InitializedEventObject {
+  version: BigNumber;
+}
+export type InitializedEvent = TypedEvent<[BigNumber], InitializedEventObject>;
 
 export type InitializedEventFilter = TypedEventFilter<InitializedEvent>;
 
@@ -318,15 +339,21 @@ export interface Core extends BaseContract {
       overrides?: CallOverrides
     ): Promise<
       [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
-        refillAmount: BigNumber;
-        maxBalance: BigNumber;
-        refillInterval: BigNumber;
+        refill: BigNumber;
+        maxRefill: BigNumber;
+        period: BigNumber;
         balance: BigNumber;
-        refillTimestamp: BigNumber;
+        timestamp: BigNumber;
       }
     >;
 
     avatar(overrides?: CallOverrides): Promise<[string]>;
+
+    consumed(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
 
     disableModule(
       prevModule: PromiseOrValue<string>,
@@ -355,20 +382,27 @@ export interface Core extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    getGuard(overrides?: CallOverrides): Promise<[string] & { _guard: string }>;
-
     getModulesPaginated(
       start: PromiseOrValue<string>,
       pageSize: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[string[], string] & { array: string[]; next: string }>;
 
-    guard(overrides?: CallOverrides): Promise<[string]>;
+    invalidate(
+      hash: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
 
     isModuleEnabled(
       _module: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
+
+    moduleTxHash(
+      data: PromiseOrValue<BytesLike>,
+      salt: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
 
     owner(overrides?: CallOverrides): Promise<[string]>;
 
@@ -378,11 +412,6 @@ export interface Core extends BaseContract {
 
     setAvatar(
       _avatar: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    setGuard(
-      _guard: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -409,15 +438,21 @@ export interface Core extends BaseContract {
     overrides?: CallOverrides
   ): Promise<
     [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
-      refillAmount: BigNumber;
-      maxBalance: BigNumber;
-      refillInterval: BigNumber;
+      refill: BigNumber;
+      maxRefill: BigNumber;
+      period: BigNumber;
       balance: BigNumber;
-      refillTimestamp: BigNumber;
+      timestamp: BigNumber;
     }
   >;
 
   avatar(overrides?: CallOverrides): Promise<string>;
+
+  consumed(
+    arg0: PromiseOrValue<string>,
+    arg1: PromiseOrValue<BytesLike>,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
 
   disableModule(
     prevModule: PromiseOrValue<string>,
@@ -446,20 +481,27 @@ export interface Core extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  getGuard(overrides?: CallOverrides): Promise<string>;
-
   getModulesPaginated(
     start: PromiseOrValue<string>,
     pageSize: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<[string[], string] & { array: string[]; next: string }>;
 
-  guard(overrides?: CallOverrides): Promise<string>;
+  invalidate(
+    hash: PromiseOrValue<BytesLike>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
 
   isModuleEnabled(
     _module: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<boolean>;
+
+  moduleTxHash(
+    data: PromiseOrValue<BytesLike>,
+    salt: PromiseOrValue<BytesLike>,
+    overrides?: CallOverrides
+  ): Promise<string>;
 
   owner(overrides?: CallOverrides): Promise<string>;
 
@@ -469,11 +511,6 @@ export interface Core extends BaseContract {
 
   setAvatar(
     _avatar: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  setGuard(
-    _guard: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -500,15 +537,21 @@ export interface Core extends BaseContract {
       overrides?: CallOverrides
     ): Promise<
       [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
-        refillAmount: BigNumber;
-        maxBalance: BigNumber;
-        refillInterval: BigNumber;
+        refill: BigNumber;
+        maxRefill: BigNumber;
+        period: BigNumber;
         balance: BigNumber;
-        refillTimestamp: BigNumber;
+        timestamp: BigNumber;
       }
     >;
 
     avatar(overrides?: CallOverrides): Promise<string>;
+
+    consumed(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
 
     disableModule(
       prevModule: PromiseOrValue<string>,
@@ -537,20 +580,27 @@ export interface Core extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean, string] & { success: boolean; returnData: string }>;
 
-    getGuard(overrides?: CallOverrides): Promise<string>;
-
     getModulesPaginated(
       start: PromiseOrValue<string>,
       pageSize: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[string[], string] & { array: string[]; next: string }>;
 
-    guard(overrides?: CallOverrides): Promise<string>;
+    invalidate(
+      hash: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     isModuleEnabled(
       _module: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<boolean>;
+
+    moduleTxHash(
+      data: PromiseOrValue<BytesLike>,
+      salt: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<string>;
 
     owner(overrides?: CallOverrides): Promise<string>;
 
@@ -558,11 +608,6 @@ export interface Core extends BaseContract {
 
     setAvatar(
       _avatar: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setGuard(
-      _guard: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -594,9 +639,6 @@ export interface Core extends BaseContract {
       newAvatar?: PromiseOrValue<string> | null
     ): AvatarSetEventFilter;
 
-    "ChangedGuard(address)"(guard?: null): ChangedGuardEventFilter;
-    ChangedGuard(guard?: null): ChangedGuardEventFilter;
-
     "DisabledModule(address)"(module?: null): DisabledModuleEventFilter;
     DisabledModule(module?: null): DisabledModuleEventFilter;
 
@@ -617,7 +659,13 @@ export interface Core extends BaseContract {
       module?: PromiseOrValue<string> | null
     ): ExecutionFromModuleSuccessEventFilter;
 
-    "Initialized(uint8)"(version?: null): InitializedEventFilter;
+    "HashExecuted(bytes32)"(arg0?: null): HashExecutedEventFilter;
+    HashExecuted(arg0?: null): HashExecutedEventFilter;
+
+    "HashInvalidated(bytes32)"(arg0?: null): HashInvalidatedEventFilter;
+    HashInvalidated(arg0?: null): HashInvalidatedEventFilter;
+
+    "Initialized(uint64)"(version?: null): InitializedEventFilter;
     Initialized(version?: null): InitializedEventFilter;
 
     "OwnershipTransferred(address,address)"(
@@ -647,6 +695,12 @@ export interface Core extends BaseContract {
 
     avatar(overrides?: CallOverrides): Promise<BigNumber>;
 
+    consumed(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     disableModule(
       prevModule: PromiseOrValue<string>,
       module: PromiseOrValue<string>,
@@ -674,18 +728,25 @@ export interface Core extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    getGuard(overrides?: CallOverrides): Promise<BigNumber>;
-
     getModulesPaginated(
       start: PromiseOrValue<string>,
       pageSize: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    guard(overrides?: CallOverrides): Promise<BigNumber>;
+    invalidate(
+      hash: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
 
     isModuleEnabled(
       _module: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    moduleTxHash(
+      data: PromiseOrValue<BytesLike>,
+      salt: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -697,11 +758,6 @@ export interface Core extends BaseContract {
 
     setAvatar(
       _avatar: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    setGuard(
-      _guard: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -731,6 +787,12 @@ export interface Core extends BaseContract {
 
     avatar(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    consumed(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     disableModule(
       prevModule: PromiseOrValue<string>,
       module: PromiseOrValue<string>,
@@ -758,18 +820,25 @@ export interface Core extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    getGuard(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     getModulesPaginated(
       start: PromiseOrValue<string>,
       pageSize: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    guard(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    invalidate(
+      hash: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
 
     isModuleEnabled(
       _module: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    moduleTxHash(
+      data: PromiseOrValue<BytesLike>,
+      salt: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -781,11 +850,6 @@ export interface Core extends BaseContract {
 
     setAvatar(
       _avatar: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setGuard(
-      _guard: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

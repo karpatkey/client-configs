@@ -23,7 +23,7 @@ import type {
 
 export interface ICustomConditionInterface extends utils.Interface {
   functions: {
-    "check(uint256,bytes,uint256,uint256,bytes12)": FunctionFragment;
+    "check(address,uint256,bytes,uint256,uint256,bytes12)": FunctionFragment;
   };
 
   getFunction(nameOrSignatureOrTopic: "check"): FunctionFragment;
@@ -31,6 +31,7 @@ export interface ICustomConditionInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "check",
     values: [
+      PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<BytesLike>,
       PromiseOrValue<BigNumberish>,
@@ -72,6 +73,7 @@ export interface ICustomCondition extends BaseContract {
 
   functions: {
     check(
+      to: PromiseOrValue<string>,
       value: PromiseOrValue<BigNumberish>,
       data: PromiseOrValue<BytesLike>,
       location: PromiseOrValue<BigNumberish>,
@@ -82,6 +84,7 @@ export interface ICustomCondition extends BaseContract {
   };
 
   check(
+    to: PromiseOrValue<string>,
     value: PromiseOrValue<BigNumberish>,
     data: PromiseOrValue<BytesLike>,
     location: PromiseOrValue<BigNumberish>,
@@ -92,6 +95,7 @@ export interface ICustomCondition extends BaseContract {
 
   callStatic: {
     check(
+      to: PromiseOrValue<string>,
       value: PromiseOrValue<BigNumberish>,
       data: PromiseOrValue<BytesLike>,
       location: PromiseOrValue<BigNumberish>,
@@ -105,6 +109,7 @@ export interface ICustomCondition extends BaseContract {
 
   estimateGas: {
     check(
+      to: PromiseOrValue<string>,
       value: PromiseOrValue<BigNumberish>,
       data: PromiseOrValue<BytesLike>,
       location: PromiseOrValue<BigNumberish>,
@@ -116,6 +121,7 @@ export interface ICustomCondition extends BaseContract {
 
   populateTransaction: {
     check(
+      to: PromiseOrValue<string>,
       value: PromiseOrValue<BigNumberish>,
       data: PromiseOrValue<BytesLike>,
       location: PromiseOrValue<BigNumberish>,

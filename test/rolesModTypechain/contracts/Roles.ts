@@ -48,6 +48,7 @@ export interface RolesInterface extends utils.Interface {
     "allowances(bytes32)": FunctionFragment;
     "assignRoles(address,bytes32[],bool[])": FunctionFragment;
     "avatar()": FunctionFragment;
+    "consumed(address,bytes32)": FunctionFragment;
     "defaultRoles(address)": FunctionFragment;
     "disableModule(address,address)": FunctionFragment;
     "enableModule(address)": FunctionFragment;
@@ -55,10 +56,10 @@ export interface RolesInterface extends utils.Interface {
     "execTransactionFromModuleReturnData(address,uint256,bytes,uint8)": FunctionFragment;
     "execTransactionWithRole(address,uint256,bytes,uint8,bytes32,bool)": FunctionFragment;
     "execTransactionWithRoleReturnData(address,uint256,bytes,uint8,bytes32,bool)": FunctionFragment;
-    "getGuard()": FunctionFragment;
     "getModulesPaginated(address,uint256)": FunctionFragment;
-    "guard()": FunctionFragment;
+    "invalidate(bytes32)": FunctionFragment;
     "isModuleEnabled(address)": FunctionFragment;
+    "moduleTxHash(bytes,bytes32)": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "revokeFunction(bytes32,address,bytes4)": FunctionFragment;
@@ -68,7 +69,6 @@ export interface RolesInterface extends utils.Interface {
     "setAllowance(bytes32,uint128,uint128,uint128,uint64,uint64)": FunctionFragment;
     "setAvatar(address)": FunctionFragment;
     "setDefaultRole(address,bytes32)": FunctionFragment;
-    "setGuard(address)": FunctionFragment;
     "setTarget(address)": FunctionFragment;
     "setTransactionUnwrapper(address,bytes4,address)": FunctionFragment;
     "setUp(bytes)": FunctionFragment;
@@ -84,6 +84,7 @@ export interface RolesInterface extends utils.Interface {
       | "allowances"
       | "assignRoles"
       | "avatar"
+      | "consumed"
       | "defaultRoles"
       | "disableModule"
       | "enableModule"
@@ -91,10 +92,10 @@ export interface RolesInterface extends utils.Interface {
       | "execTransactionFromModuleReturnData"
       | "execTransactionWithRole"
       | "execTransactionWithRoleReturnData"
-      | "getGuard"
       | "getModulesPaginated"
-      | "guard"
+      | "invalidate"
       | "isModuleEnabled"
+      | "moduleTxHash"
       | "owner"
       | "renounceOwnership"
       | "revokeFunction"
@@ -104,7 +105,6 @@ export interface RolesInterface extends utils.Interface {
       | "setAllowance"
       | "setAvatar"
       | "setDefaultRole"
-      | "setGuard"
       | "setTarget"
       | "setTransactionUnwrapper"
       | "setUp"
@@ -143,6 +143,10 @@ export interface RolesInterface extends utils.Interface {
     ]
   ): string;
   encodeFunctionData(functionFragment: "avatar", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "consumed",
+    values: [PromiseOrValue<string>, PromiseOrValue<BytesLike>]
+  ): string;
   encodeFunctionData(
     functionFragment: "defaultRoles",
     values: [PromiseOrValue<string>]
@@ -195,15 +199,21 @@ export interface RolesInterface extends utils.Interface {
       PromiseOrValue<boolean>
     ]
   ): string;
-  encodeFunctionData(functionFragment: "getGuard", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "getModulesPaginated",
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
-  encodeFunctionData(functionFragment: "guard", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "invalidate",
+    values: [PromiseOrValue<BytesLike>]
+  ): string;
   encodeFunctionData(
     functionFragment: "isModuleEnabled",
     values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "moduleTxHash",
+    values: [PromiseOrValue<BytesLike>, PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
@@ -256,10 +266,6 @@ export interface RolesInterface extends utils.Interface {
     values: [PromiseOrValue<string>, PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(
-    functionFragment: "setGuard",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
     functionFragment: "setTarget",
     values: [PromiseOrValue<string>]
   ): string;
@@ -299,6 +305,7 @@ export interface RolesInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "avatar", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "consumed", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "defaultRoles",
     data: BytesLike
@@ -327,14 +334,17 @@ export interface RolesInterface extends utils.Interface {
     functionFragment: "execTransactionWithRoleReturnData",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "getGuard", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getModulesPaginated",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "guard", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "invalidate", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "isModuleEnabled",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "moduleTxHash",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
@@ -367,7 +377,6 @@ export interface RolesInterface extends utils.Interface {
     functionFragment: "setDefaultRole",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "setGuard", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "setTarget", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setTransactionUnwrapper",
@@ -386,13 +395,14 @@ export interface RolesInterface extends utils.Interface {
     "AllowTarget(bytes32,address,uint8)": EventFragment;
     "AssignRoles(address,bytes32[],bool[])": EventFragment;
     "AvatarSet(address,address)": EventFragment;
-    "ChangedGuard(address)": EventFragment;
     "ConsumeAllowance(bytes32,uint128,uint128)": EventFragment;
     "DisabledModule(address)": EventFragment;
     "EnabledModule(address)": EventFragment;
     "ExecutionFromModuleFailure(address)": EventFragment;
     "ExecutionFromModuleSuccess(address)": EventFragment;
-    "Initialized(uint8)": EventFragment;
+    "HashExecuted(bytes32)": EventFragment;
+    "HashInvalidated(bytes32)": EventFragment;
+    "Initialized(uint64)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "RevokeFunction(bytes32,address,bytes4)": EventFragment;
     "RevokeTarget(bytes32,address)": EventFragment;
@@ -409,12 +419,13 @@ export interface RolesInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "AllowTarget"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "AssignRoles"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "AvatarSet"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "ChangedGuard"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ConsumeAllowance"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "DisabledModule"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "EnabledModule"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ExecutionFromModuleFailure"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ExecutionFromModuleSuccess"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "HashExecuted"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "HashInvalidated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Initialized"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RevokeFunction"): EventFragment;
@@ -473,13 +484,6 @@ export type AvatarSetEvent = TypedEvent<[string, string], AvatarSetEventObject>;
 
 export type AvatarSetEventFilter = TypedEventFilter<AvatarSetEvent>;
 
-export interface ChangedGuardEventObject {
-  guard: string;
-}
-export type ChangedGuardEvent = TypedEvent<[string], ChangedGuardEventObject>;
-
-export type ChangedGuardEventFilter = TypedEventFilter<ChangedGuardEvent>;
-
 export interface ConsumeAllowanceEventObject {
   allowanceKey: string;
   consumed: BigNumber;
@@ -532,10 +536,27 @@ export type ExecutionFromModuleSuccessEvent = TypedEvent<
 export type ExecutionFromModuleSuccessEventFilter =
   TypedEventFilter<ExecutionFromModuleSuccessEvent>;
 
-export interface InitializedEventObject {
-  version: number;
+export interface HashExecutedEventObject {
+  arg0: string;
 }
-export type InitializedEvent = TypedEvent<[number], InitializedEventObject>;
+export type HashExecutedEvent = TypedEvent<[string], HashExecutedEventObject>;
+
+export type HashExecutedEventFilter = TypedEventFilter<HashExecutedEvent>;
+
+export interface HashInvalidatedEventObject {
+  arg0: string;
+}
+export type HashInvalidatedEvent = TypedEvent<
+  [string],
+  HashInvalidatedEventObject
+>;
+
+export type HashInvalidatedEventFilter = TypedEventFilter<HashInvalidatedEvent>;
+
+export interface InitializedEventObject {
+  version: BigNumber;
+}
+export type InitializedEvent = TypedEvent<[BigNumber], InitializedEventObject>;
 
 export type InitializedEventFilter = TypedEventFilter<InitializedEvent>;
 
@@ -615,10 +636,10 @@ export type ScopeTargetEventFilter = TypedEventFilter<ScopeTargetEvent>;
 export interface SetAllowanceEventObject {
   allowanceKey: string;
   balance: BigNumber;
-  maxBalance: BigNumber;
-  refillAmount: BigNumber;
-  refillInterval: BigNumber;
-  refillTimestamp: BigNumber;
+  maxRefill: BigNumber;
+  refill: BigNumber;
+  period: BigNumber;
+  timestamp: BigNumber;
 }
 export type SetAllowanceEvent = TypedEvent<
   [string, BigNumber, BigNumber, BigNumber, BigNumber, BigNumber],
@@ -706,11 +727,11 @@ export interface Roles extends BaseContract {
       overrides?: CallOverrides
     ): Promise<
       [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
-        refillAmount: BigNumber;
-        maxBalance: BigNumber;
-        refillInterval: BigNumber;
+        refill: BigNumber;
+        maxRefill: BigNumber;
+        period: BigNumber;
         balance: BigNumber;
-        refillTimestamp: BigNumber;
+        timestamp: BigNumber;
       }
     >;
 
@@ -722,6 +743,12 @@ export interface Roles extends BaseContract {
     ): Promise<ContractTransaction>;
 
     avatar(overrides?: CallOverrides): Promise<[string]>;
+
+    consumed(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
 
     defaultRoles(
       arg0: PromiseOrValue<string>,
@@ -775,20 +802,27 @@ export interface Roles extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    getGuard(overrides?: CallOverrides): Promise<[string] & { _guard: string }>;
-
     getModulesPaginated(
       start: PromiseOrValue<string>,
       pageSize: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[string[], string] & { array: string[]; next: string }>;
 
-    guard(overrides?: CallOverrides): Promise<[string]>;
+    invalidate(
+      hash: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
 
     isModuleEnabled(
       _module: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
+
+    moduleTxHash(
+      data: PromiseOrValue<BytesLike>,
+      salt: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
 
     owner(overrides?: CallOverrides): Promise<[string]>;
 
@@ -827,10 +861,10 @@ export interface Roles extends BaseContract {
     setAllowance(
       key: PromiseOrValue<BytesLike>,
       balance: PromiseOrValue<BigNumberish>,
-      maxBalance: PromiseOrValue<BigNumberish>,
-      refillAmount: PromiseOrValue<BigNumberish>,
-      refillInterval: PromiseOrValue<BigNumberish>,
-      refillTimestamp: PromiseOrValue<BigNumberish>,
+      maxRefill: PromiseOrValue<BigNumberish>,
+      refill: PromiseOrValue<BigNumberish>,
+      period: PromiseOrValue<BigNumberish>,
+      timestamp: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -842,11 +876,6 @@ export interface Roles extends BaseContract {
     setDefaultRole(
       module: PromiseOrValue<string>,
       roleKey: PromiseOrValue<BytesLike>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    setGuard(
-      _guard: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -900,11 +929,11 @@ export interface Roles extends BaseContract {
     overrides?: CallOverrides
   ): Promise<
     [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
-      refillAmount: BigNumber;
-      maxBalance: BigNumber;
-      refillInterval: BigNumber;
+      refill: BigNumber;
+      maxRefill: BigNumber;
+      period: BigNumber;
       balance: BigNumber;
-      refillTimestamp: BigNumber;
+      timestamp: BigNumber;
     }
   >;
 
@@ -916,6 +945,12 @@ export interface Roles extends BaseContract {
   ): Promise<ContractTransaction>;
 
   avatar(overrides?: CallOverrides): Promise<string>;
+
+  consumed(
+    arg0: PromiseOrValue<string>,
+    arg1: PromiseOrValue<BytesLike>,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
 
   defaultRoles(
     arg0: PromiseOrValue<string>,
@@ -969,20 +1004,27 @@ export interface Roles extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  getGuard(overrides?: CallOverrides): Promise<string>;
-
   getModulesPaginated(
     start: PromiseOrValue<string>,
     pageSize: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<[string[], string] & { array: string[]; next: string }>;
 
-  guard(overrides?: CallOverrides): Promise<string>;
+  invalidate(
+    hash: PromiseOrValue<BytesLike>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
 
   isModuleEnabled(
     _module: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<boolean>;
+
+  moduleTxHash(
+    data: PromiseOrValue<BytesLike>,
+    salt: PromiseOrValue<BytesLike>,
+    overrides?: CallOverrides
+  ): Promise<string>;
 
   owner(overrides?: CallOverrides): Promise<string>;
 
@@ -1021,10 +1063,10 @@ export interface Roles extends BaseContract {
   setAllowance(
     key: PromiseOrValue<BytesLike>,
     balance: PromiseOrValue<BigNumberish>,
-    maxBalance: PromiseOrValue<BigNumberish>,
-    refillAmount: PromiseOrValue<BigNumberish>,
-    refillInterval: PromiseOrValue<BigNumberish>,
-    refillTimestamp: PromiseOrValue<BigNumberish>,
+    maxRefill: PromiseOrValue<BigNumberish>,
+    refill: PromiseOrValue<BigNumberish>,
+    period: PromiseOrValue<BigNumberish>,
+    timestamp: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -1036,11 +1078,6 @@ export interface Roles extends BaseContract {
   setDefaultRole(
     module: PromiseOrValue<string>,
     roleKey: PromiseOrValue<BytesLike>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  setGuard(
-    _guard: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -1094,11 +1131,11 @@ export interface Roles extends BaseContract {
       overrides?: CallOverrides
     ): Promise<
       [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
-        refillAmount: BigNumber;
-        maxBalance: BigNumber;
-        refillInterval: BigNumber;
+        refill: BigNumber;
+        maxRefill: BigNumber;
+        period: BigNumber;
         balance: BigNumber;
-        refillTimestamp: BigNumber;
+        timestamp: BigNumber;
       }
     >;
 
@@ -1110,6 +1147,12 @@ export interface Roles extends BaseContract {
     ): Promise<void>;
 
     avatar(overrides?: CallOverrides): Promise<string>;
+
+    consumed(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
 
     defaultRoles(
       arg0: PromiseOrValue<string>,
@@ -1163,20 +1206,27 @@ export interface Roles extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean, string] & { success: boolean; returnData: string }>;
 
-    getGuard(overrides?: CallOverrides): Promise<string>;
-
     getModulesPaginated(
       start: PromiseOrValue<string>,
       pageSize: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[string[], string] & { array: string[]; next: string }>;
 
-    guard(overrides?: CallOverrides): Promise<string>;
+    invalidate(
+      hash: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     isModuleEnabled(
       _module: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<boolean>;
+
+    moduleTxHash(
+      data: PromiseOrValue<BytesLike>,
+      salt: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<string>;
 
     owner(overrides?: CallOverrides): Promise<string>;
 
@@ -1213,10 +1263,10 @@ export interface Roles extends BaseContract {
     setAllowance(
       key: PromiseOrValue<BytesLike>,
       balance: PromiseOrValue<BigNumberish>,
-      maxBalance: PromiseOrValue<BigNumberish>,
-      refillAmount: PromiseOrValue<BigNumberish>,
-      refillInterval: PromiseOrValue<BigNumberish>,
-      refillTimestamp: PromiseOrValue<BigNumberish>,
+      maxRefill: PromiseOrValue<BigNumberish>,
+      refill: PromiseOrValue<BigNumberish>,
+      period: PromiseOrValue<BigNumberish>,
+      timestamp: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1228,11 +1278,6 @@ export interface Roles extends BaseContract {
     setDefaultRole(
       module: PromiseOrValue<string>,
       roleKey: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setGuard(
-      _guard: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1311,9 +1356,6 @@ export interface Roles extends BaseContract {
       newAvatar?: PromiseOrValue<string> | null
     ): AvatarSetEventFilter;
 
-    "ChangedGuard(address)"(guard?: null): ChangedGuardEventFilter;
-    ChangedGuard(guard?: null): ChangedGuardEventFilter;
-
     "ConsumeAllowance(bytes32,uint128,uint128)"(
       allowanceKey?: null,
       consumed?: null,
@@ -1345,7 +1387,13 @@ export interface Roles extends BaseContract {
       module?: PromiseOrValue<string> | null
     ): ExecutionFromModuleSuccessEventFilter;
 
-    "Initialized(uint8)"(version?: null): InitializedEventFilter;
+    "HashExecuted(bytes32)"(arg0?: null): HashExecutedEventFilter;
+    HashExecuted(arg0?: null): HashExecutedEventFilter;
+
+    "HashInvalidated(bytes32)"(arg0?: null): HashInvalidatedEventFilter;
+    HashInvalidated(arg0?: null): HashInvalidatedEventFilter;
+
+    "Initialized(uint64)"(version?: null): InitializedEventFilter;
     Initialized(version?: null): InitializedEventFilter;
 
     "OwnershipTransferred(address,address)"(
@@ -1411,18 +1459,18 @@ export interface Roles extends BaseContract {
     "SetAllowance(bytes32,uint128,uint128,uint128,uint64,uint64)"(
       allowanceKey?: null,
       balance?: null,
-      maxBalance?: null,
-      refillAmount?: null,
-      refillInterval?: null,
-      refillTimestamp?: null
+      maxRefill?: null,
+      refill?: null,
+      period?: null,
+      timestamp?: null
     ): SetAllowanceEventFilter;
     SetAllowance(
       allowanceKey?: null,
       balance?: null,
-      maxBalance?: null,
-      refillAmount?: null,
-      refillInterval?: null,
-      refillTimestamp?: null
+      maxRefill?: null,
+      refill?: null,
+      period?: null,
+      timestamp?: null
     ): SetAllowanceEventFilter;
 
     "SetDefaultRole(address,bytes32)"(
@@ -1485,6 +1533,12 @@ export interface Roles extends BaseContract {
 
     avatar(overrides?: CallOverrides): Promise<BigNumber>;
 
+    consumed(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     defaultRoles(
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -1537,18 +1591,25 @@ export interface Roles extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    getGuard(overrides?: CallOverrides): Promise<BigNumber>;
-
     getModulesPaginated(
       start: PromiseOrValue<string>,
       pageSize: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    guard(overrides?: CallOverrides): Promise<BigNumber>;
+    invalidate(
+      hash: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
 
     isModuleEnabled(
       _module: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    moduleTxHash(
+      data: PromiseOrValue<BytesLike>,
+      salt: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1589,10 +1650,10 @@ export interface Roles extends BaseContract {
     setAllowance(
       key: PromiseOrValue<BytesLike>,
       balance: PromiseOrValue<BigNumberish>,
-      maxBalance: PromiseOrValue<BigNumberish>,
-      refillAmount: PromiseOrValue<BigNumberish>,
-      refillInterval: PromiseOrValue<BigNumberish>,
-      refillTimestamp: PromiseOrValue<BigNumberish>,
+      maxRefill: PromiseOrValue<BigNumberish>,
+      refill: PromiseOrValue<BigNumberish>,
+      period: PromiseOrValue<BigNumberish>,
+      timestamp: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1604,11 +1665,6 @@ export interface Roles extends BaseContract {
     setDefaultRole(
       module: PromiseOrValue<string>,
       roleKey: PromiseOrValue<BytesLike>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    setGuard(
-      _guard: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1672,6 +1728,12 @@ export interface Roles extends BaseContract {
 
     avatar(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    consumed(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     defaultRoles(
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -1724,18 +1786,25 @@ export interface Roles extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    getGuard(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     getModulesPaginated(
       start: PromiseOrValue<string>,
       pageSize: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    guard(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    invalidate(
+      hash: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
 
     isModuleEnabled(
       _module: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    moduleTxHash(
+      data: PromiseOrValue<BytesLike>,
+      salt: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1776,10 +1845,10 @@ export interface Roles extends BaseContract {
     setAllowance(
       key: PromiseOrValue<BytesLike>,
       balance: PromiseOrValue<BigNumberish>,
-      maxBalance: PromiseOrValue<BigNumberish>,
-      refillAmount: PromiseOrValue<BigNumberish>,
-      refillInterval: PromiseOrValue<BigNumberish>,
-      refillTimestamp: PromiseOrValue<BigNumberish>,
+      maxRefill: PromiseOrValue<BigNumberish>,
+      refill: PromiseOrValue<BigNumberish>,
+      period: PromiseOrValue<BigNumberish>,
+      timestamp: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1791,11 +1860,6 @@ export interface Roles extends BaseContract {
     setDefaultRole(
       module: PromiseOrValue<string>,
       roleKey: PromiseOrValue<BytesLike>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setGuard(
-      _guard: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
