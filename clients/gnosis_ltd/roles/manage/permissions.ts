@@ -4,6 +4,7 @@ import { allow as allowAction } from "defi-kit/eth";
 import { contracts } from "../../../../eth-sdk/config"
 import { DAI } from "../../../../eth-sdk/addresses"
 import { avatar } from "../../index"
+import { allowErc20Approve } from "../../../../utils/erc20"
 
 export default [
   // Use defi-kit to generate the permissions...
@@ -21,7 +22,7 @@ export default [
 
   // ... or address the contracts eth-sdk/config.ts via the zodiac-roles-sdk/kit
   // Spark - sDAI
-  // ...allowErc20Approve([DAI], [contracts.mainnet.spark.sDAI]),
+  ...allowErc20Approve([DAI], [contracts.mainnet.spark.sDAI]),
   allow.mainnet.spark.sDAI.deposit(undefined, avatar),
   allow.mainnet.spark.sDAI.redeem(undefined, avatar, avatar),
 
