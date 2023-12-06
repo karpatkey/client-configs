@@ -9,6 +9,7 @@ global.afterAll(revertToBase);
 declare global {
   namespace jest {
     interface Matchers<R> {
+      toRevert(expectedReason?: string | RegExp): CustomMatcherResult;
       toBeAllowed(): CustomMatcherResult;
       toBeForbidden(status?: Status, info?: string): CustomMatcherResult;
     }
@@ -16,11 +17,67 @@ declare global {
 }
 
 expect.extend({
+  async toRevert(received: Promise<any>, expectedReason?: string | RegExp) {
+    try {
+      await received;
+      return {
+        message: () => `Expected call to revert, but it didn't`,
+        pass: false,
+      };
+    } catch (error: any) {
+      if (typeof error !== "object") {
+        throw error;
+      }
+
+      // find the root cause error with errorSignature revert data in the ethers error stack
+      let rootError = error;
+      while (rootError.error && !rootError.data && !rootError.errorSignature) {
+        rootError = rootError.error;
+      }
+
+      // re-throw if the error is not a revert
+      const EXPECTED_CODES = ["CALL_EXCEPTION"]
+      if (
+        !EXPECTED_CODES.includes(rootError.code)
+      ) {
+        throw error;
+      }
+
+      // match reason against expectedReason
+      const reason = rootError.errorName ? `${rootError.errorName}(${rootError.errorArgs.join(', ')})` : rootError.data;
+      if (expectedReason !== undefined) {
+        const isMatching =
+          typeof expectedReason === "string"
+            ? reason === expectedReason
+            : expectedReason.test(reason);
+
+        return {
+          message: () =>
+            `Expected call to revert with ${this.utils.printExpected(
+              expectedReason,
+            )}, but it reverted with ${this.utils.printReceived(reason)}`,
+          pass: isMatching,
+        };
+      }
+
+      return {
+        message: () =>
+          `Expected call to not revert, but it reverted with ${this.utils.printReceived(
+            reason,
+          )}`,
+        pass: true,
+      };
+    }
+  },
+
   async toBeAllowed(received: Promise<any>) {
     try {
       const res = await received;
       return {
-        message: () => `Expected transaction ${this.utils.stringify(decodeUnwrappedTransaction(res))} to not be allowed, but it is`,
+        message: () =>
+          `Expected transaction ${this.utils.stringify(
+            decodeUnwrappedTransaction(res),
+          )} to not be allowed, but it is`,
         pass: true,
       };
     } catch (error: any) {
@@ -31,9 +88,10 @@ expect.extend({
       if (!error.errorSignature) {
         // if we get here, it's not a permission error
         return {
-          message: () => `Expected transaction ${this.utils.stringify(
-            decodeUnwrappedTransaction(error.transaction),
-          )} to not be allowed, but it is`,
+          message: () =>
+            `Expected transaction ${this.utils.stringify(
+              decodeUnwrappedTransaction(error.transaction),
+            )} to not be allowed, but it is`,
           pass: true,
         };
       }
@@ -60,7 +118,10 @@ expect.extend({
     try {
       const res = await received;
       return {
-        message: () => `Expected transaction  ${this.utils.stringify(decodeUnwrappedTransaction(res))} to be forbidden but it passed`,
+        message: () =>
+          `Expected transaction ${this.utils.stringify(
+            decodeUnwrappedTransaction(res),
+          )} to be forbidden but it passed`,
         pass: false,
       };
     } catch (error: any) {
@@ -71,9 +132,10 @@ expect.extend({
       if (!error.errorSignature) {
         // if we get here, it's not a permission error
         return {
-          message: () => `Expected transaction ${this.utils.stringify(
-            decodeUnwrappedTransaction(error.transaction),
-          )} to be forbidden but it passed`,
+          message: () =>
+            `Expected transaction ${this.utils.stringify(
+              decodeUnwrappedTransaction(error.transaction),
+            )} to be forbidden but it passed`,
           pass: false,
         };
       }
@@ -142,7 +204,24 @@ expect.extend({
   },
 });
 
-const decodeUnwrappedTransaction = ({ data, from }: {data: string, from: string}) => {
-  const [to, value, metaTxData, operation, roleKey] = Roles__factory.createInterface().decodeFunctionData('execTransactionWithRole', data)
-  return { to, value: BigNumber.from(value).toString(), data: metaTxData, operation, from, role: parseBytes32String(roleKey) }
-}
+const decodeUnwrappedTransaction = ({
+  data,
+  from,
+}: {
+  data: string;
+  from: string;
+}) => {
+  const [to, value, metaTxData, operation, roleKey] =
+    Roles__factory.createInterface().decodeFunctionData(
+      "execTransactionWithRole",
+      data,
+    );
+  return {
+    to,
+    value: BigNumber.from(value).toString(),
+    data: metaTxData,
+    operation,
+    from,
+    role: parseBytes32String(roleKey),
+  };
+};

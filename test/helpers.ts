@@ -12,8 +12,13 @@ import {
   getOwnerWallet,
 } from "./accounts";
 import { Interface, formatBytes32String } from "ethers/lib/utils";
-import { BigNumberish, Contract } from "ethers";
+import {
+  BigNumberish,
+  Contract,
+  Overrides,
+} from "ethers";
 import { getProvider } from "./provider";
+import { getMainnetSdk } from "@dethcrypto/eth-sdk-client";
 
 const owner = getOwnerWallet();
 
@@ -46,14 +51,42 @@ export const configurePermissions = async (permissions: Permission[]) => {
   console.log("Permissions applied");
 };
 
-export const execThroughRole = async ({
+export const execThroughRole = async (
+  {
+    to,
+    data,
+    value,
+    operation = 0,
+  }: {
+    to: `0x${string}`;
+    data?: `0x${string}`;
+    value?: `0x${string}`;
+    operation?: 0 | 1;
+  },
+  overrides?: Overrides,
+) =>
+  await rolesMod
+    .connect(getMemberWallet())
+    .execTransactionWithRole(
+      to,
+      value || 0,
+      data || "0x",
+      operation,
+      testRoleKey,
+      true,
+      overrides,
+    );
+
+export const callThroughRole = async ({
   to,
   data,
   value,
+  operation = 0,
 }: {
   to: `0x${string}`;
   data?: `0x${string}`;
   value?: `0x${string}`;
+  operation?: 0 | 1;
 }) =>
   await rolesMod
     .connect(getMemberWallet())
@@ -61,7 +94,7 @@ export const execThroughRole = async ({
       to,
       value || 0,
       data || "0x",
-      0,
+      operation,
       testRoleKey,
       false,
     );
@@ -69,6 +102,10 @@ export const execThroughRole = async ({
 const erc20Interface = new Interface([
   "function transfer(address to, uint amount) returns (bool)",
 ]);
+
+export const wrapEth = async (value: BigNumberish) => {
+  await getMainnetSdk(getAvatarWallet()).weth.deposit({ value });
+}
 
 export const stealErc20 = async (
   token: `0x${string}`,
@@ -84,10 +121,10 @@ export const stealErc20 = async (
     token,
     erc20Interface,
     await provider.getSigner(from),
-  )
+  );
 
   // Transfer the requested amount to the avatar
-  await contract.transfer(getAvatarWallet().address,  amount);
+  await contract.transfer(getAvatarWallet().address, amount);
 
   // Stop impersonating
   await provider.send("anvil_stopImpersonatingAccount", [from]);
