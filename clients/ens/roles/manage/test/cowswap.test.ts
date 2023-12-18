@@ -25,7 +25,12 @@ describe("ENS", () => {
 
   describe("cowswap", () => {
     it("allows swapping stETH to USDC", async () => {
-      await expect(testKit.mainnet.weth.call.approve(cowswap.GPv2_VAULT_RELAYER, parseEther("1"))).not.toRevert();
+      await expect(
+        testKit.mainnet.weth.call.approve(
+          cowswap.GPv2_VAULT_RELAYER,
+          parseEther("1"),
+        ),
+      ).not.toRevert();
 
       await expect(
         testKit.mainnet.cowswap.order_signer.delegateCall.signOrder(
