@@ -1,56 +1,58 @@
-import { getMainnetSdk } from "@dethcrypto/eth-sdk-client";
-import { BaseContract, BigNumber, Contract, utils } from "ethers";
-import { getAvatarWallet } from "./accounts";
-import { execThroughRole } from "./helpers";
-import { Roles__factory, TestContract } from "./rolesModTypechain";
-import { ErrorFragment } from "@ethersproject/abi";
+import { getMainnetSdk } from "@dethcrypto/eth-sdk-client"
+import { BaseContract, BigNumber } from "ethers"
+import { getAvatarWallet } from "./accounts"
+import { execThroughRole } from "./helpers"
+import { Roles__factory } from "./rolesModTypechain"
 
 type EthSdk = {
-  [key: string]: EthSdk | BaseContract;
-};
+  [key: string]: EthSdk | BaseContract
+}
 
 type TestKit<S extends EthSdk> = {
   [Key in keyof S]: S[Key] extends BaseContract
-    ? TestFunctions<S[Key]>
+    ? TestContract<S[Key]>
     : S[Key] extends EthSdk // somehow it cannot infer that it cannot be a BaseContract here, so we use an extra conditional
     ? TestKit<S[Key]>
-    : never;
-};
+    : never
+}
 
-type TestFunctions<C extends BaseContract> = {
+type TestContract<C extends BaseContract> = {
   /** Calls the function routed through the Roles mod */
-  call: { [Name in keyof C["functions"]]: C["functions"][Name] };
-
+  [Name in keyof C["functions"]]: C["functions"][Name]
+} & {
   /** Calls the function with a delegate call routed through the Roles mod */
-  delegateCall: { [Name in keyof C["functions"]]: C["functions"][Name] };
+  delegateCall: { [Name in keyof C["functions"]]: C["functions"][Name] }
 
   /** Calls the function without state updates and returns the result. Won't be routed through the Roles mod */
-  callStatic: { [Name in keyof C["functions"]]: C["functions"][Name] };
+  callStatic: { [Name in keyof C["functions"]]: C["functions"][Name] }
 
-  address: `0x${string}`;
-};
+  address: `0x${string}`
+  attach(address: `0x${string}`): TestContract<C>
+}
 
 const mapSdk = <S extends EthSdk>(sdk: S): TestKit<S> => {
   return Object.keys(sdk).reduce((acc, key) => {
     // for this check to work reliably, make sure ethers node_modules is not duplicated
     if (sdk[key] instanceof BaseContract) {
-      acc[key] = makeTestContract(sdk[key] as BaseContract);
+      acc[key] = makeTestContract(sdk[key] as BaseContract)
     } else {
-      acc[key] = mapSdk(sdk[key] as EthSdk);
+      acc[key] = mapSdk(sdk[key] as EthSdk)
     }
-    return acc;
-  }, {} as any);
-};
+    return acc
+  }, {} as any)
+}
 
-const rolesInterface = Roles__factory.createInterface();
+const rolesInterface = Roles__factory.createInterface()
 
 const makeTestContract = (contract: BaseContract) => {
-  const testFunctions = {
-    call: {},
+  const testContract = {
     delegateCall: {},
     callStatic: contract.callStatic,
     address: contract.address,
-  } as TestFunctions<BaseContract>;
+    attach(address: `0x${string}`) {
+      return { ...testContract, address }
+    },
+  } as TestContract<BaseContract>
 
   Object.entries(contract.functions).forEach(([name, fn]) => {
     // only route non-constant functions through Roles mod
@@ -58,18 +60,18 @@ const makeTestContract = (contract: BaseContract) => {
       const throughRoles =
         (operation: 1 | 0 = 0) =>
         async (...args: any[]) => {
-          let overrides = undefined;
+          let overrides = undefined
           if (
             args.length > contract.interface.getFunction(name).inputs.length
           ) {
-            overrides = args.pop();
+            overrides = args.pop()
           }
-          const { value, ...overridesRest } = overrides || {};
+          const { value, ...overridesRest } = overrides || {}
 
           const data = contract.interface.encodeFunctionData(
             name,
-            args,
-          ) as `0x${string}`;
+            args
+          ) as `0x${string}`
           try {
             return await execThroughRole(
               {
@@ -78,58 +80,64 @@ const makeTestContract = (contract: BaseContract) => {
                 value: value && BigNumber.from(value).toHexString(),
                 operation: operation,
               },
-              overridesRest,
-            );
+              overridesRest
+            )
           } catch (error: any) {
             if (typeof error !== "object") {
-              throw error;
+              throw error
             }
 
             // find the root cause error with errorSignature revert data in the ethers error stack
-            let rootError = error;
+            let rootError = error
             while (
               rootError.error &&
               !rootError.data &&
               !rootError.errorSignature
             ) {
-              rootError = rootError.error;
+              rootError = rootError.error
             }
             // re-throw if the error is not a revert
             if (
               rootError.message !== "execution reverted" &&
-              rootError.reason !== "execution reverted" && 
+              rootError.reason !== "execution reverted" &&
               rootError.message !== "call revert exception"
             ) {
-              throw error;
+              throw error
             }
 
             if (!rootError.errorSignature) {
               // Check if the error is a roles error
-              const selector = rootError.data.slice(0, 10);
+              const selector = rootError.data.slice(0, 10)
               let rolesError = undefined
-              try { rolesError = rolesInterface.getError(selector) } catch (e) {}
-              if(rolesError) rolesInterface.decodeFunctionResult('execTransactionWithRole', rootError.data);
+              try {
+                rolesError = rolesInterface.getError(selector)
+              } catch (e) {}
+              if (rolesError)
+                rolesInterface.decodeFunctionResult(
+                  "execTransactionWithRole",
+                  rootError.data
+                )
 
               // Otherwise, try decoding the call return data, this will decode the revert reason using the target contract's ABI and throw a better error
-              contract.interface.decodeFunctionResult(name, rootError.data);
+              contract.interface.decodeFunctionResult(name, rootError.data)
               // we should never get here
-              throw new Error("invariant violation");
+              throw new Error("invariant violation")
             }
 
-            throw error;
+            throw error
           }
-        };
+        }
 
       // call contract functions through roles mod
-      testFunctions.call[name] = throughRoles(0);
+      testContract[name] = throughRoles(0)
       // delegate calls through roles mod
-      testFunctions.delegateCall[name] = throughRoles(1);
+      testContract.delegateCall[name] = throughRoles(1)
     }
-  });
+  })
 
-  return testFunctions;
-};
+  return testContract
+}
 
 export const testKit = {
-  mainnet: mapSdk(getMainnetSdk(getAvatarWallet())),
-};
+  eth: mapSdk(getMainnetSdk(getAvatarWallet())),
+}

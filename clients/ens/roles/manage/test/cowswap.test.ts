@@ -1,5 +1,4 @@
 import {
-  formatBytes32String,
   id,
   keccak256,
   parseEther,
@@ -9,7 +8,6 @@ import { configurePermissions, wrapEth } from "../../../../../test/helpers";
 import { testKit } from "../../../../../test/kit";
 import { revertToBase } from "../../../../../test/snapshot";
 import permissions from "../permissions";
-import { contracts } from "../../../../../eth-sdk/config";
 import { ENS, WETH, cowswap } from "../../../../../eth-sdk/addresses";
 import { getAvatarWallet } from "../../../../../test/accounts";
 
@@ -25,10 +23,15 @@ describe("ENS", () => {
 
   describe("cowswap", () => {
     it("allows swapping stETH to USDC", async () => {
-      await expect(testKit.mainnet.weth.call.approve(cowswap.GPv2_VAULT_RELAYER, parseEther("1"))).not.toRevert();
+      await expect(
+        testKit.eth.weth.approve(
+          cowswap.GPv2_VAULT_RELAYER,
+          parseEther("1"),
+        ),
+      ).not.toRevert();
 
       await expect(
-        testKit.mainnet.cowswap.order_signer.delegateCall.signOrder(
+        testKit.eth.cowswap.order_signer.delegateCall.signOrder(
           {
             sellToken: WETH,
             buyToken: ENS,
