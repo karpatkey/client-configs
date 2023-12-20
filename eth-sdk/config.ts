@@ -20,25 +20,19 @@ export const contracts = {
     },
     aura: {
       booster: "0xA57b8d98dAE62B26Ec3bcC4a365338157060B234",
-      auraB_stETH_stable_rewarder:
-        "0x2a14dB8D09dB0542f6A371c0cB308A768227D67D",
+      auraB_stETH_stable_rewarder: "0x2a14dB8D09dB0542f6A371c0cB308A768227D67D",
       auraB_auraBAL_stable_rewarder:
         "0x89D3D732da8bf0f88659Cf3738E5E44e553f9ED7",
-      auraB_rETH_stable_rewarder:
-        "0xDd1fE5AD401D4777cE89959b7fa587e569Bf125D",
-      auraB_80GNO_20WETH_rewarder:
-        "0x971fAF6BE8C20f53fe3acF065fe6E14FBA0b8a9a",
+      auraB_rETH_stable_rewarder: "0xDd1fE5AD401D4777cE89959b7fa587e569Bf125D",
+      auraB_80GNO_20WETH_rewarder: "0x971fAF6BE8C20f53fe3acF065fe6E14FBA0b8a9a",
       aura50COW_50GNO_rewarder: "0x82FeB430d9D14eE5E635C41807e03fD8F5FfFDeC",
-      aura50WSTETH_50LDO_rewarder:
-        "0x5209dB28b3cF22a944401c83370Af7A703ffFb08",
-      aura50WETH_50AURA_rewarder:
-        "0x1204f5060bE8b716F5A62b4Df4cE32acD01a69f5",
+      aura50WSTETH_50LDO_rewarder: "0x5209dB28b3cF22a944401c83370Af7A703ffFb08",
+      aura50WETH_50AURA_rewarder: "0x1204f5060bE8b716F5A62b4Df4cE32acD01a69f5",
       aura50COW_50WETH_rewarder: "0xA6e54eA1C67396Bde9e92cA462197bE59Af3E875",
       auraBAL_staking_rewarder: "0x00A7BA8Ae7bca0B10A32Ea1f8e2a1Da980c6CAd2",
       aurabb_aV3_USD_rewarder: "0xD48451A61d5190a1Ba7C9D17056490cB5d50999d",
       aura_locker: "0x3Fa73f1E5d8A792C80F426fc8F84FBF7Ce9bBCAC",
-      snapshot_delegate_registry:
-        "0x469788fE6E9E9681C6ebF3bF78e7Fd26Fc015446",
+      snapshot_delegate_registry: "0x469788fE6E9E9681C6ebF3bF78e7Fd26Fc015446",
       claim_zap: "0x5b2364fD757E262253423373E4D57C5c011Ad7F4",
       stkauraBAL: "0xfAA2eD111B4F580fCb85C48E6DC6782Dc5FCD7a6",
       auraBAL_B_80BAL_20WETH_depositor:
@@ -90,15 +84,18 @@ export const contracts = {
     },
     cowswap: {
       order_signer: "0x23dA9AdE38E4477b23770DeD512fD37b12381FAB",
+      vCOW: "0xD057B63f5E69CF1B929b356b579Cba08D7688048",
     },
     curve: {
       crv_minter: "0xd061D61a4d941c39E5453435B6345Dc261C2fcE0",
       stake_deposit_zap: "0x271fbE8aB7f1fB262f81C77Ea5303F03DA9d3d6A",
       steth_eth_pool: "0xDC24316b9AE028F1497c275EB9192a3Ea0f67022",
       steth_eth_gauge: "0x182B723a58739a9c974cFDB385ceaDb237453c28",
+      steCRV: "0x06325440D014e39736583c165C2963BA99fAf14E",
       cDAIcUSDC_pool: "0xA2B47E3D5c44877cca798226B7B8118F9BFb7A56",
       cDAIcUSDC_gauge: "0x7ca5b0a2910B33e9759DC7dDB0413949071D7575",
       cDAIcUSDC_zap: "0xeB21209ae4C2c9FF2a86ACA31E123764A3B6Bc06",
+      crvcDAIcUSDC: "0x845838DF265Dcd2c412A1Dc9e959c7d08537f8a2",
       x3CRV_pool: "0xbEbc44782C7dB0a1A60Cb6fe97d0b483032FF1C7",
       cvxETH_pool: "0xB576491F1E6e5E62f1d8F26062Ee822B40B0E0d4",
       ankrETH_pool: "0xA96A65c051bF88B4095Ee1f2451C2A9d43F53Ae2",
@@ -156,6 +153,9 @@ export const contracts = {
       router: "0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F",
       route_processor_3: "0x827179dD56d07A7eeA32e3873493835da2866976",
       route_processor_3_2: "0x5550D13389bB70F45fCeF58f19f6b6e87F6e747d",
+    },
+    the_graph: {
+      proxy: "0xF55041E37E12cD407ad00CE2910B8269B01263b9",
     },
     uniswapv3: {
       positions_nft: "0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
