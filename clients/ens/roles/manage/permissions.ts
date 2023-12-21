@@ -3,18 +3,26 @@ import { allow } from "zodiac-roles-sdk/kit";
 import { allow as allowAction } from "defi-kit/eth";
 import {
   ankrETH,
+  AURA,
+  BAL,
+  COMP,
+  CRV,
+  CVX,
   DAI,
   ETHx,
-  USDC,
+  LDO,
   rETH,
   rETH2,
   sETH2,
   spWETH,
   stETH,
   SWISE,
+  USDC,
+  USDT,
   WETH,
   E_ADDRESS,
   ZERO_ADDRESS,
+  wstETH,
 } from "../../../../eth-sdk/addresses";
 import { contracts } from "../../../../eth-sdk/config";
 import { allowErc20Approve } from "../../../../utils/erc20";
@@ -419,5 +427,365 @@ export default [
   ...allowErc20Approve([WETH], [contracts.mainnet.spark.wrappedTokenGatewayV3]),
   allow.mainnet.spark.sparkLendingPoolV3.supply(WETH, undefined, avatar),
   allow.mainnet.spark.sparkLendingPoolV3.withdraw(WETH, undefined, avatar),
+  
+  // Uniswap v2 and Uniswap v3 - Swaps
+  ...allowErc20Approve(
+    [COMP, CRV, CVX, DAI, LDO, rETH2, sETH2, SWISE, USDC, USDT, WETH],
+    [contracts.mainnet.uniswapv3.router_2]
+  ),
 
+  // Uniswap v2 - Swapping of tokens COMP, CRV, LDO, WETH, USDC, DAI and USDT
+  allow.mainnet.uniswapv3.router_2["swapExactTokensForTokens"](
+    undefined,
+    undefined,
+    c.or(
+      [COMP, WETH, USDC],
+      [COMP, WETH, DAI],
+      [COMP, WETH],
+      [CRV, WETH, USDC],
+      [CRV, WETH, DAI],
+      [CRV, WETH],
+      [LDO, WETH, USDC],
+      [LDO, WETH, DAI],
+      [LDO, WETH],
+      [WETH, USDC],
+      [WETH, DAI],
+      [WETH, USDT],
+      [USDC, WETH],
+      [USDC, USDT],
+      [USDC, WETH, USDT],
+      [USDC, DAI],
+      [USDC, WETH, DAI],
+      [DAI, WETH],
+      [DAI, USDC],
+      [DAI, WETH, USDC],
+      [DAI, USDT],
+      [DAI, WETH, USDT],
+      [USDT, WETH],
+      [USDT, USDC],
+      [USDT, WETH, USDC],
+      [USDT, DAI],
+      [USDT, WETH, DAI],
+    ),
+    avatar
+  ),
+
+  // Uniswap v3 - Swapping of tokens COMP, CRV, CVX, DAI, LDO, rETH, rETH2, sETH2, SWISE, USDC, USDT, WETH
+  allow.mainnet.uniswapv3.router_2.exactInputSingle(
+    {
+      tokenIn: c.or(
+        COMP,
+        CRV,
+        CVX,
+        DAI,
+        LDO,
+        rETH,
+        rETH2,
+        sETH2,
+        SWISE,
+        USDC,
+        USDT,
+        WETH,
+      ),
+      tokenOut: c.or(
+        DAI, USDC, USDT, sETH2, WETH
+      ),
+      recipient: avatar
+    }
+  ),
+  
+  // Balancer - Swaps
+  ...allowErc20Approve([ankrETH, AURA, BAL, COMP, ETHx, rETH, WETH, wstETH], [contracts.mainnet.balancer.vault]),
+
+  // Balancer - Swap AURA for WETH
+  allow.mainnet.balancer.vault.swap(
+    {
+      poolId: "0xcfca23ca9ca720b6e98e3eb9b6aa0ffc4a5c08b9000200000000000000000274",
+      assetIn: AURA,
+      assetOut: WETH,
+    },
+    {
+      recipient: avatar,
+      sender: avatar
+    }
+  ),
+
+  // Balancer - Swap BAL for WETH
+  allow.mainnet.balancer.vault.swap(
+    {
+      poolId: "0x5c6ee304399dbdb9c8ef030ab642b10820db8f56000200000000000000000014",
+      assetIn: BAL,
+      assetOut: WETH,
+    },
+    {
+      recipient: avatar,
+      sender: avatar
+    }
+  ),
+
+  // Balancer - Swap WETH for DAI
+  allow.mainnet.balancer.vault.swap(
+    {
+      poolId: "0x0b09dea16768f0799065c475be02919503cb2a3500020000000000000000001a",
+      assetIn: WETH,
+      assetOut: DAI,
+    },
+    {
+      recipient: avatar,
+      sender: avatar
+    }
+  ),
+
+  // Balancer - Swap WETH for USDC
+  allow.mainnet.balancer.vault.swap(
+    {
+      poolId: "0x96646936b91d6b9d7d0c47c496afbf3d6ec7b6f8000200000000000000000019",
+      assetIn: WETH,
+      assetOut: USDC,
+    },
+    {
+      recipient: avatar,
+      sender: avatar
+    }
+  ),
+
+  // Balancer - Swap COMP for WETH
+  allow.mainnet.balancer.vault.swap(
+    {
+      poolId: "0xefaa1604e82e1b3af8430b90192c1b9e8197e377000200000000000000000021",
+      assetIn: COMP,
+      assetOut: WETH,
+    },
+    {
+      recipient: avatar,
+      sender: avatar
+    }
+  ),
+
+  // Balancer - Swap wstETH for WETH
+  allow.mainnet.balancer.vault.swap(
+    {
+      poolId: "0x93d199263632a4ef4bb438f1feb99e57b4b5f0bd0000000000000000000005c2", // WARNING!: 0x32296969ef14eb0c6d29669c550d4a0449130230000200000000000000000080
+      assetIn: wstETH,
+      assetOut: WETH,
+    },
+    {
+      recipient: avatar,
+      sender: avatar
+    }
+  ),
+
+  // Balancer - Swap WETH for wstETH
+  allow.mainnet.balancer.vault.swap(
+    {
+      poolId: "0x93d199263632a4ef4bb438f1feb99e57b4b5f0bd0000000000000000000005c2", // WARNING!: 0x32296969ef14eb0c6d29669c550d4a0449130230000200000000000000000080
+      assetIn: WETH,
+      assetOut: wstETH,
+    },
+    {
+      recipient: avatar,
+      sender: avatar
+    }
+  ),
+
+  // Balancer - Swap rETH for WETH
+  allow.mainnet.balancer.vault.swap(
+    {
+      poolId: "0x1e19cf2d73a72ef1332c882f20534b6519be0276000200000000000000000112",
+      assetIn: rETH,
+      assetOut: WETH,
+    },
+    {
+      recipient: avatar,
+      sender: avatar
+    }
+  ),
+
+  // Balancer - Swap WETH for rETH
+  allow.mainnet.balancer.vault.swap(
+    {
+      poolId: "0x1e19cf2d73a72ef1332c882f20534b6519be0276000200000000000000000112",
+      assetIn: WETH,
+      assetOut: rETH,
+    },
+    {
+      recipient: avatar,
+      sender: avatar
+    }
+  ),
+
+  // Balancer - Swap wstETH for ankrETH
+  allow.mainnet.balancer.vault.swap(
+    {
+      poolId: "0xdfe6e7e18f6cc65fa13c8d8966013d4fda74b6ba000000000000000000000558",
+      assetIn: wstETH,
+      assetOut: ankrETH,
+    },
+    {
+      recipient: avatar,
+      sender: avatar
+    }
+  ),
+
+  // Balancer - Swap ankrETH for wstETH
+  allow.mainnet.balancer.vault.swap(
+    {
+      poolId: "0xdfe6e7e18f6cc65fa13c8d8966013d4fda74b6ba000000000000000000000558",
+      assetIn: ankrETH,
+      assetOut: wstETH,
+    },
+    {
+      recipient: avatar,
+      sender: avatar
+    }
+  ),
+
+  // Balancer - Swap ETHx for WETH
+  allow.mainnet.balancer.vault.swap(
+    {
+      poolId: "0x37b18b10ce5635a84834b26095a0ae5639dcb7520000000000000000000005cb",
+      assetIn: ETHx,
+      assetOut: WETH,
+    },
+    {
+      recipient: avatar,
+      sender: avatar
+    }
+  ),
+
+  // Balancer - Swap WETH for ETHx
+  allow.mainnet.balancer.vault.swap(
+    {
+      poolId: "0x37b18b10ce5635a84834b26095a0ae5639dcb7520000000000000000000005cb",
+      assetIn: WETH,
+      assetOut: ETHx,
+    },
+    {
+      recipient: avatar,
+      sender: avatar
+    }
+  ),
+
+  // SushiSwap old Router - Swapping of BAL, COMP, CRV, DAI, LDO, USDC, USDT, WETH
+  allow.mainnet.sushiswap.router["swapExactTokensForTokens"](
+    undefined,
+    undefined,
+    c.or(
+      [COMP, WETH, USDC],
+      [COMP, WETH, DAI],
+      [COMP, WETH],
+      [BAL, WETH, USDC],
+      [BAL, WETH, DAI],
+      [BAL, WETH],
+      [LDO, WETH, USDC],
+      [LDO, WETH, DAI],
+      [LDO, WETH],
+      [CRV, WETH, USDC],
+      [CRV, WETH, DAI],
+      [CRV, WETH],
+      [WETH, USDC],
+      [WETH, DAI],
+      [WETH, USDT],
+      [USDC, WETH],
+      [USDC, WETH, USDT],
+      [USDC, USDT],
+      [USDC, WETH, DAI],
+      [USDC, DAI],
+      [USDT, WETH],
+      [USDT, WETH, USDC],
+      [USDT, USDC],
+      [USDT, WETH, DAI],
+      [USDT, DAI],
+      [DAI, WETH],
+      [DAI, WETH, USDC],
+      [DAI, USDC],
+      [DAI, WETH, USDT],
+      [DAI, USDT],
+    ),
+    avatar
+  ),
+
+  // Curve - Swap ETH <> stETH
+  ...allowErc20Approve([stETH], [contracts.mainnet.curve.steth_eth_pool]),
+  allow.mainnet.curve.steth_eth_pool.exchange(
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    {
+      send: true,
+    }
+  ),
+
+  // Curve - Swap in 3pool
+  ...allowErc20Approve([DAI, USDC, USDT], [contracts.mainnet.curve.x3CRV_pool]),
+  allow.mainnet.curve.x3CRV_pool.exchange(),
+
+  // Curve - Swap CVX for ETH
+  ...allowErc20Approve([CVX], [contracts.mainnet.curve.cvxETH_pool]),
+  allow.mainnet.curve.cvxETH_pool[
+    "exchange(uint256,uint256,uint256,uint256)"
+  ](1, 0),
+
+  // Curve - Swap ankrETH <> ETH
+  ...allowErc20Approve([ankrETH], [contracts.mainnet.curve.ankrETH_pool]),
+  allow.mainnet.curve.ankrETH_pool.exchange(
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    {
+      send: true,
+    }
+  ),
+
+  // PancakeSwap - Swap ETHx <> WETH
+  ...allowErc20Approve([ETHx, WETH], [contracts.mainnet.pancake_swap.smart_router]),
+  allow.mainnet.pancake_swap.smart_router.exactInputSingle(
+    {
+      tokenIn: c.or(
+        ETHx,
+        WETH
+      ),
+      tokenOut: c.or(
+        ETHx,
+        WETH
+      ),
+      recipient: avatar
+    }
+  ),
+
+  // Cowswap - Swapping of AURA, BAL, COMP, CRV, CVX, DAI, LDO, rETH, SWISE, USDC, USDT, WETH, wstETH
+  ...allowErc20Approve(
+    [AURA, BAL, COMP, CRV, CVX, DAI, LDO, rETH, SWISE, USDC, USDT, WETH, wstETH], 
+    [contracts.mainnet.cowswap.gpv2_vault_relayer]
+  ),
+  allow.mainnet.cowswap.order_signer.signOrder(
+    {
+      sellToken: c.or(
+        AURA, 
+        BAL, 
+        COMP, 
+        CRV, 
+        CVX, 
+        DAI, 
+        LDO, 
+        rETH, 
+        SWISE, 
+        USDC, 
+        USDT, 
+        WETH, 
+        wstETH
+      ),
+      buyToken: c.or(
+        DAI, USDC, USDT, rETH, stETH, WETH, wstETH
+      ),
+      receiver: avatar
+    },
+    undefined,
+    undefined,
+    {
+      delegatecall: true
+    }
+  )
 ] satisfies Permission[];
