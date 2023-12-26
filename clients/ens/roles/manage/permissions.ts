@@ -42,7 +42,7 @@ export default [
   // Compound v3 - cWETHv3 - ETH
   ...allowAction.compound_v3.deposit({ targets: ["cWETHv3"], tokens: ["ETH"] }),
 
-  // AURA - wstETH/WETH
+  // Aura - wstETH/WETH
   ...allowAction.aura.deposit({ targets: ["153"] }),
   // Aura - rETH/WETH
   ...allowAction.aura.deposit({ targets: ["109"] }),
@@ -75,7 +75,7 @@ export default [
   allow.mainnet.compound_v2.cUSDC.redeemUnderlying(),
 
   // Compound v2 - DAI
-  ...allowErc20Approve([DAI], [contracts.mainnet.compound_v2.cUSDC]),
+  ...allowErc20Approve([DAI], [contracts.mainnet.compound_v2.cDAI]),
   allow.mainnet.compound_v2.cDAI.mint(),
   // Withdraw: it is called when MAX underlying amount is withdrawn
   allow.mainnet.compound_v2.cDAI.redeem(),
@@ -88,7 +88,7 @@ export default [
     c.subset([
       contracts.mainnet.compound_v2.cDAI,
       contracts.mainnet.compound_v2.cUSDC,
-    ]), // ASK Jan?? subset is ok or should I use c.every(c.or))
+    ]),
   ),
 
   // Aave v3 - DAI
@@ -130,12 +130,12 @@ export default [
     c.subset([rETH2, SWISE])
   ),
 
-  // Stakewise - UniswapV3 ETH + sETH2, 0.3%
+  // Stakewise - Uniswap v3 ETH + sETH2, 0.3%
   ...allowErc20Approve(
     [sETH2, WETH],
     [contracts.mainnet.uniswapv3.positions_nft],
   ),
-  // Add liquidity using WETH
+  // Mint NFT using WETH
   allow.mainnet.uniswapv3.positions_nft.mint(
     {
       token0: WETH,
@@ -144,7 +144,24 @@ export default [
       recipient: avatar
     }
   ),
-  // Add liquidity using ETH
+  // Mint NFT using ETH
+  allow.mainnet.uniswapv3.positions_nft.multicall(
+    c.matches([
+      c.calldataMatches(
+        allow.mainnet.uniswapv3.positions_nft.mint(
+          {
+            token0: WETH,
+            token1: sETH2,
+            fee: 3000,
+            recipient: avatar
+          }
+        ),
+      ),
+      c.calldataMatches(allow.mainnet.uniswapv3.positions_nft.refundETH()),
+    ]),
+    { send: true },
+  ),
+  // Add liquidity using ETH (WETH is nor permitted through the UI)
   allow.mainnet.uniswapv3.positions_nft.multicall(
     c.matches([
       c.calldataMatches(
@@ -162,11 +179,7 @@ export default [
   allow.mainnet.uniswapv3.positions_nft.multicall(
     c.matches([
       c.calldataMatches(
-        allow.mainnet.uniswapv3.positions_nft.decreaseLiquidity(
-          {
-            tokenId: 424810
-          }
-        ),
+        allow.mainnet.uniswapv3.positions_nft.decreaseLiquidity(),
       ),
       c.calldataMatches(
         allow.mainnet.uniswapv3.positions_nft.collect(
