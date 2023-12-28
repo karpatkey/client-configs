@@ -443,12 +443,12 @@ export default [
   
   // Uniswap v2 and Uniswap v3 - Swaps
   ...allowErc20Approve(
-    [COMP, CRV, CVX, DAI, LDO, rETH2, sETH2, SWISE, USDC, USDT, WETH],
+    [COMP, CRV, CVX, DAI, LDO, rETH, rETH2, sETH2, SWISE, USDC, USDT, WETH],
     [contracts.mainnet.uniswapv3.router_2]
   ),
 
-  // Uniswap v2 - Swapping of tokens COMP, CRV, LDO, WETH, USDC, DAI and USDT
-  allow.mainnet.uniswapv3.router_2["swapExactTokensForTokens"](
+  // Uniswap v2 - Swapping of tokens COMP, CRV, DAI, LDO, USDC, USDT, WETH
+  allow.mainnet.uniswapv3.router_2.swapExactTokensForTokens(
     undefined,
     undefined,
     c.or(
@@ -508,7 +508,8 @@ export default [
   ),
   
   // Balancer - Swaps
-  ...allowErc20Approve([ankrETH, AURA, BAL, COMP, ETHx, rETH, WETH, wstETH], [contracts.mainnet.balancer.vault]),
+  ...allowErc20Approve([ankrETH, AURA, BAL, COMP, ETHx, rETH, WETH, wstETH], 
+    [contracts.mainnet.balancer.vault]),
 
   // Balancer - Swap AURA for WETH
   allow.mainnet.balancer.vault.swap(
