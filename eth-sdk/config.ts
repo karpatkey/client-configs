@@ -84,6 +84,7 @@ export const contracts = {
     },
     cowswap: {
       order_signer: "0x23dA9AdE38E4477b23770DeD512fD37b12381FAB",
+      gpv2_vault_relayer: "0xC92E8bdf79f0507f65a392b0ab4667716BFE0110",
       vCOW: "0xD057B63f5E69CF1B929b356b579Cba08D7688048",
     },
     curve: {
@@ -122,7 +123,7 @@ export const contracts = {
     mstable_v2: {
       stkMTA: "0x8f2326316eC696F6d023E37A9931c2b2C177a3D7",
     },
-    pankake_swap: {
+    pancake_swap: {
       smart_router: "0x13f4EA83D0bd40E75C8222255bc855a974568Dd4",
     },
     rocket_pool: {
