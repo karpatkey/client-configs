@@ -32,32 +32,32 @@ import { avatar } from "../../index";
 export default [
   // Use defi-kit to generate the permissions...
   // Lido
-  ...allowAction.lido.deposit(),
+  ...await allowAction.lido.deposit(),
 
-  // Compound v3 - cUSDCv3 - USDC
-  ...allowAction.compound_v3.deposit({
-    targets: ["cUSDCv3"],
-    tokens: ["USDC"],
-  }),
-  // Compound v3 - cWETHv3 - ETH
-  ...allowAction.compound_v3.deposit({ targets: ["cWETHv3"], tokens: ["ETH"] }),
+  // // Compound v3 - cUSDCv3 - USDC
+  // ...allowAction.compound_v3.deposit({
+  //   targets: ["cUSDCv3"],
+  //   tokens: ["USDC"],
+  // }),
+  // // Compound v3 - cWETHv3 - ETH
+  // ...allowAction.compound_v3.deposit({ targets: ["cWETHv3"], tokens: ["ETH"] }),
 
   // Aura - wstETH/WETH
-  ...allowAction.aura.deposit({ targets: ["153"] }),
+  ...await allowAction.aura.deposit({ targets: ["153"] }),
   // Aura - rETH/WETH
-  ...allowAction.aura.deposit({ targets: ["109"] }),
+  ...await allowAction.aura.deposit({ targets: ["109"] }),
 
   // Balancer - wstETH/WETH
-  ...allowAction.balancer.deposit({ targets: ["wstETH-WETH-BPT"] }),
-  ...allowAction.balancer.stake({ targets: ["wstETH-WETH-BPT"] }),
+  ...await allowAction.balancer.deposit({ targets: ["wstETH-WETH-BPT"] }),
+  ...await allowAction.balancer.stake({ targets: ["wstETH-WETH-BPT"] }),
   // Balancer - rETH/WETH
-  ...allowAction.balancer.deposit({ targets: ["B-rETH-STABLE"] }),
-  ...allowAction.balancer.stake({ targets: ["B-rETH-STABLE"] }),
+  ...await allowAction.balancer.deposit({ targets: ["B-rETH-STABLE"] }),
+  ...await allowAction.balancer.stake({ targets: ["B-rETH-STABLE"] }),
 
   // Convex - ETH/stETH
-  ...allowAction.convex.deposit({ targets: ["25"] }),
+  ...await allowAction.convex.deposit({ targets: ["25"] }),
   // Convex - cDAI/cUSDC
-  ...allowAction.convex.deposit({ targets: ["0"] }),
+  ...await allowAction.convex.deposit({ targets: ["0"] }),
 
   // ... or address the contracts eth-sdk/config.ts via the zodiac-roles-sdk/kit
   // Wrapping and unwrapping of ETH, WETH
@@ -89,6 +89,37 @@ export default [
       contracts.mainnet.compound_v2.cDAI,
       contracts.mainnet.compound_v2.cUSDC,
     ]),
+  ),
+
+  // Compound v3 - USDC
+  ...allowErc20Approve([USDC], [contracts.mainnet.compound_v3.cUSDCv3]),
+  allow.mainnet.compound_v3.cUSDCv3.supply(USDC),
+  allow.mainnet.compound_v3.cUSDCv3.withdraw(USDC),
+
+  // Compound v3 - ETH
+  allow.mainnet.compound_v3.cWETHv3.allow(contracts.mainnet.compound_v3.MainnetBulker),
+  allow.mainnet.compound_v3.MainnetBulker.invoke(
+    c.or(
+      c.eq("0x414354494f4e5f535550504c595f4e41544956455f544f4b454e000000000000"), // ACTION_SUPPLY_NATIVE_TOKEN)
+      c.eq("0x414354494f4e5f57495448445241575f4e41544956455f544f4b454e00000000"), // ACTION_WITHDRAW_NATIVE_TOKEN
+    ),
+    c.abiEncodedMatches(
+      [
+        contracts.mainnet.compound_v3.cWETHv3,
+        c.avatar,
+      ],
+      ["address", "address", "address", "uint256"]
+    ),
+    { send:true }
+  ),
+
+  // Compound v3 - Claim rewards
+  allow.mainnet.compound_v3.CometRewards.claim(
+    c.or(
+      c.eq(contracts.mainnet.compound_v3.cWETHv3),
+      c.eq(contracts.mainnet.compound_v3.cUSDCv3),
+    ),
+    c.avatar
   ),
 
   // Aave v3 - DAI

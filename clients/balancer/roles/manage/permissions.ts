@@ -27,16 +27,16 @@ const GOVERNANCE_KPK = "0x8787FC2De4De95c53e5E3a4e5459247D9773ea52"
 export default [
   // Use defi-kit to generate the permissions...
   // Lido
-  ...allowAction.lido.deposit(),
+  ...await allowAction.lido.deposit(),
 
   // Aave v2 - Staking of AAVE in Safety Module
-  ...allowAction.aave_v2.stake({ targets: ["AAVE"] }),
+  ...await allowAction.aave_v2.stake({ targets: ["AAVE"] }),
 
-  // Compound v3 - cUSDCv3 - USDC
-  ...allowAction.compound_v3.deposit({
-    targets: ["cUSDCv3"],
-    tokens: ["USDC"],
-  }),
+  // // Compound v3 - cUSDCv3 - USDC
+  // ...allowAction.compound_v3.deposit({
+  //   targets: ["cUSDCv3"],
+  //   tokens: ["USDC"],
+  // }),
 
   // ... or address the contracts eth-sdk/config.ts via the zodiac-roles-sdk/kit
   // Wrapping and unwrapping of ETH, WETH
@@ -91,6 +91,17 @@ export default [
       contracts.mainnet.compound_v2.cDAI,
       contracts.mainnet.compound_v2.cUSDC,
     ]),
+  ),
+
+  // Compound v3 - USDC
+  ...allowErc20Approve([USDC], [contracts.mainnet.compound_v3.cUSDCv3]),
+  allow.mainnet.compound_v3.cUSDCv3.supply(USDC),
+  allow.mainnet.compound_v3.cUSDCv3.withdraw(USDC),
+
+  // Compound v3 - Claim rewards
+  allow.mainnet.compound_v3.CometRewards.claim(
+    contracts.mainnet.compound_v3.cUSDCv3,
+    c.avatar
   ),
 
   // Uniswap v3 - WBTC + WETH, Range: 11.786 - 15.082. Fee: 0.3%.
