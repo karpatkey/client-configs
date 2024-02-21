@@ -14,7 +14,6 @@ import {
   ZERO_ADDRESS,
   ENS,
   WETH,
-  cowswap,
 } from "../../../../../eth-sdk/addresses";
 import { getAvatarWallet } from "../../../../../test/accounts";
 
@@ -30,7 +29,7 @@ describe("GnosisLTD", () => {
   describe("lido", () => {
     it("deposit", async () => {
       await expect(
-        testKit.mainnet.lido.stETH.call.submit(ZERO_ADDRESS, {
+        testKit.eth.lido.stETH.call.submit(ZERO_ADDRESS, {
           value: parseEther("1"),
         }),
       ).not.toRevert();
