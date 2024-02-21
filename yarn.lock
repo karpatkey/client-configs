@@ -2068,7 +2068,7 @@ __metadata:
     "@types/jest": ^29.5.3
     "@types/wait-on": ^5.3.1
     concurrently: ^8.2.2
-    defi-kit: ^0.1.20
+    defi-kit: ^1.2.0
     ethers: ^5.7.2
     jest: ^29.6.1
     prettier: ^3.0.0
@@ -2338,17 +2338,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"defi-kit@npm:^0.1.20":
-  version: 0.1.21
-  resolution: "defi-kit@npm:0.1.21"
+"defi-kit@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "defi-kit@npm:1.2.0"
   dependencies:
     "@asteasolutions/zod-to-openapi": ^5.5.0
     "@ethersproject/abi": ^5.7.0
     ethers: ^5.7.2
-    ts-jest: ^29.1.1
     zod: ^3.22.2
-    zodiac-roles-sdk: ^2.2.19
-  checksum: 20688d7bc4e5aaa67a70a9c48ba09e309f594b13b6078c7f38821cdfbd0a564636b751f33233242b305166416aac4ea75cb1f793d3bddc11ae92ce0cdc8cac5d
+    zodiac-roles-sdk: ^2.2.23
+  checksum: aaab16fdf7794166e47e58326bf7ab219debbcd301c4c1cbd507dcb2df03ed72b366b705a6ca198eb5b688a0810bf4fd64dff59482d81137932eafea7bc87ba3
   languageName: node
   linkType: hard
 
@@ -5449,7 +5448,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zodiac-roles-sdk@npm:^2.2.19, zodiac-roles-sdk@npm:^2.3.1":
+"zodiac-roles-sdk@npm:^2.2.23, zodiac-roles-sdk@npm:^2.3.1":
   version: 2.3.1
   resolution: "zodiac-roles-sdk@npm:2.3.1"
   dependencies:

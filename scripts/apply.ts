@@ -1,9 +1,9 @@
 #!/usr/bin/env ts-node
-import yargs from "yargs/yargs";
+import yargs from "yargs";
 import { Permission, PermissionSet, checkIntegrity, processPermissions } from "zodiac-roles-sdk";
 import { Client } from "../types";
 
-const ZODIAC_ROLES_APP = "https://zodiac-roles-app.vercel.app";
+const ZODIAC_ROLES_APP = "https://roles.gnosisguild.org";
 
 const CHAIN_PREFIX = {
   1: 'eth',
@@ -23,25 +23,34 @@ const postPermissions = async (permissions: (Permission | PermissionSet | Promis
     method: "POST",
     body: JSON.stringify({ targets, annotations }),
   });
-  const json = await res.json();
+  const json = await res.json() as any;
   const { hash } = json;
-  if (!hash) throw new Error("Failed to post permissions", json);
+  if (!hash) { 
+    console.error(json)
+    throw new Error("Failed to post permissions");
+  }
   return hash
 };
 
-const args = await yargs(process.argv.slice(2))
-  .usage("$0 <client> <role>")
-  .positional("client", { demandOption: true, type: "string" })
-  .positional("role", { demandOption: true, type: "string" }).argv;
+async function main() {
+  const args = await yargs(process.argv.slice(2))
+    .usage("$0 <client> <role>")
+    .positional("client", { demandOption: true, type: "string" })
+    .positional("role", { demandOption: true, type: "string" }).argv;
 
-const { avatar, rolesMod, chainId, roles } = (await import(`../clients/${args.client}/index.ts`)) as Client;
+  const [clientArg, roleArg] = args._ as [string, string];
 
-const role = roles[args.role]
-if(!role) {
-  throw new Error(`There is no '${args.role}' role for client ${args.client}`)
+  const { avatar, rolesMod, chainId, roles } = (await import(`../clients/${clientArg}`)) as Client;
+
+  const role = roles[roleArg]
+  if(!role) {
+    throw new Error(`There is no '${roleArg}' role for client ${clientArg}`)
+  }
+
+  const hash = await postPermissions(role.permissions)
+  const diffUrl = `${ZODIAC_ROLES_APP}/${CHAIN_PREFIX[chainId]}:${rolesMod}/roles/${role.roleKey}/diff/${hash}`
+
+  console.log(`Permission diff page: ${diffUrl}`)
 }
 
-const hash = await postPermissions(role.permissions)
-const diffUrl = `${ZODIAC_ROLES_APP}/${CHAIN_PREFIX[chainId]}:${rolesMod}/roles/${role.roleKey}/diff/${hash}`
-
-console.log(`Permission diff page: ${diffUrl}`)
+main()

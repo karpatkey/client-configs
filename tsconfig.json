@@ -8,9 +8,11 @@
     "moduleResolution": "nodenext",
     "noUncheckedIndexedAccess": true,
     "resolveJsonModule": true,
-    "skipLibCheck": false,
+    "skipLibCheck": true,
     "sourceMap": false,
     "strict": true,
     "target": "es2022"
-  }
+  },
+  "include": ["clients/**/*", "eth-sdk/**/*", "scripts/**/*", "utils/**/*"],
+  "exclude": ["**/*.test.ts", "node_modules", "build"]
 }
