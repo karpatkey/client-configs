@@ -1,5 +1,4 @@
 import {
-  Permission,
   applyTargets,
   checkIntegrity,
   processPermissions,
@@ -19,14 +18,15 @@ import {
 } from "ethers";
 import { getProvider } from "./provider";
 import { getMainnetSdk } from "@dethcrypto/eth-sdk-client";
+import { PermissionList } from "../types";
 
 const owner = getOwnerWallet();
 
 export const rolesMod = Roles__factory.connect(ROLES_ADDRESS, owner);
 export const testRoleKey = formatBytes32String("TEST-ROLE");
 
-export const configurePermissions = async (permissions: Permission[]) => {
-  const targets = processPermissions(permissions);
+export const configurePermissions = async (permissions: PermissionList) => {
+  const {targets} = processPermissions(await Promise.all(permissions));
   checkIntegrity(targets);
 
   const calls = await applyTargets(testRoleKey, targets, {

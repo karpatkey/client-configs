@@ -14,3 +14,5 @@ export interface Client {
     [key: string]: Role;
   };
 }
+
+export type PermissionList = (Permission | PermissionSet | Promise<PermissionSet>)[]

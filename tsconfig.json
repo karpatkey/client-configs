@@ -11,7 +11,9 @@
     "skipLibCheck": true,
     "sourceMap": false,
     "strict": true,
-    "target": "es2022"
+    "target": "es2022",
+    "typeRoots": ["./node_modules/@types"],
+    "types": ["jest"]
   },
   "include": ["clients/**/*", "eth-sdk/**/*", "scripts/**/*", "utils/**/*"],
   "exclude": ["**/*.test.ts", "node_modules", "build"]

@@ -1,4 +1,4 @@
-import { c, Permission } from "zodiac-roles-sdk";
+import { c } from "zodiac-roles-sdk";
 import { allow } from "zodiac-roles-sdk/kit";
 import { allow as allowAction } from "defi-kit/eth";
 import {
@@ -20,6 +20,7 @@ import {
 import { contracts } from "../../../../eth-sdk/config";
 import { allowErc20Approve } from "../../../../utils/erc20";
 import { avatar } from "../../index";
+import { PermissionList } from "../../../../types";
 
 // governance.karpatkey.eth
 const GOVERNANCE_KPK = "0x8787FC2De4De95c53e5E3a4e5459247D9773ea52"
@@ -33,7 +34,7 @@ export default [
   ...await allowAction.aave_v2.stake({ targets: ["AAVE"] }),
 
   // // Compound v3 - cUSDCv3 - USDC
-  // ...allowAction.compound_v3.deposit({
+  // allowAction.compound_v3.deposit({
   //   targets: ["cUSDCv3"],
   //   tokens: ["USDC"],
   // }),
@@ -50,17 +51,17 @@ export default [
   allow.mainnet.aave_v2.stkAave.delegate(GOVERNANCE_KPK),
 
   // Aave v3 - DAI
-  ...allowErc20Approve([DAI], [contracts.mainnet.aave_v3.pool_v3]),
+  allowErc20Approve([DAI], [contracts.mainnet.aave_v3.pool_v3]),
   allow.mainnet.aave_v3.pool_v3.supply(DAI, undefined, avatar),
   allow.mainnet.aave_v3.pool_v3.withdraw(DAI, undefined, avatar),
 
   // Aave v3 - USDC
-  ...allowErc20Approve([USDC], [contracts.mainnet.aave_v3.pool_v3]),
+  allowErc20Approve([USDC], [contracts.mainnet.aave_v3.pool_v3]),
   allow.mainnet.aave_v3.pool_v3.supply(USDC, undefined, avatar),
   allow.mainnet.aave_v3.pool_v3.withdraw(USDC, undefined, avatar),
 
   // Compound v2 - USDC
-  ...allowErc20Approve([USDC], [contracts.mainnet.compound_v2.cUSDC]),
+  allowErc20Approve([USDC], [contracts.mainnet.compound_v2.cUSDC]),
   allow.mainnet.compound_v2.cUSDC.mint(),
   // Withdraw: it is called when MAX underlying amount is withdrawn
   allow.mainnet.compound_v2.cUSDC.redeem(),
@@ -68,7 +69,7 @@ export default [
   allow.mainnet.compound_v2.cUSDC.redeemUnderlying(),
 
   // Compound v2 - DAI
-  ...allowErc20Approve([DAI], [contracts.mainnet.compound_v2.cDAI]),
+  allowErc20Approve([DAI], [contracts.mainnet.compound_v2.cDAI]),
   allow.mainnet.compound_v2.cDAI.mint(),
   // Withdraw: it is called when MAX underlying amount is withdrawn
   allow.mainnet.compound_v2.cDAI.redeem(),
@@ -76,7 +77,7 @@ export default [
   allow.mainnet.compound_v2.cDAI.redeemUnderlying(),
 
   // Compound v2 - AAVE
-  ...allowErc20Approve([AAVE], [contracts.mainnet.compound_v2.cAAVE]),
+  allowErc20Approve([AAVE], [contracts.mainnet.compound_v2.cAAVE]),
   allow.mainnet.compound_v2.cAAVE.mint(),
   // Withdraw: it is called when MAX underlying amount is withdrawn
   allow.mainnet.compound_v2.cAAVE.redeem(),
@@ -94,7 +95,7 @@ export default [
   ),
 
   // Compound v3 - USDC
-  ...allowErc20Approve([USDC], [contracts.mainnet.compound_v3.cUSDCv3]),
+  allowErc20Approve([USDC], [contracts.mainnet.compound_v3.cUSDCv3]),
   allow.mainnet.compound_v3.cUSDCv3.supply(USDC),
   allow.mainnet.compound_v3.cUSDCv3.withdraw(USDC),
 
@@ -105,7 +106,7 @@ export default [
   ),
 
   // Uniswap v3 - WBTC + WETH, Range: 11.786 - 15.082. Fee: 0.3%.
-  ...allowErc20Approve(
+  allowErc20Approve(
     [WBTC, WETH], 
     [contracts.mainnet.uniswapv3.positions_nft]
   ),
@@ -233,7 +234,7 @@ export default [
   ),
   
   // Stakewise - Uniswap v3 ETH + sETH2, 0.3% - WETH already approved
-  ...allowErc20Approve(
+  allowErc20Approve(
     [sETH2],
     [contracts.mainnet.uniswapv3.positions_nft],
   ),
@@ -285,7 +286,7 @@ export default [
   // and activate/deactivate the Dai Savings Rate to start earning savings 
   // on a pool of dai in a single function call.
   // https://docs.makerdao.com/smart-contract-modules/proxy-module/dsr-manager-detailed-documentation#contract-details
-  ...allowErc20Approve([DAI], [contracts.mainnet.maker.dsr_manager]),
+  allowErc20Approve([DAI], [contracts.mainnet.maker.dsr_manager]),
   allow.mainnet.maker.dsr_manager.join(avatar),
   allow.mainnet.maker.dsr_manager.exit(avatar),
   allow.mainnet.maker.dsr_manager.exitAll(avatar),
@@ -302,7 +303,7 @@ export default [
   // Because of Rocket Pool's architecture, the addresses of other contracts should not be used directly but retrieved
   // from the blockchain before use. Network upgrades may have occurred since the previous interaction, resulting in
   // outdated addresses. RocketStorage can never change address, so it is safe to store a reference to it.
-  ...allowErc20Approve([rETH], [contracts.mainnet.rocket_pool.swap_router]),
+  allowErc20Approve([rETH], [contracts.mainnet.rocket_pool.swap_router]),
   allow.mainnet.rocket_pool.deposit_pool.deposit({
     send: true,
   }),
@@ -323,7 +324,7 @@ export default [
   allow.mainnet.rocket_pool.swap_router.swapFrom(),
 
   // Uniswap v2 and Uniswap v3 - Swaps
-  ...allowErc20Approve(
+  allowErc20Approve(
     [AAVE, COMP, DAI, rETH, rETH2, sETH2, SWISE, USDC, USDT, WBTC, WETH],
     [contracts.mainnet.uniswapv3.router_2]
   ),
@@ -395,7 +396,7 @@ export default [
   ),
 
   // Balancer - Swaps
-  ...allowErc20Approve([COMP, rETH, WETH, wstETH], 
+  allowErc20Approve([COMP, rETH, WETH, wstETH], 
     [contracts.mainnet.balancer.vault]),
   
   // Balancer - Swap COMP for WETH
@@ -490,7 +491,7 @@ export default [
   ),
 
   // SushiSwap - Swapping of tokens COMP, DAI, USDC, USDT, WETH
-  ...allowErc20Approve(
+  allowErc20Approve(
     [COMP, DAI, USDC, USDT, WETH],
     [contracts.mainnet.sushiswap.route_processor_3_2]
   ),
@@ -504,7 +505,7 @@ export default [
   ),
 
   // Curve - Swap ETH <> stETH
-  ...allowErc20Approve([stETH], [contracts.mainnet.curve.steth_eth_pool]),
+  allowErc20Approve([stETH], [contracts.mainnet.curve.steth_eth_pool]),
   allow.mainnet.curve.steth_eth_pool.exchange(
     undefined,
     undefined,
@@ -516,7 +517,7 @@ export default [
   ),
 
   // Cowswap - Swapping of AAVE, COMP, DAI, rETH, rETH2, sETH2, stETH, SWISE, USDC, USDT, WBTC, WETH, wstETH
-  ...allowErc20Approve(
+  allowErc20Approve(
     [AAVE, COMP, DAI, rETH, rETH2, sETH2, stETH, SWISE, USDC, USDT, WBTC, WETH, wstETH], 
     [contracts.mainnet.cowswap.gpv2_vault_relayer]
   ),
@@ -548,4 +549,4 @@ export default [
       delegatecall: true
     }
   )  
-] satisfies Permission[];
+] satisfies PermissionList;

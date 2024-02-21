@@ -58,7 +58,8 @@ const accounts = [
 ];
 
 export const getWallet = (index: number) => {
-  const { privateKey } = accounts[index];
+  if(!accounts[index]) throw new Error(`Account ${index} not found`);
+  const { privateKey } = accounts[index]!;
   return new Wallet(privateKey, getProvider());
 };
 
