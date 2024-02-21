@@ -30,6 +30,6 @@
     "typescript": "^5.1.6",
     "wait-on": "^7.0.1",
     "yargs": "^17.7.2",
-    "zodiac-roles-sdk": "^2.2.15"
+    "zodiac-roles-sdk": "^2.3.1"
   }
 }
