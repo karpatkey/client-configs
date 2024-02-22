@@ -2,7 +2,7 @@ import { Permission, c } from "zodiac-roles-sdk";
 import { allow } from "zodiac-roles-sdk/kit";
 import { allow as allowAction } from "defi-kit/eth";
 import { contracts } from "../../../../eth-sdk/config";
-import { DAI, GRT, ZERO_ADDRESS } from "../../../../eth-sdk/addresses";
+import { DAI, GRT, USDC, ZERO_ADDRESS } from "../../../../eth-sdk/addresses";
 import { avatar } from "../../index";
 import { allowErc20Approve } from "../../../../utils/erc20";
 
@@ -10,18 +10,22 @@ const GRAPH_DELEGATEE = "0x5A8904be09625965d9AEc4BFfD30D853438a053e";
 
 export default [
   // Use defi-kit to generate the permissions...
-  // Lido
-  ...allowAction.lido.deposit(),
-
-  // Compound v3 - USDC
-  ...allowAction.compound_v3.deposit({ targets: ["cUSDCv3"] }),
-
   // Aura - 50COW-50WETH
-  ...allowAction.aura.deposit({ targets: ["105"] }),
+  ...await allowAction.aura.deposit({ targets: ["105"] }),
   // Aura - Lock
-  ...allowAction.aura.lock(),
+  ...await allowAction.aura.lock(),
+  // Lido
+  ...await allowAction.lido.deposit(),
 
   // ... or address the contracts eth-sdk/config.ts via the zodiac-roles-sdk/kit
+  // Compound v3 - USDC
+  ...allowErc20Approve([USDC], [contracts.mainnet.compound_v3.cUSDCv3]),
+  allow.mainnet.compound_v3.cUSDCv3.supply(USDC),
+  allow.mainnet.compound_v3.cUSDCv3.withdraw(USDC),
+
+  // CowSwap - vCOW
+  allow.mainnet.cowswap.vCOW.swapAll(),
+
   // Spark - sDAI
   ...allowErc20Approve([DAI], [contracts.mainnet.spark.sDAI]),
   allow.mainnet.spark.sDAI.deposit(undefined, avatar),
@@ -52,7 +56,4 @@ export default [
     GRAPH_DELEGATEE,
     ZERO_ADDRESS,
   ),
-
-  // CowSwap - vCOW
-  allow.mainnet.cowswap.vCOW.swapAll(),
 ] satisfies Permission[];
