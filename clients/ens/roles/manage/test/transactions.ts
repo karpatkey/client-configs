@@ -1,4 +1,4 @@
-import { TestTransaction } from "../../../../../test/types";
+import { TestTransaction } from "../../../../../test/types"
 
 export default [
   //---------------------------------------------------------------------------------------------------------------------------------
@@ -1397,4 +1397,4 @@ export default [
     operation: 1,
     expectRevert: true,
   },
-] satisfies TestTransaction[];
+] satisfies TestTransaction[]

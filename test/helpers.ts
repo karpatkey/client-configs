@@ -2,42 +2,38 @@ import {
   applyTargets,
   checkIntegrity,
   processPermissions,
-} from "zodiac-roles-sdk";
-import { Roles__factory } from "./rolesModTypechain";
+} from "zodiac-roles-sdk"
+import { Roles__factory } from "./rolesModTypechain"
 import {
   ROLES_ADDRESS,
   getAvatarWallet,
   getMemberWallet,
   getOwnerWallet,
-} from "./accounts";
-import { Interface, formatBytes32String } from "ethers/lib/utils";
-import {
-  BigNumberish,
-  Contract,
-  Overrides,
-} from "ethers";
-import { getProvider } from "./provider";
-import { getMainnetSdk } from "@dethcrypto/eth-sdk-client";
-import { PermissionList } from "../types";
+} from "./accounts"
+import { Interface, formatBytes32String } from "ethers/lib/utils"
+import { BigNumberish, Contract, Overrides } from "ethers"
+import { getProvider } from "./provider"
+import { getMainnetSdk } from "@dethcrypto/eth-sdk-client"
+import { PermissionList } from "../types"
 
-const owner = getOwnerWallet();
+const owner = getOwnerWallet()
 
-export const rolesMod = Roles__factory.connect(ROLES_ADDRESS, owner);
-export const testRoleKey = formatBytes32String("TEST-ROLE");
+export const rolesMod = Roles__factory.connect(ROLES_ADDRESS, owner)
+export const testRoleKey = formatBytes32String("TEST-ROLE")
 
 export const configurePermissions = async (permissions: PermissionList) => {
-  const {targets} = processPermissions(await Promise.all(permissions));
-  checkIntegrity(targets);
+  const { targets } = processPermissions(await Promise.all(permissions))
+  checkIntegrity(targets)
 
   const calls = await applyTargets(testRoleKey, targets, {
     address: rolesMod.address,
     currentTargets: [],
     mode: "replace",
     log: console.debug,
-  });
+  })
 
-  console.log(`Applying permissions with ${calls.length} calls`);
-  let nonce = await owner.getTransactionCount();
+  console.log(`Applying permissions with ${calls.length} calls`)
+  let nonce = await owner.getTransactionCount()
   await Promise.all(
     calls.map(
       async (call) =>
@@ -45,11 +41,11 @@ export const configurePermissions = async (permissions: PermissionList) => {
           to: rolesMod.address,
           data: call,
           nonce: nonce++,
-        }),
-    ),
-  );
-  console.log("Permissions applied");
-};
+        })
+    )
+  )
+  console.log("Permissions applied")
+}
 
 export const execThroughRole = async (
   {
@@ -58,12 +54,12 @@ export const execThroughRole = async (
     value,
     operation = 0,
   }: {
-    to: `0x${string}`;
-    data?: `0x${string}`;
-    value?: `0x${string}`;
-    operation?: 0 | 1;
+    to: `0x${string}`
+    data?: `0x${string}`
+    value?: `0x${string}`
+    operation?: 0 | 1
   },
-  overrides?: Overrides,
+  overrides?: Overrides
 ) =>
   await rolesMod
     .connect(getMemberWallet())
@@ -74,8 +70,8 @@ export const execThroughRole = async (
       operation,
       testRoleKey,
       true,
-      overrides,
-    );
+      overrides
+    )
 
 export const callThroughRole = async ({
   to,
@@ -83,10 +79,10 @@ export const callThroughRole = async ({
   value,
   operation = 0,
 }: {
-  to: `0x${string}`;
-  data?: `0x${string}`;
-  value?: `0x${string}`;
-  operation?: 0 | 1;
+  to: `0x${string}`
+  data?: `0x${string}`
+  value?: `0x${string}`
+  operation?: 0 | 1
 }) =>
   await rolesMod
     .connect(getMemberWallet())
@@ -96,36 +92,36 @@ export const callThroughRole = async ({
       data || "0x",
       operation,
       testRoleKey,
-      false,
-    );
+      false
+    )
 
 const erc20Interface = new Interface([
   "function transfer(address to, uint amount) returns (bool)",
-]);
+])
 
 export const wrapEth = async (value: BigNumberish) => {
-  await getMainnetSdk(getAvatarWallet()).weth.deposit({ value });
+  await getMainnetSdk(getAvatarWallet()).weth.deposit({ value })
 }
 
 export const stealErc20 = async (
   token: `0x${string}`,
   amount: BigNumberish,
-  from: `0x${string}`,
+  from: `0x${string}`
 ) => {
   // Impersonate the token holder
-  const provider = getProvider();
-  await provider.send("anvil_impersonateAccount", [from]);
+  const provider = getProvider()
+  await provider.send("anvil_impersonateAccount", [from])
 
   // Get the token contract with impersonated signer
   const contract = new Contract(
     token,
     erc20Interface,
-    await provider.getSigner(from),
-  );
+    await provider.getSigner(from)
+  )
 
   // Transfer the requested amount to the avatar
-  await contract.transfer(getAvatarWallet().address, amount);
+  await contract.transfer(getAvatarWallet().address, amount)
 
   // Stop impersonating
-  await provider.send("anvil_stopImpersonatingAccount", [from]);
-};
+  await provider.send("anvil_stopImpersonatingAccount", [from])
+}

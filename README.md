@@ -2,7 +2,6 @@
 
 This projects hosts roles permissions and other configurations for clients
 
-
 ## Pre-requisites
 
 - node v20 (other versions might work)
@@ -19,4 +18,3 @@ This projects hosts roles permissions and other configurations for clients
 ##### Run tests:
 
 `yarn test`
-

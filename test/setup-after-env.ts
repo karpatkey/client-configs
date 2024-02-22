@@ -1,17 +1,17 @@
-import { parseBytes32String } from "ethers/lib/utils";
-import { Roles__factory } from "./rolesModTypechain";
-import { revertToBase } from "./snapshot";
-import { Status } from "./types";
-import { BigNumber } from "ethers";
+import { parseBytes32String } from "ethers/lib/utils"
+import { Roles__factory } from "./rolesModTypechain"
+import { revertToBase } from "./snapshot"
+import { Status } from "./types"
+import { BigNumber } from "ethers"
 
-global.afterAll(revertToBase);
+global.afterAll(revertToBase)
 
 declare global {
   namespace jest {
     interface Matchers<R> {
-      toRevert(expectedReason?: string | RegExp): CustomMatcherResult;
-      toBeAllowed(): CustomMatcherResult;
-      toBeForbidden(status?: Status, info?: string): CustomMatcherResult;
+      toRevert(expectedReason?: string | RegExp): CustomMatcherResult
+      toBeAllowed(): CustomMatcherResult
+      toBeForbidden(status?: Status, info?: string): CustomMatcherResult
     }
   }
 }
@@ -19,70 +19,70 @@ declare global {
 expect.extend({
   async toRevert(received: Promise<any>, expectedReason?: string | RegExp) {
     try {
-      await received;
+      await received
       return {
         message: () => `Expected call to revert, but it didn't`,
         pass: false,
-      };
+      }
     } catch (error: any) {
       if (typeof error !== "object") {
-        throw error;
+        throw error
       }
 
       // find the root cause error with errorSignature revert data in the ethers error stack
-      let rootError = error;
+      let rootError = error
       while (rootError.error && !rootError.data && !rootError.errorSignature) {
-        rootError = rootError.error;
+        rootError = rootError.error
       }
 
       // re-throw if the error is not a revert
       const EXPECTED_CODES = ["CALL_EXCEPTION"]
-      if (
-        !EXPECTED_CODES.includes(rootError.code)
-      ) {
-        throw error;
+      if (!EXPECTED_CODES.includes(rootError.code)) {
+        throw error
       }
 
       // match reason against expectedReason
-      const reason = rootError.errorName ? `${rootError.errorName}(${rootError.errorArgs.join(', ')})` : rootError.data;
+      const reason = rootError.errorName
+        ? `${rootError.errorName}(${rootError.errorArgs.join(", ")})`
+        : rootError.data
       if (expectedReason !== undefined) {
         const isMatching =
           typeof expectedReason === "string"
             ? reason === expectedReason
-            : expectedReason.test(reason);
+            : expectedReason.test(reason)
 
         return {
           message: () =>
             `Expected call to revert with ${this.utils.printExpected(
-              expectedReason,
+              expectedReason
             )}, but it reverted with ${this.utils.printReceived(reason)}`,
           pass: isMatching,
-        };
+        }
       }
 
       return {
         message: () =>
           `Expected call to not revert, but it reverted with ${this.utils.printReceived(
-            reason,
+            reason
           )}`,
         pass: true,
-      };
+      }
     }
   },
 
   async toBeAllowed(received: Promise<any>) {
     try {
-      const res = await received;
+      const res = await received
       return {
         message: () =>
           `Expected transaction ${this.utils.stringify(
-            decodeUnwrappedTransaction(res),
+            decodeUnwrappedTransaction(res)
           )} to not be allowed, but it is`,
         pass: true,
-      };
+      }
     } catch (error: any) {
       if (typeof error !== "object" || error.code !== "CALL_EXCEPTION") {
-        throw error;
+        throw error
       }
 
       if (!error.errorSignature) {
@@ -90,43 +90,43 @@ expect.extend({
         return {
           message: () =>
             `Expected transaction ${this.utils.stringify(
-              decodeUnwrappedTransaction(error.transaction),
+              decodeUnwrappedTransaction(error.transaction)
             )} to not be allowed, but it is`,
           pass: true,
-        };
+        }
       }
 
       if (error.errorSignature !== "ConditionViolation(uint8,bytes32)") {
-        throw error;
+        throw error
       }
 
-      const receivedStatus = error.errorArgs.status;
+      const receivedStatus = error.errorArgs.status
 
       return {
         message: () =>
           `Expected transaction ${this.utils.stringify(
-            decodeUnwrappedTransaction(error.transaction),
+            decodeUnwrappedTransaction(error.transaction)
           )} to be allowed, but it is forbidden with status ${this.utils.printReceived(
-            Status[receivedStatus],
+            Status[receivedStatus]
           )}`,
         pass: false,
-      };
+      }
     }
   },
 
   async toBeForbidden(received: Promise<any>, status?: Status, info?: string) {
     try {
-      const res = await received;
+      const res = await received
       return {
         message: () =>
           `Expected transaction ${this.utils.stringify(
-            decodeUnwrappedTransaction(res),
+            decodeUnwrappedTransaction(res)
           )} to be forbidden but it passed`,
         pass: false,
-      };
+      }
     } catch (error: any) {
       if (typeof error !== "object" || error.code !== "CALL_EXCEPTION") {
-        throw error;
+        throw error
       }
 
       if (!error.errorSignature) {
@@ -134,32 +134,32 @@ expect.extend({
         return {
           message: () =>
             `Expected transaction ${this.utils.stringify(
-              decodeUnwrappedTransaction(error.transaction),
+              decodeUnwrappedTransaction(error.transaction)
             )} to be forbidden but it passed`,
           pass: false,
-        };
+        }
       }
 
       if (error.errorSignature !== "ConditionViolation(uint8,bytes32)") {
-        throw error;
+        throw error
       }
 
-      const receivedStatus = error.errorArgs.status;
-      const receivedInfo = error.errorArgs.info;
+      const receivedStatus = error.errorArgs.status
+      const receivedInfo = error.errorArgs.info
 
       if (status !== undefined) {
         if (receivedStatus !== status) {
           return {
             message: () =>
               `Expected transaction ${this.utils.stringify(
-                decodeUnwrappedTransaction(error.transaction),
+                decodeUnwrappedTransaction(error.transaction)
               )} to be forbidden with status ${this.utils.printExpected(
-                Status[status],
+                Status[status]
               )} but status is ${this.utils.printReceived(
-                Status[receivedStatus],
+                Status[receivedStatus]
               )}`,
             pass: false,
-          };
+          }
         }
       }
 
@@ -168,54 +168,54 @@ expect.extend({
           return {
             message: () =>
               `Expected transaction ${this.utils.stringify(
-                decodeUnwrappedTransaction(error.transaction),
+                decodeUnwrappedTransaction(error.transaction)
               )} to be forbidden with info ${this.utils.printExpected(
-                info,
+                info
               )} but info is ${this.utils.printReceived(receivedInfo)}`,
             pass: false,
-          };
+          }
         } else {
           return {
             message: () =>
               `Expected transaction ${this.utils.stringify(
-                decodeUnwrappedTransaction(error.transaction),
+                decodeUnwrappedTransaction(error.transaction)
               )} to be forbidden with info ${this.utils.printExpected(
-                info,
+                info
               )} but it did`,
             pass: true,
-          };
+          }
         }
       }
 
-      let details = "";
+      let details = ""
       if (status !== undefined)
-        details += ` with status ${this.utils.printExpected(Status[status])}`;
+        details += ` with status ${this.utils.printExpected(Status[status])}`
       if (info !== undefined)
-        details += ` (info: ${this.utils.printExpected(info)})`;
+        details += ` (info: ${this.utils.printExpected(info)})`
 
       return {
         message: () =>
           `Expected transaction ${this.utils.stringify(
-            decodeUnwrappedTransaction(error.transaction),
+            decodeUnwrappedTransaction(error.transaction)
           )} to not be forbidden${details}, but it was`,
         pass: true,
-      };
+      }
     }
   },
-});
+})
 
 const decodeUnwrappedTransaction = ({
   data,
   from,
 }: {
-  data: string;
-  from: string;
+  data: string
+  from: string
 }) => {
   const [to, value, metaTxData, operation, roleKey] =
     Roles__factory.createInterface().decodeFunctionData(
       "execTransactionWithRole",
-      data,
-    );
+      data
+    )
   return {
     to,
     value: BigNumber.from(value).toString(),
@@ -223,5 +223,5 @@ const decodeUnwrappedTransaction = ({
     operation,
     from,
     role: parseBytes32String(roleKey),
-  };
-};
+  }
+}

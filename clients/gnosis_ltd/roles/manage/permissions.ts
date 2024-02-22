@@ -1,13 +1,13 @@
-import { Permission, c } from "zodiac-roles-sdk";
-import { allow } from "zodiac-roles-sdk/kit";
-import { allow as allowAction } from "defi-kit/eth";
-import { contracts } from "../../../../eth-sdk/config";
-import { DAI, GRT, ZERO_ADDRESS } from "../../../../eth-sdk/addresses";
-import { avatar } from "../../index";
-import { allowErc20Approve } from "../../../../utils/erc20";
-import { PermissionList } from "../../../../types";
+import { Permission, c } from "zodiac-roles-sdk"
+import { allow } from "zodiac-roles-sdk/kit"
+import { allow as allowAction } from "defi-kit/eth"
+import { contracts } from "../../../../eth-sdk/config"
+import { DAI, GRT, ZERO_ADDRESS } from "../../../../eth-sdk/addresses"
+import { avatar } from "../../index"
+import { allowErc20Approve } from "../../../../utils/erc20"
+import { PermissionList } from "../../../../types"
 
-const GRAPH_DELEGATEE = "0x5A8904be09625965d9AEc4BFfD30D853438a053e";
+const GRAPH_DELEGATEE = "0x5A8904be09625965d9AEc4BFfD30D853438a053e"
 
 export default [
   // Use defi-kit to generate the permissions...
@@ -43,17 +43,15 @@ export default [
   allow.mainnet.the_graph.proxy.undelegate(GRAPH_DELEGATEE),
   // Undelegate through multicall
   allow.mainnet.the_graph.proxy.multicall(
-    c.calldataMatches(
-      allow.mainnet.the_graph.proxy.undelegate(GRAPH_DELEGATEE),
-    ),
+    c.calldataMatches(allow.mainnet.the_graph.proxy.undelegate(GRAPH_DELEGATEE))
   ),
   // Withdraw GRT
   // _newIndexer Re-delegate to indexer address if non-zero, withdraw if zero address
   allow.mainnet.the_graph.proxy.withdrawDelegated(
     GRAPH_DELEGATEE,
-    ZERO_ADDRESS,
+    ZERO_ADDRESS
   ),
 
   // CowSwap - vCOW
   allow.mainnet.cowswap.vCOW.swapAll(),
-] satisfies PermissionList;
+] satisfies PermissionList

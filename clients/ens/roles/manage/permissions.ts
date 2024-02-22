@@ -1,6 +1,6 @@
-import { c, Permission } from "zodiac-roles-sdk";
-import { allow } from "zodiac-roles-sdk/kit";
-import { allow as allowAction } from "defi-kit/eth";
+import { c, Permission } from "zodiac-roles-sdk"
+import { allow } from "zodiac-roles-sdk/kit"
+import { allow as allowAction } from "defi-kit/eth"
 import {
   ankrETH,
   AURA,
@@ -23,11 +23,11 @@ import {
   E_ADDRESS,
   ZERO_ADDRESS,
   wstETH,
-} from "../../../../eth-sdk/addresses";
-import { contracts } from "../../../../eth-sdk/config";
-import { allowErc20Approve } from "../../../../utils/erc20";
-import { avatar } from "../../index";
-import { PermissionList } from "../../../../types";
+} from "../../../../eth-sdk/addresses"
+import { contracts } from "../../../../eth-sdk/config"
+import { allowErc20Approve } from "../../../../utils/erc20"
+import { avatar } from "../../index"
+import { PermissionList } from "../../../../types"
 
 export default [
   // Use defi-kit to generate the permissions...
@@ -88,7 +88,7 @@ export default [
     c.subset([
       contracts.mainnet.compound_v2.cDAI,
       contracts.mainnet.compound_v2.cUSDC,
-    ]),
+    ])
   ),
 
   // Compound v3 - USDC
@@ -98,35 +98,35 @@ export default [
 
   // Compound v3 - ETH
   allow.mainnet.compound_v3.cWETHv3.allow(
-    contracts.mainnet.compound_v3.MainnetBulker,
+    contracts.mainnet.compound_v3.MainnetBulker
   ),
   allow.mainnet.compound_v3.MainnetBulker.invoke(
     c.every(
       c.or(
         c.eq(
-          "0x414354494f4e5f535550504c595f4e41544956455f544f4b454e000000000000", // ACTION_SUPPLY_NATIVE_TOKEN
+          "0x414354494f4e5f535550504c595f4e41544956455f544f4b454e000000000000" // ACTION_SUPPLY_NATIVE_TOKEN
         ),
         c.eq(
-          "0x414354494f4e5f57495448445241575f4e41544956455f544f4b454e00000000", // ACTION_WITHDRAW_NATIVE_TOKEN
-        ),
-      ),
+          "0x414354494f4e5f57495448445241575f4e41544956455f544f4b454e00000000" // ACTION_WITHDRAW_NATIVE_TOKEN
+        )
+      )
     ),
     c.every(
       c.abiEncodedMatches(
         [contracts.mainnet.compound_v3.cWETHv3, c.avatar],
-        ["address", "address", "address", "uint256"],
-      ),
+        ["address", "address", "address", "uint256"]
+      )
     ),
-    { send: true },
+    { send: true }
   ),
 
   // Compound v3 - Claim rewards
   allow.mainnet.compound_v3.CometRewards.claim(
     c.or(
       c.eq(contracts.mainnet.compound_v3.cWETHv3),
-      c.eq(contracts.mainnet.compound_v3.cUSDCv3),
+      c.eq(contracts.mainnet.compound_v3.cUSDCv3)
     ),
-    c.avatar,
+    c.avatar
   ),
 
   // Aave v3 - DAI
@@ -144,12 +144,12 @@ export default [
     contracts.mainnet.aave_v3.pool_v3,
     avatar,
     undefined,
-    { send: true },
+    { send: true }
   ),
   allow.mainnet.aave_v3.wrapped_token_gateway_v3.withdrawETH(
     contracts.mainnet.aave_v3.pool_v3,
     avatar,
-    undefined,
+    undefined
   ),
 
   // Aave v3 - WETH
@@ -165,7 +165,7 @@ export default [
   allow.mainnet.stakewise.merkle_distributor["claim"](
     undefined,
     avatar,
-    c.subset([rETH2, SWISE]),
+    c.subset([rETH2, SWISE])
   ),
 
   // Stakewise - Uniswap v3 ETH + sETH2, 0.3%
@@ -186,11 +186,11 @@ export default [
           token1: sETH2,
           fee: 3000,
           recipient: avatar,
-        }),
+        })
       ),
       c.calldataMatches(allow.mainnet.uniswapv3.positions_nft.refundETH()),
     ]),
-    { send: true },
+    { send: true }
   ),
   // Add liquidity using ETH (WETH is nor permitted through the UI)
   allow.mainnet.uniswapv3.positions_nft.multicall(
@@ -198,49 +198,49 @@ export default [
       c.calldataMatches(
         allow.mainnet.uniswapv3.positions_nft.increaseLiquidity({
           tokenId: 424810,
-        }),
+        })
       ),
       c.calldataMatches(allow.mainnet.uniswapv3.positions_nft.refundETH()),
     ]),
-    { send: true },
+    { send: true }
   ),
   // Remove liquidity using WETH
   allow.mainnet.uniswapv3.positions_nft.multicall(
     c.matches([
       c.calldataMatches(
-        allow.mainnet.uniswapv3.positions_nft.decreaseLiquidity(),
+        allow.mainnet.uniswapv3.positions_nft.decreaseLiquidity()
       ),
       c.calldataMatches(
         allow.mainnet.uniswapv3.positions_nft.collect({
           recipient: avatar,
-        }),
+        })
       ),
     ]),
-    { send: true },
+    { send: true }
   ),
   // Remove liquidity using ETH
   allow.mainnet.uniswapv3.positions_nft.multicall(
     c.matches([
       c.calldataMatches(
-        allow.mainnet.uniswapv3.positions_nft.decreaseLiquidity(),
+        allow.mainnet.uniswapv3.positions_nft.decreaseLiquidity()
       ),
       c.calldataMatches(
         allow.mainnet.uniswapv3.positions_nft.collect({
           tokenId: ZERO_ADDRESS,
-        }),
+        })
       ),
       c.calldataMatches(
-        allow.mainnet.uniswapv3.positions_nft.unwrapWETH9(undefined, avatar),
+        allow.mainnet.uniswapv3.positions_nft.unwrapWETH9(undefined, avatar)
       ),
       c.calldataMatches(
         allow.mainnet.uniswapv3.positions_nft.sweepToken(
           sETH2,
           undefined,
-          avatar,
-        ),
+          avatar
+        )
       ),
     ]),
-    { send: true },
+    { send: true }
   ),
   // Collect fees using WETH
   allow.mainnet.uniswapv3.positions_nft.collect({
@@ -252,20 +252,20 @@ export default [
       c.calldataMatches(
         allow.mainnet.uniswapv3.positions_nft.collect({
           recipient: ZERO_ADDRESS,
-        }),
+        })
       ),
       c.calldataMatches(
-        allow.mainnet.uniswapv3.positions_nft.unwrapWETH9(undefined, avatar),
+        allow.mainnet.uniswapv3.positions_nft.unwrapWETH9(undefined, avatar)
       ),
       c.calldataMatches(
         allow.mainnet.uniswapv3.positions_nft.sweepToken(
           sETH2,
           undefined,
-          avatar,
-        ),
+          avatar
+        )
       ),
     ]),
-    { send: true },
+    { send: true }
   ),
 
   // Curve - ETH/stETH
@@ -278,7 +278,7 @@ export default [
   allow.mainnet.curve.steth_eth_pool.remove_liquidity_imbalance(),
   allowErc20Approve(
     [contracts.mainnet.curve.steCRV],
-    [contracts.mainnet.curve.steth_eth_gauge],
+    [contracts.mainnet.curve.steth_eth_gauge]
   ),
   allow.mainnet.curve.steth_eth_gauge["deposit(uint256)"](),
   allow.mainnet.curve.steth_eth_gauge.withdraw(),
@@ -286,7 +286,7 @@ export default [
   allow.mainnet.curve.crv_minter.mint(contracts.mainnet.curve.steth_eth_gauge),
   // Deposit and Stake using a special ZAP
   allow.mainnet.curve.steth_eth_gauge.set_approve_deposit(
-    contracts.mainnet.curve.stake_deposit_zap,
+    contracts.mainnet.curve.stake_deposit_zap
   ),
 
   // Curve - cDAI/cUSDC
@@ -297,7 +297,7 @@ export default [
       contracts.mainnet.compound_v2.cDAI,
       contracts.mainnet.compound_v2.cUSDC,
     ],
-    [contracts.mainnet.curve.cDAIcUSDC_pool],
+    [contracts.mainnet.curve.cDAIcUSDC_pool]
   ),
   allowErc20Approve([DAI, USDC], [contracts.mainnet.curve.cDAIcUSDC_zap]),
   allow.mainnet.curve.cDAIcUSDC_pool.add_liquidity(),
@@ -313,14 +313,14 @@ export default [
   allow.mainnet.curve.cDAIcUSDC_pool.exchange_underlying(),
   allowErc20Approve(
     [contracts.mainnet.curve.crvcDAIcUSDC],
-    [contracts.mainnet.curve.cDAIcUSDC_gauge],
+    [contracts.mainnet.curve.cDAIcUSDC_gauge]
   ),
   allow.mainnet.curve.cDAIcUSDC_gauge["deposit(uint256)"](),
   allow.mainnet.curve.cDAIcUSDC_gauge.withdraw(),
   allow.mainnet.curve.crv_minter.mint(contracts.mainnet.curve.cDAIcUSDC_gauge),
   // Deposit and Stake using a special ZAP
   allow.mainnet.curve.cDAIcUSDC_gauge.set_approve_deposit(
-    contracts.mainnet.curve.stake_deposit_zap,
+    contracts.mainnet.curve.stake_deposit_zap
   ),
 
   // Curve - Deposit and Stake using a special ZAP
@@ -332,7 +332,7 @@ export default [
       DAI,
       USDC,
     ],
-    [contracts.mainnet.curve.stake_deposit_zap],
+    [contracts.mainnet.curve.stake_deposit_zap]
   ),
   allow.mainnet.curve.stake_deposit_zap[
     "deposit_and_stake(address,address,address,uint256,address[5],uint256[5],uint256,bool,address)"
@@ -340,12 +340,12 @@ export default [
     c.or(
       contracts.mainnet.curve.steth_eth_pool,
       contracts.mainnet.curve.cDAIcUSDC_pool,
-      contracts.mainnet.curve.cDAIcUSDC_zap,
+      contracts.mainnet.curve.cDAIcUSDC_zap
     ),
     c.or(contracts.mainnet.curve.steCRV, contracts.mainnet.curve.crvcDAIcUSDC),
     c.or(
       contracts.mainnet.curve.steth_eth_gauge,
-      contracts.mainnet.curve.cDAIcUSDC_gauge,
+      contracts.mainnet.curve.cDAIcUSDC_gauge
     ),
     2,
     c.or(
@@ -357,7 +357,7 @@ export default [
         ZERO_ADDRESS,
         ZERO_ADDRESS,
         ZERO_ADDRESS,
-      ],
+      ]
     ),
     undefined,
     undefined,
@@ -365,7 +365,7 @@ export default [
     ZERO_ADDRESS,
     {
       send: true,
-    },
+    }
   ),
 
   // Maker - DSR (DAI Savings Rate)
@@ -405,7 +405,7 @@ export default [
     undefined,
     {
       send: true,
-    },
+    }
   ),
   // Swap rETH for ETH through SWAP_ROUTER - When there is not enough ETH in the DEPOSIT_POOL in exchange for the
   // rETH you are withdrawing, the SWAP_ROUTER swaps the rETH for ETH in secondary markets (Balancer and Uniswap).
@@ -449,12 +449,12 @@ export default [
     contracts.mainnet.spark.sparkLendingPoolV3,
     avatar,
     undefined,
-    { send: true },
+    { send: true }
   ),
   allow.mainnet.spark.wrappedTokenGatewayV3.withdrawETH(
     contracts.mainnet.spark.sparkLendingPoolV3,
     undefined,
-    avatar,
+    avatar
   ),
 
   // Spark - WETH
@@ -465,7 +465,7 @@ export default [
   // Uniswap v2 and Uniswap v3 - Swaps
   allowErc20Approve(
     [COMP, CRV, CVX, DAI, LDO, rETH, rETH2, sETH2, SWISE, USDC, USDT, WETH],
-    [contracts.mainnet.uniswapv3.router_2],
+    [contracts.mainnet.uniswapv3.router_2]
   ),
 
   // Uniswap v2 - Swapping of tokens COMP, CRV, DAI, LDO, USDC, USDT, WETH
@@ -499,9 +499,9 @@ export default [
       [USDT, USDC],
       [USDT, WETH, USDC],
       [USDT, DAI],
-      [USDT, WETH, DAI],
+      [USDT, WETH, DAI]
     ),
-    avatar,
+    avatar
   ),
 
   // Uniswap v3 - Swapping of tokens COMP, CRV, CVX, DAI, LDO, rETH, rETH2, sETH2, SWISE, USDC, USDT, WETH
@@ -518,7 +518,7 @@ export default [
       SWISE,
       USDC,
       USDT,
-      WETH,
+      WETH
     ),
     tokenOut: c.or(DAI, USDC, USDT, sETH2, WETH),
     recipient: avatar,
@@ -527,7 +527,7 @@ export default [
   // Balancer - Swaps
   allowErc20Approve(
     [ankrETH, AURA, BAL, COMP, ETHx, rETH, WETH, wstETH],
-    [contracts.mainnet.balancer.vault],
+    [contracts.mainnet.balancer.vault]
   ),
 
   // Balancer - Swap AURA for WETH
@@ -541,7 +541,7 @@ export default [
     {
       recipient: avatar,
       sender: avatar,
-    },
+    }
   ),
 
   // Balancer - Swap BAL for WETH
@@ -555,7 +555,7 @@ export default [
     {
       recipient: avatar,
       sender: avatar,
-    },
+    }
   ),
 
   // Balancer - Swap WETH for DAI
@@ -569,7 +569,7 @@ export default [
     {
       recipient: avatar,
       sender: avatar,
-    },
+    }
   ),
 
   // Balancer - Swap WETH for USDC
@@ -583,7 +583,7 @@ export default [
     {
       recipient: avatar,
       sender: avatar,
-    },
+    }
   ),
 
   // Balancer - Swap COMP for WETH
@@ -597,7 +597,7 @@ export default [
     {
       recipient: avatar,
       sender: avatar,
-    },
+    }
   ),
 
   // Balancer - Swap wstETH for WETH
@@ -611,7 +611,7 @@ export default [
     {
       recipient: avatar,
       sender: avatar,
-    },
+    }
   ),
 
   // Balancer - Swap WETH for wstETH
@@ -625,7 +625,7 @@ export default [
     {
       recipient: avatar,
       sender: avatar,
-    },
+    }
   ),
 
   // Balancer - Swap rETH for WETH
@@ -639,7 +639,7 @@ export default [
     {
       recipient: avatar,
       sender: avatar,
-    },
+    }
   ),
 
   // Balancer - Swap WETH for rETH
@@ -653,7 +653,7 @@ export default [
     {
       recipient: avatar,
       sender: avatar,
-    },
+    }
   ),
 
   // Balancer - Swap wstETH for ankrETH
@@ -667,7 +667,7 @@ export default [
     {
       recipient: avatar,
       sender: avatar,
-    },
+    }
   ),
 
   // Balancer - Swap ankrETH for wstETH
@@ -681,7 +681,7 @@ export default [
     {
       recipient: avatar,
       sender: avatar,
-    },
+    }
   ),
 
   // Balancer - Swap ETHx for WETH
@@ -695,7 +695,7 @@ export default [
     {
       recipient: avatar,
       sender: avatar,
-    },
+    }
   ),
 
   // Balancer - Swap WETH for ETHx
@@ -709,7 +709,7 @@ export default [
     {
       recipient: avatar,
       sender: avatar,
-    },
+    }
   ),
 
   // SushiSwap old Router - Swapping of BAL, COMP, CRV, DAI, LDO, USDC, USDT, WETH
@@ -746,9 +746,9 @@ export default [
       [DAI, WETH, USDC],
       [DAI, USDC],
       [DAI, WETH, USDT],
-      [DAI, USDT],
+      [DAI, USDT]
     ),
-    avatar,
+    avatar
   ),
 
   // Curve - Swap ETH <> stETH
@@ -760,7 +760,7 @@ export default [
     undefined,
     {
       send: true,
-    },
+    }
   ),
 
   // Curve - Swap in 3pool
@@ -771,7 +771,7 @@ export default [
   allowErc20Approve([CVX], [contracts.mainnet.curve.cvxETH_pool]),
   allow.mainnet.curve.cvxETH_pool["exchange(uint256,uint256,uint256,uint256)"](
     1,
-    0,
+    0
   ),
 
   // Curve - Swap ankrETH <> ETH
@@ -783,13 +783,13 @@ export default [
     undefined,
     {
       send: true,
-    },
+    }
   ),
 
   // PancakeSwap - Swap ETHx <> WETH
   allowErc20Approve(
     [ETHx, WETH],
-    [contracts.mainnet.pancake_swap.smart_router],
+    [contracts.mainnet.pancake_swap.smart_router]
   ),
   allow.mainnet.pancake_swap.smart_router.exactInputSingle({
     tokenIn: c.or(ETHx, WETH),
@@ -814,7 +814,7 @@ export default [
       WETH,
       wstETH,
     ],
-    [contracts.mainnet.cowswap.gpv2_vault_relayer],
+    [contracts.mainnet.cowswap.gpv2_vault_relayer]
   ),
   allow.mainnet.cowswap.order_signer.signOrder(
     {
@@ -831,7 +831,7 @@ export default [
         USDC,
         USDT,
         WETH,
-        wstETH,
+        wstETH
       ),
       buyToken: c.or(DAI, USDC, USDT, rETH, stETH, WETH, wstETH),
       receiver: avatar,
@@ -840,6 +840,6 @@ export default [
     undefined,
     {
       delegatecall: true,
-    },
+    }
   ),
-] satisfies PermissionList;
+] satisfies PermissionList

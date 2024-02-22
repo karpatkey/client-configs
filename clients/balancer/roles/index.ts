@@ -1,1 +1,1 @@
-export * as manage from "./manage";
+export * as manage from "./manage"

@@ -1,7 +1,7 @@
-import { Wallet } from "ethers";
-import { getProvider } from "./provider";
+import { Wallet } from "ethers"
+import { getProvider } from "./provider"
 
-export const ROLES_ADDRESS = "0x1696C7203769A71c97Ca725d42b13270ee493526";
+export const ROLES_ADDRESS = "0x1696C7203769A71c97Ca725d42b13270ee493526"
 
 // Default accounts from Anvil
 const accounts = [
@@ -55,15 +55,15 @@ const accounts = [
       "0x2a871d0798f97d79848a013d4936a73bf4cc922c825d33c1cf7073dff6d409c6",
     balance: "10000000000000000000000",
   },
-];
+]
 
 export const getWallet = (index: number) => {
-  if(!accounts[index]) throw new Error(`Account ${index} not found`);
-  const { privateKey } = accounts[index]!;
-  return new Wallet(privateKey, getProvider());
-};
+  if (!accounts[index]) throw new Error(`Account ${index} not found`)
+  const { privateKey } = accounts[index]!
+  return new Wallet(privateKey, getProvider())
+}
 
-export const getDeployerWallet = () => getWallet(accounts.length - 3);
-export const getAvatarWallet = () => getWallet(accounts.length - 2);
-export const getOwnerWallet = () => getWallet(accounts.length - 1);
-export const getMemberWallet = () => getWallet(0);
+export const getDeployerWallet = () => getWallet(accounts.length - 3)
+export const getAvatarWallet = () => getWallet(accounts.length - 2)
+export const getOwnerWallet = () => getWallet(accounts.length - 1)
+export const getMemberWallet = () => getWallet(0)

@@ -1,34 +1,26 @@
-import {
-  id,
-  keccak256,
-  parseEther,
-  toUtf8Bytes,
-} from "ethers/lib/utils";
-import { configurePermissions, wrapEth } from "../../../../../test/helpers";
-import { testKit } from "../../../../../test/kit";
-import { revertToBase } from "../../../../../test/snapshot";
-import permissions from "../permissions";
-import { ENS, WETH, cowswap } from "../../../../../eth-sdk/addresses";
-import { getAvatarWallet } from "../../../../../test/accounts";
+import { id, keccak256, parseEther, toUtf8Bytes } from "ethers/lib/utils"
+import { configurePermissions, wrapEth } from "../../../../../test/helpers"
+import { testKit } from "../../../../../test/kit"
+import { revertToBase } from "../../../../../test/snapshot"
+import permissions from "../permissions"
+import { ENS, WETH, cowswap } from "../../../../../eth-sdk/addresses"
+import { getAvatarWallet } from "../../../../../test/accounts"
 
 describe("ENS", () => {
   beforeAll(async () => {
     // fresh role with ENS manage permissions
-    await revertToBase();
-    await configurePermissions(permissions);
+    await revertToBase()
+    await configurePermissions(permissions)
 
     // acquire 1 WETH for avatar
-    await wrapEth(parseEther("1"));
-  });
+    await wrapEth(parseEther("1"))
+  })
 
   describe("cowswap", () => {
     it("allows swapping stETH to USDC", async () => {
       await expect(
-        testKit.eth.weth.approve(
-          cowswap.GPv2_VAULT_RELAYER,
-          parseEther("1"),
-        ),
-      ).not.toRevert();
+        testKit.eth.weth.approve(cowswap.GPv2_VAULT_RELAYER, parseEther("1"))
+      ).not.toRevert()
 
       await expect(
         testKit.eth.cowswap.order_signer.delegateCall.signOrder(
@@ -47,9 +39,9 @@ describe("ENS", () => {
             appData: keccak256(toUtf8Bytes("TEST")),
           },
           30 * 60, // report relative valid duration: 30 minutes
-          250, // report fee: 1%
-        ),
-      ).not.toRevert();
-    });
-  });
-});
+          250 // report fee: 1%
+        )
+      ).not.toRevert()
+    })
+  })
+})

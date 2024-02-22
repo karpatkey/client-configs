@@ -7,7 +7,7 @@
     "test:watch": "concurrently --raw --kill-others --handle-input --passthrough-arguments \"anvil --silent\" \"jest --runInBand --watch {@}\" --",
     "check:prettier": "prettier '**/*.{js,ts,tsx,json,md}' --list-different",
     "check:types": "tsc --noEmit",
-    "fix:prettier": "prettier '**/*.{js,ts,tsx,json,md}' --write",
+    "fix:prettier": "yarn prettier '**/*.{js,ts,tsx,json,md}' --write",
     "clean": "rimraf build",
     "apply": "tsc && node build/scripts/apply.js"
   },

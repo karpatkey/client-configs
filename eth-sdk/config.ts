@@ -1,4 +1,4 @@
-import { EthSdkConfig, defineConfig } from "@dethcrypto/eth-sdk";
+import { EthSdkConfig, defineConfig } from "@dethcrypto/eth-sdk"
 
 export const contracts = {
   mainnet: {
@@ -168,8 +168,8 @@ export const contracts = {
     weth: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
     omnibridge: "0x88ad09518695c6c3712AC10a214bE5109a655671",
   },
-} satisfies EthSdkConfig["contracts"];
+} satisfies EthSdkConfig["contracts"]
 
 export default defineConfig({
   contracts,
-});
+})

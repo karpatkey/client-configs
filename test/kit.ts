@@ -12,8 +12,8 @@ type TestKit<S extends EthSdk> = {
   [Key in keyof S]: S[Key] extends BaseContract
     ? TestContract<S[Key]>
     : S[Key] extends EthSdk // somehow it cannot infer that it cannot be a BaseContract here, so we use an extra conditional
-    ? TestKit<S[Key]>
-    : never
+      ? TestKit<S[Key]>
+      : never
 }
 
 type TestContract<C extends BaseContract> = {
