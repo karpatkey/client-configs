@@ -32,6 +32,13 @@ export default [
 
   // Aave v2 - Staking of AAVE in Safety Module
   allowAction.aave_v2.stake({ targets: ["AAVE"] }),
+  allowAction.aave_v2.stake({ targets: ["AAVE"] }),
+
+  // Lido
+  allowAction.lido.deposit(),
+
+  // Rocket Pool
+  allowAction.rocket_pool.deposit(),
 
   // // Compound v3 - cUSDCv3 - USDC
   // allowAction.compound_v3.deposit({
@@ -104,6 +111,66 @@ export default [
     contracts.mainnet.compound_v3.cUSDCv3,
     c.avatar
   ),
+
+  // Maker - DSR (DAI Savings Rate)
+  // The DsrManager provides an easy to use smart contract that allows
+  // service providers to deposit/withdraw dai into the DSR contract pot,
+  // and activate/deactivate the Dai Savings Rate to start earning savings
+  // on a pool of dai in a single function call.
+  // https://docs.makerdao.com/smart-contract-modules/proxy-module/dsr-manager-detailed-documentation#contract-details
+  ...allowErc20Approve([DAI], [contracts.mainnet.maker.dsr_manager]),
+  allow.mainnet.maker.dsr_manager.join(avatar),
+  allow.mainnet.maker.dsr_manager.exit(avatar),
+  allow.mainnet.maker.dsr_manager.exitAll(avatar),
+
+  // Stakewise
+  // The stake() was added manually to the abi (source: 0x61975c09207c5DFe794b0A652C8CAf8458159AAe)
+  allow.mainnet.stakewise.eth2_staking.stake({
+    send: true,
+  }),
+  allow.mainnet.stakewise.merkle_distributor["claim"](
+    undefined,
+    avatar,
+    c.subset([rETH2, SWISE])
+  ),
+
+  // Stakewise - Uniswap v3 ETH + sETH2, 0.3% - WETH already approved
+  ...allowErc20Approve([sETH2], [contracts.mainnet.uniswapv3.positions_nft]),
+  // Mint NFT using WETH
+  allow.mainnet.uniswapv3.positions_nft.mint({
+    token0: WETH,
+    token1: sETH2,
+    fee: 3000,
+    recipient: avatar,
+  }),
+  // Mint NFT using ETH
+  allow.mainnet.uniswapv3.positions_nft.multicall(
+    c.matches([
+      c.calldataMatches(
+        allow.mainnet.uniswapv3.positions_nft.mint({
+          token0: WETH,
+          token1: sETH2,
+          fee: 3000,
+          recipient: avatar,
+        })
+      ),
+      c.calldataMatches(allow.mainnet.uniswapv3.positions_nft.refundETH()),
+    ]),
+    { send: true }
+  ),
+  // Add liquidity using ETH (WETH is nor permitted through the UI)
+  allow.mainnet.uniswapv3.positions_nft.multicall(
+    c.matches([
+      c.calldataMatches(
+        allow.mainnet.uniswapv3.positions_nft.increaseLiquidity({
+          tokenId: 418686,
+        })
+      ),
+      c.calldataMatches(allow.mainnet.uniswapv3.positions_nft.refundETH()),
+    ]),
+    { send: true }
+  ),
+  // The decreaseLiquidity and collect functions have already been whitelisted.
 
   // Uniswap v3 - WBTC + WETH, Range: 11.786 - 15.082. Fee: 0.3%.
   allowErc20Approve([WBTC, WETH], [contracts.mainnet.uniswapv3.positions_nft]),
