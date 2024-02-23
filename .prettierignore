@@ -2,3 +2,4 @@ node_modules
 .yarn
 eth-sdk/abis
 build
+packate.json
