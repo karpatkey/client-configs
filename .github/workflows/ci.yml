@@ -14,19 +14,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          target: wasm32-unknown-unknown
-          profile: minimal
-          override: true
       - name: Install anvil
         uses: foundry-rs/foundry-toolchain@v1
         with:
           version: nightly
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 21
       - uses: actions/cache@v3
