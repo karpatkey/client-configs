@@ -24,7 +24,7 @@ describe("GnosisLTD", () => {
   describe("lido", () => {
     it("deposit", async () => {
       await expect(
-        testKit.eth.lido.stETH.call.submit(ZERO_ADDRESS, {
+        testKit.eth.lido.stETH.callStatic.submit(ZERO_ADDRESS, {
           value: parseEther("1"),
         })
       ).not.toRevert()

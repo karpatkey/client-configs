@@ -5,11 +5,18 @@ global.afterAll(revertToBase)
 
 declare global {
   namespace jest {
-    interface Matchers<R> {
+    interface CustomMatchers<R> {
       toRevert(expectedReason?: string | RegExp): CustomMatcherResult
       toBeAllowed(): CustomMatcherResult
       toBeForbidden(status?: Status, info?: string): CustomMatcherResult
     }
+
+    interface Matchers<R> extends CustomMatchers<R> {}
+    // interface Matchers<R> {
+    //   toRevert(expectedReason?: string | RegExp): CustomMatcherResult
+    //   toBeAllowed(): CustomMatcherResult
+    //   toBeForbidden(status?: Status, info?: string): CustomMatcherResult
+    // }
   }
 }
 
