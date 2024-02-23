@@ -3,7 +3,6 @@
   "engines": {
     "node": ">=20"
   },
-  "packageManager": "yarn@3.7.0",
   "scripts": {
     "setup": "eth-sdk",
     "clean": "rimraf build",
