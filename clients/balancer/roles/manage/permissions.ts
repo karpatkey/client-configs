@@ -118,7 +118,7 @@ export default [
   // and activate/deactivate the Dai Savings Rate to start earning savings
   // on a pool of dai in a single function call.
   // https://docs.makerdao.com/smart-contract-modules/proxy-module/dsr-manager-detailed-documentation#contract-details
-  ...allowErc20Approve([DAI], [contracts.mainnet.maker.dsr_manager]),
+  allowErc20Approve([DAI], [contracts.mainnet.maker.dsr_manager]),
   allow.mainnet.maker.dsr_manager.join(avatar),
   allow.mainnet.maker.dsr_manager.exit(avatar),
   allow.mainnet.maker.dsr_manager.exitAll(avatar),
@@ -135,7 +135,7 @@ export default [
   ),
 
   // Stakewise - Uniswap v3 ETH + sETH2, 0.3% - WETH already approved
-  ...allowErc20Approve([sETH2], [contracts.mainnet.uniswapv3.positions_nft]),
+  allowErc20Approve([sETH2], [contracts.mainnet.uniswapv3.positions_nft]),
   // Mint NFT using WETH
   allow.mainnet.uniswapv3.positions_nft.mint({
     token0: WETH,

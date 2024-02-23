@@ -181,17 +181,15 @@ export default [
     contracts.mainnet.aave_v3.pool_v3,
     avatar,
     undefined,
-    undefined,
-    ZERO_ADDRESS,
     {
       send: true,
-    },
+    }
   ),
 
   // Maker - DSR (DAI Savings Rate)
-  // The DsrManager provides an easy to use smart contract that allows 
-  // service providers to deposit/withdraw dai into the DSR contract pot, 
-  // and activate/deactivate the Dai Savings Rate to start earning savings 
+  // The DsrManager provides an easy to use smart contract that allows
+  // service providers to deposit/withdraw dai into the DSR contract pot,
+  // and activate/deactivate the Dai Savings Rate to start earning savings
   // on a pool of dai in a single function call.
   // https://docs.makerdao.com/smart-contract-modules/proxy-module/dsr-manager-detailed-documentation#contract-details
   allowErc20Approve([DAI], [contracts.mainnet.maker.dsr_manager]),
@@ -216,120 +214,103 @@ export default [
   ),
 
   // Stakewise - Uniswap v3 ETH + sETH2, 0.3%
-  allowErc20Approve(
-    [sETH2, WETH],
-    [contracts.mainnet.uniswapv3.positions_nft],
-  ),
+  allowErc20Approve([sETH2, WETH], [contracts.mainnet.uniswapv3.positions_nft]),
   // Mint NFT using WETH
-  allow.mainnet.uniswapv3.positions_nft.mint(
-    {
-      token0: WETH,
-      token1: sETH2,
-      fee: 3000,
-      recipient: avatar
-    }
-  ),
+  allow.mainnet.uniswapv3.positions_nft.mint({
+    token0: WETH,
+    token1: sETH2,
+    fee: 3000,
+    recipient: avatar,
+  }),
   // Mint NFT using ETH
   allow.mainnet.uniswapv3.positions_nft.multicall(
     c.matches([
       c.calldataMatches(
-        allow.mainnet.uniswapv3.positions_nft.mint(
-          {
-            token0: WETH,
-            token1: sETH2,
-            fee: 3000,
-            recipient: avatar
-          }
-        ),
+        allow.mainnet.uniswapv3.positions_nft.mint({
+          token0: WETH,
+          token1: sETH2,
+          fee: 3000,
+          recipient: avatar,
+        })
       ),
       c.calldataMatches(allow.mainnet.uniswapv3.positions_nft.refundETH()),
     ]),
-    { send: true },
+    { send: true }
   ),
   // Add liquidity using ETH (WETH is nor permitted through the UI)
   allow.mainnet.uniswapv3.positions_nft.multicall(
     c.matches([
       c.calldataMatches(
-        allow.mainnet.uniswapv3.positions_nft.increaseLiquidity(
-          {
-            tokenId: 424810
-          }
-        ),
+        allow.mainnet.uniswapv3.positions_nft.increaseLiquidity({
+          tokenId: 424810,
+        })
       ),
       c.calldataMatches(allow.mainnet.uniswapv3.positions_nft.refundETH()),
     ]),
-    { send: true },
+    { send: true }
   ),
   // Remove liquidity using WETH
   allow.mainnet.uniswapv3.positions_nft.multicall(
     c.matches([
       c.calldataMatches(
-        allow.mainnet.uniswapv3.positions_nft.decreaseLiquidity(),
+        allow.mainnet.uniswapv3.positions_nft.decreaseLiquidity()
       ),
       c.calldataMatches(
-        allow.mainnet.uniswapv3.positions_nft.collect(
-          {
-            recipient: avatar
-          }
-        ),
+        allow.mainnet.uniswapv3.positions_nft.collect({
+          recipient: avatar,
+        })
       ),
     ]),
-    { send: true },
+    { send: true }
   ),
   // Remove liquidity using ETH
   allow.mainnet.uniswapv3.positions_nft.multicall(
     c.matches([
       c.calldataMatches(
-        allow.mainnet.uniswapv3.positions_nft.decreaseLiquidity(),
+        allow.mainnet.uniswapv3.positions_nft.decreaseLiquidity()
       ),
       c.calldataMatches(
-        allow.mainnet.uniswapv3.positions_nft.collect(
-          {
-            tokenId: ZERO_ADDRESS
-          }
-        ),
+        allow.mainnet.uniswapv3.positions_nft.collect({
+          tokenId: ZERO_ADDRESS,
+        })
       ),
       c.calldataMatches(
-        allow.mainnet.uniswapv3.positions_nft.unwrapWETH9(undefined, avatar),
+        allow.mainnet.uniswapv3.positions_nft.unwrapWETH9(undefined, avatar)
       ),
       c.calldataMatches(
         allow.mainnet.uniswapv3.positions_nft.sweepToken(
           sETH2,
           undefined,
-          avatar,
-        ),
+          avatar
+        )
       ),
     ]),
-    { send: true },
+    { send: true }
   ),
   // Collect fees using WETH
-  allow.mainnet.uniswapv3.positions_nft.collect(
-    {
-      recipient: avatar
-    }
-  ),
+  allow.mainnet.uniswapv3.positions_nft.collect({
+    recipient: avatar,
+  }),
   // Collect fees using ETH
   allow.mainnet.uniswapv3.positions_nft.multicall(
     c.matches([
       c.calldataMatches(
-        allow.mainnet.uniswapv3.positions_nft.collect(
-          {
-            recipient: ZERO_ADDRESS
-          }
-        ),
+        allow.mainnet.uniswapv3.positions_nft.collect({
+          recipient: ZERO_ADDRESS,
+        })
       ),
       c.calldataMatches(
-        allow.mainnet.uniswapv3.positions_nft.unwrapWETH9(undefined, avatar),
+        allow.mainnet.uniswapv3.positions_nft.unwrapWETH9(undefined, avatar)
       ),
       c.calldataMatches(
         allow.mainnet.uniswapv3.positions_nft.sweepToken(
           sETH2,
           undefined,
-          avatar,
-        ),
+          avatar
+        )
       ),
     ]),
-    { send: true },
+    { send: true }
   ),
 
   // Curve - ETH/stETH
@@ -425,6 +406,8 @@ export default [
     ),
     undefined,
     undefined,
+    undefined,
+    undefined,
     { send: true }
   ),
   allow.mainnet.aave_v3.wrapped_token_gateway_v3.withdrawETH(
@@ -461,10 +444,7 @@ export default [
   ),
 
   // Spark - ETH
-  allowErc20Approve(
-    [spWETH],
-    [contracts.mainnet.spark.wrappedTokenGatewayV3]
-  ),
+  allowErc20Approve([spWETH], [contracts.mainnet.spark.wrappedTokenGatewayV3]),
   allow.mainnet.spark.wrappedTokenGatewayV3.depositETH(
     contracts.mainnet.spark.sparkLendingPoolV3,
     avatar,
@@ -478,10 +458,7 @@ export default [
   ),
 
   // Spark - ETH
-  allowErc20Approve(
-    [spWETH],
-    [contracts.mainnet.spark.wrappedTokenGatewayV3]
-  ),
+  allowErc20Approve([spWETH], [contracts.mainnet.spark.wrappedTokenGatewayV3]),
   allow.mainnet.spark.wrappedTokenGatewayV3.depositETH(
     contracts.mainnet.spark.sparkLendingPoolV3,
     avatar,
@@ -911,9 +888,10 @@ export default [
       [DAI, WETH, USDT],
       [DAI, USDT]
     ),
-    avatar
+    avatar,
+    undefined,
     {
-      delegatecall: true
+      delegatecall: true,
     }
   ),
 

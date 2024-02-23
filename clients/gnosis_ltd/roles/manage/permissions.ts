@@ -15,7 +15,7 @@ export default [
   allowAction.lido.deposit(),
 
   // Compound v3 - USDC
-  allowAction.compound_v3.deposit({ targets: ["cUSDCv3"] }),
+  // allowAction.compound_v3.deposit({ targets: ["cUSDCv3"] }), // TODO
 
   // Aura - 50COW-50WETH
   allowAction.aura.deposit({ targets: ["105"] }),
