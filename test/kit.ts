@@ -1,8 +1,9 @@
 import { getMainnetSdk } from "@dethcrypto/eth-sdk-client"
 import { BaseContract, BigNumber } from "ethers"
-import { getAvatarWallet } from "./accounts"
+import { avatar } from "./wallets"
 import { execThroughRole } from "./helpers"
-import { Roles__factory } from "./rolesModTypechain"
+import { getRolesMod } from "./rolesMod"
+import { ErrorFragment } from "@ethersproject/abi"
 
 type EthSdk = {
   [key: string]: EthSdk | BaseContract
@@ -42,15 +43,15 @@ const mapSdk = <S extends EthSdk>(sdk: S): TestKit<S> => {
   }, {} as any)
 }
 
-const rolesInterface = Roles__factory.createInterface()
-
 const makeTestContract = (contract: BaseContract) => {
+  const rolesInterface = getRolesMod().interface
+
   const testContract = {
     delegateCall: {},
     callStatic: contract.callStatic,
     address: contract.address,
     attach(address: `0x${string}`) {
-      return { ...testContract, address }
+      return makeTestContract(contract.attach(address))
     },
   } as TestContract<BaseContract>
 
@@ -66,7 +67,7 @@ const makeTestContract = (contract: BaseContract) => {
           ) {
             overrides = args.pop()
           }
-          const { value, ...overridesRest } = overrides || {}
+          const { value, ...overridesRest } = (overrides || {}) as any
 
           const data = contract.interface.encodeFunctionData(
             name,
@@ -108,7 +109,7 @@ const makeTestContract = (contract: BaseContract) => {
             if (!rootError.errorSignature) {
               // Check if the error is a roles error
               const selector = rootError.data.slice(0, 10)
-              let rolesError = undefined
+              let rolesError: ErrorFragment | undefined = undefined
               try {
                 rolesError = rolesInterface.getError(selector)
               } catch (e) {}
@@ -139,5 +140,5 @@ const makeTestContract = (contract: BaseContract) => {
 }
 
 export const testKit = {
-  eth: mapSdk(getMainnetSdk(getAvatarWallet())),
+  eth: mapSdk(getMainnetSdk(avatar)),
 }

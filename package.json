@@ -20,6 +20,7 @@
     "@ethersproject/abi": "^5.7.0",
     "@ethersproject/bignumber": "^5.7.0",
     "@ethersproject/providers": "^5.7.2",
+    "@gnosis.pm/zodiac": "^3.5.2",
     "@typechain/ethers-v5": "^11.0.0",
     "@types/jest": "^29.5.3",
     "@types/wait-on": "^5.3.1",

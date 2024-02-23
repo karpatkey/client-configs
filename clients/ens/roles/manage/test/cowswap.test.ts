@@ -1,16 +1,17 @@
 import { id, keccak256, parseEther, toUtf8Bytes } from "ethers/lib/utils"
-import { configurePermissions, wrapEth } from "../../../../../test/helpers"
-import { testKit } from "../../../../../test/kit"
+import { applyPermissions, wrapEth } from "../../../../../test/helpers"
+
 import { revertToBase } from "../../../../../test/snapshot"
 import permissions from "../permissions"
 import { ENS, WETH, cowswap } from "../../../../../eth-sdk/addresses"
-import { getAvatarWallet } from "../../../../../test/accounts"
+import { avatar } from "../../../../../test/wallets"
+import { testKit } from "../../../../../test/kit"
 
 describe("ENS", () => {
   beforeAll(async () => {
     // fresh role with ENS manage permissions
     await revertToBase()
-    await configurePermissions(permissions)
+    await applyPermissions(permissions)
 
     // acquire 1 WETH for avatar
     await wrapEth(parseEther("1"))
@@ -30,7 +31,7 @@ describe("ENS", () => {
             sellAmount: parseEther("1"),
             buyAmount: parseEther("100"),
             feeAmount: parseEther("0.01"), // denominated in sellToken, 1% of 1 WETH
-            receiver: getAvatarWallet().address,
+            receiver: avatar._address,
             validTo: Math.round(Date.now() / 1000) + 30 * 60, // 30 minutes from now
             kind: id("sell"),
             partiallyFillable: false,

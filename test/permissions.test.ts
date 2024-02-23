@@ -1,14 +1,14 @@
-import { Permission } from "zodiac-roles-sdk"
 import ensManageTestTransactions from "../clients/ens/roles/manage/test/transactions"
 import { roles as ensRoles } from "../clients/ens"
-import { TestTransaction } from "./types"
-import { configurePermissions, callThroughRole } from "./helpers"
-import { revertToBase } from "./snapshot"
+import { TestTransaction } from "../test/types"
+import { applyPermissions, callThroughRole } from "../test/helpers"
+import { revertToBase } from "../test/snapshot"
+import { PermissionList } from "../types"
 
 const makePermissionsTest =
-  (permissions: Permission[], testTransactions: TestTransaction[]) => () =>
+  (permissions: PermissionList, testTransactions: TestTransaction[]) => () =>
     it("passes all test transactions", async () => {
-      await configurePermissions(permissions)
+      await applyPermissions(permissions)
       for (let tx of testTransactions) {
         console.log(
           `Simulating ${tx.operation === 1 ? "delegate call" : "call"} to ${

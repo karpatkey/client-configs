@@ -1,8 +1,5 @@
-import { parseBytes32String } from "ethers/lib/utils"
-import { Roles__factory } from "./rolesModTypechain"
 import { revertToBase } from "./snapshot"
 import { Status } from "./types"
-import { BigNumber } from "ethers"
 
 global.afterAll(revertToBase)
 
@@ -70,14 +67,12 @@ expect.extend({
     }
   },
 
+  /** Checks that the call passes the permission checks for the test role. Does not care whether or not the call reverts. */
   async toBeAllowed(received: Promise<any>) {
     try {
-      const res = await received
+      await received
       return {
-        message: () =>
-          `Expected transaction ${this.utils.stringify(
-            decodeUnwrappedTransaction(res)
-          )} to not be allowed, but it is`,
+        message: () => `Expected transaction to not be allowed, but it is`,
         pass: true,
       }
     } catch (error: any) {
@@ -85,28 +80,22 @@ expect.extend({
         throw error
       }
 
-      if (!error.errorSignature) {
+      if (
+        !error.errorSignature ||
+        error.errorSignature !== "ConditionViolation(uint8,bytes32)"
+      ) {
         // if we get here, it's not a permission error
         return {
-          message: () =>
-            `Expected transaction ${this.utils.stringify(
-              decodeUnwrappedTransaction(error.transaction)
-            )} to not be allowed, but it is`,
+          message: () => `Expected transaction to not be allowed, but it is`,
           pass: true,
         }
-      }
-
-      if (error.errorSignature !== "ConditionViolation(uint8,bytes32)") {
-        throw error
       }
 
       const receivedStatus = error.errorArgs.status
 
       return {
         message: () =>
-          `Expected transaction ${this.utils.stringify(
-            decodeUnwrappedTransaction(error.transaction)
-          )} to be allowed, but it is forbidden with status ${this.utils.printReceived(
+          `Expected transaction to be allowed, but it is forbidden with status ${this.utils.printReceived(
             Status[receivedStatus]
           )}`,
         pass: false,
@@ -114,14 +103,12 @@ expect.extend({
     }
   },
 
+  /** Checks that the call does not pass the permission checks for the test role. Does not care whether or not the call reverts. */
   async toBeForbidden(received: Promise<any>, status?: Status, info?: string) {
     try {
-      const res = await received
+      await received
       return {
-        message: () =>
-          `Expected transaction ${this.utils.stringify(
-            decodeUnwrappedTransaction(res)
-          )} to be forbidden but it passed`,
+        message: () => "Expected transaction to be forbidden but it passed",
         pass: false,
       }
     } catch (error: any) {
@@ -129,19 +116,16 @@ expect.extend({
         throw error
       }
 
-      if (!error.errorSignature) {
+      if (
+        !error.errorSignature ||
+        error.errorSignature !== "ConditionViolation(uint8,bytes32)"
+      ) {
         // if we get here, it's not a permission error
         return {
           message: () =>
-            `Expected transaction ${this.utils.stringify(
-              decodeUnwrappedTransaction(error.transaction)
-            )} to be forbidden but it passed`,
+            "Expected transaction to be forbidden but it is allowed",
           pass: false,
         }
-      }
-
-      if (error.errorSignature !== "ConditionViolation(uint8,bytes32)") {
-        throw error
       }
 
       const receivedStatus = error.errorArgs.status
@@ -151,9 +135,7 @@ expect.extend({
         if (receivedStatus !== status) {
           return {
             message: () =>
-              `Expected transaction ${this.utils.stringify(
-                decodeUnwrappedTransaction(error.transaction)
-              )} to be forbidden with status ${this.utils.printExpected(
+              `Expected transaction to be forbidden with status ${this.utils.printExpected(
                 Status[status]
               )} but status is ${this.utils.printReceived(
                 Status[receivedStatus]
@@ -167,9 +149,7 @@ expect.extend({
         if (receivedInfo !== info) {
           return {
             message: () =>
-              `Expected transaction ${this.utils.stringify(
-                decodeUnwrappedTransaction(error.transaction)
-              )} to be forbidden with info ${this.utils.printExpected(
+              `Expected transaction to be forbidden with info ${this.utils.printExpected(
                 info
               )} but info is ${this.utils.printReceived(receivedInfo)}`,
             pass: false,
@@ -177,9 +157,7 @@ expect.extend({
         } else {
           return {
             message: () =>
-              `Expected transaction ${this.utils.stringify(
-                decodeUnwrappedTransaction(error.transaction)
-              )} to be forbidden with info ${this.utils.printExpected(
+              `Expected transaction to be forbidden with info ${this.utils.printExpected(
                 info
               )} but it did`,
             pass: true,
@@ -195,33 +173,18 @@ expect.extend({
 
       return {
         message: () =>
-          `Expected transaction ${this.utils.stringify(
-            decodeUnwrappedTransaction(error.transaction)
-          )} to not be forbidden${details}, but it was`,
+          `Expected transaction to not be forbidden${details}, but it was`,
         pass: true,
       }
     }
   },
 })
 
-const decodeUnwrappedTransaction = ({
-  data,
-  from,
-}: {
-  data: string
-  from: string
-}) => {
-  const [to, value, metaTxData, operation, roleKey] =
-    Roles__factory.createInterface().decodeFunctionData(
-      "execTransactionWithRole",
-      data
-    )
-  return {
-    to,
-    value: BigNumber.from(value).toString(),
-    data: metaTxData,
-    operation,
-    from,
-    role: parseBytes32String(roleKey),
+const getErrorSignature = (error: any) => {
+  if (error.errorSignature) {
+    return {
+      signature: error.errorSignature,
+      args: error.errorArgs,
+    }
   }
 }
