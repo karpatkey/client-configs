@@ -53,7 +53,11 @@ export default [
   allow.mainnet.the_graph.proxy.undelegate(GRAPH_DELEGATEE),
   // Undelegate through multicall
   allow.mainnet.the_graph.proxy.multicall(
-    c.calldataMatches(allow.mainnet.the_graph.proxy.undelegate(GRAPH_DELEGATEE))
+    c.every(
+      c.calldataMatches(
+        allow.mainnet.the_graph.proxy.undelegate(GRAPH_DELEGATEE)
+      )
+    )
   ),
   // Withdraw GRT
   // _newIndexer Re-delegate to indexer address if non-zero, withdraw if zero address
