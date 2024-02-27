@@ -21,4 +21,10 @@ This projects hosts roles permissions and other configurations for clients
 
 ##### Apply permission updates to a role
 
-`yarn apply <client> <role>`
+`yarn apply <client> <chain> <role>`
+
+Possible values:
+
+- **client:** `balancer`, `ens`, `gnosis_ltd`, ...
+- **chain:** `eth`, `gno`
+- **role:** `manage`, `disassemble`, ...

@@ -1,11 +1,11 @@
 import { id, keccak256, parseEther, toUtf8Bytes } from "ethers/lib/utils"
-import { applyPermissions, wrapEth } from "../../../../../test/helpers"
+import { applyPermissions, wrapEth } from "../../../../../../test/helpers"
 
-import { revertToBase } from "../../../../../test/snapshot"
+import { revertToBase } from "../../../../../../test/snapshot"
 import permissions from "../permissions"
-import { ENS, WETH, cowswap } from "../../../../../eth-sdk/addresses"
-import { avatar } from "../../../../../test/wallets"
-import { testKit } from "../../../../../test/kit"
+import { ENS, WETH, cowswap } from "../../../../../../eth-sdk/addresses"
+import { avatar } from "../../../../../../test/wallets"
+import { testKit } from "../../../../../../test/kit"
 
 describe("ENS", () => {
   beforeAll(async () => {

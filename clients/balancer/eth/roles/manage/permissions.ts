@@ -16,11 +16,11 @@ import {
   WETH,
   wstETH,
   ZERO_ADDRESS,
-} from "../../../../eth-sdk/addresses"
-import { contracts } from "../../../../eth-sdk/config"
-import { allowErc20Approve } from "../../../../utils/erc20"
+} from "../../../../../eth-sdk/addresses"
+import { contracts } from "../../../../../eth-sdk/config"
+import { allowErc20Approve } from "../../../../../utils/erc20"
 import { avatar } from "../../index"
-import { PermissionList } from "../../../../types"
+import { PermissionList } from "../../../../../types"
 
 // governance.karpatkey.eth
 const GOVERNANCE_KPK = "0x8787FC2De4De95c53e5E3a4e5459247D9773ea52"

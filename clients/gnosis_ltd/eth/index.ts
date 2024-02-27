@@ -4,4 +4,4 @@ export const rolesMod = "0xEF4A73A20e2c6C6771C334e18a417A19Abb29c09"
 
 export const chainId = 1
 
-export * as roles from "."
+export * as roles from "./roles"

@@ -23,11 +23,11 @@ import {
   E_ADDRESS,
   ZERO_ADDRESS,
   wstETH,
-} from "../../../../eth-sdk/addresses"
-import { contracts } from "../../../../eth-sdk/config"
-import { allowErc20Approve } from "../../../../utils/erc20"
+} from "../../../../../eth-sdk/addresses"
+import { contracts } from "../../../../../eth-sdk/config"
+import { allowErc20Approve } from "../../../../../utils/erc20"
 import { avatar } from "../../index"
-import { PermissionList } from "../../../../types"
+import { PermissionList } from "../../../../../types"
 
 export default [
   // Use defi-kit to generate the permissions...

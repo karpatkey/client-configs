@@ -1,5 +1,5 @@
-import ensManageTestTransactions from "../clients/ens/roles/manage/test/transactions"
-import { roles as ensRoles } from "../clients/ens"
+import ensManageTestTransactions from "../clients/ens/mainnet/roles/manage/test/transactions"
+import { roles as ensRoles } from "../clients/ens/mainnet"
 import { TestTransaction } from "../test/types"
 import { applyPermissions, callThroughRole } from "../test/helpers"
 import { revertToBase } from "../test/snapshot"

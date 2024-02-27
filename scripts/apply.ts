@@ -43,17 +43,20 @@ async function main() {
   const args = await yargs(process.argv.slice(2))
     .usage("$0 <client> <role>")
     .positional("client", { demandOption: true, type: "string" })
+    .positional("chain", { demandOption: true, type: "string" })
     .positional("role", { demandOption: true, type: "string" }).argv
 
-  const [clientArg, roleArg] = args._ as [string, string]
+  const [clientArg, chainArg, roleArg] = args._ as [string, string, string]
 
   const { avatar, rolesMod, chainId, roles } = (await import(
-    `../clients/${clientArg}`
+    `../clients/${clientArg}/${chainArg}`
   )) as Client
 
   const role = roles[roleArg]
   if (!role) {
-    throw new Error(`There is no '${roleArg}' role for client ${clientArg}`)
+    throw new Error(
+      `There is no '${roleArg}' role for client ${clientArg}, available roles: ${Object.keys(roles).join(", ")}`
+    )
   }
 
   const hash = await postPermissions(role.permissions)

@@ -5,12 +5,12 @@ import {
   parseEther,
   toUtf8Bytes,
 } from "ethers/lib/utils"
-import { applyPermissions } from "../../../../../test/helpers"
-import { testKit } from "../../../../../test/kit"
-import { revertToBase } from "../../../../../test/snapshot"
+import { applyPermissions } from "../../../../../../test/helpers"
+import { testKit } from "../../../../../../test/kit"
+import { revertToBase } from "../../../../../../test/snapshot"
 import permissions from "../permissions"
-import { contracts } from "../../../../../eth-sdk/config"
-import { ZERO_ADDRESS, ENS, WETH } from "../../../../../eth-sdk/addresses"
+import { contracts } from "../../../../../../eth-sdk/config"
+import { ZERO_ADDRESS, ENS, WETH } from "../../../../../../eth-sdk/addresses"
 
 describe("GnosisLTD", () => {
   beforeAll(async () => {
