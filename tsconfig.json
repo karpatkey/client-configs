@@ -12,7 +12,7 @@
     "sourceMap": false,
     "strict": true,
     "target": "es2022",
-    "typeRoots": ["./node_modules/@types"],
+    "typeRoots": ["./node_modules/@types", "./test/global.d.ts"],
     "types": ["jest"]
   },
   "include": ["clients/**/*", "eth-sdk/**/*", "scripts/**/*", "utils/**/*"],

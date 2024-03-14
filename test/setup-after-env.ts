@@ -3,16 +3,6 @@ import { Status } from "./types"
 
 global.afterAll(revertToBase)
 
-declare global {
-  namespace jest {
-    interface Matchers<R> {
-      toRevert(expectedReason?: string | RegExp): CustomMatcherResult
-      toBeAllowed(): CustomMatcherResult
-      toBeForbidden(status?: Status, info?: string): CustomMatcherResult
-    }
-  }
-}
-
 expect.extend({
   async toRevert(received: Promise<any>, expectedReason?: string | RegExp) {
     try {
@@ -88,7 +78,8 @@ expect.extend({
 
         // if we get here, it's not a permission error
         return {
-          message: () => `Expected transaction to not be allowed, but it is failing with an unexpected error (see up)`,
+          message: () =>
+            `Expected transaction to not be allowed, but it is failing with an unexpected error (see up)`,
           pass: true,
         }
       }
