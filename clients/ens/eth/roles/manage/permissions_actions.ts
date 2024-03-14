@@ -50,7 +50,6 @@ export default [
   // Aave v3 - WETH
   allowAction.aave_v3.deposit({ targets: ["WETH"] }),
 
-  // WARNING!: Remember that in the DK we whitelisted the multicall() function and we allowed sending ETH.
   // Balancer - wstETH/WETH
   allowAction.balancer.deposit({ targets: ["wstETH-WETH-BPT"] }),
   allowAction.balancer.stake({ targets: ["wstETH-WETH-BPT"] }),
