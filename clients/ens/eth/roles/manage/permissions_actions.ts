@@ -91,6 +91,7 @@ export default [
 
   // StakeWise v2
   // WARNING!: ETH staking was removed since in StakeWise v2 was deprecated.
+  // WARNING!: With the deposit action we are allowing to send ETH and the functions that involve ETH.
   allowAction.stakewise_v2.deposit({ targets: ["ETH-sETH2 0.3%"] }),
 
   /*********************************************

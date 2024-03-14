@@ -16,10 +16,10 @@ describe("ENS", () => {
 
     // acquire 1 WETH for avatar
     await wrapEth(parseEther("1"))
-  }, 120000)
+  })
 
   describe("cowswap", () => {
-    it("allows swapping stETH to USDC", async () => {
+    it("Forbid swapping WETH to ENS", async () => {
       await expect(
         testKit.eth.weth.approve(cowswap.GPv2_VAULT_RELAYER, parseEther("1"))
       ).not.toRevert()
@@ -43,7 +43,7 @@ describe("ENS", () => {
           30 * 60, // report relative valid duration: 30 minutes
           250 // report fee: 1%
         )
-      ).not.toRevert()
+      ).toBeForbidden()
     })
   })
 
@@ -58,7 +58,10 @@ describe("ENS", () => {
       await expect(
         testKit.eth.compound_v3.MainnetBulker.invoke(
           ["0x414354494f4e5f535550504c595f4e41544956455f544f4b454e000000000000"],
-          ["0x000000000000000000000000a17581a9e3356d9a858b789d68b4d866e593ae94000000000000000000000000def1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa0000000000000000000000000000000000000000000000000de0b6b3a7640000"]
+          ["0x000000000000000000000000a17581a9e3356d9a858b789d68b4d866e593ae94000000000000000000000000def1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa0000000000000000000000000000000000000000000000000de0b6b3a7640000"],
+          {
+            value: parseEther("1")
+          }
         )
       ).not.toRevert()
     })
