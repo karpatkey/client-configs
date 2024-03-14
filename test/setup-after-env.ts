@@ -5,18 +5,11 @@ global.afterAll(revertToBase)
 
 declare global {
   namespace jest {
-    interface CustomMatchers<R> {
+    interface Matchers<R> {
       toRevert(expectedReason?: string | RegExp): CustomMatcherResult
       toBeAllowed(): CustomMatcherResult
       toBeForbidden(status?: Status, info?: string): CustomMatcherResult
     }
-
-    interface Matchers<R> extends CustomMatchers<R> {}
-    // interface Matchers<R> {
-    //   toRevert(expectedReason?: string | RegExp): CustomMatcherResult
-    //   toBeAllowed(): CustomMatcherResult
-    //   toBeForbidden(status?: Status, info?: string): CustomMatcherResult
-    // }
   }
 }
 
@@ -91,9 +84,11 @@ expect.extend({
         !error.errorSignature ||
         error.errorSignature !== "ConditionViolation(uint8,bytes32)"
       ) {
+        console.warn(error)
+
         // if we get here, it's not a permission error
         return {
-          message: () => `Expected transaction to not be allowed, but it is`,
+          message: () => `Expected transaction to not be allowed, but it is failing with an unexpected error (see up)`,
           pass: true,
         }
       }
@@ -128,9 +123,11 @@ expect.extend({
         error.errorSignature !== "ConditionViolation(uint8,bytes32)"
       ) {
         // if we get here, it's not a permission error
+        console.warn(error)
+
         return {
           message: () =>
-            "Expected transaction to be forbidden but it is allowed",
+            "Expected transaction to be forbidden but it is failing with an unexpected error (see up)",
           pass: false,
         }
       }

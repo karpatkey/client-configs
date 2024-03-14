@@ -2,10 +2,11 @@ import { id, keccak256, parseEther, toUtf8Bytes } from "ethers/lib/utils"
 import { applyPermissions, wrapEth } from "../../../../../../test/helpers"
 
 import { revertToBase } from "../../../../../../test/snapshot"
-import permissions from "../permissions"
+import permissions from "../permissions_typed"
 import { ENS, WETH, cowswap } from "../../../../../../eth-sdk/addresses"
 import { avatar } from "../../../../../../test/wallets"
 import { testKit } from "../../../../../../test/kit"
+import { contracts } from "../../../../../../eth-sdk/config"
 
 describe("ENS", () => {
   beforeAll(async () => {
@@ -15,7 +16,7 @@ describe("ENS", () => {
 
     // acquire 1 WETH for avatar
     await wrapEth(parseEther("1"))
-  })
+  }, 120000)
 
   describe("cowswap", () => {
     it("allows swapping stETH to USDC", async () => {
@@ -41,6 +42,23 @@ describe("ENS", () => {
           },
           30 * 60, // report relative valid duration: 30 minutes
           250 // report fee: 1%
+        )
+      ).not.toRevert()
+    })
+  })
+
+  describe("compound_v3", () => {
+    it("allow depositing ETH", async () => {
+      await expect(
+        testKit.eth.compound_v3.cWETHv3.allow(
+          contracts.mainnet.compound_v3.MainnetBulker,
+          true
+        )
+      ).not.toRevert()
+      await expect(
+        testKit.eth.compound_v3.MainnetBulker.invoke(
+          ["0x414354494f4e5f535550504c595f4e41544956455f544f4b454e000000000000"],
+          ["0x000000000000000000000000a17581a9e3356d9a858b789d68b4d866e593ae94000000000000000000000000def1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa0000000000000000000000000000000000000000000000000de0b6b3a7640000"]
         )
       ).not.toRevert()
     })
