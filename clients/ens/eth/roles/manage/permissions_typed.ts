@@ -495,7 +495,7 @@ export default [
   // Add liquidity using ETH (WETH is nor permitted through the UI)
   allow.mainnet.uniswapv3.positions_nft.increaseLiquidity(
     {
-      tokenId: 424810,
+      tokenId: 424810, // Created in transaction with hash 0x2995ba040fe1b07978428ca118d9701b5114ec7e2d3ac00f2b4df0f5747dc42e.
     },
     { send: true } // WARNING!: This option is not allowed in the original preset but it has to be whitelisted in order to use the pilot extension.
   ),

@@ -28,26 +28,6 @@ export default [
   /*********************************************
   * Defi-Kit permissions
   *********************************************/
-  // Aave v2 - Staking of AAVE in Safety Module
-  allowAction.aave_v2.stake({ targets: ["AAVE"] }),
-
-  // // Compound v3 - cUSDCv3 - USDC
-  // allowAction.compound_v3.deposit({
-  //   targets: ["cUSDCv3"],
-  //   tokens: ["USDC"],
-  // }),
-
-  // Lido
-  allowAction.lido.deposit(),
-
-  // Rocket Pool
-  allowAction.rocket_pool.deposit(),
-
-  // StakeWise v2
-  // WARNING!: ETH staking was removed since in StakeWise v2 was deprecated.
-  // WARNING!: With the deposit action we are allowing to send ETH and the functions that involve ETH.
-  allowAction.stakewise_v2.deposit({ targets: ["ETH-sETH2 0.3%"] }),
-
   // Uniswap v3 - WBTC + WETH, Range: 11.786 - 15.082. Fee: 0.3%.
   // WARNING!: With the deposit action we are allowing to send ETH and the functions that involve ETH.
   allowAction.uniswap_v3.deposit({ tokens: ["WBTC", "WETH"], fees: ["0.3%"] }),
@@ -60,6 +40,17 @@ export default [
   allow.mainnet.weth.deposit({
     send: true,
   }),
+
+  // Aave v2 - Staking of AAVE in Safety Module
+  ...allowErc20Approve(
+    [contracts.mainnet.aave_v2.aave],
+    [contracts.mainnet.aave_v2.stkAave]
+  ),
+  allow.mainnet.aave_v2.stkAave.stake(c.avatar),
+  allow.mainnet.aave_v2.stkAave.claimRewardsAndStake(c.avatar),
+  allow.mainnet.aave_v2.stkAave.redeem(c.avatar),
+  allow.mainnet.aave_v2.stkAave.cooldown(),
+  allow.mainnet.aave_v2.stkAave.claimRewards(c.avatar),
 
   // Aave v3 - DAI
   allowErc20Approve([DAI], [contracts.mainnet.aave_v3.pool_v3]),
@@ -116,6 +107,34 @@ export default [
     c.avatar
   ),
 
+  // Lido
+  ...allowErc20Approve([stETH], [wstETH]),
+  ...allowErc20Approve([stETH, wstETH], [contracts.mainnet.lido.unstETH]),
+  allow.mainnet.lido.stETH.submit(
+    undefined,
+    { send: true }
+  ),
+  allow.mainnet.lido.wstETH.wrap(),
+  allow.mainnet.lido.wstETH.unwrap(),
+  allow.mainnet.lido.unstETH.requestWithdrawals(
+    undefined,
+    c.avatar
+  ),
+  allow.mainnet.lido.unstETH.requestWithdrawalsWithPermit(
+    undefined,
+    c.avatar
+  ),
+  allow.mainnet.lido.unstETH.requestWithdrawalsWstETH(
+    undefined,
+    c.avatar
+  ),
+  allow.mainnet.lido.unstETH.requestWithdrawalsWstETHWithPermit(
+    undefined,
+    c.avatar
+  ),
+  allow.mainnet.lido.unstETH.claimWithdrawal(),
+  allow.mainnet.lido.unstETH.claimWithdrawals(),
+
   // Maker - DSR (DAI Savings Rate)
   // The DsrManager provides an easy to use smart contract that allows
   // service providers to deposit/withdraw dai into the DSR contract pot,
@@ -126,6 +145,75 @@ export default [
   allow.mainnet.maker.dsr_manager.join(avatar),
   allow.mainnet.maker.dsr_manager.exit(avatar),
   allow.mainnet.maker.dsr_manager.exitAll(avatar),
+
+  // Rocket Pool
+  ...allowErc20Approve(
+    [contracts.mainnet.rocket_pool.rETH],
+    [contracts.mainnet.rocket_pool.swap_router]
+  ),
+  allow.mainnet.rocket_pool.deposit_pool.deposit(
+    { send: true }
+  ), // WARNING!: In the DK, the Deposit Pool is replaced dynamically when the preset is being created.
+  allow.mainnet.rocket_pool.rETH.burn(),
+  {
+    ...allow.mainnet.rocket_pool.swap_router.swapTo(),
+    send: true,
+  },
+  allow.mainnet.rocket_pool.swap_router.swapFrom(),
+
+  // StakeWise
+  // The stake() was added manually to the abi (source: 0x61975c09207c5DFe794b0A652C8CAf8458159AAe)
+  // allow.mainnet.stakewise.eth2_staking.stake({
+  //   send: true,
+  // }), // WARNING!: this permission was removed because ETH staking in StakeWise v2 was deprecated.
+  allow.mainnet.stakewise.merkle_distributor["claim"](
+    undefined,
+    avatar
+    // WARNING!: the tokens were removed to give more flexibility to the permission.
+  ),
+
+  // StakeWise - Uniswap v3 ETH + sETH2, 0.3%
+  ...allowErc20Approve([sETH2, WETH], [contracts.mainnet.uniswapv3.positions_nft]),
+  // Mint NFT using WETH
+  allow.mainnet.uniswapv3.positions_nft.mint({
+    token0: WETH,
+    token1: sETH2,
+    fee: 3000,
+    recipient: avatar,
+  }),
+  // Add liquidity using ETH (WETH is nor permitted through the UI)
+  allow.mainnet.uniswapv3.positions_nft.increaseLiquidity(
+    {
+      tokenId: 418686, // Created in transaction with hash 0x198d10fc36ecfd2050990a5f1286d3d7ad226b4b482956d689d7216634fd7503.
+    },
+    { send: true } // WARNING!: This option is not allowed in the original preset but it has to be whitelisted in order to use the pilot extension.
+  ),
+  allow.mainnet.uniswapv3.positions_nft.refundETH(), // WARNING!: this function is not in the original preset but must be allowed.
+  // Remove liquidity using WETH
+  allow.mainnet.uniswapv3.positions_nft.decreaseLiquidity(),
+  allow.mainnet.uniswapv3.positions_nft.collect(
+    {
+      recipient: avatar,
+    }
+  ),
+
+  // Uniswap v3 - WBTC + WETH, Range: 11.786 - 15.082. Fee: 0.3%.
+  ...allowErc20Approve([WBTC, WETH], [contracts.mainnet.uniswapv3.positions_nft]),
+  // Mint NFT using WETH
+  allow.mainnet.uniswapv3.positions_nft.mint({
+    token0: WBTC,
+    token1: WETH,
+    fee: 3000,
+    recipient: avatar,
+  }),
+  // Add liquidity using ETH (WETH is nor permitted through the UI)
+  allow.mainnet.uniswapv3.positions_nft.increaseLiquidity(
+    {
+      tokenId: 430246, // Created in transaction with hash 0x8dc0368be4a8a28ab431a33ccf49acc85a4ca00a6c212c5d070a74af8aa0541f.
+    },
+    { send: true } // WARNING!: This option is not allowed in the original preset but it has to be whitelisted in order to use the pilot extension.
+  ),
+  // The refundETH(), decreaseLiquidity() and collect() functions have already been whitelisted for StakeWise.
 
   // SWAPS
   // Balancer - Swaps

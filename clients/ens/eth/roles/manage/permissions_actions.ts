@@ -61,6 +61,8 @@ export default [
   allowAction.compound_v2.deposit({ targets: ["DAI"] }),
   // Compound v2 - USDC
   allowAction.compound_v2.deposit({ targets: ["USDC"] }),
+  // Compound v2 - Claim COMP
+  // WARNING!: The address[] parameter with the cTokens[] was removed since it's unnecessary.
 
   // // Compound v3 - cUSDCv3 - USDC
   // allowAction.compound_v3.deposit({

@@ -31,6 +31,24 @@ export default [
   // Aave v2 - Staking of AAVE in Safety Module
   allowAction.aave_v2.stake({ targets: ["AAVE"] }),
 
+  // Aave v3 - DAI
+  allowAction.aave_v3.deposit({ targets: ["DAI"] }),
+  // Aave v3 - USDC
+  allowAction.aave_v3.deposit({ targets: ["USDC"] }),
+
+  // Aave - Delegate Aave and stkAave to governance.karpatkey.eth
+  // WARNING!: The delegate action allows delegate() and delegateByType(), the latter is not part of the orginal preset.
+  allowAction.aave_v3.delegate({ targets: ["AAVE", "stkAAVE"], delegatee: GOVERNANCE_KPK }),
+
+  // Compound v2 - AAVE
+  allowAction.compound_v2.deposit({ targets: ["AAVE"] }),
+  // Compound v2 - DAI
+  allowAction.compound_v2.deposit({ targets: ["DAI"] }),
+  // Compound v2 - USDC
+  allowAction.compound_v2.deposit({ targets: ["USDC"] }),
+  // Compound v2 - Claim COMP
+  // WARNING!: The address[] parameter with the cTokens[] was removed since it's unnecessary.
+
   // // Compound v3 - cUSDCv3 - USDC
   // allowAction.compound_v3.deposit({
   //   targets: ["cUSDCv3"],
@@ -60,50 +78,6 @@ export default [
   allow.mainnet.weth.deposit({
     send: true,
   }),
-
-  // Aave v3 - DAI
-  allowErc20Approve([DAI], [contracts.mainnet.aave_v3.pool_v3]),
-  allow.mainnet.aave_v3.pool_v3.supply(DAI, undefined, avatar),
-  allow.mainnet.aave_v3.pool_v3.withdraw(DAI, undefined, avatar),
-
-  // Aave v3 - USDC
-  allowErc20Approve([USDC], [contracts.mainnet.aave_v3.pool_v3]),
-  allow.mainnet.aave_v3.pool_v3.supply(USDC, undefined, avatar),
-  allow.mainnet.aave_v3.pool_v3.withdraw(USDC, undefined, avatar),
-
-  // Aave - Delegate Aave and stkAave to governance.karpatkey.eth
-  allow.mainnet.aave_v2.aave.delegate(GOVERNANCE_KPK),
-  allow.mainnet.aave_v2.stkAave.delegate(GOVERNANCE_KPK),
-
-  // Compound v2 - AAVE
-  allowErc20Approve([AAVE], [contracts.mainnet.compound_v2.cAAVE]),
-  allow.mainnet.compound_v2.cAAVE.mint(),
-  // Withdraw: it is called when MAX underlying amount is withdrawn
-  allow.mainnet.compound_v2.cAAVE.redeem(),
-  // Withdraw: it is called when MAX underlying amount is NOT withdrawn
-  allow.mainnet.compound_v2.cAAVE.redeemUnderlying(),
-
-  // Compound v2 - DAI
-  allowErc20Approve([DAI], [contracts.mainnet.compound_v2.cDAI]),
-  allow.mainnet.compound_v2.cDAI.mint(),
-  // Withdraw: it is called when MAX underlying amount is withdrawn
-  allow.mainnet.compound_v2.cDAI.redeem(),
-  // Withdraw: it is called when MAX underlying amount is NOT withdrawn
-  allow.mainnet.compound_v2.cDAI.redeemUnderlying(),
-
-  // Compound v2 - USDC
-  allowErc20Approve([USDC], [contracts.mainnet.compound_v2.cUSDC]),
-  allow.mainnet.compound_v2.cUSDC.mint(),
-  // Withdraw: it is called when MAX underlying amount is withdrawn
-  allow.mainnet.compound_v2.cUSDC.redeem(),
-  // Withdraw: it is called when MAX underlying amount is NOT withdrawn
-  allow.mainnet.compound_v2.cUSDC.redeemUnderlying(),
-
-  // Compound v2 - Claim COMP
-  // WARNING!: The address[] parameter with the cTokens[] was removed since it's unnecessary.
-  allow.mainnet.compound_v2.comptroller["claimComp(address,address[])"](
-    avatar
-  ),
 
   // Compound v3 - USDC
   allowErc20Approve([USDC], [contracts.mainnet.compound_v3.cUSDCv3]),
