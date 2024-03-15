@@ -26,13 +26,6 @@ const GOVERNANCE_KPK = "0x8787FC2De4De95c53e5E3a4e5459247D9773ea52"
 
 export default [
   /*********************************************
-  * Defi-Kit permissions
-  *********************************************/
-  // Uniswap v3 - WBTC + WETH, Range: 11.786 - 15.082. Fee: 0.3%.
-  // WARNING!: With the deposit action we are allowing to send ETH and the functions that involve ETH.
-  allowAction.uniswap_v3.deposit({ tokens: ["WBTC", "WETH"], fees: ["0.3%"] }),
-
-  /*********************************************
   * Typed-presets permissions
   *********************************************/
   // Wrapping and unwrapping of ETH, WETH
