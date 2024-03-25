@@ -114,8 +114,8 @@ export default [
 
   // Aave v3 - WETH
   ...allowErc20Approve([WETH], [contracts.mainnet.aave_v3.pool_v3]),
-  allow.mainnet.aave_v3.pool_v3.supply(USDC, undefined, avatar),
-  allow.mainnet.aave_v3.pool_v3.withdraw(USDC, undefined, avatar),
+  allow.mainnet.aave_v3.pool_v3.supply(WETH, undefined, avatar),
+  allow.mainnet.aave_v3.pool_v3.withdraw(WETH, undefined, avatar),
 
   // Compound v2 - DAI
   ...allowErc20Approve([DAI], [contracts.mainnet.compound_v2.cDAI]),
@@ -567,48 +567,48 @@ export default [
     recipient: avatar,
   }),
 
-  // SushiSwap old Router - Swapping of BAL, COMP, CRV, DAI, LDO, USDC, USDT, WETH
-  allow.mainnet.sushiswap.router["swapExactTokensForTokens"](
-    undefined,
-    undefined,
-    c.or(
-      [COMP, WETH, USDC],
-      [COMP, WETH, DAI],
-      [COMP, WETH],
-      [BAL, WETH, USDC],
-      [BAL, WETH, DAI],
-      [BAL, WETH],
-      [LDO, WETH, USDC],
-      [LDO, WETH, DAI],
-      [LDO, WETH],
-      [CRV, WETH, USDC],
-      [CRV, WETH, DAI],
-      [CRV, WETH],
-      [WETH, USDC],
-      [WETH, DAI],
-      [WETH, USDT],
-      [USDC, WETH],
-      [USDC, WETH, USDT],
-      [USDC, USDT],
-      [USDC, WETH, DAI],
-      [USDC, DAI],
-      [USDT, WETH],
-      [USDT, WETH, USDC],
-      [USDT, USDC],
-      [USDT, WETH, DAI],
-      [USDT, DAI],
-      [DAI, WETH],
-      [DAI, WETH, USDC],
-      [DAI, USDC],
-      [DAI, WETH, USDT],
-      [DAI, USDT]
-    ),
-    avatar,
-    undefined,
-    {
-      delegatecall: true,
-    }
-  ),
+  // // SushiSwap old Router - Swapping of BAL, COMP, CRV, DAI, LDO, USDC, USDT, WETH
+  // allow.mainnet.sushiswap.router["swapExactTokensForTokens"](
+  //   undefined,
+  //   undefined,
+  //   c.or(
+  //     [COMP, WETH, USDC],
+  //     [COMP, WETH, DAI],
+  //     [COMP, WETH],
+  //     [BAL, WETH, USDC],
+  //     [BAL, WETH, DAI],
+  //     [BAL, WETH],
+  //     [LDO, WETH, USDC],
+  //     [LDO, WETH, DAI],
+  //     [LDO, WETH],
+  //     [CRV, WETH, USDC],
+  //     [CRV, WETH, DAI],
+  //     [CRV, WETH],
+  //     [WETH, USDC],
+  //     [WETH, DAI],
+  //     [WETH, USDT],
+  //     [USDC, WETH],
+  //     [USDC, WETH, USDT],
+  //     [USDC, USDT],
+  //     [USDC, WETH, DAI],
+  //     [USDC, DAI],
+  //     [USDT, WETH],
+  //     [USDT, WETH, USDC],
+  //     [USDT, USDC],
+  //     [USDT, WETH, DAI],
+  //     [USDT, DAI],
+  //     [DAI, WETH],
+  //     [DAI, WETH, USDC],
+  //     [DAI, USDC],
+  //     [DAI, WETH, USDT],
+  //     [DAI, USDT]
+  //   ),
+  //   avatar,
+  //   undefined,
+  //   {
+  //     delegatecall: true,
+  //   }
+  // ),
 
   // Uniswap v2 and Uniswap v3 - Swaps
   ...allowErc20Approve(

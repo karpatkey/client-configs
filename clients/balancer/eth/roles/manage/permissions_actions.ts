@@ -264,19 +264,19 @@ export default [
     }
   ),
 
-  // SushiSwap - Swapping of tokens COMP, DAI, USDC, USDT, WETH
-  allowErc20Approve(
-    [COMP, DAI, USDC, USDT, WETH],
-    [contracts.mainnet.sushiswap.route_processor_3_2]
-  ),
-  // WARNING!: we are not scopping the route (reason why we removed it from ENS)
-  allow.mainnet.sushiswap.route_processor_3_2.processRoute(
-    c.or(COMP, DAI, USDC, USDT, WETH),
-    undefined,
-    c.or(DAI, USDC, USDT, WETH),
-    undefined,
-    avatar
-  ),
+  // // SushiSwap - Swapping of tokens COMP, DAI, USDC, USDT, WETH
+  // allowErc20Approve(
+  //   [COMP, DAI, USDC, USDT, WETH],
+  //   [contracts.mainnet.sushiswap.route_processor_3_2]
+  // ),
+  // // WARNING!: we are not scopping the route (reason why we removed it from ENS)
+  // allow.mainnet.sushiswap.route_processor_3_2.processRoute(
+  //   c.or(COMP, DAI, USDC, USDT, WETH),
+  //   undefined,
+  //   c.or(DAI, USDC, USDT, WETH),
+  //   undefined,
+  //   avatar
+  // ),
 
   // Uniswap v2 and Uniswap v3 - Swaps
   allowErc20Approve(
