@@ -1,13 +1,14 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { allow as allowAction } from "defi-kit/eth"
 import {
   AAVE,
+  ankrETH,
   COMP,
   DAI,
+  ETHx,
   rETH,
-  rETH2,
   sETH2,
+  stkAAVE,
   stETH,
   SWISE,
   USDC,
@@ -313,43 +314,17 @@ export default [
     }
   ),
 
-  // Cowswap - Swapping of AAVE, COMP, DAI, rETH, rETH2, sETH2, stETH, SWISE, USDC, USDT, WBTC, WETH, wstETH
+  // Cowswap - Swapping of AAVE, ankrETH, COMP, DAI, ETHx, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH
   allowErc20Approve(
-    [
-      AAVE,
-      COMP,
-      DAI,
-      rETH,
-      rETH2,
-      sETH2,
-      stETH,
-      SWISE,
-      USDC,
-      USDT,
-      WBTC,
-      WETH,
-      wstETH,
-    ],
+    [AAVE, ankrETH, COMP, DAI, ETHx, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH],
     [contracts.mainnet.cowswap.gpv2_vault_relayer]
   ),
   allow.mainnet.cowswap.order_signer.signOrder(
     {
       sellToken: c.or(
-        AAVE,
-        COMP,
-        DAI,
-        rETH,
-        rETH2,
-        sETH2,
-        stETH,
-        SWISE,
-        USDC,
-        USDT,
-        WBTC,
-        WETH,
-        wstETH
+        AAVE, ankrETH, COMP, DAI, ETHx, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH
       ),
-      buyToken: c.or(DAI, rETH, sETH2, stETH, USDC, USDT, WBTC, WETH, wstETH),
+      buyToken: c.or(DAI, rETH, stETH, USDC, USDT, WBTC, WETH, wstETH),
       receiver: avatar,
     },
     undefined,
@@ -371,85 +346,18 @@ export default [
     }
   ),
 
-  // // SushiSwap - Swapping of tokens COMP, DAI, USDC, USDT, WETH
-  // allowErc20Approve(
-  //   [COMP, DAI, USDC, USDT, WETH],
-  //   [contracts.mainnet.sushiswap.route_processor_3_2]
-  // ),
-  // // WARNING!: we are not scopping the route (reason why we removed it from ENS)
-  // allow.mainnet.sushiswap.route_processor_3_2.processRoute(
-  //   c.or(COMP, DAI, USDC, USDT, WETH),
-  //   undefined,
-  //   c.or(DAI, USDC, USDT, WETH),
-  //   undefined,
-  //   avatar
-  // ),
-
-  // Uniswap v2 and Uniswap v3 - Swaps
+  // Uniswap v3 - Swaps
   allowErc20Approve(
-    [AAVE, COMP, DAI, rETH, rETH2, sETH2, SWISE, USDC, USDT, WBTC, WETH],
+    [AAVE, ankrETH, COMP, DAI, ETHx, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH],
     [contracts.mainnet.uniswapv3.router_2]
   ),
 
-  // Uniswap v2 - Swapping of tokens AAVE, COMP, DAI, rETH2, sETH2, SWISE, USDC, USDT, WBTC, WETH
-  allow.mainnet.uniswapv3.router_2.swapExactTokensForTokens(
-    undefined,
-    undefined,
-    c.or(
-      [COMP, WETH, USDC],
-      [COMP, WETH, DAI],
-      [COMP, WETH],
-      [AAVE, WETH, USDC],
-      [AAVE, WETH, DAI],
-      [AAVE, WETH],
-      [rETH2, sETH2, WETH, USDC],
-      [rETH2, sETH2, WETH, DAI],
-      [rETH2, sETH2, WETH],
-      [SWISE, sETH2, WETH, USDC],
-      [SWISE, sETH2, WETH, DAI],
-      [SWISE, sETH2, WETH],
-      [sETH2, WETH],
-      [WETH, sETH2],
-      [WETH, DAI],
-      [WETH, USDC],
-      [WETH, USDT],
-      [WETH, WBTC],
-      [USDC, WETH],
-      [USDC, USDT],
-      [USDC, WETH, USDT],
-      [USDC, DAI],
-      [USDC, WETH, DAI],
-      [DAI, WETH],
-      [DAI, USDC],
-      [DAI, WETH, USDC],
-      [DAI, USDT],
-      [DAI, WETH, USDT],
-      [USDT, WETH],
-      [USDT, USDC],
-      [USDT, WETH, USDC],
-      [USDT, DAI],
-      [USDT, WETH, DAI],
-      [WBTC, WETH]
-    ),
-    avatar
-  ),
-
-  // Uniswap v3 - Swapping of tokens AAVE, COMP, DAI, rETH, rETH2, sETH2, SWISE, USDC, USDT, WBTC, WETH
+  // Uniswap v3 - Swapping of tokens AAVE, ankrETH, COMP, DAI, ETHx, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH
   allow.mainnet.uniswapv3.router_2.exactInputSingle({
     tokenIn: c.or(
-      AAVE,
-      COMP,
-      DAI,
-      rETH,
-      rETH2,
-      sETH2,
-      SWISE,
-      USDC,
-      USDT,
-      WBTC,
-      WETH
+      AAVE, ankrETH, COMP, DAI, ETHx, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH
     ),
-    tokenOut: c.or(DAI, sETH2, USDC, USDT, WBTC, WETH),
+    tokenOut: c.or(DAI, rETH, stETH, USDC, USDT, WBTC, WETH, wstETH),
     recipient: avatar,
   })
 ] satisfies PermissionList

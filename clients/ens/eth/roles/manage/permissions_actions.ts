@@ -12,8 +12,6 @@ import {
   ETHx,
   LDO,
   rETH,
-  rETH2,
-  sETH2,
   stETH,
   SWISE,
   USDC,
@@ -441,43 +439,17 @@ export default [
     }
   ),
 
-  // Cowswap - Swapping of AURA, BAL, COMP, CRV, CVX, DAI, LDO, rETH, SWISE, USDC, USDT, WETH, wstETH
+  // Cowswap - Swapping of ankrETH, AURA, BAL, COMP, CRV, CVX, DAI, ETHx, LDO, rETH, stETH, SWISE, USDC, USDT, WETH, wstETH
   ...allowErc20Approve(
-    [
-      AURA,
-      BAL,
-      COMP,
-      CRV,
-      CVX,
-      DAI,
-      LDO,
-      rETH,
-      SWISE,
-      USDC,
-      USDT,
-      WETH,
-      wstETH,
-    ],
+    [ankrETH, AURA, BAL, COMP, CRV, CVX, DAI, ETHx, LDO, rETH, stETH, SWISE, USDC, USDT, WETH, wstETH],
     [contracts.mainnet.cowswap.gpv2_vault_relayer]
   ),
   allow.mainnet.cowswap.order_signer.signOrder(
     {
       sellToken: c.or(
-        AURA,
-        BAL,
-        COMP,
-        CRV,
-        CVX,
-        DAI,
-        LDO,
-        rETH,
-        SWISE,
-        USDC,
-        USDT,
-        WETH,
-        wstETH
+        ankrETH, AURA, BAL, COMP, CRV, CVX, DAI, ETHx, LDO, rETH, stETH, SWISE, USDC, USDT, WETH, wstETH
       ),
-      buyToken: c.or(DAI, USDC, USDT, rETH, stETH, WETH, wstETH),
+      buyToken: c.or(DAI, rETH, USDC, USDT, stETH, WETH, wstETH),
       receiver: avatar,
     },
     undefined,
@@ -533,108 +505,18 @@ export default [
     recipient: avatar,
   }),
 
-  // // SushiSwap old Router - Swapping of BAL, COMP, CRV, DAI, LDO, USDC, USDT, WETH
-  // allow.mainnet.sushiswap.router["swapExactTokensForTokens"](
-  //   undefined,
-  //   undefined,
-  //   c.or(
-  //     [COMP, WETH, USDC],
-  //     [COMP, WETH, DAI],
-  //     [COMP, WETH],
-  //     [BAL, WETH, USDC],
-  //     [BAL, WETH, DAI],
-  //     [BAL, WETH],
-  //     [LDO, WETH, USDC],
-  //     [LDO, WETH, DAI],
-  //     [LDO, WETH],
-  //     [CRV, WETH, USDC],
-  //     [CRV, WETH, DAI],
-  //     [CRV, WETH],
-  //     [WETH, USDC],
-  //     [WETH, DAI],
-  //     [WETH, USDT],
-  //     [USDC, WETH],
-  //     [USDC, WETH, USDT],
-  //     [USDC, USDT],
-  //     [USDC, WETH, DAI],
-  //     [USDC, DAI],
-  //     [USDT, WETH],
-  //     [USDT, WETH, USDC],
-  //     [USDT, USDC],
-  //     [USDT, WETH, DAI],
-  //     [USDT, DAI],
-  //     [DAI, WETH],
-  //     [DAI, WETH, USDC],
-  //     [DAI, USDC],
-  //     [DAI, WETH, USDT],
-  //     [DAI, USDT]
-  //   ),
-  //   avatar,
-  //   undefined,
-  //   {
-  //     delegatecall: true,
-  //   }
-  // ),
+  // Uniswap v3 - Swaps
+  ...allowErc20Approve(
+    [ankrETH, AURA, BAL, COMP, CRV, CVX, DAI, ETHx, LDO, rETH, stETH, SWISE, USDC, USDT, WETH, wstETH],
+    [contracts.mainnet.uniswapv3.router_2]
+  ),
 
-  // // Uniswap v2 and Uniswap v3 - Swaps
-  // ...allowErc20Approve(
-  //   [COMP, CRV, CVX, DAI, LDO, rETH, rETH2, sETH2, SWISE, USDC, USDT, WETH],
-  //   [contracts.mainnet.uniswapv3.router_2]
-  // ),
-
-  // // Uniswap v2 - Swapping of tokens COMP, CRV, DAI, LDO, USDC, USDT, WETH
-  // allow.mainnet.uniswapv3.router_2.swapExactTokensForTokens(
-  //   undefined,
-  //   undefined,
-  //   c.or(
-  //     [COMP, WETH, USDC],
-  //     [COMP, WETH, DAI],
-  //     [COMP, WETH],
-  //     [CRV, WETH, USDC],
-  //     [CRV, WETH, DAI],
-  //     [CRV, WETH],
-  //     [LDO, WETH, USDC],
-  //     [LDO, WETH, DAI],
-  //     [LDO, WETH],
-  //     [WETH, USDC],
-  //     [WETH, DAI],
-  //     [WETH, USDT],
-  //     [USDC, WETH],
-  //     [USDC, USDT],
-  //     [USDC, WETH, USDT],
-  //     [USDC, DAI],
-  //     [USDC, WETH, DAI],
-  //     [DAI, WETH],
-  //     [DAI, USDC],
-  //     [DAI, WETH, USDC],
-  //     [DAI, USDT],
-  //     [DAI, WETH, USDT],
-  //     [USDT, WETH],
-  //     [USDT, USDC],
-  //     [USDT, WETH, USDC],
-  //     [USDT, DAI],
-  //     [USDT, WETH, DAI]
-  //   ),
-  //   avatar
-  // ),
-
-  // Uniswap v3 - Swapping of tokens COMP, CRV, CVX, DAI, LDO, rETH, rETH2, sETH2, SWISE, USDC, USDT, WETH
+  // Uniswap v3 - Swapping of tokens ankrETH, AURA, BAL, COMP, CRV, CVX, DAI, ETHx, LDO, rETH, stETH, SWISE, USDC, USDT, WETH, wstETH
   allow.mainnet.uniswapv3.router_2.exactInputSingle({
     tokenIn: c.or(
-      COMP,
-      CRV,
-      CVX,
-      DAI,
-      LDO,
-      rETH,
-      rETH2,
-      sETH2,
-      SWISE,
-      USDC,
-      USDT,
-      WETH
+      ankrETH, AURA, BAL, COMP, CRV, CVX, DAI, ETHx, LDO, rETH, stETH, SWISE, USDC, USDT, WETH, wstETH
     ),
-    tokenOut: c.or(DAI, USDC, USDT, sETH2, WETH),
+    tokenOut: c.or(DAI, rETH, USDC, USDT, stETH, WETH, wstETH),
     recipient: avatar,
   }),
 ] satisfies PermissionList
