@@ -73,11 +73,6 @@ export default [
   // Stader
   allowAction.stader.deposit(),
 
-  // StakeWise v2
-  // WARNING!: ETH staking was removed since in StakeWise v2 was deprecated.
-  // WARNING!: With the deposit action we are allowing to send ETH and the functions that involve ETH.
-  allowAction.stakewise_v2.deposit({ targets: ["ETH-sETH2 0.3%"] }),
-
   /*********************************************
   * Typed-presets permissions
   *********************************************/
@@ -114,28 +109,6 @@ export default [
   ...allowErc20Approve([WETH], [contracts.mainnet.aave_v3.pool_v3]),
   allow.mainnet.aave_v3.pool_v3.supply(WETH, undefined, avatar),
   allow.mainnet.aave_v3.pool_v3.withdraw(WETH, undefined, avatar),
-
-  // Compound v2 - DAI
-  ...allowErc20Approve([DAI], [contracts.mainnet.compound_v2.cDAI]),
-  allow.mainnet.compound_v2.cDAI.mint(),
-  // Withdraw: it is called when MAX underlying amount is withdrawn
-  allow.mainnet.compound_v2.cDAI.redeem(),
-  // Withdraw: it is called when MAX underlying amount is NOT withdrawn
-  allow.mainnet.compound_v2.cDAI.redeemUnderlying(),
-
-  // Compound v2 - USDC
-  ...allowErc20Approve([USDC], [contracts.mainnet.compound_v2.cUSDC]),
-  allow.mainnet.compound_v2.cUSDC.mint(),
-  // Withdraw: it is called when MAX underlying amount is withdrawn
-  allow.mainnet.compound_v2.cUSDC.redeem(),
-  // Withdraw: it is called when MAX underlying amount is NOT withdrawn
-  allow.mainnet.compound_v2.cUSDC.redeemUnderlying(),
-
-  // Compound v2 - Claim COMP
-  // WARNING!: The address[] parameter with the cTokens[] was removed since it's unnecessary.
-  allow.mainnet.compound_v2.comptroller["claimComp(address,address[])"](
-    avatar
-  ),
 
   // Compound v3 - ETH
   allow.mainnet.compound_v3.cWETHv3.allow(

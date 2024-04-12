@@ -183,28 +183,6 @@ export default [
     balancer.B_rETH_stable_gauge
   ),
 
-  // Compound v2 - DAI
-  ...allowErc20Approve([DAI], [contracts.mainnet.compound_v2.cDAI]),
-  allow.mainnet.compound_v2.cDAI.mint(),
-  // Withdraw: it is called when MAX underlying amount is withdrawn
-  allow.mainnet.compound_v2.cDAI.redeem(),
-  // Withdraw: it is called when MAX underlying amount is NOT withdrawn
-  allow.mainnet.compound_v2.cDAI.redeemUnderlying(),
-
-  // Compound v2 - USDC
-  ...allowErc20Approve([USDC], [contracts.mainnet.compound_v2.cUSDC]),
-  allow.mainnet.compound_v2.cUSDC.mint(),
-  // Withdraw: it is called when MAX underlying amount is withdrawn
-  allow.mainnet.compound_v2.cUSDC.redeem(),
-  // Withdraw: it is called when MAX underlying amount is NOT withdrawn
-  allow.mainnet.compound_v2.cUSDC.redeemUnderlying(),
-
-  // Compound v2 - Claim COMP
-  // WARNING!: The address[] parameter with the cTokens[] was removed since it's unnecessary.
-  allow.mainnet.compound_v2.comptroller["claimComp(address,address[])"](
-    avatar
-  ),
-
   // Compound v3 - ETH
   allow.mainnet.compound_v3.cWETHv3.allow(
     contracts.mainnet.compound_v3.MainnetBulker
@@ -470,42 +448,6 @@ export default [
     "requestWithdraw(uint256,address)"
   ](undefined, c.avatar),
   allow.mainnet.stader.user_withdraw_manager.claim(),
-
-  // StakeWise
-  // The stake() was added manually to the abi (source: 0x61975c09207c5DFe794b0A652C8CAf8458159AAe)
-  // allow.mainnet.stakewise.eth2_staking.stake({
-  //   send: true,
-  // }), // WARNING!: this permission was removed because ETH staking in StakeWise v2 was deprecated.
-  allow.mainnet.stakewise.merkle_distributor["claim"](
-    undefined,
-    avatar
-    // WARNING!: the tokens were removed to give more flexibility to the permission.
-  ),
-
-  // StakeWise - Uniswap v3 ETH + sETH2, 0.3%
-  ...allowErc20Approve([sETH2, WETH], [contracts.mainnet.uniswapv3.positions_nft]),
-  // Mint NFT using WETH
-  allow.mainnet.uniswapv3.positions_nft.mint({
-    token0: WETH,
-    token1: sETH2,
-    fee: 3000,
-    recipient: avatar,
-  }),
-  // Add liquidity using ETH (WETH is nor permitted through the UI)
-  allow.mainnet.uniswapv3.positions_nft.increaseLiquidity(
-    {
-      tokenId: 424810, // Created in transaction with hash 0x2995ba040fe1b07978428ca118d9701b5114ec7e2d3ac00f2b4df0f5747dc42e.
-    },
-    { send: true } // WARNING!: This option is not allowed in the original preset but it has to be whitelisted in order to use the pilot extension.
-  ),
-  allow.mainnet.uniswapv3.positions_nft.refundETH(), // WARNING!: this function is not in the original preset but must be allowed.
-  // Remove liquidity using WETH
-  allow.mainnet.uniswapv3.positions_nft.decreaseLiquidity(),
-  allow.mainnet.uniswapv3.positions_nft.collect(
-    {
-      recipient: avatar,
-    }
-  ),
 
   // SWAPS
   // Balancer - Swaps

@@ -55,13 +55,6 @@ export default [
   allowAction.balancer.deposit({ targets: ["B-rETH-STABLE"] }),
   allowAction.balancer.stake({ targets: ["B-rETH-STABLE"] }),
 
-  // Compound v2 - DAI
-  allowAction.compound_v2.deposit({ targets: ["DAI"] }),
-  // Compound v2 - USDC
-  allowAction.compound_v2.deposit({ targets: ["USDC"] }),
-  // Compound v2 - Claim COMP
-  // WARNING!: The address[] parameter with the cTokens[] was removed since it's unnecessary.
-
   // // Compound v3 - cUSDCv3 - USDC
   // allowAction.compound_v3.deposit({
   //   targets: ["cUSDCv3"],
@@ -88,11 +81,6 @@ export default [
 
   // Stader
   allowAction.stader.deposit(),
-
-  // StakeWise v2
-  // WARNING!: ETH staking was removed since in StakeWise v2 was deprecated.
-  // WARNING!: With the deposit action we are allowing to send ETH and the functions that involve ETH.
-  allowAction.stakewise_v2.deposit({ targets: ["ETH-sETH2 0.3%"] }),
 
   /*********************************************
   * Typed-presets permissions

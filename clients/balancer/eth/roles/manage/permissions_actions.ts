@@ -41,15 +41,6 @@ export default [
   // WARNING!: The delegate action allows delegate() and delegateByType(), the latter is not part of the orginal preset.
   allowAction.aave_v3.delegate({ targets: ["AAVE", "stkAAVE"], delegatee: GOVERNANCE_KPK }),
 
-  // Compound v2 - AAVE
-  allowAction.compound_v2.deposit({ targets: ["AAVE"] }),
-  // Compound v2 - DAI
-  allowAction.compound_v2.deposit({ targets: ["DAI"] }),
-  // Compound v2 - USDC
-  allowAction.compound_v2.deposit({ targets: ["USDC"] }),
-  // Compound v2 - Claim COMP
-  // WARNING!: The address[] parameter with the cTokens[] was removed since it's unnecessary.
-
   // // Compound v3 - cUSDCv3 - USDC
   // allowAction.compound_v3.deposit({
   //   targets: ["cUSDCv3"],
@@ -61,11 +52,6 @@ export default [
 
   // Rocket Pool
   allowAction.rocket_pool.deposit(),
-
-  // StakeWise v2
-  // WARNING!: ETH staking was removed since in StakeWise v2 was deprecated.
-  // WARNING!: With the deposit action we are allowing to send ETH and the functions that involve ETH.
-  allowAction.stakewise_v2.deposit({ targets: ["ETH-sETH2 0.3%"] }),
 
   // Uniswap v3 - WBTC + WETH, Range: 11.786 - 15.082. Fee: 0.3%.
   // WARNING!: With the deposit action we are allowing to send ETH and the functions that involve ETH.
@@ -87,7 +73,7 @@ export default [
 
   // Compound v3 - Claim rewards
   allow.mainnet.compound_v3.CometRewards.claim(
-    contracts.mainnet.compound_v3.cUSDCv3,
+    undefined,
     c.avatar
   ),
 

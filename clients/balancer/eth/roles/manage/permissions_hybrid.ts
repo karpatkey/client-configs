@@ -44,11 +44,6 @@ export default [
   // Rocket Pool
   allowAction.rocket_pool.deposit(),
 
-  // StakeWise v2
-  // WARNING!: ETH staking was removed since in StakeWise v2 was deprecated.
-  // WARNING!: With the deposit action we are allowing to send ETH and the functions that involve ETH.
-  allowAction.stakewise_v2.deposit({ targets: ["ETH-sETH2 0.3%"] }),
-
   // Uniswap v3 - WBTC + WETH, Range: 11.786 - 15.082. Fee: 0.3%.
   // WARNING!: With the deposit action we are allowing to send ETH and the functions that involve ETH.
   allowAction.uniswap_v3.deposit({ tokens: ["WBTC", "WETH"], fees: ["0.3%"] }),
@@ -76,36 +71,6 @@ export default [
   allow.mainnet.aave_v2.aave.delegate(GOVERNANCE_KPK),
   allow.mainnet.aave_v2.stkAave.delegate(GOVERNANCE_KPK),
 
-  // Compound v2 - AAVE
-  allowErc20Approve([AAVE], [contracts.mainnet.compound_v2.cAAVE]),
-  allow.mainnet.compound_v2.cAAVE.mint(),
-  // Withdraw: it is called when MAX underlying amount is withdrawn
-  allow.mainnet.compound_v2.cAAVE.redeem(),
-  // Withdraw: it is called when MAX underlying amount is NOT withdrawn
-  allow.mainnet.compound_v2.cAAVE.redeemUnderlying(),
-
-  // Compound v2 - DAI
-  allowErc20Approve([DAI], [contracts.mainnet.compound_v2.cDAI]),
-  allow.mainnet.compound_v2.cDAI.mint(),
-  // Withdraw: it is called when MAX underlying amount is withdrawn
-  allow.mainnet.compound_v2.cDAI.redeem(),
-  // Withdraw: it is called when MAX underlying amount is NOT withdrawn
-  allow.mainnet.compound_v2.cDAI.redeemUnderlying(),
-
-  // Compound v2 - USDC
-  allowErc20Approve([USDC], [contracts.mainnet.compound_v2.cUSDC]),
-  allow.mainnet.compound_v2.cUSDC.mint(),
-  // Withdraw: it is called when MAX underlying amount is withdrawn
-  allow.mainnet.compound_v2.cUSDC.redeem(),
-  // Withdraw: it is called when MAX underlying amount is NOT withdrawn
-  allow.mainnet.compound_v2.cUSDC.redeemUnderlying(),
-
-  // Compound v2 - Claim COMP
-  // WARNING!: The address[] parameter with the cTokens[] was removed since it's unnecessary.
-  allow.mainnet.compound_v2.comptroller["claimComp(address,address[])"](
-    avatar
-  ),
-
   // Compound v3 - USDC
   allowErc20Approve([USDC], [contracts.mainnet.compound_v3.cUSDCv3]),
   allow.mainnet.compound_v3.cUSDCv3.supply(USDC),
@@ -113,7 +78,7 @@ export default [
 
   // Compound v3 - Claim rewards
   allow.mainnet.compound_v3.CometRewards.claim(
-    contracts.mainnet.compound_v3.cUSDCv3,
+    undefined,
     c.avatar
   ),
 
