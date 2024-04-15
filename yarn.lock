@@ -3487,11 +3487,6 @@ type-fest@^0.21.3:
   resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-0.21.3.tgz#d260a24b0198436e133fa26a524a6d65fa3b2e37"
   integrity sha512-t0rzBq87m3fVcduHDUFhKmyyX+9eo6WQjZvf51Ea/M0Q7+T374Jp1aUiyUl0GKxp8M/OETVHSDvmkyPgvX+X2w==
 
-type-fest@^4.9.0:
-  version "4.10.3"
-  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-4.10.3.tgz#ff01cb0a1209f59583d61e1312de9715e7ea4874"
-  integrity sha512-JLXyjizi072smKGGcZiAJDCNweT8J+AuRxmPZ1aG7TERg4ijx9REl8CNhbr36RV4qXqL1gO1FF9HL8OkVmmrsA==
-
 typechain@8.0.0:
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/typechain/-/typechain-8.0.0.tgz#a5dbe754717a7e16247df52b5285903de600e8ff"
@@ -3710,19 +3705,18 @@ zod@^3.11.5, zod@^3.22.1, zod@^3.22.2:
   resolved "https://registry.yarnpkg.com/zod/-/zod-3.22.4.tgz#f31c3a9386f61b1f228af56faa9255e845cf3fff"
   integrity sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==
 
-zodiac-roles-sdk@^2.3.1:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/zodiac-roles-sdk/-/zodiac-roles-sdk-2.3.1.tgz#300b5f2a5bab56ce7a72caad14e315120c544115"
-  integrity sha512-4S2xhe3d6MbjI+bb2vqdqydBmKmU2BjOkfAkEC8dDALEQFc1w6Dc5mdAgk6dnk8Xw3BvdP3E5GHkX1Y1+tIH9A==
-  dependencies:
-    ethers "^5.7.2"
-    type-fest "^4.9.0"
-    zod "^3.22.1"
-
 zodiac-roles-sdk@^2.5.1:
   version "2.7.0"
   resolved "https://registry.yarnpkg.com/zodiac-roles-sdk/-/zodiac-roles-sdk-2.7.0.tgz#a927912fd65b8a47d52b8ae6c0a6c4d535e0dcb5"
   integrity sha512-PVDM8GTyROqonAouBCyC7uWajdVTb9zMvIKfQ0GWZsw/iauLam9JugazNHjd54vmb8d5CtDtxRtAQV2Ecbt7SQ==
+  dependencies:
+    ethers "^5.7.2"
+    zod "^3.22.1"
+
+zodiac-roles-sdk@^2.8.1:
+  version "2.8.1"
+  resolved "https://registry.yarnpkg.com/zodiac-roles-sdk/-/zodiac-roles-sdk-2.8.1.tgz#0ffb296e92cd4c8a9b582be94d244699a1924cb2"
+  integrity sha512-ClGiuEF/o/WoWPhN38nCU0QXZaDlhgf1r3yU1kOXqbcxeKQcx+xAMoxAUhOyxcpaBe4HaIubyiJ2vPe54D+2Jw==
   dependencies:
     ethers "^5.7.2"
     zod "^3.22.1"
