@@ -1735,16 +1735,16 @@ defer-to-connect@^2.0.0:
   resolved "https://registry.yarnpkg.com/defer-to-connect/-/defer-to-connect-2.0.1.tgz#8016bdb4143e4632b77a3449c6236277de520587"
   integrity sha512-4tvttepXG1VaYGrRibk5EwJd1t4udunSOVMdLSAL6mId1ix438oPwPZMALY41FCijukO1L0twNcGsdzS7dHgDg==
 
-defi-kit@^1.7.0:
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/defi-kit/-/defi-kit-1.7.0.tgz#3a5b9f524d38b1d0648f0451a1ea237827406afd"
-  integrity sha512-K9mEtU5qa8VN+gAlsP1n5B4FFyEIh6xUlzKQ/3t276LjVNSLCtkfqiNHJFGh1V24Sgyidv+BLwIJkRsHIZIbHg==
+defi-kit@^1.8.3:
+  version "1.8.3"
+  resolved "https://registry.yarnpkg.com/defi-kit/-/defi-kit-1.8.3.tgz#e8676151efdbf367e81d9cd493cb394835a79865"
+  integrity sha512-5LrD92/RvJ8OxpwFNOeiuMomL4BOW0IJBxjUrlLVj4pNPJ4ynWgDMbuS6P9SbYjV+XuT0X2VU+aoLY0yzbKJPA==
   dependencies:
     "@asteasolutions/zod-to-openapi" "^5.5.0"
     "@ethersproject/abi" "^5.7.0"
     ethers "^5.7.2"
     zod "^3.22.2"
-    zodiac-roles-sdk "^2.5.1"
+    zodiac-roles-sdk "^2.9.0"
 
 delayed-stream@~1.0.0:
   version "1.0.0"
@@ -3705,18 +3705,18 @@ zod@^3.11.5, zod@^3.22.1, zod@^3.22.2:
   resolved "https://registry.yarnpkg.com/zod/-/zod-3.22.4.tgz#f31c3a9386f61b1f228af56faa9255e845cf3fff"
   integrity sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==
 
-zodiac-roles-sdk@^2.5.1:
-  version "2.7.0"
-  resolved "https://registry.yarnpkg.com/zodiac-roles-sdk/-/zodiac-roles-sdk-2.7.0.tgz#a927912fd65b8a47d52b8ae6c0a6c4d535e0dcb5"
-  integrity sha512-PVDM8GTyROqonAouBCyC7uWajdVTb9zMvIKfQ0GWZsw/iauLam9JugazNHjd54vmb8d5CtDtxRtAQV2Ecbt7SQ==
-  dependencies:
-    ethers "^5.7.2"
-    zod "^3.22.1"
-
 zodiac-roles-sdk@^2.8.1:
   version "2.8.1"
   resolved "https://registry.yarnpkg.com/zodiac-roles-sdk/-/zodiac-roles-sdk-2.8.1.tgz#0ffb296e92cd4c8a9b582be94d244699a1924cb2"
   integrity sha512-ClGiuEF/o/WoWPhN38nCU0QXZaDlhgf1r3yU1kOXqbcxeKQcx+xAMoxAUhOyxcpaBe4HaIubyiJ2vPe54D+2Jw==
+  dependencies:
+    ethers "^5.7.2"
+    zod "^3.22.1"
+
+zodiac-roles-sdk@^2.9.0:
+  version "2.9.0"
+  resolved "https://registry.yarnpkg.com/zodiac-roles-sdk/-/zodiac-roles-sdk-2.9.0.tgz#b7c85af11068c2f39b517c213f7711bc7e820f60"
+  integrity sha512-VKSMMmi+REvSKNI6Gl7JfvgkXd5fLKMup/C8bSuzvywJsKRnKIoIu5XGLPCwuYpp4M3iNQq8cRRYejxWhDiZhA==
   dependencies:
     ethers "^5.7.2"
     zod "^3.22.1"
