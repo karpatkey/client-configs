@@ -2,10 +2,8 @@ import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import {
   AAVE,
-  ankrETH,
   COMP,
   DAI,
-  ETHx,
   rETH,
   stkAAVE,
   stETH,
@@ -226,6 +224,34 @@ export default [
     }
   ),
 
+  // Balancer - Swap wstETH for WETH
+  allow.mainnet.balancer.vault.swap(
+    {
+      poolId:
+        "0xf01b0684c98cd7ada480bfdf6e43876422fa1fc10002000000000000000005de",
+      assetIn: wstETH,
+      assetOut: WETH,
+    },
+    {
+      recipient: avatar,
+      sender: avatar,
+    }
+  ),
+
+  // Balancer - Swap WETH for wstETH
+  allow.mainnet.balancer.vault.swap(
+    {
+      poolId:
+        "0xf01b0684c98cd7ada480bfdf6e43876422fa1fc10002000000000000000005de",
+      assetIn: WETH,
+      assetOut: wstETH,
+    },
+    {
+      recipient: avatar,
+      sender: avatar,
+    }
+  ),
+
   // Balancer - Swap rETH for WETH
   allow.mainnet.balancer.vault.swap(
     {
@@ -254,15 +280,15 @@ export default [
     }
   ),
 
-  // Cowswap - Swapping of AAVE, ankrETH, COMP, DAI, ETHx, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH
+  // Cowswap - Swapping of AAVE, COMP, DAI, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH
   allowErc20Approve(
-    [AAVE, ankrETH, COMP, DAI, ETHx, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH],
+    [AAVE, COMP, DAI, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH],
     [contracts.mainnet.cowswap.gpv2_vault_relayer]
   ),
   allow.mainnet.cowswap.order_signer.signOrder(
     {
       sellToken: c.or(
-        AAVE, ankrETH, COMP, DAI, ETHx, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH
+        AAVE, COMP, DAI, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH
       ),
       buyToken: c.or(DAI, rETH, stETH, USDC, USDT, WBTC, WETH, wstETH),
       receiver: avatar,
@@ -288,14 +314,14 @@ export default [
 
   // Uniswap v3 - Swaps
   allowErc20Approve(
-    [AAVE, ankrETH, COMP, DAI, ETHx, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH],
+    [AAVE, COMP, DAI, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH],
     [contracts.mainnet.uniswapv3.router_2]
   ),
 
-  // Uniswap v3 - Swapping of tokens AAVE, ankrETH, COMP, DAI, ETHx, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH
+  // Uniswap v3 - Swapping of tokens AAVE, COMP, DAI, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH
   allow.mainnet.uniswapv3.router_2.exactInputSingle({
     tokenIn: c.or(
-      AAVE, ankrETH, COMP, DAI, ETHx, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH
+      AAVE, COMP, DAI, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH
     ),
     tokenOut: c.or(DAI, rETH, stETH, USDC, USDT, WBTC, WETH, wstETH),
     recipient: avatar,

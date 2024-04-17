@@ -11,7 +11,6 @@ import {
   ETHx,
   LDO,
   rETH,
-  sETH2,
   spWETH,
   stETH,
   SWISE,
@@ -244,29 +243,6 @@ export default [
     targetAddress: convex.cvxsteCRV_rewarder,
   },
 
-  // Convex - cDAI/cUSDC
-  ...allowErc20Approve([curve.crvcDAIcUSDC], [contracts.mainnet.convex.booster]),
-  ...allowErc20Approve([convex.cvxcDAIcUSDC], [convex.cvxcDAIcUSDC_rewarder]),
-  allow.mainnet.convex.booster.deposit(0),
-  allow.mainnet.convex.booster.depositAll(0),
-  allow.mainnet.convex.booster.withdraw(0),
-  {
-    ...allow.mainnet.convex.rewarder.stake(),
-    targetAddress: convex.cvxcDAIcUSDC_rewarder
-  },
-  {
-    ...allow.mainnet.convex.rewarder.withdraw(),
-    targetAddress: convex.cvxcDAIcUSDC_rewarder
-  },
-  {
-    ...allow.mainnet.convex.rewarder.withdrawAndUnwrap(),
-    targetAddress: convex.cvxcDAIcUSDC_rewarder
-  },
-  {
-    ...allow.mainnet.convex.rewarder["getReward(address,bool)"](c.avatar),
-    targetAddress: convex.cvxcDAIcUSDC_rewarder,
-  },
-
   // Curve - ETH/stETH
   ...allowErc20Approve([stETH], [contracts.mainnet.curve.steth_eth_pool]),
   allow.mainnet.curve.steth_eth_pool.add_liquidity(undefined, undefined, {
@@ -288,80 +264,19 @@ export default [
     contracts.mainnet.curve.stake_deposit_zap
   ),
 
-  // Curve - cDAI/cUSDC
-  ...allowErc20Approve(
-    [
-      DAI,
-      USDC,
-      contracts.mainnet.compound_v2.cDAI,
-      contracts.mainnet.compound_v2.cUSDC,
-    ],
-    [contracts.mainnet.curve.cDAIcUSDC_pool]
-  ),
-  ...allowErc20Approve([DAI, USDC], [contracts.mainnet.curve.cDAIcUSDC_zap]),
-  allow.mainnet.curve.cDAIcUSDC_pool.add_liquidity(),
-  allow.mainnet.curve.cDAIcUSDC_zap.add_liquidity(),
-  allow.mainnet.curve.cDAIcUSDC_pool.remove_liquidity(),
-  allow.mainnet.curve.cDAIcUSDC_zap.remove_liquidity(),
-  allow.mainnet.curve.cDAIcUSDC_pool.remove_liquidity_imbalance(),
-  allow.mainnet.curve.cDAIcUSDC_zap.remove_liquidity_imbalance(),
-  allow.mainnet.curve.cDAIcUSDC_zap[
-    "remove_liquidity_one_coin(uint256,int128,uint256)"
-  ](),
-  allow.mainnet.curve.cDAIcUSDC_pool.exchange(),
-  allow.mainnet.curve.cDAIcUSDC_pool.exchange_underlying(),
-  ...allowErc20Approve(
-    [curve.crvcDAIcUSDC],
-    [contracts.mainnet.curve.cDAIcUSDC_gauge]
-  ),
-  allow.mainnet.curve.cDAIcUSDC_gauge["deposit(uint256)"](),
-  allow.mainnet.curve.cDAIcUSDC_gauge.withdraw(),
-  allow.mainnet.curve.crv_minter.mint(contracts.mainnet.curve.cDAIcUSDC_gauge),
-  // Deposit and Stake using a special ZAP
-  allow.mainnet.curve.cDAIcUSDC_gauge.set_approve_deposit(
-    contracts.mainnet.curve.stake_deposit_zap
-  ),
-
   // Curve - Deposit and Stake using a special ZAP
   ...allowErc20Approve([stETH], [contracts.mainnet.curve.stake_deposit_zap]),
-  ...allowErc20Approve(
-    [
-      contracts.mainnet.compound_v2.cDAI,
-      contracts.mainnet.compound_v2.cUSDC,
-      DAI,
-      USDC,
-    ],
-    [contracts.mainnet.curve.stake_deposit_zap]
-  ),
-  allow.mainnet.curve.stake_deposit_zap[
-    "deposit_and_stake(address,address,address,uint256,address[5],uint256[5],uint256,bool,address)"
-  ](
-    c.or(
-      contracts.mainnet.curve.steth_eth_pool,
-      contracts.mainnet.curve.cDAIcUSDC_pool,
-      contracts.mainnet.curve.cDAIcUSDC_zap
-    ),
-    c.or(curve.steCRV, curve.crvcDAIcUSDC),
-    c.or(
-      contracts.mainnet.curve.steth_eth_gauge,
-      contracts.mainnet.curve.cDAIcUSDC_gauge
-    ),
+  allow.mainnet.curve.stake_deposit_zap["deposit_and_stake(address,address,address,uint256,address[],uint256[],uint256,bool,bool,address)"](
+    contracts.mainnet.curve.steth_eth_pool,
+    curve.steCRV,
+    contracts.mainnet.curve.steth_eth_gauge,
     2,
-    c.or(
-      [E_ADDRESS, stETH, ZERO_ADDRESS, ZERO_ADDRESS, ZERO_ADDRESS],
-      [DAI, USDC, ZERO_ADDRESS, ZERO_ADDRESS, ZERO_ADDRESS],
-      [
-        contracts.mainnet.compound_v2.cUSDC,
-        contracts.mainnet.compound_v2.cDAI,
-        ZERO_ADDRESS,
-        ZERO_ADDRESS,
-        ZERO_ADDRESS,
-      ]
-    ),
+    [E_ADDRESS, stETH, ZERO_ADDRESS, ZERO_ADDRESS, ZERO_ADDRESS],
     undefined,
     undefined,
     undefined,
     undefined,
+    ZERO_ADDRESS,
     { send: true }
   ),
 
@@ -545,6 +460,34 @@ export default [
     {
       poolId:
         "0x93d199263632a4ef4bb438f1feb99e57b4b5f0bd0000000000000000000005c2", // WARNING!: 0x32296969ef14eb0c6d29669c550d4a0449130230000200000000000000000080
+      assetIn: WETH,
+      assetOut: wstETH,
+    },
+    {
+      recipient: avatar,
+      sender: avatar,
+    }
+  ),
+
+  // Balancer - Swap wstETH for WETH
+  allow.mainnet.balancer.vault.swap(
+    {
+      poolId:
+        "0xf01b0684c98cd7ada480bfdf6e43876422fa1fc10002000000000000000005de",
+      assetIn: wstETH,
+      assetOut: WETH,
+    },
+    {
+      recipient: avatar,
+      sender: avatar,
+    }
+  ),
+
+  // Balancer - Swap WETH for wstETH
+  allow.mainnet.balancer.vault.swap(
+    {
+      poolId:
+        "0xf01b0684c98cd7ada480bfdf6e43876422fa1fc10002000000000000000005de",
       assetIn: WETH,
       assetOut: wstETH,
     },

@@ -9,7 +9,7 @@ export const contracts = {
     },
     aave_v3: {
       pool_v3: "0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2",
-      wrapped_token_gateway_v3: "0xD322A49006FC828F9B5B37Ab215F99B4E5caB19C",
+      wrapped_token_gateway_v3: "0x893411580e590D62dDBca8a703d61Cc4A8c7b2b9",
     },
     across_v2: {
       hub_pool_v2: "0xc186fA914353c44b2E33eBE05f21846F1048bEda",
@@ -92,7 +92,7 @@ export const contracts = {
     },
     curve: {
       crv_minter: "0xd061D61a4d941c39E5453435B6345Dc261C2fcE0",
-      stake_deposit_zap: "0x271fbE8aB7f1fB262f81C77Ea5303F03DA9d3d6A",
+      stake_deposit_zap: "0x56C526b0159a258887e0d79ec3a80dfb940d0cD7",
       steth_eth_pool: "0xDC24316b9AE028F1497c275EB9192a3Ea0f67022",
       steth_eth_gauge: "0x182B723a58739a9c974cFDB385ceaDb237453c28",
       cDAIcUSDC_pool: "0xA2B47E3D5c44877cca798226B7B8118F9BFb7A56",
