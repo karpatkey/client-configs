@@ -20,6 +20,7 @@ import {
   E_ADDRESS,
   ZERO_ADDRESS,
   wstETH,
+  aave_v3,
   aura,
   balancer,
   curve,
@@ -52,6 +53,7 @@ export default [
     undefined,
     { send: true }
   ),
+  ...allowErc20Approve([aave_v3.aEthWETH], [contracts.mainnet.aave_v3.wrapped_token_gateway_v3]),
   allow.mainnet.aave_v3.wrapped_token_gateway_v3.withdrawETH(
     contracts.mainnet.aave_v3.pool_v3,
     avatar,
@@ -66,6 +68,7 @@ export default [
   // Aave v3 - WETH
   ...allowErc20Approve([WETH], [contracts.mainnet.aave_v3.pool_v3]),
   allow.mainnet.aave_v3.pool_v3.supply(WETH, undefined, avatar),
+  // ...allowErc20Approve([aave_v3.aEthWETH], [contracts.mainnet.aave_v3.wrapped_token_gateway_v3]), Already included for ETH
   allow.mainnet.aave_v3.pool_v3.withdraw(WETH, undefined, avatar),
 
   // Ankr
