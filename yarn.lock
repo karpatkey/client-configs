@@ -1735,10 +1735,10 @@ defer-to-connect@^2.0.0:
   resolved "https://registry.yarnpkg.com/defer-to-connect/-/defer-to-connect-2.0.1.tgz#8016bdb4143e4632b77a3449c6236277de520587"
   integrity sha512-4tvttepXG1VaYGrRibk5EwJd1t4udunSOVMdLSAL6mId1ix438oPwPZMALY41FCijukO1L0twNcGsdzS7dHgDg==
 
-defi-kit@^1.8.5:
-  version "1.8.5"
-  resolved "https://registry.yarnpkg.com/defi-kit/-/defi-kit-1.8.5.tgz#e7eea41f7d1e494aa142a41d9fb03955fca8ff4e"
-  integrity sha512-XW1YAWVCv7YiL+WMLwlJyai6sMT4TxZP2O4WUnHc5dbaJk4A97AWmGU//CEXyovhQ+puwyV4gKaMZ1CoLr24Mw==
+defi-kit@^1.8.6:
+  version "1.8.6"
+  resolved "https://registry.yarnpkg.com/defi-kit/-/defi-kit-1.8.6.tgz#e1c97bfa4f158af3bf0ea69be26fca1d9eaebad2"
+  integrity sha512-Mk4HyDfKiliEP5XVDAlRuDh2Np5hkk9VaAsGxHRnRQUW0CHN2We8cW/tzWYkH+oGGKsGx47jD/Eq1VTqAJAOmQ==
   dependencies:
     "@asteasolutions/zod-to-openapi" "^5.5.0"
     "@ethersproject/abi" "^5.7.0"
@@ -3700,10 +3700,15 @@ yocto-queue@^0.1.0:
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
 
-zod@^3.11.5, zod@^3.22.1, zod@^3.22.2:
+zod@^3.11.5:
   version "3.22.4"
   resolved "https://registry.yarnpkg.com/zod/-/zod-3.22.4.tgz#f31c3a9386f61b1f228af56faa9255e845cf3fff"
   integrity sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==
+
+zod@^3.22.1, zod@^3.22.2:
+  version "3.22.5"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-3.22.5.tgz#b9b09db03f6700b0d0b75bf0dbf0c5fc46155220"
+  integrity sha512-HqnGsCdVZ2xc0qWPLdO25WnseXThh0kEYKIdV5F/hTHO75hNZFp8thxSeHhiPrHZKrFTo1SOgkAj9po5bexZlw==
 
 zodiac-roles-sdk@^2.8.1, zodiac-roles-sdk@^2.9.0:
   version "2.9.1"
