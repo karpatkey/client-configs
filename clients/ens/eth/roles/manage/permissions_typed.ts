@@ -56,8 +56,8 @@ export default [
   ...allowErc20Approve([aave_v3.aEthWETH], [contracts.mainnet.aave_v3.wrapped_token_gateway_v3]),
   allow.mainnet.aave_v3.wrapped_token_gateway_v3.withdrawETH(
     contracts.mainnet.aave_v3.pool_v3,
-    avatar,
-    undefined
+    undefined,
+    avatar
   ),
 
   // Aave v3 - USDC
@@ -68,7 +68,8 @@ export default [
   // Aave v3 - WETH
   ...allowErc20Approve([WETH], [contracts.mainnet.aave_v3.pool_v3]),
   allow.mainnet.aave_v3.pool_v3.supply(WETH, undefined, avatar),
-  // ...allowErc20Approve([aave_v3.aEthWETH], [contracts.mainnet.aave_v3.wrapped_token_gateway_v3]), Already included for ETH
+  // Approval already included for ETH, though UNNECESSARY. UI error to request this approval.
+  // ...allowErc20Approve([aave_v3.aEthWETH], [contracts.mainnet.aave_v3.wrapped_token_gateway_v3])
   allow.mainnet.aave_v3.pool_v3.withdraw(WETH, undefined, avatar),
 
   // Ankr
