@@ -25,7 +25,6 @@ import {
 } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
-import { avatar } from "../../index"
 import { PermissionList } from "../../../../../types"
 
 export default [
@@ -55,8 +54,11 @@ export default [
   // // Compound v3 - cWETHv3 - ETH
   // allowAction.compound_v3.deposit({ targets: ["cWETHv3"], tokens: ["ETH"] }),
 
-  // Convex - ETH/stETH
+  // Convex - ETH/stETH - steCRV
   allowAction.convex.deposit({ targets: ["25"] }),
+
+  // Convex - ETH/stETH - stETH-ng-f
+  allowAction.convex.deposit({ targets: ["177"] }),
 
   // Lido
   allowAction.lido.deposit(),
@@ -83,13 +85,13 @@ export default [
 
   // Aave v3 - DAI
   ...allowErc20Approve([DAI], [contracts.mainnet.aave_v3.pool_v3]),
-  allow.mainnet.aave_v3.pool_v3.supply(DAI, undefined, avatar),
-  allow.mainnet.aave_v3.pool_v3.withdraw(DAI, undefined, avatar),
+  allow.mainnet.aave_v3.pool_v3.supply(DAI, undefined, c.avatar),
+  allow.mainnet.aave_v3.pool_v3.withdraw(DAI, undefined, c.avatar),
 
   // Aave v3 - ETH
   allow.mainnet.aave_v3.wrapped_token_gateway_v3.depositETH(
     contracts.mainnet.aave_v3.pool_v3,
-    avatar,
+    c.avatar,
     undefined,
     { send: true }
   ),
@@ -97,20 +99,20 @@ export default [
   allow.mainnet.aave_v3.wrapped_token_gateway_v3.withdrawETH(
     contracts.mainnet.aave_v3.pool_v3,
     undefined,
-    avatar
+    c.avatar
   ),
 
   // Aave v3 - USDC
   ...allowErc20Approve([USDC], [contracts.mainnet.aave_v3.pool_v3]),
-  allow.mainnet.aave_v3.pool_v3.supply(USDC, undefined, avatar),
-  allow.mainnet.aave_v3.pool_v3.withdraw(USDC, undefined, avatar),
+  allow.mainnet.aave_v3.pool_v3.supply(USDC, undefined, c.avatar),
+  allow.mainnet.aave_v3.pool_v3.withdraw(USDC, undefined, c.avatar),
 
   // Aave v3 - WETH
   ...allowErc20Approve([WETH], [contracts.mainnet.aave_v3.pool_v3]),
-  allow.mainnet.aave_v3.pool_v3.supply(WETH, undefined, avatar),
+  allow.mainnet.aave_v3.pool_v3.supply(WETH, undefined, c.avatar),
   // Approval already included for ETH, though UNNECESSARY. UI error to request this approval.
   // ...allowErc20Approve([aave_v3.aEthWETH], [contracts.mainnet.aave_v3.wrapped_token_gateway_v3])
-  allow.mainnet.aave_v3.pool_v3.withdraw(WETH, undefined, avatar),
+  allow.mainnet.aave_v3.pool_v3.withdraw(WETH, undefined, c.avatar),
 
   // Compound v3 - ETH
   allow.mainnet.compound_v3.cWETHv3.allow(
@@ -150,7 +152,7 @@ export default [
     c.avatar
   ),
 
-  // Curve - ETH/stETH
+  // Curve - ETH/stETH - steCRV
   ...allowErc20Approve([stETH], [contracts.mainnet.curve.steth_eth_pool]),
   allow.mainnet.curve.steth_eth_pool.add_liquidity(undefined, undefined, {
     send: true,
@@ -171,12 +173,37 @@ export default [
     contracts.mainnet.curve.stake_deposit_zap
   ),
 
+  // Curve - ETH/stETH - stETH-ng-f
+  ...allowErc20Approve([stETH], [contracts.mainnet.curve.stETH_ng_f_pool]),
+  allow.mainnet.curve.stETH_ng_f_pool["add_liquidity(uint256[2],uint256)"](
+    undefined,
+    undefined,
+    { send: true },
+  ),
+  allow.mainnet.curve.stETH_ng_f_pool["add_liquidity(uint256[2],uint256,address)"](
+    undefined,
+    undefined,
+    c.avatar,
+    { send: true },
+  ),
+  allow.mainnet.curve.stETH_ng_f_pool["remove_liquidity(uint256,uint256[2])"](),
+  allow.mainnet.curve.stETH_ng_f_pool["remove_liquidity_one_coin(uint256,int128,uint256)"](),
+  allow.mainnet.curve.stETH_ng_f_pool["remove_liquidity_imbalance(uint256[2],uint256)"](),
+  ...allowErc20Approve(
+    [contracts.mainnet.curve.stETH_ng_f_pool],
+    [contracts.mainnet.curve.stETH_ng_f_gauge]
+  ),
+  allow.mainnet.curve.stETH_ng_f_gauge["deposit(uint256)"](),
+  allow.mainnet.curve.stETH_ng_f_gauge["withdraw(uint256)"](),
+  allow.mainnet.curve.stETH_ng_f_gauge["claim_rewards()"](),
+  allow.mainnet.curve.crv_minter.mint(contracts.mainnet.curve.stETH_ng_f_gauge),
+
   // Curve - Deposit and Stake using a special ZAP
   ...allowErc20Approve([stETH], [contracts.mainnet.curve.stake_deposit_zap]),
   allow.mainnet.curve.stake_deposit_zap["deposit_and_stake(address,address,address,uint256,address[],uint256[],uint256,bool,bool,address)"](
-    contracts.mainnet.curve.steth_eth_pool,
-    curve.steCRV,
-    contracts.mainnet.curve.steth_eth_gauge,
+    c.or(contracts.mainnet.curve.steth_eth_pool, contracts.mainnet.curve.stETH_ng_f_pool),
+    c.or(curve.steCRV, contracts.mainnet.curve.stETH_ng_f_pool),
+    c.or(contracts.mainnet.curve.steth_eth_gauge, contracts.mainnet.curve.stETH_ng_f_gauge),
     2,
     [E_ADDRESS, stETH, ZERO_ADDRESS, ZERO_ADDRESS, ZERO_ADDRESS],
     undefined,
@@ -194,9 +221,9 @@ export default [
   // on a pool of dai in a single function call.
   // https://docs.makerdao.com/smart-contract-modules/proxy-module/dsr-manager-detailed-documentation#contract-details
   ...allowErc20Approve([DAI], [contracts.mainnet.maker.dsr_manager]),
-  allow.mainnet.maker.dsr_manager.join(avatar),
-  allow.mainnet.maker.dsr_manager.exit(avatar),
-  allow.mainnet.maker.dsr_manager.exitAll(avatar),
+  allow.mainnet.maker.dsr_manager.join(c.avatar),
+  allow.mainnet.maker.dsr_manager.exit(c.avatar),
+  allow.mainnet.maker.dsr_manager.exitAll(c.avatar),
 
   // SWAPS
   // Balancer - Swaps
@@ -214,8 +241,8 @@ export default [
       assetOut: WETH,
     },
     {
-      recipient: avatar,
-      sender: avatar,
+      recipient: c.avatar,
+      sender: c.avatar,
     }
   ),
 
@@ -228,8 +255,8 @@ export default [
       assetOut: WETH,
     },
     {
-      recipient: avatar,
-      sender: avatar,
+      recipient: c.avatar,
+      sender: c.avatar,
     }
   ),
 
@@ -242,8 +269,8 @@ export default [
       assetOut: DAI,
     },
     {
-      recipient: avatar,
-      sender: avatar,
+      recipient: c.avatar,
+      sender: c.avatar,
     }
   ),
 
@@ -256,8 +283,8 @@ export default [
       assetOut: USDC,
     },
     {
-      recipient: avatar,
-      sender: avatar,
+      recipient: c.avatar,
+      sender: c.avatar,
     }
   ),
 
@@ -270,8 +297,8 @@ export default [
       assetOut: WETH,
     },
     {
-      recipient: avatar,
-      sender: avatar,
+      recipient: c.avatar,
+      sender: c.avatar,
     }
   ),
 
@@ -284,8 +311,8 @@ export default [
       assetOut: WETH,
     },
     {
-      recipient: avatar,
-      sender: avatar,
+      recipient: c.avatar,
+      sender: c.avatar,
     }
   ),
 
@@ -298,8 +325,8 @@ export default [
       assetOut: wstETH,
     },
     {
-      recipient: avatar,
-      sender: avatar,
+      recipient: c.avatar,
+      sender: c.avatar,
     }
   ),
 
@@ -312,8 +339,8 @@ export default [
       assetOut: WETH,
     },
     {
-      recipient: avatar,
-      sender: avatar,
+      recipient: c.avatar,
+      sender: c.avatar,
     }
   ),
 
@@ -326,8 +353,8 @@ export default [
       assetOut: wstETH,
     },
     {
-      recipient: avatar,
-      sender: avatar,
+      recipient: c.avatar,
+      sender: c.avatar,
     }
   ),
 
@@ -340,8 +367,8 @@ export default [
       assetOut: WETH,
     },
     {
-      recipient: avatar,
-      sender: avatar,
+      recipient: c.avatar,
+      sender: c.avatar,
     }
   ),
 
@@ -354,8 +381,8 @@ export default [
       assetOut: rETH,
     },
     {
-      recipient: avatar,
-      sender: avatar,
+      recipient: c.avatar,
+      sender: c.avatar,
     }
   ),
 
@@ -368,8 +395,8 @@ export default [
       assetOut: ankrETH,
     },
     {
-      recipient: avatar,
-      sender: avatar,
+      recipient: c.avatar,
+      sender: c.avatar,
     }
   ),
 
@@ -382,8 +409,8 @@ export default [
       assetOut: wstETH,
     },
     {
-      recipient: avatar,
-      sender: avatar,
+      recipient: c.avatar,
+      sender: c.avatar,
     }
   ),
 
@@ -396,8 +423,8 @@ export default [
       assetOut: WETH,
     },
     {
-      recipient: avatar,
-      sender: avatar,
+      recipient: c.avatar,
+      sender: c.avatar,
     }
   ),
 
@@ -410,8 +437,8 @@ export default [
       assetOut: ETHx,
     },
     {
-      recipient: avatar,
-      sender: avatar,
+      recipient: c.avatar,
+      sender: c.avatar,
     }
   ),
 
@@ -426,7 +453,7 @@ export default [
         ankrETH, AURA, BAL, COMP, CRV, CVX, DAI, ETHx, LDO, rETH, stETH, SWISE, USDC, USDT, WETH, wstETH
       ),
       buyToken: c.or(DAI, rETH, USDC, USDT, stETH, WETH, wstETH),
-      receiver: avatar,
+      receiver: c.avatar,
     },
     undefined,
     undefined,
@@ -478,7 +505,7 @@ export default [
   allow.mainnet.pancake_swap.smart_router.exactInputSingle({
     tokenIn: c.or(ETHx, WETH),
     tokenOut: c.or(ETHx, WETH),
-    recipient: avatar,
+    recipient: c.avatar,
   }),
 
   // Uniswap v3 - Swaps
@@ -493,6 +520,6 @@ export default [
       ankrETH, AURA, BAL, COMP, CRV, CVX, DAI, ETHx, LDO, rETH, stETH, SWISE, USDC, USDT, WETH, wstETH
     ),
     tokenOut: c.or(DAI, rETH, USDC, USDT, stETH, WETH, wstETH),
-    recipient: avatar,
+    recipient: c.avatar,
   }),
 ] satisfies PermissionList

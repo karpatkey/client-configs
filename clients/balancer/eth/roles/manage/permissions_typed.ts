@@ -16,7 +16,6 @@ import {
 } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
-import { avatar } from "../../index"
 import { PermissionList } from "../../../../../types"
 
 // governance.karpatkey.eth
@@ -45,13 +44,13 @@ export default [
 
   // Aave v3 - DAI
   allowErc20Approve([DAI], [contracts.mainnet.aave_v3.pool_v3]),
-  allow.mainnet.aave_v3.pool_v3.supply(DAI, undefined, avatar),
-  allow.mainnet.aave_v3.pool_v3.withdraw(DAI, undefined, avatar),
+  allow.mainnet.aave_v3.pool_v3.supply(DAI, undefined, c.avatar),
+  allow.mainnet.aave_v3.pool_v3.withdraw(DAI, undefined, c.avatar),
 
   // Aave v3 - USDC
   allowErc20Approve([USDC], [contracts.mainnet.aave_v3.pool_v3]),
-  allow.mainnet.aave_v3.pool_v3.supply(USDC, undefined, avatar),
-  allow.mainnet.aave_v3.pool_v3.withdraw(USDC, undefined, avatar),
+  allow.mainnet.aave_v3.pool_v3.supply(USDC, undefined, c.avatar),
+  allow.mainnet.aave_v3.pool_v3.withdraw(USDC, undefined, c.avatar),
 
   // Aave - Delegate Aave and stkAave to governance.karpatkey.eth
   allow.mainnet.aave_v2.aave.delegate(GOVERNANCE_KPK),
@@ -103,9 +102,9 @@ export default [
   // on a pool of dai in a single function call.
   // https://docs.makerdao.com/smart-contract-modules/proxy-module/dsr-manager-detailed-documentation#contract-details
   allowErc20Approve([DAI], [contracts.mainnet.maker.dsr_manager]),
-  allow.mainnet.maker.dsr_manager.join(avatar),
-  allow.mainnet.maker.dsr_manager.exit(avatar),
-  allow.mainnet.maker.dsr_manager.exitAll(avatar),
+  allow.mainnet.maker.dsr_manager.join(c.avatar),
+  allow.mainnet.maker.dsr_manager.exit(c.avatar),
+  allow.mainnet.maker.dsr_manager.exitAll(c.avatar),
 
   // Rocket Pool
   ...allowErc20Approve(
@@ -129,7 +128,7 @@ export default [
     token0: WBTC,
     token1: WETH,
     fee: 3000,
-    recipient: avatar,
+    recipient: c.avatar,
   }),
   // Add liquidity using ETH (WETH is nor permitted through the UI)
   allow.mainnet.uniswapv3.positions_nft.increaseLiquidity(
@@ -143,7 +142,7 @@ export default [
   allow.mainnet.uniswapv3.positions_nft.decreaseLiquidity(),
   allow.mainnet.uniswapv3.positions_nft.collect(
     {
-      recipient: avatar,
+      recipient: c.avatar,
     }
   ),
 
@@ -163,8 +162,8 @@ export default [
       assetOut: WETH,
     },
     {
-      recipient: avatar,
-      sender: avatar,
+      recipient: c.avatar,
+      sender: c.avatar,
     }
   ),
 
@@ -177,8 +176,8 @@ export default [
       assetOut: DAI,
     },
     {
-      recipient: avatar,
-      sender: avatar,
+      recipient: c.avatar,
+      sender: c.avatar,
     }
   ),
 
@@ -191,8 +190,8 @@ export default [
       assetOut: USDC,
     },
     {
-      recipient: avatar,
-      sender: avatar,
+      recipient: c.avatar,
+      sender: c.avatar,
     }
   ),
 
@@ -205,8 +204,8 @@ export default [
       assetOut: WETH,
     },
     {
-      recipient: avatar,
-      sender: avatar,
+      recipient: c.avatar,
+      sender: c.avatar,
     }
   ),
 
@@ -219,8 +218,8 @@ export default [
       assetOut: wstETH,
     },
     {
-      recipient: avatar,
-      sender: avatar,
+      recipient: c.avatar,
+      sender: c.avatar,
     }
   ),
 
@@ -233,8 +232,8 @@ export default [
       assetOut: WETH,
     },
     {
-      recipient: avatar,
-      sender: avatar,
+      recipient: c.avatar,
+      sender: c.avatar,
     }
   ),
 
@@ -247,8 +246,8 @@ export default [
       assetOut: wstETH,
     },
     {
-      recipient: avatar,
-      sender: avatar,
+      recipient: c.avatar,
+      sender: c.avatar,
     }
   ),
 
@@ -261,8 +260,8 @@ export default [
       assetOut: WETH,
     },
     {
-      recipient: avatar,
-      sender: avatar,
+      recipient: c.avatar,
+      sender: c.avatar,
     }
   ),
 
@@ -275,8 +274,8 @@ export default [
       assetOut: rETH,
     },
     {
-      recipient: avatar,
-      sender: avatar,
+      recipient: c.avatar,
+      sender: c.avatar,
     }
   ),
 
@@ -291,7 +290,7 @@ export default [
         AAVE, COMP, DAI, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH
       ),
       buyToken: c.or(DAI, rETH, stETH, USDC, USDT, WBTC, WETH, wstETH),
-      receiver: avatar,
+      receiver: c.avatar,
     },
     undefined,
     undefined,
@@ -324,6 +323,6 @@ export default [
       AAVE, COMP, DAI, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH
     ),
     tokenOut: c.or(DAI, rETH, stETH, USDC, USDT, WBTC, WETH, wstETH),
-    recipient: avatar,
+    recipient: c.avatar,
   })
 ] satisfies PermissionList

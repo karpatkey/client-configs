@@ -196,6 +196,8 @@ export const convex = {
 
   cvxsteCRV: "0x9518c9063eB0262D791f38d8d6Eb0aca33c63ed0" as Address,
   cvxsteCRV_rewarder: "0x0A760466E1B4621579a82a39CB56Dda2F4E70f03" as Address,
+  cvxstETH_ng_f: "0x1b74fa5951dfa4c03D0127011548fA79b956f63B" as Address,
+  cvxstETH_ng_f_rewarder: "0x6B27D7BC63F1999D14fF9bA900069ee516669ee8" as Address,
   cvxcDAIcUSDC: "0x32512Bee3848bfcBb7bEAf647aa697a100f3b706" as Address,
   cvxcDAIcUSDC_rewarder: "0xf34DFF761145FF0B05e917811d488B441F33a968" as Address,
 

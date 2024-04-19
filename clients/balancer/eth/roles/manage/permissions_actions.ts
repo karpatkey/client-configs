@@ -17,7 +17,6 @@ import {
 } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
-import { avatar } from "../../index"
 import { PermissionList } from "../../../../../types"
 
 // governance.karpatkey.eth
@@ -82,9 +81,9 @@ export default [
   // on a pool of dai in a single function call.
   // https://docs.makerdao.com/smart-contract-modules/proxy-module/dsr-manager-detailed-documentation#contract-details
   allowErc20Approve([DAI], [contracts.mainnet.maker.dsr_manager]),
-  allow.mainnet.maker.dsr_manager.join(avatar),
-  allow.mainnet.maker.dsr_manager.exit(avatar),
-  allow.mainnet.maker.dsr_manager.exitAll(avatar),
+  allow.mainnet.maker.dsr_manager.join(c.avatar),
+  allow.mainnet.maker.dsr_manager.exit(c.avatar),
+  allow.mainnet.maker.dsr_manager.exitAll(c.avatar),
 
   // SWAPS
   // Balancer - Swaps
@@ -102,8 +101,8 @@ export default [
       assetOut: WETH,
     },
     {
-      recipient: avatar,
-      sender: avatar,
+      recipient: c.avatar,
+      sender: c.avatar,
     }
   ),
 
@@ -116,8 +115,8 @@ export default [
       assetOut: DAI,
     },
     {
-      recipient: avatar,
-      sender: avatar,
+      recipient: c.avatar,
+      sender: c.avatar,
     }
   ),
 
@@ -130,8 +129,8 @@ export default [
       assetOut: USDC,
     },
     {
-      recipient: avatar,
-      sender: avatar,
+      recipient: c.avatar,
+      sender: c.avatar,
     }
   ),
 
@@ -144,8 +143,8 @@ export default [
       assetOut: WETH,
     },
     {
-      recipient: avatar,
-      sender: avatar,
+      recipient: c.avatar,
+      sender: c.avatar,
     }
   ),
 
@@ -158,8 +157,8 @@ export default [
       assetOut: wstETH,
     },
     {
-      recipient: avatar,
-      sender: avatar,
+      recipient: c.avatar,
+      sender: c.avatar,
     }
   ),
 
@@ -172,8 +171,8 @@ export default [
       assetOut: WETH,
     },
     {
-      recipient: avatar,
-      sender: avatar,
+      recipient: c.avatar,
+      sender: c.avatar,
     }
   ),
 
@@ -186,8 +185,8 @@ export default [
       assetOut: wstETH,
     },
     {
-      recipient: avatar,
-      sender: avatar,
+      recipient: c.avatar,
+      sender: c.avatar,
     }
   ),
 
@@ -200,8 +199,8 @@ export default [
       assetOut: WETH,
     },
     {
-      recipient: avatar,
-      sender: avatar,
+      recipient: c.avatar,
+      sender: c.avatar,
     }
   ),
 
@@ -214,8 +213,8 @@ export default [
       assetOut: rETH,
     },
     {
-      recipient: avatar,
-      sender: avatar,
+      recipient: c.avatar,
+      sender: c.avatar,
     }
   ),
 
@@ -230,7 +229,7 @@ export default [
         AAVE, COMP, DAI, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH
       ),
       buyToken: c.or(DAI, rETH, stETH, USDC, USDT, WBTC, WETH, wstETH),
-      receiver: avatar,
+      receiver: c.avatar,
     },
     undefined,
     undefined,
@@ -263,6 +262,6 @@ export default [
       AAVE, COMP, DAI, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH
     ),
     tokenOut: c.or(DAI, rETH, stETH, USDC, USDT, WBTC, WETH, wstETH),
-    recipient: avatar,
+    recipient: c.avatar,
   })
 ] satisfies PermissionList
