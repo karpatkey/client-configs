@@ -338,29 +338,34 @@ export default [
   },
   allow.mainnet.rocket_pool.swap_router.swapFrom(),
 
-  // Spark - WETH
-  ...allowErc20Approve([WETH], [contracts.mainnet.spark.wrappedTokenGatewayV3]),
-  allow.mainnet.spark.sparkLendingPoolV3.supply(WETH, undefined, avatar),
-  allow.mainnet.spark.sparkLendingPoolV3.withdraw(WETH, undefined, avatar),
-
   // Spark - ETH
-  ...allowErc20Approve([spWETH], [contracts.mainnet.spark.wrappedTokenGatewayV3]),
   allow.mainnet.spark.wrappedTokenGatewayV3.depositETH(
     contracts.mainnet.spark.sparkLendingPoolV3,
     avatar,
     undefined,
     { send: true }
   ),
+  ...allowErc20Approve([spWETH], [contracts.mainnet.spark.wrappedTokenGatewayV3]),
   allow.mainnet.spark.wrappedTokenGatewayV3.withdrawETH(
     contracts.mainnet.spark.sparkLendingPoolV3,
     undefined,
     avatar
   ),
 
+  // Spark - WETH
+  ...allowErc20Approve([WETH], [contracts.mainnet.spark.sparkLendingPoolV3]),
+  allow.mainnet.spark.sparkLendingPoolV3.supply(WETH, undefined, avatar),
+  allow.mainnet.spark.sparkLendingPoolV3.withdraw(WETH, undefined, avatar),
+
   // Stader
   ...allowErc20Approve([ETHx], [contracts.mainnet.stader.user_withdraw_manager]),
   allow.mainnet.stader.staking_pool_manager["deposit(address)"](
     c.avatar,
+    { send: true }
+  ),
+  allow.mainnet.stader.staking_pool_manager["deposit(address,string)"](
+    c.avatar,
+    undefined,
     { send: true }
   ),
   allow.mainnet.stader.user_withdraw_manager[
