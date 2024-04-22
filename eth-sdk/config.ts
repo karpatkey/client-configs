@@ -92,6 +92,7 @@ export const contracts = {
     },
     curve: {
       crv_minter: "0xd061D61a4d941c39E5453435B6345Dc261C2fcE0",
+      stake_deposit_zap_v1: "0x271fbE8aB7f1fB262f81C77Ea5303F03DA9d3d6A",
       stake_deposit_zap: "0x56C526b0159a258887e0d79ec3a80dfb940d0cD7",
       steth_eth_pool: "0xDC24316b9AE028F1497c275EB9192a3Ea0f67022",
       steth_eth_gauge: "0x182B723a58739a9c974cFDB385ceaDb237453c28",

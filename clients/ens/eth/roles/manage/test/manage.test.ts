@@ -16,7 +16,7 @@ describe("ENS", () => {
 
     // acquire 1 WETH for avatar
     await wrapEth(parseEther("1"))
-  })
+  }, 120000)
 
   describe("cowswap", () => {
     it("Forbid swapping WETH to ENS", async () => {

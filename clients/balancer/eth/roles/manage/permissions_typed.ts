@@ -123,13 +123,13 @@ export default [
 
   // Uniswap v3 - WBTC + WETH, Range: 11.786 - 15.082. Fee: 0.3%.
   ...allowErc20Approve([WBTC, WETH], [contracts.mainnet.uniswapv3.positions_nft]),
-  // Mint NFT using WETH
-  allow.mainnet.uniswapv3.positions_nft.mint({
-    token0: WBTC,
-    token1: WETH,
-    fee: 3000,
-    recipient: c.avatar,
-  }),
+  // // Mint NFT using WETH
+  // allow.mainnet.uniswapv3.positions_nft.mint({
+  //   token0: WBTC,
+  //   token1: WETH,
+  //   fee: 3000,
+  //   recipient: c.avatar,
+  // }),
   // Add liquidity using ETH (WETH is nor permitted through the UI)
   allow.mainnet.uniswapv3.positions_nft.increaseLiquidity(
     {

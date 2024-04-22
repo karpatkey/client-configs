@@ -114,7 +114,7 @@ export default [
     c.every(
       c.abiEncodedMatches(
         [contracts.mainnet.compound_v3.cWETHv3, c.avatar],
-        ["address", "address", "address", "uint256"]
+        ["address", "address", "uint256"]
       )
     ),
     { send: true }
@@ -122,10 +122,7 @@ export default [
 
   // Compound v3 - Claim rewards
   allow.mainnet.compound_v3.CometRewards.claim(
-    c.or(
-      c.eq(contracts.mainnet.compound_v3.cWETHv3),
-      c.eq(contracts.mainnet.compound_v3.cUSDCv3)
-    ),
+    undefined,
     c.avatar
   ),
 
@@ -155,12 +152,6 @@ export default [
   allow.mainnet.curve.stETH_ng_f_pool["add_liquidity(uint256[2],uint256)"](
     undefined,
     undefined,
-    { send: true },
-  ),
-  allow.mainnet.curve.stETH_ng_f_pool["add_liquidity(uint256[2],uint256,address)"](
-    undefined,
-    undefined,
-    c.avatar,
     { send: true },
   ),
   allow.mainnet.curve.stETH_ng_f_pool["remove_liquidity(uint256,uint256[2])"](),
