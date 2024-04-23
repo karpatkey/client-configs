@@ -7,7 +7,6 @@ import {
   rETH,
   rETH2,
   sETH2,
-  stETH,
   SWISE,
   USDC,
   USDT,
@@ -82,7 +81,6 @@ export default [
 
   // Compound v3 - Claim rewards
   allow.mainnet.compound_v3.CometRewards.claim(
-    contracts.mainnet.compound_v3.cUSDCv3,
     c.avatar
   ),
 
