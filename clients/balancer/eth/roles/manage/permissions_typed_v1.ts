@@ -81,6 +81,7 @@ export default [
 
   // Compound v3 - Claim rewards
   allow.mainnet.compound_v3.CometRewards.claim(
+    undefined,
     c.avatar
   ),
 
