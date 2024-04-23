@@ -39,9 +39,9 @@ export default [
     send: true,
   }),
 
-  // // Aave v3 - DAI
-  // allow.mainnet.aave_v3.pool_v3.supply(DAI, undefined, c.avatar),
-  // allow.mainnet.aave_v3.pool_v3.withdraw(DAI, undefined, c.avatar),
+  // Aave v3 - DAI
+  allow.mainnet.aave_v3.pool_v3.supply(DAI, undefined, c.avatar),
+  allow.mainnet.aave_v3.pool_v3.withdraw(DAI, undefined, c.avatar),
 
   // Aave v3 - ETH
   allow.mainnet.aave_v3.wrapped_token_gateway_v3.depositETH(
