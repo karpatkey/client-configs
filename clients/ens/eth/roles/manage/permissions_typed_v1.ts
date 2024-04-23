@@ -243,9 +243,9 @@ export default [
   },
 
   // Convex - cDAI/cUSDC
-  allow.mainnet.convex.booster.deposit(0),
-  allow.mainnet.convex.booster.depositAll(0),
-  allow.mainnet.convex.booster.withdraw(0),
+  allow.mainnet.convex.booster.deposit("0"),
+  allow.mainnet.convex.booster.depositAll("0"),
+  allow.mainnet.convex.booster.withdraw("0"),
   {
     ...allow.mainnet.convex.rewarder.stake(),
     targetAddress: convex.cvxcDAIcUSDC_rewarder
