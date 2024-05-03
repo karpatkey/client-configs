@@ -14,21 +14,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          target: wasm32-unknown-unknown
-          profile: minimal
-          override: true
       - name: Install anvil
         uses: foundry-rs/foundry-toolchain@v1
         with:
           version: nightly
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 21
       - uses: actions/cache@v3
         with:
           path: |
@@ -42,10 +35,8 @@ jobs:
           yarn
           yarn setup
 
-      - name: Run tests
-        run: |
-          cd sdk
-          yarn test
-
       - name: Check formatting
         run: yarn check:prettier
+
+      - name: Run tests
+        run: yarn test

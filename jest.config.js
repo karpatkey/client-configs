@@ -5,4 +5,4 @@ module.exports = {
   testTimeout: 25000,
   globalSetup: "./test/global-setup.ts",
   setupFilesAfterEnv: ["./test/setup-after-env.ts"],
-};
+}
