@@ -1735,10 +1735,10 @@ defer-to-connect@^2.0.0:
   resolved "https://registry.yarnpkg.com/defer-to-connect/-/defer-to-connect-2.0.1.tgz#8016bdb4143e4632b77a3449c6236277de520587"
   integrity sha512-4tvttepXG1VaYGrRibk5EwJd1t4udunSOVMdLSAL6mId1ix438oPwPZMALY41FCijukO1L0twNcGsdzS7dHgDg==
 
-defi-kit@^1.8.9:
-  version "1.8.9"
-  resolved "https://registry.yarnpkg.com/defi-kit/-/defi-kit-1.8.9.tgz#56ebd24f89f3715bef9d1e3873fbe20bcef18814"
-  integrity sha512-gA2fLZJ4Nf+Zua/QxVmYC4jw+fizqtnd3UA3dNH4E3vfNI3ykHoVc+TP+2i5glOzDH5QpnVk8zSukF8NVwARJQ==
+defi-kit@^1.9.0:
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/defi-kit/-/defi-kit-1.9.0.tgz#1ba9abb502796d9f1f764fc95fae83b8f7a64295"
+  integrity sha512-HtTDasiiyvmj6K6Douc1ZyuiB3xMW2nr7mgE6goA4JDKGnd++e1gQqj3Z6eq+u5O6pBlqWXgUmeCoMReJRWJGw==
   dependencies:
     "@asteasolutions/zod-to-openapi" "^5.5.0"
     "@ethersproject/abi" "^5.7.0"
