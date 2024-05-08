@@ -52,7 +52,7 @@ export default [
 
   // Uniswap v3 - WBTC + WETH, Range: 11.786 - 15.082. Fee: 0.3%.
   // WARNING!: With the deposit action we are allowing to send ETH and the functions that involve ETH.
-  allowAction.uniswap_v3.deposit({ targets: ["430246"] }),
+  allowAction.uniswap_v3.deposit({ tokens: ["WBTC", "WETH"], fees: ["0.3%"] }),
 
   /*********************************************
   * Typed-presets permissions

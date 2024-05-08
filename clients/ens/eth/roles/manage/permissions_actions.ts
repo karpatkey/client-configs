@@ -173,7 +173,7 @@ export default [
     c.or(curve.steCRV, contracts.mainnet.curve.stETH_ng_f_pool),
     c.or(contracts.mainnet.curve.steth_eth_gauge, contracts.mainnet.curve.stETH_ng_f_gauge),
     2,
-    [E_ADDRESS, stETH, ZERO_ADDRESS, ZERO_ADDRESS, ZERO_ADDRESS],
+    [E_ADDRESS, stETH],
     undefined,
     undefined,
     undefined,
