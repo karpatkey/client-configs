@@ -2,7 +2,7 @@ import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { allow as allowAction } from "defi-kit/eth"
 import {
-  USDC
+  DAI, GHO, USDC, stETH, WBTC, wstETH, ZERO_ADDRESS, curve
 } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
@@ -12,8 +12,8 @@ export default [
   /*********************************************
   * Defi-Kit permissions
   *********************************************/
-  // Aave v2 - Staking of AAVE in Safety Module
-  allowAction.aave_v2.stake({ targets: ["AAVE"] }),
+  // Aave v2 - Staking of AAVE and GHO in Safety Module
+  allowAction.aave_v2.stake({ targets: ["AAVE", "GHO"] }),
 
   // Aura - wstETH/WETH
   allowAction.aura.deposit({ targets: ["153"] }),
@@ -30,6 +30,9 @@ export default [
 
   // Rocket Pool
   allowAction.rocket_pool.deposit(),
+
+  // Spark - DSR sDAI
+  allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
 
   /*********************************************
   * Typed-presets permissions
@@ -50,5 +53,87 @@ export default [
     undefined,
     c.avatar
   ),
+
+  // Curve - Tricrypto GHO (GHO/WBTC/wstETH)
+  ...allowErc20Approve([GHO, WBTC, wstETH], [contracts.mainnet.curve.tricryptoGHO_pool]),
+  allow.mainnet.curve.tricryptoGHO_pool["add_liquidity(uint256[3],uint256,bool)"](),
+  allow.mainnet.curve.tricryptoGHO_pool["remove_liquidity(uint256,uint256[3],bool)"](),
+  allow.mainnet.curve.tricryptoGHO_pool["remove_liquidity_one_coin(uint256,uint256,uint256,bool)"](),
+  ...allowErc20Approve(
+    [contracts.mainnet.curve.tricryptoGHO_pool],
+    [contracts.mainnet.curve.tricryptoGHO_gauge]
+  ),
+  allow.mainnet.curve.tricryptoGHO_gauge["deposit(uint256)"](),
+  allow.mainnet.curve.tricryptoGHO_gauge["withdraw(uint256)"](),
+
+  // Curve - Deposit and Stake using a special ZAP
+  ...allowErc20Approve([GHO, WBTC, wstETH], [contracts.mainnet.curve.stake_deposit_zap]),
+  allow.mainnet.curve.stake_deposit_zap["deposit_and_stake(address,address,address,uint256,address[],uint256[],uint256,bool,bool,address)"](
+    contracts.mainnet.curve.tricryptoGHO_pool,
+    contracts.mainnet.curve.tricryptoGHO_pool,
+    contracts.mainnet.curve.tricryptoGHO_gauge,
+    3,
+    [GHO, WBTC, wstETH],
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    ZERO_ADDRESS
+  ),
+
+  // Enzyme - Diva stETH Vault
+  // Deposit ETH
+  allow.mainnet.enzyme.deposit_wrapper_2.exchangeEthAndBuyShares(
+    contracts.mainnet.enzyme.Diva_stETH_Vault,
+    undefined,
+    "0xDEF171Fe48CF0115B1d80b88dc8eAB59176FEe57", // Paraswap v5: Augustus Swapper Mainnet
+    "0x216B4B4Ba9F3e719726886d34a177484278Bfcae", // Paraswap v5: Token TransferProxy Mainnet
+    undefined,
+    undefined,
+    {
+      send: true
+    }
+  ),
+  // Deposit stETH
+  ...allowErc20Approve([stETH], [contracts.mainnet.enzyme.Diva_stETH_Vault]),
+  allow.mainnet.enzyme.Diva_stETH_Vault.buyShares(),
+  // Withdraw stETH
+  allow.mainnet.enzyme.Diva_stETH_Vault.redeemSharesInKind(c.avatar),
+  allow.mainnet.enzyme.Diva_stETH_Vault.redeemSharesForSpecificAssets(c.avatar, undefined, [stETH]),
+
+  // Maker - DSR (DAI Savings Rate)
+  // The DsrManager provides an easy to use smart contract that allows
+  // service providers to deposit/withdraw dai into the DSR contract pot,
+  // and activate/deactivate the Dai Savings Rate to start earning savings
+  // on a pool of dai in a single function call.
+  // https://docs.makerdao.com/smart-contract-modules/proxy-module/dsr-manager-detailed-documentation#contract-details
+  ...allowErc20Approve([DAI], [contracts.mainnet.maker.dsr_manager]),
+  allow.mainnet.maker.dsr_manager.join(c.avatar),
+  allow.mainnet.maker.dsr_manager.exit(c.avatar),
+  allow.mainnet.maker.dsr_manager.exitAll(c.avatar),
+
+  // pods - ETHphoria Vault
+  // Deposit ETH
+  allow.mainnet.pods.ETHAdapter.deposit(
+    contracts.mainnet.pods.ETHoriaVault,
+    c.avatar,
+    undefined,
+    {
+      send: true
+    }
+  ),
+  // Deposit stETH
+  ...allowErc20Approve([stETH], [contracts.mainnet.pods.ETHoriaVault]),
+  allow.mainnet.pods.ETHoriaVault.deposit(
+    undefined,
+    c.avatar
+  ),
+  // Withdraw stETH
+  allow.mainnet.pods.ETHoriaVault.redeem(
+    undefined,
+    c.avatar,
+    c.avatar
+  ),
+
 
 ] satisfies PermissionList

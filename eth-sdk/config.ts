@@ -104,6 +104,12 @@ export const contracts = {
       ankrETH_pool: "0xA96A65c051bF88B4095Ee1f2451C2A9d43F53Ae2",
       stETH_ng_f_pool: "0x21E27a5E5513D6e65C4f830167390997aA84843a",
       stETH_ng_f_gauge: "0x79F21BC30632cd40d2aF8134B469a0EB4C9574AA",
+      tricryptoGHO_pool: "0x8Cd52ee292313C4D851e71A7064F096504aB3eE9",
+      tricryptoGHO_gauge: "0x6373E119F2A1Fd081249BC16FE7FEA1F6b3A4Ca8",
+    },
+    enzyme: {
+      deposit_wrapper_2: "0x65BbAD6545B7ac9C30Fb0f07e64e25106Bf05eEc",
+      Diva_stETH_Vault: "0x648B8d2340842a7040680915c4dAb89382eeEDA9",
     },
     idle: {
       stEthCdo: "0x34dCd573C5dE4672C8248cd12A99f875Ca112Ad8",
@@ -129,6 +135,10 @@ export const contracts = {
     },
     pancake_swap: {
       smart_router: "0x13f4EA83D0bd40E75C8222255bc855a974568Dd4",
+    },
+    pods: {
+      ETHAdapter: "0x4AAD0755eFd63F4e9B7Fac19Bd426db4a0d9b5E8",
+      ETHoriaVault: "0x5FE4B38520e856921978715C8579D2D7a4d2274F"
     },
     rocket_pool: {
       deposit_pool: "0xDD3f50F8A6CafbE9b31a427582963f465E745AF8", // This address might due to Rocket Pool's Architecture
