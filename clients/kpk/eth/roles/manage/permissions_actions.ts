@@ -2,7 +2,7 @@ import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { allow as allowAction } from "defi-kit/eth"
 import {
-  DAI, GHO, USDC, stETH, WBTC, wstETH, ZERO_ADDRESS, curve
+  DAI, GHO, USDC, SAFE, stETH, WBTC, wstETH, ZERO_ADDRESS
 } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
@@ -112,6 +112,19 @@ export default [
   allow.mainnet.maker.dsr_manager.exit(c.avatar),
   allow.mainnet.maker.dsr_manager.exitAll(c.avatar),
 
+  // Notional - withdraw DAI
+  allow.mainnet.notional.nProxy.batchBalanceAction(
+    c.avatar,
+    c.every(
+      {
+        actionType: 5,
+        currencyId: 2
+      }
+    )
+  ),
+  // Claim NOTE
+  allow.mainnet.notional.nProxy.nTokenClaimIncentives(),
+
   // pods - ETHphoria Vault
   // Deposit ETH
   allow.mainnet.pods.ETHAdapter.deposit(
@@ -135,5 +148,20 @@ export default [
     c.avatar
   ),
 
-
+  // SAFE - Claim
+  allow.mainnet.safe.ecosystem_airdrop.claimVestedTokens(
+    undefined,
+    c.avatar
+  ),
+  allow.mainnet.safe.user_airdrop.claimVestedTokens(
+    undefined,
+    c.avatar
+  ),
+  allow.mainnet.safe.user_airdrop_sep5.claimVestedTokens(
+    undefined,
+    c.avatar
+  ),
+  // SAFE - Lock
+  ...allowErc20Approve([SAFE], [contracts.mainnet.safe.token_lock]),
+  allow.mainnet.safe.token_lock.lock(),
 ] satisfies PermissionList

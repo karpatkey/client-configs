@@ -133,6 +133,9 @@ export const contracts = {
     mstable_v2: {
       stkMTA: "0x8f2326316eC696F6d023E37A9931c2b2C177a3D7",
     },
+    notional: {
+      nProxy: "0x1344A36A1B56144C3Bc62E7757377D288fDE0369",
+    },
     pancake_swap: {
       smart_router: "0x13f4EA83D0bd40E75C8222255bc855a974568Dd4",
     },
@@ -144,6 +147,12 @@ export const contracts = {
       deposit_pool: "0xDD3f50F8A6CafbE9b31a427582963f465E745AF8", // This address might due to Rocket Pool's Architecture
       rETH: "0xae78736Cd615f374D3085123A210448E74Fc6393",
       swap_router: "0x16D5A408e807db8eF7c578279BEeEe6b228f1c1C",
+    },
+    safe: {
+      token_lock: "0x0a7CB434f96f65972D46A5c1A64a9654dC9959b2",
+      ecosystem_airdrop: "0x29067F28306419923BCfF96E37F95E0f58ABdBBe",
+      user_airdrop: "0xA0b937D5c8E32a80E3a8ed4227CD020221544ee6",
+      user_airdrop_sep5: "0xC0fde70A65C7569Fe919bE57492228DEE8cDb585",
     },
     silo_v2: {
       router: "0x8658047e48CC09161f4152c79155Dac1d710Ff0a",
