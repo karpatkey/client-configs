@@ -191,8 +191,22 @@ export const contracts = {
     weth: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
     omnibridge: "0x88ad09518695c6c3712AC10a214bE5109a655671",
   },
+  gnosis: {
+    agave: {
+      SavingsXDaiAdapter: "0xD499b51fcFc66bd31248ef4b28d656d67E591A94",
+    },
+    wxdai: "0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d",
+  }
 } satisfies EthSdkConfig["contracts"]
 
 export default defineConfig({
+  etherscanURLs: {
+    gnosis: "https://api.gnosisscan.io/api",
+    //gnosis: "https://blockscout.com/xdai/mainnet/api",
+  },
+  rpc: {
+    gnosis: "https://rpc.gnosischain.com/",
+    //gnosis: "https://rpc.ankr.com/gnosis"
+  },
   contracts,
 })
