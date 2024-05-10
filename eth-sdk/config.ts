@@ -195,6 +195,10 @@ export const contracts = {
     agave: {
       SavingsXDaiAdapter: "0xD499b51fcFc66bd31248ef4b28d656d67E591A94",
     },
+    cowswap: {
+      order_signer: "0x23dA9AdE38E4477b23770DeD512fD37b12381FAB",
+      gpv2_vault_relayer: "0xC92E8bdf79f0507f65a392b0ab4667716BFE0110",
+    },
     wxdai: "0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d",
   }
 } satisfies EthSdkConfig["contracts"]

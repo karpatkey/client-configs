@@ -2,7 +2,7 @@ import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { allow as allowAction } from "defi-kit/eth"
 import {
-  DAI, GHO, USDC, SAFE, stETH, WBTC, wstETH, ZERO_ADDRESS
+  CRV, COMP, CVX, DAI, GHO, NOTE, USDC, USDT, SAFE, stETH, WBTC, WETH, wstETH, ZERO_ADDRESS
 } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
@@ -24,6 +24,10 @@ export default [
 
   // Convex - USDT/WBTC/WETH
   allowAction.convex.deposit({ targets: ["38"] }),
+
+  // CowSwap - Holdings
+  allowAction.cowswap.swap({ sell: [DAI, USDC, USDT], buy: [DAI, USDC, USDT, WETH] }),
+  allowAction.cowswap.swap({ sell: [CRV, COMP, CVX, NOTE], buy: [DAI, USDC] }),
 
   // Lido
   allowAction.lido.deposit(),

@@ -3,9 +3,7 @@ import { allow } from "zodiac-roles-sdk/kit"
 import { c } from "zodiac-roles-sdk"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { contracts } from "../../../../../eth-sdk/config"
-import {
-  sDAI
-} from "../../../../../eth-sdk/addresses_gno"
+import { CRV, USDC, USDT, sDAI, WETH, wstETH, WXDAI, E_ADDRESS } from "../../../../../eth-sdk/addresses_gno"
 
 export default [
   /*********************************************
@@ -31,7 +29,7 @@ export default [
   ),
 
   // Agave - sDAI - Deposit and Withdraw WXDAI
-  ...allowErc20Approve([contracts.gnosis.wxdai], [contracts.gnosis.agave.SavingsXDaiAdapter]),
+  ...allowErc20Approve([WXDAI], [contracts.gnosis.agave.SavingsXDaiAdapter]),
   allow.gnosis.agave.SavingsXDaiAdapter.deposit(
     undefined,
     c.avatar
@@ -41,5 +39,90 @@ export default [
   allow.gnosis.agave.SavingsXDaiAdapter.redeem(
     undefined,
     c.avatar
-  )
+  ),
+
+  // CowSwap - Holdings
+  ...allowErc20Approve([CRV, USDC, USDT, sDAI, wstETH, WXDAI], [contracts.gnosis.cowswap.gpv2_vault_relayer]),
+  allow.gnosis.cowswap.order_signer.signOrder(
+    {
+      sellToken: c.or(
+        USDC, USDT, sDAI
+      ),
+      buyToken: c.or(E_ADDRESS, USDC, USDT, WETH, WXDAI),
+      receiver: c.avatar,
+    },
+    undefined,
+    undefined,
+    {
+      delegatecall: true,
+    }
+  ),
+  allow.gnosis.cowswap.order_signer.unsignOrder(
+    {
+      sellToken: c.or(
+        USDC, USDT, sDAI
+      ),
+      buyToken: c.or(E_ADDRESS, USDC, USDT, WETH, WXDAI),
+      receiver: c.avatar,
+    },
+    {
+      delegatecall: true
+    }
+  ),
+  allow.gnosis.cowswap.order_signer.signOrder(
+    {
+      sellToken: WXDAI,
+      buyToken: c.or(USDC, USDT, WETH),
+      receiver: c.avatar,
+    },
+    undefined,
+    undefined,
+    {
+      delegatecall: true,
+    }
+  ),
+  allow.gnosis.cowswap.order_signer.unsignOrder(
+    {
+      sellToken: WXDAI,
+      buyToken: c.or(USDC, USDT, WETH),
+      receiver: c.avatar,
+    },
+    {
+      delegatecall: true,
+    }
+  ),
+  allow.gnosis.cowswap.order_signer.signOrder(
+    {
+      sellToken: wstETH,
+      buyToken: WETH,
+      receiver: c.avatar,
+    },
+    undefined,
+    undefined,
+    {
+      delegatecall: true,
+    }
+  ),
+  allow.gnosis.cowswap.order_signer.signOrder(
+    {
+      sellToken: CRV,
+      buyToken: c.or(E_ADDRESS, USDC, WXDAI),
+      receiver: c.avatar,
+    },
+    undefined,
+    undefined,
+    {
+      delegatecall: true,
+    }
+  ),
+  allow.gnosis.cowswap.order_signer.unsignOrder(
+    {
+      sellToken: wstETH,
+      buyToken: WETH,
+      receiver: c.avatar,
+    },
+    {
+      delegatecall: true,
+    }
+  ),
 ] satisfies PermissionList
