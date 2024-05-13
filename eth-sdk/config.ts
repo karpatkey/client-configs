@@ -104,6 +104,12 @@ export const contracts = {
       ankrETH_pool: "0xA96A65c051bF88B4095Ee1f2451C2A9d43F53Ae2",
       stETH_ng_f_pool: "0x21E27a5E5513D6e65C4f830167390997aA84843a",
       stETH_ng_f_gauge: "0x79F21BC30632cd40d2aF8134B469a0EB4C9574AA",
+      tricryptoGHO_pool: "0x8Cd52ee292313C4D851e71A7064F096504aB3eE9",
+      tricryptoGHO_gauge: "0x6373E119F2A1Fd081249BC16FE7FEA1F6b3A4Ca8",
+    },
+    enzyme: {
+      deposit_wrapper_2: "0x65BbAD6545B7ac9C30Fb0f07e64e25106Bf05eEc",
+      Diva_stETH_Vault: "0x648B8d2340842a7040680915c4dAb89382eeEDA9",
     },
     idle: {
       stEthCdo: "0x34dCd573C5dE4672C8248cd12A99f875Ca112Ad8",
@@ -127,13 +133,26 @@ export const contracts = {
     mstable_v2: {
       stkMTA: "0x8f2326316eC696F6d023E37A9931c2b2C177a3D7",
     },
+    notional: {
+      nProxy: "0x1344A36A1B56144C3Bc62E7757377D288fDE0369",
+    },
     pancake_swap: {
       smart_router: "0x13f4EA83D0bd40E75C8222255bc855a974568Dd4",
+    },
+    pods: {
+      ETHAdapter: "0x4AAD0755eFd63F4e9B7Fac19Bd426db4a0d9b5E8",
+      ETHoriaVault: "0x5FE4B38520e856921978715C8579D2D7a4d2274F"
     },
     rocket_pool: {
       deposit_pool: "0xDD3f50F8A6CafbE9b31a427582963f465E745AF8", // This address might due to Rocket Pool's Architecture
       rETH: "0xae78736Cd615f374D3085123A210448E74Fc6393",
       swap_router: "0x16D5A408e807db8eF7c578279BEeEe6b228f1c1C",
+    },
+    safe: {
+      token_lock: "0x0a7CB434f96f65972D46A5c1A64a9654dC9959b2",
+      ecosystem_airdrop: "0x29067F28306419923BCfF96E37F95E0f58ABdBBe",
+      user_airdrop: "0xA0b937D5c8E32a80E3a8ed4227CD020221544ee6",
+      user_airdrop_sep5: "0xC0fde70A65C7569Fe919bE57492228DEE8cDb585",
     },
     silo_v2: {
       router: "0x8658047e48CC09161f4152c79155Dac1d710Ff0a",
@@ -172,8 +191,26 @@ export const contracts = {
     weth: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
     omnibridge: "0x88ad09518695c6c3712AC10a214bE5109a655671",
   },
+  gnosis: {
+    agave: {
+      SavingsXDaiAdapter: "0xD499b51fcFc66bd31248ef4b28d656d67E591A94",
+    },
+    cowswap: {
+      order_signer: "0x23dA9AdE38E4477b23770DeD512fD37b12381FAB",
+      gpv2_vault_relayer: "0xC92E8bdf79f0507f65a392b0ab4667716BFE0110",
+    },
+    wxdai: "0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d",
+  }
 } satisfies EthSdkConfig["contracts"]
 
 export default defineConfig({
+  etherscanURLs: {
+    gnosis: "https://api.gnosisscan.io/api",
+    //gnosis: "https://blockscout.com/xdai/mainnet/api",
+  },
+  rpc: {
+    gnosis: "https://rpc.gnosischain.com/",
+    //gnosis: "https://rpc.ankr.com/gnosis"
+  },
   contracts,
 })
