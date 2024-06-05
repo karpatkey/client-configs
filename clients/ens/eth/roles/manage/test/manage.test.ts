@@ -8,6 +8,8 @@ import { avatar } from "../../../../../../test/wallets"
 import { testKit } from "../../../../../../test/kit"
 import { contracts } from "../../../../../../eth-sdk/config"
 
+// jest.setTimeout(180000)
+
 describe("ENS", () => {
   beforeAll(async () => {
     // fresh role with ENS manage permissions
@@ -16,7 +18,7 @@ describe("ENS", () => {
 
     // acquire 1 WETH for avatar
     await wrapEth(parseEther("1"))
-  }, 120000)
+  })
 
   describe("cowswap", () => {
     it("Forbid swapping WETH to ENS", async () => {
