@@ -13,7 +13,7 @@ import {
   USDT,
   WBTC,
   WETH,
-  wstETH
+  wstETH,
 } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
@@ -24,8 +24,8 @@ const GOVERNANCE_KPK = "0x8787FC2De4De95c53e5E3a4e5459247D9773ea52"
 
 export default [
   /*********************************************
-  * Defi-Kit permissions
-  *********************************************/
+   * Defi-Kit permissions
+   *********************************************/
   // Aave v2 - Staking of AAVE in Safety Module
   allowAction.aave_v2.stake({ targets: ["AAVE"] }),
 
@@ -46,8 +46,8 @@ export default [
   allowAction.uniswap_v3.deposit({ targets: ["430246"] }),
 
   /*********************************************
-  * Typed-presets permissions
-  *********************************************/
+   * Typed-presets permissions
+   *********************************************/
   // Wrapping and unwrapping of ETH, WETH
   allow.mainnet.weth.withdraw(),
   allow.mainnet.weth.deposit({
@@ -74,10 +74,7 @@ export default [
   allow.mainnet.compound_v3.cUSDCv3.withdraw(USDC),
 
   // Compound v3 - Claim rewards
-  allow.mainnet.compound_v3.CometRewards.claim(
-    undefined,
-    c.avatar
-  ),
+  allow.mainnet.compound_v3.CometRewards.claim(undefined, c.avatar),
 
   // Maker - DSR (DAI Savings Rate)
   // The DsrManager provides an easy to use smart contract that allows
@@ -225,13 +222,37 @@ export default [
 
   // Cowswap - Swapping of AAVE, COMP, DAI, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH
   allowErc20Approve(
-    [AAVE, COMP, DAI, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH],
+    [
+      AAVE,
+      COMP,
+      DAI,
+      rETH,
+      stETH,
+      stkAAVE,
+      SWISE,
+      USDC,
+      USDT,
+      WBTC,
+      WETH,
+      wstETH,
+    ],
     [contracts.mainnet.cowswap.gpv2_vault_relayer]
   ),
   allow.mainnet.cowswap.order_signer.signOrder(
     {
       sellToken: c.or(
-        AAVE, COMP, DAI, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH
+        AAVE,
+        COMP,
+        DAI,
+        rETH,
+        stETH,
+        stkAAVE,
+        SWISE,
+        USDC,
+        USDT,
+        WBTC,
+        WETH,
+        wstETH
       ),
       buyToken: c.or(DAI, rETH, stETH, USDC, USDT, WBTC, WETH, wstETH),
       receiver: c.avatar,
@@ -257,16 +278,40 @@ export default [
 
   // Uniswap v3 - Swaps
   allowErc20Approve(
-    [AAVE, COMP, DAI, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH],
+    [
+      AAVE,
+      COMP,
+      DAI,
+      rETH,
+      stETH,
+      stkAAVE,
+      SWISE,
+      USDC,
+      USDT,
+      WBTC,
+      WETH,
+      wstETH,
+    ],
     [contracts.mainnet.uniswapv3.router_2]
   ),
 
   // Uniswap v3 - Swapping of tokens AAVE, COMP, DAI, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH
   allow.mainnet.uniswapv3.router_2.exactInputSingle({
     tokenIn: c.or(
-      AAVE, COMP, DAI, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH
+      AAVE,
+      COMP,
+      DAI,
+      rETH,
+      stETH,
+      stkAAVE,
+      SWISE,
+      USDC,
+      USDT,
+      WBTC,
+      WETH,
+      wstETH
     ),
     tokenOut: c.or(DAI, rETH, stETH, USDC, USDT, WBTC, WETH, wstETH),
     recipient: c.avatar,
-  })
+  }),
 ] satisfies PermissionList

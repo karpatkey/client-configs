@@ -24,15 +24,15 @@ import {
   aura,
   balancer,
   curve,
-  convex
+  convex,
 } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { PermissionList } from "../../../../../types"
 
 export default [
   /*********************************************
-  * Typed-presets permissions
-  *********************************************/
+   * Typed-presets permissions
+   *********************************************/
   // Wrapping and unwrapping of ETH, WETH
   allow.mainnet.weth.withdraw(),
   allow.mainnet.weth.deposit({
@@ -79,17 +79,15 @@ export default [
   ),
   {
     ...allow.mainnet.aura.rewarder.withdrawAndUnwrap(),
-    targetAddress: aura.auraB_stETH_stable_rewarder
+    targetAddress: aura.auraB_stETH_stable_rewarder,
   },
   {
     ...allow.mainnet.aura.rewarder["getReward()"](),
-    targetAddress: aura.auraB_stETH_stable_rewarder
+    targetAddress: aura.auraB_stETH_stable_rewarder,
   },
   {
-    ...allow.mainnet.aura.rewarder["getReward(address,bool)"](
-      c.avatar
-    ),
-    targetAddress: aura.auraB_stETH_stable_rewarder
+    ...allow.mainnet.aura.rewarder["getReward(address,bool)"](c.avatar),
+    targetAddress: aura.auraB_stETH_stable_rewarder,
   },
 
   // Aura - rETH/WETH
@@ -102,17 +100,15 @@ export default [
   ),
   {
     ...allow.mainnet.aura.rewarder.withdrawAndUnwrap(),
-    targetAddress: aura.auraB_rETH_stable_rewarder
+    targetAddress: aura.auraB_rETH_stable_rewarder,
   },
   {
     ...allow.mainnet.aura.rewarder["getReward()"](),
-    targetAddress: aura.auraB_rETH_stable_rewarder
+    targetAddress: aura.auraB_rETH_stable_rewarder,
   },
   {
-    ...allow.mainnet.aura.rewarder["getReward(address,bool)"](
-      c.avatar
-    ),
-    targetAddress: aura.auraB_rETH_stable_rewarder
+    ...allow.mainnet.aura.rewarder["getReward(address,bool)"](c.avatar),
+    targetAddress: aura.auraB_rETH_stable_rewarder,
   },
 
   // Balancer - wstETH/WETH
@@ -128,19 +124,17 @@ export default [
   ),
   {
     ...allow.mainnet.balancer.gauge["deposit(uint256)"](),
-    targetAddress: balancer.B_stETH_stable_gauge
+    targetAddress: balancer.B_stETH_stable_gauge,
   },
   {
     ...allow.mainnet.balancer.gauge["withdraw(uint256)"](),
-    targetAddress: balancer.B_stETH_stable_gauge
+    targetAddress: balancer.B_stETH_stable_gauge,
   },
   {
     ...allow.mainnet.balancer.gauge["claim_rewards()"](),
-    targetAddress: balancer.B_stETH_stable_gauge
+    targetAddress: balancer.B_stETH_stable_gauge,
   },
-  allow.mainnet.balancer.BAL_minter.mint(
-    balancer.B_stETH_stable_gauge
-  ),
+  allow.mainnet.balancer.BAL_minter.mint(balancer.B_stETH_stable_gauge),
 
   // Balancer - rETH/WETH
   allow.mainnet.balancer.vault.joinPool(
@@ -155,19 +149,17 @@ export default [
   ),
   {
     ...allow.mainnet.balancer.gauge["deposit(uint256)"](),
-    targetAddress: balancer.B_rETH_stable_gauge
+    targetAddress: balancer.B_rETH_stable_gauge,
   },
   {
     ...allow.mainnet.balancer.gauge["withdraw(uint256)"](),
-    targetAddress: balancer.B_rETH_stable_gauge
+    targetAddress: balancer.B_rETH_stable_gauge,
   },
   {
     ...allow.mainnet.balancer.gauge["claim_rewards()"](),
-    targetAddress: balancer.B_rETH_stable_gauge
+    targetAddress: balancer.B_rETH_stable_gauge,
   },
-  allow.mainnet.balancer.BAL_minter.mint(
-    balancer.B_rETH_stable_gauge
-  ),
+  allow.mainnet.balancer.BAL_minter.mint(balancer.B_rETH_stable_gauge),
 
   // Compound v2 - DAI
   allow.mainnet.compound_v2.cDAI.mint(),
@@ -217,10 +209,7 @@ export default [
   allow.mainnet.compound_v3.cUSDCv3.withdraw(USDC),
 
   // Compound v3 - Claim rewards
-  allow.mainnet.compound_v3.CometRewards.claim(
-    undefined,
-    c.avatar
-  ),
+  allow.mainnet.compound_v3.CometRewards.claim(undefined, c.avatar),
 
   // Convex - ETH/stETH
   allow.mainnet.convex.booster.deposit(25),
@@ -228,15 +217,15 @@ export default [
   allow.mainnet.convex.booster.withdraw(25),
   {
     ...allow.mainnet.convex.rewarder.stake(),
-    targetAddress: convex.cvxsteCRV_rewarder
+    targetAddress: convex.cvxsteCRV_rewarder,
   },
   {
     ...allow.mainnet.convex.rewarder.withdraw(),
-    targetAddress: convex.cvxsteCRV_rewarder
+    targetAddress: convex.cvxsteCRV_rewarder,
   },
   {
     ...allow.mainnet.convex.rewarder.withdrawAndUnwrap(),
-    targetAddress: convex.cvxsteCRV_rewarder
+    targetAddress: convex.cvxsteCRV_rewarder,
   },
   {
     ...allow.mainnet.convex.rewarder["getReward(address,bool)"](c.avatar),
@@ -249,15 +238,15 @@ export default [
   allow.mainnet.convex.booster.withdraw("0"),
   {
     ...allow.mainnet.convex.rewarder.stake(),
-    targetAddress: convex.cvxcDAIcUSDC_rewarder
+    targetAddress: convex.cvxcDAIcUSDC_rewarder,
   },
   {
     ...allow.mainnet.convex.rewarder.withdraw(),
-    targetAddress: convex.cvxcDAIcUSDC_rewarder
+    targetAddress: convex.cvxcDAIcUSDC_rewarder,
   },
   {
     ...allow.mainnet.convex.rewarder.withdrawAndUnwrap(),
-    targetAddress: convex.cvxcDAIcUSDC_rewarder
+    targetAddress: convex.cvxcDAIcUSDC_rewarder,
   },
   {
     ...allow.mainnet.convex.rewarder["getReward(address,bool)"](c.avatar),
@@ -334,20 +323,11 @@ export default [
   ),
 
   // Lido
-  allow.mainnet.lido.stETH.submit(
-    undefined,
-    { send: true }
-  ),
+  allow.mainnet.lido.stETH.submit(undefined, { send: true }),
   allow.mainnet.lido.wstETH.wrap(),
   allow.mainnet.lido.wstETH.unwrap(),
-  allow.mainnet.lido.unstETH.requestWithdrawals(
-    undefined,
-    c.avatar
-  ),
-  allow.mainnet.lido.unstETH.requestWithdrawalsWstETH(
-    undefined,
-    c.avatar
-  ),
+  allow.mainnet.lido.unstETH.requestWithdrawals(undefined, c.avatar),
+  allow.mainnet.lido.unstETH.requestWithdrawalsWstETH(undefined, c.avatar),
   allow.mainnet.lido.unstETH.claimWithdrawals(),
 
   // Maker - DSR (DAI Savings Rate)
@@ -361,9 +341,7 @@ export default [
   allow.mainnet.maker.dsr_manager.exitAll(c.avatar),
 
   // Rocket Pool
-  allow.mainnet.rocket_pool.deposit_pool.deposit(
-    { send: true }
-  ), // WARNING!: In the DK, the Deposit Pool is replaced dynamically when the preset is being created.
+  allow.mainnet.rocket_pool.deposit_pool.deposit({ send: true }), // WARNING!: In the DK, the Deposit Pool is replaced dynamically when the preset is being created.
   allow.mainnet.rocket_pool.rETH.burn(),
   {
     ...allow.mainnet.rocket_pool.swap_router.swapTo(),
@@ -389,10 +367,9 @@ export default [
   ),
 
   // Stader
-  allow.mainnet.stader.staking_pool_manager["deposit(address)"](
-    c.avatar,
-    { send: true }
-  ),
+  allow.mainnet.stader.staking_pool_manager["deposit(address)"](c.avatar, {
+    send: true,
+  }),
   allow.mainnet.stader.user_withdraw_manager[
     "requestWithdraw(uint256,address)"
   ](undefined, c.avatar),
@@ -403,10 +380,7 @@ export default [
   allow.mainnet.stakewise.eth2_staking.stake({
     send: true,
   }),
-  allow.mainnet.stakewise.merkle_distributor["claim"](
-    undefined,
-    c.avatar
-  ),
+  allow.mainnet.stakewise.merkle_distributor["claim"](undefined, c.avatar),
 
   // StakeWise - Uniswap v3 ETH + sETH2, 0.3%
   // Mint NFT using WETH
@@ -417,17 +391,13 @@ export default [
     recipient: c.avatar,
   }),
   // Add liquidity using ETH (WETH is nor permitted through the UI)
-  allow.mainnet.uniswapv3.positions_nft.increaseLiquidity(
-    {
-      tokenId: 424810,
-    },
-  ),
+  allow.mainnet.uniswapv3.positions_nft.increaseLiquidity({
+    tokenId: 424810,
+  }),
   allow.mainnet.uniswapv3.positions_nft.decreaseLiquidity(),
-  allow.mainnet.uniswapv3.positions_nft.collect(
-    {
-      recipient: c.avatar,
-    }
-  ),
+  allow.mainnet.uniswapv3.positions_nft.collect({
+    recipient: c.avatar,
+  }),
 
   // SWAPS
   // Balancer - Swaps

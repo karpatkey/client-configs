@@ -21,7 +21,7 @@ import {
   ZERO_ADDRESS,
   wstETH,
   aave_v3,
-  curve
+  curve,
 } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
@@ -29,8 +29,8 @@ import { PermissionList } from "../../../../../types"
 
 export default [
   /*********************************************
-  * Defi-Kit permissions
-  *********************************************/
+   * Defi-Kit permissions
+   *********************************************/
   // Ankr
   allowAction.ankr.deposit(),
 
@@ -75,8 +75,8 @@ export default [
   allowAction.stader.deposit(),
 
   /*********************************************
-  * Typed-presets permissions
-  *********************************************/
+   * Typed-presets permissions
+   *********************************************/
   // Wrapping and unwrapping of ETH, WETH
   allow.mainnet.weth.withdraw(),
   allow.mainnet.weth.deposit({
@@ -95,7 +95,10 @@ export default [
     undefined,
     { send: true }
   ),
-  ...allowErc20Approve([aave_v3.aEthWETH], [contracts.mainnet.aave_v3.wrapped_token_gateway_v3]),
+  ...allowErc20Approve(
+    [aave_v3.aEthWETH],
+    [contracts.mainnet.aave_v3.wrapped_token_gateway_v3]
+  ),
   allow.mainnet.aave_v3.wrapped_token_gateway_v3.withdrawETH(
     contracts.mainnet.aave_v3.pool_v3,
     undefined,
@@ -144,10 +147,7 @@ export default [
   allow.mainnet.compound_v3.cUSDCv3.withdraw(USDC),
 
   // Compound v3 - Claim rewards
-  allow.mainnet.compound_v3.CometRewards.claim(
-    undefined,
-    c.avatar
-  ),
+  allow.mainnet.compound_v3.CometRewards.claim(undefined, c.avatar),
 
   // Curve - ETH/stETH - steCRV
   ...allowErc20Approve([stETH], [contracts.mainnet.curve.steth_eth_pool]),
@@ -175,11 +175,15 @@ export default [
   allow.mainnet.curve.stETH_ng_f_pool["add_liquidity(uint256[2],uint256)"](
     undefined,
     undefined,
-    { send: true },
+    { send: true }
   ),
   allow.mainnet.curve.stETH_ng_f_pool["remove_liquidity(uint256,uint256[2])"](),
-  allow.mainnet.curve.stETH_ng_f_pool["remove_liquidity_one_coin(uint256,int128,uint256)"](),
-  allow.mainnet.curve.stETH_ng_f_pool["remove_liquidity_imbalance(uint256[2],uint256)"](),
+  allow.mainnet.curve.stETH_ng_f_pool[
+    "remove_liquidity_one_coin(uint256,int128,uint256)"
+  ](),
+  allow.mainnet.curve.stETH_ng_f_pool[
+    "remove_liquidity_imbalance(uint256[2],uint256)"
+  ](),
   ...allowErc20Approve(
     [contracts.mainnet.curve.stETH_ng_f_pool],
     [contracts.mainnet.curve.stETH_ng_f_gauge]
@@ -191,10 +195,18 @@ export default [
 
   // Curve - Deposit and Stake using a special ZAP
   ...allowErc20Approve([stETH], [contracts.mainnet.curve.stake_deposit_zap]),
-  allow.mainnet.curve.stake_deposit_zap["deposit_and_stake(address,address,address,uint256,address[],uint256[],uint256,bool,bool,address)"](
-    c.or(contracts.mainnet.curve.steth_eth_pool, contracts.mainnet.curve.stETH_ng_f_pool),
+  allow.mainnet.curve.stake_deposit_zap[
+    "deposit_and_stake(address,address,address,uint256,address[],uint256[],uint256,bool,bool,address)"
+  ](
+    c.or(
+      contracts.mainnet.curve.steth_eth_pool,
+      contracts.mainnet.curve.stETH_ng_f_pool
+    ),
     c.or(curve.steCRV, contracts.mainnet.curve.stETH_ng_f_pool),
-    c.or(contracts.mainnet.curve.steth_eth_gauge, contracts.mainnet.curve.stETH_ng_f_gauge),
+    c.or(
+      contracts.mainnet.curve.steth_eth_gauge,
+      contracts.mainnet.curve.stETH_ng_f_gauge
+    ),
     2,
     [E_ADDRESS, stETH, ZERO_ADDRESS, ZERO_ADDRESS, ZERO_ADDRESS],
     undefined,
@@ -435,13 +447,45 @@ export default [
 
   // Cowswap - Swapping of ankrETH, AURA, BAL, COMP, CRV, CVX, DAI, ETHx, LDO, rETH, stETH, SWISE, USDC, USDT, WETH, wstETH
   ...allowErc20Approve(
-    [ankrETH, AURA, BAL, COMP, CRV, CVX, DAI, ETHx, LDO, rETH, stETH, SWISE, USDC, USDT, WETH, wstETH],
+    [
+      ankrETH,
+      AURA,
+      BAL,
+      COMP,
+      CRV,
+      CVX,
+      DAI,
+      ETHx,
+      LDO,
+      rETH,
+      stETH,
+      SWISE,
+      USDC,
+      USDT,
+      WETH,
+      wstETH,
+    ],
     [contracts.mainnet.cowswap.gpv2_vault_relayer]
   ),
   allow.mainnet.cowswap.order_signer.signOrder(
     {
       sellToken: c.or(
-        ankrETH, AURA, BAL, COMP, CRV, CVX, DAI, ETHx, LDO, rETH, stETH, SWISE, USDC, USDT, WETH, wstETH
+        ankrETH,
+        AURA,
+        BAL,
+        COMP,
+        CRV,
+        CVX,
+        DAI,
+        ETHx,
+        LDO,
+        rETH,
+        stETH,
+        SWISE,
+        USDC,
+        USDT,
+        WETH,
+        wstETH
       ),
       buyToken: c.or(DAI, rETH, USDC, USDT, stETH, WETH, wstETH),
       receiver: c.avatar,
@@ -501,14 +545,46 @@ export default [
 
   // Uniswap v3 - Swaps
   ...allowErc20Approve(
-    [ankrETH, AURA, BAL, COMP, CRV, CVX, DAI, ETHx, LDO, rETH, stETH, SWISE, USDC, USDT, WETH, wstETH],
+    [
+      ankrETH,
+      AURA,
+      BAL,
+      COMP,
+      CRV,
+      CVX,
+      DAI,
+      ETHx,
+      LDO,
+      rETH,
+      stETH,
+      SWISE,
+      USDC,
+      USDT,
+      WETH,
+      wstETH,
+    ],
     [contracts.mainnet.uniswapv3.router_2]
   ),
 
   // Uniswap v3 - Swapping of tokens ankrETH, AURA, BAL, COMP, CRV, CVX, DAI, ETHx, LDO, rETH, stETH, SWISE, USDC, USDT, WETH, wstETH
   allow.mainnet.uniswapv3.router_2.exactInputSingle({
     tokenIn: c.or(
-      ankrETH, AURA, BAL, COMP, CRV, CVX, DAI, ETHx, LDO, rETH, stETH, SWISE, USDC, USDT, WETH, wstETH
+      ankrETH,
+      AURA,
+      BAL,
+      COMP,
+      CRV,
+      CVX,
+      DAI,
+      ETHx,
+      LDO,
+      rETH,
+      stETH,
+      SWISE,
+      USDC,
+      USDT,
+      WETH,
+      wstETH
     ),
     tokenOut: c.or(DAI, rETH, USDC, USDT, stETH, WETH, wstETH),
     recipient: c.avatar,

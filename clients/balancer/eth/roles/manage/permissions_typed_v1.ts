@@ -12,7 +12,7 @@ import {
   USDT,
   WBTC,
   WETH,
-  wstETH
+  wstETH,
 } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { PermissionList } from "../../../../../types"
@@ -22,8 +22,8 @@ const GOVERNANCE_KPK = "0x8787FC2De4De95c53e5E3a4e5459247D9773ea52"
 
 export default [
   /*********************************************
-  * Typed-presets permissions
-  *********************************************/
+   * Typed-presets permissions
+   *********************************************/
   // Wrapping and unwrapping of ETH, WETH
   allow.mainnet.weth.withdraw(),
   allow.mainnet.weth.deposit({
@@ -80,26 +80,14 @@ export default [
   allow.mainnet.compound_v3.cUSDCv3.withdraw(USDC),
 
   // Compound v3 - Claim rewards
-  allow.mainnet.compound_v3.CometRewards.claim(
-    undefined,
-    c.avatar
-  ),
+  allow.mainnet.compound_v3.CometRewards.claim(undefined, c.avatar),
 
   // Lido
-  allow.mainnet.lido.stETH.submit(
-    undefined,
-    { send: true }
-  ),
+  allow.mainnet.lido.stETH.submit(undefined, { send: true }),
   allow.mainnet.lido.wstETH.wrap(),
   allow.mainnet.lido.wstETH.unwrap(),
-  allow.mainnet.lido.unstETH.requestWithdrawals(
-    undefined,
-    c.avatar
-  ),
-  allow.mainnet.lido.unstETH.requestWithdrawalsWstETH(
-    undefined,
-    c.avatar
-  ),
+  allow.mainnet.lido.unstETH.requestWithdrawals(undefined, c.avatar),
+  allow.mainnet.lido.unstETH.requestWithdrawalsWstETH(undefined, c.avatar),
   allow.mainnet.lido.unstETH.claimWithdrawals(),
 
   // Maker - DSR (DAI Savings Rate)
@@ -113,9 +101,7 @@ export default [
   allow.mainnet.maker.dsr_manager.exitAll(c.avatar),
 
   // Rocket Pool
-  allow.mainnet.rocket_pool.deposit_pool.deposit(
-    { send: true }
-  ), // WARNING!: In the DK, the Deposit Pool is replaced dynamically when the preset is being created.
+  allow.mainnet.rocket_pool.deposit_pool.deposit({ send: true }), // WARNING!: In the DK, the Deposit Pool is replaced dynamically when the preset is being created.
   allow.mainnet.rocket_pool.rETH.burn(),
   {
     ...allow.mainnet.rocket_pool.swap_router.swapTo(),
@@ -128,10 +114,7 @@ export default [
   allow.mainnet.stakewise.eth2_staking.stake({
     send: true,
   }),
-  allow.mainnet.stakewise.merkle_distributor["claim"](
-    undefined,
-    c.avatar
-  ),
+  allow.mainnet.stakewise.merkle_distributor["claim"](undefined, c.avatar),
 
   // StakeWise - Uniswap v3 ETH + sETH2, 0.3%
   // Mint NFT using WETH
@@ -142,18 +125,14 @@ export default [
     recipient: c.avatar,
   }),
   // Add liquidity using ETH (WETH is nor permitted through the UI)
-  allow.mainnet.uniswapv3.positions_nft.increaseLiquidity(
-    {
-      tokenId: 418686, // Created in transaction with hash 0x198d10fc36ecfd2050990a5f1286d3d7ad226b4b482956d689d7216634fd7503.
-    },
-  ),
+  allow.mainnet.uniswapv3.positions_nft.increaseLiquidity({
+    tokenId: 418686, // Created in transaction with hash 0x198d10fc36ecfd2050990a5f1286d3d7ad226b4b482956d689d7216634fd7503.
+  }),
   // Remove liquidity using WETH
   allow.mainnet.uniswapv3.positions_nft.decreaseLiquidity(),
-  allow.mainnet.uniswapv3.positions_nft.collect(
-    {
-      recipient: c.avatar,
-    }
-  ),
+  allow.mainnet.uniswapv3.positions_nft.collect({
+    recipient: c.avatar,
+  }),
 
   // Uniswap v3 - WBTC + WETH, Range: 11.786 - 15.082. Fee: 0.3%.
   // Mint NFT using WETH
@@ -164,11 +143,9 @@ export default [
     recipient: c.avatar,
   }),
   // Add liquidity using ETH (WETH is nor permitted through the UI)
-  allow.mainnet.uniswapv3.positions_nft.increaseLiquidity(
-    {
-      tokenId: 430246, // Created in transaction with hash 0x8dc0368be4a8a28ab431a33ccf49acc85a4ca00a6c212c5d070a74af8aa0541f.
-    },
-  ),
+  allow.mainnet.uniswapv3.positions_nft.increaseLiquidity({
+    tokenId: 430246, // Created in transaction with hash 0x8dc0368be4a8a28ab431a33ccf49acc85a4ca00a6c212c5d070a74af8aa0541f.
+  }),
 
   // SWAPS
   // Balancer - Swaps
@@ -352,5 +329,5 @@ export default [
     ),
     tokenOut: c.or(DAI, sETH2, USDC, USDT, WBTC, WETH),
     recipient: c.avatar,
-  })
+  }),
 ] satisfies PermissionList
