@@ -10,8 +10,8 @@ const GRAPH_DELEGATEE = "0x5A8904be09625965d9AEc4BFfD30D853438a053e"
 
 export default [
   /*********************************************
-  * Defi-Kit permissions
-  *********************************************/
+   * Defi-Kit permissions
+   *********************************************/
   // // Aura - 50COW-50WETH
   // allowAction.aura.deposit({ targets: ["105"] }),
   // Aura - Lock
@@ -21,8 +21,8 @@ export default [
   allowAction.lido.deposit(),
 
   /*********************************************
-  * Typed-presets permissions
-  *********************************************/
+   * Typed-presets permissions
+   *********************************************/
   // Compound v3 - USDC
   allowErc20Approve([USDC], [contracts.mainnet.compound_v3.cUSDCv3]),
   allow.mainnet.compound_v3.cUSDCv3.supply(USDC),
