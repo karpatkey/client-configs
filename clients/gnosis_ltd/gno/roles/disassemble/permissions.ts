@@ -8,6 +8,6 @@ import { aura } from "../../../../../eth-sdk/addresses"
 export default [
   {
     ...allow.mainnet.aura.rewarder["withdrawAndUnwrap"](),
-    targetAddress: "0x7513105d6cf9d18756d95ded81d6d3f68db4b8da"
-  }
+    targetAddress: "0x7513105d6cf9d18756d95ded81d6d3f68db4b8da",
+  },
 ] satisfies PermissionList

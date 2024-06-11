@@ -141,7 +141,7 @@ export const contracts = {
     },
     pods: {
       ETHAdapter: "0x4AAD0755eFd63F4e9B7Fac19Bd426db4a0d9b5E8",
-      ETHoriaVault: "0x5FE4B38520e856921978715C8579D2D7a4d2274F"
+      ETHoriaVault: "0x5FE4B38520e856921978715C8579D2D7a4d2274F",
     },
     rocket_pool: {
       deposit_pool: "0xDD3f50F8A6CafbE9b31a427582963f465E745AF8", // This address might due to Rocket Pool's Architecture
@@ -200,7 +200,7 @@ export const contracts = {
       gpv2_vault_relayer: "0xC92E8bdf79f0507f65a392b0ab4667716BFE0110",
     },
     wxdai: "0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d",
-  }
+  },
 } satisfies EthSdkConfig["contracts"]
 
 export default defineConfig({
