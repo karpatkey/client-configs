@@ -99,9 +99,9 @@ const makeTestContract = (contract: BaseContract) => {
             }
             // re-throw if the error is not a revert
             if (
-              rootError.message !== "execution reverted" &&
-              rootError.reason !== "execution reverted" &&
-              rootError.message !== "call revert exception"
+              !rootError.message.startsWith("execution reverted") &&
+              !rootError.message.startsWith("call revert exception") &&
+              !rootError.reason?.startsWith("execution reverted")
             ) {
               throw error
             }

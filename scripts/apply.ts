@@ -41,7 +41,7 @@ const postPermissions = async (
 
 async function main() {
   const args = await yargs(process.argv.slice(2))
-    .usage("$0 <client> <role>")
+    .usage("$0 <client> <chain> <role>")
     .positional("client", { demandOption: true, type: "string" })
     .positional("chain", { demandOption: true, type: "string" })
     .positional("role", { demandOption: true, type: "string" }).argv

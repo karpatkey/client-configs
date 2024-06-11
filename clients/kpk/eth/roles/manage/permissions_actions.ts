@@ -2,7 +2,20 @@ import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { allow as allowAction } from "defi-kit/eth"
 import {
-  CRV, COMP, CVX, DAI, GHO, NOTE, USDC, USDT, SAFE, stETH, WBTC, WETH, wstETH, ZERO_ADDRESS
+  CRV,
+  COMP,
+  CVX,
+  DAI,
+  GHO,
+  NOTE,
+  USDC,
+  USDT,
+  SAFE,
+  stETH,
+  WBTC,
+  WETH,
+  wstETH,
+  ZERO_ADDRESS,
 } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
@@ -10,8 +23,8 @@ import { PermissionList } from "../../../../../types"
 
 export default [
   /*********************************************
-  * Defi-Kit permissions
-  *********************************************/
+   * Defi-Kit permissions
+   *********************************************/
   // Aave v2 - Staking of AAVE and GHO in Safety Module
   allowAction.aave_v2.stake({ targets: ["AAVE", "GHO"] }),
 
@@ -26,7 +39,10 @@ export default [
   allowAction.convex.deposit({ targets: ["38"] }),
 
   // CowSwap - Holdings
-  allowAction.cowswap.swap({ sell: [DAI, USDC, USDT], buy: [DAI, USDC, USDT, WETH] }),
+  allowAction.cowswap.swap({
+    sell: [DAI, USDC, USDT],
+    buy: [DAI, USDC, USDT, WETH],
+  }),
   allowAction.cowswap.swap({ sell: [CRV, COMP, CVX, NOTE], buy: [DAI, USDC] }),
 
   // Lido
@@ -39,8 +55,8 @@ export default [
   allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
 
   /*********************************************
-  * Typed-presets permissions
-  *********************************************/
+   * Typed-presets permissions
+   *********************************************/
   // Wrapping and unwrapping of ETH, WETH
   allow.mainnet.weth.withdraw(),
   allow.mainnet.weth.deposit({
@@ -53,16 +69,22 @@ export default [
   allow.mainnet.compound_v3.cUSDCv3.withdraw(USDC),
 
   // Compound v3 - Claim rewards
-  allow.mainnet.compound_v3.CometRewards.claim(
-    undefined,
-    c.avatar
-  ),
+  allow.mainnet.compound_v3.CometRewards.claim(undefined, c.avatar),
 
   // Curve - Tricrypto GHO (GHO/WBTC/wstETH)
-  ...allowErc20Approve([GHO, WBTC, wstETH], [contracts.mainnet.curve.tricryptoGHO_pool]),
-  allow.mainnet.curve.tricryptoGHO_pool["add_liquidity(uint256[3],uint256,bool)"](),
-  allow.mainnet.curve.tricryptoGHO_pool["remove_liquidity(uint256,uint256[3],bool)"](),
-  allow.mainnet.curve.tricryptoGHO_pool["remove_liquidity_one_coin(uint256,uint256,uint256,bool)"](),
+  ...allowErc20Approve(
+    [GHO, WBTC, wstETH],
+    [contracts.mainnet.curve.tricryptoGHO_pool]
+  ),
+  allow.mainnet.curve.tricryptoGHO_pool[
+    "add_liquidity(uint256[3],uint256,bool)"
+  ](),
+  allow.mainnet.curve.tricryptoGHO_pool[
+    "remove_liquidity(uint256,uint256[3],bool)"
+  ](),
+  allow.mainnet.curve.tricryptoGHO_pool[
+    "remove_liquidity_one_coin(uint256,uint256,uint256,bool)"
+  ](),
   ...allowErc20Approve(
     [contracts.mainnet.curve.tricryptoGHO_pool],
     [contracts.mainnet.curve.tricryptoGHO_gauge]
@@ -71,8 +93,13 @@ export default [
   allow.mainnet.curve.tricryptoGHO_gauge["withdraw(uint256)"](),
 
   // Curve - Deposit and Stake using a special ZAP
-  ...allowErc20Approve([GHO, WBTC, wstETH], [contracts.mainnet.curve.stake_deposit_zap]),
-  allow.mainnet.curve.stake_deposit_zap["deposit_and_stake(address,address,address,uint256,address[],uint256[],uint256,bool,bool,address)"](
+  ...allowErc20Approve(
+    [GHO, WBTC, wstETH],
+    [contracts.mainnet.curve.stake_deposit_zap]
+  ),
+  allow.mainnet.curve.stake_deposit_zap[
+    "deposit_and_stake(address,address,address,uint256,address[],uint256[],uint256,bool,bool,address)"
+  ](
     contracts.mainnet.curve.tricryptoGHO_pool,
     contracts.mainnet.curve.tricryptoGHO_pool,
     contracts.mainnet.curve.tricryptoGHO_gauge,
@@ -95,7 +122,7 @@ export default [
     undefined,
     undefined,
     {
-      send: true
+      send: true,
     }
   ),
   // Deposit stETH
@@ -103,7 +130,11 @@ export default [
   allow.mainnet.enzyme.Diva_stETH_Vault.buyShares(),
   // Withdraw stETH
   allow.mainnet.enzyme.Diva_stETH_Vault.redeemSharesInKind(c.avatar),
-  allow.mainnet.enzyme.Diva_stETH_Vault.redeemSharesForSpecificAssets(c.avatar, undefined, [stETH]),
+  allow.mainnet.enzyme.Diva_stETH_Vault.redeemSharesForSpecificAssets(
+    c.avatar,
+    undefined,
+    [stETH]
+  ),
 
   // Maker - DSR (DAI Savings Rate)
   // The DsrManager provides an easy to use smart contract that allows
@@ -119,12 +150,10 @@ export default [
   // Notional - withdraw DAI
   allow.mainnet.notional.nProxy.batchBalanceAction(
     c.avatar,
-    c.every(
-      {
-        actionType: 5,
-        currencyId: 2
-      }
-    )
+    c.every({
+      actionType: 5,
+      currencyId: 2,
+    })
   ),
   // Claim NOTE
   allow.mainnet.notional.nProxy.nTokenClaimIncentives(),
@@ -136,35 +165,19 @@ export default [
     c.avatar,
     undefined,
     {
-      send: true
+      send: true,
     }
   ),
   // Deposit stETH
   ...allowErc20Approve([stETH], [contracts.mainnet.pods.ETHoriaVault]),
-  allow.mainnet.pods.ETHoriaVault.deposit(
-    undefined,
-    c.avatar
-  ),
+  allow.mainnet.pods.ETHoriaVault.deposit(undefined, c.avatar),
   // Withdraw stETH
-  allow.mainnet.pods.ETHoriaVault.redeem(
-    undefined,
-    c.avatar,
-    c.avatar
-  ),
+  allow.mainnet.pods.ETHoriaVault.redeem(undefined, c.avatar, c.avatar),
 
   // SAFE - Claim
-  allow.mainnet.safe.ecosystem_airdrop.claimVestedTokens(
-    undefined,
-    c.avatar
-  ),
-  allow.mainnet.safe.user_airdrop.claimVestedTokens(
-    undefined,
-    c.avatar
-  ),
-  allow.mainnet.safe.user_airdrop_sep5.claimVestedTokens(
-    undefined,
-    c.avatar
-  ),
+  allow.mainnet.safe.ecosystem_airdrop.claimVestedTokens(undefined, c.avatar),
+  allow.mainnet.safe.user_airdrop.claimVestedTokens(undefined, c.avatar),
+  allow.mainnet.safe.user_airdrop_sep5.claimVestedTokens(undefined, c.avatar),
   // SAFE - Lock
   ...allowErc20Approve([SAFE], [contracts.mainnet.safe.token_lock]),
   allow.mainnet.safe.token_lock.lock(),

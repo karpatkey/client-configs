@@ -8,6 +8,8 @@ import { avatar } from "../../../../../../test/wallets"
 import { testKit } from "../../../../../../test/kit"
 import { contracts } from "../../../../../../eth-sdk/config"
 
+// jest.setTimeout(180000)
+
 describe("ENS", () => {
   beforeAll(async () => {
     // fresh role with ENS manage permissions
@@ -16,7 +18,7 @@ describe("ENS", () => {
 
     // acquire 1 WETH for avatar
     await wrapEth(parseEther("1"))
-  }, 120000)
+  })
 
   describe("cowswap", () => {
     it("Forbid swapping WETH to ENS", async () => {
@@ -57,10 +59,14 @@ describe("ENS", () => {
       ).not.toRevert()
       await expect(
         testKit.eth.compound_v3.MainnetBulker.invoke(
-          ["0x414354494f4e5f535550504c595f4e41544956455f544f4b454e000000000000"],
-          ["0x000000000000000000000000a17581a9e3356d9a858b789d68b4d866e593ae94000000000000000000000000def1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa0000000000000000000000000000000000000000000000000de0b6b3a7640000"],
+          [
+            "0x414354494f4e5f535550504c595f4e41544956455f544f4b454e000000000000",
+          ],
+          [
+            "0x000000000000000000000000a17581a9e3356d9a858b789d68b4d866e593ae94000000000000000000000000def1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa0000000000000000000000000000000000000000000000000de0b6b3a7640000",
+          ],
           {
-            value: parseEther("1")
+            value: parseEther("1"),
           }
         )
       ).not.toRevert()
