@@ -30,10 +30,10 @@ export default [
 
   // Aura - wstETH/WETH
   allowAction.aura.deposit({ targets: ["153"] }),
-  // Aura - Stake
-  allowAction.aura.stake({ targets: ["B-80BAL-20WETH", "BAL", "auraBAL"] }),
   // Aura - Lock
   allowAction.aura.lock(),
+  // Aura - Stake
+  allowAction.aura.stake({ targets: ["B-80BAL-20WETH", "BAL", "auraBAL"] }),
 
   // Convex - USDT/WBTC/WETH
   allowAction.convex.deposit({ targets: ["38"] }),
