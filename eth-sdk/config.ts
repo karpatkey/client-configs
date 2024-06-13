@@ -42,6 +42,12 @@ export const contracts = {
       // auraBAL_compounding_rewarder:
       //  "0xAc16927429c5c7Af63dD75BC9d8a58c63FfD0147",
     },
+    angle: {
+      wstETH_EUR_Vault: "0x73aaf8694BA137a7537E7EF544fcf5E2475f227B",
+    },
+    autonolas: {
+      veolas: "0x7e01A500805f8A52Fad229b3015AD130A332B7b3",
+    },
     balancer: {
       vault: "0xBA12222222228d8Ba445958a75a0704d566BF2C8",
       relayer: "0xfeA793Aa415061C483D2390414275AD314B3F621",
@@ -130,6 +136,9 @@ export const contracts = {
       gem_join: "0x10CD5fbe1b404B7E19Ef964B63939907bdaf42E2",
       ds_proxy: "0xD758500ddEc05172aaA035911387C8E0e789CF6a", // GnosisDAO DSProxy
     },
+    merkl: {
+      angle_distributor: "0x3Ef3D8bA38EBe18DB133cEc108f4D14CE00Dd9Ae",
+    },
     mstable_v2: {
       stkMTA: "0x8f2326316eC696F6d023E37A9931c2b2C177a3D7",
     },
@@ -156,6 +165,9 @@ export const contracts = {
     },
     silo_v2: {
       router: "0x8658047e48CC09161f4152c79155Dac1d710Ff0a",
+    },
+    sommelier: {
+      TurboDIVETH: "0x6c1edce139291Af5b84fB1e496c9747F83E876c9"
     },
     spark: {
       sparkLendingPoolV3: "0xC13e21B648A5Ee794902342038FF3aDAB66BE987",

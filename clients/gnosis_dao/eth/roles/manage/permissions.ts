@@ -2,20 +2,13 @@ import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { allow as allowAction } from "defi-kit/eth"
 import {
-  CRV,
-  COMP,
-  CVX,
-  DAI,
   GHO,
-  NOTE,
-  USDC,
-  USDT,
+  EURA,
+  OLAS,
   SAFE,
   stETH,
-  WBTC,
-  WETH,
   wstETH,
-  ZERO_ADDRESS,
+  balancer
 } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
@@ -71,6 +64,72 @@ export default [
   /*********************************************
    * Typed-presets permissions
    *********************************************/
+  // Angle - wstETH-EUR-Vault
+  ...allowErc20Approve([wstETH, EURA], [contracts.mainnet.angle.wstETH_EUR_Vault]),
+  allow.mainnet.angle.wstETH_EUR_Vault["angle(uint8[],bytes[],address,address)"](
+    c.every(
+      c.or(
+        1, // closeVault
+        2, // addCollateral
+        3, // removeCollateral
+        4, // repayDebt
+        5, // borrow
+      )
+    ),
+    c.every(
+      c.or(
+        c.abiEncodedMatches(
+          [19],
+          ["uint256"] // (vaultID)
+        ), // closeVault
+        c.abiEncodedMatches(
+          [19],
+          ["uint256", "uint256"] // 2,3:(vaultID, collateralAmount) or 4,5:(vaultID, stablecoinAmount)
+        ) // addCollateral, removeCollateral, repayDebt, borrow
+      )
+    ),
+    c.avatar,
+    c.avatar
+  ),
+
+  // Autonolas - OLAS Lock
+  ...allowErc20Approve([OLAS], [contracts.mainnet.autonolas.veolas]),
+  allow.mainnet.autonolas.veolas.createLock(),
+  allow.mainnet.autonolas.veolas.increaseAmount(),
+  allow.mainnet.autonolas.veolas.increaseUnlockTime(),
+  // Autonolas - OLAS Withdraw
+  allow.mainnet.autonolas.veolas.withdraw(),
+
+  // Enzyme - Diva stETH Vault
+  // Deposit ETH
+  allow.mainnet.enzyme.deposit_wrapper_2.exchangeEthAndBuyShares(
+    contracts.mainnet.enzyme.Diva_stETH_Vault,
+    undefined,
+    "0xDEF171Fe48CF0115B1d80b88dc8eAB59176FEe57", // Paraswap v5: Augustus Swapper Mainnet
+    "0x216B4B4Ba9F3e719726886d34a177484278Bfcae", // Paraswap v5: Token TransferProxy Mainnet
+    undefined,
+    undefined,
+    {
+      send: true,
+    }
+  ),
+  // Deposit stETH
+  ...allowErc20Approve([stETH], [contracts.mainnet.enzyme.Diva_stETH_Vault]),
+  allow.mainnet.enzyme.Diva_stETH_Vault.buyShares(),
+  // Withdraw stETH
+  allow.mainnet.enzyme.Diva_stETH_Vault.redeemSharesInKind(c.avatar),
+  allow.mainnet.enzyme.Diva_stETH_Vault.redeemSharesForSpecificAssets(
+    c.avatar,
+    undefined,
+    [stETH]
+  ),
+
+  // Merkl (Angle) - Claim
+  allow.mainnet.merkl.angle_distributor.claim(
+    [c.avatar.toString()],
+    [GHO]
+  ),
+
   // SAFE - Claim
   allow.mainnet.safe.ecosystem_airdrop.claimVestedTokens(undefined, c.avatar),
   allow.mainnet.safe.user_airdrop.claimVestedTokens(undefined, c.avatar),
@@ -78,4 +137,16 @@ export default [
   // SAFE - Lock
   ...allowErc20Approve([SAFE], [contracts.mainnet.safe.token_lock]),
   allow.mainnet.safe.token_lock.lock(),
+
+  // Sommelier - TurboDIVETH
+  ...allowErc20Approve([balancer.B_rETH_stable], [contracts.mainnet.sommelier.TurboDIVETH]),
+  allow.mainnet.sommelier.TurboDIVETH.deposit(
+    undefined,
+    c.avatar
+  ),
+  allow.mainnet.sommelier.TurboDIVETH.redeem(
+    undefined,
+    c.avatar,
+    c.avatar
+  )
 ] satisfies PermissionList
