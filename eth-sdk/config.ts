@@ -167,7 +167,7 @@ export const contracts = {
       router: "0x8658047e48CC09161f4152c79155Dac1d710Ff0a",
     },
     sommelier: {
-      TurboDIVETH: "0x6c1edce139291Af5b84fB1e496c9747F83E876c9"
+      TurboDIVETH: "0x6c1edce139291Af5b84fB1e496c9747F83E876c9",
     },
     spark: {
       sparkLendingPoolV3: "0xC13e21B648A5Ee794902342038FF3aDAB66BE987",

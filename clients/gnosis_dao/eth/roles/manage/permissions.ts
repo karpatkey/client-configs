@@ -8,7 +8,7 @@ import {
   SAFE,
   stETH,
   wstETH,
-  balancer
+  balancer,
 } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
@@ -65,15 +65,20 @@ export default [
    * Typed-presets permissions
    *********************************************/
   // Angle - wstETH-EUR-Vault
-  ...allowErc20Approve([wstETH, EURA], [contracts.mainnet.angle.wstETH_EUR_Vault]),
-  allow.mainnet.angle.wstETH_EUR_Vault["angle(uint8[],bytes[],address,address)"](
+  ...allowErc20Approve(
+    [wstETH, EURA],
+    [contracts.mainnet.angle.wstETH_EUR_Vault]
+  ),
+  allow.mainnet.angle.wstETH_EUR_Vault[
+    "angle(uint8[],bytes[],address,address)"
+  ](
     c.every(
       c.or(
         1, // closeVault
         2, // addCollateral
         3, // removeCollateral
         4, // repayDebt
-        5, // borrow
+        5 // borrow
       )
     ),
     c.every(
@@ -125,10 +130,7 @@ export default [
   ),
 
   // Merkl (Angle) - Claim
-  allow.mainnet.merkl.angle_distributor.claim(
-    [c.avatar.toString()],
-    [GHO]
-  ),
+  allow.mainnet.merkl.angle_distributor.claim([c.avatar.toString()], [GHO]),
 
   // SAFE - Claim
   allow.mainnet.safe.ecosystem_airdrop.claimVestedTokens(undefined, c.avatar),
@@ -139,14 +141,10 @@ export default [
   allow.mainnet.safe.token_lock.lock(),
 
   // Sommelier - TurboDIVETH
-  ...allowErc20Approve([balancer.B_rETH_stable], [contracts.mainnet.sommelier.TurboDIVETH]),
-  allow.mainnet.sommelier.TurboDIVETH.deposit(
-    undefined,
-    c.avatar
+  ...allowErc20Approve(
+    [balancer.B_rETH_stable],
+    [contracts.mainnet.sommelier.TurboDIVETH]
   ),
-  allow.mainnet.sommelier.TurboDIVETH.redeem(
-    undefined,
-    c.avatar,
-    c.avatar
-  )
+  allow.mainnet.sommelier.TurboDIVETH.deposit(undefined, c.avatar),
+  allow.mainnet.sommelier.TurboDIVETH.redeem(undefined, c.avatar, c.avatar),
 ] satisfies PermissionList
