@@ -762,11 +762,11 @@ export default [
       WETH,
       wstETH,
     ],
-    [contracts.mainnet.uniswapv3.router_2]
+    [contracts.mainnet.uniswap_v3.router_2]
   ),
 
   // Uniswap v3 - Swapping of tokens ankrETH, AURA, BAL, COMP, CRV, CVX, DAI, ETHx, LDO, rETH, stETH, SWISE, USDC, USDT, WETH, wstETH
-  allow.mainnet.uniswapv3.router_2.exactInputSingle({
+  allow.mainnet.uniswap_v3.router_2.exactInputSingle({
     tokenIn: c.or(
       ankrETH,
       AURA,

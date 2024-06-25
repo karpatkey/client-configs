@@ -181,9 +181,12 @@ export const contracts = {
     stakedao: {
       bribe: "0x0000000BE1d98523B5469AfF51A1e7b4891c6225",
     },
-    stakewise: {
+    stakewise_v2: {
       eth2_staking: "0xC874b064f465bdD6411D45734b56fac750Cda29A",
       merkle_distributor: "0xA3F21010e8b9a3930996C8849Df38f9Ca3647c20",
+    },
+    stakewise_v3: {
+      chrorus_one_mev_max: "0xe6d8d8aC54461b1C5eD15740EEe322043F696C08",
     },
     sushiswap: {
       router: "0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F",
@@ -193,7 +196,7 @@ export const contracts = {
     the_graph: {
       proxy: "0xF55041E37E12cD407ad00CE2910B8269B01263b9",
     },
-    uniswapv3: {
+    uniswap_v3: {
       positions_nft: "0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
       router_2: "0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45",
     },

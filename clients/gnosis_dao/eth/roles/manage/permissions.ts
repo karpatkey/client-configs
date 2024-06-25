@@ -9,6 +9,7 @@ import {
   stETH,
   wstETH,
   balancer,
+  ZERO_ADDRESS,
 } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
@@ -147,4 +148,20 @@ export default [
   ),
   allow.mainnet.sommelier.TurboDIVETH.deposit(undefined, c.avatar),
   allow.mainnet.sommelier.TurboDIVETH.redeem(undefined, c.avatar, c.avatar),
+
+  // StakeWise v3 - Chorus One - MEV Max
+  allow.mainnet.stakewise_v3.chrorus_one_mev_max.deposit(
+    c.avatar,
+    ZERO_ADDRESS,
+    {
+      send: true,
+    }
+  ),
+  allow.mainnet.stakewise_v3.chrorus_one_mev_max.enterExitQueue(
+    undefined,
+    c.avatar
+  ),
+  allow.mainnet.stakewise_v3.chrorus_one_mev_max.claimExitedAssets(),
+  allow.mainnet.stakewise_v3.chrorus_one_mev_max.mintOsToken(c.avatar),
+  allow.mainnet.stakewise_v3.chrorus_one_mev_max.burnOsToken(),
 ] satisfies PermissionList

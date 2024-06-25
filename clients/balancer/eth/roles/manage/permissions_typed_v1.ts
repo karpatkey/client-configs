@@ -111,39 +111,39 @@ export default [
 
   // StakeWise
   // The stake() was added manually to the abi(source: 0x61975c09207c5DFe794b0A652C8CAf8458159AAe)
-  allow.mainnet.stakewise.eth2_staking.stake({
+  allow.mainnet.stakewise_v2.eth2_staking.stake({
     send: true,
   }),
-  allow.mainnet.stakewise.merkle_distributor["claim"](undefined, c.avatar),
+  allow.mainnet.stakewise_v2.merkle_distributor["claim"](undefined, c.avatar),
 
   // StakeWise - Uniswap v3 ETH + sETH2, 0.3%
   // Mint NFT using WETH
-  allow.mainnet.uniswapv3.positions_nft.mint({
+  allow.mainnet.uniswap_v3.positions_nft.mint({
     token0: WETH,
     token1: sETH2,
     fee: 3000,
     recipient: c.avatar,
   }),
   // Add liquidity using ETH (WETH is nor permitted through the UI)
-  allow.mainnet.uniswapv3.positions_nft.increaseLiquidity({
+  allow.mainnet.uniswap_v3.positions_nft.increaseLiquidity({
     tokenId: 418686, // Created in transaction with hash 0x198d10fc36ecfd2050990a5f1286d3d7ad226b4b482956d689d7216634fd7503.
   }),
   // Remove liquidity using WETH
-  allow.mainnet.uniswapv3.positions_nft.decreaseLiquidity(),
-  allow.mainnet.uniswapv3.positions_nft.collect({
+  allow.mainnet.uniswap_v3.positions_nft.decreaseLiquidity(),
+  allow.mainnet.uniswap_v3.positions_nft.collect({
     recipient: c.avatar,
   }),
 
   // Uniswap v3 - WBTC + WETH, Range: 11.786 - 15.082. Fee: 0.3%.
   // Mint NFT using WETH
-  allow.mainnet.uniswapv3.positions_nft.mint({
+  allow.mainnet.uniswap_v3.positions_nft.mint({
     token0: WBTC,
     token1: WETH,
     fee: 3000,
     recipient: c.avatar,
   }),
   // Add liquidity using ETH (WETH is nor permitted through the UI)
-  allow.mainnet.uniswapv3.positions_nft.increaseLiquidity({
+  allow.mainnet.uniswap_v3.positions_nft.increaseLiquidity({
     tokenId: 430246, // Created in transaction with hash 0x8dc0368be4a8a28ab431a33ccf49acc85a4ca00a6c212c5d070a74af8aa0541f.
   }),
 
@@ -270,7 +270,7 @@ export default [
 
   // Uniswap v2 and Uniswap v3 - Swaps
   // Uniswap v2 - Swapping of tokens AAVE, COMP, DAI, rETH2, sETH2, SWISE, USDC, USDT, WBTC, WETH
-  allow.mainnet.uniswapv3.router_2.swapExactTokensForTokens(
+  allow.mainnet.uniswap_v3.router_2.swapExactTokensForTokens(
     undefined,
     undefined,
     c.or(
@@ -313,7 +313,7 @@ export default [
   ),
 
   // Uniswap v3 - Swapping of tokens AAVE, COMP, DAI, rETH, rETH2, sETH2, SWISE, USDC, USDT, WBTC, WETH
-  allow.mainnet.uniswapv3.router_2.exactInputSingle({
+  allow.mainnet.uniswap_v3.router_2.exactInputSingle({
     tokenIn: c.or(
       AAVE,
       COMP,

@@ -107,19 +107,19 @@ export default [
   // Uniswap v3 - WBTC + WETH, Range: 11.786 - 15.082. Fee: 0.3%.
   ...allowErc20Approve(
     [WBTC, WETH],
-    [contracts.mainnet.uniswapv3.positions_nft]
+    [contracts.mainnet.uniswap_v3.positions_nft]
   ),
   // Add liquidity using ETH (WETH is nor permitted through the UI)
-  allow.mainnet.uniswapv3.positions_nft.increaseLiquidity(
+  allow.mainnet.uniswap_v3.positions_nft.increaseLiquidity(
     {
       tokenId: 430246, // Created in transaction with hash 0x8dc0368be4a8a28ab431a33ccf49acc85a4ca00a6c212c5d070a74af8aa0541f.
     },
     { send: true } // WARNING!: This option is not allowed in the original preset but it has to be whitelisted in order to use the pilot extension.
   ),
-  allow.mainnet.uniswapv3.positions_nft.refundETH(), // WARNING!: this function is not in the original preset but must be allowed.
+  allow.mainnet.uniswap_v3.positions_nft.refundETH(), // WARNING!: this function is not in the original preset but must be allowed.
   // Remove liquidity using WETH
-  allow.mainnet.uniswapv3.positions_nft.decreaseLiquidity(),
-  allow.mainnet.uniswapv3.positions_nft.collect({
+  allow.mainnet.uniswap_v3.positions_nft.decreaseLiquidity(),
+  allow.mainnet.uniswap_v3.positions_nft.collect({
     recipient: c.avatar,
   }),
 
@@ -328,11 +328,11 @@ export default [
       WETH,
       wstETH,
     ],
-    [contracts.mainnet.uniswapv3.router_2]
+    [contracts.mainnet.uniswap_v3.router_2]
   ),
 
   // Uniswap v3 - Swapping of tokens AAVE, COMP, DAI, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH
-  allow.mainnet.uniswapv3.router_2.exactInputSingle({
+  allow.mainnet.uniswap_v3.router_2.exactInputSingle({
     tokenIn: c.or(
       AAVE,
       COMP,
