@@ -42,6 +42,12 @@ export const contracts = {
       // auraBAL_compounding_rewarder:
       //  "0xAc16927429c5c7Af63dD75BC9d8a58c63FfD0147",
     },
+    angle: {
+      wstETH_EUR_Vault: "0x73aaf8694BA137a7537E7EF544fcf5E2475f227B",
+    },
+    autonolas: {
+      veolas: "0x7e01A500805f8A52Fad229b3015AD130A332B7b3",
+    },
     balancer: {
       vault: "0xBA12222222228d8Ba445958a75a0704d566BF2C8",
       relayer: "0xfeA793Aa415061C483D2390414275AD314B3F621",
@@ -130,6 +136,9 @@ export const contracts = {
       gem_join: "0x10CD5fbe1b404B7E19Ef964B63939907bdaf42E2",
       ds_proxy: "0xD758500ddEc05172aaA035911387C8E0e789CF6a", // GnosisDAO DSProxy
     },
+    merkl: {
+      angle_distributor: "0x3Ef3D8bA38EBe18DB133cEc108f4D14CE00Dd9Ae",
+    },
     mstable_v2: {
       stkMTA: "0x8f2326316eC696F6d023E37A9931c2b2C177a3D7",
     },
@@ -157,6 +166,9 @@ export const contracts = {
     silo_v2: {
       router: "0x8658047e48CC09161f4152c79155Dac1d710Ff0a",
     },
+    sommelier: {
+      TurboDIVETH: "0x6c1edce139291Af5b84fB1e496c9747F83E876c9",
+    },
     spark: {
       sparkLendingPoolV3: "0xC13e21B648A5Ee794902342038FF3aDAB66BE987",
       wrappedTokenGatewayV3: "0xBD7D6a9ad7865463DE44B05F04559f65e3B11704",
@@ -169,9 +181,12 @@ export const contracts = {
     stakedao: {
       bribe: "0x0000000BE1d98523B5469AfF51A1e7b4891c6225",
     },
-    stakewise: {
+    stakewise_v2: {
       eth2_staking: "0xC874b064f465bdD6411D45734b56fac750Cda29A",
       merkle_distributor: "0xA3F21010e8b9a3930996C8849Df38f9Ca3647c20",
+    },
+    stakewise_v3: {
+      chrorus_one_mev_max: "0xe6d8d8aC54461b1C5eD15740EEe322043F696C08",
     },
     sushiswap: {
       router: "0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F",
@@ -181,7 +196,7 @@ export const contracts = {
     the_graph: {
       proxy: "0xF55041E37E12cD407ad00CE2910B8269B01263b9",
     },
-    uniswapv3: {
+    uniswap_v3: {
       positions_nft: "0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
       router_2: "0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45",
     },

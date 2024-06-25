@@ -1735,10 +1735,10 @@ defer-to-connect@^2.0.0:
   resolved "https://registry.yarnpkg.com/defer-to-connect/-/defer-to-connect-2.0.1.tgz#8016bdb4143e4632b77a3449c6236277de520587"
   integrity sha512-4tvttepXG1VaYGrRibk5EwJd1t4udunSOVMdLSAL6mId1ix438oPwPZMALY41FCijukO1L0twNcGsdzS7dHgDg==
 
-defi-kit@^1.9.0:
-  version "1.9.0"
-  resolved "https://registry.yarnpkg.com/defi-kit/-/defi-kit-1.9.0.tgz#1ba9abb502796d9f1f764fc95fae83b8f7a64295"
-  integrity sha512-HtTDasiiyvmj6K6Douc1ZyuiB3xMW2nr7mgE6goA4JDKGnd++e1gQqj3Z6eq+u5O6pBlqWXgUmeCoMReJRWJGw==
+defi-kit@^1.10.1:
+  version "1.10.1"
+  resolved "https://registry.yarnpkg.com/defi-kit/-/defi-kit-1.10.1.tgz#c8bc497e982dce1d8d66e13d675ed13d7e4ce24b"
+  integrity sha512-VQT5HA0Zkwdz0Rot4ppBdm3vdv1sviHjgqLL2AHeev2rGYGAFm4Qvns3IolX6Spm241Ut5eyI5bfuTOqNPVe1A==
   dependencies:
     "@asteasolutions/zod-to-openapi" "^5.5.0"
     "@ethersproject/abi" "^5.7.0"
@@ -2929,11 +2929,11 @@ onetime@^5.1.0, onetime@^5.1.2:
     mimic-fn "^2.1.0"
 
 openapi3-ts@^4.1.2:
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/openapi3-ts/-/openapi3-ts-4.3.1.tgz#8f4b68e97e7885d531694938f59983e866c47dc1"
-  integrity sha512-ha/kTOLhMQL7MvS9Abu/cpCXx5qwHQ++88YkUzn1CGfmM8JvCOG/4ZE6tRsexgXRFaoJrcwLyf81H2Y/CXALtA==
+  version "4.3.3"
+  resolved "https://registry.yarnpkg.com/openapi3-ts/-/openapi3-ts-4.3.3.tgz#de43a2f2fab912939495c169b92d81fe78a4ec10"
+  integrity sha512-LKkzBGJcZ6wdvkKGMoSvpK+0cbN5Xc3XuYkJskO+vjEQWJgs1kgtyUk0pjf8KwPuysv323Er62F5P17XQl96Qg==
   dependencies:
-    yaml "^2.4.1"
+    yaml "^2.4.5"
 
 ora@^5.4.1:
   version "5.4.1"
@@ -3667,10 +3667,10 @@ yallist@^4.0.0:
   resolved "https://registry.yarnpkg.com/yallist/-/yallist-4.0.0.tgz#9bb92790d9c0effec63be73519e11a35019a3a72"
   integrity sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==
 
-yaml@^2.4.1:
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/yaml/-/yaml-2.4.1.tgz#2e57e0b5e995292c25c75d2658f0664765210eed"
-  integrity sha512-pIXzoImaqmfOrL7teGUBt/T7ZDnyeGBWyXQBvOVhLkWLN37GXv8NMLK406UY6dS51JfcQHsmcW5cJ441bHg6Lg==
+yaml@^2.4.5:
+  version "2.4.5"
+  resolved "https://registry.yarnpkg.com/yaml/-/yaml-2.4.5.tgz#60630b206dd6d84df97003d33fc1ddf6296cca5e"
+  integrity sha512-aBx2bnqDzVOyNKfsysjA2ms5ZlnjSAW2eG3/L5G/CSujfjLJTJsEw1bGw8kCf04KodQWk1pxlGnZ56CRxiawmg==
 
 yargs-parser@^21.0.1, yargs-parser@^21.1.1:
   version "21.1.1"
@@ -3705,15 +3705,20 @@ zod@^3.11.5:
   resolved "https://registry.yarnpkg.com/zod/-/zod-3.22.4.tgz#f31c3a9386f61b1f228af56faa9255e845cf3fff"
   integrity sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==
 
-zod@^3.22.1, zod@^3.22.2:
-  version "3.22.5"
-  resolved "https://registry.yarnpkg.com/zod/-/zod-3.22.5.tgz#b9b09db03f6700b0d0b75bf0dbf0c5fc46155220"
-  integrity sha512-HqnGsCdVZ2xc0qWPLdO25WnseXThh0kEYKIdV5F/hTHO75hNZFp8thxSeHhiPrHZKrFTo1SOgkAj9po5bexZlw==
+zod@^3.22.2:
+  version "3.23.8"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-3.23.8.tgz#e37b957b5d52079769fb8097099b592f0ef4067d"
+  integrity sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==
 
-zodiac-roles-sdk@^2.8.1, zodiac-roles-sdk@^2.9.0:
-  version "2.10.3"
-  resolved "https://registry.yarnpkg.com/zodiac-roles-sdk/-/zodiac-roles-sdk-2.10.3.tgz#853d192c7f43b76bbcaa79488b4f6233f17ff7d6"
-  integrity sha512-/DTl6hNdtLjVzKYOC0yPLixKVYb28vLnUG0R+Huzhk5bIpBiGIVfyn2Yip3qu0SR5FJsWyaxc/s7+90PXBuJfg==
+zodiac-roles-deployments@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/zodiac-roles-deployments/-/zodiac-roles-deployments-2.2.2.tgz#feb7e7544398e1572d2f7fa6ff2be033f2c736ce"
+  integrity sha512-6nG6/AuJh9SIrXR1NieRzSfn1+J6k9p2mb3qns3cRYhx3+i4wWIRh1JcE+jueHSYo+H7yKG/jfwRXMVN1L938A==
+
+zodiac-roles-sdk@^2.12.5, zodiac-roles-sdk@^2.9.0:
+  version "2.12.5"
+  resolved "https://registry.yarnpkg.com/zodiac-roles-sdk/-/zodiac-roles-sdk-2.12.5.tgz#8a129241107e316f3a85c09e4aa357e1ea65a806"
+  integrity sha512-70KYnuT+1+10EomCM5JRMWeXdk7vE+wsryPS7/8mkgSMYvFCE0OY4PBHWQXuL8Ww6VwCPcLVsfP0IdR28bgS8g==
   dependencies:
     ethers "^5.7.2"
-    zod "^3.22.1"
+    zodiac-roles-deployments "^2.2.2"

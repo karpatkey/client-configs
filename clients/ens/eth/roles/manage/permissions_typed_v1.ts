@@ -377,25 +377,25 @@ export default [
 
   // StakeWise
   // The stake() was added manually to the abi (source: 0x61975c09207c5DFe794b0A652C8CAf8458159AAe)
-  allow.mainnet.stakewise.eth2_staking.stake({
+  allow.mainnet.stakewise_v2.eth2_staking.stake({
     send: true,
   }),
-  allow.mainnet.stakewise.merkle_distributor["claim"](undefined, c.avatar),
+  allow.mainnet.stakewise_v2.merkle_distributor["claim"](undefined, c.avatar),
 
   // StakeWise - Uniswap v3 ETH + sETH2, 0.3%
   // Mint NFT using WETH
-  allow.mainnet.uniswapv3.positions_nft.mint({
+  allow.mainnet.uniswap_v3.positions_nft.mint({
     token0: WETH,
     token1: sETH2,
     fee: 3000,
     recipient: c.avatar,
   }),
   // Add liquidity using ETH (WETH is nor permitted through the UI)
-  allow.mainnet.uniswapv3.positions_nft.increaseLiquidity({
+  allow.mainnet.uniswap_v3.positions_nft.increaseLiquidity({
     tokenId: 424810,
   }),
-  allow.mainnet.uniswapv3.positions_nft.decreaseLiquidity(),
-  allow.mainnet.uniswapv3.positions_nft.collect({
+  allow.mainnet.uniswap_v3.positions_nft.decreaseLiquidity(),
+  allow.mainnet.uniswap_v3.positions_nft.collect({
     recipient: c.avatar,
   }),
 
@@ -623,7 +623,7 @@ export default [
 
   // Uniswap v2 and Uniswap v3 - Swaps
   // Uniswap v2 - Swapping of tokens COMP, CRV, DAI, LDO, USDC, USDT, WETH
-  allow.mainnet.uniswapv3.router_2.swapExactTokensForTokens(
+  allow.mainnet.uniswap_v3.router_2.swapExactTokensForTokens(
     undefined,
     undefined,
     c.or(
@@ -659,7 +659,7 @@ export default [
   ),
 
   // Uniswap v3 - Swapping of tokens COMP, CRV, CVX, DAI, LDO, rETH, rETH2, sETH2, SWISE, USDC, USDT, WETH
-  allow.mainnet.uniswapv3.router_2.exactInputSingle({
+  allow.mainnet.uniswap_v3.router_2.exactInputSingle({
     tokenIn: c.or(
       COMP,
       CRV,

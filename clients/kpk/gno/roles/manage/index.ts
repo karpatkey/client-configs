@@ -1,4 +1,4 @@
-import permissions from "./permissions_actions"
+import permissions from "./permissions"
 
 export { permissions }
 
