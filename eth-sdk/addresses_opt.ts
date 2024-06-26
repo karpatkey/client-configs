@@ -1,0 +1,3 @@
+// Tokens
+export const DAI = "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1"
+export const USDC = "0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85"

@@ -208,6 +208,7 @@ export const contracts = {
     },
     weth: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
     omnibridge: "0x88ad09518695c6c3712AC10a214bE5109a655671",
+    xdai_bridge: "0x4aa42145Aa6Ebf72e164C9bBC74fbD3788045016",
   },
   gnosis: {
     agave: {
@@ -220,7 +221,22 @@ export const contracts = {
     curve: {
       x3CRV_pool: "0x7f90122BF0700F9E7e1F688fe926940E8839F353",
     },
+    comp: "0xDf6FF92bfDC1e8bE45177DC1f4845d391D3ad8fD",
+    usdc: "0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83",
+    usdc_transmuter: "0x0392A2F5Ac47388945D8c84212469F545fAE52B2",
     wxdai: "0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d",
+    xdai_bridge: "0xf6A78083ca3e2a662D6dd1703c939c8aCE2e268d",
+    xdai_bridge_2: "0x7301CFA0e1756B71869E93d4e4Dca5c7d0eb0AA6",
+  },
+  optimism: {
+    aave_v3: {
+      pool_v3: "0x794a61358D6845594F94dc1DB02A252b5b4814aD",
+    },
+  },
+  arbitrumOne: {
+    aave_v3: {
+      pool_v3: "0x794a61358D6845594F94dc1DB02A252b5b4814aD",
+    },
   },
 } satisfies EthSdkConfig["contracts"]
 
@@ -228,10 +244,14 @@ export default defineConfig({
   etherscanURLs: {
     gnosis: "https://api.gnosisscan.io/api",
     //gnosis: "https://blockscout.com/xdai/mainnet/api",
+    optimism: "https://api-optimistic.etherscan.io/api",
+    arbitrumOne: "https://api.arbiscan.io/api",
   },
   rpc: {
     gnosis: "https://rpc.gnosischain.com/",
     //gnosis: "https://rpc.ankr.com/gnosis"
+    optimism: "https://rpc.ankr.com/optimism",
+    arbitrumOne: "https://arb1.arbitrum.io/rpc",
   },
   contracts,
 })

@@ -6,11 +6,13 @@ import {
   WXDAI,
   sDAI,
   USDC,
+  USDCe,
   E_ADDRESS,
 } from "../../../../../eth-sdk/addresses_gno"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
+import { avatar as avatar_eth } from "../../../eth/index"
 
 export default [
   /*********************************************
@@ -50,5 +52,25 @@ export default [
   allow.gnosis.curve.x3CRV_pool.exchange(
     c.or(0, 1), // 0 = WXDAI, 1 = USDC
     c.or(0, 1)
+  ),
+
+  // Swap USDC.e -> USDC
+  ...allowErc20Approve([USDCe], [contracts.gnosis.usdc_transmuter]),
+  allow.gnosis.usdc_transmuter.withdraw(),
+
+  // Bridge - Gnosis -> Mainnet
+  // XDAI -> DAI
+  allow.gnosis.xdai_bridge_2.relayTokens(avatar_eth),
+  // COMP (Gnosis) -> COMP (Mainnet)
+  allow.gnosis.comp.transferAndCall(
+    contracts.gnosis.xdai_bridge,
+    undefined,
+    avatar_eth
+  ),
+  // USDC (Gnosis) -> USDC (Mainnet)
+  allow.gnosis.usdc.transferAndCall(
+    contracts.gnosis.xdai_bridge,
+    undefined,
+    avatar_eth
   ),
 ] satisfies PermissionList

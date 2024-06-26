@@ -13,6 +13,7 @@ import {
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
+import { avatar as avatar_gno } from "../../../gno/index"
 
 export default [
   /*********************************************
@@ -111,5 +112,30 @@ export default [
     0,
     c.avatar,
     c.avatar
+  ),
+
+  // Bridge - Mainnet -> Gnosis
+  // DAI -> XDAI
+  ...allowErc20Approve([DAI], [contracts.mainnet.xdai_bridge]),
+  allow.mainnet.xdai_bridge.relayTokens(avatar_gno, undefined),
+  // COMP (Mainnet) -> COMP (Gnosis)
+  ...allowErc20Approve([COMP], [contracts.mainnet.omnibridge]),
+  allow.mainnet.omnibridge["relayTokens(address,address,uint256)"](
+    COMP,
+    avatar_gno
+  ),
+  // USDC (Mainnet) -> USDC (Gnosis)
+  ...allowErc20Approve([USDC], [contracts.mainnet.omnibridge]),
+  allow.mainnet.omnibridge["relayTokens(address,address,uint256)"](
+    USDC,
+    avatar_gno
+  ),
+  // USDC (Mainnet) -> USDC.e (Gnosis)
+  // USDC approval already included
+  allow.mainnet.omnibridge.relayTokensAndCall(
+    USDC,
+    "0x0392A2F5Ac47388945D8c84212469F545fAE52B2",
+    undefined,
+    "0x" + avatar_gno.slice(2).padStart(64, "0")
   ),
 ] satisfies PermissionList

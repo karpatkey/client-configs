@@ -12,7 +12,9 @@ const ZODIAC_ROLES_APP = "https://roles.gnosisguild.org"
 
 const CHAIN_PREFIX = {
   1: "eth",
+  10: "opt",
   100: "gno",
+  42161: "arb",
 }
 
 /**
