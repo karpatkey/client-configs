@@ -213,7 +213,7 @@ export const contracts = {
     circle_token_messenger: "0xBd3fa81B58Ba92a82136038B25aDec7066af3155",
     opt_gateway: "0x99C9fc46f92E8a1c0deC1b1747d010903E884bE1",
     arb_dai_gateway: "0xD3B5b60020504bc3489D6949d545893982BA3011",
-    arb_erc20_gateway: "0xa3A7B6F88361F48403514059F1F16C8E78d60EeC"
+    arb_erc20_gateway: "0xa3A7B6F88361F48403514059F1F16C8E78d60EeC",
   },
   gnosis: {
     agave: {
@@ -237,14 +237,14 @@ export const contracts = {
     aave_v3: {
       pool_v3: "0x794a61358D6845594F94dc1DB02A252b5b4814aD",
     },
-    circle_token_messenger: "0x2B4069517957735bE00ceE0fadAE88a26365528f"
+    circle_token_messenger: "0x2B4069517957735bE00ceE0fadAE88a26365528f",
   },
   arbitrumOne: {
     aave_v3: {
       pool_v3: "0x794a61358D6845594F94dc1DB02A252b5b4814aD",
     },
     gateway_router: "0x5288c571Fd7aD117beA99bF60FE0846C4E84F933",
-    circle_token_messenger: "0x19330d10D9Cc8751218eaf51E8885D058642E08A"
+    circle_token_messenger: "0x19330d10D9Cc8751218eaf51E8885D058642E08A",
   },
 } satisfies EthSdkConfig["contracts"]
 
