@@ -47,11 +47,33 @@ export default [
   // sDAI approval with SavingsXDaiAdapter as spender already whitelisted
   allow.gnosis.agave.SavingsXDaiAdapter.redeem(undefined, c.avatar),
 
-  // Curve - 3pool - Swap WXDAI <-> USDC
-  ...allowErc20Approve([USDC, WXDAI], [contracts.gnosis.curve.x3CRV_pool]),
-  allow.gnosis.curve.x3CRV_pool.exchange(
-    c.or(0, 1), // 0 = WXDAI, 1 = USDC
-    c.or(0, 1)
+  // Balancer - USDT/sDAI/USDC pool - Swap sDAI <-> USDC
+  ...allowErc20Approve([USDC, WXDAI], [contracts.mainnet.balancer.vault]),
+  // Swap sDAI for USDC
+  allow.mainnet.balancer.vault.swap(
+    {
+      poolId:
+        "0x7644fa5d0ea14fcf3e813fdf93ca9544f8567655000000000000000000000066",
+      assetIn: sDAI,
+      assetOut: USDC,
+    },
+    {
+      recipient: c.avatar,
+      sender: c.avatar,
+    }
+  ),
+  // Swap USDC for sDAI
+  allow.mainnet.balancer.vault.swap(
+    {
+      poolId:
+        "0x7644fa5d0ea14fcf3e813fdf93ca9544f8567655000000000000000000000066",
+      assetIn: USDC,
+      assetOut: sDAI,
+    },
+    {
+      recipient: c.avatar,
+      sender: c.avatar,
+    }
   ),
 
   // Swap USDC.e -> USDC

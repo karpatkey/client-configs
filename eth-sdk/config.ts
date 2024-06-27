@@ -207,8 +207,13 @@ export const contracts = {
       bribe: "0x19BBC3463Dd8d07f55438014b021Fb457EBD4595",
     },
     weth: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-    omnibridge: "0x88ad09518695c6c3712AC10a214bE5109a655671",
-    xdai_bridge: "0x4aa42145Aa6Ebf72e164C9bBC74fbD3788045016",
+    gno_omnibridge: "0x88ad09518695c6c3712AC10a214bE5109a655671",
+    gno_xdai_bridge: "0x4aa42145Aa6Ebf72e164C9bBC74fbD3788045016",
+    opt_dai_bridge: "0x10E6593CDda8c58a1d0f14C5164B376352a55f2F",
+    circle_token_messenger: "0xBd3fa81B58Ba92a82136038B25aDec7066af3155",
+    opt_gateway: "0x99C9fc46f92E8a1c0deC1b1747d010903E884bE1",
+    arb_dai_gateway: "0xD3B5b60020504bc3489D6949d545893982BA3011",
+    arb_erc20_gateway: "0xa3A7B6F88361F48403514059F1F16C8E78d60EeC"
   },
   gnosis: {
     agave: {
@@ -232,11 +237,14 @@ export const contracts = {
     aave_v3: {
       pool_v3: "0x794a61358D6845594F94dc1DB02A252b5b4814aD",
     },
+    circle_token_messenger: "0x2B4069517957735bE00ceE0fadAE88a26365528f"
   },
   arbitrumOne: {
     aave_v3: {
       pool_v3: "0x794a61358D6845594F94dc1DB02A252b5b4814aD",
     },
+    gateway_router: "0x5288c571Fd7aD117beA99bF60FE0846C4E84F933",
+    circle_token_messenger: "0x19330d10D9Cc8751218eaf51E8885D058642E08A"
   },
 } satisfies EthSdkConfig["contracts"]
 
