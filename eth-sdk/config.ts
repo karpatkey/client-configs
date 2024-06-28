@@ -219,7 +219,7 @@ export const contracts = {
     aave_v3: {
       pool_v3: "0xb50201558B00496A145fE76f7424749556E326D8",
       wrapped_token_gateway_v3: "0xfE76366A986B72c3f2923e05E6ba07b7de5401e4",
-      variable_debt_wxdai: "0x281963D7471eCdC3A2Bd4503e24e89691cfe420D"
+      variable_debt_wxdai: "0x281963D7471eCdC3A2Bd4503e24e89691cfe420D",
     },
     agave: {
       SavingsXDaiAdapter: "0xD499b51fcFc66bd31248ef4b28d656d67E591A94",
@@ -234,7 +234,7 @@ export const contracts = {
     spark: {
       sparkLendingPoolV3: "0x2Dae5307c5E3FD1CF5A72Cb6F698f915860607e0",
       wrappedTokenGatewayV3: "0xBD7D6a9ad7865463DE44B05F04559f65e3B11704",
-      variableDebtWXDAI: "0x868ADfDf12A86422524EaB6978beAE08A0008F37"
+      variableDebtWXDAI: "0x868ADfDf12A86422524EaB6978beAE08A0008F37",
     },
     comp: "0xDf6FF92bfDC1e8bE45177DC1f4845d391D3ad8fD",
     usdc: "0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83",

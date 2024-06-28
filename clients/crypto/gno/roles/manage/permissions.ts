@@ -43,54 +43,22 @@ export default [
     undefined,
     c.avatar
   ),
-  allow.gnosis.aave_v3.pool_v3.setUserUseReserveAsCollateral(
-    WXDAI
-  ),
+  allow.gnosis.aave_v3.pool_v3.setUserUseReserveAsCollateral(WXDAI),
   // Aave v3 - Deposit WXDAI
   ...allowErc20Approve([WXDAI], [contracts.gnosis.aave_v3.pool_v3]),
-  allow.gnosis.aave_v3.pool_v3.supply(
-    WXDAI,
-    undefined,
-    c.avatar
-  ),
-  allow.gnosis.aave_v3.pool_v3.withdraw(
-    WXDAI,
-    undefined,
-    c.avatar
-  ),
-  allow.gnosis.aave_v3.pool_v3.setUserUseReserveAsCollateral(
-    WXDAI
-  ),
+  allow.gnosis.aave_v3.pool_v3.supply(WXDAI, undefined, c.avatar),
+  allow.gnosis.aave_v3.pool_v3.withdraw(WXDAI, undefined, c.avatar),
+  allow.gnosis.aave_v3.pool_v3.setUserUseReserveAsCollateral(WXDAI),
   // Aave v3 - Deposit sDAI
   ...allowErc20Approve([sDAI], [contracts.gnosis.aave_v3.pool_v3]),
-  allow.gnosis.aave_v3.pool_v3.supply(
-    sDAI,
-    undefined,
-    c.avatar
-  ),
-  allow.gnosis.aave_v3.pool_v3.withdraw(
-    sDAI,
-    undefined,
-    c.avatar
-  ),
-  allow.gnosis.aave_v3.pool_v3.setUserUseReserveAsCollateral(
-    sDAI
-  ),
+  allow.gnosis.aave_v3.pool_v3.supply(sDAI, undefined, c.avatar),
+  allow.gnosis.aave_v3.pool_v3.withdraw(sDAI, undefined, c.avatar),
+  allow.gnosis.aave_v3.pool_v3.setUserUseReserveAsCollateral(sDAI),
   // Aave v3 - Deposit USDC
   ...allowErc20Approve([USDC], [contracts.gnosis.aave_v3.pool_v3]),
-  allow.gnosis.aave_v3.pool_v3.supply(
-    USDC,
-    undefined,
-    c.avatar
-  ),
-  allow.gnosis.aave_v3.pool_v3.withdraw(
-    USDC,
-    undefined,
-    c.avatar
-  ),
-  allow.gnosis.aave_v3.pool_v3.setUserUseReserveAsCollateral(
-    USDC
-  ),
+  allow.gnosis.aave_v3.pool_v3.supply(USDC, undefined, c.avatar),
+  allow.gnosis.aave_v3.pool_v3.withdraw(USDC, undefined, c.avatar),
+  allow.gnosis.aave_v3.pool_v3.setUserUseReserveAsCollateral(USDC),
   // Aave v3 - Borrow XDAI
   allow.gnosis.aave_v3.variable_debt_wxdai.approveDelegation(
     contracts.gnosis.aave_v3.wrapped_token_gateway_v3
@@ -114,12 +82,7 @@ export default [
     c.avatar
   ),
   // WXDAI approval already included
-  allow.gnosis.aave_v3.pool_v3.repay(
-    WXDAI,
-    undefined,
-    undefined,
-    c.avatar
-  ),
+  allow.gnosis.aave_v3.pool_v3.repay(WXDAI, undefined, undefined, c.avatar),
 
   // Agave - sDAI
   // Deposit XDAI
@@ -139,19 +102,9 @@ export default [
 
   // Spark - Deposit sDAI
   ...allowErc20Approve([sDAI], [contracts.gnosis.spark.sparkLendingPoolV3]),
-  allow.gnosis.spark.sparkLendingPoolV3.supply(
-    sDAI,
-    undefined,
-    c.avatar
-  ),
-  allow.gnosis.spark.sparkLendingPoolV3.withdraw(
-    sDAI,
-    undefined,
-    c.avatar
-  ),
-  allow.gnosis.spark.sparkLendingPoolV3.setUserUseReserveAsCollateral(
-    sDAI
-  ),
+  allow.gnosis.spark.sparkLendingPoolV3.supply(sDAI, undefined, c.avatar),
+  allow.gnosis.spark.sparkLendingPoolV3.withdraw(sDAI, undefined, c.avatar),
+  allow.gnosis.spark.sparkLendingPoolV3.setUserUseReserveAsCollateral(sDAI),
   // Spark - Borrow XDAI
   allow.gnosis.spark.variableDebtWXDAI.approveDelegation(
     contracts.gnosis.spark.wrappedTokenGatewayV3
