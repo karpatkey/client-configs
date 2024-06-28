@@ -31,6 +31,96 @@ export default [
   allow.gnosis.wxdai.deposit({ send: true }),
   allow.gnosis.wxdai.withdraw(),
 
+  // Aave v3 - Deposit XDAI
+  allow.gnosis.aave_v3.wrapped_token_gateway_v3.depositETH(
+    contracts.gnosis.aave_v3.pool_v3,
+    c.avatar,
+    undefined,
+    { send: true }
+  ),
+  allow.gnosis.aave_v3.wrapped_token_gateway_v3.withdrawETH(
+    contracts.gnosis.aave_v3.pool_v3,
+    undefined,
+    c.avatar
+  ),
+  allow.gnosis.aave_v3.pool_v3.setUserUseReserveAsCollateral(
+    WXDAI
+  ),
+  // Aave v3 - Deposit WXDAI
+  ...allowErc20Approve([WXDAI], [contracts.gnosis.aave_v3.pool_v3]),
+  allow.gnosis.aave_v3.pool_v3.supply(
+    WXDAI,
+    undefined,
+    c.avatar
+  ),
+  allow.gnosis.aave_v3.pool_v3.withdraw(
+    WXDAI,
+    undefined,
+    c.avatar
+  ),
+  allow.gnosis.aave_v3.pool_v3.setUserUseReserveAsCollateral(
+    WXDAI
+  ),
+  // Aave v3 - Deposit sDAI
+  ...allowErc20Approve([sDAI], [contracts.gnosis.aave_v3.pool_v3]),
+  allow.gnosis.aave_v3.pool_v3.supply(
+    sDAI,
+    undefined,
+    c.avatar
+  ),
+  allow.gnosis.aave_v3.pool_v3.withdraw(
+    sDAI,
+    undefined,
+    c.avatar
+  ),
+  allow.gnosis.aave_v3.pool_v3.setUserUseReserveAsCollateral(
+    sDAI
+  ),
+  // Aave v3 - Deposit USDC
+  ...allowErc20Approve([USDC], [contracts.gnosis.aave_v3.pool_v3]),
+  allow.gnosis.aave_v3.pool_v3.supply(
+    USDC,
+    undefined,
+    c.avatar
+  ),
+  allow.gnosis.aave_v3.pool_v3.withdraw(
+    USDC,
+    undefined,
+    c.avatar
+  ),
+  allow.gnosis.aave_v3.pool_v3.setUserUseReserveAsCollateral(
+    USDC
+  ),
+  // Aave v3 - Borrow XDAI
+  allow.gnosis.aave_v3.variable_debt_wxdai.approveDelegation(
+    contracts.gnosis.aave_v3.wrapped_token_gateway_v3
+  ),
+  allow.gnosis.aave_v3.wrapped_token_gateway_v3.borrowETH(
+    contracts.gnosis.aave_v3.pool_v3
+  ),
+  allow.gnosis.aave_v3.wrapped_token_gateway_v3.repayETH(
+    contracts.gnosis.aave_v3.pool_v3,
+    undefined,
+    undefined,
+    c.avatar,
+    { send: true }
+  ),
+  // Aave v3 - Borrow WXDAI
+  allow.gnosis.aave_v3.pool_v3.borrow(
+    WXDAI,
+    undefined,
+    undefined,
+    undefined,
+    c.avatar
+  ),
+  // WXDAI approval already included
+  allow.gnosis.aave_v3.pool_v3.repay(
+    WXDAI,
+    undefined,
+    undefined,
+    c.avatar
+  ),
+
   // Agave - sDAI
   // Deposit XDAI
   allow.gnosis.agave.SavingsXDaiAdapter.depositXDAI(c.avatar, {
@@ -46,6 +136,66 @@ export default [
   // Withdraw WXDAI
   // sDAI approval with SavingsXDaiAdapter as spender already whitelisted
   allow.gnosis.agave.SavingsXDaiAdapter.redeem(undefined, c.avatar),
+
+  // Spark - Deposit sDAI
+  ...allowErc20Approve([sDAI], [contracts.gnosis.spark.sparkLendingPoolV3]),
+  allow.gnosis.spark.sparkLendingPoolV3.supply(
+    sDAI,
+    undefined,
+    c.avatar
+  ),
+  allow.gnosis.spark.sparkLendingPoolV3.withdraw(
+    sDAI,
+    undefined,
+    c.avatar
+  ),
+  allow.gnosis.spark.sparkLendingPoolV3.setUserUseReserveAsCollateral(
+    sDAI
+  ),
+  // Spark - Borrow XDAI
+  allow.gnosis.spark.variableDebtWXDAI.approveDelegation(
+    contracts.gnosis.spark.wrappedTokenGatewayV3
+  ),
+  allow.gnosis.spark.wrappedTokenGatewayV3.borrowETH(
+    contracts.gnosis.spark.sparkLendingPoolV3
+  ),
+  allow.gnosis.spark.wrappedTokenGatewayV3.repayETH(
+    contracts.gnosis.spark.sparkLendingPoolV3,
+    undefined,
+    undefined,
+    c.avatar,
+    { send: true }
+  ),
+  // Spark - Borrow WXDAI
+  allow.gnosis.spark.sparkLendingPoolV3.borrow(
+    WXDAI,
+    undefined,
+    undefined,
+    undefined,
+    c.avatar
+  ),
+  ...allowErc20Approve([WXDAI], [contracts.gnosis.spark.sparkLendingPoolV3]),
+  allow.gnosis.spark.sparkLendingPoolV3.repay(
+    WXDAI,
+    undefined,
+    undefined,
+    c.avatar
+  ),
+  // Spark - Borrow USDC
+  allow.gnosis.spark.sparkLendingPoolV3.borrow(
+    USDC,
+    undefined,
+    undefined,
+    undefined,
+    c.avatar
+  ),
+  ...allowErc20Approve([USDC], [contracts.gnosis.spark.sparkLendingPoolV3]),
+  allow.gnosis.spark.sparkLendingPoolV3.repay(
+    USDC,
+    undefined,
+    undefined,
+    c.avatar
+  ),
 
   // Balancer - USDT/sDAI/USDC pool - Swap sDAI <-> USDC
   ...allowErc20Approve([USDC, WXDAI], [contracts.mainnet.balancer.vault]),
