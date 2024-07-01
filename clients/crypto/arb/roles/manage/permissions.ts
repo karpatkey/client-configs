@@ -5,12 +5,10 @@ import { COMP, DAI, USDC } from "../../../../../eth-sdk/addresses_arb"
 import {
   COMP as COMP_eth,
   DAI as DAI_eth,
-  USDC as USDC_eth,
 } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
-import { avatar as avatar_eth } from "../../../eth/index"
 
 export default [
   /*********************************************
@@ -56,23 +54,67 @@ export default [
     "setUserUseReserveAsCollateral(address,bool)"
   ](USDC),
 
+  // Compound v3 - USDC
+  ...allowErc20Approve([USDC], [contracts.arbitrumOne.compound_v3.cUSDCv3]),
+  allow.arbitrumOne.compound_v3.cUSDCv3.supply(USDC),
+  allow.arbitrumOne.compound_v3.cUSDCv3.withdraw(USDC),
+  // Compound v3 - Claim rewards
+  allow.arbitrumOne.compound_v3.CometRewards.claim(undefined, c.avatar),
+
+  // Balancer - USDC/DAI/USDT/USDC.e pool - Swap DAI <-> USDC
+  ...allowErc20Approve([DAI, USDC], [contracts.mainnet.balancer.vault]),
+  // Swap DAI for USDC
+  allow.mainnet.balancer.vault.swap(
+    {
+      poolId:
+        "0x423a1323c871abc9d89eb06855bf5347048fc4a5000000000000000000000496",
+      assetIn: DAI,
+      assetOut: USDC,
+    },
+    {
+      recipient: c.avatar,
+      sender: c.avatar,
+    }
+  ),
+  // Swap USDC for DAI
+  allow.mainnet.balancer.vault.swap(
+    {
+      poolId:
+        "0x423a1323c871abc9d89eb06855bf5347048fc4a5000000000000000000000496",
+      assetIn: USDC,
+      assetOut: DAI,
+    },
+    {
+      recipient: c.avatar,
+      sender: c.avatar,
+    }
+  ),
+
+  // Uniswap v3 - Swap DAI <-> USDC
+  ...allowErc20Approve([DAI, USDC], [contracts.mainnet.uniswap_v3.router_2]),
+  allow.mainnet.uniswap_v3.router_2.exactInputSingle({
+    tokenIn: c.or(DAI, USDC),
+    tokenOut: c.or(DAI, USDC),
+    recipient: c.avatar,
+  }),
+
   // Bridge - Arbitrum -> Mainnet
   // DAI (Arbitrum) -> DAI (Mainnet)
   ...allowErc20Approve([DAI], [contracts.arbitrumOne.gateway_router]),
   allow.arbitrumOne.gateway_router[
     "outboundTransfer(address,address,uint256,bytes)"
-  ](DAI_eth, avatar_eth, undefined, "0x"),
+  ](DAI_eth, c.avatar, undefined, "0x"),
   // COMP (Arbitrum) -> COMP (Mainnet)
   ...allowErc20Approve([COMP], [contracts.arbitrumOne.gateway_router]),
   allow.arbitrumOne.gateway_router[
     "outboundTransfer(address,address,uint256,bytes)"
-  ](COMP_eth, avatar_eth, undefined, "0x"),
+  ](COMP_eth, c.avatar, undefined, "0x"),
   // USDC (Arbitrum) -> USDC (Mainnet)
   ...allowErc20Approve([USDC], [contracts.arbitrumOne.circle_token_messenger]),
   allow.arbitrumOne.circle_token_messenger.depositForBurn(
     undefined,
     0,
-    "0x" + avatar_eth.slice(2).padStart(64, "0"),
+    "0x" + c.avatar.toString().slice(2).padStart(64, "0"),
     USDC
   ),
 ] satisfies PermissionList

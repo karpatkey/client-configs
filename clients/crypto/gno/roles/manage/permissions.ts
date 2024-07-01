@@ -12,7 +12,6 @@ import {
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
-import { avatar as avatar_eth } from "../../../eth/index"
 
 export default [
   /*********************************************
@@ -151,7 +150,7 @@ export default [
   ),
 
   // Balancer - USDT/sDAI/USDC pool - Swap sDAI <-> USDC
-  ...allowErc20Approve([USDC, WXDAI], [contracts.mainnet.balancer.vault]),
+  ...allowErc20Approve([sDAI, USDC], [contracts.mainnet.balancer.vault]),
   // Swap sDAI for USDC
   allow.mainnet.balancer.vault.swap(
     {
@@ -179,23 +178,52 @@ export default [
     }
   ),
 
+  // Balancer - USDT/sDAI/USDC.e pool - Swap sDAI <-> USDC.e
+  ...allowErc20Approve([sDAI, USDCe], [contracts.mainnet.balancer.vault]),
+  // Swap sDAI for USDC.e
+  allow.mainnet.balancer.vault.swap(
+    {
+      poolId:
+        "0xfc095c811fe836ed12f247bcf042504342b73fb700000000000000000000009f",
+      assetIn: sDAI,
+      assetOut: USDCe,
+    },
+    {
+      recipient: c.avatar,
+      sender: c.avatar,
+    }
+  ),
+  // Swap USDC.e for sDAI
+  allow.mainnet.balancer.vault.swap(
+    {
+      poolId:
+        "0x7644fa5d0ea14fcf3e813fdf93ca9544f8567655000000000000000000000066",
+      assetIn: USDCe,
+      assetOut: sDAI,
+    },
+    {
+      recipient: c.avatar,
+      sender: c.avatar,
+    }
+  ),
+
   // Swap USDC.e -> USDC
   ...allowErc20Approve([USDCe], [contracts.gnosis.usdc_transmuter]),
   allow.gnosis.usdc_transmuter.withdraw(),
 
   // Bridge - Gnosis -> Mainnet
   // XDAI -> DAI
-  allow.gnosis.xdai_bridge_2.relayTokens(avatar_eth),
+  allow.gnosis.xdai_bridge_2.relayTokens(c.avatar),
   // COMP (Gnosis) -> COMP (Mainnet)
   allow.gnosis.comp.transferAndCall(
     contracts.gnosis.xdai_bridge,
     undefined,
-    avatar_eth
+    c.avatar.toString()
   ),
   // USDC (Gnosis) -> USDC (Mainnet)
   allow.gnosis.usdc.transferAndCall(
     contracts.gnosis.xdai_bridge,
     undefined,
-    avatar_eth
+    c.avatar.toString()
   ),
 ] satisfies PermissionList

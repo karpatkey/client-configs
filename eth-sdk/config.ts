@@ -247,29 +247,51 @@ export const contracts = {
     aave_v3: {
       pool_v3: "0x794a61358D6845594F94dc1DB02A252b5b4814aD",
     },
+    compound_v3: {
+      cUSDCv3: "0x2e44e174f7D53F0212823acC11C01A11d58c5bCB",
+      CometRewards: "0x443EA0340cb75a160F31A440722dec7b5bc3C2E9",
+    },
     circle_token_messenger: "0x2B4069517957735bE00ceE0fadAE88a26365528f",
+    dai_token_bridge: "0x467194771dAe2967Aef3ECbEDD3Bf9a310C76C65",
+    optimism_bridge: "0x4200000000000000000000000000000000000010",
   },
   arbitrumOne: {
     aave_v3: {
       pool_v3: "0x794a61358D6845594F94dc1DB02A252b5b4814aD",
     },
+    compound_v3: {
+      cUSDCv3: "0x9c4ec768c28520B50860ea7a15bd7213a9fF58bf",
+      CometRewards: "0x88730d254A2f7e6AC8388c3198aFd694bA9f7fae",
+    },
     gateway_router: "0x5288c571Fd7aD117beA99bF60FE0846C4E84F933",
     circle_token_messenger: "0x19330d10D9Cc8751218eaf51E8885D058642E08A",
+  },
+  base: {
+    aave_v3: {
+      pool_v3: "0xA238Dd80C259a72e81d7e4664a9801593F98d1c5",
+    },
+    compound_v3: {
+      cUSDCv3: "0xb125E6687d4313864e53df431d5425969c15Eb2F",
+      CometRewards: "0x123964802e6ABabBE1Bc9547D72Ef1B69B00A6b1",
+    },
+    circle_token_messenger: "0x1682Ae6375C4E4A97e4B583BC394c861A46D8962",
   },
 } satisfies EthSdkConfig["contracts"]
 
 export default defineConfig({
   etherscanURLs: {
-    //gnosis: "https://api.gnosisscan.io/api",
-    gnosis: "https://blockscout.com/xdai/mainnet/api",
+    gnosis: "https://api.gnosisscan.io/api",
+    //gnosis: "https://blockscout.com/xdai/mainnet/api",
     optimism: "https://api-optimistic.etherscan.io/api",
     arbitrumOne: "https://api.arbiscan.io/api",
+    base: "https://api.basescan.org/api",
   },
   rpc: {
     gnosis: "https://rpc.gnosischain.com/",
     //gnosis: "https://rpc.ankr.com/gnosis"
     optimism: "https://rpc.ankr.com/optimism",
     arbitrumOne: "https://arb1.arbitrum.io/rpc",
+    base: "https://base-rpc.publicnode.com",
   },
   contracts,
 })

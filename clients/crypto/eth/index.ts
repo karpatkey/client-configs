@@ -1,5 +1,3 @@
-export const avatar = ""
-
 export const rolesMod = ""
 
 export const chainId = 1

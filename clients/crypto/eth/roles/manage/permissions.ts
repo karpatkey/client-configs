@@ -17,9 +17,6 @@ import {
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
-import { avatar as avatar_gno } from "../../../gno/index"
-import { avatar as avatar_opt } from "../../../opt/index"
-import { avatar as avatar_arb } from "../../../arb/index"
 
 export default [
   /*********************************************
@@ -56,6 +53,8 @@ export default [
   ...allowErc20Approve([USDC], [contracts.mainnet.compound_v3.cUSDCv3]),
   allow.mainnet.compound_v3.cUSDCv3.supply(USDC),
   allow.mainnet.compound_v3.cUSDCv3.withdraw(USDC),
+  // Compound v3 - Claim rewards
+  allow.mainnet.compound_v3.CometRewards.claim(undefined, c.avatar),
 
   // Curve - 3pool - Swap DAI <-> USDC
   ...allowErc20Approve([DAI, USDC], [contracts.mainnet.curve.x3CRV_pool]),
@@ -131,18 +130,18 @@ export default [
   // Bridge - Mainnet -> Gnosis
   // DAI -> XDAI
   ...allowErc20Approve([DAI], [contracts.mainnet.gno_xdai_bridge]),
-  allow.mainnet.gno_xdai_bridge.relayTokens(avatar_gno, undefined),
+  allow.mainnet.gno_xdai_bridge.relayTokens(c.avatar, undefined),
   // COMP (Mainnet) -> COMP (Gnosis)
   ...allowErc20Approve([COMP], [contracts.mainnet.gno_omnibridge]),
   allow.mainnet.gno_omnibridge["relayTokens(address,address,uint256)"](
     COMP,
-    avatar_gno
+    c.avatar
   ),
   // USDC (Mainnet) -> USDC (Gnosis)
   ...allowErc20Approve([USDC], [contracts.mainnet.gno_omnibridge]),
   allow.mainnet.gno_omnibridge["relayTokens(address,address,uint256)"](
     USDC,
-    avatar_gno
+    c.avatar
   ),
   // USDC (Mainnet) -> USDC.e (Gnosis)
   // USDC approval already included
@@ -150,40 +149,50 @@ export default [
     USDC,
     "0x0392A2F5Ac47388945D8c84212469F545fAE52B2",
     undefined,
-    "0x" + avatar_gno.slice(2).padStart(64, "0")
+    "0x" + c.avatar.toString().slice(2).padStart(64, "0")
   ),
 
   // Bridge - Mainnet -> Optimism
   // DAI (Mainnet) -> DAI (Optimism)
   ...allowErc20Approve([DAI], [contracts.mainnet.opt_dai_bridge]),
   allow.mainnet.opt_dai_bridge.depositERC20(DAI, DAI_opt),
-  allow.mainnet.opt_dai_bridge.depositERC20To(DAI, DAI_opt, avatar_opt),
+  allow.mainnet.opt_dai_bridge.depositERC20To(DAI, DAI_opt, c.avatar),
   // COMP (Mainnet) -> COMP (Optimism)
   ...allowErc20Approve([COMP], [contracts.mainnet.opt_gateway]),
   allow.mainnet.opt_gateway.depositERC20(COMP, COMP_opt),
-  allow.mainnet.opt_gateway.depositERC20To(COMP, COMP_opt, avatar_opt),
+  allow.mainnet.opt_gateway.depositERC20To(COMP, COMP_opt, c.avatar),
   // USDC (Mainnet) -> USDC (Optimism)
   ...allowErc20Approve([USDC], [contracts.mainnet.circle_token_messenger]),
   allow.mainnet.circle_token_messenger.depositForBurn(
     undefined,
     2,
-    "0x" + avatar_opt.slice(2).padStart(64, "0"),
+    "0x" + c.avatar.toString().slice(2).padStart(64, "0"),
     USDC
   ),
 
   // Bridge - Mainnet -> Arbitrum
   // DAI (Mainnet) -> DAI (Arbitrum)
   ...allowErc20Approve([DAI], [contracts.mainnet.arb_dai_gateway]),
-  allow.mainnet.arb_dai_gateway.outboundTransfer(DAI, avatar_arb),
+  allow.mainnet.arb_dai_gateway.outboundTransfer(DAI, c.avatar),
   // COMP (Mainnet) -> COMP (Arbitrum)
   ...allowErc20Approve([COMP], [contracts.mainnet.arb_erc20_gateway]),
-  allow.mainnet.arb_erc20_gateway.outboundTransfer(COMP, avatar_arb),
+  allow.mainnet.arb_erc20_gateway.outboundTransfer(COMP, c.avatar),
   // USDC (Mainnet) -> USDC (Arbitrum)
   // USDC approval already included
   allow.mainnet.circle_token_messenger.depositForBurn(
     undefined,
     3,
-    "0x" + avatar_opt.slice(2).padStart(64, "0"),
+    "0x" + c.avatar.toString().slice(2).padStart(64, "0"),
+    USDC
+  ),
+
+  // Bridge - Mainnet -> Base
+  // USDC (Mainnet) -> USDC (Base)
+  // USDC approval already included
+  allow.mainnet.circle_token_messenger.depositForBurn(
+    undefined,
+    6,
+    "0x" + c.avatar.toString().slice(2).padStart(64, "0"),
     USDC
   ),
 ] satisfies PermissionList
