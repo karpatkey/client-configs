@@ -139,6 +139,9 @@ export const contracts = {
     merkl: {
       angle_distributor: "0x3Ef3D8bA38EBe18DB133cEc108f4D14CE00Dd9Ae",
     },
+    morpho: {
+      morpho_blue: "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+    },
     mstable_v2: {
       stkMTA: "0x8f2326316eC696F6d023E37A9931c2b2C177a3D7",
     },
@@ -204,9 +207,20 @@ export const contracts = {
       bribe: "0x19BBC3463Dd8d07f55438014b021Fb457EBD4595",
     },
     weth: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-    omnibridge: "0x88ad09518695c6c3712AC10a214bE5109a655671",
+    gno_omnibridge: "0x88ad09518695c6c3712AC10a214bE5109a655671",
+    gno_xdai_bridge: "0x4aa42145Aa6Ebf72e164C9bBC74fbD3788045016",
+    opt_dai_bridge: "0x10E6593CDda8c58a1d0f14C5164B376352a55f2F",
+    circle_token_messenger: "0xBd3fa81B58Ba92a82136038B25aDec7066af3155",
+    opt_gateway: "0x99C9fc46f92E8a1c0deC1b1747d010903E884bE1",
+    arb_dai_gateway: "0xD3B5b60020504bc3489D6949d545893982BA3011",
+    arb_erc20_gateway: "0xa3A7B6F88361F48403514059F1F16C8E78d60EeC",
   },
   gnosis: {
+    aave_v3: {
+      pool_v3: "0xb50201558B00496A145fE76f7424749556E326D8",
+      wrapped_token_gateway_v3: "0xfE76366A986B72c3f2923e05E6ba07b7de5401e4",
+      variable_debt_wxdai: "0x281963D7471eCdC3A2Bd4503e24e89691cfe420D",
+    },
     agave: {
       SavingsXDaiAdapter: "0xD499b51fcFc66bd31248ef4b28d656d67E591A94",
     },
@@ -214,7 +228,53 @@ export const contracts = {
       order_signer: "0x23dA9AdE38E4477b23770DeD512fD37b12381FAB",
       gpv2_vault_relayer: "0xC92E8bdf79f0507f65a392b0ab4667716BFE0110",
     },
+    curve: {
+      x3CRV_pool: "0x7f90122BF0700F9E7e1F688fe926940E8839F353",
+    },
+    spark: {
+      sparkLendingPoolV3: "0x2Dae5307c5E3FD1CF5A72Cb6F698f915860607e0",
+      wrappedTokenGatewayV3: "0xBD7D6a9ad7865463DE44B05F04559f65e3B11704",
+      variableDebtWXDAI: "0x868ADfDf12A86422524EaB6978beAE08A0008F37",
+    },
+    comp: "0xDf6FF92bfDC1e8bE45177DC1f4845d391D3ad8fD",
+    usdc: "0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83",
+    usdc_transmuter: "0x0392A2F5Ac47388945D8c84212469F545fAE52B2",
     wxdai: "0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d",
+    xdai_bridge: "0xf6A78083ca3e2a662D6dd1703c939c8aCE2e268d",
+    xdai_bridge_2: "0x7301CFA0e1756B71869E93d4e4Dca5c7d0eb0AA6",
+  },
+  optimism: {
+    aave_v3: {
+      pool_v3: "0x794a61358D6845594F94dc1DB02A252b5b4814aD",
+    },
+    compound_v3: {
+      cUSDCv3: "0x2e44e174f7D53F0212823acC11C01A11d58c5bCB",
+      CometRewards: "0x443EA0340cb75a160F31A440722dec7b5bc3C2E9",
+    },
+    circle_token_messenger: "0x2B4069517957735bE00ceE0fadAE88a26365528f",
+    dai_token_bridge: "0x467194771dAe2967Aef3ECbEDD3Bf9a310C76C65",
+    optimism_bridge: "0x4200000000000000000000000000000000000010",
+  },
+  arbitrumOne: {
+    aave_v3: {
+      pool_v3: "0x794a61358D6845594F94dc1DB02A252b5b4814aD",
+    },
+    compound_v3: {
+      cUSDCv3: "0x9c4ec768c28520B50860ea7a15bd7213a9fF58bf",
+      CometRewards: "0x88730d254A2f7e6AC8388c3198aFd694bA9f7fae",
+    },
+    gateway_router: "0x5288c571Fd7aD117beA99bF60FE0846C4E84F933",
+    circle_token_messenger: "0x19330d10D9Cc8751218eaf51E8885D058642E08A",
+  },
+  base: {
+    aave_v3: {
+      pool_v3: "0xA238Dd80C259a72e81d7e4664a9801593F98d1c5",
+    },
+    compound_v3: {
+      cUSDCv3: "0xb125E6687d4313864e53df431d5425969c15Eb2F",
+      CometRewards: "0x123964802e6ABabBE1Bc9547D72Ef1B69B00A6b1",
+    },
+    circle_token_messenger: "0x1682Ae6375C4E4A97e4B583BC394c861A46D8962",
   },
 } satisfies EthSdkConfig["contracts"]
 
@@ -222,10 +282,16 @@ export default defineConfig({
   etherscanURLs: {
     gnosis: "https://api.gnosisscan.io/api",
     //gnosis: "https://blockscout.com/xdai/mainnet/api",
+    optimism: "https://api-optimistic.etherscan.io/api",
+    arbitrumOne: "https://api.arbiscan.io/api",
+    base: "https://api.basescan.org/api",
   },
   rpc: {
     gnosis: "https://rpc.gnosischain.com/",
     //gnosis: "https://rpc.ankr.com/gnosis"
+    optimism: "https://rpc.ankr.com/optimism",
+    arbitrumOne: "https://arb1.arbitrum.io/rpc",
+    base: "https://base-rpc.publicnode.com",
   },
   contracts,
 })
