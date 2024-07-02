@@ -251,6 +251,9 @@ export const contracts = {
       cUSDCv3: "0x2e44e174f7D53F0212823acC11C01A11d58c5bCB",
       CometRewards: "0x443EA0340cb75a160F31A440722dec7b5bc3C2E9",
     },
+    curve: {
+      x3CRV_pool: "0x1337BedC9D22ecbe766dF105c9623922A27963EC",
+    },
     circle_token_messenger: "0x2B4069517957735bE00ceE0fadAE88a26365528f",
     dai_token_bridge: "0x467194771dAe2967Aef3ECbEDD3Bf9a310C76C65",
     optimism_bridge: "0x4200000000000000000000000000000000000010",

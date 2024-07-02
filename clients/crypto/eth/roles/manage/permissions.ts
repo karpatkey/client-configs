@@ -56,13 +56,6 @@ export default [
   // Compound v3 - Claim rewards
   allow.mainnet.compound_v3.CometRewards.claim(undefined, c.avatar),
 
-  // Curve - 3pool - Swap DAI <-> USDC
-  ...allowErc20Approve([DAI, USDC], [contracts.mainnet.curve.x3CRV_pool]),
-  allow.mainnet.curve.x3CRV_pool.exchange(
-    c.or(0, 1), // 0 = DAI, 1 = USDC
-    c.or(0, 1)
-  ),
-
   // Maker - DSR (DAI Savings Rate)
   // The DsrManager provides an easy to use smart contract that allows
   // service providers to deposit/withdraw dai into the DSR contract pot,
@@ -127,7 +120,20 @@ export default [
     c.avatar
   ),
 
-  // Bridge - Mainnet -> Gnosis
+  /*********************************************
+   * Swaps
+   *********************************************/
+  // Curve - 3pool - Swap DAI <-> USDC
+  ...allowErc20Approve([DAI, USDC], [contracts.mainnet.curve.x3CRV_pool]),
+  allow.mainnet.curve.x3CRV_pool.exchange(
+    c.or(0, 1), // 0 = DAI, 1 = USDC
+    c.or(0, 1)
+  ),
+
+  /*********************************************
+   * Bridge
+   *********************************************/
+  // Mainnet -> Gnosis
   // DAI -> XDAI
   ...allowErc20Approve([DAI], [contracts.mainnet.gno_xdai_bridge]),
   allow.mainnet.gno_xdai_bridge.relayTokens(c.avatar, undefined),
@@ -152,7 +158,7 @@ export default [
     "0x" + c.avatar.toString().slice(2).padStart(64, "0")
   ),
 
-  // Bridge - Mainnet -> Optimism
+  // Mainnet -> Optimism
   // DAI (Mainnet) -> DAI (Optimism)
   ...allowErc20Approve([DAI], [contracts.mainnet.opt_dai_bridge]),
   allow.mainnet.opt_dai_bridge.depositERC20(DAI, DAI_opt),
@@ -170,7 +176,7 @@ export default [
     USDC
   ),
 
-  // Bridge - Mainnet -> Arbitrum
+  // Mainnet -> Arbitrum
   // DAI (Mainnet) -> DAI (Arbitrum)
   ...allowErc20Approve([DAI], [contracts.mainnet.arb_dai_gateway]),
   allow.mainnet.arb_dai_gateway.outboundTransfer(DAI, c.avatar),
@@ -186,7 +192,7 @@ export default [
     USDC
   ),
 
-  // Bridge - Mainnet -> Base
+  // Mainnet -> Base
   // USDC (Mainnet) -> USDC (Base)
   // USDC approval already included
   allow.mainnet.circle_token_messenger.depositForBurn(

@@ -79,7 +79,10 @@ export default [
     c.avatar
   ),
 
-  // Bridge - Base -> Mainnet
+  /*********************************************
+   * Bridge
+   *********************************************/
+  // Base -> Mainnet
   // USDC (Base) -> USDC (Mainnet)
   ...allowErc20Approve([USDC], [contracts.base.circle_token_messenger]),
   allow.base.circle_token_messenger.depositForBurn(

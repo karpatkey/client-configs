@@ -61,28 +61,17 @@ export default [
   // Compound v3 - Claim rewards
   allow.arbitrumOne.compound_v3.CometRewards.claim(undefined, c.avatar),
 
+  /*********************************************
+   * Swaps
+   *********************************************/
   // Balancer - USDC/DAI/USDT/USDC.e pool - Swap DAI <-> USDC
   ...allowErc20Approve([DAI, USDC], [contracts.mainnet.balancer.vault]),
-  // Swap DAI for USDC
   allow.mainnet.balancer.vault.swap(
     {
       poolId:
         "0x423a1323c871abc9d89eb06855bf5347048fc4a5000000000000000000000496",
-      assetIn: DAI,
-      assetOut: USDC,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
-  // Swap USDC for DAI
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0x423a1323c871abc9d89eb06855bf5347048fc4a5000000000000000000000496",
-      assetIn: USDC,
-      assetOut: DAI,
+      assetIn: c.or(DAI, USDC),
+      assetOut: c.or(DAI, USDC),
     },
     {
       recipient: c.avatar,
@@ -98,7 +87,10 @@ export default [
     recipient: c.avatar,
   }),
 
-  // Bridge - Arbitrum -> Mainnet
+  /*********************************************
+   * Bridge
+   *********************************************/
+  // Arbitrum -> Mainnet
   // DAI (Arbitrum) -> DAI (Mainnet)
   ...allowErc20Approve([DAI], [contracts.arbitrumOne.gateway_router]),
   allow.arbitrumOne.gateway_router[

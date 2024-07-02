@@ -149,28 +149,17 @@ export default [
     c.avatar
   ),
 
+  /*********************************************
+   * Swaps
+   *********************************************/
   // Balancer - USDT/sDAI/USDC pool - Swap sDAI <-> USDC
   ...allowErc20Approve([sDAI, USDC], [contracts.mainnet.balancer.vault]),
-  // Swap sDAI for USDC
   allow.mainnet.balancer.vault.swap(
     {
       poolId:
         "0x7644fa5d0ea14fcf3e813fdf93ca9544f8567655000000000000000000000066",
-      assetIn: sDAI,
-      assetOut: USDC,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
-  // Swap USDC for sDAI
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0x7644fa5d0ea14fcf3e813fdf93ca9544f8567655000000000000000000000066",
-      assetIn: USDC,
-      assetOut: sDAI,
+      assetIn: c.or(sDAI, USDC),
+      assetOut: c.or(sDAI, USDC),
     },
     {
       recipient: c.avatar,
@@ -180,26 +169,12 @@ export default [
 
   // Balancer - USDT/sDAI/USDC.e pool - Swap sDAI <-> USDC.e
   ...allowErc20Approve([sDAI, USDCe], [contracts.mainnet.balancer.vault]),
-  // Swap sDAI for USDC.e
   allow.mainnet.balancer.vault.swap(
     {
       poolId:
         "0xfc095c811fe836ed12f247bcf042504342b73fb700000000000000000000009f",
-      assetIn: sDAI,
-      assetOut: USDCe,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
-  // Swap USDC.e for sDAI
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0x7644fa5d0ea14fcf3e813fdf93ca9544f8567655000000000000000000000066",
-      assetIn: USDCe,
-      assetOut: sDAI,
+      assetIn: c.or(sDAI, USDCe),
+      assetOut: c.or(sDAI, USDCe),
     },
     {
       recipient: c.avatar,
@@ -211,6 +186,9 @@ export default [
   ...allowErc20Approve([USDCe], [contracts.gnosis.usdc_transmuter]),
   allow.gnosis.usdc_transmuter.withdraw(),
 
+  /*********************************************
+   * Bridge
+   *********************************************/
   // Bridge - Gnosis -> Mainnet
   // XDAI -> DAI
   allow.gnosis.xdai_bridge_2.relayTokens(c.avatar),
