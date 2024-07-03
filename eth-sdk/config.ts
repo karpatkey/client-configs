@@ -214,6 +214,7 @@ export const contracts = {
     opt_gateway: "0x99C9fc46f92E8a1c0deC1b1747d010903E884bE1",
     arb_dai_gateway: "0xD3B5b60020504bc3489D6949d545893982BA3011",
     arb_erc20_gateway: "0xa3A7B6F88361F48403514059F1F16C8E78d60EeC",
+    circle_message_transmitter: "0x0a992d191DEeC32aFe36203Ad87D7d289a738F81",
   },
   gnosis: {
     aave_v3: {
@@ -257,6 +258,7 @@ export const contracts = {
     circle_token_messenger: "0x2B4069517957735bE00ceE0fadAE88a26365528f",
     dai_token_bridge: "0x467194771dAe2967Aef3ECbEDD3Bf9a310C76C65",
     optimism_bridge: "0x4200000000000000000000000000000000000010",
+    circle_message_transmitter: "0x4D41f22c5a0e5c74090899E5a8Fb597a8842b3e8",
   },
   arbitrumOne: {
     aave_v3: {
@@ -268,6 +270,7 @@ export const contracts = {
     },
     gateway_router: "0x5288c571Fd7aD117beA99bF60FE0846C4E84F933",
     circle_token_messenger: "0x19330d10D9Cc8751218eaf51E8885D058642E08A",
+    circle_message_transmitter: "0xC30362313FBBA5cf9163F0bb16a0e01f01A896ca",
   },
   base: {
     aave_v3: {

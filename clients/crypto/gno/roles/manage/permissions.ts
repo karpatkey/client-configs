@@ -12,6 +12,7 @@ import {
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
+import { avatar } from "../../index"
 
 export default [
   /*********************************************
@@ -196,12 +197,12 @@ export default [
   allow.gnosis.comp.transferAndCall(
     contracts.gnosis.xdai_bridge,
     undefined,
-    c.avatar.toString()
+    "0x" + avatar.slice(2).padStart(64, "0")
   ),
   // USDC (Gnosis) -> USDC (Mainnet)
   allow.gnosis.usdc.transferAndCall(
     contracts.gnosis.xdai_bridge,
     undefined,
-    c.avatar.toString()
+    "0x" + avatar.slice(2).padStart(64, "0")
   ),
 ] satisfies PermissionList

@@ -1,10 +1,10 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { allow as allowAction } from "defi-kit/eth"
 import { DAI, USDC, cbETH, morpho } from "../../../../../eth-sdk/addresses_base"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
+import { avatar } from "../../index"
 
 export default [
   /*********************************************
@@ -88,7 +88,98 @@ export default [
   allow.base.circle_token_messenger.depositForBurn(
     undefined,
     0,
-    "0x" + c.avatar.toString().slice(2).padStart(64, "0"),
+    "0x" + avatar.slice(2).padStart(64, "0"),
     USDC
+  ),
+  // Claim bridged USDC from Mainnet
+  allow.mainnet.circle_message_transmitter.receiveMessage(
+    c.and(
+      // version: 4 bytes (00000000)
+      // source domain: 4 bytes(00000000)
+      // destination domain: 4 bytes (00000006)
+      c.bitmask({
+        shift: 0,
+        mask: "0xffffffffffffffffffffffff",
+        value: "0x000000000000000000000006",
+      }),
+      // skip nonce 8 bytes
+      // sender: 32 bytes
+      // Circle Token Messenger (Mainnet)
+      c.bitmask({
+        shift: 20,
+        mask: "0xffffffffffffffffffffffffffffff",
+        value: "0x000000000000000000000000bd3fa8",
+      }),
+      c.bitmask({
+        shift: 20 + 15,
+        mask: "0xffffffffffffffffffffffffffffff",
+        value: "0x1b58ba92a82136038b25adec7066af",
+      }),
+      c.bitmask({
+        shift: 20 + 15 + 15,
+        mask: "0xffff",
+        value: "0x3155",
+      }),
+      // recipient: 32 bytes
+      // Circle Token Messenger (Base)
+      c.bitmask({
+        shift: 20 + 32,
+        mask: "0xffffffffffffffffffffffffffffff",
+        value: "0x0000000000000000000000001682ae",
+      }),
+      c.bitmask({
+        shift: 20 + 32 + 15,
+        mask: "0xffffffffffffffffffffffffffffff",
+        value: "0x6375c4e4a97e4b583bc394c861a46d",
+      }),
+      c.bitmask({
+        shift: 20 + 32 + 15 + 15,
+        mask: "0xffff",
+        value: "0x8962",
+      }),
+      // message body: dynamic
+      // skip selector (4 bytes) + 32 bytes chunk with 0
+      // Bridged Token: USDC
+      c.bitmask({
+        shift: 20 + 32 + 32 + 36,
+        mask: "0xffffffffffffffffffffffffffffff",
+        value: "0x000000000000000000000000a0b869",
+      }),
+      c.bitmask({
+        shift: 20 + 32 + 32 + 36 + 15,
+        mask: "0xffffffffffffffffffffffffffffff",
+        value: "0x91c6218b36c1d19d4a2e9eb0ce3606",
+      }),
+      c.bitmask({
+        shift: 20 + 32 + 32 + 36 + 15 + 15,
+        mask: "0xffffffffffffffffffffffffffffff",
+        value: "0xeb48",
+      }),
+      // Avatar address
+      // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
+      c.bitmask({
+        shift: 20 + 32 + 32 + 36 + 32 + 12,
+        mask: "0xffffffffffffffffffff",
+        value: avatar.slice(0, 22), // First 10 bytes of the avatar address
+      }),
+      c.bitmask({
+        shift: 20 + 32 + 32 + 36 + 32 + 12 + 10,
+        mask: "0xffffffffffffffffffff",
+        value: "0x" + avatar.slice(22, 42), // Last 10 bytes of the avatar address
+      }),
+      // skip 32 bytes chunk with 0
+      // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
+      // Avatar address
+      c.bitmask({
+        shift: 20 + 32 + 32 + 36 + 32 + 32 + 32 + 12,
+        mask: "0xffffffffffffffffffff",
+        value: avatar.slice(0, 22), // First 10 bytes of the avatar address
+      }),
+      c.bitmask({
+        shift: 20 + 32 + 32 + 36 + 32 + 32 + 32 + 12 + 10,
+        mask: "0xffffffffffffffffffff",
+        value: "0x" + avatar.slice(22, 42), // Last 10 bytes of the avatar address
+      })
+    )
   ),
 ] satisfies PermissionList
