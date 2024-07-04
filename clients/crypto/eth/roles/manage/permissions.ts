@@ -8,11 +8,13 @@ import {
   USDC,
   WBTC,
   wstETH,
+  ZERO_ADDRESS,
   morpho,
 } from "../../../../../eth-sdk/addresses"
 import {
   DAI as DAI_opt,
   COMP as COMP_opt,
+  USDC as USDC_opt,
 } from "../../../../../eth-sdk/addresses_opt"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
@@ -189,56 +191,44 @@ export default [
       }),
       // skip nonce 8 bytes
       // sender: 32 bytes
+      // skip the first 12 bytes of the address with 0's
       // Circle Token Messenger (Optimism)
       c.bitmask({
-        shift: 20,
-        mask: "0xffffffffffffffffffffffffffffff",
-        value: "0x0000000000000000000000002b4069",
+        shift: 20 + 12,
+        mask: "0xffffffffffffffffffff",
+        value: "0x2b4069517957735be00c",
       }),
       c.bitmask({
-        shift: 20 + 15,
-        mask: "0xffffffffffffffffffffffffffffff",
-        value: "0x517957735be00cee0fadae88a26365",
-      }),
-      c.bitmask({
-        shift: 20 + 15 + 15,
-        mask: "0xffff",
-        value: "0x528f",
+        shift: 20 + 12 + 10,
+        mask: "0xffffffffffffffffffff",
+        value: "0xee0fadae88a26365528f",
       }),
       // recipient: 32 bytes
+      // skip the first 12 bytes of the address with 0's
       // Circle Token Messenger (Mainnet)
       c.bitmask({
-        shift: 20 + 32,
-        mask: "0xffffffffffffffffffffffffffffff",
-        value: "0x000000000000000000000000bd3fa8",
+        shift: 20 + 32 + 12,
+        mask: "0xffffffffffffffffffff",
+        value: "0xbd3fa81b58ba92a82136",
       }),
       c.bitmask({
-        shift: 20 + 32 + 15,
-        mask: "0xffffffffffffffffffffffffffffff",
-        value: "0x1b58ba92a82136038b25adec7066af",
-      }),
-      c.bitmask({
-        shift: 20 + 32 + 15 + 15,
-        mask: "0xffff",
-        value: "0x3155",
+        shift: 20 + 32 + 12 + 10,
+        mask: "0xffffffffffffffffffff",
+        value: "0x038b25adec7066af3155",
       }),
       // message body: dynamic
       // skip selector (4 bytes) + 32 bytes chunk with 0
       // Bridged Token: USDC
+      // skip the first 12 bytes of the address with 0's
       c.bitmask({
-        shift: 20 + 32 + 32 + 36,
-        mask: "0xffffffffffffffffffffffffffffff",
-        value: "0x0000000000000000000000000b2c63",
+        shift: 20 + 32 + 32 + 36 + 12,
+        mask: "0xffffffffffffffffffff",
+        value: "0x0b2c639c533813f4aa9d",
       }),
       c.bitmask({
-        shift: 20 + 32 + 32 + 36 + 15,
-        mask: "0xffffffffffffffffffffffffffffff",
-        value: "0x9c533813f4aa9d7837caf62653d097",
-      }),
-      c.bitmask({
-        shift: 20 + 32 + 32 + 36 + 15 + 15,
-        mask: "0xffffffffffffffffffffffffffffff",
-        value: "0xff85",
+        shift: 20 + 32 + 32 + 36 + 12 + 10,
+        mask: "0xffffffffffffffffffff",
+        value: "0x7837caf62653d097ff85",
       }),
       // Avatar address
       // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
@@ -267,6 +257,58 @@ export default [
       })
     )
   ),
+  // // Claim bridged USDC from Optimism
+  // allow.mainnet.circle_message_transmitter.receiveMessage(
+  //   c.calldataMatches(
+  //     [
+  //       c.calldataMatches(
+  //         [
+  //           c.calldataMatches(
+  //             [
+  //               c.calldataMatches(
+  //                 [
+  //                   c.calldataMatches(
+  //                     [
+  //                       c.calldataMatches(
+  //                         [
+  //                           contracts.optimism.circle_token_messenger,
+  //                           contracts.mainnet.circle_token_messenger
+  //                         ],
+  //                         ['address', 'address']
+  //                       ),
+  //                       c.calldataMatches(
+  //                         [
+  //                           c.calldataMatches(
+  //                             [
+  //                               ZERO_ADDRESS, USDC_opt, c.avatar, undefined, c.avatar
+  //                             ],
+  //                             ['address', 'address', 'address', 'uint256', 'address']
+  //                           )
+  //                         ],
+  //                         ['bytes'], // this scopes selector with 0's
+  //                         '0x00000000'
+  //                       )
+  //                     ],
+  //                     ['bytes'] // this scopes bytes 17-20
+  //                     // we don't set a required value for nonce second part
+  //                   )
+  //                 ],
+  //                 ['bytes'] // this scopes bytes 13-16
+  //                 // we don't set a required value for nonce first part
+  //               )
+  //             ],
+  //             ['bytes'],
+  //             '0x00000000' // required value for bytes 9-12 (destination domain)
+  //           )
+  //         ],
+  //         ['bytes'],
+  //         '0x00000000' // required value for next 4 bytes (5-8) (source domain)
+  //       )
+  //     ],
+  //     ['bytes'],
+  //     '0x00000000' // required value for first 4 bytes (version)
+  //   )
+  // ),
 
   // Mainnet -> Arbitrum
   // DAI (Mainnet) -> DAI (Arbitrum)
@@ -296,56 +338,44 @@ export default [
       }),
       // skip nonce 8 bytes
       // sender: 32 bytes
+      // skip the first 12 bytes of the address with 0's
       // Circle Token Messenger (Arbitrum)
       c.bitmask({
-        shift: 20,
-        mask: "0xffffffffffffffffffffffffffffff",
-        value: "0x00000000000000000000000019330d",
+        shift: 20 + 12,
+        mask: "0xffffffffffffffffffff",
+        value: "0x19330d10d9cc8751218e",
       }),
       c.bitmask({
-        shift: 20 + 15,
-        mask: "0xffffffffffffffffffffffffffffff",
-        value: "0x10d9cc8751218eaf51e8885d058642",
-      }),
-      c.bitmask({
-        shift: 20 + 15 + 15,
-        mask: "0xffff",
-        value: "0xe08a",
+        shift: 20 + 12 + 10,
+        mask: "0xffffffffffffffffffff",
+        value: "0xaf51e8885d058642e08a",
       }),
       // recipient: 32 bytes
+      // skip the first 12 bytes of the address with 0's
       // Circle Token Messenger (Mainnet)
       c.bitmask({
-        shift: 20 + 32,
-        mask: "0xffffffffffffffffffffffffffffff",
-        value: "0x000000000000000000000000bd3fa8",
+        shift: 20 + 32 + 12,
+        mask: "0xffffffffffffffffffff",
+        value: "0xbd3fa81b58ba92a82136",
       }),
       c.bitmask({
-        shift: 20 + 32 + 15,
-        mask: "0xffffffffffffffffffffffffffffff",
-        value: "0x1b58ba92a82136038b25adec7066af",
-      }),
-      c.bitmask({
-        shift: 20 + 32 + 15 + 15,
-        mask: "0xffff",
-        value: "0x3155",
+        shift: 20 + 32 + 12 + 10,
+        mask: "0xffffffffffffffffffff",
+        value: "0x038b25adec7066af3155",
       }),
       // message body: dynamic
       // skip selector (4 bytes) + 32 bytes chunk with 0
       // Bridged Token: USDC
+      // skip the first 12 bytes of the address with 0's
       c.bitmask({
-        shift: 20 + 32 + 32 + 36,
-        mask: "0xffffffffffffffffffffffffffffff",
-        value: "0x000000000000000000000000af88d0",
+        shift: 20 + 32 + 32 + 36 + 12,
+        mask: "0xffffffffffffffffffff",
+        value: "0xaf88d065e77c8cc22393",
       }),
       c.bitmask({
-        shift: 20 + 32 + 32 + 36 + 15,
-        mask: "0xffffffffffffffffffffffffffffff",
-        value: "0x65e77c8cc2239327c5edb3a432268e",
-      }),
-      c.bitmask({
-        shift: 20 + 32 + 32 + 36 + 15 + 15,
-        mask: "0xffffffffffffffffffffffffffffff",
-        value: "0x5831",
+        shift: 20 + 32 + 32 + 36 + 12 + 10,
+        mask: "0xffffffffffffffffffff",
+        value: "0x27c5edb3a432268e5831",
       }),
       // Avatar address
       // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
@@ -397,56 +427,44 @@ export default [
       }),
       // skip nonce 8 bytes
       // sender: 32 bytes
+      // skip the first 12 bytes of the address with 0's
       // Circle Token Messenger (Base)
       c.bitmask({
-        shift: 20,
-        mask: "0xffffffffffffffffffffffffffffff",
-        value: "0x0000000000000000000000001682ae",
+        shift: 20 + 12,
+        mask: "0xffffffffffffffffffff",
+        value: "0x1682ae6375c4e4a97e4b",
       }),
       c.bitmask({
-        shift: 20 + 15,
-        mask: "0xffffffffffffffffffffffffffffff",
-        value: "0x6375c4e4a97e4b583bc394c861a46d",
-      }),
-      c.bitmask({
-        shift: 20 + 15 + 15,
-        mask: "0xffff",
-        value: "0x8962",
+        shift: 20 + 12 + 10,
+        mask: "0xffffffffffffffffffff",
+        value: "0x583bc394c861a46d8962",
       }),
       // recipient: 32 bytes
+      // skip the first 12 bytes of the address with 0's
       // Circle Token Messenger (Mainnet)
       c.bitmask({
-        shift: 20 + 32,
-        mask: "0xffffffffffffffffffffffffffffff",
-        value: "0x000000000000000000000000bd3fa8",
+        shift: 20 + 32 + 12,
+        mask: "0xffffffffffffffffffff",
+        value: "0xbd3fa81b58ba92a82136",
       }),
       c.bitmask({
-        shift: 20 + 32 + 15,
-        mask: "0xffffffffffffffffffffffffffffff",
-        value: "0x1b58ba92a82136038b25adec7066af",
-      }),
-      c.bitmask({
-        shift: 20 + 32 + 15 + 15,
-        mask: "0xffff",
-        value: "0x3155",
+        shift: 20 + 32 + 12 + 10,
+        mask: "0xffffffffffffffffffff",
+        value: "0x038b25adec7066af3155",
       }),
       // message body: dynamic
       // skip selector (4 bytes) + 32 bytes chunk with 0
       // Bridged Token: USDC
+      // skip the first 12 bytes of the address with 0's
       c.bitmask({
-        shift: 20 + 32 + 32 + 36,
-        mask: "0xffffffffffffffffffffffffffffff",
-        value: "0x000000000000000000000000833589",
+        shift: 20 + 32 + 32 + 36 + 12,
+        mask: "0xffffffffffffffffffff",
+        value: "0x833589fcd6edb6e08f4c",
       }),
       c.bitmask({
-        shift: 20 + 32 + 32 + 36 + 15,
-        mask: "0xffffffffffffffffffffffffffffff",
-        value: "0xfcd6edb6e08f4c7c32d4f71b54bda0",
-      }),
-      c.bitmask({
-        shift: 20 + 32 + 32 + 36 + 15 + 15,
-        mask: "0xffffffffffffffffffffffffffffff",
-        value: "0x2913",
+        shift: 20 + 32 + 32 + 36 + 12 + 10,
+        mask: "0xffffffffffffffffffff",
+        value: "0x7c32d4f71b54bda02913",
       }),
       // Avatar address
       // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
