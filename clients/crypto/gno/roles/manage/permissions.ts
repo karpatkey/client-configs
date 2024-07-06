@@ -191,8 +191,31 @@ export default [
    * Bridge
    *********************************************/
   // Bridge - Gnosis -> Mainnet
-  // XDAI -> DAI
+  // XDAI (Gnosis) -> DAI (Mainnet)
   allow.gnosis.xdai_bridge_2.relayTokens(c.avatar),
+  // XDAI (Gnosis) -> DAI (Mainnet) - HOP
+  allow.gnosis.hop_dai_wrapper.swapAndSend(
+    1, // Mainnet
+    c.avatar
+  ),
+  // XDAI (Gnosis) -> DAI (Mainnet) - Connext
+  // Uses the multisend contract - Wraps the XDAI / Approves WXDAI with Connext Bridge as spender / Executes xcall()
+  ...allowErc20Approve([WXDAI], [contracts.gnosis.connext_bridge]),
+  // To get the Domain ID: https://docs.connext.network/resources/deployments
+  // Mainnet: 6648936
+  // Optimism: 1869640809
+  // Arbitrum: 1634886255
+  // Gnosis: 6778479
+  // Base: 1650553709
+  allow.gnosis.connext_bridge.xcall(
+    6648936,
+    c.avatar,
+    WXDAI,
+    c.avatar,
+    undefined,
+    undefined,
+    "0x"
+  ),
   // COMP (Gnosis) -> COMP (Mainnet)
   allow.gnosis.comp.transferAndCall(
     contracts.gnosis.xdai_bridge,
@@ -204,5 +227,23 @@ export default [
     contracts.gnosis.xdai_bridge,
     undefined,
     "0x" + avatar.slice(2).padStart(64, "0")
+  ),
+  // HOP does not work with USDC and USDC.e
+  // USDC (Gnosis) -> USDC (Mainnet) - Connext
+  ...allowErc20Approve([USDC], [contracts.gnosis.connext_bridge]),
+  // To get the Domain ID: https://docs.connext.network/resources/deployments
+  // Mainnet: 6648936
+  // Optimism: 1869640809
+  // Arbitrum: 1634886255
+  // Gnosis: 6778479
+  // Base: 1650553709
+  allow.gnosis.connext_bridge.xcall(
+    6648936,
+    c.avatar,
+    USDC,
+    c.avatar,
+    undefined,
+    undefined,
+    "0x"
   ),
 ] satisfies PermissionList

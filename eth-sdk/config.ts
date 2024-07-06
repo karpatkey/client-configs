@@ -215,6 +215,9 @@ export const contracts = {
     arb_dai_gateway: "0xD3B5b60020504bc3489D6949d545893982BA3011",
     arb_erc20_gateway: "0xa3A7B6F88361F48403514059F1F16C8E78d60EeC",
     circle_message_transmitter: "0x0a992d191DEeC32aFe36203Ad87D7d289a738F81",
+    l1_hop_cctp: "0x7e77461CA2a9d82d26FD5e0Da2243BF72eA45747",
+    hop_dai_bridge: "0x3d4Cc8A61c7528Fd86C55cfe061a78dCBA48EDd1",
+    connext_bridge: "0x8898B472C54c31894e3B9bb83cEA802a5d0e63C6",
   },
   gnosis: {
     aave_v3: {
@@ -243,6 +246,8 @@ export const contracts = {
     wxdai: "0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d",
     xdai_bridge: "0xf6A78083ca3e2a662D6dd1703c939c8aCE2e268d",
     xdai_bridge_2: "0x7301CFA0e1756B71869E93d4e4Dca5c7d0eb0AA6",
+    hop_dai_wrapper: "0x6C928f435d1F3329bABb42d69CCF043e3900EcF1",
+    connext_bridge: "0x5bb83e95f63217cda6ae3d181ba580ef377d2109",
   },
   optimism: {
     aave_v3: {
@@ -259,6 +264,9 @@ export const contracts = {
     dai_token_bridge: "0x467194771dAe2967Aef3ECbEDD3Bf9a310C76C65",
     optimism_bridge: "0x4200000000000000000000000000000000000010",
     circle_message_transmitter: "0x4D41f22c5a0e5c74090899E5a8Fb597a8842b3e8",
+    l2_hop_cctp: "0x469147af8Bde580232BE9DC84Bb4EC84d348De24",
+    hop_dai_wrapper: "0xb3C68a491608952Cb1257FC9909a537a0173b63B",
+    connext_bridge: "0x8f7492DE823025b4CfaAB1D34c58963F2af5DEDA",
   },
   arbitrumOne: {
     aave_v3: {
@@ -271,6 +279,9 @@ export const contracts = {
     gateway_router: "0x5288c571Fd7aD117beA99bF60FE0846C4E84F933",
     circle_token_messenger: "0x19330d10D9Cc8751218eaf51E8885D058642E08A",
     circle_message_transmitter: "0xC30362313FBBA5cf9163F0bb16a0e01f01A896ca",
+    l2_hop_cctp: "0x6504BFcaB789c35325cA4329f1f41FaC340bf982",
+    hop_dai_wrapper: "0xe7F40BF16AB09f4a6906Ac2CAA4094aD2dA48Cc2",
+    connext_bridge: "0xEE9deC2712cCE65174B561151701Bf54b99C24C8",
   },
   base: {
     aave_v3: {
@@ -281,6 +292,8 @@ export const contracts = {
       CometRewards: "0x123964802e6ABabBE1Bc9547D72Ef1B69B00A6b1",
     },
     circle_token_messenger: "0x1682Ae6375C4E4A97e4B583BC394c861A46D8962",
+    l2_hop_cctp: "0xe7F40BF16AB09f4a6906Ac2CAA4094aD2dA48Cc2",
+    connext_bridge: "0xB8448C6f7f7887D36DcA487370778e419e9ebE3F",
   },
 } satisfies EthSdkConfig["contracts"]
 

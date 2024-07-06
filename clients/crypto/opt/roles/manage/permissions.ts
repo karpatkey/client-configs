@@ -96,6 +96,29 @@ export default [
   ...allowErc20Approve([DAI], [contracts.optimism.dai_token_bridge]),
   allow.optimism.dai_token_bridge.withdraw(DAI),
   allow.optimism.dai_token_bridge.withdrawTo(DAI, c.avatar),
+  // DAI (Optimism) -> DAI (Mainnet) - HOP
+  ...allowErc20Approve([DAI], [contracts.optimism.hop_dai_wrapper]),
+  allow.optimism.hop_dai_wrapper.swapAndSend(
+    1, // Mainnet
+    c.avatar
+  ),
+  // DAI (Optimism) -> DAI (Mainnet) - Connext
+  ...allowErc20Approve([DAI], [contracts.optimism.connext_bridge]),
+  // To get the Domain ID: https://docs.connext.network/resources/deployments
+  // Mainnet: 6648936
+  // Optimism: 1869640809
+  // Arbitrum: 1634886255
+  // Gnosis: 6778479
+  // Base: 1650553709
+  allow.optimism.connext_bridge.xcall(
+    6648936,
+    c.avatar,
+    DAI,
+    c.avatar,
+    undefined,
+    undefined,
+    "0x"
+  ),
   // COMP (Optimism) -> COMP (Mainnet)
   ...allowErc20Approve([COMP], [contracts.optimism.optimism_bridge]),
   allow.optimism.optimism_bridge.withdraw(DAI),
@@ -185,5 +208,28 @@ export default [
         value: "0x" + avatar.slice(22, 42), // Last 10 bytes of the avatar address
       })
     )
+  ),
+  // USDC (Optimism) -> USDC (Mainnet) - HOP
+  ...allowErc20Approve([USDC], [contracts.optimism.l2_hop_cctp]),
+  allow.optimism.l2_hop_cctp.send(
+    1, // Mainnet
+    c.avatar
+  ),
+  // USDC.e (Optimism) -> USDC (Mainnet) - Connext
+  ...allowErc20Approve([USDCe], [contracts.optimism.connext_bridge]),
+  // To get the Domain ID: https://docs.connext.network/resources/deployments
+  // Mainnet: 6648936
+  // Optimism: 1869640809
+  // Arbitrum: 1634886255
+  // Gnosis: 6778479
+  // Base: 1650553709
+  allow.optimism.connext_bridge.xcall(
+    6648936,
+    c.avatar,
+    USDCe,
+    c.avatar,
+    undefined,
+    undefined,
+    "0x"
   ),
 ] satisfies PermissionList

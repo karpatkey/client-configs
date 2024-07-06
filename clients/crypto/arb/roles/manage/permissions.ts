@@ -1,7 +1,7 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { allow as allowAction } from "defi-kit/eth"
-import { COMP, DAI, USDC } from "../../../../../eth-sdk/addresses_arb"
+import { COMP, DAI, USDC, USDCe } from "../../../../../eth-sdk/addresses_arb"
 import {
   COMP as COMP_eth,
   DAI as DAI_eth,
@@ -97,6 +97,29 @@ export default [
   allow.arbitrumOne.gateway_router[
     "outboundTransfer(address,address,uint256,bytes)"
   ](DAI_eth, c.avatar, undefined, "0x"),
+  // DAI (Arbitrum) -> DAI (Mainnet) - HOP
+  ...allowErc20Approve([DAI], [contracts.arbitrumOne.hop_dai_wrapper]),
+  allow.arbitrumOne.hop_dai_wrapper.swapAndSend(
+    1, // Mainnet
+    c.avatar
+  ),
+  // DAI (Arbitrum) -> DAI (Mainnet) - Connext
+  ...allowErc20Approve([DAI], [contracts.arbitrumOne.connext_bridge]),
+  // To get the Domain ID: https://docs.connext.network/resources/deployments
+  // Mainnet: 6648936
+  // Optimism: 1869640809
+  // Arbitrum: 1634886255
+  // Gnosis: 6778479
+  // Base: 1650553709
+  allow.arbitrumOne.connext_bridge.xcall(
+    6648936,
+    c.avatar,
+    DAI,
+    c.avatar,
+    undefined,
+    undefined,
+    "0x"
+  ),
   // COMP (Arbitrum) -> COMP (Mainnet)
   ...allowErc20Approve([COMP], [contracts.arbitrumOne.gateway_router]),
   allow.arbitrumOne.gateway_router[
@@ -187,5 +210,28 @@ export default [
         value: "0x" + avatar.slice(22, 42), // Last 10 bytes of the avatar address
       })
     )
+  ),
+  // USDC (Arbitrum) -> USDC (Mainnet) - HOP
+  ...allowErc20Approve([USDC], [contracts.arbitrumOne.l2_hop_cctp]),
+  allow.arbitrumOne.l2_hop_cctp.send(
+    1, // Mainnet
+    c.avatar
+  ),
+  // USDC.e (Arbitrum) -> USDC (Mainnet) - Connext
+  ...allowErc20Approve([USDCe], [contracts.arbitrumOne.connext_bridge]),
+  // To get the Domain ID: https://docs.connext.network/resources/deployments
+  // Mainnet: 6648936
+  // Optimism: 1869640809
+  // Arbitrum: 1634886255
+  // Gnosis: 6778479
+  // Base: 1650553709
+  allow.arbitrumOne.connext_bridge.xcall(
+    6648936,
+    c.avatar,
+    USDCe,
+    c.avatar,
+    undefined,
+    undefined,
+    "0x"
   ),
 ] satisfies PermissionList

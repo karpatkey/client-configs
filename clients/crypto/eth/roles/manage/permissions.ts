@@ -1,5 +1,5 @@
 import { c } from "zodiac-roles-sdk"
-import { allow } from "zodiac-roles-sdk/kit"
+import { EVERYTHING, allow } from "zodiac-roles-sdk/kit"
 import { allow as allowAction } from "defi-kit/eth"
 import {
   COMP,
@@ -140,6 +140,35 @@ export default [
   // DAI -> XDAI
   ...allowErc20Approve([DAI], [contracts.mainnet.gno_xdai_bridge]),
   allow.mainnet.gno_xdai_bridge.relayTokens(c.avatar, undefined),
+  // DAI (Mainnet) -> DAI (Gnosis) - HOP
+  ...allowErc20Approve([DAI], [contracts.mainnet.hop_dai_bridge]),
+  allow.mainnet.hop_dai_bridge.sendToL2(
+    100, // Gnosis
+    c.avatar,
+    undefined,
+    undefined,
+    undefined,
+    "0x9298dfD8A0384da62643c2E98f437E820029E75E" // Relayer
+  ),
+  // DAI (Mainnet) -> DAI (Gnosis) - Connext
+  // The xcall() function was added manually in the contracts' ABI
+  // Implementation: 0x3606b0D9c84224892C7407d4e8DCfd7E9E2126A2
+  ...allowErc20Approve([DAI], [contracts.mainnet.connext_bridge]),
+  // To get the Domain ID: https://docs.connext.network/resources/deployments
+  // Mainnet: 6648936
+  // Optimism: 1869640809
+  // Arbitrum: 1634886255
+  // Gnosis: 6778479
+  // Base: 1650553709
+  allow.mainnet.connext_bridge.xcall(
+    6778479,
+    c.avatar,
+    DAI,
+    c.avatar,
+    undefined,
+    undefined,
+    "0x"
+  ),
   // COMP (Mainnet) -> COMP (Gnosis)
   ...allowErc20Approve([COMP], [contracts.mainnet.gno_omnibridge]),
   allow.mainnet.gno_omnibridge["relayTokens(address,address,uint256)"](
@@ -160,12 +189,61 @@ export default [
     undefined,
     "0x" + avatar.slice(2).padStart(64, "0")
   ),
+  // HOP does not work with USDC and USDC.e
+  // USDC (Mainnet) -> USDC (Gnosis) - Connext
+  // The xcall() function was added manually in the contracts' ABI
+  // Implementation: 0x3606b0D9c84224892C7407d4e8DCfd7E9E2126A2
+  ...allowErc20Approve([USDC], [contracts.mainnet.connext_bridge]),
+  // To get the Domain ID: https://docs.connext.network/resources/deployments
+  // Mainnet: 6648936
+  // Optimism: 1869640809
+  // Arbitrum: 1634886255
+  // Gnosis: 6778479
+  // Base: 1650553709
+  allow.mainnet.connext_bridge.xcall(
+    6778479,
+    c.avatar,
+    USDC,
+    c.avatar,
+    undefined,
+    undefined,
+    "0x"
+  ),
 
   // Mainnet -> Optimism
   // DAI (Mainnet) -> DAI (Optimism)
   ...allowErc20Approve([DAI], [contracts.mainnet.opt_dai_bridge]),
   allow.mainnet.opt_dai_bridge.depositERC20(DAI, DAI_opt),
   allow.mainnet.opt_dai_bridge.depositERC20To(DAI, DAI_opt, c.avatar),
+  // DAI (Mainnet) -> DAI (Optimism) - HOP
+  ...allowErc20Approve([DAI], [contracts.mainnet.hop_dai_bridge]),
+  allow.mainnet.hop_dai_bridge.sendToL2(
+    10, // Optimism
+    c.avatar,
+    undefined,
+    undefined,
+    undefined,
+    "0x9298dfD8A0384da62643c2E98f437E820029E75E" // Relayer
+  ),
+  // DAI (Mainnet) -> DAI (Optimism) - Connext
+  // The xcall() function was added manually in the contracts' ABI
+  // Implementation: 0x3606b0D9c84224892C7407d4e8DCfd7E9E2126A2
+  ...allowErc20Approve([DAI], [contracts.mainnet.connext_bridge]),
+  // To get the Domain ID: https://docs.connext.network/resources/deployments
+  // Mainnet: 6648936
+  // Optimism: 1869640809
+  // Arbitrum: 1634886255
+  // Gnosis: 6778479
+  // Base: 1650553709
+  allow.mainnet.connext_bridge.xcall(
+    1869640809,
+    c.avatar,
+    DAI,
+    c.avatar,
+    undefined,
+    undefined,
+    "0x"
+  ),
   // COMP (Mainnet) -> COMP (Optimism)
   ...allowErc20Approve([COMP], [contracts.mainnet.opt_gateway]),
   allow.mainnet.opt_gateway.depositERC20(COMP, COMP_opt),
@@ -257,63 +335,65 @@ export default [
       })
     )
   ),
-  // // Claim bridged USDC from Optimism
-  // allow.mainnet.circle_message_transmitter.receiveMessage(
-  //   c.calldataMatches(
-  //     [
-  //       c.calldataMatches(
-  //         [
-  //           c.calldataMatches(
-  //             [
-  //               c.calldataMatches(
-  //                 [
-  //                   c.calldataMatches(
-  //                     [
-  //                       c.calldataMatches(
-  //                         [
-  //                           contracts.optimism.circle_token_messenger,
-  //                           contracts.mainnet.circle_token_messenger
-  //                         ],
-  //                         ['address', 'address']
-  //                       ),
-  //                       c.calldataMatches(
-  //                         [
-  //                           c.calldataMatches(
-  //                             [
-  //                               ZERO_ADDRESS, USDC_opt, c.avatar, undefined, c.avatar
-  //                             ],
-  //                             ['address', 'address', 'address', 'uint256', 'address']
-  //                           )
-  //                         ],
-  //                         ['bytes'], // this scopes selector with 0's
-  //                         '0x00000000'
-  //                       )
-  //                     ],
-  //                     ['bytes'] // this scopes bytes 17-20
-  //                     // we don't set a required value for nonce second part
-  //                   )
-  //                 ],
-  //                 ['bytes'] // this scopes bytes 13-16
-  //                 // we don't set a required value for nonce first part
-  //               )
-  //             ],
-  //             ['bytes'],
-  //             '0x00000000' // required value for bytes 9-12 (destination domain)
-  //           )
-  //         ],
-  //         ['bytes'],
-  //         '0x00000000' // required value for next 4 bytes (5-8) (source domain)
-  //       )
-  //     ],
-  //     ['bytes'],
-  //     '0x00000000' // required value for first 4 bytes (version)
-  //   )
-  // ),
+  // USDC (Mainnet) -> USDC (Optimism) - HOP
+  ...allowErc20Approve([USDC], [contracts.mainnet.l1_hop_cctp]),
+  allow.mainnet.l1_hop_cctp.send(
+    10, // Optimism
+    c.avatar
+  ),
+  // USDC (Mainnet) -> USDC.e (Optimism) - Connext
+  // The xcall() function was added manually in the contracts' ABI
+  // Implementation: 0x3606b0D9c84224892C7407d4e8DCfd7E9E2126A2
+  ...allowErc20Approve([USDC], [contracts.mainnet.connext_bridge]),
+  // To get the Domain ID: https://docs.connext.network/resources/deployments
+  // Mainnet: 6648936
+  // Optimism: 1869640809
+  // Arbitrum: 1634886255
+  // Gnosis: 6778479
+  // Base: 1650553709
+  allow.mainnet.connext_bridge.xcall(
+    1869640809,
+    c.avatar,
+    USDC,
+    c.avatar,
+    undefined,
+    undefined,
+    "0x"
+  ),
 
   // Mainnet -> Arbitrum
   // DAI (Mainnet) -> DAI (Arbitrum)
   ...allowErc20Approve([DAI], [contracts.mainnet.arb_dai_gateway]),
   allow.mainnet.arb_dai_gateway.outboundTransfer(DAI, c.avatar),
+  // DAI (Mainnet) -> DAI (Arbitrum) - HOP
+  ...allowErc20Approve([DAI], [contracts.mainnet.hop_dai_bridge]),
+  allow.mainnet.hop_dai_bridge.sendToL2(
+    42161, // Arbitrum
+    c.avatar,
+    undefined,
+    undefined,
+    undefined,
+    "0x9298dfD8A0384da62643c2E98f437E820029E75E" // Relayer
+  ),
+  // DAI (Mainnet) -> DAI (Arbitrum) - Connext
+  // The xcall() function was added manually in the contracts' ABI
+  // Implementation: 0x3606b0D9c84224892C7407d4e8DCfd7E9E2126A2
+  ...allowErc20Approve([DAI], [contracts.mainnet.connext_bridge]),
+  // To get the Domain ID: https://docs.connext.network/resources/deployments
+  // Mainnet: 6648936
+  // Optimism: 1869640809
+  // Arbitrum: 1634886255
+  // Gnosis: 6778479
+  // Base: 1650553709
+  allow.mainnet.connext_bridge.xcall(
+    1634886255,
+    c.avatar,
+    DAI,
+    c.avatar,
+    undefined,
+    undefined,
+    "0x"
+  ),
   // COMP (Mainnet) -> COMP (Arbitrum)
   ...allowErc20Approve([COMP], [contracts.mainnet.arb_erc20_gateway]),
   allow.mainnet.arb_erc20_gateway.outboundTransfer(COMP, c.avatar),
@@ -404,6 +484,31 @@ export default [
       })
     )
   ),
+  // USDC (Mainnet) -> USDC (Arbitrum) - HOP
+  ...allowErc20Approve([USDC], [contracts.mainnet.l1_hop_cctp]),
+  allow.mainnet.l1_hop_cctp.send(
+    42161, // Arbitrum
+    c.avatar
+  ),
+  // USDC (Mainnet) -> USDC.e (Arbitrum) - Connext
+  // The xcall() function was added manually in the contracts' ABI
+  // Implementation: 0x3606b0D9c84224892C7407d4e8DCfd7E9E2126A2
+  ...allowErc20Approve([USDC], [contracts.mainnet.connext_bridge]),
+  // To get the Domain ID: https://docs.connext.network/resources/deployments
+  // Mainnet: 6648936
+  // Optimism: 1869640809
+  // Arbitrum: 1634886255
+  // Gnosis: 6778479
+  // Base: 1650553709
+  allow.mainnet.connext_bridge.xcall(
+    1634886255,
+    c.avatar,
+    USDC,
+    c.avatar,
+    undefined,
+    undefined,
+    "0x"
+  ),
 
   // Mainnet -> Base
   // USDC (Mainnet) -> USDC (Base)
@@ -492,5 +597,30 @@ export default [
         value: "0x" + avatar.slice(22, 42), // Last 10 bytes of the avatar address
       })
     )
+  ),
+  // USDC (Mainnet) -> USDC (Base) - HOP
+  ...allowErc20Approve([USDC], [contracts.mainnet.l1_hop_cctp]),
+  allow.mainnet.l1_hop_cctp.send(
+    8453, // Base
+    c.avatar
+  ),
+  // USDC (Mainnet) -> USDC (Base) - Connext
+  // The xcall() function was added manually in the contracts' ABI
+  // Implementation: 0x3606b0D9c84224892C7407d4e8DCfd7E9E2126A2
+  ...allowErc20Approve([USDC], [contracts.mainnet.connext_bridge]),
+  // To get the Domain ID: https://docs.connext.network/resources/deployments
+  // Mainnet: 6648936
+  // Optimism: 1869640809
+  // Arbitrum: 1634886255
+  // Gnosis: 6778479
+  // Base: 1650553709
+  allow.mainnet.connext_bridge.xcall(
+    1650553709,
+    c.avatar,
+    USDC,
+    c.avatar,
+    undefined,
+    undefined,
+    "0x"
   ),
 ] satisfies PermissionList
