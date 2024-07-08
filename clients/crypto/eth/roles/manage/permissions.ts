@@ -16,6 +16,8 @@ import {
   COMP as COMP_opt,
   USDC as USDC_opt,
 } from "../../../../../eth-sdk/addresses_opt"
+import { USDC as USDC_arb } from "../../../../../eth-sdk/addresses_arb"
+import { USDC as USDC_base } from "../../../../../eth-sdk/addresses_base"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
@@ -175,19 +177,191 @@ export default [
     COMP,
     c.avatar
   ),
-  // USDC (Mainnet) -> USDC (Gnosis)
-  ...allowErc20Approve([USDC], [contracts.mainnet.gno_omnibridge]),
-  allow.mainnet.gno_omnibridge["relayTokens(address,address,uint256)"](
-    USDC,
-    c.avatar
+  // Claim bridged COMP from Gnosis
+  allow.mainnet.amb_eth_xdai.safeExecuteSignaturesWithAutoGasLimit(
+    c.and(
+      // messageId: 32 bytes
+      // First 4 bytes
+      c.bitmask({
+        shift: 0,
+        mask: "0xffffffff",
+        value: "0x00050000",
+      }),
+      // Next 10 bytes
+      c.bitmask({
+        shift: 4,
+        mask: "0xffffffffffffffffffff",
+        value: "0xa7823d6f1e31569f5186",
+      }),
+      // Next 10 bytes
+      c.bitmask({
+        shift: 4 + 10,
+        mask: "0xffffffffffffffffffff",
+        value: "0x1e345b30c6bebf70ebe7",
+      }),
+      // skip last 8 bytes (nonce)
+      // sender: 20 bytes
+      c.bitmask({
+        shift: 32,
+        mask: "0xffffffffffffffffffff",
+        value: contracts.gnosis.xdai_bridge.slice(0, 22), // First 10 bytes of the sender address (XDAI Bridge)
+      }),
+      c.bitmask({
+        shift: 32 + 10,
+        mask: "0xffffffffffffffffffff",
+        value: "0x" + contracts.gnosis.xdai_bridge.slice(22, 42), // Second 10 bytes of the sender address (XDAI Bridge)
+      }),
+      // executor: 20 bytes
+      c.bitmask({
+        shift: 32 + 20,
+        mask: "0xffffffffffffffffffff",
+        value: contracts.mainnet.gno_omnibridge.slice(0, 22), // First 10 bytes of the executor address (Omnibridge)
+      }),
+      c.bitmask({
+        shift: 32 + 20 + 10,
+        mask: "0xffffffffffffffffffff",
+        value: "0x" + contracts.mainnet.gno_omnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
+      }),
+      // gasLimit: 4 bytes
+      c.bitmask({
+        shift: 32 + 20 + 20,
+        mask: "0xffffffff",
+        value: "0x000927c0",
+      }),
+      // dataType + chainIds: 5 bytes
+      c.bitmask({
+        shift: 32 + 20 + 20 + 4,
+        mask: "0xffffffffff",
+        value: "0x0101806401",
+      }),
+      // selector (handleNativeTokens): 4 bytes
+      c.bitmask({
+        shift: 32 + 20 + 20 + 4 + 5,
+        mask: "0xffffffff",
+        value: "0x272255bb",
+      }),
+      // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
+      // Token address
+      c.bitmask({
+        shift: 32 + 20 + 20 + 4 + 5 + 4 + 12,
+        mask: "0xffffffffffffffffffff",
+        value: COMP.slice(0, 22), // First 10 bytes of the token address
+      }),
+      c.bitmask({
+        shift: 32 + 20 + 20 + 4 + 5 + 4 + 12 + 10,
+        mask: "0xffffffffffffffffffff",
+        value: "0x" + COMP.slice(22, 42), // Last 10 bytes of the token address
+      }),
+      // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
+      // Avatar address
+      c.bitmask({
+        shift: 32 + 20 + 20 + 4 + 5 + 4 + 32 + 12,
+        mask: "0xffffffffffffffffffff",
+        value: avatar.slice(0, 22), // First 10 bytes of the avatar address
+      }),
+      c.bitmask({
+        shift: 32 + 20 + 20 + 4 + 5 + 4 + 32 + 12 + 10,
+        mask: "0xffffffffffffffffffff",
+        value: "0x" + avatar.slice(22, 42), // Last 10 bytes of the avatar address
+      })
+    )
   ),
   // USDC (Mainnet) -> USDC.e (Gnosis)
-  // USDC approval already included
+  ...allowErc20Approve([USDC], [contracts.mainnet.gno_omnibridge]),
   allow.mainnet.gno_omnibridge.relayTokensAndCall(
     USDC,
-    "0x0392A2F5Ac47388945D8c84212469F545fAE52B2",
+    contracts.gnosis.usdc_transmuter,
     undefined,
     "0x" + avatar.slice(2).padStart(64, "0")
+  ),
+  // Claim bridged USDC from Gnosis
+  allow.mainnet.amb_eth_xdai.safeExecuteSignaturesWithAutoGasLimit(
+    c.and(
+      // messageId: 32 bytes
+      // First 4 bytes
+      c.bitmask({
+        shift: 0,
+        mask: "0xffffffff",
+        value: "0x00050000",
+      }),
+      // Next 10 bytes
+      c.bitmask({
+        shift: 4,
+        mask: "0xffffffffffffffffffff",
+        value: "0xa7823d6f1e31569f5186",
+      }),
+      // Next 10 bytes
+      c.bitmask({
+        shift: 4 + 10,
+        mask: "0xffffffffffffffffffff",
+        value: "0x1e345b30c6bebf70ebe7",
+      }),
+      // skip last 8 bytes (nonce)
+      // sender: 20 bytes
+      c.bitmask({
+        shift: 32,
+        mask: "0xffffffffffffffffffff",
+        value: contracts.gnosis.xdai_bridge.slice(0, 22), // First 10 bytes of the sender address (XDAI Bridge)
+      }),
+      c.bitmask({
+        shift: 32 + 10,
+        mask: "0xffffffffffffffffffff",
+        value: "0x" + contracts.gnosis.xdai_bridge.slice(22, 42), // Second 10 bytes of the sender address (XDAI Bridge)
+      }),
+      // executor: 20 bytes
+      c.bitmask({
+        shift: 32 + 20,
+        mask: "0xffffffffffffffffffff",
+        value: contracts.mainnet.gno_omnibridge.slice(0, 22), // First 10 bytes of the executor address (Omnibridge)
+      }),
+      c.bitmask({
+        shift: 32 + 20 + 10,
+        mask: "0xffffffffffffffffffff",
+        value: "0x" + contracts.mainnet.gno_omnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
+      }),
+      // gasLimit: 4 bytes
+      c.bitmask({
+        shift: 32 + 20 + 20,
+        mask: "0xffffffff",
+        value: "0x000927c0",
+      }),
+      // dataType + chainIds: 5 bytes
+      c.bitmask({
+        shift: 32 + 20 + 20 + 4,
+        mask: "0xffffffffff",
+        value: "0x0101806401",
+      }),
+      // selector (handleNativeTokens): 4 bytes
+      c.bitmask({
+        shift: 32 + 20 + 20 + 4 + 5,
+        mask: "0xffffffff",
+        value: "0x272255bb",
+      }),
+      // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
+      // Token address
+      c.bitmask({
+        shift: 32 + 20 + 20 + 4 + 5 + 4 + 12,
+        mask: "0xffffffffffffffffffff",
+        value: USDC.slice(0, 22), // First 10 bytes of the token address
+      }),
+      c.bitmask({
+        shift: 32 + 20 + 20 + 4 + 5 + 4 + 12 + 10,
+        mask: "0xffffffffffffffffffff",
+        value: "0x" + USDC.slice(22, 42), // Last 10 bytes of the token address
+      }),
+      // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
+      // Avatar address
+      c.bitmask({
+        shift: 32 + 20 + 20 + 4 + 5 + 4 + 32 + 12,
+        mask: "0xffffffffffffffffffff",
+        value: avatar.slice(0, 22), // First 10 bytes of the avatar address
+      }),
+      c.bitmask({
+        shift: 32 + 20 + 20 + 4 + 5 + 4 + 32 + 12 + 10,
+        mask: "0xffffffffffffffffffff",
+        value: "0x" + avatar.slice(22, 42), // Last 10 bytes of the avatar address
+      })
+    )
   ),
   // HOP does not work with USDC and USDC.e
   // USDC (Mainnet) -> USDC (Gnosis) - Connext
@@ -274,12 +448,12 @@ export default [
       c.bitmask({
         shift: 20 + 12,
         mask: "0xffffffffffffffffffff",
-        value: "0x2b4069517957735be00c",
+        value: contracts.optimism.circle_token_messenger.slice(0, 22),
       }),
       c.bitmask({
         shift: 20 + 12 + 10,
         mask: "0xffffffffffffffffffff",
-        value: "0xee0fadae88a26365528f",
+        value: "0x" + contracts.optimism.circle_token_messenger.slice(22, 42),
       }),
       // recipient: 32 bytes
       // skip the first 12 bytes of the address with 0's
@@ -287,12 +461,12 @@ export default [
       c.bitmask({
         shift: 20 + 32 + 12,
         mask: "0xffffffffffffffffffff",
-        value: "0xbd3fa81b58ba92a82136",
+        value: contracts.mainnet.circle_token_messenger.slice(0, 22),
       }),
       c.bitmask({
         shift: 20 + 32 + 12 + 10,
         mask: "0xffffffffffffffffffff",
-        value: "0x038b25adec7066af3155",
+        value: "0x" + contracts.mainnet.circle_token_messenger.slice(22, 42),
       }),
       // message body: dynamic
       // skip selector (4 bytes) + 32 bytes chunk with 0
@@ -301,12 +475,12 @@ export default [
       c.bitmask({
         shift: 20 + 32 + 32 + 36 + 12,
         mask: "0xffffffffffffffffffff",
-        value: "0x0b2c639c533813f4aa9d",
+        value: USDC_opt.slice(0, 22),
       }),
       c.bitmask({
         shift: 20 + 32 + 32 + 36 + 12 + 10,
         mask: "0xffffffffffffffffffff",
-        value: "0x7837caf62653d097ff85",
+        value: "0x" + USDC_opt.slice(22, 42),
       }),
       // Avatar address
       // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
@@ -423,12 +597,13 @@ export default [
       c.bitmask({
         shift: 20 + 12,
         mask: "0xffffffffffffffffffff",
-        value: "0x19330d10d9cc8751218e",
+        value: contracts.arbitrumOne.circle_token_messenger.slice(0, 22),
       }),
       c.bitmask({
         shift: 20 + 12 + 10,
         mask: "0xffffffffffffffffffff",
-        value: "0xaf51e8885d058642e08a",
+        value:
+          "0x" + contracts.arbitrumOne.circle_token_messenger.slice(22, 42),
       }),
       // recipient: 32 bytes
       // skip the first 12 bytes of the address with 0's
@@ -436,12 +611,12 @@ export default [
       c.bitmask({
         shift: 20 + 32 + 12,
         mask: "0xffffffffffffffffffff",
-        value: "0xbd3fa81b58ba92a82136",
+        value: contracts.mainnet.circle_token_messenger.slice(0, 22),
       }),
       c.bitmask({
         shift: 20 + 32 + 12 + 10,
         mask: "0xffffffffffffffffffff",
-        value: "0x038b25adec7066af3155",
+        value: "0x" + contracts.mainnet.circle_token_messenger.slice(22, 42),
       }),
       // message body: dynamic
       // skip selector (4 bytes) + 32 bytes chunk with 0
@@ -450,12 +625,12 @@ export default [
       c.bitmask({
         shift: 20 + 32 + 32 + 36 + 12,
         mask: "0xffffffffffffffffffff",
-        value: "0xaf88d065e77c8cc22393",
+        value: USDC_arb.slice(0, 22),
       }),
       c.bitmask({
         shift: 20 + 32 + 32 + 36 + 12 + 10,
         mask: "0xffffffffffffffffffff",
-        value: "0x27c5edb3a432268e5831",
+        value: "0x" + USDC_arb.slice(22, 42),
       }),
       // Avatar address
       // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
@@ -537,12 +712,12 @@ export default [
       c.bitmask({
         shift: 20 + 12,
         mask: "0xffffffffffffffffffff",
-        value: "0x1682ae6375c4e4a97e4b",
+        value: contracts.base.circle_token_messenger.slice(0, 22),
       }),
       c.bitmask({
         shift: 20 + 12 + 10,
         mask: "0xffffffffffffffffffff",
-        value: "0x583bc394c861a46d8962",
+        value: "0x" + contracts.base.circle_token_messenger.slice(22, 42),
       }),
       // recipient: 32 bytes
       // skip the first 12 bytes of the address with 0's
@@ -550,12 +725,12 @@ export default [
       c.bitmask({
         shift: 20 + 32 + 12,
         mask: "0xffffffffffffffffffff",
-        value: "0xbd3fa81b58ba92a82136",
+        value: contracts.mainnet.circle_token_messenger.slice(0, 22),
       }),
       c.bitmask({
         shift: 20 + 32 + 12 + 10,
         mask: "0xffffffffffffffffffff",
-        value: "0x038b25adec7066af3155",
+        value: "0x" + contracts.mainnet.circle_token_messenger.slice(22, 42),
       }),
       // message body: dynamic
       // skip selector (4 bytes) + 32 bytes chunk with 0
@@ -564,12 +739,12 @@ export default [
       c.bitmask({
         shift: 20 + 32 + 32 + 36 + 12,
         mask: "0xffffffffffffffffffff",
-        value: "0x833589fcd6edb6e08f4c",
+        value: USDC_base.slice(0, 22),
       }),
       c.bitmask({
         shift: 20 + 32 + 32 + 36 + 12 + 10,
         mask: "0xffffffffffffffffffff",
-        value: "0x7c32d4f71b54bda02913",
+        value: "0x" + USDC_base.slice(22, 42),
       }),
       // Avatar address
       // skip the first 12 bytes (0's) of the address and scope the first 10 bytes

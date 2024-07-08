@@ -186,13 +186,18 @@ export default [
   // Swap USDC.e -> USDC
   ...allowErc20Approve([USDCe], [contracts.gnosis.usdc_transmuter]),
   allow.gnosis.usdc_transmuter.withdraw(),
+  // Swap USDC -> USDC.e
+  ...allowErc20Approve([USDC], [contracts.gnosis.usdc_transmuter]),
+  allow.gnosis.usdc_transmuter.deposit(),
 
   /*********************************************
    * Bridge
    *********************************************/
   // Bridge - Gnosis -> Mainnet
   // XDAI (Gnosis) -> DAI (Mainnet)
-  allow.gnosis.xdai_bridge_2.relayTokens(c.avatar),
+  allow.gnosis.xdai_bridge_2.relayTokens(c.avatar, {
+    send: true,
+  }),
   // XDAI (Gnosis) -> DAI (Mainnet) - HOP
   allow.gnosis.hop_dai_wrapper.swapAndSend(
     1, // Mainnet
@@ -220,13 +225,13 @@ export default [
   allow.gnosis.comp.transferAndCall(
     contracts.gnosis.xdai_bridge,
     undefined,
-    "0x" + avatar.slice(2).padStart(64, "0")
+    avatar
   ),
   // USDC (Gnosis) -> USDC (Mainnet)
   allow.gnosis.usdc.transferAndCall(
     contracts.gnosis.xdai_bridge,
     undefined,
-    "0x" + avatar.slice(2).padStart(64, "0")
+    avatar
   ),
   // HOP does not work with USDC and USDC.e
   // USDC (Gnosis) -> USDC (Mainnet) - Connext

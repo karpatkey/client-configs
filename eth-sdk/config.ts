@@ -209,6 +209,7 @@ export const contracts = {
     weth: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
     gno_omnibridge: "0x88ad09518695c6c3712AC10a214bE5109a655671",
     gno_xdai_bridge: "0x4aa42145Aa6Ebf72e164C9bBC74fbD3788045016",
+    amb_eth_xdai: "0x4C36d2919e407f0Cc2Ee3c993ccF8ac26d9CE64e",
     opt_dai_bridge: "0x10E6593CDda8c58a1d0f14C5164B376352a55f2F",
     circle_token_messenger: "0xBd3fa81B58Ba92a82136038B25aDec7066af3155",
     opt_gateway: "0x99C9fc46f92E8a1c0deC1b1747d010903E884bE1",

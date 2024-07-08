@@ -1,6 +1,7 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { DAI, COMP, USDC, USDCe } from "../../../../../eth-sdk/addresses_opt"
+import { USDC as USDC_eth } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
@@ -149,24 +150,24 @@ export default [
       c.bitmask({
         shift: 20 + 12,
         mask: "0xffffffffffffffffffff",
-        value: "0xbd3fa81b58ba92a82136",
+        value: contracts.mainnet.circle_token_messenger.slice(0, 22),
       }),
       c.bitmask({
         shift: 20 + 12 + 10,
         mask: "0xffffffffffffffffffff",
-        value: "0x038b25adec7066af3155",
+        value: "0x" + contracts.mainnet.circle_token_messenger.slice(22, 42),
       }),
       // recipient: 32 bytes
       // Circle Token Messenger (Optimism)
       c.bitmask({
         shift: 20 + 32 + 12,
         mask: "0xffffffffffffffffffff",
-        value: "0x2b4069517957735be00c",
+        value: contracts.optimism.circle_token_messenger.slice(0, 22),
       }),
       c.bitmask({
         shift: 20 + 32 + 12 + 10,
         mask: "0xffffffffffffffffffff",
-        value: "0xee0fadae88a26365528f",
+        value: "0x" + contracts.optimism.circle_token_messenger.slice(22, 42),
       }),
       // message body: dynamic
       // skip selector (4 bytes) + 32 bytes chunk with 0
@@ -175,12 +176,12 @@ export default [
       c.bitmask({
         shift: 20 + 32 + 32 + 36 + 12,
         mask: "0xffffffffffffffffffff",
-        value: "0xa0b86991c6218b36c1d1",
+        value: USDC_eth.slice(0, 22),
       }),
       c.bitmask({
         shift: 20 + 32 + 32 + 36 + 12 + 10,
         mask: "0xffffffffffffffffffff",
-        value: "0x9d4a2e9eb0ce3606eb48",
+        value: "0x" + USDC_eth.slice(22, 42),
       }),
       // Avatar address
       // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
