@@ -1,6 +1,12 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { DAI, COMP, USDC, USDCe } from "../../../../../eth-sdk/addresses_opt"
+import {
+  crvUSD,
+  DAI,
+  COMP,
+  USDC,
+  USDCe,
+} from "../../../../../eth-sdk/addresses_opt"
 import { USDC as USDC_eth } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
@@ -18,10 +24,14 @@ export default [
     undefined,
     c.avatar
   ),
-  allow.optimism.aave_v3.pool_v3["withdraw(address,uint256,address)"](
-    DAI,
-    undefined,
-    c.avatar
+  allow.optimism.aave_v3.pool_v3["withdraw(bytes32)"](
+    // skip amount 30 bytes
+    // assetId: 4 bytes
+    c.bitmask({
+      shift: 30,
+      mask: "0xffff",
+      value: "0x0000", // DAI assetId: 0
+    })
   ),
   allow.optimism.aave_v3.pool_v3["setUserUseReserveAsCollateral(address,bool)"](
     DAI
@@ -33,10 +43,14 @@ export default [
     undefined,
     c.avatar
   ),
-  allow.optimism.aave_v3.pool_v3["withdraw(address,uint256,address)"](
-    USDC,
-    undefined,
-    c.avatar
+  allow.optimism.aave_v3.pool_v3["withdraw(bytes32)"](
+    // skip amount 30 bytes
+    // assetId: 4 bytes
+    c.bitmask({
+      shift: 30,
+      mask: "0xffff",
+      value: "0x000d", // USDC assetId: 13
+    })
   ),
   allow.optimism.aave_v3.pool_v3["setUserUseReserveAsCollateral(address,bool)"](
     USDC
@@ -48,10 +62,14 @@ export default [
     undefined,
     c.avatar
   ),
-  allow.optimism.aave_v3.pool_v3["withdraw(address,uint256,address)"](
-    USDCe,
-    undefined,
-    c.avatar
+  allow.optimism.aave_v3.pool_v3["withdraw(bytes32)"](
+    // skip amount 30 bytes
+    // assetId: 4 bytes
+    c.bitmask({
+      shift: 30,
+      mask: "0xffff",
+      value: "0x0002", // USDC.e assetId: 2
+    })
   ),
   allow.optimism.aave_v3.pool_v3["setUserUseReserveAsCollateral(address,bool)"](
     USDCe
@@ -86,6 +104,24 @@ export default [
   ...allowErc20Approve([DAI, USDCe], [contracts.optimism.curve.x3CRV_pool]),
   allow.optimism.curve.x3CRV_pool["exchange(int128,int128,uint256,uint256)"](
     c.or(0, 1), // 0 = DAI, 1 = USDC.e
+    c.or(0, 1)
+  ),
+
+  // Curve - crvUSDC/USDC - Swap crvUSDC <-> USDC
+  ...allowErc20Approve([crvUSD, USDC], [contracts.optimism.curve.x3CRV_pool]),
+  allow.optimism.curve.crvUSD_USDC_pool[
+    "exchange(int128,int128,uint256,uint256)"
+  ](
+    c.or(0, 1), // 0 = crvUSDC, 1 = USDC
+    c.or(0, 1)
+  ),
+
+  // Curve - crvUSDC/USDC.e - Swap crvUSDC <-> USDC.e
+  ...allowErc20Approve([crvUSD, USDCe], [contracts.optimism.curve.x3CRV_pool]),
+  allow.optimism.curve.crvUSD_USDCe_pool[
+    "exchange(int128,int128,uint256,uint256)"
+  ](
+    c.or(0, 1), // 0 = crvUSDC, 1 = USDC.e
     c.or(0, 1)
   ),
 

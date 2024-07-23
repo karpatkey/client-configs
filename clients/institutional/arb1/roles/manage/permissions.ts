@@ -32,10 +32,14 @@ export default [
     undefined,
     c.avatar
   ),
-  allow.arbitrumOne.aave_v3.pool_v3["withdraw(address,uint256,address)"](
-    DAI,
-    undefined,
-    c.avatar
+  allow.arbitrumOne.aave_v3.pool_v3["withdraw(bytes32)"](
+    // skip amount 30 bytes
+    // assetId: 4 bytes
+    c.bitmask({
+      shift: 30,
+      mask: "0xffff",
+      value: "0x0000", // DAI assetId: 0
+    })
   ),
   allow.arbitrumOne.aave_v3.pool_v3[
     "setUserUseReserveAsCollateral(address,bool)"
@@ -47,14 +51,37 @@ export default [
     undefined,
     c.avatar
   ),
-  allow.arbitrumOne.aave_v3.pool_v3["withdraw(address,uint256,address)"](
-    USDC,
-    undefined,
-    c.avatar
+  allow.arbitrumOne.aave_v3.pool_v3["withdraw(bytes32)"](
+    // skip amount 30 bytes
+    // assetId: 4 bytes
+    c.bitmask({
+      shift: 30,
+      mask: "0xffff",
+      value: "0x000c", // USDC assetId: 12
+    })
   ),
   allow.arbitrumOne.aave_v3.pool_v3[
     "setUserUseReserveAsCollateral(address,bool)"
   ](USDC),
+  // Aave v3 - Deposit USDC.e
+  ...allowErc20Approve([USDCe], [contracts.arbitrumOne.aave_v3.pool_v3]),
+  allow.arbitrumOne.aave_v3.pool_v3["supply(address,uint256,address,uint16)"](
+    USDCe,
+    undefined,
+    c.avatar
+  ),
+  allow.arbitrumOne.aave_v3.pool_v3["withdraw(bytes32)"](
+    // skip amount 30 bytes
+    // assetId: 4 bytes
+    c.bitmask({
+      shift: 30,
+      mask: "0xffff",
+      value: "0x0002", // USDC.e assetId: 2
+    })
+  ),
+  allow.arbitrumOne.aave_v3.pool_v3[
+    "setUserUseReserveAsCollateral(address,bool)"
+  ](USDCe),
 
   // Compound v3 - USDC
   ...allowErc20Approve([USDC], [contracts.arbitrumOne.compound_v3.cUSDCv3]),

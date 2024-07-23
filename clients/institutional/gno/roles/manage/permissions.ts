@@ -38,6 +38,10 @@ export default [
     undefined,
     { send: true }
   ),
+  ...allowErc20Approve(
+    [contracts.gnosis.aave_v3.aGnoWXDAI],
+    [contracts.gnosis.aave_v3.wrapped_token_gateway_v3]
+  ),
   allow.gnosis.aave_v3.wrapped_token_gateway_v3.withdrawETH(
     contracts.gnosis.aave_v3.pool_v3,
     undefined,
@@ -48,7 +52,7 @@ export default [
   ...allowErc20Approve([WXDAI], [contracts.gnosis.aave_v3.pool_v3]),
   allow.gnosis.aave_v3.pool_v3.supply(WXDAI, undefined, c.avatar),
   allow.gnosis.aave_v3.pool_v3.withdraw(WXDAI, undefined, c.avatar),
-  allow.gnosis.aave_v3.pool_v3.setUserUseReserveAsCollateral(WXDAI),
+  // setUserUseReserveAsCollateral for WXDAI already included
   // Aave v3 - Deposit sDAI
   ...allowErc20Approve([sDAI], [contracts.gnosis.aave_v3.pool_v3]),
   allow.gnosis.aave_v3.pool_v3.supply(sDAI, undefined, c.avatar),
@@ -102,9 +106,35 @@ export default [
 
   // Spark - Deposit sDAI
   ...allowErc20Approve([sDAI], [contracts.gnosis.spark.sparkLendingPoolV3]),
-  allow.gnosis.spark.sparkLendingPoolV3.supply(sDAI, undefined, c.avatar),
+  allow.gnosis.spark.sparkLendingPoolV3.deposit(sDAI, undefined, c.avatar),
   allow.gnosis.spark.sparkLendingPoolV3.withdraw(sDAI, undefined, c.avatar),
   allow.gnosis.spark.sparkLendingPoolV3.setUserUseReserveAsCollateral(sDAI),
+  // Spark - Deposit USDC
+  ...allowErc20Approve([USDC], [contracts.gnosis.spark.sparkLendingPoolV3]),
+  allow.gnosis.spark.sparkLendingPoolV3.supply(USDC, undefined, c.avatar),
+  allow.gnosis.spark.sparkLendingPoolV3.withdraw(USDC, undefined, c.avatar),
+  allow.gnosis.spark.sparkLendingPoolV3.setUserUseReserveAsCollateral(USDC),
+  // Spark - Deposit WXDAI
+  ...allowErc20Approve([WXDAI], [contracts.gnosis.spark.sparkLendingPoolV3]),
+  allow.gnosis.spark.sparkLendingPoolV3.supply(WXDAI, undefined, c.avatar),
+  allow.gnosis.spark.sparkLendingPoolV3.withdraw(WXDAI, undefined, c.avatar),
+  allow.gnosis.spark.sparkLendingPoolV3.setUserUseReserveAsCollateral(WXDAI),
+  // Spark - Deposit XDAI
+  allow.gnosis.spark.wrappedTokenGatewayV3.depositETH(
+    contracts.gnosis.spark.sparkLendingPoolV3,
+    c.avatar,
+    undefined,
+    { send: true }
+  ),
+  ...allowErc20Approve(
+    [contracts.gnosis.spark.aWXDAI],
+    [contracts.gnosis.spark.wrappedTokenGatewayV3]
+  ),
+  allow.gnosis.spark.wrappedTokenGatewayV3.withdrawETH(
+    contracts.gnosis.spark.sparkLendingPoolV3,
+    undefined,
+    c.avatar
+  ),
   // Spark - Borrow XDAI
   allow.gnosis.spark.variableDebtWXDAI.approveDelegation(
     contracts.gnosis.spark.wrappedTokenGatewayV3
