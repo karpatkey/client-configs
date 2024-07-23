@@ -14,6 +14,7 @@ import {
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
+import { avatar } from "../../index"
 
 export default [
   /*********************************************
@@ -131,7 +132,7 @@ export default [
   ),
 
   // Merkl (Angle) - Claim
-  allow.mainnet.merkl.angle_distributor.claim([c.avatar.toString()], [GHO]),
+  allow.mainnet.merkl.angle_distributor.claim([avatar], [GHO]),
 
   // SAFE - Claim
   allow.mainnet.safe.ecosystem_airdrop.claimVestedTokens(undefined, c.avatar),
