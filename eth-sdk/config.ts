@@ -187,6 +187,7 @@ export const contracts = {
     },
     stakewise_v3: {
       chrorus_one_mev_max: "0xe6d8d8aC54461b1C5eD15740EEe322043F696C08",
+      genesis: "0xAC0F906E433d58FA868F936E8A43230473652885",
     },
     sushiswap: {
       router: "0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F",

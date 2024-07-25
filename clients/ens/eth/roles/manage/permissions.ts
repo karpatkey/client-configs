@@ -238,6 +238,32 @@ export default [
   allow.mainnet.maker.dsr_manager.exit(c.avatar),
   allow.mainnet.maker.dsr_manager.exitAll(c.avatar),
 
+  // StakeWise v3 - Genesis Vault
+  allow.mainnet.stakewise_v3.genesis.deposit(
+    c.avatar,
+    undefined,
+    {
+      send: true
+    }
+  ),
+  allow.mainnet.stakewise_v3.genesis.updateStateAndDeposit(
+    c.avatar,
+    undefined,
+    undefined,
+    {
+      send: true
+    }
+  ),
+  allow.mainnet.stakewise_v3.genesis.mintOsToken(
+    c.avatar
+  ),
+  allow.mainnet.stakewise_v3.genesis.burnOsToken(),
+  allow.mainnet.stakewise_v3.genesis.enterExitQueue(
+    undefined,
+    c.avatar
+  ),
+  allow.mainnet.stakewise_v3.genesis.claimExitedAssets(),
+
   // SWAPS
   // Balancer - Swaps
   ...allowErc20Approve(
