@@ -18,8 +18,8 @@ export default [
    *********************************************/
   // Cowswap - Holdings swaps
   allowAction.cowswap.swap({
-    sell: [DAI, USDC],
-    buy: [DAI, USDC],
+    sell: [DAI, USDC, USDCe],
+    buy: [DAI, USDC, USDCe],
   }),
 
   /*********************************************

@@ -50,6 +50,8 @@ export default [
   allowAction.spark.deposit({ targets: ["sDAI"] }),
   // Spark - Borrow DAI
   allowAction.spark.borrow({ targets: ["DAI"] }),
+  // Spark - Borrow USDC
+  allowAction.spark.borrow({ targets: ["USDC"] }),
 
   /*********************************************
    * Typed-presets permissions
