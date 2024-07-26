@@ -242,14 +242,17 @@ export default [
   // Arbitrum: 1634886255
   // Gnosis: 6778479
   // Base: 1650553709
-  allow.gnosis.connext_bridge.xcall(
+  allow.gnosis.connext_bridge["xcall(uint32,address,address,address,uint256,uint256,bytes)"](
     6648936,
     c.avatar,
     WXDAI,
     c.avatar,
     undefined,
     undefined,
-    "0x"
+    "0x",
+    {
+      send: true
+    }
   ),
   // COMP (Gnosis) -> COMP (Mainnet)
   allow.gnosis.comp.transferAndCall(
@@ -272,7 +275,7 @@ export default [
   // Arbitrum: 1634886255
   // Gnosis: 6778479
   // Base: 1650553709
-  allow.gnosis.connext_bridge.xcall(
+  allow.gnosis.connext_bridge["xcall(uint32,address,address,address,uint256,uint256,bytes,uint256)"](
     6648936,
     c.avatar,
     USDC,

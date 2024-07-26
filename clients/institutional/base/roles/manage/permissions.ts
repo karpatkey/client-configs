@@ -177,14 +177,14 @@ export default [
     c.avatar
   ),
   // USDC (Base) -> USDC (Mainnet) - Connext
-  ...allowErc20Approve([USDC], [contracts.mainnet.connext_bridge]),
+  ...allowErc20Approve([USDC], [contracts.base.connext_bridge]),
   // To get the Domain ID: https://docs.connext.network/resources/deployments
   // Mainnet: 6648936
   // Optimism: 1869640809
   // Arbitrum: 1634886255
   // Gnosis: 6778479
   // Base: 1650553709
-  allow.base.connext_bridge.xcall(
+  allow.base.connext_bridge["xcall(uint32,address,address,address,uint256,uint256,bytes,uint256)"](
     6648936,
     c.avatar,
     USDC,

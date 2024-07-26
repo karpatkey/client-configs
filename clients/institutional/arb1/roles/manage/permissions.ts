@@ -142,14 +142,17 @@ export default [
   // Arbitrum: 1634886255
   // Gnosis: 6778479
   // Base: 1650553709
-  allow.arbitrumOne.connext_bridge.xcall(
+  allow.arbitrumOne.connext_bridge["xcall(uint32,address,address,address,uint256,uint256,bytes)"](
     6648936,
     c.avatar,
     DAI,
     c.avatar,
     undefined,
     undefined,
-    "0x"
+    "0x" + avatar.slice(2).padStart(64, "0"),
+    {
+      send: true
+    }
   ),
   // COMP (Arbitrum) -> COMP (Mainnet)
   ...allowErc20Approve([COMP], [contracts.arbitrumOne.gateway_router]),
@@ -257,7 +260,7 @@ export default [
   // Arbitrum: 1634886255
   // Gnosis: 6778479
   // Base: 1650553709
-  allow.arbitrumOne.connext_bridge.xcall(
+  allow.arbitrumOne.connext_bridge["xcall(uint32,address,address,address,uint256,uint256,bytes,uint256)"](
     6648936,
     c.avatar,
     USDCe,
