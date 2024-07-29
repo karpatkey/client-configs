@@ -153,7 +153,7 @@ export default [
   allow.mainnet.stakewise_v3.chrorus_one_mev_max.deposit(c.avatar, undefined, {
     send: true,
   }),
-  allow.mainnet.stakewise_v3.genesis.updateStateAndDeposit(
+  allow.mainnet.stakewise_v3.chrorus_one_mev_max.updateStateAndDeposit(
     c.avatar,
     undefined,
     undefined,
