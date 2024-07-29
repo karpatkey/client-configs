@@ -297,6 +297,7 @@ export const contracts = {
       CometRewards: "0x123964802e6ABabBE1Bc9547D72Ef1B69B00A6b1",
     },
     circle_token_messenger: "0x1682Ae6375C4E4A97e4B583BC394c861A46D8962",
+    circle_message_transmitter: "0xAD09780d193884d503182aD4588450C416D6F9D4",
     l2_hop_cctp: "0xe7F40BF16AB09f4a6906Ac2CAA4094aD2dA48Cc2",
     connext_bridge: "0xB8448C6f7f7887D36DcA487370778e419e9ebE3F",
   },

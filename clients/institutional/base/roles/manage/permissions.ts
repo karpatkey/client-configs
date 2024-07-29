@@ -93,7 +93,7 @@ export default [
     USDC
   ),
   // Claim bridged USDC from Mainnet
-  allow.mainnet.circle_message_transmitter.receiveMessage(
+  allow.base.circle_message_transmitter.receiveMessage(
     c.and(
       // version: 4 bytes (00000000)
       // source domain: 4 bytes(00000000)
