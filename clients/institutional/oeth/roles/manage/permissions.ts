@@ -147,7 +147,9 @@ export default [
   // Arbitrum: 1634886255
   // Gnosis: 6778479
   // Base: 1650553709
-  allow.optimism.connext_bridge["xcall(uint32,address,address,address,uint256,uint256,bytes)"](
+  allow.optimism.connext_bridge[
+    "xcall(uint32,address,address,address,uint256,uint256,bytes)"
+  ](
     6648936,
     c.avatar,
     DAI,
@@ -156,7 +158,7 @@ export default [
     undefined,
     "0x" + avatar.slice(2).padStart(64, "0"),
     {
-      send: true
+      send: true,
     }
   ),
   // COMP (Optimism) -> COMP (Mainnet)
@@ -263,13 +265,7 @@ export default [
   // Arbitrum: 1634886255
   // Gnosis: 6778479
   // Base: 1650553709
-  allow.optimism.connext_bridge["xcall(uint32,address,address,address,uint256,uint256,bytes,uint256)"](
-    6648936,
-    c.avatar,
-    USDCe,
-    c.avatar,
-    undefined,
-    undefined,
-    "0x"
-  ),
+  allow.optimism.connext_bridge[
+    "xcall(uint32,address,address,address,uint256,uint256,bytes,uint256)"
+  ](6648936, c.avatar, USDCe, c.avatar, undefined, undefined, "0x"),
 ] satisfies PermissionList

@@ -164,7 +164,9 @@ export default [
   // Arbitrum: 1634886255
   // Gnosis: 6778479
   // Base: 1650553709
-  allow.mainnet.connext_bridge["xcall(uint32,address,address,address,uint256,uint256,bytes)"](
+  allow.mainnet.connext_bridge[
+    "xcall(uint32,address,address,address,uint256,uint256,bytes)"
+  ](
     6778479,
     "0x642c27a96dFFB6f21443A89b789a3194Ff8399fa", // Connext: Unwrapper (Gnosis Chain)
     DAI,
@@ -173,7 +175,7 @@ export default [
     undefined,
     "0x" + avatar.slice(2).padStart(64, "0"),
     {
-      send: true
+      send: true,
     }
   ),
   // COMP (Mainnet) -> COMP (Gnosis)
@@ -379,15 +381,9 @@ export default [
   // Arbitrum: 1634886255
   // Gnosis: 6778479
   // Base: 1650553709
-  allow.mainnet.connext_bridge["xcall(uint32,address,address,address,uint256,uint256,bytes,uint256)"](
-    6778479,
-    c.avatar,
-    USDC,
-    c.avatar,
-    undefined,
-    undefined,
-    "0x"
-  ),
+  allow.mainnet.connext_bridge[
+    "xcall(uint32,address,address,address,uint256,uint256,bytes,uint256)"
+  ](6778479, c.avatar, USDC, c.avatar, undefined, undefined, "0x"),
 
   // Mainnet -> Optimism
   // DAI (Mainnet) -> DAI (Optimism)
@@ -414,18 +410,11 @@ export default [
   // Arbitrum: 1634886255
   // Gnosis: 6778479
   // Base: 1650553709
-  allow.mainnet.connext_bridge["xcall(uint32,address,address,address,uint256,uint256,bytes)"](
-    1869640809,
-    c.avatar,
-    DAI,
-    c.avatar,
-    undefined,
-    undefined,
-    "0x",
-    {
-      send: true
-    }
-  ),
+  allow.mainnet.connext_bridge[
+    "xcall(uint32,address,address,address,uint256,uint256,bytes)"
+  ](1869640809, c.avatar, DAI, c.avatar, undefined, undefined, "0x", {
+    send: true,
+  }),
   // COMP (Mainnet) -> COMP (Optimism)
   ...allowErc20Approve([COMP], [contracts.mainnet.opt_gateway]),
   allow.mainnet.opt_gateway.depositERC20(COMP, COMP_opt),
@@ -533,15 +522,9 @@ export default [
   // Arbitrum: 1634886255
   // Gnosis: 6778479
   // Base: 1650553709
-  allow.mainnet.connext_bridge["xcall(uint32,address,address,address,uint256,uint256,bytes,uint256)"](
-    1869640809,
-    c.avatar,
-    USDC,
-    c.avatar,
-    undefined,
-    undefined,
-    "0x"
-  ),
+  allow.mainnet.connext_bridge[
+    "xcall(uint32,address,address,address,uint256,uint256,bytes,uint256)"
+  ](1869640809, c.avatar, USDC, c.avatar, undefined, undefined, "0x"),
 
   // Mainnet -> Arbitrum
   // DAI (Mainnet) -> DAI (Arbitrum)
@@ -567,18 +550,11 @@ export default [
   // Arbitrum: 1634886255
   // Gnosis: 6778479
   // Base: 1650553709
-  allow.mainnet.connext_bridge["xcall(uint32,address,address,address,uint256,uint256,bytes)"](
-    1634886255,
-    c.avatar,
-    DAI,
-    c.avatar,
-    undefined,
-    undefined,
-    "0x",
-    {
-      send: true
-    }
-  ),
+  allow.mainnet.connext_bridge[
+    "xcall(uint32,address,address,address,uint256,uint256,bytes)"
+  ](1634886255, c.avatar, DAI, c.avatar, undefined, undefined, "0x", {
+    send: true,
+  }),
   // COMP (Mainnet) -> COMP (Arbitrum)
   ...allowErc20Approve([COMP], [contracts.mainnet.arb_erc20_gateway]),
   allow.mainnet.arb_erc20_gateway.outboundTransfer(COMP, c.avatar),
@@ -686,15 +662,9 @@ export default [
   // Arbitrum: 1634886255
   // Gnosis: 6778479
   // Base: 1650553709
-  allow.mainnet.connext_bridge["xcall(uint32,address,address,address,uint256,uint256,bytes,uint256)"](
-    1634886255,
-    c.avatar,
-    USDC,
-    c.avatar,
-    undefined,
-    undefined,
-    "0x"
-  ),
+  allow.mainnet.connext_bridge[
+    "xcall(uint32,address,address,address,uint256,uint256,bytes,uint256)"
+  ](1634886255, c.avatar, USDC, c.avatar, undefined, undefined, "0x"),
 
   // Mainnet -> Base
   // USDC (Mainnet) -> USDC (Base)
@@ -800,13 +770,7 @@ export default [
   // Arbitrum: 1634886255
   // Gnosis: 6778479
   // Base: 1650553709
-  allow.mainnet.connext_bridge["xcall(uint32,address,address,address,uint256,uint256,bytes,uint256)"](
-    1650553709,
-    c.avatar,
-    USDC,
-    c.avatar,
-    undefined,
-    undefined,
-    "0x"
-  ),
+  allow.mainnet.connext_bridge[
+    "xcall(uint32,address,address,address,uint256,uint256,bytes,uint256)"
+  ](1650553709, c.avatar, USDC, c.avatar, undefined, undefined, "0x"),
 ] satisfies PermissionList

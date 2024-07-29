@@ -242,18 +242,11 @@ export default [
   // Arbitrum: 1634886255
   // Gnosis: 6778479
   // Base: 1650553709
-  allow.gnosis.connext_bridge["xcall(uint32,address,address,address,uint256,uint256,bytes)"](
-    6648936,
-    c.avatar,
-    WXDAI,
-    c.avatar,
-    undefined,
-    undefined,
-    "0x",
-    {
-      send: true
-    }
-  ),
+  allow.gnosis.connext_bridge[
+    "xcall(uint32,address,address,address,uint256,uint256,bytes)"
+  ](6648936, c.avatar, WXDAI, c.avatar, undefined, undefined, "0x", {
+    send: true,
+  }),
   // COMP (Gnosis) -> COMP (Mainnet)
   allow.gnosis.comp.transferAndCall(
     contracts.gnosis.xdai_bridge,
@@ -275,13 +268,7 @@ export default [
   // Arbitrum: 1634886255
   // Gnosis: 6778479
   // Base: 1650553709
-  allow.gnosis.connext_bridge["xcall(uint32,address,address,address,uint256,uint256,bytes,uint256)"](
-    6648936,
-    c.avatar,
-    USDC,
-    c.avatar,
-    undefined,
-    undefined,
-    "0x"
-  ),
+  allow.gnosis.connext_bridge[
+    "xcall(uint32,address,address,address,uint256,uint256,bytes,uint256)"
+  ](6648936, c.avatar, USDC, c.avatar, undefined, undefined, "0x"),
 ] satisfies PermissionList

@@ -184,13 +184,7 @@ export default [
   // Arbitrum: 1634886255
   // Gnosis: 6778479
   // Base: 1650553709
-  allow.base.connext_bridge["xcall(uint32,address,address,address,uint256,uint256,bytes,uint256)"](
-    6648936,
-    c.avatar,
-    USDC,
-    c.avatar,
-    undefined,
-    undefined,
-    "0x"
-  ),
+  allow.base.connext_bridge[
+    "xcall(uint32,address,address,address,uint256,uint256,bytes,uint256)"
+  ](6648936, c.avatar, USDC, c.avatar, undefined, undefined, "0x"),
 ] satisfies PermissionList
