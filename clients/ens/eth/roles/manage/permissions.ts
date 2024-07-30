@@ -129,29 +129,13 @@ export default [
 
   // Aave v3 - Lido Market - WETH
   ...allowErc20Approve([WETH], [contracts.mainnet.aave_v3.pool_lido]),
-  allow.mainnet.aave_v3.pool_lido.supply(
-    WETH,
-    undefined,
-    c.avatar
-  ),
-  allow.mainnet.aave_v3.pool_lido.withdraw(
-    WETH,
-    undefined,
-    c.avatar
-  ),
+  allow.mainnet.aave_v3.pool_lido.supply(WETH, undefined, c.avatar),
+  allow.mainnet.aave_v3.pool_lido.withdraw(WETH, undefined, c.avatar),
 
   // Aave v3 - Lido Market - wstETH
   ...allowErc20Approve([wstETH], [contracts.mainnet.aave_v3.pool_lido]),
-  allow.mainnet.aave_v3.pool_lido.supply(
-    wstETH,
-    undefined,
-    c.avatar
-  ),
-  allow.mainnet.aave_v3.pool_lido.withdraw(
-    wstETH,
-    undefined,
-    c.avatar
-  ),
+  allow.mainnet.aave_v3.pool_lido.supply(wstETH, undefined, c.avatar),
+  allow.mainnet.aave_v3.pool_lido.withdraw(wstETH, undefined, c.avatar),
 
   // Compound v3 - USDC
   ...allowErc20Approve([USDC], [contracts.mainnet.compound_v3.cUSDCv3]),
