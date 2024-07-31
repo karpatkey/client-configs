@@ -106,7 +106,7 @@ export default [
 
   // Spark - Deposit sDAI
   ...allowErc20Approve([sDAI], [contracts.gnosis.spark.sparkLendingPoolV3]),
-  allow.gnosis.spark.sparkLendingPoolV3.deposit(sDAI, undefined, c.avatar),
+  allow.gnosis.spark.sparkLendingPoolV3.supply(sDAI, undefined, c.avatar),
   allow.gnosis.spark.sparkLendingPoolV3.withdraw(sDAI, undefined, c.avatar),
   allow.gnosis.spark.sparkLendingPoolV3.setUserUseReserveAsCollateral(sDAI),
   // Spark - Deposit USDC
