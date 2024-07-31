@@ -239,50 +239,6 @@ export default [
     }
   ),
 
-  // Cowswap - Swapping of AAVE, COMP, DAI, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH
-  allowErc20Approve(
-    [
-      AAVE,
-      COMP,
-      DAI,
-      rETH,
-      stETH,
-      stkAAVE,
-      SWISE,
-      USDC,
-      USDT,
-      WBTC,
-      WETH,
-      wstETH,
-    ],
-    [contracts.mainnet.cowswap.gpv2_vault_relayer]
-  ),
-  allow.mainnet.cowswap.order_signer.signOrder(
-    {
-      sellToken: c.or(
-        AAVE,
-        COMP,
-        DAI,
-        rETH,
-        stETH,
-        stkAAVE,
-        SWISE,
-        USDC,
-        USDT,
-        WBTC,
-        WETH,
-        wstETH
-      ),
-      buyToken: c.or(DAI, rETH, stETH, USDC, USDT, WBTC, WETH, wstETH),
-      receiver: c.avatar,
-    },
-    undefined,
-    undefined,
-    {
-      delegatecall: true,
-    }
-  ),
-
   // Curve - Swap ETH <> stETH
   allowErc20Approve([stETH], [contracts.mainnet.curve.steth_eth_pool]),
   allow.mainnet.curve.steth_eth_pool.exchange(
