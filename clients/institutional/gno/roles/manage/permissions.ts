@@ -87,6 +87,16 @@ export default [
   ),
   // WXDAI approval already included
   allow.gnosis.aave_v3.pool_v3.repay(WXDAI, undefined, undefined, c.avatar),
+  // Aave v3 - Borrow USDC
+  allow.gnosis.aave_v3.pool_v3.borrow(
+    USDC,
+    undefined,
+    undefined,
+    undefined,
+    c.avatar
+  ),
+  // USDC approval already included
+  allow.gnosis.aave_v3.pool_v3.repay(USDC, undefined, undefined, c.avatar),
 
   // Agave - sDAI
   // Deposit XDAI

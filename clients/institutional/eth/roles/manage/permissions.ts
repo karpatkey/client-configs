@@ -1,5 +1,5 @@
 import { c } from "zodiac-roles-sdk"
-import { EVERYTHING, allow } from "zodiac-roles-sdk/kit"
+import { allow } from "zodiac-roles-sdk/kit"
 import { allow as allowAction } from "defi-kit/eth"
 import {
   COMP,
@@ -8,7 +8,6 @@ import {
   USDC,
   WBTC,
   wstETH,
-  ZERO_ADDRESS,
   morpho,
 } from "../../../../../eth-sdk/addresses"
 import {
