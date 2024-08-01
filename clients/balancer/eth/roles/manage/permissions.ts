@@ -56,7 +56,27 @@ export default [
   // Uniswap v3 - WBTC + WETH, Range: 11.786 - 15.082. Fee: 0.3%.
   // WARNING!: With the deposit action we are allowing to send ETH and the functions that involve ETH.
   // allowAction.uniswap_v3.deposit({ tokens: ["WBTC", "WETH"], fees: ["0.3%"] }),
-  allowAction.uniswap_v3.deposit({ targets: ["430246"] }),
+  allowAction.uniswap_v3.deposit({ targets: ["430246"] }), // WARNING!: THIS MUST BE CHANGED BY THE PRECEDING CODE
+
+  // Cowswap - Swapping of AAVE, COMP, DAI, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH
+  allowAction.cowswap.swap({
+    sell: [
+      AAVE,
+      COMP,
+      DAI,
+      rETH,
+      stETH,
+      stkAAVE,
+      SWISE,
+      USDC,
+      USDT,
+      WBTC,
+      WETH,
+      wstETH,
+    ],
+    buy: [DAI, rETH, stETH, USDC, USDT, WBTC, WETH, wstETH],
+    feeAmountBp: 200,
+  }),
 
   /*********************************************
    * Typed-presets permissions
