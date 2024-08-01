@@ -5,11 +5,11 @@ import { testKit } from "../../../../../../test/kit"
 import { contracts } from "../../../../../../eth-sdk/config"
 import { parseUnits } from "ethers/lib/utils"
 import { USDC } from "../../../../../../eth-sdk/addresses"
-import { avatar as crypto_avatar } from "../../../index"
+import { avatar as institutional_avatar } from "../../../index"
 
 describe("Institutional", () => {
   beforeAll(async () => {
-    // fresh role with Crypto manage permissions
+    // fresh role with Institutional manage permissions
     await revertToBase()
     await applyPermissions(permissions)
   })
@@ -33,7 +33,7 @@ describe("Institutional", () => {
         testKit.eth.circle_token_messenger.depositForBurn(
           parseUnits("1000", 6),
           2,
-          "0x" + crypto_avatar.slice(2).padStart(64, "0"),
+          "0x" + institutional_avatar.slice(2).padStart(64, "0"),
           USDC
         )
       ).not.toRevert()
@@ -42,9 +42,9 @@ describe("Institutional", () => {
     it("receiveMessage", async () => {
       const message =
         "0x0000000000000002000000000000000000029d880000000000000000000000002b4069517957735be00cee0fadae88a26365528f000000000000000000000000bd3fa81b58ba92a82136038b25adec7066af31550000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000b2c639c533813f4aa9d7837caf62653d097ff85000000000000000000000000" +
-        crypto_avatar.slice(2) +
+        institutional_avatar.slice(2) +
         "00000000000000000000000000000000000000000000000000000000004c4b40000000000000000000000000" +
-        crypto_avatar.slice(2)
+        institutional_avatar.slice(2)
       await expect(
         testKit.eth.circle_message_transmitter.receiveMessage(
           message,
@@ -58,7 +58,7 @@ describe("Institutional", () => {
     it("safeExecuteSignaturesWithAutoGasLimit", async () => {
       const message =
         "0x00050000a7823d6f1e31569f51861e345b30c6bebf70ebe70000000000015a2cf6a78083ca3e2a662d6dd1703c939c8ace2e268d88ad09518695c6c3712ac10a214be5109a655671000927c00101806401272255bb000000000000000000000000a0b86991c6218b36c1d19d4a2e9eb0ce3606eb48000000000000000000000000" +
-        crypto_avatar.slice(2) +
+        institutional_avatar.slice(2) +
         "00000000000000000000000000000000000000000000000000000000004c4c10"
       console.log("Message: ", message)
       await expect(
@@ -74,7 +74,7 @@ describe("Institutional", () => {
     it("safeExecuteSignaturesWithAutoGasLimit", async () => {
       const message =
         "0x00050000a7823d6f1e31569f51861e345b30c6bebf70ebe70000000000015a2ff6a78083ca3e2a662d6dd1703c939c8ace2e268d88ad09518695c6c3712ac10a214be5109a655671000927c00101806401272255bb000000000000000000000000c00e94cb662c3520282e6f5717214004a7f26888000000000000000000000000" +
-        crypto_avatar.slice(2) +
+        institutional_avatar.slice(2) +
         "00000000000000000000000000000000000000000000000002c68af0bb140000"
       console.log("Message: ", message)
       await expect(
@@ -88,7 +88,7 @@ describe("Institutional", () => {
 
   describe("Claim bridged DAI from Gnosis Chain", () => {
     it("executeSignatures", async () => {
-      const message = "0x" + crypto_avatar.slice(2) + "0000000000000000000000000000000000000000000000008ac7230489e80000d8bfcc0594814b4f3a61288b8aa56820354bcd4ae898085a8c10dd0d11e1c0e04aa42145aa6ebf72e164c9bbc74fbd3788045016"
+      const message = "0x" + institutional_avatar.slice(2) + "0000000000000000000000000000000000000000000000008ac7230489e80000d8bfcc0594814b4f3a61288b8aa56820354bcd4ae898085a8c10dd0d11e1c0e04aa42145aa6ebf72e164c9bbc74fbd3788045016"
       console.log("Message: ", message)
       await expect(
         testKit.eth.gno_xdai_bridge.executeSignatures(
