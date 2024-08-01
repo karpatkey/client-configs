@@ -1,14 +1,13 @@
 import { applyPermissions, stealErc20 } from "../../../../../../test/helpers"
 import { revertToBase } from "../../../../../../test/snapshot"
 import permissions from "../permissions"
-import { avatar } from "../../../../../../test/wallets"
 import { testKit } from "../../../../../../test/kit"
 import { contracts } from "../../../../../../eth-sdk/config"
-import { parseEther, parseUnits } from "ethers/lib/utils"
+import { parseUnits } from "ethers/lib/utils"
 import { USDC } from "../../../../../../eth-sdk/addresses"
 import { avatar as crypto_avatar } from "../../../index"
 
-describe("Crypto", () => {
+describe("Institutional", () => {
   beforeAll(async () => {
     // fresh role with Crypto manage permissions
     await revertToBase()
@@ -82,6 +81,19 @@ describe("Crypto", () => {
         testKit.eth.amb_eth_xdai.safeExecuteSignaturesWithAutoGasLimit(
           message,
           "0x041b1b1b1cd2f2bcb53d40e9678b95ef5b7af8c509fd6a82acb1600e2fe5911e136be8a946854c4e98356eb5525a49031d1f65a7fe0fdd8cddaf59ca389e0d94f0c8ff0fbc880f4dfb89a4ce40207b3c7bac1e046faf980957e628665608e0c04fe2356ad26dc93d39153a290a28fddfaffa09d57a036da2b4a6a5914d2ec86c3f080cba2b69050db0d2db9090c504f30af4e723899af996112023d9e16c7d2969a8c99a7241ffc3a7e531b81c36b57c196d2b5b05b63c06a07efad203cca363ee3539995452e93a42480b5001395cf4d784312c1e2aef3aed5c3c6f7cd08ae22fa5ae2ba87f7d4170cc8ab2927a9b4ac2de8a53206a29a20eaf24ea93e5621644bf200209"
+        )
+      ).toBeAllowed()
+    })
+  })
+
+  describe("Claim bridged DAI from Gnosis Chain", () => {
+    it("executeSignatures", async () => {
+      const message = "0x" + crypto_avatar.slice(2) + "0000000000000000000000000000000000000000000000008ac7230489e80000d8bfcc0594814b4f3a61288b8aa56820354bcd4ae898085a8c10dd0d11e1c0e04aa42145aa6ebf72e164c9bbc74fbd3788045016"
+      console.log("Message: ", message)
+      await expect(
+        testKit.eth.gno_xdai_bridge.executeSignatures(
+          message,
+          "0x041c1b1c1b1626e3796b01f4a2bed572344f3bc4737bc5e2ae2a65a24266fe9381718d1627bed8e7c4719afdd7d5ae3a1b40d8449b8092eb243ef937f4f17dab180e0f1bf657c189c163ac81260b1815161f3d004619c1aeb8459f05727a80c650d1d34cd5c8c5e32e6e3851f23ba8af632d698fdd3e2381f72b92141561cec4b137d950121da5e302daf6b185f9eb9d8fdb8e5865455e022f31990fe734d5ed5c0b054b1a3007cab99dc6e2e0c9c6e12bcac87814beeb0a3decb8073d9b9ec03a41a342bc2b600b8e7ee40131c49d9f0120f60d11837f510c6d9a4f95a709962074d15d592158361b5d63d39244f131450c0c26d9f34066d89ea980fd497a63ce84b68116"
         )
       ).toBeAllowed()
     })
