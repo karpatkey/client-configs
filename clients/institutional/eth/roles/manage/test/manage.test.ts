@@ -88,7 +88,10 @@ describe("Institutional", () => {
 
   describe("Claim bridged DAI from Gnosis Chain", () => {
     it("executeSignatures", async () => {
-      const message = "0x" + institutional_avatar.slice(2) + "0000000000000000000000000000000000000000000000008ac7230489e80000d8bfcc0594814b4f3a61288b8aa56820354bcd4ae898085a8c10dd0d11e1c0e04aa42145aa6ebf72e164c9bbc74fbd3788045016"
+      const message =
+        "0x" +
+        institutional_avatar.slice(2) +
+        "0000000000000000000000000000000000000000000000008ac7230489e80000d8bfcc0594814b4f3a61288b8aa56820354bcd4ae898085a8c10dd0d11e1c0e04aa42145aa6ebf72e164c9bbc74fbd3788045016"
       console.log("Message: ", message)
       await expect(
         testKit.eth.gno_xdai_bridge.executeSignatures(
