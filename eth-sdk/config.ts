@@ -111,7 +111,7 @@ export const contracts = {
       stETH_ng_f_pool: "0x21E27a5E5513D6e65C4f830167390997aA84843a",
       stETH_ng_f_gauge: "0x79F21BC30632cd40d2aF8134B469a0EB4C9574AA",
       tricryptoGHO_pool: "0x8Cd52ee292313C4D851e71A7064F096504aB3eE9",
-      tricryptoGHO_gauge: "0x6373E119F2A1Fd081249BC16FE7FEA1F6b3A4Ca8",
+      tricryptoGHO_gauge: "0x6373E119F2A1Fd081249BC16FE7FEA1F6b3A4Ca8"
     },
     enzyme: {
       deposit_wrapper_2: "0x65BbAD6545B7ac9C30Fb0f07e64e25106Bf05eEc",
@@ -264,6 +264,7 @@ export const contracts = {
       x3CRV_pool: "0x1337BedC9D22ecbe766dF105c9623922A27963EC",
       crvUSD_USDC_pool: "0x03771e24b7C9172d163Bf447490B142a15be3485",
       crvUSD_USDCe_pool: "0x05FA06D4Fb883F67f1cfEA0889edBff9e8358101",
+      sUSD3CRV_f_pool: "0x061b87122Ed14b9526A813209C8a59a633257bAb"
     },
     circle_token_messenger: "0x2B4069517957735bE00ceE0fadAE88a26365528f",
     dai_token_bridge: "0x467194771dAe2967Aef3ECbEDD3Bf9a310C76C65",
@@ -295,6 +296,9 @@ export const contracts = {
     compound_v3: {
       cUSDCv3: "0xb125E6687d4313864e53df431d5425969c15Eb2F",
       CometRewards: "0x123964802e6ABabBE1Bc9547D72Ef1B69B00A6b1",
+    },
+    sushiswap: {
+      route_processor_4: "0x0389879e0156033202C44BF784ac18fC02edeE4f"
     },
     circle_token_messenger: "0x1682Ae6375C4E4A97e4B583BC394c861A46D8962",
     circle_message_transmitter: "0xAD09780d193884d503182aD4588450C416D6F9D4",

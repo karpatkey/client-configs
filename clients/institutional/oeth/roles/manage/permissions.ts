@@ -86,7 +86,7 @@ export default [
    * Swaps
    *********************************************/
   // Balancer - USDC/USDC.e/DAI/USDT pool - Swap USDC <-> USDC.e <-> DAI
-  ...allowErc20Approve([DAI, USDC], [contracts.mainnet.balancer.vault]),
+  ...allowErc20Approve([DAI, USDC, USDCe], [contracts.mainnet.balancer.vault]),
   allow.mainnet.balancer.vault.swap(
     {
       poolId:
@@ -108,7 +108,7 @@ export default [
   ),
 
   // Curve - crvUSDC/USDC - Swap crvUSDC <-> USDC
-  ...allowErc20Approve([crvUSD, USDC], [contracts.optimism.curve.x3CRV_pool]),
+  ...allowErc20Approve([crvUSD, USDC], [contracts.optimism.curve.crvUSD_USDC_pool]),
   allow.optimism.curve.crvUSD_USDC_pool[
     "exchange(int128,int128,uint256,uint256)"
   ](
@@ -117,12 +117,19 @@ export default [
   ),
 
   // Curve - crvUSDC/USDC.e - Swap crvUSDC <-> USDC.e
-  ...allowErc20Approve([crvUSD, USDCe], [contracts.optimism.curve.x3CRV_pool]),
+  ...allowErc20Approve([crvUSD, USDCe], [contracts.optimism.curve.crvUSD_USDCe_pool]),
   allow.optimism.curve.crvUSD_USDCe_pool[
     "exchange(int128,int128,uint256,uint256)"
   ](
     c.or(0, 1), // 0 = crvUSDC, 1 = USDC.e
     c.or(0, 1)
+  ),
+
+  // Curve - sUSD Synthetix - Swap DAI <-> USDC.e
+  ...allowErc20Approve([DAI, USDCe], [contracts.optimism.curve.sUSD3CRV_f_pool]),
+  allow.optimism.curve.sUSD3CRV_f_pool["exchange_underlying(int128,int128,uint256,uint256)"](
+    c.or(1, 2), // 1 = DAI, 2 = USDC.e
+    c.or(1, 2)
   ),
 
   /*********************************************

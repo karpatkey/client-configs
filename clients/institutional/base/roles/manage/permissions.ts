@@ -1,6 +1,6 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { DAI, USDC, cbETH, morpho } from "../../../../../eth-sdk/addresses_base"
+import { COMP, DAI, USDC, cbETH, morpho } from "../../../../../eth-sdk/addresses_base"
 import { USDC as USDC_eth } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
@@ -77,6 +77,19 @@ export default [
     undefined,
     0,
     c.avatar,
+    c.avatar
+  ),
+
+  /*********************************************
+   * Swaps
+   *********************************************/
+  // SushiSwap - Swap COMP -> USDC
+  ...allowErc20Approve([COMP], [contracts.base.sushiswap.route_processor_4]),
+  allow.base.sushiswap.route_processor_4.processRoute(
+    COMP,
+    undefined,
+    USDC,
+    undefined,
     c.avatar
   ),
 
