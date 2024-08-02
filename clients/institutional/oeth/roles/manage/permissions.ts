@@ -108,7 +108,10 @@ export default [
   ),
 
   // Curve - crvUSDC/USDC - Swap crvUSDC <-> USDC
-  ...allowErc20Approve([crvUSD, USDC], [contracts.optimism.curve.crvUSD_USDC_pool]),
+  ...allowErc20Approve(
+    [crvUSD, USDC],
+    [contracts.optimism.curve.crvUSD_USDC_pool]
+  ),
   allow.optimism.curve.crvUSD_USDC_pool[
     "exchange(int128,int128,uint256,uint256)"
   ](
@@ -117,7 +120,10 @@ export default [
   ),
 
   // Curve - crvUSDC/USDC.e - Swap crvUSDC <-> USDC.e
-  ...allowErc20Approve([crvUSD, USDCe], [contracts.optimism.curve.crvUSD_USDCe_pool]),
+  ...allowErc20Approve(
+    [crvUSD, USDCe],
+    [contracts.optimism.curve.crvUSD_USDCe_pool]
+  ),
   allow.optimism.curve.crvUSD_USDCe_pool[
     "exchange(int128,int128,uint256,uint256)"
   ](
@@ -126,8 +132,13 @@ export default [
   ),
 
   // Curve - sUSD Synthetix - Swap DAI <-> USDC.e
-  ...allowErc20Approve([DAI, USDCe], [contracts.optimism.curve.sUSD3CRV_f_pool]),
-  allow.optimism.curve.sUSD3CRV_f_pool["exchange_underlying(int128,int128,uint256,uint256)"](
+  ...allowErc20Approve(
+    [DAI, USDCe],
+    [contracts.optimism.curve.sUSD3CRV_f_pool]
+  ),
+  allow.optimism.curve.sUSD3CRV_f_pool[
+    "exchange_underlying(int128,int128,uint256,uint256)"
+  ](
     c.or(1, 2), // 1 = DAI, 2 = USDC.e
     c.or(1, 2)
   ),
