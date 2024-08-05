@@ -214,6 +214,11 @@ export const contracts = {
       order_signer: "0x23dA9AdE38E4477b23770DeD512fD37b12381FAB",
       gpv2_vault_relayer: "0xC92E8bdf79f0507f65a392b0ab4667716BFE0110",
     },
+    stakewise_v3: {
+      genesis: "0x4b4406Ed8659D03423490D8b62a1639206dA0A7a",
+      serenita: "0x00025C729A3364FaEf02c7D1F577068d87E90ba6",
+      nedo: "0x2Cd404D9d75436e7d6dDbCcc2fB9cF7C06941BF1",
+    },
     wxdai: "0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d",
   },
 } satisfies EthSdkConfig["contracts"]
