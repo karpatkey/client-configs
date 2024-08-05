@@ -252,6 +252,7 @@ export default [
   allow.mainnet.stakewise_v3.genesis.deposit(c.avatar, undefined, {
     send: true,
   }),
+  allow.mainnet.stakewise_v3.genesis.updateState(),
   allow.mainnet.stakewise_v3.genesis.updateStateAndDeposit(
     c.avatar,
     undefined,
