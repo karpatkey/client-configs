@@ -1,6 +1,9 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { allow as allowAction } from "defi-kit/eth"
+import {
+  GNO
+} from "../../../../../eth-sdk/addresses_gno"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
@@ -14,6 +17,7 @@ export default [
    * Typed-presets permissions
    *********************************************/
   // StakeWise v3 - Genesis
+  allowErc20Approve([GNO], [contracts.gnosis.stakewise_v3.genesis]),
   allow.gnosis.stakewise_v3.genesis.deposit(undefined, c.avatar),
   allow.gnosis.stakewise_v3.genesis.updateState(),
   allow.gnosis.stakewise_v3.genesis.mintOsToken(c.avatar),
@@ -22,6 +26,7 @@ export default [
   allow.gnosis.stakewise_v3.genesis.claimExitedAssets(),
 
   // StakeWise v3 - Serenita
+  allowErc20Approve([GNO], [contracts.gnosis.stakewise_v3.serenita]),
   allow.gnosis.stakewise_v3.serenita.deposit(undefined, c.avatar),
   allow.gnosis.stakewise_v3.serenita.updateState(),
   allow.gnosis.stakewise_v3.serenita.mintOsToken(c.avatar),
@@ -30,6 +35,7 @@ export default [
   allow.gnosis.stakewise_v3.serenita.claimExitedAssets(),
 
   // StakeWise v3 - NEDO
+  allowErc20Approve([GNO], [contracts.gnosis.stakewise_v3.nedo]),
   allow.gnosis.stakewise_v3.nedo.deposit(undefined, c.avatar),
   allow.gnosis.stakewise_v3.nedo.updateState(),
   allow.gnosis.stakewise_v3.nedo.mintOsToken(c.avatar),
