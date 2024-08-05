@@ -23,7 +23,7 @@ export default [
 
   // StakeWise v3 - Serenita
   allow.gnosis.stakewise_v3.serenita.deposit(undefined, c.avatar),
-  allow.gnosis.stakewise_v3.genesis.updateState(),
+  allow.gnosis.stakewise_v3.serenita.updateState(),
   allow.gnosis.stakewise_v3.serenita.mintOsToken(c.avatar),
   allow.gnosis.stakewise_v3.serenita.burnOsToken(),
   allow.gnosis.stakewise_v3.serenita.enterExitQueue(undefined, c.avatar),
@@ -31,7 +31,7 @@ export default [
 
   // StakeWise v3 - NEDO
   allow.gnosis.stakewise_v3.nedo.deposit(undefined, c.avatar),
-  allow.gnosis.stakewise_v3.genesis.updateState(),
+  allow.gnosis.stakewise_v3.nedo.updateState(),
   allow.gnosis.stakewise_v3.nedo.mintOsToken(c.avatar),
   allow.gnosis.stakewise_v3.nedo.burnOsToken(),
   allow.gnosis.stakewise_v3.nedo.enterExitQueue(undefined, c.avatar),
