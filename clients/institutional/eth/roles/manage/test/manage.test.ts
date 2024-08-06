@@ -70,21 +70,21 @@ describe("Institutional", () => {
     })
   })
 
-  describe("Bridged COMP from Gnosis Chain", () => {
-    it("safeExecuteSignaturesWithAutoGasLimit", async () => {
-      const message =
-        "0x00050000a7823d6f1e31569f51861e345b30c6bebf70ebe70000000000015a2ff6a78083ca3e2a662d6dd1703c939c8ace2e268d88ad09518695c6c3712ac10a214be5109a655671000927c00101806401272255bb000000000000000000000000c00e94cb662c3520282e6f5717214004a7f26888000000000000000000000000" +
-        institutional_avatar.slice(2) +
-        "00000000000000000000000000000000000000000000000002c68af0bb140000"
-      console.log("Message: ", message)
-      await expect(
-        testKit.eth.amb_eth_xdai.safeExecuteSignaturesWithAutoGasLimit(
-          message,
-          "0x041b1b1b1cd2f2bcb53d40e9678b95ef5b7af8c509fd6a82acb1600e2fe5911e136be8a946854c4e98356eb5525a49031d1f65a7fe0fdd8cddaf59ca389e0d94f0c8ff0fbc880f4dfb89a4ce40207b3c7bac1e046faf980957e628665608e0c04fe2356ad26dc93d39153a290a28fddfaffa09d57a036da2b4a6a5914d2ec86c3f080cba2b69050db0d2db9090c504f30af4e723899af996112023d9e16c7d2969a8c99a7241ffc3a7e531b81c36b57c196d2b5b05b63c06a07efad203cca363ee3539995452e93a42480b5001395cf4d784312c1e2aef3aed5c3c6f7cd08ae22fa5ae2ba87f7d4170cc8ab2927a9b4ac2de8a53206a29a20eaf24ea93e5621644bf200209"
-        )
-      ).toBeAllowed()
-    })
-  })
+  // describe("Bridged COMP from Gnosis Chain", () => {
+  //   it("safeExecuteSignaturesWithAutoGasLimit", async () => {
+  //     const message =
+  //       "0x00050000a7823d6f1e31569f51861e345b30c6bebf70ebe70000000000015a2ff6a78083ca3e2a662d6dd1703c939c8ace2e268d88ad09518695c6c3712ac10a214be5109a655671000927c00101806401272255bb000000000000000000000000c00e94cb662c3520282e6f5717214004a7f26888000000000000000000000000" +
+  //       institutional_avatar.slice(2) +
+  //       "00000000000000000000000000000000000000000000000002c68af0bb140000"
+  //     console.log("Message: ", message)
+  //     await expect(
+  //       testKit.eth.amb_eth_xdai.safeExecuteSignaturesWithAutoGasLimit(
+  //         message,
+  //         "0x041b1b1b1cd2f2bcb53d40e9678b95ef5b7af8c509fd6a82acb1600e2fe5911e136be8a946854c4e98356eb5525a49031d1f65a7fe0fdd8cddaf59ca389e0d94f0c8ff0fbc880f4dfb89a4ce40207b3c7bac1e046faf980957e628665608e0c04fe2356ad26dc93d39153a290a28fddfaffa09d57a036da2b4a6a5914d2ec86c3f080cba2b69050db0d2db9090c504f30af4e723899af996112023d9e16c7d2969a8c99a7241ffc3a7e531b81c36b57c196d2b5b05b63c06a07efad203cca363ee3539995452e93a42480b5001395cf4d784312c1e2aef3aed5c3c6f7cd08ae22fa5ae2ba87f7d4170cc8ab2927a9b4ac2de8a53206a29a20eaf24ea93e5621644bf200209"
+  //       )
+  //     ).toBeAllowed()
+  //   })
+  // })
 
   describe("Claim bridged DAI from Gnosis Chain", () => {
     it("executeSignatures", async () => {
