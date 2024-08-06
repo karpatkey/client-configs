@@ -2,7 +2,7 @@ import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { allow as allowAction } from "defi-kit/eth"
 import {
-  COMP,
+  // COMP,
   WXDAI,
   sDAI,
   USDC,
@@ -20,8 +20,8 @@ export default [
    *********************************************/
   // Cowswap - Holdings swaps
   allowAction.cowswap.swap({
-    sell: [COMP, sDAI, USDC, WXDAI],
-    buy: [E_ADDRESS, sDAI, USDC, WXDAI],
+    sell: [sDAI, USDC, USDCe, WXDAI],
+    buy: [E_ADDRESS, sDAI, USDC, USDCe, WXDAI],
   }),
 
   /*********************************************
@@ -223,6 +223,21 @@ export default [
     }
   ),
 
+  // Balancer - USDT/USDC/WXDAI pool - Swap USDC <-> WXDAI
+  ...allowErc20Approve([USDC, WXDAI], [contracts.mainnet.balancer.vault]),
+  allow.mainnet.balancer.vault.swap(
+    {
+      poolId:
+        "0x2086f52651837600180de173b09470f54ef7491000000000000000000000004f",
+      assetIn: c.or(USDC, WXDAI),
+      assetOut: c.or(USDC, WXDAI),
+    },
+    {
+      recipient: c.avatar,
+      sender: c.avatar,
+    }
+  ),
+
   // Swap USDC.e -> USDC
   ...allowErc20Approve([USDCe], [contracts.gnosis.usdc_transmuter]),
   allow.gnosis.usdc_transmuter.withdraw(),
@@ -257,12 +272,12 @@ export default [
   ](6648936, c.avatar, WXDAI, c.avatar, undefined, undefined, "0x", {
     send: true,
   }),
-  // COMP (Gnosis) -> COMP (Mainnet)
-  allow.gnosis.comp.transferAndCall(
-    contracts.gnosis.xdai_bridge,
-    undefined,
-    avatar
-  ),
+  // // COMP (Gnosis) -> COMP (Mainnet)
+  // allow.gnosis.comp.transferAndCall(
+  //   contracts.gnosis.xdai_bridge,
+  //   undefined,
+  //   avatar
+  // ),
   // USDC (Gnosis) -> USDC (Mainnet)
   allow.gnosis.usdc.transferAndCall(
     contracts.gnosis.xdai_bridge,
