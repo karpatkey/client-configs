@@ -75,12 +75,12 @@ export default [
     USDCe
   ),
 
-  // Compound v3 - USDC
-  ...allowErc20Approve([USDC], [contracts.optimism.compound_v3.cUSDCv3]),
-  allow.optimism.compound_v3.cUSDCv3.supply(USDC),
-  allow.optimism.compound_v3.cUSDCv3.withdraw(USDC),
-  // Compound v3 - Claim rewards
-  allow.optimism.compound_v3.CometRewards.claim(undefined, c.avatar),
+  // // Compound v3 - USDC
+  // ...allowErc20Approve([USDC], [contracts.optimism.compound_v3.cUSDCv3]),
+  // allow.optimism.compound_v3.cUSDCv3.supply(USDC),
+  // allow.optimism.compound_v3.cUSDCv3.withdraw(USDC),
+  // // Compound v3 - Claim rewards
+  // allow.optimism.compound_v3.CometRewards.claim(undefined, c.avatar),
 
   /*********************************************
    * Swaps
