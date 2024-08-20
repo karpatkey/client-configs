@@ -52,8 +52,9 @@ export default [
   allowAction.aave_v3.deposit({ targets: ["USDC"] }),
   // Aave v3 - Deposit WETH
   allowAction.aave_v3.deposit({ targets: ["WETH"] }),
-  // Aave v3 - Deposit wstETH
-  allowAction.aave_v3.deposit({ targets: ["wstETH"] }),
+  // Removed as per a Steward's request on August 20, 2024.
+  // // Aave v3 - Deposit wstETH
+  // allowAction.aave_v3.deposit({ targets: ["wstETH"] }),
 
   // Balancer - wstETH/WETH
   allowAction.balancer.deposit({ targets: ["wstETH-WETH-BPT"] }),
@@ -127,15 +128,16 @@ export default [
     send: true,
   }),
 
-  // Aave v3 - Lido Market - WETH
-  ...allowErc20Approve([WETH], [contracts.mainnet.aave_v3.pool_lido]),
-  allow.mainnet.aave_v3.pool_lido.supply(WETH, undefined, c.avatar),
-  allow.mainnet.aave_v3.pool_lido.withdraw(WETH, undefined, c.avatar),
+  // Removed as per a Steward's request on August 20, 2024.
+  // // Aave v3 - Lido Market - WETH
+  // ...allowErc20Approve([WETH], [contracts.mainnet.aave_v3.pool_lido]),
+  // allow.mainnet.aave_v3.pool_lido.supply(WETH, undefined, c.avatar),
+  // allow.mainnet.aave_v3.pool_lido.withdraw(WETH, undefined, c.avatar),
 
-  // Aave v3 - Lido Market - wstETH
-  ...allowErc20Approve([wstETH], [contracts.mainnet.aave_v3.pool_lido]),
-  allow.mainnet.aave_v3.pool_lido.supply(wstETH, undefined, c.avatar),
-  allow.mainnet.aave_v3.pool_lido.withdraw(wstETH, undefined, c.avatar),
+  // // Aave v3 - Lido Market - wstETH
+  // ...allowErc20Approve([wstETH], [contracts.mainnet.aave_v3.pool_lido]),
+  // allow.mainnet.aave_v3.pool_lido.supply(wstETH, undefined, c.avatar),
+  // allow.mainnet.aave_v3.pool_lido.withdraw(wstETH, undefined, c.avatar),
 
   // Compound v3 - USDC
   ...allowErc20Approve([USDC], [contracts.mainnet.compound_v3.cUSDCv3]),
