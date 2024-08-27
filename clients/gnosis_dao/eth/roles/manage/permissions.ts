@@ -34,7 +34,7 @@ export default [
   // Ankr
   allowAction.ankr.deposit(),
 
-  // Aura - auraBAL Pool
+  // Aura - auraBAL
   allowAction.aura.deposit({ targets: ["101"] }),
   // Aura - COW/GNO
   allowAction.aura.deposit({ targets: ["104"] }),
@@ -47,6 +47,18 @@ export default [
   // Aura - Stake
   allowAction.aura.stake({ targets: ["B-80BAL-20WETH", "BAL", "auraBAL"] }),
 
+  // Balancer - auraBAL
+  allowAction.balancer.deposit({ targets: ["B-auraBAL-STABLE"] }),
+  allowAction.balancer.stake({ targets: ["B-auraBAL-STABLE"] }),
+  // Balancer - COW/GNO
+  allowAction.balancer.deposit({ targets: ["50COW-50GNO"] }),
+  allowAction.balancer.stake({ targets: ["50COW-50GNO"] }),
+  // Balancer - COW/WETH
+  allowAction.balancer.deposit({ targets: ["50COW-50WETH"] }),
+  allowAction.balancer.stake({ targets: ["50COW-50WETH"] }),
+  // Balancer - rETH/WETH
+  allowAction.balancer.deposit({ targets: ["B-rETH-STABLE"] }),
+  allowAction.balancer.stake({ targets: ["B-rETH-STABLE"] }),
   // Balancer - Lock
   allowAction.balancer.lock(),
 
