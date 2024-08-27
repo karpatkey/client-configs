@@ -196,6 +196,9 @@ export const contracts = {
     the_graph: {
       proxy: "0xF55041E37E12cD407ad00CE2910B8269B01263b9",
     },
+    uniswap_v2: {
+      router_2: "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D",
+    },
     uniswap_v3: {
       positions_nft: "0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
       router_2: "0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45",
