@@ -2,8 +2,13 @@ import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { allow as allowAction } from "defi-kit/eth"
 import {
+  AURA,
+  BAL,
   DAI,
+  osETH,
+  rETH,
   SAFE,
+  stETH,
   USDC,
   WETH,
   wstETH,
@@ -19,15 +24,38 @@ export default [
    *********************************************/
   // Aura - wstETH/WETH
   allowAction.aura.deposit({ targets: ["153"] }),
+  // Aura - rETH/WETH
+  allowAction.aura.deposit({ targets: ["109"] }),
+  // Aura - osETH/WETH
+  allowAction.aura.deposit({ targets: ["179"] }),
+
+  // Aave v2 - Staking of GHO in Safety Module
+  allowAction.aave_v2.stake({ targets: ["GHO"] }),
 
   // Balancer - wstETH/WETH
   allowAction.balancer.deposit({ targets: ["wstETH-WETH-BPT"] }),
   allowAction.balancer.stake({ targets: ["wstETH-WETH-BPT"] }),
+  // Balancer - rETH/WETH
+  allowAction.balancer.deposit({ targets: ["B-rETH-STABLE"] }),
+  allowAction.balancer.stake({ targets: ["B-rETH-STABLE"] }),
+  // Balancer - osETH/WETH
+  allowAction.balancer.deposit({ targets: ["osETH/wETH-BPT"] }),
+  allowAction.balancer.stake({ targets: ["osETH/wETH-BPT"] }),
 
   // Cowswap - Swapping of SAFE
   allowAction.cowswap.swap({
     sell: [SAFE],
-    buy: ["ETH", DAI, USDC, WETH, wstETH],
+    buy: ["ETH", DAI, stETH, USDC, WETH, wstETH],
+  }),
+  // Cowswap - Swapping of ETH
+  allowAction.cowswap.swap({
+    sell: ["ETH"],
+    buy: [DAI, osETH, stETH, rETH, USDC, WETH, wstETH],
+  }),
+  // Cowswap - Swapping of AURA and BAL
+  allowAction.cowswap.swap({
+    sell: [AURA, BAL],
+    buy: ["ETH", USDC, WETH],
   }),
 
   // Lido
