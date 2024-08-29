@@ -71,32 +71,32 @@ export default [
   // Convex - Lock
   allowAction.convex.lock(),
 
-  // Cowswap - DAI <> USDT
+  // CowSwap - DAI <> USDT
   allowAction.cowswap.swap({
     sell: [DAI],
     buy: [USDT],
   }),
-  // Cowswap - USDC <> USDT
+  // CowSwap - USDC <> USDT
   allowAction.cowswap.swap({
     sell: [USDC],
     buy: [USDT],
   }),
-  // Cowswap - wstETH -> stETH
+  // CowSwap - wstETH -> stETH
   allowAction.cowswap.swap({
     sell: [wstETH],
     buy: [stETH],
   }),
-  // Cowswap - osETH <> WETH
+  // CowSwap - osETH <> WETH
   allowAction.cowswap.swap({
     sell: [osETH],
     buy: [WETH],
   }),
-  // Cowswap - rETH <> WETH
+  // CowSwap - rETH <> WETH
   allowAction.cowswap.swap({
     sell: [rETH],
     buy: [WETH],
   }),
-  // Cowswap - GHO <> USDC
+  // CowSwap - GHO <> USDC
   allowAction.cowswap.swap({
     sell: [GHO],
     buy: [USDC],
