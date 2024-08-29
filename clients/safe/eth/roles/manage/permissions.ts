@@ -42,17 +42,17 @@ export default [
   allowAction.balancer.deposit({ targets: ["osETH/wETH-BPT"] }),
   allowAction.balancer.stake({ targets: ["osETH/wETH-BPT"] }),
 
-  // Cowswap - Swapping of SAFE
+  // CowSwap - Swapping of SAFE
   allowAction.cowswap.swap({
     sell: [SAFE],
     buy: ["ETH", DAI, stETH, USDC, WETH, wstETH],
   }),
-  // Cowswap - Swapping of ETH
+  // CowSwap - Swapping of ETH
   allowAction.cowswap.swap({
     sell: ["ETH"],
     buy: [DAI, osETH, stETH, rETH, USDC, WETH, wstETH],
   }),
-  // Cowswap - Swapping of AURA and BAL
+  // CowSwap - Swapping of AURA and BAL
   allowAction.cowswap.swap({
     sell: [AURA, BAL],
     buy: ["ETH", USDC, WETH],
@@ -61,8 +61,8 @@ export default [
   // Lido
   allowAction.lido.deposit(),
 
-  // Uniswap v3 - SAFE + WETH + wstETH (?) - Current NFT Ids: 711659 and 774338
-  allowAction.uniswap_v3.deposit({ tokens: ["SAFE", "WETH", "wstETH"] }),
+  // Uniswap v3 - SAFE + WETH - Current NFT Ids: 711659 and 774338
+  allowAction.uniswap_v3.deposit({ tokens: ["SAFE", "WETH"] }),
 
   /*********************************************
    * Typed-presets permissions
