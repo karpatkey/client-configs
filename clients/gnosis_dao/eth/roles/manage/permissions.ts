@@ -2,11 +2,17 @@ import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { allow as allowAction } from "defi-kit/eth"
 import {
+  DAI,
   GHO,
   EURA,
   OLAS,
+  osETH,
+  rETH,
   SAFE,
   stETH,
+  USDC,
+  USDT,
+  WETH,
   wstETH,
   balancer,
 } from "../../../../../eth-sdk/addresses"
@@ -64,6 +70,37 @@ export default [
 
   // Convex - Lock
   allowAction.convex.lock(),
+
+  // CowSwap - DAI <> USDT
+  allowAction.cowswap.swap({
+    sell: [DAI],
+    buy: [USDT],
+  }),
+  // CowSwap - USDC <> USDT
+  allowAction.cowswap.swap({
+    sell: [USDC],
+    buy: [USDT],
+  }),
+  // CowSwap - wstETH -> stETH
+  allowAction.cowswap.swap({
+    sell: [wstETH],
+    buy: [stETH],
+  }),
+  // CowSwap - osETH <> WETH
+  allowAction.cowswap.swap({
+    sell: [osETH],
+    buy: [WETH],
+  }),
+  // CowSwap - rETH <> WETH
+  allowAction.cowswap.swap({
+    sell: [rETH],
+    buy: [WETH],
+  }),
+  // CowSwap - GHO <> USDC
+  allowAction.cowswap.swap({
+    sell: [GHO],
+    buy: [USDC],
+  }),
 
   // Lido
   allowAction.lido.deposit(),
