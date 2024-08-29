@@ -65,6 +65,10 @@ export const contracts = {
       BAL_minter: "0x239e55f427d44c3cc793f49bfb507ebe76638a2b",
       fee_distributor: "0xD3cf852898b21fc233251427c2DC93d3d604F3BB",
       veBAL: "0xC128a9954e6c874eA3d62ce62B468bA073093F25",
+      BCoW_50COW_50wstETH: "0x9bd702E05B9c97E4A4a3E47Df1e0fe7A0C26d2F1",
+      BCoW_50WETH_50USDC: "0xf08D4dEa369C456d26a3168ff0024B904F2d8b91",
+      BCoW_50WETH_50USDC_gauge: "0xF9423B78D784D610A00955E733dBa0bf9bda7B06",
+      relayer_v6: "0x35Cea9e57A393ac66Aaa7E25C391D52C74B5648f",
     },
     compound_v2: {
       comptroller: "0x3d9819210a31b4961b30ef54be2aed79b9c9cd3b",
