@@ -37,7 +37,7 @@ export default [
   // Aave v3 - Borrow USDC
   allowAction.aave_v3.borrow({ targets: ["USDC"] }),
 
-  // Cowswap - Holdings swaps
+  // CowSwap - Holdings swaps
   allowAction.cowswap.swap({
     sell: [COMP, DAI, sDAI, USDC],
     buy: [DAI, sDAI, USDC],
