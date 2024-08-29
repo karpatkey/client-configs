@@ -13,4 +13,4 @@ export default [
   /*********************************************
    * Typed-presets permissions
    *********************************************/
-]
+] satisfies PermissionList
