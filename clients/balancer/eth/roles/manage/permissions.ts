@@ -301,5 +301,5 @@ export default [
   allow.mainnet.gno_omnibridge["relayTokens(address,address,uint256)"](
     GNO,
     c.avatar
-  )
+  ),
 ] satisfies PermissionList
