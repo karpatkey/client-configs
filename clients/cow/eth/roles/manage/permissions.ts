@@ -10,12 +10,24 @@ export default [
   /*********************************************
    * Defi-Kit permissions
    *********************************************/
+  // Aura - wstETH/WETH
+  allowAction.aura.deposit({ targets: ["153"] }),
+
   // Balancer - COW/GNO
   allowAction.balancer.deposit({ targets: ["50COW-50GNO"] }),
   allowAction.balancer.stake({ targets: ["50COW-50GNO"] }),
   // Balancer - COW/WETH
   allowAction.balancer.deposit({ targets: ["50COW-50WETH"] }),
   allowAction.balancer.stake({ targets: ["50COW-50WETH"] }),
+  // Balancer - wstETH/WETH
+  allowAction.balancer.deposit({ targets: ["wstETH-WETH-BPT"] }),
+  allowAction.balancer.stake({ targets: ["wstETH-WETH-BPT"] }),
+
+  // Lido
+  allowAction.lido.deposit(),
+
+  // Rocket Pool
+  allowAction.rocket_pool.deposit(),
 
   /*********************************************
    * Typed-presets permissions
