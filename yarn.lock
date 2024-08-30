@@ -3710,20 +3710,12 @@ zod@^3.22.2:
   resolved "https://registry.yarnpkg.com/zod/-/zod-3.23.8.tgz#e37b957b5d52079769fb8097099b592f0ef4067d"
   integrity sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==
 
-zodiac-roles-deployments@^2.2.2, zodiac-roles-deployments@^2.2.5:
+zodiac-roles-deployments@^2.2.5:
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/zodiac-roles-deployments/-/zodiac-roles-deployments-2.2.5.tgz#4739e54b82d48212711c16c2c4d9b185ea4cf6fe"
   integrity sha512-fv09LzKoL996W0pY7T2Na2hE3v5VQPQGN7/UckL+aTyBZRAyjz4ZKHbdQDLUzQAzp7l+6PC4JB2WnpeDanC3Hg==
 
-zodiac-roles-sdk@^2.12.5:
-  version "2.12.5"
-  resolved "https://registry.yarnpkg.com/zodiac-roles-sdk/-/zodiac-roles-sdk-2.12.5.tgz#8a129241107e316f3a85c09e4aa357e1ea65a806"
-  integrity sha512-70KYnuT+1+10EomCM5JRMWeXdk7vE+wsryPS7/8mkgSMYvFCE0OY4PBHWQXuL8Ww6VwCPcLVsfP0IdR28bgS8g==
-  dependencies:
-    ethers "^5.7.2"
-    zodiac-roles-deployments "^2.2.2"
-
-zodiac-roles-sdk@^2.13.1:
+zodiac-roles-sdk@^2.12.5, zodiac-roles-sdk@^2.13.1:
   version "2.13.1"
   resolved "https://registry.yarnpkg.com/zodiac-roles-sdk/-/zodiac-roles-sdk-2.13.1.tgz#93d28f8eaa8170b980ac40e0830480825a36a113"
   integrity sha512-bxfUC3dkl8NOif2ws9GC6gQSFHCF5rMo2mASMshF0krv9ErdEVAe8+dDe6wncZSg80nr0lvEgqxtwnmctGLwRQ==

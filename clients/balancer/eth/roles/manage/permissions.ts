@@ -5,6 +5,7 @@ import {
   AAVE,
   COMP,
   DAI,
+  GNO,
   rETH,
   stkAAVE,
   stETH,
@@ -106,7 +107,9 @@ export default [
   allow.mainnet.maker.dsr_manager.exit(c.avatar),
   allow.mainnet.maker.dsr_manager.exitAll(c.avatar),
 
-  // SWAPS
+  /*********************************************
+   * SWAPS
+   *********************************************/
   // Balancer - Swaps
   allowErc20Approve(
     [COMP, rETH, WETH, wstETH],
@@ -289,4 +292,14 @@ export default [
     tokenOut: c.or(DAI, rETH, stETH, USDC, USDT, WBTC, WETH, wstETH),
     recipient: c.avatar,
   }),
+
+  /*********************************************
+   * Bridge
+   *********************************************/
+  // GNO (Mainnet) -> GNO (Gnosis)
+  ...allowErc20Approve([GNO], [contracts.mainnet.gno_omnibridge]),
+  allow.mainnet.gno_omnibridge["relayTokens(address,address,uint256)"](
+    GNO,
+    c.avatar
+  )
 ] satisfies PermissionList
