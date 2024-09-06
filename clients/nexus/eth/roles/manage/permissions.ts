@@ -95,6 +95,10 @@ export default [
   allowAction.spark.deposit({ targets: ["rETH"] }),
   // Spark - WETH
   allowAction.spark.deposit({ targets: ["wstETH"] }),
+  // Spark - USDC
+  allowAction.spark.deposit({ targets: ["USDC"] }),
+  // Spark - USDT
+  allowAction.spark.deposit({ targets: ["USDT"] }),
 
   /*********************************************
    * Typed-presets permissions
