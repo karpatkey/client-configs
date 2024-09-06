@@ -10,7 +10,9 @@ export const contracts = {
     aave_v3: {
       pool_v3: "0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2",
       wrapped_token_gateway_v3: "0x893411580e590D62dDBca8a703d61Cc4A8c7b2b9",
+      wrapped_token_gateway_lido_v3: "0x702B6770A81f75964cA5D479F369eFB31dfa7C32",
       pool_lido: "0x4e033931ad43597d96D6bcc25c280717730B58B1",
+      aEthWETH: "0x4d5F47FA6A74757f35C14fD3a6Ef8E3C9BC514E8",
     },
     across_v2: {
       hub_pool_v2: "0xc186fA914353c44b2E33eBE05f21846F1048bEda",
@@ -76,6 +78,7 @@ export const contracts = {
     },
     compound_v3: {
       cUSDCv3: "0xc3d688B66703497DAA19211EEdff47f25384cdc3",
+      cUSDTv3: "0x3Afdc9BCA9213A35503b077a6072F3D0d5AB0840",
       cWETHv3: "0xA17581A9E3356d9A858b789D68B4d866e593aE94",
       MainnetBulker: "0xa397a8C2086C554B531c02E29f3291c9704B00c7",
       CometRewards: "0x1b0e765f6224c21223aea2af16c1c46e38885a40",
@@ -103,6 +106,8 @@ export const contracts = {
       stake_deposit_zap: "0x56C526b0159a258887e0d79ec3a80dfb940d0cD7",
       steth_eth_pool: "0xDC24316b9AE028F1497c275EB9192a3Ea0f67022",
       steth_eth_gauge: "0x182B723a58739a9c974cFDB385ceaDb237453c28",
+      oseth_reth_pool: "0xe080027Bd47353b5D1639772b4a75E9Ed3658A0d",
+      oseth_reth_gauge: "0x63037a4e3305d25D48BAED2022b8462b2807351c",
       cDAIcUSDC_pool: "0xA2B47E3D5c44877cca798226B7B8118F9BFb7A56",
       cDAIcUSDC_gauge: "0x7ca5b0a2910B33e9759DC7dDB0413949071D7575",
       cDAIcUSDC_zap: "0xeB21209ae4C2c9FF2a86ACA31E123764A3B6Bc06",
