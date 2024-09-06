@@ -48,6 +48,8 @@ export default [
   allowAction.aave_v3.deposit({ targets: ["ETH"] }),
   // Aave v3 - WETH
   allowAction.aave_v3.deposit({ targets: ["WETH"] }),
+  // Aave v3 - Stake GHO
+  allowAction.aave_v3.stake({ targets: ["GHO"] }),
 
   // Aura - wstETH/WETH
   allowAction.aura.deposit({ targets: ["153"] }),
