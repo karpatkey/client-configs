@@ -3,6 +3,7 @@ import { allow } from "zodiac-roles-sdk/kit"
 import { allow as allowAction } from "defi-kit/eth"
 import {
   ankrETH,
+  AAVE,
   AURA,
   BAL,
   COMP,
@@ -10,6 +11,7 @@ import {
   CVX,
   DAI,
   ETHx,
+  NXM,
   LDO,
   osETH,
   rETH,
@@ -20,9 +22,12 @@ import {
   WETH,
   E_ADDRESS,
   ZERO_ADDRESS,
+  WNXM,
   wstETH,
   curve,
   aave_v3,
+  GHO,
+  RPL,
 } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
@@ -82,6 +87,32 @@ export default [
   allowAction.convex.deposit({ targets: ["25"] }),
   // Convex - osETH/rETH
   allowAction.convex.deposit({ targets: ["268"] }),
+
+  // Cowswap
+  allowAction.cowswap.swap({
+    sell: [
+      AURA,
+      LDO,
+      AAVE,
+      WNXM,
+      GHO,
+      USDC,
+      DAI,
+      USDT,
+      stETH,
+      wstETH,
+      rETH,
+      osETH,
+      BAL,
+      CRV,
+      CVX,
+      SWISE,
+      RPL,
+      WETH,
+    ],
+    buy: [WETH, E_ADDRESS, USDC, USDT, DAI, stETH, wstETH, rETH, osETH, WNXM],
+    feeAmountBp: 200,
+  }),
 
   // Lido
   allowAction.lido.deposit(),
@@ -175,6 +206,21 @@ export default [
   // Compound v3 - Claim rewards
   allow.mainnet.compound_v3.CometRewards.claim(undefined, c.avatar),
 
+  // CoW Swap - Swap ETH
+  allow.mainnet.cowswap.order_signer.signOrder(
+    {
+      sellToken: E_ADDRESS,
+      buyToken: c.or(WETH, USDC, USDT, DAI, stETH, wstETH, rETH, osETH, WNXM),
+      receiver: c.avatar,
+    },
+    undefined,
+    undefined,
+    {
+      delegatecall: true,
+      send: true,
+    }
+  ),
+
   // Curve - ETH/stETH - steCRV
   ...allowErc20Approve([stETH], [contracts.mainnet.curve.steth_eth_pool]),
   allow.mainnet.curve.steth_eth_pool.add_liquidity(undefined, undefined, {
@@ -200,18 +246,72 @@ export default [
   ...allowErc20Approve([osETH], [contracts.mainnet.curve.steth_eth_pool]),
   ...allowErc20Approve([rETH], [contracts.mainnet.curve.oseth_reth_pool]),
 
-  allow.mainnet.curve.oseth_reth_pool.add_liquidity(undefined, undefined, {
-    send: true,
-  }),
-  allow.mainnet.curve.oseth_reth_pool.remove_liquidity(),
-  allow.mainnet.curve.oseth_reth_pool.remove_liquidity_one_coin(),
-  allow.mainnet.curve.oseth_reth_pool.remove_liquidity_imbalance(),
+  allow.mainnet.curve.oseth_reth_pool["add_liquidity(uint256[],uint256)"](),
+  allow.mainnet.curve.oseth_reth_pool["remove_liquidity(uint256,uint256[])"](),
+  allow.mainnet.curve.oseth_reth_pool[
+    "remove_liquidity_one_coin(uint256,int128,uint256)"
+  ](),
+  allow.mainnet.curve.oseth_reth_pool[
+    "remove_liquidity_imbalance(uint256[],uint256)"
+  ](),
   ...allowErc20Approve(
     [contracts.mainnet.curve.oseth_reth_pool],
     [contracts.mainnet.curve.oseth_reth_gauge]
   ),
   allow.mainnet.curve.oseth_reth_gauge["deposit(uint256)"](),
-  allow.mainnet.curve.oseth_reth_gauge.withdraw(),
+  allow.mainnet.curve.oseth_reth_gauge["withdraw(uint256)"](),
+  allow.mainnet.curve.oseth_reth_gauge["withdraw(uint256,bool)"](),
   allow.mainnet.curve.oseth_reth_gauge["claim_rewards()"](),
   allow.mainnet.curve.crv_minter.mint(contracts.mainnet.curve.oseth_reth_gauge),
+
+  // Uniswap v3 - Swaps
+  ...allowErc20Approve(
+    [
+      AURA,
+      LDO,
+      AAVE,
+      WNXM,
+      GHO,
+      USDC,
+      DAI,
+      USDT,
+      stETH,
+      wstETH,
+      rETH,
+      osETH,
+      BAL,
+      CRV,
+      CVX,
+      SWISE,
+      RPL,
+      WETH,
+    ],
+    [contracts.mainnet.uniswap_v3.router_2]
+  ),
+
+  // Uniswap v3
+  allow.mainnet.uniswap_v3.router_2.exactInputSingle({
+    tokenIn: c.or(
+      AURA,
+      LDO,
+      AAVE,
+      WNXM,
+      GHO,
+      USDC,
+      DAI,
+      USDT,
+      stETH,
+      wstETH,
+      rETH,
+      osETH,
+      BAL,
+      CRV,
+      CVX,
+      SWISE,
+      RPL,
+      WETH
+    ),
+    tokenOut: c.or(WETH, USDC, USDT, DAI, stETH, wstETH, rETH, osETH, WNXM),
+    recipient: c.avatar,
+  }),
 ] satisfies PermissionList
