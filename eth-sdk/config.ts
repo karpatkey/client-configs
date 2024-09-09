@@ -149,6 +149,12 @@ export const contracts = {
     mstable_v2: {
       stkMTA: "0x8f2326316eC696F6d023E37A9931c2b2C177a3D7",
     },
+    nexus: {
+      NXM: "0xd7c49CEE7E9188cCa6AD8FF264C1DA2e69D4Cf3B",
+      WXNM: "0x0d438F3b5175Bebc262bF23753C1E53d03432bDE",
+      ramm: "0xcafea54f03e1cc036653444e581a10a43b2487cd",
+      token_controller: "0x5407381b6c251cFd498ccD4A1d877739CB7960B8",
+    },
     notional: {
       nProxy: "0x1344A36A1B56144C3Bc62E7757377D288fDE0369",
     },

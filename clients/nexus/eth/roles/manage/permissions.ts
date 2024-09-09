@@ -264,6 +264,18 @@ export default [
   allow.mainnet.curve.oseth_reth_gauge["claim_rewards()"](),
   allow.mainnet.curve.crv_minter.mint(contracts.mainnet.curve.oseth_reth_gauge),
 
+  // Nexus Mutual
+  // Deposit ETH in exchange for NXM; redeem NXM in exchange for ETH
+  allow.mainnet.nexus.ramm.swap(undefined, undefined, undefined, {
+    send: true,
+  }),
+  // Wrap NXM
+  allow.mainnet.nexus.WXNM.wrap(),
+  // Unwrap WNXM
+  allow.mainnet.nexus.WXNM.unwrap(),
+  // Claim NXM rewards
+  allow.mainnet.nexus.token_controller.withdrawNXM(),
+
   // Uniswap v3 - Swaps
   ...allowErc20Approve(
     [
