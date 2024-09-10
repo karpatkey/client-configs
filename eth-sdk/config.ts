@@ -153,6 +153,7 @@ export const contracts = {
       NXM: "0xd7c49CEE7E9188cCa6AD8FF264C1DA2e69D4Cf3B",
       WXNM: "0x0d438F3b5175Bebc262bF23753C1E53d03432bDE",
       ramm: "0xcafea54f03e1cc036653444e581a10a43b2487cd",
+      staking_pool: "0xF3745f76C137738b0371a820A098fC678672660a",
       token_controller: "0x5407381b6c251cFd498ccD4A1d877739CB7960B8",
     },
     notional: {

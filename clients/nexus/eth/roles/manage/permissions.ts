@@ -275,6 +275,13 @@ export default [
   allow.mainnet.nexus.WXNM.unwrap(),
   // Claim NXM rewards
   allow.mainnet.nexus.token_controller.withdrawNXM(),
+  // Stake in Staking pools
+  allow.mainnet.nexus.staking_pool.depositTo(
+    undefined,
+    undefined,
+    undefined,
+    ZERO_ADDRESS
+  ),
 
   // Uniswap v3 - Swaps
   ...allowErc20Approve(
