@@ -2,11 +2,17 @@ import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { allow as allowAction } from "defi-kit/eth"
 import {
+  DAI,
   GHO,
   EURA,
   OLAS,
+  osETH,
+  rETH,
   SAFE,
   stETH,
+  USDC,
+  USDT,
+  WETH,
   wstETH,
   balancer,
 } from "../../../../../eth-sdk/addresses"
@@ -34,7 +40,7 @@ export default [
   // Ankr
   allowAction.ankr.deposit(),
 
-  // Aura - auraBAL Pool
+  // Aura - auraBAL
   allowAction.aura.deposit({ targets: ["101"] }),
   // Aura - COW/GNO
   allowAction.aura.deposit({ targets: ["104"] }),
@@ -47,11 +53,54 @@ export default [
   // Aura - Stake
   allowAction.aura.stake({ targets: ["B-80BAL-20WETH", "BAL", "auraBAL"] }),
 
+  // Balancer - auraBAL
+  allowAction.balancer.deposit({ targets: ["B-auraBAL-STABLE"] }),
+  allowAction.balancer.stake({ targets: ["B-auraBAL-STABLE"] }),
+  // Balancer - COW/GNO
+  allowAction.balancer.deposit({ targets: ["50COW-50GNO"] }),
+  allowAction.balancer.stake({ targets: ["50COW-50GNO"] }),
+  // Balancer - COW/WETH
+  allowAction.balancer.deposit({ targets: ["50COW-50WETH"] }),
+  allowAction.balancer.stake({ targets: ["50COW-50WETH"] }),
+  // Balancer - rETH/WETH
+  allowAction.balancer.deposit({ targets: ["B-rETH-STABLE"] }),
+  allowAction.balancer.stake({ targets: ["B-rETH-STABLE"] }),
   // Balancer - Lock
   allowAction.balancer.lock(),
 
   // Convex - Lock
   allowAction.convex.lock(),
+
+  // CowSwap - DAI <> USDT
+  allowAction.cowswap.swap({
+    sell: [DAI],
+    buy: [USDT],
+  }),
+  // CowSwap - USDC <> USDT
+  allowAction.cowswap.swap({
+    sell: [USDC],
+    buy: [USDT],
+  }),
+  // CowSwap - wstETH -> stETH
+  allowAction.cowswap.swap({
+    sell: [wstETH],
+    buy: [stETH],
+  }),
+  // CowSwap - osETH <> WETH
+  allowAction.cowswap.swap({
+    sell: [osETH],
+    buy: [WETH],
+  }),
+  // CowSwap - rETH <> WETH
+  allowAction.cowswap.swap({
+    sell: [rETH],
+    buy: [WETH],
+  }),
+  // CowSwap - GHO <> USDC
+  allowAction.cowswap.swap({
+    sell: [GHO],
+    buy: [USDC],
+  }),
 
   // Lido
   allowAction.lido.deposit(),
@@ -153,6 +202,7 @@ export default [
   allow.mainnet.stakewise_v3.chrorus_one_mev_max.deposit(c.avatar, undefined, {
     send: true,
   }),
+  allow.mainnet.stakewise_v3.chrorus_one_mev_max.updateState(),
   allow.mainnet.stakewise_v3.chrorus_one_mev_max.updateStateAndDeposit(
     c.avatar,
     undefined,
