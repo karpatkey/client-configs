@@ -1,0 +1,203 @@
+#!/usr/bin/env ts-node
+import yargs from "yargs"
+import fs from "node:fs"
+import path from "node:path"
+import {
+  ChainId,
+  Clearance,
+  Target,
+  applyAnnotations,
+  applyTargets,
+  checkIntegrity,
+  fetchRole,
+  posterAbi,
+  processPermissions,
+  rolesAbi,
+} from "zodiac-roles-sdk"
+import { Client } from "../types"
+import {
+  Interface,
+  JsonFragment,
+  JsonFragmentType,
+  Result,
+} from "@ethersproject/abi"
+import { formatBytes32String, hexlify, isBytesLike } from "ethers/lib/utils"
+
+async function main() {
+  const args = await yargs(process.argv.slice(2))
+    .usage("$0 <client> <chain> <role>")
+    .positional("client", { demandOption: true, type: "string" })
+    .positional("chain", { demandOption: true, type: "string" })
+    .positional("role", { demandOption: true, type: "string" }).argv
+
+  const [clientArg, chainArg, roleArg] = args._ as [string, string, string]
+
+  const { avatar, rolesMod, chainId, roles } = (await import(
+    `../clients/${clientArg}/${chainArg}`
+  )) as Client
+
+  const role = roles[roleArg]
+  if (!role) {
+    throw new Error(
+      `There is no '${roleArg}' role for client ${clientArg}, available roles: ${Object.keys(roles).join(", ")}`
+    )
+  }
+
+  const awaitedPermissions = await Promise.all(role.permissions)
+  const { targets, annotations } = processPermissions(awaitedPermissions)
+  checkIntegrity(targets)
+
+  const encodedRoleKey = formatBytes32String(role.roleKey) as `0x${string}`
+
+  const currentRole = await fetchRole({
+    address: rolesMod,
+    chainId,
+    roleKey: encodedRoleKey,
+  })
+  const currentTargets = (currentRole?.targets || []).filter(
+    (target) => !isEmptyFunctionScoped(target)
+  )
+  const currentAnnotations = currentRole?.annotations || []
+  console.log("KEY", role.roleKey)
+  const calls = [
+    ...(
+      await applyTargets(encodedRoleKey, targets, {
+        chainId: chainId,
+        address: rolesMod,
+        mode: "replace",
+        currentTargets,
+        log: console.log,
+      })
+    ).map((data) => ({ to: rolesMod, data })),
+
+    ...(
+      await applyAnnotations(encodedRoleKey, annotations, {
+        chainId: chainId,
+        address: rolesMod,
+        mode: "replace",
+        currentAnnotations,
+        log: console.log,
+      })
+    ).map((data) => ({ to: POSTER_ADDRESS, data })),
+  ]
+
+  const txBuilderJson = exportToSafeTransactionBuilder(
+    calls,
+    chainId,
+    role.roleKey
+  )
+
+  const filePath = path.join(
+    __dirname,
+    `../../export/${clientArg}_${chainArg}_${roleArg}.json`
+  )
+  fs.writeFileSync(filePath, JSON.stringify(txBuilderJson, null, 2))
+
+  console.log(`Transaction Builder JSON exported to: ${filePath}`)
+}
+
+main()
+
+const exportToSafeTransactionBuilder = (
+  calls: { to: `0x${string}`; data: `0x${string}` }[],
+  chainId: ChainId,
+  role: string
+) => {
+  return {
+    version: "1.0",
+    chainId: chainId.toString(10),
+    createdAt: Date.now(),
+    meta: {
+      name: `Update permissions of "${role}" role`,
+      description: "",
+      txBuilderVersion: "1.16.2",
+    },
+    transactions: calls.map(decode),
+  } as const
+}
+
+const decode = (transaction: { to: `0x${string}`; data: `0x${string}` }) => {
+  const abi: readonly JsonFragment[] =
+    transaction.to === POSTER_ADDRESS ? posterAbi : rolesAbi
+
+  const iface = new Interface(abi)
+
+  const selector = transaction.data.slice(0, 10)
+  const functionFragment = iface.getFunction(selector)
+
+  if (!functionFragment) {
+    throw new Error(`Could not find a function with selector ${selector}`)
+  }
+
+  const contractMethod = abi.find(
+    (fragment) =>
+      fragment.type === "function" && fragment.name === functionFragment.name
+  )
+  if (!contractMethod) {
+    throw new Error(
+      `Could not find an ABI function fragment with name ${functionFragment.name}`
+    )
+  }
+
+  const contractInputsValues = asTxBuilderInputValues(
+    iface.decodeFunctionData(functionFragment, transaction.data)
+  )
+
+  return {
+    to: transaction.to,
+    value: "0",
+    contractMethod: {
+      inputs: mapInputs(contractMethod.inputs) || [],
+      name: contractMethod.name || "",
+      payable: !!contractMethod.payable,
+    },
+    contractInputsValues,
+  }
+}
+
+const mapInputs = (
+  inputs: readonly JsonFragmentType[] | undefined
+): ContractInput[] | undefined => {
+  return inputs?.map((input) => ({
+    internalType: input.internalType || "",
+    name: input.name || "",
+    type: input.type || "",
+    components: mapInputs(input.components),
+  }))
+}
+
+const asTxBuilderInputValues = (result: Result) => {
+  const object: Record<string, string> = {}
+  for (const key of Object.keys(result)) {
+    // skip numeric keys (array indices)
+    if (isNaN(Number(key))) {
+      const value = result[key]
+      let serialized = value
+      if (typeof value === "string") {
+        serialized = value
+      } else if (typeof value === "bigint" || typeof value === "number") {
+        serialized = value.toString()
+      } else if (isBytesLike(value)) {
+        serialized = hexlify(value)
+      } else {
+        serialized = JSON.stringify(value)
+      }
+
+      object[key] = serialized
+    }
+  }
+  return object
+}
+
+export interface ContractInput {
+  internalType: string
+  name: string
+  type: string
+  components?: ContractInput[]
+}
+
+const isEmptyFunctionScoped = (target: Target) =>
+  target.clearance === Clearance.Function && target.functions.length === 0
+
+// EIP-3722 Poster contract
+const POSTER_ADDRESS = "0x000000000000cd17345801aa8147b8D3950260FF" as const
