@@ -298,6 +298,7 @@ export default [
    * Bridge
    *********************************************/
   // GNO (Mainnet) -> GNO (Gnosis)
+  /*
   ...allowErc20Approve([GNO], [contracts.mainnet.gno_omnibridge]),
   allow.mainnet.gno_omnibridge["relayTokens(address,address,uint256)"](
     GNO,
@@ -393,4 +394,5 @@ export default [
       })
     )
   ),
+  */
 ] satisfies PermissionList

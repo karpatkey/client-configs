@@ -46,9 +46,11 @@ export default [
    * Bridge
    *********************************************/
   // GNO (Gnosis) -> GNO (Mainnet)
+  /*
   allow.gnosis.gno.transferAndCall(
     contracts.gnosis.xdai_bridge,
     undefined,
     avatar
   ),
+  */
 ] satisfies PermissionList
