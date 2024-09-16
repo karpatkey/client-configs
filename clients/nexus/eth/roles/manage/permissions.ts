@@ -2,32 +2,26 @@ import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { allow as allowAction } from "defi-kit/eth"
 import {
-  ankrETH,
   AAVE,
   AURA,
   BAL,
-  COMP,
   CRV,
   CVX,
   DAI,
-  ETHx,
-  NXM,
+  GHO,
   LDO,
   osETH,
   rETH,
+  RPL,
   stETH,
   SWISE,
   USDC,
   USDT,
   WETH,
-  E_ADDRESS,
-  ZERO_ADDRESS,
   WNXM,
   wstETH,
+  ZERO_ADDRESS,
   curve,
-  aave_v3,
-  GHO,
-  RPL,
 } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
@@ -39,20 +33,20 @@ export default [
    *********************************************/
   // Aave v3 - DAI
   allowAction.aave_v3.deposit({ targets: ["DAI"] }),
+  // Aave v3 - ETH
+  allowAction.aave_v3.deposit({ targets: ["ETH"] }),
+  // Aave v3 - osETH
+  allowAction.aave_v3.deposit({ targets: ["osETH"] }),
+  // Aave v3 - rETH
+  allowAction.aave_v3.deposit({ targets: ["rETH"] }),
   // Aave v3 - USDC
   allowAction.aave_v3.deposit({ targets: ["USDC"] }),
   // Aave v3 - USDT
   allowAction.aave_v3.deposit({ targets: ["USDT"] }),
-  // Aave v3 - rETH
-  allowAction.aave_v3.deposit({ targets: ["rETH"] }),
-  // Aave v3 - ETH
-  allowAction.aave_v3.deposit({ targets: ["wstETH"] }),
-  // Aave v3 - USDC
-  allowAction.aave_v3.deposit({ targets: ["osETH"] }),
-  // Aave v3 - ETH
-  allowAction.aave_v3.deposit({ targets: ["ETH"] }),
   // Aave v3 - WETH
   allowAction.aave_v3.deposit({ targets: ["WETH"] }),
+  // Aave v3 - wstETH
+  allowAction.aave_v3.deposit({ targets: ["wstETH"] }),
   // Aave v3 - Stake GHO
   allowAction.aave_v3.stake({ targets: ["GHO"] }),
 
@@ -88,30 +82,30 @@ export default [
   // Convex - osETH/rETH
   allowAction.convex.deposit({ targets: ["268"] }),
 
-  // Cowswap
+  // CowSwap
   allowAction.cowswap.swap({
     sell: [
-      AURA,
-      LDO,
+      "ETH",
       AAVE,
-      WNXM,
-      GHO,
-      USDC,
-      DAI,
-      USDT,
-      stETH,
-      wstETH,
-      rETH,
-      osETH,
+      AURA,
       BAL,
       CRV,
       CVX,
-      SWISE,
+      DAI,
+      GHO,
+      LDO,
+      osETH,
+      rETH,
       RPL,
+      stETH,
+      SWISE,
+      USDC,
+      USDT,
       WETH,
+      WNXM,
+      wstETH,
     ],
-    buy: [WETH, E_ADDRESS, USDC, USDT, DAI, stETH, wstETH, rETH, osETH, WNXM],
-    feeAmountBp: 200,
+    buy: [DAI, osETH, rETH, stETH, USDC, USDT, WETH, WNXM, wstETH],
   }),
 
   // Lido
@@ -122,16 +116,16 @@ export default [
 
   // Spark - ETH
   allowAction.spark.deposit({ targets: ["ETH"] }),
-  // Spark - WETH
-  allowAction.spark.deposit({ targets: ["WETH"] }),
-  // Spark - ETH
+  // Spark - rETH
   allowAction.spark.deposit({ targets: ["rETH"] }),
-  // Spark - WETH
-  allowAction.spark.deposit({ targets: ["wstETH"] }),
   // Spark - USDC
   allowAction.spark.deposit({ targets: ["USDC"] }),
   // Spark - USDT
   allowAction.spark.deposit({ targets: ["USDT"] }),
+  // Spark - WETH
+  allowAction.spark.deposit({ targets: ["WETH"] }),
+  // Spark - wstETH
+  allowAction.spark.deposit({ targets: ["wstETH"] }),
 
   /*********************************************
    * Typed-presets permissions
@@ -141,11 +135,6 @@ export default [
   allow.mainnet.weth.deposit({
     send: true,
   }),
-
-  // Aave v3 - Lido Market - WETH
-  ...allowErc20Approve([WETH], [contracts.mainnet.aave_v3.pool_lido]),
-  allow.mainnet.aave_v3.pool_lido.supply(WETH, undefined, c.avatar),
-  allow.mainnet.aave_v3.pool_lido.withdraw(WETH, undefined, c.avatar),
 
   // Aave v3 - Lido Market - ETH
   ...allowErc20Approve(
@@ -164,20 +153,15 @@ export default [
     c.avatar
   ),
 
+  // Aave v3 - Lido Market - WETH
+  ...allowErc20Approve([WETH], [contracts.mainnet.aave_v3.pool_lido]),
+  allow.mainnet.aave_v3.pool_lido.supply(WETH, undefined, c.avatar),
+  allow.mainnet.aave_v3.pool_lido.withdraw(WETH, undefined, c.avatar),
+
   // Aave v3 - Lido Market - wstETH
   ...allowErc20Approve([wstETH], [contracts.mainnet.aave_v3.pool_lido]),
   allow.mainnet.aave_v3.pool_lido.supply(wstETH, undefined, c.avatar),
   allow.mainnet.aave_v3.pool_lido.withdraw(wstETH, undefined, c.avatar),
-
-  // Compound v3 - USDC
-  ...allowErc20Approve([USDC], [contracts.mainnet.compound_v3.cUSDCv3]),
-  allow.mainnet.compound_v3.cUSDCv3.supply(USDC),
-  allow.mainnet.compound_v3.cUSDCv3.withdraw(USDC),
-
-  // Compound v3 - USDT
-  ...allowErc20Approve([USDT], [contracts.mainnet.compound_v3.cUSDTv3]),
-  allow.mainnet.compound_v3.cUSDTv3.supply(USDT),
-  allow.mainnet.compound_v3.cUSDTv3.withdraw(USDT),
 
   // Compound v3 - ETH
   allow.mainnet.compound_v3.cWETHv3.allow(
@@ -203,23 +187,18 @@ export default [
     { send: true }
   ),
 
+  // Compound v3 - USDC
+  ...allowErc20Approve([USDC], [contracts.mainnet.compound_v3.cUSDCv3]),
+  allow.mainnet.compound_v3.cUSDCv3.supply(USDC),
+  allow.mainnet.compound_v3.cUSDCv3.withdraw(USDC),
+
+  // Compound v3 - USDT
+  ...allowErc20Approve([USDT], [contracts.mainnet.compound_v3.cUSDTv3]),
+  allow.mainnet.compound_v3.cUSDTv3.supply(USDT),
+  allow.mainnet.compound_v3.cUSDTv3.withdraw(USDT),
+
   // Compound v3 - Claim rewards
   allow.mainnet.compound_v3.CometRewards.claim(undefined, c.avatar),
-
-  // CoW Swap - Swap ETH
-  allow.mainnet.cowswap.order_signer.signOrder(
-    {
-      sellToken: E_ADDRESS,
-      buyToken: c.or(WETH, USDC, USDT, DAI, stETH, wstETH, rETH, osETH, WNXM),
-      receiver: c.avatar,
-    },
-    undefined,
-    undefined,
-    {
-      delegatecall: true,
-      send: true,
-    }
-  ),
 
   // Curve - ETH/stETH - steCRV
   ...allowErc20Approve([stETH], [contracts.mainnet.curve.steth_eth_pool]),
@@ -264,6 +243,17 @@ export default [
   allow.mainnet.curve.oseth_reth_gauge["claim_rewards()"](),
   allow.mainnet.curve.crv_minter.mint(contracts.mainnet.curve.oseth_reth_gauge),
 
+  // Maker - DSR (DAI Savings Rate)
+  // The DsrManager provides an easy to use smart contract that allows
+  // service providers to deposit/withdraw dai into the DSR contract pot,
+  // and activate/deactivate the Dai Savings Rate to start earning savings
+  // on a pool of dai in a single function call.
+  // https://docs.makerdao.com/smart-contract-modules/proxy-module/dsr-manager-detailed-documentation#contract-details
+  ...allowErc20Approve([DAI], [contracts.mainnet.maker.dsr_manager]),
+  allow.mainnet.maker.dsr_manager.join(c.avatar),
+  allow.mainnet.maker.dsr_manager.exit(c.avatar),
+  allow.mainnet.maker.dsr_manager.exitAll(c.avatar),
+
   // Nexus Mutual
   // Deposit ETH in exchange for NXM; redeem NXM in exchange for ETH
   allow.mainnet.nexus.ramm.swap(undefined, undefined, undefined, {
@@ -283,54 +273,55 @@ export default [
     ZERO_ADDRESS
   ),
 
+  // SWAPS
   // Uniswap v3 - Swaps
   ...allowErc20Approve(
     [
-      AURA,
-      LDO,
       AAVE,
-      WNXM,
-      GHO,
-      USDC,
-      DAI,
-      USDT,
-      stETH,
-      wstETH,
-      rETH,
-      osETH,
+      AURA,
       BAL,
       CRV,
       CVX,
-      SWISE,
+      DAI,
+      GHO,
+      LDO,
+      osETH,
+      rETH,
       RPL,
+      stETH,
+      SWISE,
+      USDC,
+      USDT,
       WETH,
+      WNXM,
+      wstETH,
     ],
     [contracts.mainnet.uniswap_v3.router_2]
   ),
 
-  // Uniswap v3
+  // Uniswap v3 - Swapping of tokens AAVE, AURA, BAL, CRV, CVX, DAI, GHO, LDO, osETH, rETH, RPL, stETH, SWISE, USDC, USDT, WETH, WNXM, wstETH
   allow.mainnet.uniswap_v3.router_2.exactInputSingle({
     tokenIn: c.or(
-      AURA,
-      LDO,
       AAVE,
-      WNXM,
-      GHO,
-      USDC,
-      DAI,
-      USDT,
-      stETH,
-      wstETH,
-      rETH,
-      osETH,
+      AURA,
       BAL,
       CRV,
       CVX,
-      SWISE,
+      DAI,
+      GHO,
+      LDO,
+      osETH,
+      rETH,
       RPL,
-      WETH
+      stETH,
+      SWISE,
+      USDC,
+      USDT,
+      WETH,
+      WNXM,
+      wstETH,
     ),
-    tokenOut: c.or(WETH, USDC, USDT, DAI, stETH, wstETH, rETH, osETH, WNXM),
+    tokenOut: c.or(DAI, osETH, rETH, stETH, USDC, USDT, WETH, WNXM, wstETH),
     recipient: c.avatar,
   }),
 ] satisfies PermissionList
