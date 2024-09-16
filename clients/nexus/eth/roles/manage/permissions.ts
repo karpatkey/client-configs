@@ -319,7 +319,7 @@ export default [
       USDT,
       WETH,
       WNXM,
-      wstETH,
+      wstETH
     ),
     tokenOut: c.or(DAI, osETH, rETH, stETH, USDC, USDT, WETH, WNXM, wstETH),
     recipient: c.avatar,
