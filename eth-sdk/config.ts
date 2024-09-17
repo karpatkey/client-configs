@@ -10,6 +10,7 @@ export const contracts = {
     aave_v3: {
       pool_v3: "0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2",
       wrapped_token_gateway_v3: "0x893411580e590D62dDBca8a703d61Cc4A8c7b2b9",
+      pool_lido: "0x4e033931ad43597d96D6bcc25c280717730B58B1",
     },
     across_v2: {
       hub_pool_v2: "0xc186fA914353c44b2E33eBE05f21846F1048bEda",
@@ -187,6 +188,7 @@ export const contracts = {
     },
     stakewise_v3: {
       chrorus_one_mev_max: "0xe6d8d8aC54461b1C5eD15740EEe322043F696C08",
+      genesis: "0xAC0F906E433d58FA868F936E8A43230473652885",
     },
     sushiswap: {
       router: "0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F",
