@@ -23,7 +23,7 @@ import {
   wstETH,
   ZERO_ADDRESS,
   curve,
-  nexus
+  nexus,
 } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
@@ -281,19 +281,19 @@ export default [
   allow.mainnet.nexus.token_controller.withdrawNXM(),
   // Stake in pools
   // Approval of NXM with the TokenController as spender was already included
-  ...nexus.pools.map(pool => ({
+  ...nexus.pools.map((pool) => ({
     ...allow.mainnet.nexus.staking_pool.depositTo(
       undefined,
       undefined,
       undefined,
       ZERO_ADDRESS
     ),
-    targetAddress: pool
+    targetAddress: pool,
   })),
   // Unstake from pools
-  ...nexus.pools.map(pool => ({
+  ...nexus.pools.map((pool) => ({
     ...allow.mainnet.nexus.staking_pool.withdraw(),
-    targetAddress: pool
+    targetAddress: pool,
   })),
 
   // StakeWise v3 - Genesis Vault
