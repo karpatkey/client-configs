@@ -147,6 +147,9 @@ export const contracts = {
     merkl: {
       angle_distributor: "0x3Ef3D8bA38EBe18DB133cEc108f4D14CE00Dd9Ae",
     },
+    morpho: {
+      morpho_blue: "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+    },
     mstable_v2: {
       stkMTA: "0x8f2326316eC696F6d023E37A9931c2b2C177a3D7",
     },
@@ -201,6 +204,7 @@ export const contracts = {
     },
     stakewise_v3: {
       chrorus_one_mev_max: "0xe6d8d8aC54461b1C5eD15740EEe322043F696C08",
+      genesis: "0xAC0F906E433d58FA868F936E8A43230473652885",
     },
     sushiswap: {
       router: "0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F",
@@ -218,9 +222,26 @@ export const contracts = {
       bribe: "0x19BBC3463Dd8d07f55438014b021Fb457EBD4595",
     },
     weth: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-    omnibridge: "0x88ad09518695c6c3712AC10a214bE5109a655671",
+    gno_omnibridge: "0x88ad09518695c6c3712AC10a214bE5109a655671",
+    gno_xdai_bridge: "0x4aa42145Aa6Ebf72e164C9bBC74fbD3788045016",
+    amb_eth_xdai: "0x4C36d2919e407f0Cc2Ee3c993ccF8ac26d9CE64e",
+    opt_dai_bridge: "0x10E6593CDda8c58a1d0f14C5164B376352a55f2F",
+    circle_token_messenger: "0xBd3fa81B58Ba92a82136038B25aDec7066af3155",
+    opt_gateway: "0x99C9fc46f92E8a1c0deC1b1747d010903E884bE1",
+    arb_dai_gateway: "0xD3B5b60020504bc3489D6949d545893982BA3011",
+    arb_erc20_gateway: "0xa3A7B6F88361F48403514059F1F16C8E78d60EeC",
+    circle_message_transmitter: "0x0a992d191DEeC32aFe36203Ad87D7d289a738F81",
+    l1_hop_cctp: "0x7e77461CA2a9d82d26FD5e0Da2243BF72eA45747",
+    hop_dai_bridge: "0x3d4Cc8A61c7528Fd86C55cfe061a78dCBA48EDd1",
+    connext_bridge: "0x8898B472C54c31894e3B9bb83cEA802a5d0e63C6",
   },
   gnosis: {
+    aave_v3: {
+      pool_v3: "0xb50201558B00496A145fE76f7424749556E326D8",
+      wrapped_token_gateway_v3: "0xfE76366A986B72c3f2923e05E6ba07b7de5401e4",
+      variable_debt_wxdai: "0x281963D7471eCdC3A2Bd4503e24e89691cfe420D",
+      aGnoWXDAI: "0xd0Dd6cEF72143E22cCED4867eb0d5F2328715533",
+    },
     agave: {
       SavingsXDaiAdapter: "0xD499b51fcFc66bd31248ef4b28d656d67E591A94",
     },
@@ -228,18 +249,99 @@ export const contracts = {
       order_signer: "0x23dA9AdE38E4477b23770DeD512fD37b12381FAB",
       gpv2_vault_relayer: "0xC92E8bdf79f0507f65a392b0ab4667716BFE0110",
     },
+    stakewise_v3: {
+      genesis: "0x4b4406Ed8659D03423490D8b62a1639206dA0A7a",
+      serenita: "0x00025C729A3364FaEf02c7D1F577068d87E90ba6",
+      nedo: "0x2Cd404D9d75436e7d6dDbCcc2fB9cF7C06941BF1",
+    },
+    curve: {
+      x3CRV_pool: "0x7f90122BF0700F9E7e1F688fe926940E8839F353",
+    },
+    spark: {
+      sparkLendingPoolV3: "0x2Dae5307c5E3FD1CF5A72Cb6F698f915860607e0",
+      wrappedTokenGatewayV3: "0xBD7D6a9ad7865463DE44B05F04559f65e3B11704",
+      variableDebtWXDAI: "0x868ADfDf12A86422524EaB6978beAE08A0008F37",
+      aWXDAI: "0xC9Fe2D32E96Bb364c7d29f3663ed3b27E30767bB",
+    },
+    comp: "0xDf6FF92bfDC1e8bE45177DC1f4845d391D3ad8fD",
+    gno: "0x9C58BAcC331c9aa871AFD802DB6379a98e80CEdb",
+    usdc: "0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83",
+    usdc_transmuter: "0x0392A2F5Ac47388945D8c84212469F545fAE52B2",
     wxdai: "0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d",
+    xdai_bridge: "0xf6A78083ca3e2a662D6dd1703c939c8aCE2e268d",
+    xdai_bridge_2: "0x7301CFA0e1756B71869E93d4e4Dca5c7d0eb0AA6",
+    hop_dai_wrapper: "0x6C928f435d1F3329bABb42d69CCF043e3900EcF1",
+    connext_bridge: "0x5bb83e95f63217cda6ae3d181ba580ef377d2109",
+  },
+  optimism: {
+    aave_v3: {
+      pool_v3: "0x794a61358D6845594F94dc1DB02A252b5b4814aD",
+    },
+    compound_v3: {
+      cUSDCv3: "0x2e44e174f7D53F0212823acC11C01A11d58c5bCB",
+      CometRewards: "0x443EA0340cb75a160F31A440722dec7b5bc3C2E9",
+    },
+    curve: {
+      x3CRV_pool: "0x1337BedC9D22ecbe766dF105c9623922A27963EC",
+      crvUSD_USDC_pool: "0x03771e24b7C9172d163Bf447490B142a15be3485",
+      crvUSD_USDCe_pool: "0x05FA06D4Fb883F67f1cfEA0889edBff9e8358101",
+      sUSD3CRV_f_pool: "0x061b87122Ed14b9526A813209C8a59a633257bAb",
+    },
+    circle_token_messenger: "0x2B4069517957735bE00ceE0fadAE88a26365528f",
+    dai_token_bridge: "0x467194771dAe2967Aef3ECbEDD3Bf9a310C76C65",
+    optimism_bridge: "0x4200000000000000000000000000000000000010",
+    circle_message_transmitter: "0x4D41f22c5a0e5c74090899E5a8Fb597a8842b3e8",
+    l2_hop_cctp: "0x469147af8Bde580232BE9DC84Bb4EC84d348De24",
+    hop_dai_wrapper: "0xb3C68a491608952Cb1257FC9909a537a0173b63B",
+    connext_bridge: "0x8f7492DE823025b4CfaAB1D34c58963F2af5DEDA",
+  },
+  arbitrumOne: {
+    aave_v3: {
+      pool_v3: "0x794a61358D6845594F94dc1DB02A252b5b4814aD",
+    },
+    compound_v3: {
+      cUSDCv3: "0x9c4ec768c28520B50860ea7a15bd7213a9fF58bf",
+      CometRewards: "0x88730d254A2f7e6AC8388c3198aFd694bA9f7fae",
+    },
+    gateway_router: "0x5288c571Fd7aD117beA99bF60FE0846C4E84F933",
+    circle_token_messenger: "0x19330d10D9Cc8751218eaf51E8885D058642E08A",
+    circle_message_transmitter: "0xC30362313FBBA5cf9163F0bb16a0e01f01A896ca",
+    l2_hop_cctp: "0x6504BFcaB789c35325cA4329f1f41FaC340bf982",
+    hop_dai_wrapper: "0xe7F40BF16AB09f4a6906Ac2CAA4094aD2dA48Cc2",
+    connext_bridge: "0xEE9deC2712cCE65174B561151701Bf54b99C24C8",
+  },
+  base: {
+    aave_v3: {
+      pool_v3: "0xA238Dd80C259a72e81d7e4664a9801593F98d1c5",
+    },
+    compound_v3: {
+      cUSDCv3: "0xb125E6687d4313864e53df431d5425969c15Eb2F",
+      CometRewards: "0x123964802e6ABabBE1Bc9547D72Ef1B69B00A6b1",
+    },
+    sushiswap: {
+      route_processor_4: "0x0389879e0156033202C44BF784ac18fC02edeE4f",
+    },
+    circle_token_messenger: "0x1682Ae6375C4E4A97e4B583BC394c861A46D8962",
+    circle_message_transmitter: "0xAD09780d193884d503182aD4588450C416D6F9D4",
+    l2_hop_cctp: "0xe7F40BF16AB09f4a6906Ac2CAA4094aD2dA48Cc2",
+    connext_bridge: "0xB8448C6f7f7887D36DcA487370778e419e9ebE3F",
   },
 } satisfies EthSdkConfig["contracts"]
 
 export default defineConfig({
   etherscanURLs: {
-    gnosis: "https://api.gnosisscan.io/api",
-    //gnosis: "https://blockscout.com/xdai/mainnet/api",
+    //gnosis: "https://api.gnosisscan.io/api",
+    gnosis: "https://blockscout.com/xdai/mainnet/api",
+    optimism: "https://api-optimistic.etherscan.io/api",
+    arbitrumOne: "https://api.arbiscan.io/api",
+    base: "https://api.basescan.org/api",
   },
   rpc: {
     gnosis: "https://rpc.gnosischain.com/",
     //gnosis: "https://rpc.ankr.com/gnosis"
+    optimism: "https://rpc.ankr.com/optimism",
+    arbitrumOne: "https://arb1.arbitrum.io/rpc",
+    base: "https://base-rpc.publicnode.com",
   },
   contracts,
 })
