@@ -69,6 +69,7 @@ export const contracts = {
       BAL_minter: "0x239e55f427d44c3cc793f49bfb507ebe76638a2b",
       fee_distributor: "0xD3cf852898b21fc233251427c2DC93d3d604F3BB",
       veBAL: "0xC128a9954e6c874eA3d62ce62B468bA073093F25",
+      BCoW_50wNXM_50WETH: "0x7c838b3Ed3C15a5d5032e809B8714f0aE5e9A821",
     },
     compound_v2: {
       comptroller: "0x3d9819210a31b4961b30ef54be2aed79b9c9cd3b",
@@ -150,9 +151,8 @@ export const contracts = {
       stkMTA: "0x8f2326316eC696F6d023E37A9931c2b2C177a3D7",
     },
     nexus: {
-      NXM: "0xd7c49CEE7E9188cCa6AD8FF264C1DA2e69D4Cf3B",
-      WXNM: "0x0d438F3b5175Bebc262bF23753C1E53d03432bDE",
-      ramm: "0xcafea54f03e1cc036653444e581a10a43b2487cd",
+      wNXM: "0x0d438F3b5175Bebc262bF23753C1E53d03432bDE",
+      ramm: "0xcafea54f03E1Cc036653444e581A10a43B2487CD",
       staking_pool: "0xF3745f76C137738b0371a820A098fC678672660a",
       token_controller: "0x5407381b6c251cFd498ccD4A1d877739CB7960B8",
     },

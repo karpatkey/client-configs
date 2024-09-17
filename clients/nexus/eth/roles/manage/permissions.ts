@@ -10,6 +10,7 @@ import {
   DAI,
   GHO,
   LDO,
+  NXM,
   osETH,
   rETH,
   RPL,
@@ -18,10 +19,11 @@ import {
   USDC,
   USDT,
   WETH,
-  WNXM,
+  wNXM,
   wstETH,
   ZERO_ADDRESS,
   curve,
+  nexus
 } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
@@ -102,10 +104,10 @@ export default [
       USDC,
       USDT,
       WETH,
-      WNXM,
+      wNXM,
       wstETH,
     ],
-    buy: [DAI, GHO, osETH, rETH, stETH, USDC, USDT, WETH, WNXM, wstETH],
+    buy: ["ETH", DAI, GHO, osETH, rETH, stETH, USDC, USDT, WETH, wNXM, wstETH],
   }),
 
   // Lido
@@ -126,6 +128,9 @@ export default [
   allowAction.spark.deposit({ targets: ["WETH"] }),
   // Spark - wstETH
   allowAction.spark.deposit({ targets: ["wstETH"] }),
+
+  // Uniswap v3 - wNXN/WETH
+  allowAction.uniswap_v3.deposit({ tokens: ["wNXM", "WETH"] }),
 
   /*********************************************
    * Typed-presets permissions
@@ -162,6 +167,14 @@ export default [
   ...allowErc20Approve([wstETH], [contracts.mainnet.aave_v3.pool_lido]),
   allow.mainnet.aave_v3.pool_lido.supply(wstETH, undefined, c.avatar),
   allow.mainnet.aave_v3.pool_lido.withdraw(wstETH, undefined, c.avatar),
+
+  // Balancer - BCoW AMM wNXM/WETH
+  ...allowErc20Approve(
+    [wNXM, WETH],
+    [contracts.mainnet.balancer.BCoW_50wNXM_50WETH]
+  ),
+  allow.mainnet.balancer.BCoW_50wNXM_50WETH.joinPool(),
+  allow.mainnet.balancer.BCoW_50wNXM_50WETH.exitPool(),
 
   // Compound v3 - ETH
   allow.mainnet.compound_v3.cWETHv3.allow(
@@ -256,24 +269,80 @@ export default [
 
   // Nexus Mutual
   // Deposit ETH in exchange for NXM; redeem NXM in exchange for ETH
+  ...allowErc20Approve([NXM], [contracts.mainnet.nexus.token_controller]),
   allow.mainnet.nexus.ramm.swap(undefined, undefined, undefined, {
     send: true,
   }),
   // Wrap NXM
-  allow.mainnet.nexus.WXNM.wrap(),
+  allow.mainnet.nexus.wNXM.wrap(),
   // Unwrap WNXM
-  allow.mainnet.nexus.WXNM.unwrap(),
+  allow.mainnet.nexus.wNXM.unwrap(),
   // Claim NXM rewards
   allow.mainnet.nexus.token_controller.withdrawNXM(),
-  // Stake in Staking pools
-  allow.mainnet.nexus.staking_pool.depositTo(
+  // Stake in pools
+  // Approval of NXM with the TokenController as spender was already included
+  ...nexus.pools.map(pool => ({
+    ...allow.mainnet.nexus.staking_pool.depositTo(
+      undefined,
+      undefined,
+      undefined,
+      ZERO_ADDRESS
+    ),
+    targetAddress: pool
+  })),
+  // Unstake from pools
+  ...nexus.pools.map(pool => ({
+    ...allow.mainnet.nexus.staking_pool.withdraw(),
+    targetAddress: pool
+  })),
+
+  // StakeWise v3 - Genesis Vault
+  allow.mainnet.stakewise_v3.genesis.deposit(c.avatar, undefined, {
+    send: true,
+  }),
+  allow.mainnet.stakewise_v3.genesis.updateState(),
+  allow.mainnet.stakewise_v3.genesis.updateStateAndDeposit(
+    c.avatar,
     undefined,
     undefined,
-    undefined,
-    ZERO_ADDRESS
+    {
+      send: true,
+    }
   ),
+  allow.mainnet.stakewise_v3.genesis.mintOsToken(c.avatar),
+  allow.mainnet.stakewise_v3.genesis.burnOsToken(),
+  allow.mainnet.stakewise_v3.genesis.enterExitQueue(undefined, c.avatar),
+  allow.mainnet.stakewise_v3.genesis.claimExitedAssets(),
 
   // SWAPS
+  // Balancer - Swap osETH for WETH
+  allow.mainnet.balancer.vault.swap(
+    {
+      poolId:
+        "0xdacf5fa19b1f720111609043ac67a9818262850c000000000000000000000635",
+      assetIn: osETH,
+      assetOut: WETH,
+    },
+    {
+      recipient: c.avatar,
+      sender: c.avatar,
+    }
+  ),
+
+  // Balancer - Swap WETH for osETH
+  allow.mainnet.balancer.vault.swap(
+    {
+      poolId:
+        "0xdacf5fa19b1f720111609043ac67a9818262850c000000000000000000000635",
+      assetIn: WETH,
+      assetOut: osETH,
+    },
+    {
+      recipient: c.avatar,
+      sender: c.avatar,
+    }
+  ),
+
   // Uniswap v3 - Swaps
   ...allowErc20Approve(
     [
@@ -293,7 +362,7 @@ export default [
       USDC,
       USDT,
       WETH,
-      WNXM,
+      wNXM,
       wstETH,
     ],
     [contracts.mainnet.uniswap_v3.router_2]
@@ -318,7 +387,7 @@ export default [
       USDC,
       USDT,
       WETH,
-      WNXM,
+      wNXM,
       wstETH
     ),
     tokenOut: c.or(
@@ -330,7 +399,7 @@ export default [
       USDC,
       USDT,
       WETH,
-      WNXM,
+      wNXM,
       wstETH
     ),
     recipient: c.avatar,
