@@ -105,7 +105,7 @@ export default [
       WNXM,
       wstETH,
     ],
-    buy: [DAI, osETH, rETH, stETH, USDC, USDT, WETH, WNXM, wstETH],
+    buy: [DAI, GHO, osETH, rETH, stETH, USDC, USDT, WETH, WNXM, wstETH],
   }),
 
   // Lido
@@ -321,7 +321,7 @@ export default [
       WNXM,
       wstETH
     ),
-    tokenOut: c.or(DAI, osETH, rETH, stETH, USDC, USDT, WETH, WNXM, wstETH),
+    tokenOut: c.or(DAI, GHO, osETH, rETH, stETH, USDC, USDT, WETH, WNXM, wstETH),
     recipient: c.avatar,
   }),
 ] satisfies PermissionList
