@@ -298,7 +298,7 @@ export const nexus = {
     "0x93bd6Aa97d84e09a113207Cd09cD5970F4e96AC1" as Address, // Pool #25
     "0xfd4F81533d8D642bBCe67688142eea9aeF93b33c" as Address, // Pool #26
     "0x37ac6B1d2C8873a1a772CD15a42208864d343ebd" as Address, // Pool #27
-  ]
+  ],
 }
 
 // export const pancake_swap = {
