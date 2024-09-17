@@ -321,7 +321,18 @@ export default [
       WNXM,
       wstETH
     ),
-    tokenOut: c.or(DAI, GHO, osETH, rETH, stETH, USDC, USDT, WETH, WNXM, wstETH),
+    tokenOut: c.or(
+      DAI,
+      GHO,
+      osETH,
+      rETH,
+      stETH,
+      USDC,
+      USDT,
+      WETH,
+      WNXM,
+      wstETH
+    ),
     recipient: c.avatar,
   }),
 ] satisfies PermissionList
