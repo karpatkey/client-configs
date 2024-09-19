@@ -78,6 +78,9 @@ export default [
   // Balancer - sDAI/3Pool
   allowAction.balancer.deposit({ targets: ["sDAI/3Pool"] }),
   allowAction.balancer.stake({ targets: ["sDAI/3Pool"] }),
+  // Balancer Gyroscope ECLP GHO/USDC 2
+  allowAction.balancer.deposit({ targets: ["ECLP-GHO-USDC-2"] }),
+  allowAction.balancer.stake({ targets: ["ECLP-GHO-USDC-2"] }),
 
   // Convex - ETH/stETH - steCRV
   allowAction.convex.deposit({ targets: ["25"] }),
@@ -168,7 +171,7 @@ export default [
   allow.mainnet.aave_v3.pool_lido.supply(wstETH, undefined, c.avatar),
   allow.mainnet.aave_v3.pool_lido.withdraw(wstETH, undefined, c.avatar),
 
-  // Balancer - BCoW AMM wNXM/WETH
+  // Balancer - BCoW AMM wNXM/WETH (Staking not available)
   ...allowErc20Approve(
     [wNXM, WETH],
     [contracts.mainnet.balancer.BCoW_50wNXM_50WETH]
@@ -281,6 +284,7 @@ export default [
   allow.mainnet.nexus.token_controller.withdrawNXM(),
   // Stake in pools
   // Approval of NXM with the TokenController as spender was already included
+  // TokenController manages the approvals for all pools
   ...nexus.pools.map((pool) => ({
     ...allow.mainnet.nexus.staking_pool.depositTo(
       undefined,
