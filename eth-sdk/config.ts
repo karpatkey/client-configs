@@ -156,7 +156,7 @@ export const contracts = {
     nexus: {
       wNXM: "0x0d438F3b5175Bebc262bF23753C1E53d03432bDE",
       ramm: "0xcafea54f03E1Cc036653444e581A10a43B2487CD",
-      staking_pool: "0xF3745f76C137738b0371a820A098fC678672660a",
+      staking_pool: "0xF3745f76C137738b0371a820A098fC678672660a", // Pool #2 (used as a general case)
       token_controller: "0x5407381b6c251cFd498ccD4A1d877739CB7960B8",
     },
     notional: {

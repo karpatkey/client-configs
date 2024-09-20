@@ -282,9 +282,10 @@ export default [
   allow.mainnet.nexus.wNXM.unwrap(),
   // Claim NXM rewards
   allow.mainnet.nexus.token_controller.withdrawNXM(),
-  // Stake in pools
   // Approval of NXM with the TokenController as spender was already included
   // TokenController manages the approvals for all pools
+  // Allows users to deposit NXM into the pool, creating stake and rewards shares in return
+  // Supports deposits to specific tranches and allows reusing the same nft for deposits in multiple tranches to an existing deposit
   ...nexus.pools.map((pool) => ({
     ...allow.mainnet.nexus.staking_pool.depositTo(
       undefined,
@@ -294,7 +295,13 @@ export default [
     ),
     targetAddress: pool,
   })),
-  // Unstake from pools
+  // Extends the duration of a deposit by moving it from an tranche to a future tranche
+  ...nexus.pools.map((pool) => ({
+    ...allow.mainnet.nexus.staking_pool.extendDeposit(),
+    targetAddress: pool,
+  })),
+  // Allows users to withdraw their stake and/or rewards from specific tranches
+  // Withdrawing the stakes can be done only on expired tranches
   ...nexus.pools.map((pool) => ({
     ...allow.mainnet.nexus.staking_pool.withdraw(),
     targetAddress: pool,
