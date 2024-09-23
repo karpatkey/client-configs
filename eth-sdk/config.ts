@@ -51,7 +51,7 @@ export const contracts = {
     },
     balancer: {
       vault: "0xBA12222222228d8Ba445958a75a0704d566BF2C8",
-      relayer: "0xfeA793Aa415061C483D2390414275AD314B3F621",
+      relayer: "0x35Cea9e57A393ac66Aaa7E25C391D52C74B5648f",
       gauge: "0x5C0F23A5c1be65Fa710d385814a7Fd1Bda480b1C",
       // B_stETH_stable_gauge: "0x5C0F23A5c1be65Fa710d385814a7Fd1Bda480b1C",
       // B_auraBAL_stable_gauge: "0x0312AA8D0BA4a1969Fddb382235870bF55f7f242",
