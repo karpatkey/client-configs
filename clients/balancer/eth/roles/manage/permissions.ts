@@ -5,6 +5,7 @@ import {
   AAVE,
   COMP,
   DAI,
+  GHO,
   GYD,
   rETH,
   sDAI,
@@ -128,7 +129,7 @@ export default [
    *********************************************/
   // Balancer - Swaps
   allowErc20Approve(
-    [GYD, COMP, rETH, sDAI, USDC, USDT, WETH, wstETH],
+    [GHO, GYD, COMP, rETH, sDAI, USDC, USDT, WETH, wstETH],
     [contracts.mainnet.balancer.vault]
   ),
 
@@ -363,6 +364,34 @@ export default [
         "0xc2aa60465bffa1a88f5ba471a59ca0435c3ec5c100020000000000000000062c",
       assetIn: USDC,
       assetOut: GYD,
+    },
+    {
+      recipient: c.avatar,
+      sender: c.avatar,
+    }
+  ),
+
+  // Balancer - Swap GHO for GYD
+  allow.mainnet.balancer.vault.swap(
+    {
+      poolId:
+        "0xaa7a70070e7495fe86c67225329dbd39baa2f63b000200000000000000000663",
+      assetIn: GHO,
+      assetOut: GYD,
+    },
+    {
+      recipient: c.avatar,
+      sender: c.avatar,
+    }
+  ),
+
+  // Balancer - Swap GYD for GHO
+  allow.mainnet.balancer.vault.swap(
+    {
+      poolId:
+        "0xaa7a70070e7495fe86c67225329dbd39baa2f63b000200000000000000000663",
+      assetIn: GYD,
+      assetOut: GHO,
     },
     {
       recipient: c.avatar,
