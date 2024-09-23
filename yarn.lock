@@ -1736,9 +1736,9 @@ defer-to-connect@^2.0.0:
   integrity sha512-4tvttepXG1VaYGrRibk5EwJd1t4udunSOVMdLSAL6mId1ix438oPwPZMALY41FCijukO1L0twNcGsdzS7dHgDg==
 
 defi-kit@^1.10.1:
-  version "1.12.2"
-  resolved "https://registry.yarnpkg.com/defi-kit/-/defi-kit-1.12.2.tgz#164903fe04a802ee1d9bedb240f9bedd86713d3e"
-  integrity sha512-ysdJKdYyOuxrUMS+MrM9WnZ3BYDZE6VH2wYqzZqlvg5RacJxs8DAerGX7oM8Xo0R3XkyQBlvahhqDg55ZBuHSg==
+  version "1.12.6"
+  resolved "https://registry.yarnpkg.com/defi-kit/-/defi-kit-1.12.6.tgz#6405afdda60aa23d52faaa7166a5ad201d08852d"
+  integrity sha512-K16o4xE6Uqrrrxj1YiUtgfhdcYnYYAzz6kUt8fvfKPDwkpS13/F1Z/o9KET3v8G3Um3NrA9lR1yzzjApKkrCrw==
   dependencies:
     "@asteasolutions/zod-to-openapi" "^5.5.0"
     "@ethersproject/abi" "^5.7.0"
@@ -2929,11 +2929,11 @@ onetime@^5.1.0, onetime@^5.1.2:
     mimic-fn "^2.1.0"
 
 openapi3-ts@^4.1.2:
-  version "4.3.3"
-  resolved "https://registry.yarnpkg.com/openapi3-ts/-/openapi3-ts-4.3.3.tgz#de43a2f2fab912939495c169b92d81fe78a4ec10"
-  integrity sha512-LKkzBGJcZ6wdvkKGMoSvpK+0cbN5Xc3XuYkJskO+vjEQWJgs1kgtyUk0pjf8KwPuysv323Er62F5P17XQl96Qg==
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/openapi3-ts/-/openapi3-ts-4.4.0.tgz#eff29958e601deec24459ea811989a4fb59d4116"
+  integrity sha512-9asTNB9IkKEzWMcHmVZE7Ts3kC9G7AFHfs8i7caD8HbI76gEjdkId4z/AkP83xdZsH7PLAnnbl47qZkXuxpArw==
   dependencies:
-    yaml "^2.4.5"
+    yaml "^2.5.0"
 
 ora@^5.4.1:
   version "5.4.1"
@@ -3667,10 +3667,10 @@ yallist@^4.0.0:
   resolved "https://registry.yarnpkg.com/yallist/-/yallist-4.0.0.tgz#9bb92790d9c0effec63be73519e11a35019a3a72"
   integrity sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==
 
-yaml@^2.4.5:
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/yaml/-/yaml-2.5.0.tgz#c6165a721cf8000e91c36490a41d7be25176cf5d"
-  integrity sha512-2wWLbGbYDiSqqIKoPjar3MPgB94ErzCtrNE1FdqGuaO0pi2JGjmE8aW8TDZwzU7vuxcGRdL/4gPQwQ7hD5AMSw==
+yaml@^2.5.0:
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/yaml/-/yaml-2.5.1.tgz#c9772aacf62cb7494a95b0c4f1fb065b563db130"
+  integrity sha512-bLQOjaX/ADgQ20isPJRvF0iRUHIxVhYvr53Of7wGcWlO2jvtUlH5m87DsmulFVxRpNLOnI4tB6p/oh8D7kpn9Q==
 
 yargs-parser@^21.0.1, yargs-parser@^21.1.1:
   version "21.1.1"
