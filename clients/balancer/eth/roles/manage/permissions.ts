@@ -83,13 +83,7 @@ export default [
 
   // Cowswap - Swapping of DAI, GYD, sDAI, USDC, USDT
   allowAction.cowswap.swap({
-    sell: [
-      DAI,
-      GYD,
-      sDAI,
-      USDC,
-      USDT
-    ],
+    sell: [DAI, GYD, sDAI, USDC, USDT],
     buy: [DAI, GYD, sDAI, USDC, USDT],
     feeAmountBp: 200,
   }),
@@ -112,15 +106,8 @@ export default [
   allow.mainnet.compound_v3.CometRewards.claim(undefined, c.avatar),
 
   // Gyroscope - Staking/Unstaking GYD
-  allow.mainnet.gyroscope.sGYD.deposit(
-    undefined,
-    c.avatar
-  ),
-  allow.mainnet.gyroscope.sGYD.redeem(
-    undefined,
-    c.avatar,
-    c.avatar
-  ),
+  allow.mainnet.gyroscope.sGYD.deposit(undefined, c.avatar),
+  allow.mainnet.gyroscope.sGYD.redeem(undefined, c.avatar, c.avatar),
 
   // Maker - DSR (DAI Savings Rate)
   // The DsrManager provides an easy to use smart contract that allows
