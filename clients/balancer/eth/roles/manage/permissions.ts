@@ -179,7 +179,7 @@ export default [
   allow.mainnet.balancer.vault.swap(
     {
       poolId:
-        "0x93d199263632a4ef4bb438f1feb99e57b4b5f0bd0000000000000000000005c2", // WARNING!: 0x32296969ef14eb0c6d29669c550d4a0449130230000200000000000000000080
+        "0x93d199263632a4ef4bb438f1feb99e57b4b5f0bd0000000000000000000005c2",
       assetIn: wstETH,
       assetOut: WETH,
     },
@@ -193,7 +193,7 @@ export default [
   allow.mainnet.balancer.vault.swap(
     {
       poolId:
-        "0x93d199263632a4ef4bb438f1feb99e57b4b5f0bd0000000000000000000005c2", // WARNING!: 0x32296969ef14eb0c6d29669c550d4a0449130230000200000000000000000080
+        "0x93d199263632a4ef4bb438f1feb99e57b4b5f0bd0000000000000000000005c2",
       assetIn: WETH,
       assetOut: wstETH,
     },
