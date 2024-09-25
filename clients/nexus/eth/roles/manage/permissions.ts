@@ -119,6 +119,8 @@ export default [
   // Rocket Pool
   allowAction.rocket_pool.deposit(),
 
+  // Spark - DSR/sDAI
+  allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
   // Spark - ETH
   allowAction.spark.deposit({ targets: ["ETH"] }),
   // Spark - rETH
