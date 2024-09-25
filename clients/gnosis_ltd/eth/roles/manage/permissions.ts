@@ -3,6 +3,7 @@ import { allow } from "zodiac-roles-sdk/kit"
 import { allow as allowAction } from "defi-kit/eth"
 import { contracts } from "../../../../../eth-sdk/config"
 import {
+  AZUR,
   DAI,
   GRT,
   sDAI,
@@ -26,14 +27,6 @@ export default [
 
   // Lido
   allowAction.lido.deposit(),
-
-  /*********************************************
-   * Typed-presets permissions
-   *********************************************/
-  // Compound v3 - USDC
-  allowErc20Approve([USDC], [contracts.mainnet.compound_v3.cUSDCv3]),
-  allow.mainnet.compound_v3.cUSDCv3.supply(USDC),
-  allow.mainnet.compound_v3.cUSDCv3.withdraw(USDC),
 
   // CowSwap - DAI <> USDC
   allowAction.cowswap.swap({
@@ -60,13 +53,26 @@ export default [
     sell: [sDAI],
     buy: [USDT],
   }),
+
+  // Spark - DSR/sDAI
+  allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
+
+  /*********************************************
+   * Typed-presets permissions
+   *********************************************/
+  // Azuro - AZUR Staking and Unstaking
+  allowErc20Approve([AZUR], [contracts.mainnet.azuro.stAZUR]),
+  allow.mainnet.azuro.stAZUR.depositFor(c.avatar),
+  allow.mainnet.azuro.stAZUR.requestWithdrawal(),
+  allow.mainnet.azuro.stAZUR.withdrawTo(c.avatar),
+
+  // Compound v3 - USDC
+  allowErc20Approve([USDC], [contracts.mainnet.compound_v3.cUSDCv3]),
+  allow.mainnet.compound_v3.cUSDCv3.supply(USDC),
+  allow.mainnet.compound_v3.cUSDCv3.withdraw(USDC),
+
   // CowSwap - vCOW
   allow.mainnet.cowswap.vCOW.swapAll(),
-
-  // Spark - sDAI
-  allowErc20Approve([DAI], [contracts.mainnet.spark.sDAI]),
-  allow.mainnet.spark.sDAI.deposit(undefined, c.avatar),
-  allow.mainnet.spark.sDAI.redeem(undefined, c.avatar, c.avatar),
 
   // The Graph
   allowErc20Approve([GRT], [contracts.mainnet.the_graph.proxy]),
@@ -89,6 +95,7 @@ export default [
       )
     )
   ),
+  allow.mainnet.the_graph.proxy.undelegate(GRAPH_DELEGATEE),
   // Withdraw GRT
   // _newIndexer Re-delegate to indexer address if non-zero, withdraw if zero address
   allow.mainnet.the_graph.proxy.withdrawDelegated(
