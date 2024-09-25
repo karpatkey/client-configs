@@ -2,7 +2,14 @@ import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { allow as allowAction } from "defi-kit/eth"
 import { contracts } from "../../../../../eth-sdk/config"
-import { DAI, GRT, USDC, ZERO_ADDRESS } from "../../../../../eth-sdk/addresses"
+import {
+  DAI,
+  GRT,
+  sDAI,
+  USDC,
+  USDT,
+  ZERO_ADDRESS,
+} from "../../../../../eth-sdk/addresses"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
 
@@ -28,6 +35,31 @@ export default [
   allow.mainnet.compound_v3.cUSDCv3.supply(USDC),
   allow.mainnet.compound_v3.cUSDCv3.withdraw(USDC),
 
+  // CowSwap - DAI <> USDC
+  allowAction.cowswap.swap({
+    sell: [DAI],
+    buy: [USDC],
+  }),
+  // CowSwap - DAI <> USDT
+  allowAction.cowswap.swap({
+    sell: [DAI],
+    buy: [USDT],
+  }),
+  // CowSwap - USDC <> USDT
+  allowAction.cowswap.swap({
+    sell: [USDC],
+    buy: [USDT],
+  }),
+  // CowSwap - sDAI <> USDC
+  allowAction.cowswap.swap({
+    sell: [sDAI],
+    buy: [USDC],
+  }),
+  // CowSwap - sDAI <> USDT
+  allowAction.cowswap.swap({
+    sell: [sDAI],
+    buy: [USDT],
+  }),
   // CowSwap - vCOW
   allow.mainnet.cowswap.vCOW.swapAll(),
 
