@@ -82,10 +82,10 @@ export default [
     feeAmountBp: 200,
   }),
 
-  // Cowswap - Swapping of DAI, GYD, sDAI, USDC, USDT
+  // Cowswap - Swapping of DAI, GHO, GYD, sDAI, USDC, USDT
   allowAction.cowswap.swap({
-    sell: [DAI, GYD, sDAI, USDC, USDT],
-    buy: [DAI, GYD, sDAI, USDC, USDT],
+    sell: [DAI, GHO, GYD, sDAI, USDC, USDT],
+    buy: [DAI, GHO, GYD, sDAI, USDC, USDT],
     feeAmountBp: 200,
   }),
 
