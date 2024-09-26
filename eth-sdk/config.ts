@@ -49,6 +49,9 @@ export const contracts = {
     autonolas: {
       veolas: "0x7e01A500805f8A52Fad229b3015AD130A332B7b3",
     },
+    azuro: {
+      stAZUR: "0x67f3228fD58f5A26D93a5dd0c6989b69c95618eB",
+    },
     balancer: {
       vault: "0xBA12222222228d8Ba445958a75a0704d566BF2C8",
       relayer: "0xfeA793Aa415061C483D2390414275AD314B3F621",
