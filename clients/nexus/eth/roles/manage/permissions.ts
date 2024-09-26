@@ -62,6 +62,8 @@ export default [
   allowAction.aura.deposit({ targets: ["157"] }),
   // Aura - sDAI/3Pool
   allowAction.aura.deposit({ targets: ["186"] }),
+  // Aura - Gyroscope ECLP GHO/USDC 2
+  allowAction.aura.deposit({ targets: ["195"] }),
 
   // Balancer - wstETH/WETH
   allowAction.balancer.deposit({ targets: ["wstETH-WETH-BPT"] }),
@@ -78,7 +80,7 @@ export default [
   // Balancer - sDAI/3Pool
   allowAction.balancer.deposit({ targets: ["sDAI/3Pool"] }),
   allowAction.balancer.stake({ targets: ["sDAI/3Pool"] }),
-  // Balancer Gyroscope ECLP GHO/USDC 2
+  // Balancer - Gyroscope ECLP GHO/USDC 2
   allowAction.balancer.deposit({ targets: ["ECLP-GHO-USDC-2"] }),
   allowAction.balancer.stake({ targets: ["ECLP-GHO-USDC-2"] }),
 
@@ -239,8 +241,8 @@ export default [
     contracts.mainnet.curve.stake_deposit_zap
   ),
 
-  // Curve - osETH/rETH - steCRV
-  ...allowErc20Approve([osETH], [contracts.mainnet.curve.steth_eth_pool]),
+  // Curve - osETH/rETH
+  ...allowErc20Approve([osETH], [contracts.mainnet.curve.oseth_reth_pool]),
   ...allowErc20Approve([rETH], [contracts.mainnet.curve.oseth_reth_pool]),
 
   allow.mainnet.curve.oseth_reth_pool["add_liquidity(uint256[],uint256)"](),
