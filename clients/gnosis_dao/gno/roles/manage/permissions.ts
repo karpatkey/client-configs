@@ -34,9 +34,6 @@ export default [
   // Aave v3 - Deposit USDC.e
   allowAction.aave_v3.deposit({ targets: ["USDC.e"] }),
 
-
-
-
   /*********************************************
    * Typed-presets permissions
    *********************************************/
