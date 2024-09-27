@@ -2,11 +2,12 @@ import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { allow as allowAction } from "defi-kit/gno"
 import {
-  WXDAI,
+  COW,
+  GNO,
+  OLAS,
   sDAI,
-  USDC,
-  USDCe,
-  E_ADDRESS,
+  WETH,
+  wstETH,
 } from "../../../../../eth-sdk/addresses_gno"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
@@ -87,4 +88,35 @@ export default [
   /*********************************************
    * Typed-presets permissions
    *********************************************/
+  // Balancer - BCoW AMM WETH/GNO (Staking not available)
+  ...allowErc20Approve(
+    [GNO, WETH],
+    [contracts.gnosis.balancer.BCoW_AMM_50WETH_50GNO]
+  ),
+  allow.gnosis.balancer.BCoW_AMM_50WETH_50GNO.joinPool(),
+  allow.gnosis.balancer.BCoW_AMM_50WETH_50GNO.exitPool(),
+
+  // Balancer - BCoW AMM wstETH/sDAI (Staking not available)
+  ...allowErc20Approve(
+    [sDAI, wstETH],
+    [contracts.gnosis.balancer.BCoW_AMM_50wstETH_50sDAI]
+  ),
+  allow.gnosis.balancer.BCoW_AMM_50wstETH_50sDAI.joinPool(),
+  allow.gnosis.balancer.BCoW_AMM_50wstETH_50sDAI.exitPool(),
+
+  // Balancer - BCoW AMM GNO/OLAS (Staking not available)
+  ...allowErc20Approve(
+    [GNO, OLAS],
+    [contracts.gnosis.balancer.BCoW_AMM_50GNO_50OLAS]
+  ),
+  allow.gnosis.balancer.BCoW_AMM_50GNO_50OLAS.joinPool(),
+  allow.gnosis.balancer.BCoW_AMM_50GNO_50OLAS.exitPool(),
+
+  // Balancer - BCoW AMM GNO/COW (Staking not available)
+  ...allowErc20Approve(
+    [GNO, COW],
+    [contracts.gnosis.balancer.BCoW_AMM_50GNO_50COW]
+  ),
+  allow.gnosis.balancer.BCoW_AMM_50GNO_50COW.joinPool(),
+  allow.gnosis.balancer.BCoW_AMM_50GNO_50COW.exitPool(),
 ] satisfies PermissionList

@@ -21,6 +21,7 @@ export const MKR = "0x5fd896D248fbfa54d26855C267859eb1b4DAEe72" // Bridged
 export const nextUSDC = "0x44CF74238d840a5fEBB0eAa089D05b763B73faB8"
 export const nextWETH = "0x538E2dDbfDf476D24cCb1477A518A82C9EA81326"
 export const NODE = "0xc60e38C6352875c051B481Cbe79Dd0383AdB7817" // Bridged
+export const OLAS = "0xcE11e14225575945b8E6Dc0D4F2dD4C570f79d9f"
 export const PNK = "0x37b60f4E9A31A64cCc0024dce7D0fD07eAA0F7B3" // Bridged
 export const QI = "0xdFA46478F9e5EA86d57387849598dbFB2e964b02"
 export const RAI = "0xd7a28Aa9c470e7e9D8c676BCd5dd2f40c5683afa" // Bridged
