@@ -54,14 +54,14 @@ export default [
   allow.mainnet.balancer.BCoW_50WETH_50USDC_gauge["deposit(uint256)"](),
   allow.mainnet.balancer.vault.setRelayerApproval(
     c.avatar,
-    contracts.mainnet.balancer.relayer_v6
+    contracts.mainnet.balancer.relayer
   ),
   // gaugeClaimRewards() and gaugeWithdraw() added manually to the Relayer v6 ABI
   // from the RelayerLibrary: 0xeA66501dF1A00261E3bB79D1E90444fc6A186B62
-  allow.mainnet.balancer.relayer_v6.gaugeClaimRewards([
+  allow.mainnet.balancer.relayer.gaugeClaimRewards([
     contracts.mainnet.balancer.BCoW_50WETH_50USDC_gauge,
   ]),
-  allow.mainnet.balancer.relayer_v6.gaugeWithdraw(
+  allow.mainnet.balancer.relayer.gaugeWithdraw(
     contracts.mainnet.balancer.BCoW_50WETH_50USDC_gauge,
     c.avatar,
     c.avatar

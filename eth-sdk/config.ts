@@ -50,7 +50,7 @@ export const contracts = {
     },
     balancer: {
       vault: "0xBA12222222228d8Ba445958a75a0704d566BF2C8",
-      relayer: "0xfeA793Aa415061C483D2390414275AD314B3F621",
+      relayer: "0x35Cea9e57A393ac66Aaa7E25C391D52C74B5648f",
       gauge: "0x5C0F23A5c1be65Fa710d385814a7Fd1Bda480b1C",
       // B_stETH_stable_gauge: "0x5C0F23A5c1be65Fa710d385814a7Fd1Bda480b1C",
       // B_auraBAL_stable_gauge: "0x0312AA8D0BA4a1969Fddb382235870bF55f7f242",
@@ -68,7 +68,6 @@ export const contracts = {
       BCoW_50COW_50wstETH: "0x9bd702E05B9c97E4A4a3E47Df1e0fe7A0C26d2F1",
       BCoW_50WETH_50USDC: "0xf08D4dEa369C456d26a3168ff0024B904F2d8b91",
       BCoW_50WETH_50USDC_gauge: "0xF9423B78D784D610A00955E733dBa0bf9bda7B06",
-      relayer_v6: "0x35Cea9e57A393ac66Aaa7E25C391D52C74B5648f",
     },
     compound_v2: {
       comptroller: "0x3d9819210a31b4961b30ef54be2aed79b9c9cd3b",
