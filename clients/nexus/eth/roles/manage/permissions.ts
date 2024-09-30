@@ -276,10 +276,10 @@ export default [
 
   // Nexus Mutual
   // Deposit ETH in exchange for NXM; redeem NXM in exchange for ETH
-  ...allowErc20Approve([NXM], [contracts.mainnet.nexus.token_controller]),
   allow.mainnet.nexus.ramm.swap(undefined, undefined, undefined, {
     send: true,
   }),
+  ...allowErc20Approve([NXM], [contracts.mainnet.nexus.wNXM]),
   // Wrap NXM
   allow.mainnet.nexus.wNXM.wrap(),
   // Unwrap WNXM
@@ -288,6 +288,7 @@ export default [
   allow.mainnet.nexus.token_controller.withdrawNXM(),
   // Approval of NXM with the TokenController as spender was already included
   // TokenController manages the approvals for all pools
+  ...allowErc20Approve([NXM], [contracts.mainnet.nexus.token_controller]),
   // Allows users to deposit NXM into the pool, creating stake and rewards shares in return
   // Supports deposits to specific tranches and allows reusing the same nft for deposits in multiple tranches to an existing deposit
   ...nexus.pools.map((pool) => ({
