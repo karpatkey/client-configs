@@ -1735,7 +1735,7 @@ defer-to-connect@^2.0.0:
   resolved "https://registry.yarnpkg.com/defer-to-connect/-/defer-to-connect-2.0.1.tgz#8016bdb4143e4632b77a3449c6236277de520587"
   integrity sha512-4tvttepXG1VaYGrRibk5EwJd1t4udunSOVMdLSAL6mId1ix438oPwPZMALY41FCijukO1L0twNcGsdzS7dHgDg==
 
-defi-kit@^1.10.1:
+defi-kit@^1.10.1: 
   version "1.13.3"
   resolved "https://registry.yarnpkg.com/defi-kit/-/defi-kit-1.13.3.tgz#2da60f119512e205cd0893d35cea3c96cc3c9e4d"
   integrity sha512-L9qvQSthAufr8ZJHiSiqNJJqBzbyiWpEyDuBk5wpVTbqfvwyfiPvBrDI1XkYFI0jSaq9kb2wFf+7+zecV0C1xw==
