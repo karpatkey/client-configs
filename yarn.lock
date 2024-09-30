@@ -1736,15 +1736,15 @@ defer-to-connect@^2.0.0:
   integrity sha512-4tvttepXG1VaYGrRibk5EwJd1t4udunSOVMdLSAL6mId1ix438oPwPZMALY41FCijukO1L0twNcGsdzS7dHgDg==
 
 defi-kit@^1.10.1:
-  version "1.13.1"
-  resolved "https://registry.yarnpkg.com/defi-kit/-/defi-kit-1.13.1.tgz#dcadeb2d7d7d374d74bdf607fcbf3a633edaa3fe"
-  integrity sha512-uCkpTL9fNxpUHrXjhs+T3/7TRPo08gsRVH/NbORM4zx+4hBUtFfc74lMYbf/KhU6fOvSTWBT34FBTJgFqXRV7g==
+  version "1.13.3"
+  resolved "https://registry.yarnpkg.com/defi-kit/-/defi-kit-1.13.3.tgz#2da60f119512e205cd0893d35cea3c96cc3c9e4d"
+  integrity sha512-L9qvQSthAufr8ZJHiSiqNJJqBzbyiWpEyDuBk5wpVTbqfvwyfiPvBrDI1XkYFI0jSaq9kb2wFf+7+zecV0C1xw==
   dependencies:
     "@asteasolutions/zod-to-openapi" "^5.5.0"
     "@ethersproject/abi" "^5.7.0"
     ethers "^5.7.2"
     zod "^3.22.2"
-    zodiac-roles-sdk "^2.13.1"
+    zodiac-roles-sdk "2.13.0"
 
 delayed-stream@~1.0.0:
   version "1.0.0"
@@ -3715,7 +3715,7 @@ zodiac-roles-deployments@^2.2.5:
   resolved "https://registry.yarnpkg.com/zodiac-roles-deployments/-/zodiac-roles-deployments-2.2.5.tgz#4739e54b82d48212711c16c2c4d9b185ea4cf6fe"
   integrity sha512-fv09LzKoL996W0pY7T2Na2hE3v5VQPQGN7/UckL+aTyBZRAyjz4ZKHbdQDLUzQAzp7l+6PC4JB2WnpeDanC3Hg==
 
-zodiac-roles-sdk@2.13.0, zodiac-roles-sdk@^2.13.1:
+zodiac-roles-sdk@2.13.0:
   version "2.13.0"
   resolved "https://registry.yarnpkg.com/zodiac-roles-sdk/-/zodiac-roles-sdk-2.13.0.tgz#4d13e508258503637b5aff0cfba2c2a42d2795d1"
   integrity sha512-EMfgk2kOGdY9Dwa9Y48qxn7RIj1DJ9dKvfIzuhjY92I1kKMdr1yxWRI69vYfP+bLcbEBy24/3bCqR/tkqynRSw==
