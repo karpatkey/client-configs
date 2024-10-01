@@ -235,6 +235,13 @@ export const contracts = {
     agave: {
       SavingsXDaiAdapter: "0xD499b51fcFc66bd31248ef4b28d656d67E591A94",
     },
+    arrakis: {
+      permit2: "0x000000000022D473030F116dDEE9F6B43aC78BA3",
+      sign_message_lib: "0xd53cd0aB83D845Ac265BE939c57F53AD838012c9",
+      router: "0x6aC8Bab8B775a03b8B72B2940251432442f61B94",
+      WETH_sDAI_vault: "0x3889C8B1f064A1A576caB04D5767a00Bf2308bD4",
+      WETH_wstETH_vault: "0x35c089E2451633DF9684564ccCfE745aA5f3B465"
+    },
     balancer: {
       vault: "0xBA12222222228d8Ba445958a75a0704d566BF2C8",
       relayer: "0x2163c2FcD0940e84B8a68991bF926eDfB0Cd926C",
@@ -328,8 +335,8 @@ export const contracts = {
 
 export default defineConfig({
   etherscanURLs: {
-    //gnosis: "https://api.gnosisscan.io/api",
-    gnosis: "https://blockscout.com/xdai/mainnet/api",
+    gnosis: "https://api.gnosisscan.io/api",
+    // gnosis: "https://blockscout.com/xdai/mainnet/api",
     optimism: "https://api-optimistic.etherscan.io/api",
     arbitrumOne: "https://api.arbiscan.io/api",
     base: "https://api.basescan.org/api",

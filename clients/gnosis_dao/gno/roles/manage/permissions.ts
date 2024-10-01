@@ -85,6 +85,23 @@ export default [
   allowAction.balancer.deposit({ targets: ["WXDAI-GNO"] }),
   allowAction.balancer.stake({ targets: ["WXDAI-GNO"] }),
 
+  // Spark - GNO
+  allowAction.spark.deposit({ targets: ["GNO"] }),
+  // Spark - XDAI
+  allowAction.spark.deposit({ targets: ["XDAI"] }),
+  // Spark - WXDAI
+  allowAction.spark.deposit({ targets: ["WXDAI"] }),
+  // Spark - WETH
+  allowAction.spark.deposit({ targets: ["WETH"] }),
+  // Spark - USDC.e
+  allowAction.spark.deposit({ targets: ["USDC.e"] }),
+  // Spark - EURe
+  allowAction.spark.deposit({ targets: ["EURe"] }),
+  // Spark - USDT
+  allowAction.spark.deposit({ targets: ["USDT"] }),
+  // Spark - USDC
+  allowAction.spark.deposit({ targets: ["USDC"] }),
+
   /*********************************************
    * Typed-presets permissions
    *********************************************/
