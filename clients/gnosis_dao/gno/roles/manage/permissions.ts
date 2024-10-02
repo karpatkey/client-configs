@@ -13,6 +13,7 @@ import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
 import { avatar } from "../../index"
+import { ZERO_ADDRESS } from "../../../../../eth-sdk/addresses"
 
 export default [
   /*********************************************
@@ -105,6 +106,24 @@ export default [
   /*********************************************
    * Typed-presets permissions
    *********************************************/
+  // Arrakis - WETH/sDAI
+  ...allowErc20Approve([WETH, sDAI], [contracts.gnosis.arrakis.permit2]),
+  allow.gnosis.arrakis.sign_message_lib.signMessage(undefined, {
+    delegatecall: true,
+  }),
+  allow.gnosis.arrakis.router.addLiquidityPermit2({
+    addData: {
+      vault: contracts.gnosis.arrakis.WETH_sDAI_vault,
+      receiver: c.avatar,
+      gauge: ZERO_ADDRESS,
+    },
+    permit: {
+      permitted: c.every({
+        token: c.or(WETH, sDAI),
+      }),
+    },
+  }),
+
   // Balancer - BCoW AMM WETH/GNO (Staking not available)
   ...allowErc20Approve(
     [GNO, WETH],
