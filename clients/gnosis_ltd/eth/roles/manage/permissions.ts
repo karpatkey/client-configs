@@ -15,6 +15,7 @@ import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
 
 const GRAPH_DELEGATEE = "0x5A8904be09625965d9AEc4BFfD30D853438a053e"
+const GNOSIS_LTD_ARB = "0x5B6e1AcD8494092C166b390C17f09694B9dDb42C"
 
 export default [
   /*********************************************
@@ -90,4 +91,10 @@ export default [
     GRAPH_DELEGATEE,
     ZERO_ADDRESS
   ),
+
+  /*********************************************
+   * Bridge
+   *********************************************/
+  allowErc20Approve([GRT], [contracts.mainnet.the_graph.proxy]),
+  allow.mainnet.arb_l1_gateway_router.outboundTransfer(GRT, GNOSIS_LTD_ARB),
 ] satisfies PermissionList
