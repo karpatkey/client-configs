@@ -202,7 +202,7 @@ export const contracts = {
       route_processor_3_2: "0x5550D13389bB70F45fCeF58f19f6b6e87F6e747d",
     },
     the_graph: {
-      proxy: "0xF55041E37E12cD407ad00CE2910B8269B01263b9",
+      staking: "0xF55041E37E12cD407ad00CE2910B8269B01263b9",
     },
     uniswap_v3: {
       positions_nft: "0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
