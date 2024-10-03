@@ -8,6 +8,7 @@ import {
   sDAI,
   WETH,
   wstETH,
+  WXDAI,
 } from "../../../../../eth-sdk/addresses_gno"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
@@ -123,6 +124,58 @@ export default [
       }),
     },
   }),
+  ...allowErc20Approve(
+    [contracts.gnosis.arrakis.WETH_sDAI_vault],
+    [contracts.gnosis.arrakis.permit2]
+  ),
+  // signMessage() already included
+  allow.gnosis.arrakis.router.removeLiquidityPermit2({
+    removeData: {
+      vault: contracts.gnosis.arrakis.WETH_sDAI_vault,
+      receiver: c.avatar,
+      gauge: ZERO_ADDRESS,
+    },
+    permit: {
+      permitted: {
+        token: contracts.gnosis.arrakis.WETH_sDAI_vault,
+      },
+    },
+  }),
+
+  // Arrakis - WETH/wstETH
+  ...allowErc20Approve([WETH, wstETH], [contracts.gnosis.arrakis.permit2]),
+  allow.gnosis.arrakis.sign_message_lib.signMessage(undefined, {
+    delegatecall: true,
+  }),
+  allow.gnosis.arrakis.router.addLiquidityPermit2({
+    addData: {
+      vault: contracts.gnosis.arrakis.WETH_wstETH_vault,
+      receiver: c.avatar,
+      gauge: ZERO_ADDRESS,
+    },
+    permit: {
+      permitted: c.every({
+        token: c.or(WETH, wstETH),
+      }),
+    },
+  }),
+  ...allowErc20Approve(
+    [contracts.gnosis.arrakis.WETH_wstETH_vault],
+    [contracts.gnosis.arrakis.permit2]
+  ),
+  // signMessage() already included
+  allow.gnosis.arrakis.router.removeLiquidityPermit2({
+    removeData: {
+      vault: contracts.gnosis.arrakis.WETH_wstETH_vault,
+      receiver: c.avatar,
+      gauge: ZERO_ADDRESS,
+    },
+    permit: {
+      permitted: {
+        token: contracts.gnosis.arrakis.WETH_wstETH_vault,
+      },
+    },
+  }),
 
   // Balancer - BCoW AMM WETH/GNO (Staking not available)
   ...allowErc20Approve(
@@ -155,4 +208,36 @@ export default [
   ),
   allow.gnosis.balancer.BCoW_AMM_50GNO_50COW.joinPool(),
   allow.gnosis.balancer.BCoW_AMM_50GNO_50COW.exitPool(),
+
+  // Hyperdrive - wstETH
+  ...allowErc20Approve([wstETH], [contracts.gnosis.hyperdrive.wstETH_lp]),
+  allow.gnosis.hyperdrive.wstETH_lp.addLiquidity(
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    {
+      destination: c.avatar,
+    }
+  ),
+  allow.gnosis.hyperdrive.wstETH_lp.removeLiquidity(undefined, undefined, {
+    destination: c.avatar,
+  }),
+  // Hyperdrive - WXDAI/sDAI
+  ...allowErc20Approve(
+    [WXDAI, sDAI],
+    [contracts.gnosis.hyperdrive.WXDAI_sDAI_lp]
+  ),
+  allow.gnosis.hyperdrive.WXDAI_sDAI_lp.addLiquidity(
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    {
+      destination: c.avatar,
+    }
+  ),
+  allow.gnosis.hyperdrive.WXDAI_sDAI_lp.removeLiquidity(undefined, undefined, {
+    destination: c.avatar,
+  }),
 ] satisfies PermissionList

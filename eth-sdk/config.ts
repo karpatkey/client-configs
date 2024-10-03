@@ -262,6 +262,10 @@ export const contracts = {
     curve: {
       x3CRV_pool: "0x7f90122BF0700F9E7e1F688fe926940E8839F353",
     },
+    hyperdrive: {
+      wstETH_lp: "0x2f840f1575EE77adAa43415Ac5953F7Db9F8C6ba",
+      WXDAI_sDAI_lp: "0xEe9BFf933aDD313C4289E98dA80fEfbF9d5Cd9Ba",
+    },
     spark: {
       sparkLendingPoolV3: "0x2Dae5307c5E3FD1CF5A72Cb6F698f915860607e0",
       wrappedTokenGatewayV3: "0xBD7D6a9ad7865463DE44B05F04559f65e3B11704",
