@@ -81,7 +81,9 @@ export default [
   // you can get the implementation where the undelegate() is:
   // 0xA479c00cDa8C07bce458D7a826C7b091672EB92C
   allow.mainnet.the_graph.staking.undelegate(GRAPH_DELEGATEE),
-  allow.mainnet.the_graph.staking.unlockDelegationToTransferredIndexer(GRAPH_DELEGATEE),
+  allow.mainnet.the_graph.staking.unlockDelegationToTransferredIndexer(
+    GRAPH_DELEGATEE
+  ),
   // Withdraw GRT
   // _newIndexer Re-delegate to indexer address if non-zero, withdraw if zero address
   allow.mainnet.the_graph.staking.withdrawDelegated(
