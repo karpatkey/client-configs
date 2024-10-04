@@ -16,6 +16,9 @@
     "check:prettier": "prettier '**/*.{js,ts,tsx,json,md}' --list-different",
     "fix:prettier": "yarn prettier '**/*.{js,ts,tsx,json,md}' --write"
   },
+  "resolutions": {
+    "zodiac-roles-sdk": "2.13.0"
+  },
   "dependencies": {
     "@dethcrypto/eth-sdk": "^0.3.4",
     "@dethcrypto/eth-sdk-client": "^0.1.6",
