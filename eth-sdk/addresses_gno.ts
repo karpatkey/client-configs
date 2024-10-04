@@ -47,7 +47,6 @@ export const wstETH = "0x6C76971f98945AE98dD7d4DFcA8711ebea946eA6"
 export const WXDAI = "0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d"
 export const x3CRV = "0x1337BedC9D22ecbe766dF105c9623922A27963EC"
 
-
 export const curve = {
   crvEUReUSD: "0x0CA1C1eC4EBf3CC67a9f545fF90a3795b318cA4a" as Address,
 }
