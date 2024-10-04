@@ -10,7 +10,10 @@ export const contracts = {
     aave_v3: {
       pool_v3: "0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2",
       wrapped_token_gateway_v3: "0x893411580e590D62dDBca8a703d61Cc4A8c7b2b9",
+      wrapped_token_gateway_lido_v3:
+        "0x702B6770A81f75964cA5D479F369eFB31dfa7C32",
       pool_lido: "0x4e033931ad43597d96D6bcc25c280717730B58B1",
+      aEthWETH: "0x4d5F47FA6A74757f35C14fD3a6Ef8E3C9BC514E8",
     },
     across_v2: {
       hub_pool_v2: "0xc186fA914353c44b2E33eBE05f21846F1048bEda",
@@ -69,6 +72,7 @@ export const contracts = {
       BAL_minter: "0x239e55f427d44c3cc793f49bfb507ebe76638a2b",
       fee_distributor: "0xD3cf852898b21fc233251427c2DC93d3d604F3BB",
       veBAL: "0xC128a9954e6c874eA3d62ce62B468bA073093F25",
+      BCoW_50wNXM_50WETH: "0x7c838b3Ed3C15a5d5032e809B8714f0aE5e9A821",
     },
     compound_v2: {
       comptroller: "0x3d9819210a31b4961b30ef54be2aed79b9c9cd3b",
@@ -79,6 +83,7 @@ export const contracts = {
     },
     compound_v3: {
       cUSDCv3: "0xc3d688B66703497DAA19211EEdff47f25384cdc3",
+      cUSDTv3: "0x3Afdc9BCA9213A35503b077a6072F3D0d5AB0840",
       cWETHv3: "0xA17581A9E3356d9A858b789D68B4d866e593aE94",
       MainnetBulker: "0xa397a8C2086C554B531c02E29f3291c9704B00c7",
       CometRewards: "0x1b0e765f6224c21223aea2af16c1c46e38885a40",
@@ -106,6 +111,8 @@ export const contracts = {
       stake_deposit_zap: "0x56C526b0159a258887e0d79ec3a80dfb940d0cD7",
       steth_eth_pool: "0xDC24316b9AE028F1497c275EB9192a3Ea0f67022",
       steth_eth_gauge: "0x182B723a58739a9c974cFDB385ceaDb237453c28",
+      oseth_reth_pool: "0xe080027Bd47353b5D1639772b4a75E9Ed3658A0d",
+      oseth_reth_gauge: "0x63037a4e3305d25D48BAED2022b8462b2807351c",
       cDAIcUSDC_pool: "0xA2B47E3D5c44877cca798226B7B8118F9BFb7A56",
       cDAIcUSDC_gauge: "0x7ca5b0a2910B33e9759DC7dDB0413949071D7575",
       cDAIcUSDC_zap: "0xeB21209ae4C2c9FF2a86ACA31E123764A3B6Bc06",
@@ -148,6 +155,12 @@ export const contracts = {
     },
     mstable_v2: {
       stkMTA: "0x8f2326316eC696F6d023E37A9931c2b2C177a3D7",
+    },
+    nexus: {
+      wNXM: "0x0d438F3b5175Bebc262bF23753C1E53d03432bDE",
+      ramm: "0xcafea54f03E1Cc036653444e581A10a43B2487CD",
+      staking_pool: "0xF3745f76C137738b0371a820A098fC678672660a", // Pool #2 (used as a general case)
+      token_controller: "0x5407381b6c251cFd498ccD4A1d877739CB7960B8",
     },
     notional: {
       nProxy: "0x1344A36A1B56144C3Bc62E7757377D288fDE0369",
