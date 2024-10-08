@@ -26,5 +26,5 @@ export enum Chain {
   oeth = "oeth",
   gno = "gno",
   base = "base",
-  arb1 = "arb1"
+  arb1 = "arb1",
 }

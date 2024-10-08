@@ -4,7 +4,11 @@ import { allow as allowActionArb } from "defi-kit/arb1"
 import { PermissionList, Chain } from "../../types"
 import { Address } from "@dethcrypto/eth-sdk"
 
-export const cowswap__swap = (sell: Address, buy: Address, chain: Chain): PermissionList => {
+export const cowswap__swap = (
+  sell: Address,
+  buy: Address,
+  chain: Chain
+): PermissionList => {
   switch (chain) {
     case Chain.eth:
       return [allowActionEth.cowswap.swap({ sell: [sell], buy: [buy] })]
