@@ -6,10 +6,12 @@ export interface Role {
   members: `0x${string}`[]
 }
 
+export type ChainId = 1 | 10 | 100 | 8453 | 42161
+
 export interface Client {
   avatar: `0x${string}`
   rolesMod: `0x${string}`
-  chainId: 1 | 10 | 100 | 8453 | 42161
+  chainId: ChainId
   roles: {
     [key: string]: Role
   }

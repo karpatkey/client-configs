@@ -1,9 +1,8 @@
-import { c } from "zodiac-roles-sdk"
+import { c, PermissionSet } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { PermissionList } from "../../types"
 import { Address } from "@dethcrypto/eth-sdk"
 
-export const aura__withdraw = (rewarder: Address): PermissionList => {
+export const aura__withdraw = (rewarder: Address): PermissionSet => {
   return [
     // It doesn't matter the blockchain we use, since we are overwriting
     // the address of the rewarder (abis are the same indistinctively of the blockchain)
@@ -17,7 +16,7 @@ export const aura__withdraw = (rewarder: Address): PermissionList => {
 export const aura__withdraw_balancer = (
   rewarder: Address,
   balancerPoolId: string
-): PermissionList => {
+): PermissionSet => {
   return [
     // It doesn't matter the blockchain we use, since we are overwriting
     // the address of the rewarder (abis are the same indistinctively of the blockchain)

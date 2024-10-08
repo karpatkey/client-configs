@@ -1,10 +1,9 @@
-import { c } from "zodiac-roles-sdk"
+import { c, PermissionSet } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { contracts } from "../../eth-sdk/config"
-import { PermissionList } from "../../types"
 import { allowErc20Approve } from "../../utils/erc20"
 
-export const lido__unstake_stETH = (): PermissionList => {
+export const lido__unstake_stETH = (): PermissionSet => {
   return [
     ...allowErc20Approve(
       [contracts.mainnet.lido.stETH],
@@ -21,7 +20,7 @@ export const lido__unstake_stETH = (): PermissionList => {
   ]
 }
 
-export const lidoExitStrategy2 = (): PermissionList => {
+export const lido__unwrap_and_unstake_wstETH = (): PermissionSet => {
   return [
     ...allowErc20Approve(
       [contracts.mainnet.lido.wstETH],
