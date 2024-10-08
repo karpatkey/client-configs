@@ -1,7 +1,7 @@
 import { c, PermissionSet } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { Address } from "@dethcrypto/eth-sdk"
-import { sdks } from '../sdks'
+import { sdks } from "../sdks"
 import { ChainId } from "../../types"
 import { ethers } from "ethers"
 import { providers } from "../providers"
@@ -17,7 +17,6 @@ export const balancer__unstake_withdraw = async (
   chainId: ChainId,
   gauge: Address
 ): Promise<PermissionSet> => {
-
   const sdk = sdks[chainId]
   const provider = providers[chainId]
 
