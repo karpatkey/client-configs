@@ -132,6 +132,9 @@ export const contracts = {
       deposit_wrapper_2: "0x65BbAD6545B7ac9C30Fb0f07e64e25106Bf05eEc",
       Diva_stETH_Vault: "0x648B8d2340842a7040680915c4dAb89382eeEDA9",
     },
+    gyroscope: {
+      sGYD: "0xeA50f402653c41cAdbaFD1f788341dB7B7F37816",
+    },
     idle: {
       stEthCdo: "0x34dCd573C5dE4672C8248cd12A99f875Ca112Ad8",
       wstEthAaGauge: "0x675eC042325535F6e176638Dd2d4994F645502B9",
