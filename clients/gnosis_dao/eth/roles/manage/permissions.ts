@@ -73,13 +73,13 @@ export default [
 
   // CowSwap - DAI <> USDT
   allowAction.cowswap.swap({
-    sell: [DAI],
-    buy: [USDT],
+    sell: [DAI, USDT],
+    buy: [DAI, USDT],
   }),
   // CowSwap - USDC <> USDT
   allowAction.cowswap.swap({
-    sell: [USDC],
-    buy: [USDT],
+    sell: [USDC, USDT],
+    buy: [USDC, USDT],
   }),
   // CowSwap - wstETH -> stETH
   allowAction.cowswap.swap({
@@ -88,18 +88,18 @@ export default [
   }),
   // CowSwap - osETH <> WETH
   allowAction.cowswap.swap({
-    sell: [osETH],
-    buy: [WETH],
+    sell: [osETH, WETH],
+    buy: [osETH, WETH],
   }),
   // CowSwap - rETH <> WETH
   allowAction.cowswap.swap({
-    sell: [rETH],
-    buy: [WETH],
+    sell: [rETH, WETH],
+    buy: [rETH, WETH],
   }),
   // CowSwap - GHO <> USDC
   allowAction.cowswap.swap({
-    sell: [GHO],
-    buy: [USDC],
+    sell: [GHO, USDC],
+    buy: [GHO, USDC],
   }),
 
   // Lido
