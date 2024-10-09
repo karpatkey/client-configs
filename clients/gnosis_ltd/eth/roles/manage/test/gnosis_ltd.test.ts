@@ -14,7 +14,6 @@ import { ZERO_ADDRESS, ENS, WETH } from "../../../../../../eth-sdk/addresses"
 
 describe("GnosisLTD", () => {
   beforeAll(async () => {
-    // fresh role with ENS manage permissions
     await revertToBase()
     await applyPermissions(permissions)
 
@@ -24,7 +23,7 @@ describe("GnosisLTD", () => {
   describe("lido", () => {
     it("deposit", async () => {
       await expect(
-        testKit.eth.lido.stETH.callStatic.submit(ZERO_ADDRESS, {
+        testKit.eth.lido.stETH.submit(ZERO_ADDRESS, {
           value: parseEther("1"),
         })
       ).not.toRevert()

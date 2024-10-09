@@ -222,7 +222,8 @@ export const contracts = {
       route_processor_3_2: "0x5550D13389bB70F45fCeF58f19f6b6e87F6e747d",
     },
     the_graph: {
-      proxy: "0xF55041E37E12cD407ad00CE2910B8269B01263b9",
+      staking: "0xF55041E37E12cD407ad00CE2910B8269B01263b9",
+      proxy: "0x01cDC91B0A9bA741903aA3699BF4CE31d6C5cC06",
     },
     uniswap_v2: {
       router_2: "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D",
@@ -247,6 +248,7 @@ export const contracts = {
     l1_hop_cctp: "0x7e77461CA2a9d82d26FD5e0Da2243BF72eA45747",
     hop_dai_bridge: "0x3d4Cc8A61c7528Fd86C55cfe061a78dCBA48EDd1",
     connext_bridge: "0x8898B472C54c31894e3B9bb83cEA802a5d0e63C6",
+    arb_l1_gateway_router: "0x72Ce9c846789fdB6fC1f34aC4AD25Dd9ef7031ef",
   },
   gnosis: {
     aave_v3: {
