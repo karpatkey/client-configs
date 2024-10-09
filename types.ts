@@ -1,7 +1,7 @@
 import type { Permission, PermissionSet } from "zodiac-roles-sdk"
 
 export interface Role {
-  roleKey: `0x${string}`
+  roleKey: string
   permissions: (Permission | PermissionSet | Promise<PermissionSet>)[]
   members: `0x${string}`[]
 }

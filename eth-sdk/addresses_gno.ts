@@ -33,6 +33,7 @@ export const SWPR = "0x532801ED6f82FFfD2DAB70A19fC2d7B2772C4f4b" // Bridged
 export const SYMM = "0xC45b3C1c24d5F54E7a2cF288ac668c74Dd507a84" // Bridged
 export const UNCX = "0x0116e28B43A358162B96f70B4De14C98A4465f25" // Bridged
 export const USDC = "0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83" // Bridged
+export const USDCe = "0x2a22f9c3b484c3629090feed35f17ff8f88f76f0"
 export const USDP = "0xFe7ed09C4956f7cdb54eC4ffCB9818Db2D7025b8" // Bridged
 export const USDT = "0x4ECaBa5870353805a9F068101A40E0f32ed605C6" // Bridged
 export const WATER = "0x4291F029B9e7acb02D49428458cf6fceAC545f81"
