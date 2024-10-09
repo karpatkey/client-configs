@@ -341,6 +341,10 @@ export const nexus = {
 //   ROUTE_PROCESSOR_3_2: "0x5550D13389bB70F45fCeF58f19f6b6e87F6e747d",
 // }
 
+export const uniswap_v2 = {
+  LP_SAFE_ETH: "0xC36442b4a4522E871399CD717aBDD847Ab11FE88" as Address,
+}
+
 // export const uniswap_v3 = {
 //   POSITIONS_NFT: "0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
 //   ROUTER_2: "0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45",
