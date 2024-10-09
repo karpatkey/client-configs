@@ -24,9 +24,9 @@ export type PermissionList = (
 )[]
 
 export enum Chain {
-  eth = "eth",
-  oeth = "oeth",
-  gno = "gno",
-  base = "base",
-  arb1 = "arb1",
+  eth = 1,
+  oeth = 10,
+  gno = 100,
+  base = 8453,
+  arb1 = 42161,
 }

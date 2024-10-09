@@ -2,7 +2,7 @@ import { c, PermissionSet } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { Address } from "@dethcrypto/eth-sdk"
 import { sdks } from "../sdks"
-import { ChainId } from "../../types"
+import { Chain } from "../../types"
 // import { ethers } from "ethers"
 // import { providers } from "../providers"
 
@@ -14,16 +14,16 @@ export const balancer__withdraw = (balancerPoolId: string): PermissionSet => {
 }
 
 export const balancer__unstake_withdraw = async (
-  chainId: ChainId,
+  chain: Chain,
   gauge: Address
 ): Promise<PermissionSet> => {
-  const sdk = sdks[chainId]
+  const sdk = sdks[chain]
 
   const bpt = await sdk.balancer.gauge.attach(gauge).lp_token()
   const balancerPoolId = await sdk.balancer.bpt.attach(bpt).getPoolId()
 
   // Another way to do the same without the attach()
-  // const provider = providers[chainId]
+  // const provider = providers[chain]
 
   // const gaugeContract = new ethers.Contract(
   //   gauge,
