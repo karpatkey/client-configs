@@ -9,18 +9,18 @@ import {
   OLAS,
   sDAI,
   USDC,
+  USDCe,
   USDT,
   WETH,
   wstETH,
   WXDAI,
   x3CRV,
+  ZERO_ADDRESS,
   curve,
 } from "../../../../../eth-sdk/addresses_gno"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
-import { avatar } from "../../index"
-import { ZERO_ADDRESS } from "../../../../../eth-sdk/addresses"
 
 export default [
   /*********************************************
@@ -92,6 +92,52 @@ export default [
   // Balancer - WXDAI/GNO
   allowAction.balancer.deposit({ targets: ["WXDAI-GNO"] }),
   allowAction.balancer.stake({ targets: ["WXDAI-GNO"] }),
+
+  // CowSwap - XDAI -> EURe/USDC.e/USDT
+  allowAction.cowswap.swap({
+    sell: ["XDAI"],
+    buy: [EURe, USDCe, USDT],
+  }),
+  // CowSwap - XDAI <- EURe/USDC.e/USDT
+  allowAction.cowswap.swap({
+    sell: [EURe, USDCe, USDT],
+    buy: ["XDAI"],
+  }),
+
+  // CowSwap - WXDAI -> EURe/USDC.e/USDT
+  allowAction.cowswap.swap({
+    sell: [WXDAI],
+    buy: [EURe, USDCe, USDT],
+  }),
+  // CowSwap - WXDAI <- EURe/USDC.e/USDT
+  allowAction.cowswap.swap({
+    sell: [EURe, USDCe, USDT],
+    buy: [WXDAI],
+  }),
+
+  // CowSwap - USDC.e <-> USDT
+  allowAction.cowswap.swap({
+    sell: [USDCe, USDT],
+    buy: [USDCe, USDT],
+  }),
+
+  // CowSwap - USDC <-> USDC.e
+  allowAction.cowswap.swap({
+    sell: [USDC, USDCe],
+    buy: [USDC, USDCe],
+  }),
+
+  // CowSwap - EURe <-> USDC.e
+  allowAction.cowswap.swap({
+    sell: [EURe, USDCe],
+    buy: [EURe, USDCe],
+  }),
+
+  // CowSwap - EURe <-> USDT
+  allowAction.cowswap.swap({
+    sell: [EURe, USDT],
+    buy: [EURe, USDT],
+  }),
 
   // Spark - DSR/sDAI
   allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
