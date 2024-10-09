@@ -6,6 +6,7 @@ export const contracts = {
       lending_pool: "0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9",
       aave: "0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9",
       stkAave: "0x4da27a545c0c5B758a6BA100e3a049001de870f5",
+      gho: "0x40D16FC0246aD3160Ccc09B8D0D3A2cD28aE6C2f",
     },
     aave_v3: {
       pool_v3: "0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2",
@@ -73,6 +74,9 @@ export const contracts = {
       BAL_minter: "0x239e55f427d44c3cc793f49bfb507ebe76638a2b",
       fee_distributor: "0xD3cf852898b21fc233251427c2DC93d3d604F3BB",
       veBAL: "0xC128a9954e6c874eA3d62ce62B468bA073093F25",
+      BCoW_50COW_50wstETH: "0x9bd702E05B9c97E4A4a3E47Df1e0fe7A0C26d2F1",
+      BCoW_50WETH_50USDC: "0xf08D4dEa369C456d26a3168ff0024B904F2d8b91",
+      BCoW_50WETH_50USDC_gauge: "0xF9423B78D784D610A00955E733dBa0bf9bda7B06",
       BCoW_50wNXM_50WETH: "0x7c838b3Ed3C15a5d5032e809B8714f0aE5e9A821",
     },
     compound_v2: {
@@ -128,6 +132,9 @@ export const contracts = {
     enzyme: {
       deposit_wrapper_2: "0x65BbAD6545B7ac9C30Fb0f07e64e25106Bf05eEc",
       Diva_stETH_Vault: "0x648B8d2340842a7040680915c4dAb89382eeEDA9",
+    },
+    gyroscope: {
+      sGYD: "0xeA50f402653c41cAdbaFD1f788341dB7B7F37816",
     },
     idle: {
       stEthCdo: "0x34dCd573C5dE4672C8248cd12A99f875Ca112Ad8",
@@ -216,7 +223,11 @@ export const contracts = {
       route_processor_3_2: "0x5550D13389bB70F45fCeF58f19f6b6e87F6e747d",
     },
     the_graph: {
-      proxy: "0xF55041E37E12cD407ad00CE2910B8269B01263b9",
+      staking: "0xF55041E37E12cD407ad00CE2910B8269B01263b9",
+      proxy: "0x01cDC91B0A9bA741903aA3699BF4CE31d6C5cC06",
+    },
+    uniswap_v2: {
+      router_2: "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D",
     },
     uniswap_v3: {
       positions_nft: "0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
@@ -238,6 +249,7 @@ export const contracts = {
     l1_hop_cctp: "0x7e77461CA2a9d82d26FD5e0Da2243BF72eA45747",
     hop_dai_bridge: "0x3d4Cc8A61c7528Fd86C55cfe061a78dCBA48EDd1",
     connext_bridge: "0x8898B472C54c31894e3B9bb83cEA802a5d0e63C6",
+    arb_l1_gateway_router: "0x72Ce9c846789fdB6fC1f34aC4AD25Dd9ef7031ef",
   },
   gnosis: {
     aave_v3: {
