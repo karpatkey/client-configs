@@ -92,6 +92,9 @@ export default [
   // Balancer - WXDAI/GNO
   allowAction.balancer.deposit({ targets: ["WXDAI-GNO"] }),
   allowAction.balancer.stake({ targets: ["WXDAI-GNO"] }),
+  // Balancer - EURe/sDAI
+  allowAction.balancer.deposit({ targets: ["EURe/sDAI"] }),
+  allowAction.balancer.stake({ targets: ["EURe/sDAI"] }),
 
   // CowSwap - XDAI -> EURe/USDC.e/USDT
   allowAction.cowswap.swap({
