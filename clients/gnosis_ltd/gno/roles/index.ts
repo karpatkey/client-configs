@@ -1,1 +1,1 @@
-export * as disassemble from "./disassemble"
+export * as manage from "./manage"

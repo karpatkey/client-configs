@@ -23,7 +23,7 @@ import { PermissionList } from "../../../../../types"
 
 export default [
   /*********************************************
-   * Defi-Kit permissions
+   * DeFi-Kit permissions
    *********************************************/
   // Aave v2 - Staking of AAVE and GHO in Safety Module
   allowAction.aave_v2.stake({ targets: ["AAVE", "GHO"] }),

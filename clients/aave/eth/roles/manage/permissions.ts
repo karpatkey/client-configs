@@ -7,7 +7,7 @@ const aave_collector = "0x464C71f6c2F760DdA6093dCB91C24c39e5d6e18c"
 
 export default [
   /*********************************************
-   * Defi-Kit permissions
+   * DeFi-Kit permissions
    *********************************************/
   // CowSwap - Swap GHO <-> stkGHO
   allowAction.cowswap.swap({

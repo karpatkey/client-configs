@@ -24,7 +24,7 @@ import { PermissionList } from "../../../../../types"
 
 export default [
   /*********************************************
-   * Defi-Kit permissions
+   * DeFi-Kit permissions
    *********************************************/
   // Aave v3 - Deposit XDAI
   allowAction.aave_v3.deposit({ targets: ["XDAI"] }),

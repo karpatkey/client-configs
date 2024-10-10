@@ -14,7 +14,7 @@ import { avatar } from "../../index"
 
 export default [
   /*********************************************
-   * Defi-Kit permissions
+   * DeFi-Kit permissions
    *********************************************/
   // CowSwap - Holdings swaps
   allowAction.cowswap.swap({
