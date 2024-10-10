@@ -122,19 +122,6 @@
   {
     "inputs": [
       {
-        "internalType": "contract IStakingLiquidityGauge[]",
-        "name": "gauges",
-        "type": "address[]"
-      }
-    ],
-    "name": "gaugeClaimRewards",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "contract IStakingLiquidityGauge",
         "name": "gauge",
         "type": "address"
@@ -156,6 +143,37 @@
       }
     ],
     "name": "gaugeWithdraw",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract IStakingLiquidityGauge[]",
+        "name": "gauges",
+        "type": "address[]"
+      }
+    ],
+    "name": "gaugeClaimRewards",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address[]",
+        "name": "gauges",
+        "type": "address[]"
+      },
+      {
+        "internalType": "uint256",
+        "name": "outputReference",
+        "type": "uint256"
+      }
+    ],
+    "name": "gaugeMint",
     "outputs": [],
     "stateMutability": "payable",
     "type": "function"

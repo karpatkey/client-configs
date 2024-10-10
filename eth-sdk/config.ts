@@ -60,6 +60,7 @@ export const contracts = {
       vault: "0xBA12222222228d8Ba445958a75a0704d566BF2C8",
       relayer: "0x35Cea9e57A393ac66Aaa7E25C391D52C74B5648f",
       gauge: "0x5C0F23A5c1be65Fa710d385814a7Fd1Bda480b1C",
+      bpt: "0x93d199263632a4EF4Bb438F1feB99e57b4b5f0BD",
       // B_stETH_stable_gauge: "0x5C0F23A5c1be65Fa710d385814a7Fd1Bda480b1C",
       // B_auraBAL_stable_gauge: "0x0312AA8D0BA4a1969Fddb382235870bF55f7f242",
       // B_rETH_stable_gauge: "0x79eF6103A513951a3b25743DB509E267685726B7",
@@ -260,6 +261,11 @@ export const contracts = {
     agave: {
       SavingsXDaiAdapter: "0xD499b51fcFc66bd31248ef4b28d656d67E591A94",
     },
+    balancer: {
+      vault: "0xBA12222222228d8Ba445958a75a0704d566BF2C8",
+      gauge: "0x27519F69b2Ac912aeb6fE066180FB25a17c71755",
+      bpt: "0xbAd20c15A773bf03ab973302F61FAbceA5101f0A",
+    },
     cowswap: {
       order_signer: "0x23dA9AdE38E4477b23770DeD512fD37b12381FAB",
       gpv2_vault_relayer: "0xC92E8bdf79f0507f65a392b0ab4667716BFE0110",
@@ -292,6 +298,11 @@ export const contracts = {
     aave_v3: {
       pool_v3: "0x794a61358D6845594F94dc1DB02A252b5b4814aD",
     },
+    balancer: {
+      vault: "0xBA12222222228d8Ba445958a75a0704d566BF2C8",
+      gauge: "0xA30992B40a0cb4B2Da081ddBd843f9CcE25c2fe3",
+      bpt: "0x7B50775383d3D6f0215A8F290f2C9e2eEBBEceb2",
+    },
     compound_v3: {
       cUSDCv3: "0x2e44e174f7D53F0212823acC11C01A11d58c5bCB",
       CometRewards: "0x443EA0340cb75a160F31A440722dec7b5bc3C2E9",
@@ -314,6 +325,11 @@ export const contracts = {
     aave_v3: {
       pool_v3: "0x794a61358D6845594F94dc1DB02A252b5b4814aD",
     },
+    balancer: {
+      vault: "0xBA12222222228d8Ba445958a75a0704d566BF2C8",
+      gauge: "0x260cbb867359a1084eC97de4157d06ca74e89415",
+      bpt: "0x9791d590788598535278552EEcD4b211bFc790CB",
+    },
     compound_v3: {
       cUSDCv3: "0x9c4ec768c28520B50860ea7a15bd7213a9fF58bf",
       CometRewards: "0x88730d254A2f7e6AC8388c3198aFd694bA9f7fae",
@@ -328,6 +344,11 @@ export const contracts = {
   base: {
     aave_v3: {
       pool_v3: "0xA238Dd80C259a72e81d7e4664a9801593F98d1c5",
+    },
+    balancer: {
+      vault: "0xBA12222222228d8Ba445958a75a0704d566BF2C8",
+      gauge: "0x8D118063B521e0CB9947A934BE90f7e32d02b158",
+      bpt: "0xC771c1a5905420DAEc317b154EB13e4198BA97D0",
     },
     compound_v3: {
       cUSDCv3: "0xb125E6687d4313864e53df431d5425969c15Eb2F",
@@ -345,13 +366,14 @@ export const contracts = {
 
 export default defineConfig({
   etherscanURLs: {
-    //gnosis: "https://api.gnosisscan.io/api",
-    gnosis: "https://blockscout.com/xdai/mainnet/api",
+    gnosis: "https://api.gnosisscan.io/api",
+    // gnosis: "https://blockscout.com/xdai/mainnet/api",
     optimism: "https://api-optimistic.etherscan.io/api",
     arbitrumOne: "https://api.arbiscan.io/api",
     base: "https://api.basescan.org/api",
   },
   rpc: {
+    mainnet: "https://rpc.ankr.com/eth",
     gnosis: "https://rpc.gnosischain.com/",
     //gnosis: "https://rpc.ankr.com/gnosis"
     optimism: "https://rpc.ankr.com/optimism",

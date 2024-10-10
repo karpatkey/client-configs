@@ -6,10 +6,12 @@ export interface Role {
   members: `0x${string}`[]
 }
 
+export type ChainId = 1 | 10 | 100 | 8453 | 42161
+
 export interface Client {
   avatar: `0x${string}`
   rolesMod: `0x${string}`
-  chainId: 1 | 100
+  chainId: ChainId
   roles: {
     [key: string]: Role
   }
@@ -20,3 +22,11 @@ export type PermissionList = (
   | PermissionSet
   | Promise<PermissionSet>
 )[]
+
+export enum Chain {
+  eth = 1,
+  oeth = 10,
+  gno = 100,
+  base = 8453,
+  arb1 = 42161,
+}
