@@ -5,8 +5,10 @@ import {
   AAVE,
   COMP,
   DAI,
-  GNO,
+  GHO,
+  GYD,
   rETH,
+  sDAI,
   stkAAVE,
   stETH,
   SWISE,
@@ -80,6 +82,13 @@ export default [
     feeAmountBp: 200,
   }),
 
+  // Cowswap - Swapping of DAI, GHO, GYD, sDAI, USDC, USDT
+  allowAction.cowswap.swap({
+    sell: [DAI, GHO, GYD, sDAI, USDC, USDT],
+    buy: [DAI, GHO, GYD, sDAI, USDC, USDT],
+    feeAmountBp: 200,
+  }),
+
   /*********************************************
    * Typed-presets permissions
    *********************************************/
@@ -97,6 +106,10 @@ export default [
   // Compound v3 - Claim rewards
   allow.mainnet.compound_v3.CometRewards.claim(undefined, c.avatar),
 
+  // Gyroscope - Staking/Unstaking GYD
+  allow.mainnet.gyroscope.sGYD.deposit(undefined, c.avatar),
+  allow.mainnet.gyroscope.sGYD.redeem(undefined, c.avatar, c.avatar),
+
   // Maker - DSR (DAI Savings Rate)
   // The DsrManager provides an easy to use smart contract that allows
   // service providers to deposit/withdraw dai into the DSR contract pot,
@@ -108,12 +121,15 @@ export default [
   allow.mainnet.maker.dsr_manager.exit(c.avatar),
   allow.mainnet.maker.dsr_manager.exitAll(c.avatar),
 
+  // Spark - DSR/sDAI
+  allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
+
   /*********************************************
    * SWAPS
    *********************************************/
   // Balancer - Swaps
   allowErc20Approve(
-    [COMP, rETH, WETH, wstETH],
+    [GHO, GYD, COMP, rETH, sDAI, USDC, USDT, WETH, wstETH],
     [contracts.mainnet.balancer.vault]
   ),
 
@@ -163,7 +179,7 @@ export default [
   allow.mainnet.balancer.vault.swap(
     {
       poolId:
-        "0x93d199263632a4ef4bb438f1feb99e57b4b5f0bd0000000000000000000005c2", // WARNING!: 0x32296969ef14eb0c6d29669c550d4a0449130230000200000000000000000080
+        "0x93d199263632a4ef4bb438f1feb99e57b4b5f0bd0000000000000000000005c2",
       assetIn: wstETH,
       assetOut: WETH,
     },
@@ -177,7 +193,7 @@ export default [
   allow.mainnet.balancer.vault.swap(
     {
       poolId:
-        "0x93d199263632a4ef4bb438f1feb99e57b4b5f0bd0000000000000000000005c2", // WARNING!: 0x32296969ef14eb0c6d29669c550d4a0449130230000200000000000000000080
+        "0x93d199263632a4ef4bb438f1feb99e57b4b5f0bd0000000000000000000005c2",
       assetIn: WETH,
       assetOut: wstETH,
     },
@@ -236,6 +252,146 @@ export default [
         "0x1e19cf2d73a72ef1332c882f20534b6519be0276000200000000000000000112",
       assetIn: WETH,
       assetOut: rETH,
+    },
+    {
+      recipient: c.avatar,
+      sender: c.avatar,
+    }
+  ),
+
+  // Balancer - Swap GYD for USDT
+  allow.mainnet.balancer.vault.swap(
+    {
+      poolId:
+        "0xfbfad5fa9e99081da6461f36f229b5cc88a64c6300020000000000000000062d",
+      assetIn: GYD,
+      assetOut: USDT,
+    },
+    {
+      recipient: c.avatar,
+      sender: c.avatar,
+    }
+  ),
+
+  // Balancer - Swap USDT for GYD
+  allow.mainnet.balancer.vault.swap(
+    {
+      poolId:
+        "0xfbfad5fa9e99081da6461f36f229b5cc88a64c6300020000000000000000062d",
+      assetIn: USDT,
+      assetOut: GYD,
+    },
+    {
+      recipient: c.avatar,
+      sender: c.avatar,
+    }
+  ),
+
+  // Balancer - Swap GYD for sDAI
+  allow.mainnet.balancer.vault.swap(
+    {
+      poolId:
+        "0x2191df821c198600499aa1f0031b1a7514d7a7d9000200000000000000000639",
+      assetIn: GYD,
+      assetOut: sDAI,
+    },
+    {
+      recipient: c.avatar,
+      sender: c.avatar,
+    }
+  ),
+
+  // Balancer - Swap sDAI for GYD
+  allow.mainnet.balancer.vault.swap(
+    {
+      poolId:
+        "0x2191df821c198600499aa1f0031b1a7514d7a7d9000200000000000000000639",
+      assetIn: sDAI,
+      assetOut: GYD,
+    },
+    {
+      recipient: c.avatar,
+      sender: c.avatar,
+    }
+  ),
+
+  // Balancer - Swap GYD for sDAI
+  allow.mainnet.balancer.vault.swap(
+    {
+      poolId:
+        "0x1cce5169bde03f3d5ad0206f6bd057953539dae600020000000000000000062b",
+      assetIn: GYD,
+      assetOut: sDAI,
+    },
+    {
+      recipient: c.avatar,
+      sender: c.avatar,
+    }
+  ),
+
+  // Balancer - Swap sDAI for GYD
+  allow.mainnet.balancer.vault.swap(
+    {
+      poolId:
+        "0x1cce5169bde03f3d5ad0206f6bd057953539dae600020000000000000000062b",
+      assetIn: sDAI,
+      assetOut: GYD,
+    },
+    {
+      recipient: c.avatar,
+      sender: c.avatar,
+    }
+  ),
+
+  // Balancer - Swap GYD for USDC
+  allow.mainnet.balancer.vault.swap(
+    {
+      poolId:
+        "0xc2aa60465bffa1a88f5ba471a59ca0435c3ec5c100020000000000000000062c",
+      assetIn: GYD,
+      assetOut: USDC,
+    },
+    {
+      recipient: c.avatar,
+      sender: c.avatar,
+    }
+  ),
+
+  // Balancer - Swap USDC for GYD
+  allow.mainnet.balancer.vault.swap(
+    {
+      poolId:
+        "0xc2aa60465bffa1a88f5ba471a59ca0435c3ec5c100020000000000000000062c",
+      assetIn: USDC,
+      assetOut: GYD,
+    },
+    {
+      recipient: c.avatar,
+      sender: c.avatar,
+    }
+  ),
+
+  // Balancer - Swap GHO for GYD
+  allow.mainnet.balancer.vault.swap(
+    {
+      poolId:
+        "0xaa7a70070e7495fe86c67225329dbd39baa2f63b000200000000000000000663",
+      assetIn: GHO,
+      assetOut: GYD,
+    },
+    {
+      recipient: c.avatar,
+      sender: c.avatar,
+    }
+  ),
+
+  // Balancer - Swap GYD for GHO
+  allow.mainnet.balancer.vault.swap(
+    {
+      poolId:
+        "0xaa7a70070e7495fe86c67225329dbd39baa2f63b000200000000000000000663",
+      assetIn: GYD,
+      assetOut: GHO,
     },
     {
       recipient: c.avatar,

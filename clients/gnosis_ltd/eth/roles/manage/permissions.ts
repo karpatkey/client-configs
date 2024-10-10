@@ -15,6 +15,7 @@ import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
 
 const GRAPH_DELEGATEE = "0x5A8904be09625965d9AEc4BFfD30D853438a053e"
+const GNOSIS_LTD_ARB = "0x5B6e1AcD8494092C166b390C17f09694B9dDb42C"
 
 export default [
   /*********************************************
@@ -75,31 +76,25 @@ export default [
   allow.mainnet.cowswap.vCOW.swapAll(),
 
   // The Graph
-  allowErc20Approve([GRT], [contracts.mainnet.the_graph.proxy]),
-  // The delegate() is not in the proxy's ABI
-  // The delegate() was added manually to the proxy ABI
-  // The delegate() is called through the _fallback()
-  // and by looking to the Internal Txns of a delegate() call
-  // you can get the implementation where the delegate() is:
+  // The undelegate() was added manually to the staking contract ABI
+  // The undelegate() is called through the _fallback()
+  // and by looking to the Internal Txns of a undelegate() call
+  // you can get the implementation where the undelegate() is:
   // 0xA479c00cDa8C07bce458D7a826C7b091672EB92C
-  allow.mainnet.the_graph.proxy.delegate(GRAPH_DELEGATEE),
-  // The same happens with the undelegate()
-  // From the research it seems the undelegate() is called
-  // through the multicall(), but just in case we whitelist the direct call
-  allow.mainnet.the_graph.proxy.undelegate(GRAPH_DELEGATEE),
-  // Undelegate through multicall
-  allow.mainnet.the_graph.proxy.multicall(
-    c.every(
-      c.calldataMatches(
-        allow.mainnet.the_graph.proxy.undelegate(GRAPH_DELEGATEE)
-      )
-    )
+  allow.mainnet.the_graph.staking.undelegate(GRAPH_DELEGATEE),
+  allow.mainnet.the_graph.staking.unlockDelegationToTransferredIndexer(
+    GRAPH_DELEGATEE
   ),
-  allow.mainnet.the_graph.proxy.undelegate(GRAPH_DELEGATEE),
   // Withdraw GRT
   // _newIndexer Re-delegate to indexer address if non-zero, withdraw if zero address
-  allow.mainnet.the_graph.proxy.withdrawDelegated(
+  allow.mainnet.the_graph.staking.withdrawDelegated(
     GRAPH_DELEGATEE,
     ZERO_ADDRESS
   ),
+
+  /*********************************************
+   * Bridge
+   *********************************************/
+  allowErc20Approve([GRT], [contracts.mainnet.the_graph.proxy]),
+  allow.mainnet.arb_l1_gateway_router.outboundTransfer(GRT, GNOSIS_LTD_ARB),
 ] satisfies PermissionList
