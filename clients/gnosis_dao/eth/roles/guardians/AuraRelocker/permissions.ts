@@ -17,5 +17,5 @@ export default [
       useCompounder: false,
       lockCvx: true,
     }
-  ),
+  )
 ] satisfies PermissionList
