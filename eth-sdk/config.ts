@@ -7,6 +7,7 @@ export const contracts = {
       aave: "0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9",
       stkAave: "0x4da27a545c0c5B758a6BA100e3a049001de870f5",
       gho: "0x40D16FC0246aD3160Ccc09B8D0D3A2cD28aE6C2f",
+      stkGHO: "0x1a88Df1cFe15Af22B3c4c783D4e6F7F9e0C1885d",
     },
     aave_v3: {
       pool_v3: "0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2",
