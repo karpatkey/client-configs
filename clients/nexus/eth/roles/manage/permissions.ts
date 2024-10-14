@@ -2,32 +2,28 @@ import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { allow as allowAction } from "defi-kit/eth"
 import {
-  ankrETH,
   AAVE,
   AURA,
   BAL,
-  COMP,
   CRV,
   CVX,
   DAI,
-  ETHx,
-  NXM,
+  GHO,
   LDO,
+  NXM,
   osETH,
   rETH,
+  RPL,
   stETH,
   SWISE,
   USDC,
   USDT,
   WETH,
-  E_ADDRESS,
-  ZERO_ADDRESS,
-  WNXM,
+  wNXM,
   wstETH,
+  ZERO_ADDRESS,
   curve,
-  aave_v3,
-  GHO,
-  RPL,
+  nexus,
 } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
@@ -39,20 +35,20 @@ export default [
    *********************************************/
   // Aave v3 - DAI
   allowAction.aave_v3.deposit({ targets: ["DAI"] }),
+  // Aave v3 - ETH
+  allowAction.aave_v3.deposit({ targets: ["ETH"] }),
+  // Aave v3 - osETH
+  allowAction.aave_v3.deposit({ targets: ["osETH"] }),
+  // Aave v3 - rETH
+  allowAction.aave_v3.deposit({ targets: ["rETH"] }),
   // Aave v3 - USDC
   allowAction.aave_v3.deposit({ targets: ["USDC"] }),
   // Aave v3 - USDT
   allowAction.aave_v3.deposit({ targets: ["USDT"] }),
-  // Aave v3 - rETH
-  allowAction.aave_v3.deposit({ targets: ["rETH"] }),
-  // Aave v3 - ETH
-  allowAction.aave_v3.deposit({ targets: ["wstETH"] }),
-  // Aave v3 - USDC
-  allowAction.aave_v3.deposit({ targets: ["osETH"] }),
-  // Aave v3 - ETH
-  allowAction.aave_v3.deposit({ targets: ["ETH"] }),
   // Aave v3 - WETH
   allowAction.aave_v3.deposit({ targets: ["WETH"] }),
+  // Aave v3 - wstETH
+  allowAction.aave_v3.deposit({ targets: ["wstETH"] }),
   // Aave v3 - Stake GHO
   allowAction.aave_v3.stake({ targets: ["GHO"] }),
 
@@ -66,6 +62,8 @@ export default [
   allowAction.aura.deposit({ targets: ["157"] }),
   // Aura - sDAI/3Pool
   allowAction.aura.deposit({ targets: ["186"] }),
+  // Aura - Gyroscope ECLP GHO/USDC 2
+  allowAction.aura.deposit({ targets: ["195"] }),
 
   // Balancer - wstETH/WETH
   allowAction.balancer.deposit({ targets: ["wstETH-WETH-BPT"] }),
@@ -82,36 +80,39 @@ export default [
   // Balancer - sDAI/3Pool
   allowAction.balancer.deposit({ targets: ["sDAI/3Pool"] }),
   allowAction.balancer.stake({ targets: ["sDAI/3Pool"] }),
+  // Balancer - Gyroscope ECLP GHO/USDC 2
+  allowAction.balancer.deposit({ targets: ["ECLP-GHO-USDC-2"] }),
+  allowAction.balancer.stake({ targets: ["ECLP-GHO-USDC-2"] }),
 
   // Convex - ETH/stETH - steCRV
   allowAction.convex.deposit({ targets: ["25"] }),
   // Convex - osETH/rETH
   allowAction.convex.deposit({ targets: ["268"] }),
 
-  // Cowswap
+  // CowSwap
   allowAction.cowswap.swap({
     sell: [
-      AURA,
-      LDO,
+      "ETH",
       AAVE,
-      WNXM,
-      GHO,
-      USDC,
-      DAI,
-      USDT,
-      stETH,
-      wstETH,
-      rETH,
-      osETH,
+      AURA,
       BAL,
       CRV,
       CVX,
-      SWISE,
+      DAI,
+      GHO,
+      LDO,
+      osETH,
+      rETH,
       RPL,
+      stETH,
+      SWISE,
+      USDC,
+      USDT,
       WETH,
+      wNXM,
+      wstETH,
     ],
-    buy: [WETH, E_ADDRESS, USDC, USDT, DAI, stETH, wstETH, rETH, osETH, WNXM],
-    feeAmountBp: 200,
+    buy: ["ETH", DAI, GHO, osETH, rETH, stETH, USDC, USDT, WETH, wNXM, wstETH],
   }),
 
   // Lido
@@ -120,18 +121,23 @@ export default [
   // Rocket Pool
   allowAction.rocket_pool.deposit(),
 
+  // Spark - DSR/sDAI
+  allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
   // Spark - ETH
   allowAction.spark.deposit({ targets: ["ETH"] }),
-  // Spark - WETH
-  allowAction.spark.deposit({ targets: ["WETH"] }),
-  // Spark - ETH
+  // Spark - rETH
   allowAction.spark.deposit({ targets: ["rETH"] }),
-  // Spark - WETH
-  allowAction.spark.deposit({ targets: ["wstETH"] }),
   // Spark - USDC
   allowAction.spark.deposit({ targets: ["USDC"] }),
   // Spark - USDT
   allowAction.spark.deposit({ targets: ["USDT"] }),
+  // Spark - WETH
+  allowAction.spark.deposit({ targets: ["WETH"] }),
+  // Spark - wstETH
+  allowAction.spark.deposit({ targets: ["wstETH"] }),
+
+  // Uniswap v3 - wNXN/WETH
+  allowAction.uniswap_v3.deposit({ tokens: ["wNXM", "WETH"] }),
 
   /*********************************************
    * Typed-presets permissions
@@ -141,11 +147,6 @@ export default [
   allow.mainnet.weth.deposit({
     send: true,
   }),
-
-  // Aave v3 - Lido Market - WETH
-  ...allowErc20Approve([WETH], [contracts.mainnet.aave_v3.pool_lido]),
-  allow.mainnet.aave_v3.pool_lido.supply(WETH, undefined, c.avatar),
-  allow.mainnet.aave_v3.pool_lido.withdraw(WETH, undefined, c.avatar),
 
   // Aave v3 - Lido Market - ETH
   ...allowErc20Approve(
@@ -164,20 +165,23 @@ export default [
     c.avatar
   ),
 
+  // Aave v3 - Lido Market - WETH
+  ...allowErc20Approve([WETH], [contracts.mainnet.aave_v3.pool_lido]),
+  allow.mainnet.aave_v3.pool_lido.supply(WETH, undefined, c.avatar),
+  allow.mainnet.aave_v3.pool_lido.withdraw(WETH, undefined, c.avatar),
+
   // Aave v3 - Lido Market - wstETH
   ...allowErc20Approve([wstETH], [contracts.mainnet.aave_v3.pool_lido]),
   allow.mainnet.aave_v3.pool_lido.supply(wstETH, undefined, c.avatar),
   allow.mainnet.aave_v3.pool_lido.withdraw(wstETH, undefined, c.avatar),
 
-  // Compound v3 - USDC
-  ...allowErc20Approve([USDC], [contracts.mainnet.compound_v3.cUSDCv3]),
-  allow.mainnet.compound_v3.cUSDCv3.supply(USDC),
-  allow.mainnet.compound_v3.cUSDCv3.withdraw(USDC),
-
-  // Compound v3 - USDT
-  ...allowErc20Approve([USDT], [contracts.mainnet.compound_v3.cUSDTv3]),
-  allow.mainnet.compound_v3.cUSDTv3.supply(USDT),
-  allow.mainnet.compound_v3.cUSDTv3.withdraw(USDT),
+  // Balancer - BCoW AMM wNXM/WETH (Staking not available)
+  ...allowErc20Approve(
+    [wNXM, WETH],
+    [contracts.mainnet.balancer.BCoW_50wNXM_50WETH]
+  ),
+  allow.mainnet.balancer.BCoW_50wNXM_50WETH.joinPool(),
+  allow.mainnet.balancer.BCoW_50wNXM_50WETH.exitPool(),
 
   // Compound v3 - ETH
   allow.mainnet.compound_v3.cWETHv3.allow(
@@ -203,23 +207,18 @@ export default [
     { send: true }
   ),
 
+  // Compound v3 - USDC
+  ...allowErc20Approve([USDC], [contracts.mainnet.compound_v3.cUSDCv3]),
+  allow.mainnet.compound_v3.cUSDCv3.supply(USDC),
+  allow.mainnet.compound_v3.cUSDCv3.withdraw(USDC),
+
+  // Compound v3 - USDT
+  ...allowErc20Approve([USDT], [contracts.mainnet.compound_v3.cUSDTv3]),
+  allow.mainnet.compound_v3.cUSDTv3.supply(USDT),
+  allow.mainnet.compound_v3.cUSDTv3.withdraw(USDT),
+
   // Compound v3 - Claim rewards
   allow.mainnet.compound_v3.CometRewards.claim(undefined, c.avatar),
-
-  // CoW Swap - Swap ETH
-  allow.mainnet.cowswap.order_signer.signOrder(
-    {
-      sellToken: E_ADDRESS,
-      buyToken: c.or(WETH, USDC, USDT, DAI, stETH, wstETH, rETH, osETH, WNXM),
-      receiver: c.avatar,
-    },
-    undefined,
-    undefined,
-    {
-      delegatecall: true,
-      send: true,
-    }
-  ),
 
   // Curve - ETH/stETH - steCRV
   ...allowErc20Approve([stETH], [contracts.mainnet.curve.steth_eth_pool]),
@@ -242,8 +241,8 @@ export default [
     contracts.mainnet.curve.stake_deposit_zap
   ),
 
-  // Curve - osETH/rETH - steCRV
-  ...allowErc20Approve([osETH], [contracts.mainnet.curve.steth_eth_pool]),
+  // Curve - osETH/rETH
+  ...allowErc20Approve([osETH], [contracts.mainnet.curve.oseth_reth_pool]),
   ...allowErc20Approve([rETH], [contracts.mainnet.curve.oseth_reth_pool]),
 
   allow.mainnet.curve.oseth_reth_pool["add_liquidity(uint256[],uint256)"](),
@@ -264,73 +263,161 @@ export default [
   allow.mainnet.curve.oseth_reth_gauge["claim_rewards()"](),
   allow.mainnet.curve.crv_minter.mint(contracts.mainnet.curve.oseth_reth_gauge),
 
+  // Maker - DSR (DAI Savings Rate)
+  // The DsrManager provides an easy to use smart contract that allows
+  // service providers to deposit/withdraw dai into the DSR contract pot,
+  // and activate/deactivate the Dai Savings Rate to start earning savings
+  // on a pool of dai in a single function call.
+  // https://docs.makerdao.com/smart-contract-modules/proxy-module/dsr-manager-detailed-documentation#contract-details
+  ...allowErc20Approve([DAI], [contracts.mainnet.maker.dsr_manager]),
+  allow.mainnet.maker.dsr_manager.join(c.avatar),
+  allow.mainnet.maker.dsr_manager.exit(c.avatar),
+  allow.mainnet.maker.dsr_manager.exitAll(c.avatar),
+
   // Nexus Mutual
   // Deposit ETH in exchange for NXM; redeem NXM in exchange for ETH
   allow.mainnet.nexus.ramm.swap(undefined, undefined, undefined, {
     send: true,
   }),
+  ...allowErc20Approve([NXM], [contracts.mainnet.nexus.wNXM]),
   // Wrap NXM
-  allow.mainnet.nexus.WXNM.wrap(),
+  allow.mainnet.nexus.wNXM.wrap(),
   // Unwrap WNXM
-  allow.mainnet.nexus.WXNM.unwrap(),
+  allow.mainnet.nexus.wNXM.unwrap(),
   // Claim NXM rewards
   allow.mainnet.nexus.token_controller.withdrawNXM(),
-  // Stake in Staking pools
-  allow.mainnet.nexus.staking_pool.depositTo(
+  // Approval of NXM with the TokenController as spender was already included
+  // TokenController manages the approvals for all pools
+  ...allowErc20Approve([NXM], [contracts.mainnet.nexus.token_controller]),
+  // Allows users to deposit NXM into the pool, creating stake and rewards shares in return
+  // Supports deposits to specific tranches and allows reusing the same nft for deposits in multiple tranches to an existing deposit
+  ...nexus.pools.map((pool) => ({
+    ...allow.mainnet.nexus.staking_pool.depositTo(
+      undefined,
+      undefined,
+      undefined,
+      ZERO_ADDRESS
+    ),
+    targetAddress: pool,
+  })),
+  // Extends the duration of a deposit by moving it from an tranche to a future tranche
+  ...nexus.pools.map((pool) => ({
+    ...allow.mainnet.nexus.staking_pool.extendDeposit(),
+    targetAddress: pool,
+  })),
+  // Allows users to withdraw their stake and/or rewards from specific tranches
+  // Withdrawing the stakes can be done only on expired tranches
+  ...nexus.pools.map((pool) => ({
+    ...allow.mainnet.nexus.staking_pool.withdraw(),
+    targetAddress: pool,
+  })),
+
+  // StakeWise v3 - Genesis Vault
+  allow.mainnet.stakewise_v3.genesis.deposit(c.avatar, undefined, {
+    send: true,
+  }),
+  allow.mainnet.stakewise_v3.genesis.updateState(),
+  allow.mainnet.stakewise_v3.genesis.updateStateAndDeposit(
+    c.avatar,
     undefined,
     undefined,
-    undefined,
-    ZERO_ADDRESS
+    {
+      send: true,
+    }
+  ),
+  allow.mainnet.stakewise_v3.genesis.mintOsToken(c.avatar),
+  allow.mainnet.stakewise_v3.genesis.burnOsToken(),
+  allow.mainnet.stakewise_v3.genesis.enterExitQueue(undefined, c.avatar),
+  allow.mainnet.stakewise_v3.genesis.claimExitedAssets(),
+
+  // SWAPS
+  // Balancer - Swap osETH for WETH
+  allow.mainnet.balancer.vault.swap(
+    {
+      poolId:
+        "0xdacf5fa19b1f720111609043ac67a9818262850c000000000000000000000635",
+      assetIn: osETH,
+      assetOut: WETH,
+    },
+    {
+      recipient: c.avatar,
+      sender: c.avatar,
+    }
+  ),
+
+  // Balancer - Swap WETH for osETH
+  allow.mainnet.balancer.vault.swap(
+    {
+      poolId:
+        "0xdacf5fa19b1f720111609043ac67a9818262850c000000000000000000000635",
+      assetIn: WETH,
+      assetOut: osETH,
+    },
+    {
+      recipient: c.avatar,
+      sender: c.avatar,
+    }
   ),
 
   // Uniswap v3 - Swaps
   ...allowErc20Approve(
     [
-      AURA,
-      LDO,
       AAVE,
-      WNXM,
-      GHO,
-      USDC,
-      DAI,
-      USDT,
-      stETH,
-      wstETH,
-      rETH,
-      osETH,
+      AURA,
       BAL,
       CRV,
       CVX,
-      SWISE,
+      DAI,
+      GHO,
+      LDO,
+      osETH,
+      rETH,
       RPL,
+      stETH,
+      SWISE,
+      USDC,
+      USDT,
       WETH,
+      wNXM,
+      wstETH,
     ],
     [contracts.mainnet.uniswap_v3.router_2]
   ),
 
-  // Uniswap v3
+  // Uniswap v3 - Swapping of tokens AAVE, AURA, BAL, CRV, CVX, DAI, GHO, LDO, osETH, rETH, RPL, stETH, SWISE, USDC, USDT, WETH, WNXM, wstETH
   allow.mainnet.uniswap_v3.router_2.exactInputSingle({
     tokenIn: c.or(
-      AURA,
-      LDO,
       AAVE,
-      WNXM,
-      GHO,
-      USDC,
-      DAI,
-      USDT,
-      stETH,
-      wstETH,
-      rETH,
-      osETH,
+      AURA,
       BAL,
       CRV,
       CVX,
-      SWISE,
+      DAI,
+      GHO,
+      LDO,
+      osETH,
+      rETH,
       RPL,
-      WETH
+      stETH,
+      SWISE,
+      USDC,
+      USDT,
+      WETH,
+      wNXM,
+      wstETH
     ),
-    tokenOut: c.or(WETH, USDC, USDT, DAI, stETH, wstETH, rETH, osETH, WNXM),
+    tokenOut: c.or(
+      DAI,
+      GHO,
+      osETH,
+      rETH,
+      stETH,
+      USDC,
+      USDT,
+      WETH,
+      wNXM,
+      wstETH
+    ),
     recipient: c.avatar,
   }),
 ] satisfies PermissionList
