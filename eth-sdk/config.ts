@@ -38,7 +38,7 @@ export const contracts = {
       // aurabb_aV3_USD_rewarder: "0xD48451A61d5190a1Ba7C9D17056490cB5d50999d",
       // aura_locker: "0x3Fa73f1E5d8A792C80F426fc8F84FBF7Ce9bBCAC",
       // snapshot_delegate_registry: "0x469788fE6E9E9681C6ebF3bF78e7Fd26Fc015446",
-      // claim_zap: "0x5b2364fD757E262253423373E4D57C5c011Ad7F4",
+      claim_zap: "0x5b2364fD757E262253423373E4D57C5c011Ad7F4",
       // stkauraBAL: "0xfAA2eD111B4F580fCb85C48E6DC6782Dc5FCD7a6",
       // auraBAL_B_80BAL_20WETH_depositor:
       //  "0xeAd792B55340Aa20181A80d6a16db6A0ECd1b827",
