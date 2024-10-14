@@ -19,7 +19,7 @@ const GNOSIS_LTD_ARB = "0x5B6e1AcD8494092C166b390C17f09694B9dDb42C"
 
 export default [
   /*********************************************
-   * Defi-Kit permissions
+   * DeFi-Kit permissions
    *********************************************/
   // // Aura - 50COW-50WETH
   // allowAction.aura.deposit({ targets: ["105"] }),

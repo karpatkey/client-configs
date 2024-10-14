@@ -283,6 +283,12 @@ export const contracts = {
     cowswap: {
       order_signer: "0x23dA9AdE38E4477b23770DeD512fD37b12381FAB",
       gpv2_vault_relayer: "0xC92E8bdf79f0507f65a392b0ab4667716BFE0110",
+      vCOW: "0xc20C9C13E853fc64d054b73fF21d3636B2d97eaB",
+    },
+    hop: {
+      DAI_Liquidity_Pool: "0x24afDcA4653042C6D08fb1A754b2535dAcF6Eb24",
+      LP_DAI: "0x5300648b1cFaa951bbC1d56a4457083D92CFa33F",
+      DAI_Rewards_2: "0xBF7a02d963b23D84313F07a04ad663409CEE5A92",
     },
     stakewise_v3: {
       genesis: "0x4b4406Ed8659D03423490D8b62a1639206dA0A7a",

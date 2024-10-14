@@ -20,7 +20,7 @@ import { PermissionList } from "../../../../../types"
 
 export default [
   /*********************************************
-   * Defi-Kit permissions
+   * DeFi-Kit permissions
    *********************************************/
   // Aura - wstETH/WETH
   allowAction.aura.deposit({ targets: ["153"] }),
