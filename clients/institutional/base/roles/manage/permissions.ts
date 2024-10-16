@@ -1,7 +1,6 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import {
-  COMP,
   DAI,
   USDC,
   cbETH,
@@ -52,13 +51,6 @@ export default [
     USDC
   ),
 
-  // // Compound v3 - USDC
-  // ...allowErc20Approve([USDC], [contracts.base.compound_v3.cUSDCv3]),
-  // allow.base.compound_v3.cUSDCv3.supply(USDC),
-  // allow.base.compound_v3.cUSDCv3.withdraw(USDC),
-  // // Compound v3 - Claim rewards
-  // allow.base.compound_v3.CometRewards.claim(undefined, c.avatar),
-
   // Morpho Blue - cbETH/USDC
   ...allowErc20Approve([USDC], [contracts.mainnet.morpho.morpho_blue]),
   allow.mainnet.morpho.morpho_blue.supply(
@@ -85,19 +77,6 @@ export default [
     c.avatar,
     c.avatar
   ),
-
-  // /*********************************************
-  //  * Swaps
-  //  *********************************************/
-  // // SushiSwap - Swap COMP -> USDC
-  // ...allowErc20Approve([COMP], [contracts.base.sushiswap.route_processor_4]),
-  // allow.base.sushiswap.route_processor_4.processRoute(
-  //   COMP,
-  //   undefined,
-  //   USDC,
-  //   undefined,
-  //   c.avatar
-  // ),
 
   /*********************************************
    * Bridge
