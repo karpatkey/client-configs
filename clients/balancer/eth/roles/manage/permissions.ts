@@ -2,25 +2,33 @@ import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { allow as allowAction } from "defi-kit/eth"
 import {
+  E_ADDRESS,
+  ZERO_ADDRESS,
   AAVE,
   COMP,
   DAI,
   GHO,
   GYD,
+  OETH,
   rETH,
   sDAI,
-  stkAAVE,
+  sUSDS,
   stETH,
+  stkAAVE,
+  stkGHO,
   SWISE,
   USDC,
+  USDS,
   USDT,
   WBTC,
   WETH,
   wstETH,
+  balancer,
 } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
+import { balancer__swap } from "../../../../../helpers/exit_strategies/balancer"
 import { avatar } from "../../index"
 
 // governance.karpatkey.eth
@@ -30,39 +38,37 @@ export default [
   /*********************************************
    * DeFi-Kit permissions
    *********************************************/
-  // Aave v2 - Staking of AAVE in Safety Module
-  allowAction.aave_v2.stake({ targets: ["AAVE"] }),
+  // Aave v2 - Staking of AAVE and GHO in Safety Module
+  allowAction.aave_v2.stake({ targets: ["AAVE", "GHO"] }),
 
-  // Aave v3 - DAI
+  // Aave v3 - Deposit DAI
   allowAction.aave_v3.deposit({ targets: ["DAI"] }),
-  // Aave v3 - USDC
+  // Aave v3 - Deposit osETH
+  allowAction.aave_v3.deposit({ targets: ["osETH"] }),
+  // Aave v3 - Deposit sDAI
+  allowAction.aave_v3.deposit({ targets: ["sDAI"] }),
+  // Aave v3 - Deposit USDC
   allowAction.aave_v3.deposit({ targets: ["USDC"] }),
+  // Aave v3 - Deposit USDS
+  allowAction.aave_v3.deposit({ targets: ["USDS"] }),
+  // Aave v3 - Deposit WBTC
+  allowAction.aave_v3.deposit({ targets: ["WBTC"] }),
+  // Aave v3 - Deposit wstETH
+  allowAction.aave_v3.deposit({ targets: ["wstETH"] }),
+  // Aave v3 - Borrow GHO
+  allowAction.aave_v3.borrow({ targets: ["GHO"] }),
 
   // Aave - Delegate Aave and stkAave to governance.karpatkey.eth
-  // WARNING!: The delegate action allows delegate() and delegateByType(), the latter is not part of the orginal preset.
+  // WARNING!: The delegate action allows delegate() and delegateByType(), the latter is not part of the orginal preset
   allowAction.aave_v3.delegate({
     targets: ["AAVE", "stkAAVE"],
     delegatee: GOVERNANCE_KPK,
   }),
 
-  // // Compound v3 - cUSDCv3 - USDC
-  // allowAction.compound_v3.deposit({
-  //   targets: ["cUSDCv3"],
-  //   tokens: ["USDC"],
-  // }),
+  // Convex - ETH/OETH
+  allowAction.convex.deposit({ targets: ["174"] }),
 
-  // Lido
-  allowAction.lido.deposit(),
-
-  // Rocket Pool
-  allowAction.rocket_pool.deposit(),
-
-  // Uniswap v3 - WBTC + WETH, Range: 11.786 - 15.082. Fee: 0.3%.
-  // WARNING!: With the deposit action we are allowing to send ETH and the functions that involve ETH.
-  // allowAction.uniswap_v3.deposit({ tokens: ["WBTC", "WETH"], fees: ["0.3%"] }),
-  allowAction.uniswap_v3.deposit({ targets: ["430246"] }), // WARNING!: THIS MUST BE CHANGED BY THE PRECEDING CODE
-
-  // Cowswap - Swapping of AAVE, COMP, DAI, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH
+  // CowSwap - Swapping of AAVE, COMP, DAI, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH
   allowAction.cowswap.swap({
     sell: [
       AAVE,
@@ -82,12 +88,56 @@ export default [
     feeAmountBp: 200,
   }),
 
-  // Cowswap - Swapping of DAI, GHO, GYD, sDAI, USDC, USDT
+  // CowSwap - Swapping of DAI, GHO, GYD, sDAI, USDC, USDT
   allowAction.cowswap.swap({
     sell: [DAI, GHO, GYD, sDAI, USDC, USDT],
     buy: [DAI, GHO, GYD, sDAI, USDC, USDT],
     feeAmountBp: 200,
   }),
+
+  // CowSwap - Swap GHO <-> stkGHO
+  allowAction.cowswap.swap({
+    sell: [GHO, stkGHO],
+    buy: [GHO, stkGHO],
+    feeAmountBp: 200,
+  }),
+
+  // CowSwap - Swap USDS -> [DAI, sUSDS, USDC, USDT]
+  allowAction.cowswap.swap({
+    sell: [USDS],
+    buy: [DAI, sUSDS, USDC, USDT],
+    feeAmountBp: 200,
+  }),
+
+  // CowSwap - Swap sUSDS -> [DAI, USDC, USDS, USDT]
+  allowAction.cowswap.swap({
+    sell: [sUSDS],
+    buy: [DAI, USDC, USDS, USDT],
+    feeAmountBp: 200,
+  }),
+
+  // CowSwap - Swap OETH -> [ETH, rETH, stETH, WETH, wstETH]
+  allowAction.cowswap.swap({
+    sell: [OETH],
+    buy: ["ETH", rETH, stETH, WETH, wstETH],
+    feeAmountBp: 200,
+  }),
+
+  // Lido
+  allowAction.lido.deposit(),
+
+  // Rocket Pool
+  allowAction.rocket_pool.deposit(),
+
+  // Spark - DSR/sDAI
+  allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
+  // Spark - SKY_USDS
+  allowAction.spark.deposit({ targets: ["SKY_USDS"] }),
+
+  // Uniswap v3 - WBTC + WETH, Range: 11.786 - 15.082. Fee: 0.3%.
+  // WARNING!: With the deposit action we are allowing to send ETH and the functions that involve ETH.
+  // allowAction.uniswap_v3.deposit({ tokens: ["WBTC", "WETH"], fees: ["0.3%"] }),
+  allowAction.uniswap_v3.deposit({ targets: ["430246"] }), // WARNING!: THIS MUST BE CHANGED BY THE PRECEDING CODE
 
   /*********************************************
    * Typed-presets permissions
@@ -98,6 +148,9 @@ export default [
     send: true,
   }),
 
+  // Aave Merit rewards (https://apps.aavechan.com/merit)
+  allow.mainnet.aave_v3.merit_distributor.claim([avatar]),
+
   // Compound v3 - USDC
   allowErc20Approve([USDC], [contracts.mainnet.compound_v3.cUSDCv3]),
   allow.mainnet.compound_v3.cUSDCv3.supply(USDC),
@@ -105,6 +158,49 @@ export default [
 
   // Compound v3 - Claim rewards
   allow.mainnet.compound_v3.CometRewards.claim(undefined, c.avatar),
+
+  // Curve - ETH/OETH
+  ...allowErc20Approve([OETH], [contracts.mainnet.curve.OETHCRV_f_pool]),
+  allow.mainnet.curve.OETHCRV_f_pool["add_liquidity(uint256[2],uint256)"](
+    undefined,
+    undefined,
+    {
+      send: true,
+    }
+  ),
+  allow.mainnet.curve.OETHCRV_f_pool["remove_liquidity(uint256,uint256[2])"](),
+  allow.mainnet.curve.OETHCRV_f_pool[
+    "remove_liquidity_imbalance(uint256[2],uint256)"
+  ](),
+  allow.mainnet.curve.OETHCRV_f_pool[
+    "remove_liquidity_one_coin(uint256,int128,uint256)"
+  ](),
+  ...allowErc20Approve(
+    [contracts.mainnet.curve.OETHCRV_f_pool],
+    [contracts.mainnet.curve.OETHCRV_f_gauge]
+  ),
+  allow.mainnet.curve.OETHCRV_f_gauge["deposit(uint256)"](),
+  allow.mainnet.curve.OETHCRV_f_gauge["withdraw(uint256)"](),
+  allow.mainnet.curve.OETHCRV_f_gauge["claim_rewards()"](),
+  allow.mainnet.curve.crv_minter.mint(contracts.mainnet.curve.OETHCRV_f_gauge),
+
+  // Curve - Deposit and Stake using a special ZAP
+  ...allowErc20Approve([OETH], [contracts.mainnet.curve.stake_deposit_zap]),
+  allow.mainnet.curve.stake_deposit_zap[
+    "deposit_and_stake(address,address,address,uint256,address[],uint256[],uint256,bool,bool,address)"
+  ](
+    contracts.mainnet.curve.OETHCRV_f_pool,
+    contracts.mainnet.curve.OETHCRV_f_pool,
+    contracts.mainnet.curve.OETHCRV_f_gauge,
+    2,
+    [E_ADDRESS, OETH],
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    ZERO_ADDRESS,
+    { send: true }
+  ),
 
   // Gyroscope - Staking/Unstaking GYD
   allow.mainnet.gyroscope.sGYD.deposit(undefined, c.avatar),
@@ -121,287 +217,92 @@ export default [
   allow.mainnet.maker.dsr_manager.exit(c.avatar),
   allow.mainnet.maker.dsr_manager.exitAll(c.avatar),
 
-  // Spark - DSR/sDAI
-  allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
+  // Origin - Mint OETH
+  allow.mainnet.origin.OETH_Zapper.deposit({ send: true }),
+  // Origin - Redeem via ARM (Automated Redemption Manager)
+  allowErc20Approve([OETH], [contracts.mainnet.origin.ARM_OETH_WETH]),
+  allow.mainnet.origin.ARM_OETH_WETH[
+    "swapExactTokensForTokens(address,address,uint256,uint256,address)"
+  ](OETH, WETH, undefined, undefined, c.avatar),
+  // Origin - Redeem via OETH Vault
+  // OETH is burnt by the user so no approval is needed
+  allow.mainnet.origin.OETH_Vault.requestWithdrawal(),
+  allow.mainnet.origin.OETH_Vault.claimWithdrawal(),
+  allow.mainnet.origin.OETH_Vault.claimWithdrawals(),
+
+  // StakeWise v3 - Genesis Vault
+  allow.mainnet.stakewise_v3.genesis.deposit(c.avatar, undefined, {
+    send: true,
+  }),
+  allow.mainnet.stakewise_v3.genesis.updateState(),
+  allow.mainnet.stakewise_v3.genesis.updateStateAndDeposit(
+    c.avatar,
+    undefined,
+    undefined,
+    {
+      send: true,
+    }
+  ),
+  allow.mainnet.stakewise_v3.genesis.mintOsToken(c.avatar),
+  allow.mainnet.stakewise_v3.genesis.burnOsToken(),
+  allow.mainnet.stakewise_v3.genesis.enterExitQueue(undefined, c.avatar),
+  allow.mainnet.stakewise_v3.genesis.claimExitedAssets(),
 
   /*********************************************
    * SWAPS
    *********************************************/
-  // Balancer - Swaps
-  allowErc20Approve(
-    [GHO, GYD, COMP, rETH, sDAI, USDC, USDT, WETH, wstETH],
-    [contracts.mainnet.balancer.vault]
-  ),
+  // Balancer - Swap COMP -> WETH
+  balancer__swap(balancer.B_50COMP_50WETH_pId, [COMP], [WETH]),
 
-  // Balancer - Swap COMP for WETH
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0xefaa1604e82e1b3af8430b90192c1b9e8197e377000200000000000000000021",
-      assetIn: COMP,
-      assetOut: WETH,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
+  // Balancer - Swap WETH -> DAI
+  balancer__swap(balancer.B_60WETH_40DAI_pId, [WETH], [DAI]),
 
-  // Balancer - Swap WETH for DAI
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0x0b09dea16768f0799065c475be02919503cb2a3500020000000000000000001a",
-      assetIn: WETH,
-      assetOut: DAI,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
+  // Balancer - Swap WETH -> USDC
+  balancer__swap(balancer.B_50USDC_50WETH_pId, [WETH], [USDC]),
 
-  // Balancer - Swap WETH for USDC
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0x96646936b91d6b9d7d0c47c496afbf3d6ec7b6f8000200000000000000000019",
-      assetIn: WETH,
-      assetOut: USDC,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
+  // Balancer - Swap WETH <-> wstETH
+  balancer__swap(balancer.B_stETH_stable_pid, [WETH, wstETH], [WETH, wstETH]),
 
-  // Balancer - Swap wstETH for WETH
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0x93d199263632a4ef4bb438f1feb99e57b4b5f0bd0000000000000000000005c2",
-      assetIn: wstETH,
-      assetOut: WETH,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
+  // Balancer - Swap WETH <-> wstETH
+  balancer__swap(balancer.ECLP_wstETH_wETH_pId, [WETH, wstETH], [WETH, wstETH]),
 
-  // Balancer - Swap WETH for wstETH
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0x93d199263632a4ef4bb438f1feb99e57b4b5f0bd0000000000000000000005c2",
-      assetIn: WETH,
-      assetOut: wstETH,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
+  // Balancer - Swap rETH <-> WETH
+  balancer__swap(balancer.B_rETH_stable_pid, [rETH, WETH], [rETH, WETH]),
 
-  // Balancer - Swap wstETH for WETH
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0xf01b0684c98cd7ada480bfdf6e43876422fa1fc10002000000000000000005de",
-      assetIn: wstETH,
-      assetOut: WETH,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
+  // Balancer - Swap GYD <-> USDT
+  balancer__swap(balancer.ECLP_GYD_USDT_pId, [GYD, USDT], [GYD, USDT]),
 
-  // Balancer - Swap WETH for wstETH
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0xf01b0684c98cd7ada480bfdf6e43876422fa1fc10002000000000000000005de",
-      assetIn: WETH,
-      assetOut: wstETH,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
+  // Balancer - Swap GYD <-> sDAI
+  balancer__swap(balancer.ECLP_GYD_sDAI_pId, [GYD, sDAI], [GYD, sDAI]),
 
-  // Balancer - Swap rETH for WETH
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0x1e19cf2d73a72ef1332c882f20534b6519be0276000200000000000000000112",
-      assetIn: rETH,
-      assetOut: WETH,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
+  // Balancer - Swap GYD <-> sDAI
+  balancer__swap(balancer.ECLP_GYD_sDAI_2_pId, [GYD, sDAI], [GYD, sDAI]),
 
-  // Balancer - Swap WETH for rETH
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0x1e19cf2d73a72ef1332c882f20534b6519be0276000200000000000000000112",
-      assetIn: WETH,
-      assetOut: rETH,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
+  // Balancer - Swap GYD <-> USDC
+  balancer__swap(balancer.ECLP_GYD_USDC_pId, [GYD, USDC], [GYD, USDC]),
 
-  // Balancer - Swap GYD for USDT
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0xfbfad5fa9e99081da6461f36f229b5cc88a64c6300020000000000000000062d",
-      assetIn: GYD,
-      assetOut: USDT,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
+  // Balancer - Swap GHO <-> GYD
+  balancer__swap(balancer.ECLP_GHO_GYD_pId, [GHO, GYD], [GHO, GYD]),
 
-  // Balancer - Swap USDT for GYD
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0xfbfad5fa9e99081da6461f36f229b5cc88a64c6300020000000000000000062d",
-      assetIn: USDT,
-      assetOut: GYD,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
+  // Balancer - Swap GHO <-> [USDC, USDT]
+  balancer__swap(balancer.GHO_USDT_USDC_pId, [GHO], [USDC, USDT]),
+  balancer__swap(balancer.GHO_USDT_USDC_pId, [USDC, USDT], [GHO]),
 
-  // Balancer - Swap GYD for sDAI
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0x2191df821c198600499aa1f0031b1a7514d7a7d9000200000000000000000639",
-      assetIn: GYD,
-      assetOut: sDAI,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
-
-  // Balancer - Swap sDAI for GYD
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0x2191df821c198600499aa1f0031b1a7514d7a7d9000200000000000000000639",
-      assetIn: sDAI,
-      assetOut: GYD,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
-
-  // Balancer - Swap GYD for sDAI
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0x1cce5169bde03f3d5ad0206f6bd057953539dae600020000000000000000062b",
-      assetIn: GYD,
-      assetOut: sDAI,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
-
-  // Balancer - Swap sDAI for GYD
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0x1cce5169bde03f3d5ad0206f6bd057953539dae600020000000000000000062b",
-      assetIn: sDAI,
-      assetOut: GYD,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
-
-  // Balancer - Swap GYD for USDC
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0xc2aa60465bffa1a88f5ba471a59ca0435c3ec5c100020000000000000000062c",
-      assetIn: GYD,
-      assetOut: USDC,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
-
-  // Balancer - Swap USDC for GYD
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0xc2aa60465bffa1a88f5ba471a59ca0435c3ec5c100020000000000000000062c",
-      assetIn: USDC,
-      assetOut: GYD,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
-
-  // Balancer - Swap GHO for GYD
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0xaa7a70070e7495fe86c67225329dbd39baa2f63b000200000000000000000663",
-      assetIn: GHO,
-      assetOut: GYD,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
-
-  // Balancer - Swap GYD for GHO
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0xaa7a70070e7495fe86c67225329dbd39baa2f63b000200000000000000000663",
-      assetIn: GYD,
-      assetOut: GHO,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
-
-  // Curve - Swap ETH <> stETH
+  // Curve - Swap ETH <-> stETH
   allowErc20Approve([stETH], [contracts.mainnet.curve.steth_eth_pool]),
   allow.mainnet.curve.steth_eth_pool.exchange(
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    {
+      send: true,
+    }
+  ),
+
+  // Curve - Swap ETH <-> OETH
+  allowErc20Approve([OETH], [contracts.mainnet.curve.OETHCRV_f_pool]),
+  allow.mainnet.curve.OETHCRV_f_pool["exchange(int128,int128,uint256,uint256)"](
     undefined,
     undefined,
     undefined,
