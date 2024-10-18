@@ -309,6 +309,7 @@ export const contracts = {
       axol: "0x33C346928eD9249Cf1d5fc16aE32a8CFFa1671AD",
       stakecat: "0xe0A342ED4e0F0dBe97C4810534CfCB6550EA017D",
       stakesaurus: "0x3CB4692177525dB38D983DA0445d4EB25C3826dE",
+      seednode: "0x9eeB6be79899CfE45018866A2113c6b77fa96F35",
     },
     curve: {
       x3CRV_pool: "0x7f90122BF0700F9E7e1F688fe926940E8839F353",
