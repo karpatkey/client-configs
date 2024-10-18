@@ -1736,9 +1736,9 @@ defer-to-connect@^2.0.0:
   integrity sha512-4tvttepXG1VaYGrRibk5EwJd1t4udunSOVMdLSAL6mId1ix438oPwPZMALY41FCijukO1L0twNcGsdzS7dHgDg==
 
 defi-kit@^1.10.1:
-  version "1.14.4"
-  resolved "https://registry.yarnpkg.com/defi-kit/-/defi-kit-1.14.4.tgz#de5f35be6abaef80368eee197fa1fba89dcbc277"
-  integrity sha512-5uRMGwLdia721XZVw+ZwK5b5oIEU8hOD7ej6FGJamavvvvyUChZps4M/li0dNW1goqA9Q/qREIlafu0JwtIEJg==
+  version "1.15.2"
+  resolved "https://registry.yarnpkg.com/defi-kit/-/defi-kit-1.15.2.tgz#2a4e9495fd978d5858fa86390e000b263cf12cb9"
+  integrity sha512-30hTrkkCpBHkwsw92CnIvRbc/JbXY3v0MPLyIqwdXiF1tMfoPP+YR6sJMrTuw6NPGimZ3GjhnGaiUkmYMCNyyA==
   dependencies:
     "@asteasolutions/zod-to-openapi" "^5.5.0"
     "@ethersproject/abi" "^5.7.0"
@@ -3693,9 +3693,9 @@ yallist@^4.0.0:
   integrity sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==
 
 yaml@^2.5.0:
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/yaml/-/yaml-2.5.1.tgz#c9772aacf62cb7494a95b0c4f1fb065b563db130"
-  integrity sha512-bLQOjaX/ADgQ20isPJRvF0iRUHIxVhYvr53Of7wGcWlO2jvtUlH5m87DsmulFVxRpNLOnI4tB6p/oh8D7kpn9Q==
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/yaml/-/yaml-2.6.0.tgz#14059ad9d0b1680d0f04d3a60fe00f3a857303c3"
+  integrity sha512-a6ae//JvKDEra2kdi1qzCyrJW/WZCgFi8ydDV+eXExl95t+5R+ijnqHJbz9tmMh8FUjx3iv2fCQ4dclAQlO2UQ==
 
 yargs-parser@^21.0.1, yargs-parser@^21.1.1:
   version "21.1.1"
