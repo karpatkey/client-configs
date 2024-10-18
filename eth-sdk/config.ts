@@ -149,6 +149,9 @@ export const contracts = {
       wstETH: "0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0",
       unstETH: "0x889edC2eDab5f40e902b864aD4d7AdE8E412F9B1",
     },
+    maverick: {
+      MaverickV2Router: "0x62e31802c6145A2D5E842EeD8efe01fC224422fA",
+    },
     maker: {
       cdp_manager: "0x5ef30b9986345249bc32d8928B7ee64DE9435E39",
       dsr_manager: "0x373238337Bfe1146fb49989fc222523f83081dDb",

@@ -24,6 +24,7 @@ import {
   WETH,
   wstETH,
   balancer,
+  maverick,
 } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
@@ -310,6 +311,16 @@ export default [
     {
       send: true,
     }
+  ),
+
+  // Maverick - Swap GHO <-> stkGHO
+  allowErc20Approve(
+    [GHO, stkGHO],
+    [contracts.mainnet.maverick.MaverickV2Router]
+  ),
+  allow.mainnet.maverick.MaverickV2Router.inputSingleWithTickLimit(
+    c.avatar,
+    maverick.GHO_stkGHO_pool
   ),
 
   // Uniswap v3 - Swaps

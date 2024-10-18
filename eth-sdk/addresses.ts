@@ -273,6 +273,10 @@ export const curve = {
 //   unstETH: "0x889edC2eDab5f40e902b864aD4d7AdE8E412F9B1",
 // }
 
+export const maverick = {
+  GHO_stkGHO_pool: "0x9F274D28FedCe05153F9C810b8070277EAF8C031" as Address,
+}
+
 // export const maker = {
 //   CDP_MANAGER: "0x5ef30b9986345249bc32d8928B7ee64DE9435E39",
 //   DSR_MANAGER: "0x373238337Bfe1146fb49989fc222523f83081dDb",
