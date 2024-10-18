@@ -47,7 +47,7 @@ export const contracts = {
       //  "0xeAd792B55340Aa20181A80d6a16db6A0ECd1b827",
       // auraBAL_BAL_depositor: "0x68655AD9852a99C87C0934c7290BB62CFa5D4123",
       auraBAL_compounding_rewarder:
-       "0xAc16927429c5c7Af63dD75BC9d8a58c63FfD0147",
+        "0xAc16927429c5c7Af63dD75BC9d8a58c63FfD0147",
     },
     angle: {
       wstETH_EUR_Vault: "0x73aaf8694BA137a7537E7EF544fcf5E2475f227B",

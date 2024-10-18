@@ -24,4 +24,3 @@ export const cowswap__swap = async (
       throw new Error(`Unsupported chain: ${chain}`)
   }
 }
-
