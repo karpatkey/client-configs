@@ -16,6 +16,7 @@ export const contracts = {
         "0x702B6770A81f75964cA5D479F369eFB31dfa7C32",
       pool_lido: "0x4e033931ad43597d96D6bcc25c280717730B58B1",
       aEthWETH: "0x4d5F47FA6A74757f35C14fD3a6Ef8E3C9BC514E8",
+      merit_distributor: "0x3Ef3D8bA38EBe18DB133cEc108f4D14CE00Dd9Ae",
     },
     across_v2: {
       hub_pool_v2: "0xc186fA914353c44b2E33eBE05f21846F1048bEda",
@@ -129,6 +130,8 @@ export const contracts = {
       stETH_ng_f_gauge: "0x79F21BC30632cd40d2aF8134B469a0EB4C9574AA",
       tricryptoGHO_pool: "0x8Cd52ee292313C4D851e71A7064F096504aB3eE9",
       tricryptoGHO_gauge: "0x6373E119F2A1Fd081249BC16FE7FEA1F6b3A4Ca8",
+      OETHCRV_f_pool: "0x94B17476A93b3262d87B9a326965D1E91f9c13E7",
+      OETHCRV_f_gauge: "0xd03BE91b1932715709e18021734fcB91BB431715",
     },
     enzyme: {
       deposit_wrapper_2: "0x65BbAD6545B7ac9C30Fb0f07e64e25106Bf05eEc",
@@ -146,6 +149,9 @@ export const contracts = {
       stETH: "0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84",
       wstETH: "0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0",
       unstETH: "0x889edC2eDab5f40e902b864aD4d7AdE8E412F9B1",
+    },
+    maverick: {
+      MaverickV2Router: "0x62e31802c6145A2D5E842EeD8efe01fC224422fA",
     },
     maker: {
       cdp_manager: "0x5ef30b9986345249bc32d8928B7ee64DE9435E39",
@@ -173,6 +179,11 @@ export const contracts = {
     },
     notional: {
       nProxy: "0x1344A36A1B56144C3Bc62E7757377D288fDE0369",
+    },
+    origin: {
+      OETH_Zapper: "0x9858e47BCbBe6fBAC040519B02d7cd4B2C470C66",
+      ARM_OETH_WETH: "0x6bac785889A4127dB0e0CeFEE88E0a9F1Aaf3cC7",
+      OETH_Vault: "0x39254033945AA2E4809Cc2977E7087BEE48bd7Ab",
     },
     pancake_swap: {
       smart_router: "0x13f4EA83D0bd40E75C8222255bc855a974568Dd4",

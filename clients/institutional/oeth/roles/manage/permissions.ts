@@ -1,12 +1,6 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import {
-  crvUSD,
-  DAI,
-  COMP,
-  USDC,
-  USDCe,
-} from "../../../../../eth-sdk/addresses_opt"
+import { crvUSD, DAI, USDC, USDCe } from "../../../../../eth-sdk/addresses_opt"
 import { USDC as USDC_eth } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
@@ -74,13 +68,6 @@ export default [
   allow.optimism.aave_v3.pool_v3["setUserUseReserveAsCollateral(address,bool)"](
     USDCe
   ),
-
-  // // Compound v3 - USDC
-  // ...allowErc20Approve([USDC], [contracts.optimism.compound_v3.cUSDCv3]),
-  // allow.optimism.compound_v3.cUSDCv3.supply(USDC),
-  // allow.optimism.compound_v3.cUSDCv3.withdraw(USDC),
-  // // Compound v3 - Claim rewards
-  // allow.optimism.compound_v3.CometRewards.claim(undefined, c.avatar),
 
   /*********************************************
    * Swaps
@@ -179,10 +166,6 @@ export default [
       send: true,
     }
   ),
-  // COMP (Optimism) -> COMP (Mainnet)
-  ...allowErc20Approve([COMP], [contracts.optimism.optimism_bridge]),
-  allow.optimism.optimism_bridge.withdraw(DAI),
-  allow.optimism.optimism_bridge.withdrawTo(DAI, c.avatar),
   // USDC (Optimism) -> USDC (Mainnet)
   ...allowErc20Approve([USDC], [contracts.optimism.circle_token_messenger]),
   allow.optimism.circle_token_messenger.depositForBurn(

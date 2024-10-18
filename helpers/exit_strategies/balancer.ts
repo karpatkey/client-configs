@@ -3,6 +3,8 @@ import { allow } from "zodiac-roles-sdk/kit"
 import { Address } from "@dethcrypto/eth-sdk"
 import { sdks } from "../sdks"
 import { Chain } from "../../types"
+import { allowErc20Approve } from "../../utils/erc20"
+import { contracts } from "../../eth-sdk/config"
 // import { ethers } from "ethers"
 // import { providers } from "../providers"
 
@@ -50,5 +52,27 @@ export const balancer__unstake_withdraw = async (
     },
     // It doesn't matter the blockchain we use, as the Vault address remains the same
     allow.mainnet.balancer.vault.exitPool(balancerPoolId, c.avatar, c.avatar),
+  ]
+}
+
+export const balancer__swap = (
+  balancerPoolId: string,
+  assetsIn: Address[],
+  assetsOut: Address[]
+): PermissionSet => {
+  return [
+    ...allowErc20Approve(assetsIn, [contracts.mainnet.balancer.vault]),
+    // It doesn't matter the blockchain we use, as the Vault address remains the same
+    allow.mainnet.balancer.vault.swap(
+      {
+        poolId: balancerPoolId,
+        assetIn: c.or(...(assetsIn as [Address, Address, ...Address[]])),
+        assetOut: c.or(...(assetsOut as [Address, Address, ...Address[]])),
+      },
+      {
+        recipient: c.avatar,
+        sender: c.avatar,
+      }
+    ),
   ]
 }
