@@ -8,6 +8,7 @@ import {
   COMP,
   DAI,
   GHO,
+  GNO,
   GYD,
   OETH,
   rETH,
@@ -365,8 +366,40 @@ export default [
   /*********************************************
    * Bridge
    *********************************************/
+  // DAI (Mainnet) -> XDAI (Gnosis)
+  ...allowErc20Approve([DAI], [contracts.mainnet.gno_xdai_bridge]),
+  allow.mainnet.gno_xdai_bridge.relayTokens(c.avatar, undefined),
+  // Claim bridged XDAI from Gnosis
+  allow.mainnet.gno_xdai_bridge.executeSignatures(
+    c.and(
+      // Avatar address
+      c.bitmask({
+        shift: 0,
+        mask: "0xffffffffffffffffffff",
+        value: avatar.slice(0, 22), // First 10 bytes of the avatar address
+      }),
+      c.bitmask({
+        shift: 10,
+        mask: "0xffffffffffffffffffff",
+        value: "0x" + avatar.slice(22, 42), // Last 10 bytes of the avatar address
+      }),
+      // skip 32 bytes corresponding to the amount
+      // skip 32 bytes corresponding to the txHash from Gnosis
+      // Recipient address: Gnosis Chain xDai Bridge
+      c.bitmask({
+        shift: 20 + 32 + 32,
+        mask: "0xffffffffffffffffffff",
+        value: contracts.mainnet.gno_xdai_bridge.slice(0, 22), // First 10 bytes of the avatar address
+      }),
+      c.bitmask({
+        shift: 20 + 32 + 32 + 10,
+        mask: "0xffffffffffffffffffff",
+        value: "0x" + contracts.mainnet.gno_xdai_bridge.slice(22, 42), // Last 10 bytes of the avatar address
+      })
+    )
+  ),
+
   // GNO (Mainnet) -> GNO (Gnosis)
-  /*
   ...allowErc20Approve([GNO], [contracts.mainnet.gno_omnibridge]),
   allow.mainnet.gno_omnibridge["relayTokens(address,address,uint256)"](
     GNO,
@@ -462,5 +495,4 @@ export default [
       })
     )
   ),
-  */
 ] satisfies PermissionList
