@@ -169,15 +169,4 @@ export default [
     1, // Mainnet
     c.avatar
   ),
-  // USDC (Base) -> USDC (Mainnet) - Connext
-  ...allowErc20Approve([USDC], [contracts.base.connext_bridge]),
-  // To get the Domain ID: https://docs.connext.network/resources/deployments
-  // Mainnet: 6648936
-  // Optimism: 1869640809
-  // Arbitrum: 1634886255
-  // Gnosis: 6778479
-  // Base: 1650553709
-  allow.base.connext_bridge[
-    "xcall(uint32,address,address,address,uint256,uint256,bytes,uint256)"
-  ](6648936, c.avatar, USDC, c.avatar, undefined, undefined, "0x"),
 ] satisfies PermissionList

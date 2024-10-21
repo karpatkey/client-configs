@@ -134,33 +134,13 @@ export default [
     1, // Mainnet
     c.avatar
   ),
-  // DAI (Arbitrum) -> DAI (Mainnet) - Connext
-  ...allowErc20Approve([DAI], [contracts.arbitrumOne.connext_bridge]),
-  // To get the Domain ID: https://docs.connext.network/resources/deployments
-  // Mainnet: 6648936
-  // Optimism: 1869640809
-  // Arbitrum: 1634886255
-  // Gnosis: 6778479
-  // Base: 1650553709
-  allow.arbitrumOne.connext_bridge[
-    "xcall(uint32,address,address,address,uint256,uint256,bytes)"
-  ](
-    6648936,
-    c.avatar,
-    DAI,
-    c.avatar,
-    undefined,
-    undefined,
-    "0x" + avatar.slice(2).padStart(64, "0"),
-    {
-      send: true,
-    }
-  ),
+
   // COMP (Arbitrum) -> COMP (Mainnet)
   ...allowErc20Approve([COMP], [contracts.arbitrumOne.gateway_router]),
   allow.arbitrumOne.gateway_router[
     "outboundTransfer(address,address,uint256,bytes)"
   ](COMP_eth, c.avatar, undefined, "0x"),
+
   // USDC (Arbitrum) -> USDC (Mainnet)
   ...allowErc20Approve([USDC], [contracts.arbitrumOne.circle_token_messenger]),
   allow.arbitrumOne.circle_token_messenger.depositForBurn(
@@ -254,15 +234,4 @@ export default [
     1, // Mainnet
     c.avatar
   ),
-  // USDC.e (Arbitrum) -> USDC (Mainnet) - Connext
-  ...allowErc20Approve([USDCe], [contracts.arbitrumOne.connext_bridge]),
-  // To get the Domain ID: https://docs.connext.network/resources/deployments
-  // Mainnet: 6648936
-  // Optimism: 1869640809
-  // Arbitrum: 1634886255
-  // Gnosis: 6778479
-  // Base: 1650553709
-  allow.arbitrumOne.connext_bridge[
-    "xcall(uint32,address,address,address,uint256,uint256,bytes,uint256)"
-  ](6648936, c.avatar, USDCe, c.avatar, undefined, undefined, "0x"),
 ] satisfies PermissionList

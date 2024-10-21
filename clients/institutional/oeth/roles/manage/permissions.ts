@@ -144,28 +144,7 @@ export default [
     1, // Mainnet
     c.avatar
   ),
-  // DAI (Optimism) -> DAI (Mainnet) - Connext
-  ...allowErc20Approve([DAI], [contracts.optimism.connext_bridge]),
-  // To get the Domain ID: https://docs.connext.network/resources/deployments
-  // Mainnet: 6648936
-  // Optimism: 1869640809
-  // Arbitrum: 1634886255
-  // Gnosis: 6778479
-  // Base: 1650553709
-  allow.optimism.connext_bridge[
-    "xcall(uint32,address,address,address,uint256,uint256,bytes)"
-  ](
-    6648936,
-    c.avatar,
-    DAI,
-    c.avatar,
-    undefined,
-    undefined,
-    "0x" + avatar.slice(2).padStart(64, "0"),
-    {
-      send: true,
-    }
-  ),
+
   // USDC (Optimism) -> USDC (Mainnet)
   ...allowErc20Approve([USDC], [contracts.optimism.circle_token_messenger]),
   allow.optimism.circle_token_messenger.depositForBurn(
@@ -258,15 +237,4 @@ export default [
     1, // Mainnet
     c.avatar
   ),
-  // USDC.e (Optimism) -> USDC (Mainnet) - Connext
-  ...allowErc20Approve([USDCe], [contracts.optimism.connext_bridge]),
-  // To get the Domain ID: https://docs.connext.network/resources/deployments
-  // Mainnet: 6648936
-  // Optimism: 1869640809
-  // Arbitrum: 1634886255
-  // Gnosis: 6778479
-  // Base: 1650553709
-  allow.optimism.connext_bridge[
-    "xcall(uint32,address,address,address,uint256,uint256,bytes,uint256)"
-  ](6648936, c.avatar, USDCe, c.avatar, undefined, undefined, "0x"),
 ] satisfies PermissionList
