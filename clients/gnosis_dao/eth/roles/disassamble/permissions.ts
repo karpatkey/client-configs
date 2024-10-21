@@ -36,8 +36,6 @@ export default [
   /*********************************************
    * Protocol permissions
    *********************************************/
-
-                                                             
   // Aave v3 - Withdraw wstETH
   allow.mainnet.aave_v3.pool_v3.withdraw(wstETH, undefined, c.avatar),
 
@@ -50,8 +48,6 @@ export default [
   // Aave v3 - Repay WBTC
   allow.mainnet.aave_v3.pool_v3.repay(WBTC, undefined, undefined, c.avatar),
 
-
-                                                              
   // Aura - auraBAL
   aura__withdraw_balancer(
     aura.auraB_auraBAL_stable_rewarder,
@@ -76,8 +72,6 @@ export default [
     balancer.B_rETH_stable_pid
   ),
 
-
-                                                              
   // Balancer - auraBAL / B-80BAL-20WETH
   balancer__unstake_withdraw(Chain.eth, balancer.B_auraBAL_STABLE_gauge),
   // Balancer - B-80BAL-20WETH
@@ -92,25 +86,19 @@ export default [
   // Balancer - rETH/WETH
   balancer__unstake_withdraw(Chain.eth, balancer.B_rETH_stable_gauge),
 
-  
-  // Lido   
+  // Lido
   lido__unstake_stETH(),
   lido__unwrap_and_unstake_wstETH(),
-
 
   /*********************************************
    * SWAPS
    *********************************************/
-
-                                                                          
   // Balancer - Swap rETH <-> WETH
   balancer__swap(balancer.B_rETH_stable_pid, [rETH, WETH], [rETH, WETH]),
 
   // Balancer - Swap WETH <-> wstETH
   balancer__swap(balancer.B_stETH_stable_pid, [WETH, wstETH], [wstETH, WETH]),
 
-
-                                                                          
   // CowSwap - DAI -> [ETH, USDC, USDT]
   cowswap__swap([DAI], [E_ADDRESS, USDC, USDT], Chain.eth),
 
@@ -118,13 +106,11 @@ export default [
   cowswap__swap([USDT], [USDC, DAI, E_ADDRESS], Chain.eth),
 
   // Cowswap - USDC -> [DAI, USDT, E_ADDRESS]
-  cowswap__swap([USDC], [DAI, USDT, E_ADDRESS], Chain.eth), 
+  cowswap__swap([USDC], [DAI, USDT, E_ADDRESS], Chain.eth),
 
   // Cowswap - WETH -> [DAI, USDT, USDC]
   cowswap__swap([WETH], [DAI, USDT, USDC], Chain.eth),
 
-
-                                                                          
   // Curve - Swaps in 3pool
   ...allowErc20Approve([DAI, USDC, USDT], [contracts.mainnet.curve.x3CRV_pool]),
   allow.mainnet.curve.x3CRV_pool["exchange"](),
@@ -135,22 +121,23 @@ export default [
 
   // Curve - Swaps ETH/stETH (stETH-ng-f)
   ...allowErc20Approve([stETH], [contracts.mainnet.curve.stETH_ng_f_pool]),
-  allow.mainnet.curve.stETH_ng_f_pool["exchange(int128,int128,uint256,uint256)"](),
+  allow.mainnet.curve.stETH_ng_f_pool[
+    "exchange(int128,int128,uint256,uint256)"
+  ](),
 
-
-                                                                         
   // Uniswap V3 - Swaps
-  ...allowErc20Approve([ankrETH, DAI, ETHx, USDC, USDT, WETH, wstETH], [contracts.mainnet.uniswap_v3.router_2]),
+  ...allowErc20Approve(
+    [ankrETH, DAI, ETHx, USDC, USDT, WETH, wstETH],
+    [contracts.mainnet.uniswap_v3.router_2]
+  ),
   allow.mainnet.uniswap_v3.router_2.exactInputSingle(
     {
-      tokenIn: c.or(ankrETH, DAI, ETHx, USDC, USDT, WETH, wstETH), 
-      tokenOut: c.or(DAI, USDC, USDT, WETH, wstETH), 
+      tokenIn: c.or(ankrETH, DAI, ETHx, USDC, USDT, WETH, wstETH),
+      tokenOut: c.or(DAI, USDC, USDT, WETH, wstETH),
       recipient: c.avatar,
     },
     {
       send: true,
-
     }
   ),
-
 ] satisfies PermissionList
