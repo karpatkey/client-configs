@@ -7,6 +7,7 @@ export const contracts = {
       aave: "0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9",
       stkAave: "0x4da27a545c0c5B758a6BA100e3a049001de870f5",
       gho: "0x40D16FC0246aD3160Ccc09B8D0D3A2cD28aE6C2f",
+      stkGHO: "0x1a88Df1cFe15Af22B3c4c783D4e6F7F9e0C1885d",
     },
     aave_v3: {
       pool_v3: "0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2",
@@ -38,15 +39,15 @@ export const contracts = {
       // aura50COW_50WETH_rewarder: "0xA6e54eA1C67396Bde9e92cA462197bE59Af3E875",
       // auraBAL_staking_rewarder: "0x00A7BA8Ae7bca0B10A32Ea1f8e2a1Da980c6CAd2",
       // aurabb_aV3_USD_rewarder: "0xD48451A61d5190a1Ba7C9D17056490cB5d50999d",
-      // aura_locker: "0x3Fa73f1E5d8A792C80F426fc8F84FBF7Ce9bBCAC",
+      // vlAURA: "0x3Fa73f1E5d8A792C80F426fc8F84FBF7Ce9bBCAC",
       // snapshot_delegate_registry: "0x469788fE6E9E9681C6ebF3bF78e7Fd26Fc015446",
       claim_zap: "0x5b2364fD757E262253423373E4D57C5c011Ad7F4",
-      // stkauraBAL: "0xfAA2eD111B4F580fCb85C48E6DC6782Dc5FCD7a6",
+      stkauraBAL: "0xfAA2eD111B4F580fCb85C48E6DC6782Dc5FCD7a6",
       // auraBAL_B_80BAL_20WETH_depositor:
       //  "0xeAd792B55340Aa20181A80d6a16db6A0ECd1b827",
       // auraBAL_BAL_depositor: "0x68655AD9852a99C87C0934c7290BB62CFa5D4123",
-      // auraBAL_compounding_rewarder:
-      //  "0xAc16927429c5c7Af63dD75BC9d8a58c63FfD0147",
+      auraBAL_compounding_rewarder:
+        "0xAc16927429c5c7Af63dD75BC9d8a58c63FfD0147",
     },
     angle: {
       wstETH_EUR_Vault: "0x73aaf8694BA137a7537E7EF544fcf5E2475f227B",
@@ -100,7 +101,7 @@ export const contracts = {
       // crv_depositor: "0x8014595F2AB54cD7c604B00E9fb932176fDc86Ae",
       // stkCvxCrv: "0xaa0C3f5F7DFD688C6E646F66CD2a6B66ACdbE434",
       // cvxRewardPool: "0xCF50b810E57Ac33B91dCF525C6ddd9881B139332",
-      // vlCVX: "0x72a19342e8F1838460eBFCCEf09F6585e32db86E",
+      vlCVX: "0x72a19342e8F1838460eBFCCEf09F6585e32db86E",
       rewarder: "0x0A760466E1B4621579a82a39CB56Dda2F4E70f03", // cvxsteCRV_rewarder
       // cvxsteCRV_rewarder: "0x0A760466E1B4621579a82a39CB56Dda2F4E70f03",
       // cvxcDAIcUSDC_rewarder: "0xf34DFF761145FF0B05e917811d488B441F33a968",
