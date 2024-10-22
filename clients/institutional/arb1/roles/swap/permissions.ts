@@ -1,7 +1,13 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { allow as allowAction } from "defi-kit/eth"
-import { COMP, DAI, USDC, USDCe, balancer } from "../../../../../eth-sdk/addresses_arb"
+import {
+  COMP,
+  DAI,
+  USDC,
+  USDCe,
+  balancer,
+} from "../../../../../eth-sdk/addresses_arb"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
@@ -26,5 +32,5 @@ export default [
     tokenIn: c.or(DAI, USDC, USDCe),
     tokenOut: c.or(DAI, USDC, USDCe),
     recipient: c.avatar,
-  })
+  }),
 ] satisfies PermissionList

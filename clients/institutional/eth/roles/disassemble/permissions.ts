@@ -67,8 +67,18 @@ export default [
   allow.mainnet.spark.sparkLendingPoolV3.withdraw(sDAI, undefined, c.avatar),
   // Spark - Repay DAI
   ...allowErc20Approve([DAI], [contracts.mainnet.spark.sparkLendingPoolV3]),
-  allow.mainnet.spark.sparkLendingPoolV3.repay(DAI, undefined, undefined, c.avatar),
+  allow.mainnet.spark.sparkLendingPoolV3.repay(
+    DAI,
+    undefined,
+    undefined,
+    c.avatar
+  ),
   // Spark - Repay USDC
   ...allowErc20Approve([USDC], [contracts.mainnet.spark.sparkLendingPoolV3]),
-  allow.mainnet.spark.sparkLendingPoolV3.repay(USDC, undefined, undefined, c.avatar)
+  allow.mainnet.spark.sparkLendingPoolV3.repay(
+    USDC,
+    undefined,
+    undefined,
+    c.avatar
+  ),
 ] satisfies PermissionList

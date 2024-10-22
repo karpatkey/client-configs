@@ -36,5 +36,5 @@ export default [
   ),
 
   // Compound v3 - Withdraw USDC
-  allow.arbitrumOne.compound_v3.cUSDCv3.withdraw(USDC)
+  allow.arbitrumOne.compound_v3.cUSDCv3.withdraw(USDC),
 ] satisfies PermissionList

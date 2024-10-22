@@ -1,6 +1,12 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { crvUSD, DAI, USDC, USDCe, balancer } from "../../../../../eth-sdk/addresses_opt"
+import {
+  crvUSD,
+  DAI,
+  USDC,
+  USDCe,
+  balancer,
+} from "../../../../../eth-sdk/addresses_opt"
 import { USDC as USDC_eth } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
@@ -74,7 +80,11 @@ export default [
    * Swaps
    *********************************************/
   // Balancer - USDC/USDC.e/DAI/USDT Pool - Swap [DAI, USDC, USDCe] <-> [DAI, USDC, USDCe]
-  balancer__swap(balancer.Stable_Beets_pId, [DAI, USDC, USDCe], [DAI, USDC, USDCe]),
+  balancer__swap(
+    balancer.Stable_Beets_pId,
+    [DAI, USDC, USDCe],
+    [DAI, USDC, USDCe]
+  ),
 
   // Curve - 3pool - Swap DAI <-> USDC.e
   ...allowErc20Approve([DAI, USDCe], [contracts.optimism.curve.x3CRV_pool]),

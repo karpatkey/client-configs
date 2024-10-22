@@ -42,5 +42,5 @@ export default [
    *********************************************/
   // Wrapping and unwrapping of XDAI, WXDAI
   allow.gnosis.wxdai.deposit({ send: true }),
-  allow.gnosis.wxdai.withdraw()
+  allow.gnosis.wxdai.withdraw(),
 ] satisfies PermissionList
