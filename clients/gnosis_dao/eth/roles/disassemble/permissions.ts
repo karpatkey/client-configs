@@ -40,12 +40,15 @@ export default [
   allow.mainnet.aave_v3.pool_v3.withdraw(wstETH, undefined, c.avatar),
 
   // Aave v3 - Repay GHO
+  ...allowErc20Approve([GHO], [contracts.mainnet.aave_v3.pool_v3]),
   allow.mainnet.aave_v3.pool_v3.repay(GHO, undefined, undefined, c.avatar),
 
   // Aave v3 - Repay USDC
+  ...allowErc20Approve([USDC], [contracts.mainnet.aave_v3.pool_v3]),
   allow.mainnet.aave_v3.pool_v3.repay(USDC, undefined, undefined, c.avatar),
 
   // Aave v3 - Repay WBTC
+  ...allowErc20Approve([WBTC], [contracts.mainnet.aave_v3.pool_v3]),
   allow.mainnet.aave_v3.pool_v3.repay(WBTC, undefined, undefined, c.avatar),
 
   // Aura - auraBAL
