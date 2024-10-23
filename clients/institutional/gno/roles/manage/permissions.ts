@@ -1,18 +1,19 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { allow as allowAction } from "defi-kit/eth"
+import { allow as allowAction } from "defi-kit/gno"
 import {
-  // COMP,
   WXDAI,
   sDAI,
   USDC,
   USDCe,
   E_ADDRESS,
+  balancer,
 } from "../../../../../eth-sdk/addresses_gno"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
 import { avatar } from "../../index"
+import { balancer__swap } from "../../../../../helpers/exit_strategies/balancer"
 
 export default [
   /*********************************************
@@ -23,6 +24,9 @@ export default [
     sell: [sDAI, USDC, USDCe, WXDAI],
     buy: [E_ADDRESS, sDAI, USDC, USDCe, WXDAI],
   }),
+
+  // Spark - DSR/sDAI
+  allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
 
   /*********************************************
    * Typed-presets permissions
@@ -98,22 +102,6 @@ export default [
   // USDC approval already included
   allow.gnosis.aave_v3.pool_v3.repay(USDC, undefined, undefined, c.avatar),
 
-  // Agave - sDAI
-  // Deposit XDAI
-  allow.gnosis.agave.SavingsXDaiAdapter.depositXDAI(c.avatar, {
-    send: true,
-  }),
-  // Withdraw XDAI
-  ...allowErc20Approve([sDAI], [contracts.gnosis.agave.SavingsXDaiAdapter]),
-  allow.gnosis.agave.SavingsXDaiAdapter.redeemXDAI(undefined, c.avatar),
-
-  // Agave - sDAI - Deposit and Withdraw WXDAI
-  ...allowErc20Approve([WXDAI], [contracts.gnosis.agave.SavingsXDaiAdapter]),
-  allow.gnosis.agave.SavingsXDaiAdapter.deposit(undefined, c.avatar),
-  // Withdraw WXDAI
-  // sDAI approval with SavingsXDaiAdapter as spender already whitelisted
-  allow.gnosis.agave.SavingsXDaiAdapter.redeem(undefined, c.avatar),
-
   // Spark - Deposit sDAI
   ...allowErc20Approve([sDAI], [contracts.gnosis.spark.sparkLendingPoolV3]),
   allow.gnosis.spark.sparkLendingPoolV3.supply(sDAI, undefined, c.avatar),
@@ -145,19 +133,20 @@ export default [
     undefined,
     c.avatar
   ),
-  // Spark - Borrow XDAI
-  allow.gnosis.spark.variableDebtWXDAI.approveDelegation(
-    contracts.gnosis.spark.wrappedTokenGatewayV3
-  ),
-  allow.gnosis.spark.wrappedTokenGatewayV3.borrowETH(
-    contracts.gnosis.spark.sparkLendingPoolV3
-  ),
-  allow.gnosis.spark.wrappedTokenGatewayV3.repayETH(
-    contracts.gnosis.spark.sparkLendingPoolV3,
+  // Spark - Borrow USDC
+  allow.gnosis.spark.sparkLendingPoolV3.borrow(
+    USDC,
     undefined,
     undefined,
-    c.avatar,
-    { send: true }
+    undefined,
+    c.avatar
+  ),
+  ...allowErc20Approve([USDC], [contracts.gnosis.spark.sparkLendingPoolV3]),
+  allow.gnosis.spark.sparkLendingPoolV3.repay(
+    USDC,
+    undefined,
+    undefined,
+    c.avatar
   ),
   // Spark - Borrow WXDAI
   allow.gnosis.spark.sparkLendingPoolV3.borrow(
@@ -174,69 +163,32 @@ export default [
     undefined,
     c.avatar
   ),
-  // Spark - Borrow USDC
-  allow.gnosis.spark.sparkLendingPoolV3.borrow(
-    USDC,
-    undefined,
-    undefined,
-    undefined,
-    c.avatar
+  // Spark - Borrow XDAI
+  allow.gnosis.spark.variableDebtWXDAI.approveDelegation(
+    contracts.gnosis.spark.wrappedTokenGatewayV3
   ),
-  ...allowErc20Approve([USDC], [contracts.gnosis.spark.sparkLendingPoolV3]),
-  allow.gnosis.spark.sparkLendingPoolV3.repay(
-    USDC,
+  allow.gnosis.spark.wrappedTokenGatewayV3.borrowETH(
+    contracts.gnosis.spark.sparkLendingPoolV3
+  ),
+  allow.gnosis.spark.wrappedTokenGatewayV3.repayETH(
+    contracts.gnosis.spark.sparkLendingPoolV3,
     undefined,
     undefined,
-    c.avatar
+    c.avatar,
+    { send: true }
   ),
 
   /*********************************************
    * Swaps
    *********************************************/
-  // Balancer - USDT/sDAI/USDC pool - Swap sDAI <-> USDC
-  ...allowErc20Approve([sDAI, USDC], [contracts.mainnet.balancer.vault]),
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0x7644fa5d0ea14fcf3e813fdf93ca9544f8567655000000000000000000000066",
-      assetIn: c.or(sDAI, USDC),
-      assetOut: c.or(sDAI, USDC),
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
+  // Balancer - USDT/sDAI/USDC Pool - Swap sDAI <-> USDC
+  balancer__swap(balancer.sBAL3_pId, [sDAI, USDC], [sDAI, USDC]),
 
   // Balancer - USDT/sDAI/USDC.e pool - Swap sDAI <-> USDC.e
-  ...allowErc20Approve([sDAI, USDCe], [contracts.mainnet.balancer.vault]),
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0xfc095c811fe836ed12f247bcf042504342b73fb700000000000000000000009f",
-      assetIn: c.or(sDAI, USDCe),
-      assetOut: c.or(sDAI, USDCe),
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
+  balancer__swap(balancer.sBAL3_2_pId, [sDAI, USDCe], [sDAI, USDCe]),
 
   // Balancer - USDT/USDC/WXDAI pool - Swap USDC <-> WXDAI
-  ...allowErc20Approve([USDC, WXDAI], [contracts.mainnet.balancer.vault]),
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0x2086f52651837600180de173b09470f54ef7491000000000000000000000004f",
-      assetIn: c.or(USDC, WXDAI),
-      assetOut: c.or(USDC, WXDAI),
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
+  balancer__swap(balancer.staBAL3_pId, [USDC, WXDAI], [USDC, WXDAI]),
 
   // Swap USDC.e -> USDC
   ...allowErc20Approve([USDCe], [contracts.gnosis.usdc_transmuter]),

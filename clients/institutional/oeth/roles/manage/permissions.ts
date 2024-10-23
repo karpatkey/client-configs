@@ -1,11 +1,18 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { crvUSD, DAI, USDC, USDCe } from "../../../../../eth-sdk/addresses_opt"
+import {
+  crvUSD,
+  DAI,
+  USDC,
+  USDCe,
+  balancer,
+} from "../../../../../eth-sdk/addresses_opt"
 import { USDC as USDC_eth } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
 import { avatar } from "../../index"
+import { balancer__swap } from "../../../../../helpers/exit_strategies/balancer"
 
 export default [
   /*********************************************
@@ -72,19 +79,11 @@ export default [
   /*********************************************
    * Swaps
    *********************************************/
-  // Balancer - USDC/USDC.e/DAI/USDT pool - Swap USDC <-> USDC.e <-> DAI
-  ...allowErc20Approve([DAI, USDC, USDCe], [contracts.mainnet.balancer.vault]),
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0x9da11ff60bfc5af527f58fd61679c3ac98d040d9000000000000000000000100",
-      assetIn: c.or(DAI, USDC, USDCe),
-      assetOut: c.or(DAI, USDC, USDCe),
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
+  // Balancer - USDC/USDC.e/DAI/USDT Pool - Swap [DAI, USDC, USDCe] <-> [DAI, USDC, USDCe]
+  balancer__swap(
+    balancer.Stable_Beets_pId,
+    [DAI, USDC, USDCe],
+    [DAI, USDC, USDCe]
   ),
 
   // Curve - 3pool - Swap DAI <-> USDC.e

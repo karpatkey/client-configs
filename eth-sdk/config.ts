@@ -269,9 +269,6 @@ export const contracts = {
       variable_debt_wxdai: "0x281963D7471eCdC3A2Bd4503e24e89691cfe420D",
       aGnoWXDAI: "0xd0Dd6cEF72143E22cCED4867eb0d5F2328715533",
     },
-    agave: {
-      SavingsXDaiAdapter: "0xD499b51fcFc66bd31248ef4b28d656d67E591A94",
-    },
     arrakis: {
       permit2: "0x000000000022D473030F116dDEE9F6B43aC78BA3",
       sign_message_lib: "0xd53cd0aB83D845Ac265BE939c57F53AD838012c9",
@@ -327,6 +324,7 @@ export const contracts = {
       wrappedTokenGatewayV3: "0xBD7D6a9ad7865463DE44B05F04559f65e3B11704",
       variableDebtWXDAI: "0x868ADfDf12A86422524EaB6978beAE08A0008F37",
       aWXDAI: "0xC9Fe2D32E96Bb364c7d29f3663ed3b27E30767bB",
+      SavingsXDaiAdapter: "0xD499b51fcFc66bd31248ef4b28d656d67E591A94",
     },
     comp: "0xDf6FF92bfDC1e8bE45177DC1f4845d391D3ad8fD",
     gno: "0x9C58BAcC331c9aa871AFD802DB6379a98e80CEdb",
