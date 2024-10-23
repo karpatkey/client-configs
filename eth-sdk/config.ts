@@ -177,8 +177,8 @@ export const contracts = {
       staking_pool: "0xF3745f76C137738b0371a820A098fC678672660a", // Pool #2 (used as a general case)
       token_controller: "0x5407381b6c251cFd498ccD4A1d877739CB7960B8",
     },
-    notional: {
-      nProxy: "0x1344A36A1B56144C3Bc62E7757377D288fDE0369",
+    notional_v3: {
+      nProxy: "0x6e7058c91F85E0F6db4fc9da2CA41241f5e4263f",
     },
     origin: {
       OETH_Zapper: "0x9858e47BCbBe6fBAC040519B02d7cd4B2C470C66",

@@ -147,17 +147,6 @@ export default [
   allow.mainnet.maker.dsr_manager.exit(c.avatar),
   allow.mainnet.maker.dsr_manager.exitAll(c.avatar),
 
-  // Notional - withdraw DAI
-  allow.mainnet.notional.nProxy.batchBalanceAction(
-    c.avatar,
-    c.every({
-      actionType: 5,
-      currencyId: 2,
-    })
-  ),
-  // Claim NOTE
-  allow.mainnet.notional.nProxy.nTokenClaimIncentives(),
-
   // pods - ETHphoria Vault
   // Deposit ETH
   allow.mainnet.pods.ETHAdapter.deposit(

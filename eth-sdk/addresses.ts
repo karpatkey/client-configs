@@ -298,6 +298,7 @@ export const morpho = {
   Oracle_wstETH_USDC: "0x48F7E36EB6B826B2dF4B2E630B62Cd25e89E40e2" as Address,
   Oracle_WBTC_USDC: "0xDddd770BADd886dF3864029e4B377B5F6a2B6b83" as Address,
   Adaptative_Curve_IRM: "0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC" as Address,
+  Oracle_WBTC_USDT: "0x008bF4B1cDA0cc9f0e882E0697f036667652E1ef" as Address,
 }
 
 // export const mstable_v2 = {

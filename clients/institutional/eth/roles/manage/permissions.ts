@@ -83,7 +83,7 @@ export default [
       irm: morpho.Adaptative_Curve_IRM,
     },
     undefined,
-    0,
+    undefined,
     c.avatar,
     "0x"
   ),
@@ -95,7 +95,7 @@ export default [
       irm: morpho.Adaptative_Curve_IRM,
     },
     undefined,
-    0,
+    undefined,
     c.avatar,
     c.avatar
   ),
@@ -109,7 +109,7 @@ export default [
       irm: morpho.Adaptative_Curve_IRM,
     },
     undefined,
-    0,
+    undefined,
     c.avatar,
     "0x"
   ),
@@ -121,7 +121,7 @@ export default [
       irm: morpho.Adaptative_Curve_IRM,
     },
     undefined,
-    0,
+    undefined,
     c.avatar,
     c.avatar
   ),
