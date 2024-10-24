@@ -1,22 +1,96 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { allow as allowAction } from "defi-kit/eth"
 import { contracts } from "../../../../../eth-sdk/config"
 import {
-  AZUR,
-  DAI,
-  GRT,
-  sDAI,
-  USDC,
-  USDT,
-  ZERO_ADDRESS,
+    DAI,
+    rETH,
+    stETH,
+    USDC,
+    USDT,
+    wstETH,
+    balancer,
+    E_ADDRESS,
+    WETH
 } from "../../../../../eth-sdk/addresses"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
-
-const GRAPH_DELEGATEE = "0x5A8904be09625965d9AEc4BFfD30D853438a053e"
-const GNOSIS_LTD_ARB = "0x5B6e1AcD8494092C166b390C17f09694B9dDb42C"
+import {
+    lido__unstake_stETH,
+    lido__unwrap_and_unstake_wstETH,
+} from "../../../../../helpers/exit_strategies/lido"
+import { cowswap__swap } from "../../../../../helpers/exit_strategies/cowswap"
+import {
+    balancer__swap,
+} from "../../../../../helpers/exit_strategies/balancer"
+import { Chain } from "../../../../../types"
 
 export default [
+    /*********************************************
+     * Protocol permissions
+     *********************************************/
+
+    // Lido
+    lido__unstake_stETH(),
+    lido__unwrap_and_unstake_wstETH(),
+
+    // Spark - DSR/sDAI
+    allow.mainnet.spark.sDAI.redeem(undefined, c.avatar, c.avatar),
+    allow.mainnet.spark.sDAI.withdraw(undefined, c.avatar, c.avatar),
+
+    // Compound v3 - USDC
+    allow.mainnet.compound_v3.cUSDCv3.withdraw(USDC),
+
+    // CowSwap - vCOW
+    allow.mainnet.cowswap.vCOW.swapAll(),
+
+    /*********************************************
+    * SWAPS
+    *********************************************/
+
+    // Balancer - Swap rETH <-> WETH
+    balancer__swap(balancer.B_rETH_stable_pid, [rETH, WETH], [rETH, WETH]),
+
+    // Balancer - Swap WETH <-> wstETH
+    balancer__swap(balancer.B_stETH_stable_pid, [WETH, wstETH], [wstETH, WETH]),
+
+    // CowSwap - DAI -> [USDC, USDT, E_ADDRESS]
+    cowswap__swap([DAI], [USDC, USDT, E_ADDRESS], Chain.eth),
+
+    // CowSwap - USDT -> [USDC, DAI, E_ADDRESS]
+    cowswap__swap([USDT], [USDC, DAI, E_ADDRESS], Chain.eth),
+
+    // Cowswap - USDC -> [DAI, USDT, E_ADDRESS]
+    cowswap__swap([USDC], [DAI, USDT, E_ADDRESS], Chain.eth),
+
+    // Cowswap - WETH -> [DAI, USDT, USDC]
+    cowswap__swap([WETH], [DAI, USDT, USDC], Chain.eth),
+
+    // Curve - Swaps in 3pool
+    ...allowErc20Approve([DAI, USDC, USDT], [contracts.mainnet.curve.x3CRV_pool]),
+    allow.mainnet.curve.x3CRV_pool["exchange"](),
+
+    // Curve - Swap ETH/stETH (steCRV)
+    ...allowErc20Approve([stETH], [contracts.mainnet.curve.steth_eth_pool]),
+    allow.mainnet.curve.steth_eth_pool["exchange"](),
+
+    // Curve - Swaps ETH/stETH (stETH-ng-f)
+    ...allowErc20Approve([stETH], [contracts.mainnet.curve.stETH_ng_f_pool]),
+    allow.mainnet.curve.stETH_ng_f_pool[
+        "exchange(int128,int128,uint256,uint256)"
+    ](),
+
+    // Uniswap V3 - Swaps
+    ...allowErc20Approve([DAI, USDC, USDT, WETH, wstETH], [contracts.mainnet.uniswap_v3.router_2]),
+
+    allow.mainnet.uniswap_v3.router_2.exactInputSingle(
+        {
+            tokenIn: c.or(DAI, USDC, USDT, WETH, wstETH),
+            tokenOut: c.or(DAI, USDC, USDT, WETH, wstETH),
+            recipient: c.avatar,
+        },
+        {
+            send: true,
+        }
+    )
 
 ] satisfies PermissionList
