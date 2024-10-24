@@ -31,28 +31,28 @@ export default [
 
   // CowSwap - DAI <> USDC
   allowAction.cowswap.swap({
-    sell: [DAI],
-    buy: [USDC],
+    sell: [DAI, USDC],
+    buy: [DAI, USDC],
   }),
   // CowSwap - DAI <> USDT
   allowAction.cowswap.swap({
-    sell: [DAI],
-    buy: [USDT],
+    sell: [DAI, USDT],
+    buy: [DAI, USDT],
   }),
   // CowSwap - USDC <> USDT
   allowAction.cowswap.swap({
-    sell: [USDC],
-    buy: [USDT],
+    sell: [USDC, USDT],
+    buy: [USDC, USDT],
   }),
   // CowSwap - sDAI <> USDC
   allowAction.cowswap.swap({
-    sell: [sDAI],
-    buy: [USDC],
+    sell: [sDAI, USDC],
+    buy: [sDAI, USDC],
   }),
   // CowSwap - sDAI <> USDT
   allowAction.cowswap.swap({
-    sell: [sDAI],
-    buy: [USDT],
+    sell: [sDAI, USDT],
+    buy: [sDAI, USDT],
   }),
 
   // Spark - DSR/sDAI
