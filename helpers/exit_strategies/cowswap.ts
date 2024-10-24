@@ -2,23 +2,47 @@ import { PermissionSet } from "zodiac-roles-sdk"
 import { allow as allowActionEth } from "defi-kit/eth"
 import { allow as allowActionGno } from "defi-kit/gno"
 import { allow as allowActionArb } from "defi-kit/arb1"
+import { E_ADDRESS } from "../../eth-sdk/addresses"
 import { Chain } from "../../types"
 import { Address } from "@dethcrypto/eth-sdk"
+
+const replaceAddress = (
+  arr: Address[],
+  chain: Chain
+): (Address | "ETH" | "XDAI")[] => {
+  if (chain === Chain.gno) {
+    return arr.map((addr) => (addr === E_ADDRESS ? "XDAI" : addr))
+  } else {
+    return arr.map((addr) => (addr === E_ADDRESS ? "ETH" : addr))
+  }
+}
 
 export const cowswap__swap = async (
   sell: Address[],
   buy: Address[],
   chain: Chain
 ): Promise<PermissionSet> => {
+  const modifiedSell = replaceAddress(sell, chain)
+  const modifiedBuy = replaceAddress(buy, chain)
+
   switch (chain) {
     case Chain.eth:
-      return await allowActionEth.cowswap.swap({ sell: sell, buy: buy })
+      return await allowActionEth.cowswap.swap({
+        sell: modifiedSell as (Address | "ETH")[],
+        buy: modifiedBuy as (Address | "ETH")[],
+      })
 
     case Chain.gno:
-      return await allowActionGno.cowswap.swap({ sell: sell, buy: buy })
+      return await allowActionGno.cowswap.swap({
+        sell: modifiedSell as (Address | "XDAI")[],
+        buy: modifiedBuy as (Address | "XDAI")[],
+      })
 
     case Chain.arb1:
-      return await allowActionArb.cowswap.swap({ sell: sell, buy: buy })
+      return await allowActionArb.cowswap.swap({
+        sell: modifiedSell as (Address | "ETH")[],
+        buy: modifiedBuy as (Address | "ETH")[],
+      })
 
     default:
       throw new Error(`Unsupported chain: ${chain}`)

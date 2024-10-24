@@ -111,8 +111,8 @@ export default [
   // Cowswap - USDC -> [DAI, USDT, E_ADDRESS]
   cowswap__swap([USDC], [DAI, USDT, E_ADDRESS], Chain.eth),
 
-  // Cowswap - WETH -> [DAI, USDT, USDC]
-  cowswap__swap([WETH], [DAI, USDT, USDC], Chain.eth),
+  // Cowswap - [ETH, WETH] -> [DAI, USDT, USDC]
+  cowswap__swap([E_ADDRESS, WETH], [DAI, USDT, USDC], Chain.eth),
 
   // Curve - Swaps in 3pool
   ...allowErc20Approve([DAI, USDC, USDT], [contracts.mainnet.curve.x3CRV_pool]),

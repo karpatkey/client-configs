@@ -2,15 +2,15 @@ import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { contracts } from "../../../../../eth-sdk/config"
 import {
+  E_ADDRESS,
   DAI,
   rETH,
   stETH,
   USDC,
   USDT,
+  WETH,
   wstETH,
   balancer,
-  E_ADDRESS,
-  WETH,
 } from "../../../../../eth-sdk/addresses"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
@@ -26,7 +26,6 @@ export default [
   /*********************************************
    * Protocol permissions
    *********************************************/
-
   // Lido
   lido__unstake_stETH(),
   lido__unwrap_and_unstake_wstETH(),
@@ -38,13 +37,9 @@ export default [
   // Compound v3 - USDC
   allow.mainnet.compound_v3.cUSDCv3.withdraw(USDC),
 
-  // CowSwap - vCOW
-  allow.mainnet.cowswap.vCOW.swapAll(),
-
   /*********************************************
    * SWAPS
    *********************************************/
-
   // Balancer - Swap rETH <-> WETH
   balancer__swap(balancer.B_rETH_stable_pid, [rETH, WETH], [rETH, WETH]),
 
@@ -60,8 +55,8 @@ export default [
   // Cowswap - USDC -> [DAI, USDT, E_ADDRESS]
   cowswap__swap([USDC], [DAI, USDT, E_ADDRESS], Chain.eth),
 
-  // Cowswap - WETH -> [DAI, USDT, USDC]
-  cowswap__swap([WETH], [DAI, USDT, USDC], Chain.eth),
+  // Cowswap - [ETH, WETH] -> [DAI, USDT, USDC]
+  cowswap__swap([E_ADDRESS, WETH], [DAI, USDT, USDC], Chain.eth),
 
   // Curve - Swaps in 3pool
   ...allowErc20Approve([DAI, USDC, USDT], [contracts.mainnet.curve.x3CRV_pool]),
@@ -82,7 +77,6 @@ export default [
     [DAI, USDC, USDT, WETH, wstETH],
     [contracts.mainnet.uniswap_v3.router_2]
   ),
-
   allow.mainnet.uniswap_v3.router_2.exactInputSingle(
     {
       tokenIn: c.or(DAI, USDC, USDT, WETH, wstETH),
