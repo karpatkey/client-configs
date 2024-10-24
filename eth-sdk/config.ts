@@ -132,6 +132,9 @@ export const contracts = {
       tricryptoGHO_gauge: "0x6373E119F2A1Fd081249BC16FE7FEA1F6b3A4Ca8",
       OETHCRV_f_pool: "0x94B17476A93b3262d87B9a326965D1E91f9c13E7",
       OETHCRV_f_gauge: "0xd03BE91b1932715709e18021734fcB91BB431715",
+      crvUSDUSDT_f_pool: "0x390f3595bCa2Df7d23783dFd126427CCeb997BF4",
+      crvUSDUSDT_f_gauge: "0x4e6bB6B7447B7B2Aa268C16AB87F4Bb48BF57939",
+      sdai_usdm_pool: "0x425BfB93370F14fF525aDb6EaEAcfE1f4e3b5802",
     },
     enzyme: {
       deposit_wrapper_2: "0x65BbAD6545B7ac9C30Fb0f07e64e25106Bf05eEc",
