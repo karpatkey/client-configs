@@ -1,7 +1,11 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import {
+    CRV,
+    COMP,
+    CVX,
     DAI,
+    NOTE,
     rETH,
     USDC,
     USDT,
@@ -33,6 +37,10 @@ export default [
 
     // Aura - wstETH/WETH
     aura__withdraw_balancer(aura.auraB_stETH_stable_rewarder, balancer.B_stETH_stable_pid),
+
+    // CowSwap - Holdings
+    cowswap__swap([DAI, USDC, USDT], [DAI, USDC, USDT, WETH], Chain.eth),
+    cowswap__swap([CRV, COMP, CVX, NOTE], [DAI, USDC], Chain.eth),
 
     // Lido
     lido__unstake_stETH(),
