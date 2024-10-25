@@ -42,7 +42,7 @@ jobs:
         run: yarn check:prettier
         continue-on-error: true
         - name: Run Prettier if formatting fails
-          if: failure() # This runs only if the previous step fails
+          if: failure()
           run: yarn prettier "clients/**/*.ts" --write
 
       - name: Run tests
