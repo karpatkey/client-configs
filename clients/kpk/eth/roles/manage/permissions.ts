@@ -16,6 +16,7 @@ import {
   WETH,
   wstETH,
   ZERO_ADDRESS,
+  E_ADDRESS,
 } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
@@ -36,7 +37,9 @@ export default [
   allowAction.aura.stake({ targets: ["B-80BAL-20WETH", "BAL", "auraBAL"] }),
 
   // Convex - USDT/WBTC/WETH
-  allowAction.convex.deposit({ targets: ["38"] }),
+  allowAction.convex.deposit({ targets: ["188"] }),
+  // Convex - GHO/WBTC/wstETH
+  allowAction.convex.deposit({ targets: ["297"] }),
 
   // CowSwap - Holdings
   allowAction.cowswap.swap({
@@ -51,7 +54,7 @@ export default [
   // Rocket Pool
   allowAction.rocket_pool.deposit(),
 
-  // Spark - DSR sDAI
+  // Spark - DSR/sDAI
   allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
 
   /*********************************************
@@ -70,6 +73,29 @@ export default [
 
   // Compound v3 - Claim rewards
   allow.mainnet.compound_v3.CometRewards.claim(undefined, c.avatar),
+
+  // Curve - USDT/WBTC/WETH
+  ...allowErc20Approve(
+    [USDT, WBTC, WETH],
+    [contracts.mainnet.curve.crvUSDTWBTCWETH_pool]
+  ),
+  allow.mainnet.curve.crvUSDTWBTCWETH_pool[
+    "add_liquidity(uint256[3],uint256,bool)"
+  ](undefined, undefined, undefined, {
+    send: true,
+  }),
+  allow.mainnet.curve.crvUSDTWBTCWETH_pool[
+    "remove_liquidity(uint256,uint256[3],bool)"
+  ](),
+  allow.mainnet.curve.crvUSDTWBTCWETH_pool[
+    "remove_liquidity_one_coin(uint256,uint256,uint256,bool)"
+  ](),
+  ...allowErc20Approve(
+    [contracts.mainnet.curve.crvUSDTWBTCWETH_pool],
+    [contracts.mainnet.curve.crvUSDTWBTCWETH_gauge]
+  ),
+  allow.mainnet.curve.crvUSDTWBTCWETH_gauge["deposit(uint256)"](),
+  allow.mainnet.curve.crvUSDTWBTCWETH_gauge["withdraw(uint256)"](),
 
   // Curve - Tricrypto GHO (GHO/WBTC/wstETH)
   ...allowErc20Approve(
@@ -97,19 +123,35 @@ export default [
     [GHO, WBTC, wstETH],
     [contracts.mainnet.curve.stake_deposit_zap]
   ),
+  ...allowErc20Approve(
+    [USDT, WBTC, WETH],
+    [contracts.mainnet.curve.stake_deposit_zap]
+  ),
   allow.mainnet.curve.stake_deposit_zap[
     "deposit_and_stake(address,address,address,uint256,address[],uint256[],uint256,bool,bool,address)"
   ](
-    contracts.mainnet.curve.tricryptoGHO_pool,
-    contracts.mainnet.curve.tricryptoGHO_pool,
-    contracts.mainnet.curve.tricryptoGHO_gauge,
+    c.or(
+      contracts.mainnet.curve.tricryptoGHO_pool,
+      contracts.mainnet.curve.crvUSDTWBTCWETH_pool
+    ),
+    c.or(
+      contracts.mainnet.curve.tricryptoGHO_pool,
+      contracts.mainnet.curve.crvUSDTWBTCWETH_pool
+    ),
+    c.or(
+      contracts.mainnet.curve.tricryptoGHO_gauge,
+      contracts.mainnet.curve.crvUSDTWBTCWETH_gauge
+    ),
     3,
-    [GHO, WBTC, wstETH],
+    c.or([GHO, WBTC, wstETH], [USDT, WBTC, E_ADDRESS], [USDT, WBTC, WETH]),
     undefined,
     undefined,
     undefined,
     undefined,
-    ZERO_ADDRESS
+    ZERO_ADDRESS,
+    {
+      send: true,
+    }
   ),
 
   // Enzyme - Diva stETH Vault
