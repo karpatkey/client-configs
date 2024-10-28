@@ -248,6 +248,9 @@ export const convex = {
     "0xf34DFF761145FF0B05e917811d488B441F33a968" as Address,
 
   //   VOTER_PROXY: "0x989AEb4d175e16225E39E87d0D97A3360524AD80",
+  crvUSDTWBTCWETH_rewarder:
+    "0xb05262D4aaAA38D0Af4AaB244D446ebDb5afd4A7" as Address,
+  GHOBTCwstE_rewarder: "0x923D3C32f870E7953dd4020D0585D6419C44e4Ca" as Address,
 }
 
 export const cowswap = {
