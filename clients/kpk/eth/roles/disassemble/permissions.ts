@@ -34,7 +34,7 @@ export default [
   /*********************************************
    * Protocol permissions
    *********************************************/
-  // Wrapping and unwrapping of ETH, WETH
+  // Unwrap ETH
   allow.mainnet.weth.withdraw(),
 
   // Aura - wstETH/WETH
