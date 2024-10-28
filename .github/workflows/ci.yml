@@ -39,8 +39,7 @@ jobs:
           yarn setup
 
       - name: Check formatting
-        run: yarn check:prettier || yarn prettier "clients/**/*.ts" --write
-        continue-on-error: true
+        run: yarn check:prettier
 
       - name: Run tests
         run: yarn test
