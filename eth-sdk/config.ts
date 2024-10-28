@@ -377,6 +377,10 @@ export const contracts = {
       cUSDCv3: "0x9c4ec768c28520B50860ea7a15bd7213a9fF58bf",
       CometRewards: "0x88730d254A2f7e6AC8388c3198aFd694bA9f7fae",
     },
+    gyroscope: {
+      sGYD: "0xeA50f402653c41cAdbaFD1f788341dB7B7F37816",
+      st_sGYD: "0xb4C19C1b16881A6d1d781264f0f8C0237D8Be0C7",
+    },
     gateway_router: "0x5288c571Fd7aD117beA99bF60FE0846C4E84F933",
     circle_token_messenger: "0x19330d10D9Cc8751218eaf51E8885D058642E08A",
     circle_message_transmitter: "0xC30362313FBBA5cf9163F0bb16a0e01f01A896ca",
