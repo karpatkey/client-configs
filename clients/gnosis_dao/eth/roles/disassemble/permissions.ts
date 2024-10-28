@@ -6,6 +6,7 @@ import {
   GHO,
   ETHx,
   rETH,
+  osETH,
   USDC,
   USDT,
   WBTC,
@@ -111,8 +112,26 @@ export default [
   // Cowswap - USDC -> [DAI, USDT, E_ADDRESS]
   cowswap__swap([USDC], [DAI, USDT, E_ADDRESS], Chain.eth),
 
-  // Cowswap - WETH -> [DAI, USDT, USDC]
-  cowswap__swap([WETH], [DAI, USDT, USDC], Chain.eth),
+  // Cowswap - [ETH, WETH] -> [DAI, USDT, USDC]
+  cowswap__swap([E_ADDRESS, WETH], [DAI, USDT, USDC], Chain.eth),
+
+  // CowSwap - DAI <> USDT
+  cowswap__swap([DAI, USDT], [DAI, USDT], Chain.eth),
+
+  // CowSwap - USDC <> USDT
+  cowswap__swap([USDC, USDT], [USDC, USDT], Chain.eth),
+
+  // CowSwap - wstETH -> stETH
+  cowswap__swap([wstETH], [stETH], Chain.eth),
+
+  // CowSwap - osETH <> WETH
+  cowswap__swap([osETH], [WETH], Chain.eth),
+
+  // CowSwap - rETH <> WETH
+  cowswap__swap([rETH, WETH], [rETH, WETH], Chain.eth),
+
+  // CowSwap - GHO <> USDC
+  cowswap__swap([GHO, USDC], [GHO, USDC], Chain.eth),
 
   // Curve - Swaps in 3pool
   ...allowErc20Approve([DAI, USDC, USDT], [contracts.mainnet.curve.x3CRV_pool]),
