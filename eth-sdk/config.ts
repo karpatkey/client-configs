@@ -215,6 +215,7 @@ export const contracts = {
       sparkLendingPoolV3: "0xC13e21B648A5Ee794902342038FF3aDAB66BE987",
       wrappedTokenGatewayV3: "0xBD7D6a9ad7865463DE44B05F04559f65e3B11704",
       sDAI: "0x83F20F44975D03b1b09e64809B757c47f942BEeA",
+      sUSDS: "0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD",
     },
     stader: {
       staking_pool_manager: "0xcf5EA1b38380f6aF39068375516Daf40Ed70D299",

@@ -237,7 +237,7 @@ export const convex = {
   //   cvxRewardPool: "0xCF50b810E57Ac33B91dCF525C6ddd9881B139332",
 
   //   vlCVX: "0x72a19342e8F1838460eBFCCEf09F6585e32db86E",
-
+  EthOeth_rewarder: "0x24b65DC1cf053A8D96872c323d29e86ec43eB33A" as Address,
   cvxsteCRV: "0x9518c9063eB0262D791f38d8d6Eb0aca33c63ed0" as Address,
   cvxsteCRV_rewarder: "0x0A760466E1B4621579a82a39CB56Dda2F4E70f03" as Address,
   cvxstETH_ng_f: "0x1b74fa5951dfa4c03D0127011548fA79b956f63B" as Address,
