@@ -86,6 +86,11 @@ export default [
   allow.mainnet.spark.sDAI.redeem(undefined, c.avatar, c.avatar),
   allow.mainnet.spark.sDAI.withdraw(undefined, c.avatar, c.avatar),
   // Spark - SKY_USDS
+  ...allowErc20Approve(
+    [USDS],
+    [contracts.mainnet.spark.MigrationActions]
+  ),
+  allow.mainnet.spark.MigrationActions.downgradeUSDSToDAI(c.avatar),
   allow.mainnet.spark.sUSDS.redeem(undefined, c.avatar, c.avatar),
   allow.mainnet.spark.sUSDS.withdraw(undefined, c.avatar, c.avatar),
 
