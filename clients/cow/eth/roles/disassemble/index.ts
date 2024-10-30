@@ -4,4 +4,4 @@ export { permissions }
 
 export const roleKey = "DISASSEMBLER"
 
-export const members = ["<member_address of the DISASSEMBLER role (#4) specified in the roles modifier v1 on the client's Avatar Safe>"]
+export const members = ["0x30215B314e9d49a9BdF6E9809F931cd6c0eDfC5B"]
