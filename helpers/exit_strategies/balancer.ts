@@ -1,6 +1,6 @@
 import { c, PermissionSet } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { Address } from "@dethcrypto/eth-sdk"
+import { Address } from "@gnosis-guild/eth-sdk"
 import { sdks } from "../sdks"
 import { Chain } from "../../types"
 import { allowErc20Approve } from "../../utils/erc20"

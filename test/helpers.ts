@@ -6,7 +6,7 @@ import { avatar, owner, member } from "./wallets"
 import { getProvider } from "./provider"
 import { getRolesMod, testRoleKey } from "./rolesMod"
 import { PermissionList } from "../types"
-import { getMainnetSdk } from "@dethcrypto/eth-sdk-client"
+import { getMainnetSdk } from "@gnosis-guild/eth-sdk-client"
 
 export const applyPermissions = async (permissions: PermissionList) => {
   const calls = await apply(testRoleKey, permissions, {

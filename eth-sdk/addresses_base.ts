@@ -1,4 +1,4 @@
-import { Address } from "@dethcrypto/eth-sdk"
+import { Address } from "@gnosis-guild/eth-sdk"
 
 // Tokens
 export const COMP = "0x9e1028F5F1D5eDE59748FFceE5532509976840E0"

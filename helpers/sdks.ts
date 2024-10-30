@@ -4,7 +4,7 @@ import {
   getGnosisSdk,
   getBaseSdk,
   getArbitrumOneSdk,
-} from "@dethcrypto/eth-sdk-client"
+} from "@gnosis-guild/eth-sdk-client"
 import config from "../eth-sdk/config"
 import { JsonRpcProvider } from "@ethersproject/providers"
 

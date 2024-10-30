@@ -1,4 +1,4 @@
-import { EthSdkConfig, defineConfig } from "@dethcrypto/eth-sdk"
+import { EthSdkConfig, defineConfig } from "@gnosis-guild/eth-sdk"
 
 export const contracts = {
   mainnet: {
@@ -412,13 +412,6 @@ export const contracts = {
 } satisfies EthSdkConfig["contracts"]
 
 export default defineConfig({
-  etherscanURLs: {
-    gnosis: "https://api.gnosisscan.io/api",
-    // gnosis: "https://blockscout.com/xdai/mainnet/api",
-    optimism: "https://api-optimistic.etherscan.io/api",
-    arbitrumOne: "https://api.arbiscan.io/api",
-    base: "https://api.basescan.org/api",
-  },
   rpc: {
     mainnet: "https://rpc.ankr.com/eth",
     gnosis: "https://rpc.gnosischain.com/",

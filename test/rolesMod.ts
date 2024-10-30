@@ -4,7 +4,7 @@ import {
   KnownContracts,
   calculateProxyAddress,
   deployAndSetUpModule,
-} from "@gnosis.pm/zodiac"
+} from "@gnosis-guild/zodiac"
 import { ethers } from "ethers"
 import { encodeBytes32String } from "defi-kit"
 import { avatar, deployer, member, owner } from "./wallets"
