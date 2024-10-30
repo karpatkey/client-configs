@@ -102,9 +102,8 @@ export const contracts = {
       // stkCvxCrv: "0xaa0C3f5F7DFD688C6E646F66CD2a6B66ACdbE434",
       // cvxRewardPool: "0xCF50b810E57Ac33B91dCF525C6ddd9881B139332",
       vlCVX: "0x72a19342e8F1838460eBFCCEf09F6585e32db86E",
-      rewarder: "0x0A760466E1B4621579a82a39CB56Dda2F4E70f03", // cvxsteCRV_rewarder
-      // cvxsteCRV_rewarder: "0x0A760466E1B4621579a82a39CB56Dda2F4E70f03",
-      // cvxcDAIcUSDC_rewarder: "0xf34DFF761145FF0B05e917811d488B441F33a968",
+      rewarder: "0x0A760466E1B4621579a82a39CB56Dda2F4E70f03", // steCRV_rewarder
+      // cDAIcUSDC_rewarder: "0xf34DFF761145FF0B05e917811d488B441F33a968",
       // claim_zap: "0x3f29cb4111cbda8081642da1f75b3c12decf2516",
     },
     cowswap: {
@@ -216,6 +215,7 @@ export const contracts = {
       wrappedTokenGatewayV3: "0xBD7D6a9ad7865463DE44B05F04559f65e3B11704",
       sDAI: "0x83F20F44975D03b1b09e64809B757c47f942BEeA",
       sUSDS: "0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD",
+      MigrationActions: "0xf86141a5657Cf52AEB3E30eBccA5Ad3a8f714B89",
     },
     stader: {
       staking_pool_manager: "0xcf5EA1b38380f6aF39068375516Daf40Ed70D299",

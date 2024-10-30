@@ -232,25 +232,25 @@ export default [
 
   // Convex - ETH/stETH - steCRV
   ...allowErc20Approve([curve.steCRV], [contracts.mainnet.convex.booster]),
-  ...allowErc20Approve([convex.cvxsteCRV], [convex.cvxsteCRV_rewarder]),
+  ...allowErc20Approve([convex.steCRV], [convex.steCRV_rewarder]),
   allow.mainnet.convex.booster.deposit(25),
   allow.mainnet.convex.booster.depositAll(25),
   allow.mainnet.convex.booster.withdraw(25),
   {
     ...allow.mainnet.convex.rewarder.stake(),
-    targetAddress: convex.cvxsteCRV_rewarder,
+    targetAddress: convex.steCRV_rewarder,
   },
   {
     ...allow.mainnet.convex.rewarder.withdraw(),
-    targetAddress: convex.cvxsteCRV_rewarder,
+    targetAddress: convex.steCRV_rewarder,
   },
   {
     ...allow.mainnet.convex.rewarder.withdrawAndUnwrap(),
-    targetAddress: convex.cvxsteCRV_rewarder,
+    targetAddress: convex.steCRV_rewarder,
   },
   {
     ...allow.mainnet.convex.rewarder["getReward(address,bool)"](c.avatar),
-    targetAddress: convex.cvxsteCRV_rewarder,
+    targetAddress: convex.steCRV_rewarder,
   },
 
   // Convex - ETH/stETH - stETH-ng-f
@@ -258,25 +258,25 @@ export default [
     [contracts.mainnet.curve.stETH_ng_f_pool],
     [contracts.mainnet.convex.booster]
   ),
-  ...allowErc20Approve([convex.cvxstETH_ng_f], [convex.cvxstETH_ng_f_rewarder]),
+  ...allowErc20Approve([convex.stETH_ng_f], [convex.stETH_ng_f_rewarder]),
   allow.mainnet.convex.booster.deposit(177),
   allow.mainnet.convex.booster.depositAll(177),
   allow.mainnet.convex.booster.withdraw(177),
   {
     ...allow.mainnet.convex.rewarder.stake(),
-    targetAddress: convex.cvxstETH_ng_f_rewarder,
+    targetAddress: convex.stETH_ng_f_rewarder,
   },
   {
     ...allow.mainnet.convex.rewarder.withdraw(),
-    targetAddress: convex.cvxstETH_ng_f_rewarder,
+    targetAddress: convex.stETH_ng_f_rewarder,
   },
   {
     ...allow.mainnet.convex.rewarder.withdrawAndUnwrap(),
-    targetAddress: convex.cvxstETH_ng_f_rewarder,
+    targetAddress: convex.stETH_ng_f_rewarder,
   },
   {
     ...allow.mainnet.convex.rewarder["getReward(address,bool)"](c.avatar),
-    targetAddress: convex.cvxstETH_ng_f_rewarder,
+    targetAddress: convex.stETH_ng_f_rewarder,
   },
 
   // Curve - ETH/stETH - steCRV
