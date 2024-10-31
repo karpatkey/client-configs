@@ -52,48 +52,6 @@ export default [
   ...allowErc20Approve([WBTC], [contracts.mainnet.aave_v3.pool_v3]),
   allow.mainnet.aave_v3.pool_v3.repay(WBTC, undefined, undefined, c.avatar),
 
-  // Aura - auraBAL
-  aura__withdraw_balancer(
-    aura.auraB_auraBAL_stable_rewarder,
-    balancer.B_auraBAL_stable_pId
-  ),
-
-  // Aura - COW/GNO
-  aura__withdraw_balancer(
-    aura.aura50COW_50GNO_rewarder,
-    balancer.B_50COW_50GNO_pId
-  ),
-
-  // Aura - COW/WETH
-  aura__withdraw_balancer(
-    aura.aura50COW_50WETH_rewarder,
-    balancer.B_50COW_50WETH_pId
-  ),
-
-  // Aura - rETH/WETH
-  aura__withdraw_balancer(
-    aura.auraB_rETH_stable_rewarder,
-    balancer.B_rETH_stable_pid
-  ),
-
-  // Balancer - auraBAL / B-80BAL-20WETH
-  balancer__unstake_withdraw(Chain.eth, balancer.B_auraBAL_STABLE_gauge),
-  // Balancer - B-80BAL-20WETH
-  balancer__withdraw(balancer.B_80BAL_20WETH_pId),
-
-  // Balancer - COW/GNO
-  balancer__unstake_withdraw(Chain.eth, balancer.B_50COW_50GNO_gauge),
-
-  // Balancer - COW/WETH
-  balancer__unstake_withdraw(Chain.eth, balancer.B_50COW_50WETH_gauge),
-
-  // Balancer - rETH/WETH
-  balancer__unstake_withdraw(Chain.eth, balancer.B_rETH_stable_gauge),
-
-  // Lido
-  lido__unstake_stETH(),
-  lido__unwrap_and_unstake_wstETH(),
-
   // Angle - wstETH-EUR-Vault
   allow.mainnet.angle.wstETH_EUR_Vault[
     "angle(uint8[],bytes[],address,address)"
@@ -121,8 +79,46 @@ export default [
     c.avatar
   ),
 
+  // Aura - auraBAL
+  aura__withdraw_balancer(
+    aura.auraB_auraBAL_stable_rewarder,
+    balancer.B_auraBAL_stable_pId
+  ),
+
+  // Aura - COW/GNO
+  aura__withdraw_balancer(
+    aura.aura50COW_50GNO_rewarder,
+    balancer.B_50COW_50GNO_pId
+  ),
+
+  // Aura - COW/WETH
+  aura__withdraw_balancer(
+    aura.aura50COW_50WETH_rewarder,
+    balancer.B_50COW_50WETH_pId
+  ),
+
+  // Aura - rETH/WETH
+  aura__withdraw_balancer(
+    aura.auraB_rETH_stable_rewarder,
+    balancer.B_rETH_stable_pid
+  ),
+
   // Autonolas - OLAS Withdraw
   allow.mainnet.autonolas.veolas.withdraw(),
+
+  // Balancer - auraBAL / B-80BAL-20WETH
+  balancer__unstake_withdraw(Chain.eth, balancer.B_auraBAL_STABLE_gauge),
+  // Balancer - B-80BAL-20WETH
+  balancer__withdraw(balancer.B_80BAL_20WETH_pId),
+
+  // Balancer - COW/GNO
+  balancer__unstake_withdraw(Chain.eth, balancer.B_50COW_50GNO_gauge),
+
+  // Balancer - COW/WETH
+  balancer__unstake_withdraw(Chain.eth, balancer.B_50COW_50WETH_gauge),
+
+  // Balancer - rETH/WETH
+  balancer__unstake_withdraw(Chain.eth, balancer.B_rETH_stable_gauge),
 
   // Enzyme - Diva stETH Vault 
   // Withdraw stETH
@@ -133,10 +129,9 @@ export default [
     [stETH]
   ),
 
-  // SAFE - Claim
-  allow.mainnet.safe.ecosystem_airdrop.claimVestedTokens(undefined, c.avatar),
-  allow.mainnet.safe.user_airdrop.claimVestedTokens(undefined, c.avatar),
-  allow.mainnet.safe.user_airdrop_sep5.claimVestedTokens(undefined, c.avatar),
+  // Lido
+  lido__unstake_stETH(),
+  lido__unwrap_and_unstake_wstETH(),
 
   // Sommelier - TurboDIVETH
   allow.mainnet.sommelier.TurboDIVETH.redeem(undefined, c.avatar, c.avatar),

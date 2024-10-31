@@ -52,6 +52,10 @@ export default [
   // Convex - GHO/WBTC/wstETH
   convex__withdraw(convex.GHOBTCwstE_rewarder),
 
+  // CowSwap - Holdings
+  cowswap__swap([DAI, USDC, USDT], [DAI, USDC, USDT, WETH], Chain.eth),
+  cowswap__swap([CRV, COMP, CVX, NOTE], [DAI, USDC], Chain.eth),
+
   // Curve - USDT/WBTC/WETH
   allow.mainnet.curve.crvUSDTWBTCWETH_pool[
     "remove_liquidity(uint256,uint256[3],bool)"
@@ -70,10 +74,6 @@ export default [
   ](),
   allow.mainnet.curve.tricryptoGHO_gauge["withdraw(uint256)"](),
 
-  // CowSwap - Holdings
-  cowswap__swap([DAI, USDC, USDT], [DAI, USDC, USDT, WETH], Chain.eth),
-  cowswap__swap([CRV, COMP, CVX, NOTE], [DAI, USDC], Chain.eth),
-
   // Enzyme - Diva stETH Vault
   // Withdraw stETH
   allow.mainnet.enzyme.Diva_stETH_Vault.redeemSharesInKind(c.avatar),
@@ -83,6 +83,10 @@ export default [
     [stETH]
   ),
 
+  // Lido
+  lido__unstake_stETH(),
+  lido__unwrap_and_unstake_wstETH(),
+
   // Maker - DSR (DAI Savings Rate)
   allow.mainnet.maker.dsr_manager.exit(c.avatar),
   allow.mainnet.maker.dsr_manager.exitAll(c.avatar),
@@ -90,10 +94,6 @@ export default [
   // pods - ETHphoria Vault
   // Withdraw stETH
   allow.mainnet.pods.ETHoriaVault.redeem(undefined, c.avatar, c.avatar),
-
-  // Lido
-  lido__unstake_stETH(),
-  lido__unwrap_and_unstake_wstETH(),
 
   // Spark - DSR/sDAI
   allow.mainnet.spark.sDAI.redeem(undefined, c.avatar, c.avatar),

@@ -12,7 +12,7 @@ import {
   WETH,
   wstETH,
   balancer,
-  ZERO_ADDRESS
+  ZERO_ADDRESS,
 } from "../../../../../eth-sdk/addresses"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
@@ -30,6 +30,13 @@ export default [
   /*********************************************
    * Protocol permissions
    *********************************************/
+  // Azuro - AZUR Staking and Unstaking
+  allow.mainnet.azuro.stAZUR.requestWithdrawal(),
+  allow.mainnet.azuro.stAZUR.withdrawTo(c.avatar),
+
+  // Compound v3 - USDC
+  allow.mainnet.compound_v3.cUSDCv3.withdraw(USDC),
+
   // Lido
   lido__unstake_stETH(),
   lido__unwrap_and_unstake_wstETH(),
@@ -37,13 +44,6 @@ export default [
   // Spark - DSR/sDAI
   allow.mainnet.spark.sDAI.redeem(undefined, c.avatar, c.avatar),
   allow.mainnet.spark.sDAI.withdraw(undefined, c.avatar, c.avatar),
-
-  // Azuro - AZUR Staking and Unstaking
-  allow.mainnet.azuro.stAZUR.requestWithdrawal(),
-  allow.mainnet.azuro.stAZUR.withdrawTo(c.avatar),
-
-  // Compound v3 - USDC
-  allow.mainnet.compound_v3.cUSDCv3.withdraw(USDC),
 
   // The Graph - Withdraw GRT
   allow.mainnet.the_graph.staking.withdrawDelegated(
