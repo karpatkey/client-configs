@@ -4,4 +4,4 @@ export { permissions }
 
 export const roleKey = "DISASSEMBLER"
 
-export const members = ["0x60716991aCDA9E990bFB3b1224f1f0fB81538267"]
+export const members = ["0xE0E668e4C4FA2eC65BbDd31D2a1Db4b8Bef2D71f"]
