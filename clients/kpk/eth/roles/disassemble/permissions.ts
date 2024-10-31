@@ -74,6 +74,23 @@ export default [
   cowswap__swap([DAI, USDC, USDT], [DAI, USDC, USDT, WETH], Chain.eth),
   cowswap__swap([CRV, COMP, CVX, NOTE], [DAI, USDC], Chain.eth),
 
+  // Enzyme - Diva stETH Vault
+  // Withdraw stETH
+  allow.mainnet.enzyme.Diva_stETH_Vault.redeemSharesInKind(c.avatar),
+  allow.mainnet.enzyme.Diva_stETH_Vault.redeemSharesForSpecificAssets(
+    c.avatar,
+    undefined,
+    [stETH]
+  ),
+
+  // Maker - DSR (DAI Savings Rate)
+  allow.mainnet.maker.dsr_manager.exit(c.avatar),
+  allow.mainnet.maker.dsr_manager.exitAll(c.avatar),
+
+  // pods - ETHphoria Vault
+  // Withdraw stETH
+  allow.mainnet.pods.ETHoriaVault.redeem(undefined, c.avatar, c.avatar),
+
   // Lido
   lido__unstake_stETH(),
   lido__unwrap_and_unstake_wstETH(),
