@@ -1,14 +1,9 @@
-import { id, keccak256, parseEther, toUtf8Bytes } from "ethers/lib/utils"
+import { parseEther } from "ethers"
 import { applyPermissions, wrapEth } from "../../../../../../test/helpers"
 
 import { revertToBase } from "../../../../../../test/snapshot"
 import permissions from "./permissions"
-import { ENS, WETH, cowswap } from "../../../../../../eth-sdk/addresses"
-import { avatar } from "../../../../../../test/wallets"
-import { testKit } from "../../../../../../test/kit"
-import { contracts } from "../../../../../../eth-sdk/config"
-
-// jest.setTimeout(180000)
+import kit from "../../../../../../test/kit"
 
 describe("AuraRelocker", () => {
   beforeAll(async () => {
@@ -22,7 +17,7 @@ describe("AuraRelocker", () => {
 
   it("allows claiming rewards from the zap only with lockCvx", async () => {
     await expect(
-      testKit.eth.aura.claim_zap.claimRewards(
+      kit.asMember.aura.claim_zap.claimRewards(
         [
           "0x89D3D732da8bf0f88659Cf3738E5E44e553f9ED7",
           "0xDd1fE5AD401D4777cE89959b7fa587e569Bf125D",
@@ -49,7 +44,7 @@ describe("AuraRelocker", () => {
     ).toBeForbidden()
 
     await expect(
-      testKit.eth.aura.claim_zap.claimRewards(
+      kit.asMember.aura.claim_zap.claimRewards(
         [
           "0x89D3D732da8bf0f88659Cf3738E5E44e553f9ED7",
           "0xDd1fE5AD401D4777cE89959b7fa587e569Bf125D",
