@@ -94,6 +94,61 @@ export default [
   lido__unstake_stETH(),
   lido__unwrap_and_unstake_wstETH(),
 
+  // Angle - wstETH-EUR-Vault
+  allow.mainnet.angle.wstETH_EUR_Vault[
+    "angle(uint8[],bytes[],address,address)"
+  ](
+    c.every(
+      c.or(
+        1, // closeVault
+        3, // removeCollateral
+        4, // repayDebt
+      )
+    ),
+    c.every(
+      c.or(
+        c.abiEncodedMatches(
+          [19],
+          ["uint256"] // (vaultID)
+        ), // closeVault
+        c.abiEncodedMatches(
+          [19],
+          ["uint256", "uint256"] // 2,3:(vaultID, collateralAmount) or 4,5:(vaultID, stablecoinAmount)
+        ) // addCollateral, removeCollateral, repayDebt, borrow
+      )
+    ),
+    c.avatar,
+    c.avatar
+  ),
+
+  // Autonolas - OLAS Withdraw
+  allow.mainnet.autonolas.veolas.withdraw(),
+
+  // Enzyme - Diva stETH Vault 
+  // Withdraw stETH
+  allow.mainnet.enzyme.Diva_stETH_Vault.redeemSharesInKind(c.avatar),
+  allow.mainnet.enzyme.Diva_stETH_Vault.redeemSharesForSpecificAssets(
+    c.avatar,
+    undefined,
+    [stETH]
+  ),
+
+  // SAFE - Claim
+  allow.mainnet.safe.ecosystem_airdrop.claimVestedTokens(undefined, c.avatar),
+  allow.mainnet.safe.user_airdrop.claimVestedTokens(undefined, c.avatar),
+  allow.mainnet.safe.user_airdrop_sep5.claimVestedTokens(undefined, c.avatar),
+
+  // Sommelier - TurboDIVETH
+  allow.mainnet.sommelier.TurboDIVETH.redeem(undefined, c.avatar, c.avatar),
+
+  // StakeWise v3 - Chorus One - MEV Max
+  allow.mainnet.stakewise_v3.chrorus_one_mev_max.burnOsToken(),
+  allow.mainnet.stakewise_v3.chrorus_one_mev_max.enterExitQueue(
+    undefined,
+    c.avatar
+  ),
+  allow.mainnet.stakewise_v3.chrorus_one_mev_max.claimExitedAssets(),
+
   /*********************************************
    * SWAPS
    *********************************************/
