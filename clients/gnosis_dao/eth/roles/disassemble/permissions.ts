@@ -37,7 +37,6 @@ export default [
   /*********************************************
    * Protocol permissions
    *********************************************/
-
   // Aave v3 - Withdraw wstETH
   allow.mainnet.aave_v3.pool_v3.withdraw(wstETH, undefined, c.avatar),
 
