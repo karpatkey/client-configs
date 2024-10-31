@@ -14,14 +14,16 @@ import {
   processPermissions,
   rolesAbi,
 } from "zodiac-roles-sdk"
-import { Client } from "../types"
 import {
+  hexlify,
   Interface,
+  isBytesLike,
   JsonFragment,
   JsonFragmentType,
   Result,
-} from "@ethersproject/abi"
-import { formatBytes32String, hexlify, isBytesLike } from "ethers/lib/utils"
+} from "ethers"
+import { encodeBytes32String } from "defi-kit"
+import { Client } from "../types"
 
 async function main() {
   const args = await yargs(process.argv.slice(2))
@@ -47,7 +49,7 @@ async function main() {
   const { targets, annotations } = processPermissions(awaitedPermissions)
   checkIntegrity(targets)
 
-  const encodedRoleKey = formatBytes32String(role.roleKey) as `0x${string}`
+  const encodedRoleKey = encodeBytes32String(role.roleKey)
 
   const currentRole = await fetchRole({
     address: rolesMod,

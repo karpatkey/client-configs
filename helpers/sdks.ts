@@ -5,13 +5,12 @@ import {
   getBaseSdk,
   getArbitrumOneSdk,
 } from "@gnosis-guild/eth-sdk-client"
-import config from "../eth-sdk/config"
-import { JsonRpcProvider } from "@ethersproject/providers"
+import { providers } from "./providers"
 
 export const sdks = {
-  [1]: getMainnetSdk(new JsonRpcProvider(config.rpc?.mainnet)),
-  [10]: getOptimismSdk(new JsonRpcProvider(config.rpc?.optimism)),
-  [100]: getGnosisSdk(new JsonRpcProvider(config.rpc?.gnosis)),
-  [8453]: getBaseSdk(new JsonRpcProvider(config.rpc?.base)),
-  [42161]: getArbitrumOneSdk(new JsonRpcProvider(config.rpc?.arbitrumOne)),
+  [1]: getMainnetSdk(providers[1]),
+  [10]: getOptimismSdk(providers[10]),
+  [100]: getGnosisSdk(providers[100]),
+  [8453]: getBaseSdk(providers[8453]),
+  [42161]: getArbitrumOneSdk(providers[42161]),
 }
