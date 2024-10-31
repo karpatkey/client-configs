@@ -39,7 +39,8 @@ jobs:
           yarn setup
 
       - name: Check formatting
-        run: yarn check:prettier || yarn prettier "clients/**/*.ts" --write
-
+        run: |
+          yarn check:prettier || (yarn prettier "clients/**/*.ts" --write && git config --global user.name "GitHub Actions" && git config --global user.email "actions@github.com" && git add . && git commit -m "Format code with Prettier" && git push)
+    
       - name: Run tests
         run: yarn test
