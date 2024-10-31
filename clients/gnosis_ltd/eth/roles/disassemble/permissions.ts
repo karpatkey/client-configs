@@ -30,6 +30,9 @@ export default [
   /*********************************************
    * Protocol permissions
    *********************************************/
+  // Aura - Lock
+  allow.mainnet.aura.vlAURA.processExpiredLocks(),
+
   // Azuro - AZUR Staking and Unstaking
   allow.mainnet.azuro.stAZUR.requestWithdrawal(),
   allow.mainnet.azuro.stAZUR.withdrawTo(c.avatar),
@@ -45,7 +48,13 @@ export default [
   allow.mainnet.spark.sDAI.redeem(undefined, c.avatar, c.avatar),
   allow.mainnet.spark.sDAI.withdraw(undefined, c.avatar, c.avatar),
 
-  // The Graph - Withdraw GRT
+  // The Graph
+  allow.mainnet.the_graph.staking.undelegate(GRAPH_DELEGATEE),
+  allow.mainnet.the_graph.staking.unlockDelegationToTransferredIndexer(
+    GRAPH_DELEGATEE
+  ),
+  // Withdraw GRT
+  // _newIndexer Re-delegate to indexer address if non-zero, withdraw if zero address
   allow.mainnet.the_graph.staking.withdrawDelegated(
     GRAPH_DELEGATEE,
     ZERO_ADDRESS

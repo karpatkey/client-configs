@@ -37,6 +37,10 @@ export default [
   /*********************************************
    * Protocol permissions
    *********************************************/
+  // Aave v2 - Staking of GHO in Safety Module
+  allow.mainnet.aave_v2.stkGHO.redeem(c.avatar),
+  allow.mainnet.aave_v2.stkGHO.cooldown(),
+
   // Aave v3 - Withdraw wstETH
   allow.mainnet.aave_v3.pool_v3.withdraw(wstETH, undefined, c.avatar),
 
@@ -51,6 +55,10 @@ export default [
   // Aave v3 - Repay WBTC
   ...allowErc20Approve([WBTC], [contracts.mainnet.aave_v3.pool_v3]),
   allow.mainnet.aave_v3.pool_v3.repay(WBTC, undefined, undefined, c.avatar),
+
+  // Ankr
+  allow.mainnet.ankr.flashUnstake.swapEth(undefined, c.avatar),
+  allow.mainnet.ankr.ETH2_Staking.unstakeAETH(),
 
   // Angle - wstETH-EUR-Vault
   allow.mainnet.angle.wstETH_EUR_Vault[
@@ -103,6 +111,14 @@ export default [
     balancer.B_rETH_stable_pid
   ),
 
+  // Aura - Lock
+  allow.mainnet.aura.vlAURA.processExpiredLocks(),
+
+  // Aura - Stake
+  allow.mainnet.aura.auraBAL_staking_rewarder.withdraw(),
+  allow.mainnet.aura.stkauraBAL.withdraw(undefined, c.avatar, c.avatar),
+  allow.mainnet.aura.stkauraBAL.redeem(undefined, c.avatar, c.avatar),
+
   // Autonolas - OLAS Withdraw
   allow.mainnet.autonolas.veolas.withdraw(),
 
@@ -120,6 +136,12 @@ export default [
   // Balancer - rETH/WETH
   balancer__unstake_withdraw(Chain.eth, balancer.B_rETH_stable_gauge),
 
+  // Balancer - Lock
+  allow.mainnet.balancer.veBAL.withdraw(),
+
+  // Convex - Lock
+  allow.mainnet.convex.vlCVX.processExpiredLocks(),
+
   // Enzyme - Diva stETH Vault
   // Withdraw stETH
   allow.mainnet.enzyme.Diva_stETH_Vault.redeemSharesInKind(c.avatar),
@@ -132,6 +154,16 @@ export default [
   // Lido
   lido__unstake_stETH(),
   lido__unwrap_and_unstake_wstETH(),
+
+  // Rocket Pool
+  allow.mainnet.rocket_pool.rETH.burn(),
+  allow.mainnet.rocket_pool.swap_router.swapFrom(),
+
+  // Stader
+  allow.mainnet.stader.user_withdraw_manager[
+    "requestWithdraw(uint256,address)"
+  ](undefined, c.avatar),
+  allow.mainnet.stader.user_withdraw_manager.claim(),
 
   // Sommelier - TurboDIVETH
   allow.mainnet.sommelier.TurboDIVETH.redeem(undefined, c.avatar, c.avatar),
