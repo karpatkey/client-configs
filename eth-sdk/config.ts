@@ -134,6 +134,9 @@ export const contracts = {
       OETHCRV_f_gauge: "0xd03BE91b1932715709e18021734fcB91BB431715",
       crvUSDTWBTCWETH_pool: "0xf5f5B97624542D72A9E06f04804Bf81baA15e2B4",
       crvUSDTWBTCWETH_gauge: "0xF29FfF074f5cF755b55FbB3eb10A29203ac91EA2",
+      crvUSDUSDT_f_pool: "0x390f3595bCa2Df7d23783dFd126427CCeb997BF4",
+      crvUSDUSDT_f_gauge: "0x4e6bB6B7447B7B2Aa268C16AB87F4Bb48BF57939",
+      sdai_usdm_pool: "0x425BfB93370F14fF525aDb6EaEAcfE1f4e3b5802",
     },
     enzyme: {
       deposit_wrapper_2: "0x65BbAD6545B7ac9C30Fb0f07e64e25106Bf05eEc",
@@ -179,8 +182,8 @@ export const contracts = {
       staking_pool: "0xF3745f76C137738b0371a820A098fC678672660a", // Pool #2 (used as a general case)
       token_controller: "0x5407381b6c251cFd498ccD4A1d877739CB7960B8",
     },
-    notional: {
-      nProxy: "0x1344A36A1B56144C3Bc62E7757377D288fDE0369",
+    notional_v3: {
+      nProxy: "0x6e7058c91F85E0F6db4fc9da2CA41241f5e4263f",
     },
     origin: {
       OETH_Zapper: "0x9858e47BCbBe6fBAC040519B02d7cd4B2C470C66",
@@ -375,6 +378,10 @@ export const contracts = {
     compound_v3: {
       cUSDCv3: "0x9c4ec768c28520B50860ea7a15bd7213a9fF58bf",
       CometRewards: "0x88730d254A2f7e6AC8388c3198aFd694bA9f7fae",
+    },
+    gyroscope: {
+      sGYD: "0xeA50f402653c41cAdbaFD1f788341dB7B7F37816",
+      st_sGYD: "0xb4C19C1b16881A6d1d781264f0f8C0237D8Be0C7",
     },
     gateway_router: "0x5288c571Fd7aD117beA99bF60FE0846C4E84F933",
     circle_token_messenger: "0x19330d10D9Cc8751218eaf51E8885D058642E08A",
