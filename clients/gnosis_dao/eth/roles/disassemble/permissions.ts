@@ -38,7 +38,6 @@ export default [
    * Protocol permissions
    *********************************************/
 
-  
   // Aave v3 - Withdraw wstETH
   allow.mainnet.aave_v3.pool_v3.withdraw(wstETH, undefined, c.avatar),
 
@@ -62,7 +61,7 @@ export default [
       c.or(
         1, // closeVault
         3, // removeCollateral
-        4, // repayDebt
+        4 // repayDebt
       )
     ),
     c.every(
@@ -122,7 +121,7 @@ export default [
   // Balancer - rETH/WETH
   balancer__unstake_withdraw(Chain.eth, balancer.B_rETH_stable_gauge),
 
-  // Enzyme - Diva stETH Vault 
+  // Enzyme - Diva stETH Vault
   // Withdraw stETH
   allow.mainnet.enzyme.Diva_stETH_Vault.redeemSharesInKind(c.avatar),
   allow.mainnet.enzyme.Diva_stETH_Vault.redeemSharesForSpecificAssets(
