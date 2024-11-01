@@ -37,6 +37,7 @@ export default [
   /*********************************************
    * Protocol permissions
    *********************************************/
+
   // Aave v2 - Staking of GHO in Safety Module
   allow.mainnet.aave_v2.stkGHO.redeem(c.avatar),
   allow.mainnet.aave_v2.stkGHO.cooldown(),
