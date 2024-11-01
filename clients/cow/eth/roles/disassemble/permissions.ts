@@ -42,4 +42,7 @@ export default [
   // Lido
   lido__unstake_stETH(),
   lido__unwrap_and_unstake_wstETH(),
+
+   // Rocket Pool
+   allowAction.rocket_pool.deposit(),
 ] satisfies PermissionList
