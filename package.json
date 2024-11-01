@@ -48,7 +48,7 @@
     "husky": "^9.1.6",
     "lint-staged": "^15.2.10"
   },
-  "lint-staged": {  
-    "clients/**/*.ts": "yarn prettier --write"  
-  }  
+  "lint-staged": {
+    "clients/**/*.ts": "yarn prettier --write"
+  }
 }
