@@ -49,6 +49,6 @@
     "lint-staged": "^15.2.10"
   },
   "lint-staged": {
-    "clients/**/*.ts": "yarn prettier --write"
+    "clients/**/*.ts": "npx prettier --write . "
   }
 }

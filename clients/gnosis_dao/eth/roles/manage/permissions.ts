@@ -25,6 +25,7 @@ export default [
   /*********************************************
    * DeFi-Kit permissions
    *********************************************/
+
   // Aave v2 - Staking of GHO in Safety Module
   allowAction.aave_v2.stake({ targets: ["GHO"] }),
 
