@@ -14,14 +14,17 @@ import {
   processPermissions,
   rolesAbi,
 } from "zodiac-roles-sdk"
-import { Client } from "../types"
 import {
+  hexlify,
   Interface,
+  isBytesLike,
   JsonFragment,
   JsonFragmentType,
+  ParamType,
   Result,
-} from "@ethersproject/abi"
-import { formatBytes32String, hexlify, isBytesLike } from "ethers/lib/utils"
+} from "ethers"
+import { encodeBytes32String } from "defi-kit"
+import { Client } from "../types"
 
 async function main() {
   const args = await yargs(process.argv.slice(2))
@@ -47,7 +50,7 @@ async function main() {
   const { targets, annotations } = processPermissions(awaitedPermissions)
   checkIntegrity(targets)
 
-  const encodedRoleKey = formatBytes32String(role.roleKey) as `0x${string}`
+  const encodedRoleKey = encodeBytes32String(role.roleKey)
 
   const currentRole = await fetchRole({
     address: rolesMod,
@@ -58,7 +61,7 @@ async function main() {
     (target) => !isEmptyFunctionScoped(target)
   )
   const currentAnnotations = currentRole?.annotations || []
-  console.log("KEY", role.roleKey)
+
   const calls = [
     ...(
       await applyTargets(encodedRoleKey, targets, {
@@ -140,7 +143,8 @@ const decode = (transaction: { to: `0x${string}`; data: `0x${string}` }) => {
   }
 
   const contractInputsValues = asTxBuilderInputValues(
-    iface.decodeFunctionData(functionFragment, transaction.data)
+    iface.decodeFunctionData(functionFragment, transaction.data),
+    functionFragment.inputs
   )
 
   return {
@@ -166,25 +170,30 @@ const mapInputs = (
   }))
 }
 
-const asTxBuilderInputValues = (result: Result) => {
+const asTxBuilderInputValues = (
+  result: Result,
+  params: readonly ParamType[]
+) => {
   const object: Record<string, string> = {}
-  for (const key of Object.keys(result)) {
-    // skip numeric keys (array indices)
-    if (isNaN(Number(key))) {
-      const value = result[key]
-      let serialized = value
-      if (typeof value === "string") {
-        serialized = value
-      } else if (typeof value === "bigint" || typeof value === "number") {
-        serialized = value.toString()
-      } else if (isBytesLike(value)) {
-        serialized = hexlify(value)
-      } else {
-        serialized = JSON.stringify(value)
-      }
 
-      object[key] = serialized
+  for (const param of params) {
+    const value = result[param.name]
+    let serialized = value
+    if (typeof value === "string") {
+      serialized = value
+    } else if (typeof value === "bigint" || typeof value === "number") {
+      serialized = value.toString()
+    } else if (isBytesLike(value)) {
+      serialized = hexlify(value)
+    } else if (value instanceof Result) {
+      serialized = JSON.stringify(value, (_, v) =>
+        isBytesLike(v) ? hexlify(v) : typeof v === "bigint" ? v.toString() : v
+      )
+    } else {
+      throw new Error(`Unexpected value type: ${typeof value}`)
     }
+
+    object[param.name] = serialized
   }
   return object
 }

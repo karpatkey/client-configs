@@ -4,7 +4,7 @@ import { allow as allowActionGno } from "defi-kit/gno"
 import { allow as allowActionArb } from "defi-kit/arb1"
 import { E_ADDRESS } from "../../eth-sdk/addresses"
 import { Chain } from "../../types"
-import { Address } from "@dethcrypto/eth-sdk"
+import { Address } from "@gnosis-guild/eth-sdk"
 
 const replaceAddress = (
   arr: Address[],

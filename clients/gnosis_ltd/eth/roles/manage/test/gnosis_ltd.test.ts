@@ -1,15 +1,8 @@
-import {
-  formatBytes32String,
-  id,
-  keccak256,
-  parseEther,
-  toUtf8Bytes,
-} from "ethers/lib/utils"
+import { parseEther, toUtf8Bytes } from "ethers"
 import { applyPermissions } from "../../../../../../test/helpers"
-import { testKit } from "../../../../../../test/kit"
+import kit from "../../../../../../test/kit"
 import { revertToBase } from "../../../../../../test/snapshot"
 import permissions from "../permissions"
-import { contracts } from "../../../../../../eth-sdk/config"
 import { ZERO_ADDRESS, ENS, WETH } from "../../../../../../eth-sdk/addresses"
 
 describe("GnosisLTD", () => {
@@ -23,7 +16,7 @@ describe("GnosisLTD", () => {
   describe("lido", () => {
     it("deposit", async () => {
       await expect(
-        testKit.eth.lido.stETH.submit(ZERO_ADDRESS, {
+        kit.asMember.lido.stETH.submit(ZERO_ADDRESS, {
           value: parseEther("1"),
         })
       ).not.toRevert()

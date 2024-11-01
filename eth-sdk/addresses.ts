@@ -1,4 +1,4 @@
-import { Address } from "@dethcrypto/eth-sdk"
+import { Address } from "@gnosis-guild/eth-sdk"
 
 export const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000"
 export const E_ADDRESS = "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE"
