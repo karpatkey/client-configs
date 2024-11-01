@@ -21,7 +21,7 @@ export const cowswap__swap = async (
   sell: Address[],
   buy: Address[],
   chain: Chain,
-  feeAmountBp?: number | undefined,
+  feeAmountBp?: number | undefined
 ): Promise<PermissionSet> => {
   const modifiedSell = replaceAddress(sell, chain)
   const modifiedBuy = replaceAddress(buy, chain)
@@ -31,21 +31,21 @@ export const cowswap__swap = async (
       return await allowActionEth.cowswap.swap({
         sell: modifiedSell as (Address | "ETH")[],
         buy: modifiedBuy as (Address | "ETH")[],
-        feeAmountBp: feeAmountBp
+        feeAmountBp: feeAmountBp,
       })
 
     case Chain.gno:
       return await allowActionGno.cowswap.swap({
         sell: modifiedSell as (Address | "XDAI")[],
         buy: modifiedBuy as (Address | "XDAI")[],
-        feeAmountBp: feeAmountBp
+        feeAmountBp: feeAmountBp,
       })
 
     case Chain.arb1:
       return await allowActionArb.cowswap.swap({
         sell: modifiedSell as (Address | "ETH")[],
         buy: modifiedBuy as (Address | "ETH")[],
-        feeAmountBp: feeAmountBp
+        feeAmountBp: feeAmountBp,
       })
 
     default:

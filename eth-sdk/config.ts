@@ -13,7 +13,7 @@ export const contracts = {
       pool_v3: "0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2",
       wrapped_token_gateway_v3: "0xA434D495249abE33E031Fe71a969B81f3c07950D",
       wrapped_token_gateway_lido_v3:
-        "0x702B6770A81f75964cA5D479F369eFB31dfa7C32",
+        "0x0B8C700917a6991FEa7198dDFC80bc8962b5055D",
       pool_lido: "0x4e033931ad43597d96D6bcc25c280717730B58B1",
       aEthWETH: "0x4d5F47FA6A74757f35C14fD3a6Ef8E3C9BC514E8",
       merit_distributor: "0x3Ef3D8bA38EBe18DB133cEc108f4D14CE00Dd9Ae",
@@ -271,7 +271,7 @@ export const contracts = {
   gnosis: {
     aave_v3: {
       pool_v3: "0xb50201558B00496A145fE76f7424749556E326D8",
-      wrapped_token_gateway_v3: "0xfE76366A986B72c3f2923e05E6ba07b7de5401e4",
+      wrapped_token_gateway_v3: "0x90127A46207e97e4205db5CCC1Ec9D6D43633FD4",
       variable_debt_wxdai: "0x281963D7471eCdC3A2Bd4503e24e89691cfe420D",
       aGnoWXDAI: "0xd0Dd6cEF72143E22cCED4867eb0d5F2328715533",
     },
