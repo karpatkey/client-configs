@@ -2,4 +2,13 @@
 #. "$(dirname -- "$0")/_/husky.sh"
 
 # npm test
-npx lint-staged
+# npx lint-staged
+
+# Run lint-staged if there are changes  
+if ! git diff --cached --quiet; then  
+  npx lint-staged  
+else  
+  echo "No staged changes. You can create an empty commit if necessary."  
+  # Optionally allow the user to create an empty commit  
+  # git commit --allow-empty -m "Empty commit for [reason]"  
+fi  
