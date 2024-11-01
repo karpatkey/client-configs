@@ -43,6 +43,7 @@ export default [
   lido__unstake_stETH(),
   lido__unwrap_and_unstake_wstETH(),
 
-   // Rocket Pool
-   allowAction.rocket_pool.deposit(),
+  // Rocket Pool
+  allow.mainnet.rocket_pool.rETH.burn(),
+  allow.mainnet.rocket_pool.swap_router.swapFrom(),
 ] satisfies PermissionList
