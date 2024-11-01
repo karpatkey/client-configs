@@ -14,7 +14,8 @@
     "test:watch": "concurrently --raw --kill-others --handle-input --passthrough-arguments \"yarn anvil\" \"jest --runInBand --watch {@}\" --",
     "check:types": "tsc --noEmit",
     "check:prettier": "prettier '**/*.{js,ts,tsx,json,md}' --list-different",
-    "fix:prettier": "yarn prettier '**/*.{js,ts,tsx,json,md}' --write"
+    "fix:prettier": "yarn prettier '**/*.{js,ts,tsx,json,md}' --write",
+    "prepare": "husky install"
   },
   "resolutions": {
     "zodiac-roles-sdk": "2.13.0"
@@ -42,5 +43,12 @@
     "wait-on": "^7.0.1",
     "yargs": "^17.7.2",
     "zodiac-roles-sdk": "^2.12.5"
-  }
+  },
+  "devDependencies": {
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10"
+  },
+  "lint-staged": {  
+    "clients/**/*.ts": "yarn prettier --write"  
+  }  
 }
