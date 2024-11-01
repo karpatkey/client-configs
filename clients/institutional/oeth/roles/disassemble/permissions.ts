@@ -6,7 +6,7 @@ export default [
   // Aave v3 - Withdraw DAI
   allow.optimism.aave_v3.pool_v3["withdraw(bytes32)"](
     // skip amount 30 bytes
-    // assetId: 4 bytes
+    // assetId: 2 bytes
     c.bitmask({
       shift: 30,
       mask: "0xffff",
@@ -16,7 +16,7 @@ export default [
   // Aave v3 - Withdraw USDC
   allow.optimism.aave_v3.pool_v3["withdraw(bytes32)"](
     // skip amount 30 bytes
-    // assetId: 4 bytes
+    // assetId: 2 bytes
     c.bitmask({
       shift: 30,
       mask: "0xffff",
@@ -26,7 +26,7 @@ export default [
   // Aave v3 - Withdraw USDC.e
   allow.optimism.aave_v3.pool_v3["withdraw(bytes32)"](
     // skip amount 30 bytes
-    // assetId: 4 bytes
+    // assetId: 2 bytes
     c.bitmask({
       shift: 30,
       mask: "0xffff",

@@ -1,11 +1,11 @@
-import { id, keccak256, parseEther, toUtf8Bytes } from "ethers/lib/utils"
+import { id, keccak256, parseEther, toUtf8Bytes } from "ethers"
 import { applyPermissions, wrapEth } from "../../../../../../test/helpers"
 
 import { revertToBase } from "../../../../../../test/snapshot"
 import permissions from "../permissions_typed"
 import { ENS, WETH, cowswap } from "../../../../../../eth-sdk/addresses"
 import { avatar } from "../../../../../../test/wallets"
-import { testKit } from "../../../../../../test/kit"
+import kit from "../../../../../../test/kit"
 import { contracts } from "../../../../../../eth-sdk/config"
 
 // jest.setTimeout(180000)
@@ -23,18 +23,18 @@ describe("ENS", () => {
   describe("cowswap", () => {
     it("Forbid swapping WETH to ENS", async () => {
       await expect(
-        testKit.eth.weth.approve(cowswap.GPv2_VAULT_RELAYER, parseEther("1"))
+        kit.asMember.weth.approve(cowswap.GPv2_VAULT_RELAYER, parseEther("1"))
       ).not.toRevert()
 
       await expect(
-        testKit.eth.cowswap.order_signer.delegateCall.signOrder(
+        kit.asMember.cowswap.order_signer.signOrder.delegateCall(
           {
             sellToken: WETH,
             buyToken: ENS,
             sellAmount: parseEther("1"),
             buyAmount: parseEther("100"),
             feeAmount: parseEther("0.01"), // denominated in sellToken, 1% of 1 WETH
-            receiver: avatar._address,
+            receiver: avatar.address,
             validTo: Math.round(Date.now() / 1000) + 30 * 60, // 30 minutes from now
             kind: id("sell"),
             partiallyFillable: false,
@@ -52,13 +52,13 @@ describe("ENS", () => {
   describe("compound_v3", () => {
     it("allow depositing ETH", async () => {
       await expect(
-        testKit.eth.compound_v3.cWETHv3.allow(
+        kit.asMember.compound_v3.cWETHv3.allow(
           contracts.mainnet.compound_v3.MainnetBulker,
           true
         )
       ).not.toRevert()
       await expect(
-        testKit.eth.compound_v3.MainnetBulker.invoke(
+        kit.asMember.compound_v3.MainnetBulker.invoke(
           [
             "0x414354494f4e5f535550504c595f4e41544956455f544f4b454e000000000000",
           ],

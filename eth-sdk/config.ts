@@ -1,4 +1,4 @@
-import { EthSdkConfig, defineConfig } from "@dethcrypto/eth-sdk"
+import { EthSdkConfig, defineConfig } from "@gnosis-guild/eth-sdk"
 
 export const contracts = {
   mainnet: {
@@ -11,9 +11,9 @@ export const contracts = {
     },
     aave_v3: {
       pool_v3: "0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2",
-      wrapped_token_gateway_v3: "0x893411580e590D62dDBca8a703d61Cc4A8c7b2b9",
+      wrapped_token_gateway_v3: "0xA434D495249abE33E031Fe71a969B81f3c07950D",
       wrapped_token_gateway_lido_v3:
-        "0x702B6770A81f75964cA5D479F369eFB31dfa7C32",
+        "0x0B8C700917a6991FEa7198dDFC80bc8962b5055D",
       pool_lido: "0x4e033931ad43597d96D6bcc25c280717730B58B1",
       aEthWETH: "0x4d5F47FA6A74757f35C14fD3a6Ef8E3C9BC514E8",
       merit_distributor: "0x3Ef3D8bA38EBe18DB133cEc108f4D14CE00Dd9Ae",
@@ -102,9 +102,8 @@ export const contracts = {
       // stkCvxCrv: "0xaa0C3f5F7DFD688C6E646F66CD2a6B66ACdbE434",
       // cvxRewardPool: "0xCF50b810E57Ac33B91dCF525C6ddd9881B139332",
       vlCVX: "0x72a19342e8F1838460eBFCCEf09F6585e32db86E",
-      rewarder: "0x0A760466E1B4621579a82a39CB56Dda2F4E70f03", // cvxsteCRV_rewarder
-      // cvxsteCRV_rewarder: "0x0A760466E1B4621579a82a39CB56Dda2F4E70f03",
-      // cvxcDAIcUSDC_rewarder: "0xf34DFF761145FF0B05e917811d488B441F33a968",
+      rewarder: "0x0A760466E1B4621579a82a39CB56Dda2F4E70f03", // steCRV_rewarder
+      // cDAIcUSDC_rewarder: "0xf34DFF761145FF0B05e917811d488B441F33a968",
       // claim_zap: "0x3f29cb4111cbda8081642da1f75b3c12decf2516",
     },
     cowswap: {
@@ -218,6 +217,8 @@ export const contracts = {
       sparkLendingPoolV3: "0xC13e21B648A5Ee794902342038FF3aDAB66BE987",
       wrappedTokenGatewayV3: "0xBD7D6a9ad7865463DE44B05F04559f65e3B11704",
       sDAI: "0x83F20F44975D03b1b09e64809B757c47f942BEeA",
+      sUSDS: "0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD",
+      MigrationActions: "0xf86141a5657Cf52AEB3E30eBccA5Ad3a8f714B89",
     },
     stader: {
       staking_pool_manager: "0xcf5EA1b38380f6aF39068375516Daf40Ed70D299",
@@ -270,7 +271,7 @@ export const contracts = {
   gnosis: {
     aave_v3: {
       pool_v3: "0xb50201558B00496A145fE76f7424749556E326D8",
-      wrapped_token_gateway_v3: "0xfE76366A986B72c3f2923e05E6ba07b7de5401e4",
+      wrapped_token_gateway_v3: "0x90127A46207e97e4205db5CCC1Ec9D6D43633FD4",
       variable_debt_wxdai: "0x281963D7471eCdC3A2Bd4503e24e89691cfe420D",
       aGnoWXDAI: "0xd0Dd6cEF72143E22cCED4867eb0d5F2328715533",
     },
@@ -412,13 +413,6 @@ export const contracts = {
 } satisfies EthSdkConfig["contracts"]
 
 export default defineConfig({
-  etherscanURLs: {
-    gnosis: "https://api.gnosisscan.io/api",
-    // gnosis: "https://blockscout.com/xdai/mainnet/api",
-    optimism: "https://api-optimistic.etherscan.io/api",
-    arbitrumOne: "https://api.arbiscan.io/api",
-    base: "https://api.basescan.org/api",
-  },
   rpc: {
     mainnet: "https://rpc.ankr.com/eth",
     gnosis: "https://rpc.gnosischain.com/",

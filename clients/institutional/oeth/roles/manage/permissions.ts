@@ -27,7 +27,7 @@ export default [
   ),
   allow.optimism.aave_v3.pool_v3["withdraw(bytes32)"](
     // skip amount 30 bytes
-    // assetId: 4 bytes
+    // assetId: 2 bytes
     c.bitmask({
       shift: 30,
       mask: "0xffff",
@@ -46,7 +46,7 @@ export default [
   ),
   allow.optimism.aave_v3.pool_v3["withdraw(bytes32)"](
     // skip amount 30 bytes
-    // assetId: 4 bytes
+    // assetId: 2 bytes
     c.bitmask({
       shift: 30,
       mask: "0xffff",
@@ -65,7 +65,7 @@ export default [
   ),
   allow.optimism.aave_v3.pool_v3["withdraw(bytes32)"](
     // skip amount 30 bytes
-    // assetId: 4 bytes
+    // assetId: 2 bytes
     c.bitmask({
       shift: 30,
       mask: "0xffff",

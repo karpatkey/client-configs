@@ -77,7 +77,6 @@ export default [
   allow.gnosis.aave_v3.wrapped_token_gateway_v3.repayETH(
     contracts.gnosis.aave_v3.pool_v3,
     undefined,
-    undefined,
     c.avatar,
     { send: true }
   ),
