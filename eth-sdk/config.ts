@@ -11,7 +11,7 @@ export const contracts = {
     },
     aave_v3: {
       pool_v3: "0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2",
-      wrapped_token_gateway_v3: "0x893411580e590D62dDBca8a703d61Cc4A8c7b2b9",
+      wrapped_token_gateway_v3: "0xA434D495249abE33E031Fe71a969B81f3c07950D",
       wrapped_token_gateway_lido_v3:
         "0x702B6770A81f75964cA5D479F369eFB31dfa7C32",
       pool_lido: "0x4e033931ad43597d96D6bcc25c280717730B58B1",
