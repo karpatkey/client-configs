@@ -51,6 +51,8 @@ export default [
     [contracts.mainnet.balancer.BCoW_50WETH_50USDC],
     [contracts.mainnet.balancer.BCoW_50WETH_50USDC_gauge]
   ),
+  allow.mainnet.balancer.BCoW_50WETH_50USDC_gauge["withdraw(uint256)"](),
+  allow.mainnet.balancer.BCoW_50WETH_50USDC_gauge["claim_rewards()"](),
   allow.mainnet.balancer.BCoW_50WETH_50USDC_gauge["deposit(uint256)"](),
   allow.mainnet.balancer.vault.setRelayerApproval(
     c.avatar,
