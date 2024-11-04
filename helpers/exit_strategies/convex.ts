@@ -1,6 +1,6 @@
 import { PermissionSet } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { Address } from "@dethcrypto/eth-sdk"
+import { Address } from "@gnosis-guild/eth-sdk"
 
 export const convex__withdraw = (rewarder: Address): PermissionSet => {
   return [

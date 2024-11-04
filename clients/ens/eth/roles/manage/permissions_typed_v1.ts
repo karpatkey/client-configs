@@ -217,19 +217,19 @@ export default [
   allow.mainnet.convex.booster.withdraw(25),
   {
     ...allow.mainnet.convex.rewarder.stake(),
-    targetAddress: convex.cvxsteCRV_rewarder,
+    targetAddress: convex.steCRV_rewarder,
   },
   {
     ...allow.mainnet.convex.rewarder.withdraw(),
-    targetAddress: convex.cvxsteCRV_rewarder,
+    targetAddress: convex.steCRV_rewarder,
   },
   {
     ...allow.mainnet.convex.rewarder.withdrawAndUnwrap(),
-    targetAddress: convex.cvxsteCRV_rewarder,
+    targetAddress: convex.steCRV_rewarder,
   },
   {
     ...allow.mainnet.convex.rewarder["getReward(address,bool)"](c.avatar),
-    targetAddress: convex.cvxsteCRV_rewarder,
+    targetAddress: convex.steCRV_rewarder,
   },
 
   // Convex - cDAI/cUSDC
@@ -238,19 +238,19 @@ export default [
   allow.mainnet.convex.booster.withdraw("0"),
   {
     ...allow.mainnet.convex.rewarder.stake(),
-    targetAddress: convex.cvxcDAIcUSDC_rewarder,
+    targetAddress: convex.cDAIcUSDC_rewarder,
   },
   {
     ...allow.mainnet.convex.rewarder.withdraw(),
-    targetAddress: convex.cvxcDAIcUSDC_rewarder,
+    targetAddress: convex.cDAIcUSDC_rewarder,
   },
   {
     ...allow.mainnet.convex.rewarder.withdrawAndUnwrap(),
-    targetAddress: convex.cvxcDAIcUSDC_rewarder,
+    targetAddress: convex.cDAIcUSDC_rewarder,
   },
   {
     ...allow.mainnet.convex.rewarder["getReward(address,bool)"](c.avatar),
-    targetAddress: convex.cvxcDAIcUSDC_rewarder,
+    targetAddress: convex.cDAIcUSDC_rewarder,
   },
 
   // Curve - ETH/stETH

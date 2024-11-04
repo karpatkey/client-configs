@@ -4,7 +4,7 @@ import { allow as allowActionGno } from "defi-kit/gno"
 import { allow as allowActionArb } from "defi-kit/arb1"
 import { E_ADDRESS } from "../../eth-sdk/addresses"
 import { Chain } from "../../types"
-import { Address } from "@dethcrypto/eth-sdk"
+import { Address } from "@gnosis-guild/eth-sdk"
 
 const replaceAddress = (
   arr: Address[],
@@ -20,7 +20,8 @@ const replaceAddress = (
 export const cowswap__swap = async (
   sell: Address[],
   buy: Address[],
-  chain: Chain
+  chain: Chain,
+  feeAmountBp?: number | undefined
 ): Promise<PermissionSet> => {
   const modifiedSell = replaceAddress(sell, chain)
   const modifiedBuy = replaceAddress(buy, chain)
@@ -30,18 +31,21 @@ export const cowswap__swap = async (
       return await allowActionEth.cowswap.swap({
         sell: modifiedSell as (Address | "ETH")[],
         buy: modifiedBuy as (Address | "ETH")[],
+        feeAmountBp: feeAmountBp,
       })
 
     case Chain.gno:
       return await allowActionGno.cowswap.swap({
         sell: modifiedSell as (Address | "XDAI")[],
         buy: modifiedBuy as (Address | "XDAI")[],
+        feeAmountBp: feeAmountBp,
       })
 
     case Chain.arb1:
       return await allowActionArb.cowswap.swap({
         sell: modifiedSell as (Address | "ETH")[],
         buy: modifiedBuy as (Address | "ETH")[],
+        feeAmountBp: feeAmountBp,
       })
 
     default:
