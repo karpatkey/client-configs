@@ -62,7 +62,7 @@ export default [
   allowAction.lido.deposit(),
 
   // Uniswap v3 - SAFE + WETH - Current NFT Ids: 711659 and 774338
-  allowAction.uniswap_v3.deposit({ tokens: ["SAFE", "WETH"] }),
+  allowAction.uniswapV3.deposit({ tokens: ["SAFE", "WETH"] }),
 
   /*********************************************
    * Typed-presets permissions

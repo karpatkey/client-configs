@@ -12,6 +12,7 @@ import {
   WETH,
   wstETH,
   balancer,
+  ZERO_ADDRESS,
 } from "../../../../../eth-sdk/addresses"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
@@ -23,10 +24,22 @@ import { cowswap__swap } from "../../../../../helpers/exit_strategies/cowswap"
 import { balancer__swap } from "../../../../../helpers/exit_strategies/balancer"
 import { Chain } from "../../../../../types"
 
+const GRAPH_DELEGATEE = "0x5A8904be09625965d9AEc4BFfD30D853438a053e"
+
 export default [
   /*********************************************
    * Protocol permissions
    *********************************************/
+  // Aura - Lock
+  allow.mainnet.aura.vlAURA.processExpiredLocks(),
+
+  // Azuro - AZUR Staking and Unstaking
+  allow.mainnet.azuro.stAZUR.requestWithdrawal(),
+  allow.mainnet.azuro.stAZUR.withdrawTo(c.avatar),
+
+  // Compound v3 - USDC
+  allow.mainnet.compound_v3.cUSDCv3.withdraw(USDC),
+
   // Lido
   lido__unstake_stETH(),
   lido__unwrap_and_unstake_wstETH(),
@@ -35,8 +48,17 @@ export default [
   allow.mainnet.spark.sDAI.redeem(undefined, c.avatar, c.avatar),
   allow.mainnet.spark.sDAI.withdraw(undefined, c.avatar, c.avatar),
 
-  // Compound v3 - USDC
-  allow.mainnet.compound_v3.cUSDCv3.withdraw(USDC),
+  // The Graph
+  allow.mainnet.the_graph.staking.undelegate(GRAPH_DELEGATEE),
+  allow.mainnet.the_graph.staking.unlockDelegationToTransferredIndexer(
+    GRAPH_DELEGATEE
+  ),
+  // Withdraw GRT
+  // _newIndexer Re-delegate to indexer address if non-zero, withdraw if zero address
+  allow.mainnet.the_graph.staking.withdrawDelegated(
+    GRAPH_DELEGATEE,
+    ZERO_ADDRESS
+  ),
 
   /*********************************************
    * SWAPS

@@ -37,11 +37,25 @@ export default [
   // Unwrap ETH
   allow.mainnet.weth.withdraw(),
 
+  // Aave v2 - Staking of AAVE and GHO in Safety Module
+  allow.mainnet.aave_v2.stkAave.redeem(c.avatar),
+  allow.mainnet.aave_v2.stkAave.cooldown(),
+  allow.mainnet.aave_v2.stkGHO.redeem(c.avatar),
+  allow.mainnet.aave_v2.stkGHO.cooldown(),
+
   // Aura - wstETH/WETH
   aura__withdraw_balancer(
     aura.auraB_stETH_stable_rewarder,
     balancer.B_stETH_stable_pid
   ),
+
+  // Aura - Lock
+  allow.mainnet.aura.vlAURA.processExpiredLocks(),
+
+  // Aura - Stake
+  allow.mainnet.aura.auraBAL_staking_rewarder.withdraw(),
+  allow.mainnet.aura.stkauraBAL.withdraw(undefined, c.avatar, c.avatar),
+  allow.mainnet.aura.stkauraBAL.redeem(undefined, c.avatar, c.avatar),
 
   // Compound v3 - USDC
   allow.mainnet.compound_v3.cUSDCv3.withdraw(USDC),
@@ -70,13 +84,30 @@ export default [
   ](),
   allow.mainnet.curve.tricryptoGHO_gauge["withdraw(uint256)"](),
 
-  // CowSwap - Holdings
-  cowswap__swap([DAI, USDC, USDT], [DAI, USDC, USDT, WETH], Chain.eth),
-  cowswap__swap([CRV, COMP, CVX, NOTE], [DAI, USDC], Chain.eth),
+  // Enzyme - Diva stETH Vault
+  // Withdraw stETH
+  allow.mainnet.enzyme.Diva_stETH_Vault.redeemSharesInKind(c.avatar),
+  allow.mainnet.enzyme.Diva_stETH_Vault.redeemSharesForSpecificAssets(
+    c.avatar,
+    undefined,
+    [stETH]
+  ),
 
   // Lido
   lido__unstake_stETH(),
   lido__unwrap_and_unstake_wstETH(),
+
+  // Maker - DSR (DAI Savings Rate)
+  allow.mainnet.maker.dsr_manager.exit(c.avatar),
+  allow.mainnet.maker.dsr_manager.exitAll(c.avatar),
+
+  // pods - ETHphoria Vault
+  // Withdraw stETH
+  allow.mainnet.pods.ETHoriaVault.redeem(undefined, c.avatar, c.avatar),
+
+  // Rocket Pool
+  allow.mainnet.rocket_pool.rETH.burn(),
+  allow.mainnet.rocket_pool.swap_router.swapFrom(),
 
   // Spark - DSR/sDAI
   allow.mainnet.spark.sDAI.redeem(undefined, c.avatar, c.avatar),
@@ -90,6 +121,10 @@ export default [
 
   // Balancer - Swap WETH <-> wstETH
   balancer__swap(balancer.B_stETH_stable_pid, [WETH, wstETH], [wstETH, WETH]),
+
+  // CowSwap - Holdings
+  cowswap__swap([DAI, USDC, USDT], [DAI, USDC, USDT, WETH], Chain.eth),
+  cowswap__swap([CRV, COMP, CVX, NOTE], [DAI, USDC], Chain.eth),
 
   // CowSwap - DAI -> [ETH, USDC, USDT]
   cowswap__swap([DAI], [E_ADDRESS, USDC, USDT], Chain.eth),
