@@ -119,7 +119,7 @@ export default [
   allowAction.lido.deposit(),
 
   // Rocket Pool
-  allowAction.rocket_pool.deposit(),
+  allowAction.rocketPool.deposit(),
 
   // Spark - DSR/sDAI
   allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
@@ -137,7 +137,7 @@ export default [
   allowAction.spark.deposit({ targets: ["wstETH"] }),
 
   // Uniswap v3 - wNXN/WETH
-  allowAction.uniswap_v3.deposit({ tokens: ["wNXM", "WETH"] }),
+  allowAction.uniswapV3.deposit({ tokens: ["wNXM", "WETH"] }),
 
   /*********************************************
    * Typed-presets permissions

@@ -51,12 +51,12 @@ export default [
   allowAction.lido.deposit(),
 
   // Rocket Pool
-  allowAction.rocket_pool.deposit(),
+  allowAction.rocketPool.deposit(),
 
   // Uniswap v3 - WBTC + WETH, Range: 11.786 - 15.082. Fee: 0.3%.
   // WARNING!: With the deposit action we are allowing to send ETH and the functions that involve ETH.
-  // allowAction.uniswap_v3.deposit({ tokens: ["WBTC", "WETH"], fees: ["0.3%"] }),
-  allowAction.uniswap_v3.deposit({ targets: ["430246"] }),
+  // allowAction.uniswapV3.deposit({ tokens: ["WBTC", "WETH"], fees: ["0.3%"] }),
+  allowAction.uniswapV3.deposit({ targets: ["430246"] }),
 
   /*********************************************
    * Typed-presets permissions

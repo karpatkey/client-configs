@@ -21,15 +21,9 @@ export default [
   // Aura - wstETH/COW
   allowAction.aura.deposit({ targets: ["20"] }),
 
-  // Balancer - EURe/GBPe
-  allowAction.balancer.deposit({ targets: ["B-50EURe-50GBPe"] }),
-  allowAction.balancer.stake({ targets: ["B-50EURe-50GBPe"] }),
   // Balancer - GBPe/sDAI
   allowAction.balancer.deposit({ targets: ["GBPe/sDAI"] }),
   allowAction.balancer.stake({ targets: ["GBPe/sDAI"] }),
-  // Balancer - GBPe/WXDAI
-  allowAction.balancer.deposit({ targets: ["B-50GBPe-50WXDAI"] }),
-  allowAction.balancer.stake({ targets: ["B-50GBPe-50WXDAI"] }),
   // Balancer - wstETH/COW
   allowAction.balancer.deposit({ targets: ["B-50wstETH-50COW"] }),
   allowAction.balancer.stake({ targets: ["B-50wstETH-50COW"] }),
