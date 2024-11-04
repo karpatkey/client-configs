@@ -109,7 +109,7 @@ export default [
   allowAction.lido.deposit(),
 
   // Rocket Pool
-  allowAction.rocket_pool.deposit(),
+  allowAction.rocketPool.deposit(),
 
   // Spark - ETH
   allowAction.spark.deposit({ targets: ["ETH"] }),

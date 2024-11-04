@@ -37,6 +37,11 @@ export default [
   /*********************************************
    * Protocol permissions
    *********************************************/
+
+  // Aave v2 - Staking of GHO in Safety Module
+  allow.mainnet.aave_v2.stkGHO.redeem(c.avatar),
+  allow.mainnet.aave_v2.stkGHO.cooldown(),
+
   // Aave v3 - Withdraw wstETH
   allow.mainnet.aave_v3.pool_v3.withdraw(wstETH, undefined, c.avatar),
 
@@ -51,6 +56,37 @@ export default [
   // Aave v3 - Repay WBTC
   ...allowErc20Approve([WBTC], [contracts.mainnet.aave_v3.pool_v3]),
   allow.mainnet.aave_v3.pool_v3.repay(WBTC, undefined, undefined, c.avatar),
+
+  // Ankr
+  allow.mainnet.ankr.flashUnstake.swapEth(undefined, c.avatar),
+  allow.mainnet.ankr.ETH2_Staking.unstakeAETH(),
+
+  // Angle - wstETH-EUR-Vault
+  allow.mainnet.angle.wstETH_EUR_Vault[
+    "angle(uint8[],bytes[],address,address)"
+  ](
+    c.every(
+      c.or(
+        1, // closeVault
+        3, // removeCollateral
+        4 // repayDebt
+      )
+    ),
+    c.every(
+      c.or(
+        c.abiEncodedMatches(
+          [19],
+          ["uint256"] // (vaultID)
+        ), // closeVault
+        c.abiEncodedMatches(
+          [19],
+          ["uint256", "uint256"] // 2,3:(vaultID, collateralAmount) or 4,5:(vaultID, stablecoinAmount)
+        ) // addCollateral, removeCollateral, repayDebt, borrow
+      )
+    ),
+    c.avatar,
+    c.avatar
+  ),
 
   // Aura - auraBAL
   aura__withdraw_balancer(
@@ -76,6 +112,17 @@ export default [
     balancer.B_rETH_stable_pid
   ),
 
+  // Aura - Lock
+  allow.mainnet.aura.vlAURA.processExpiredLocks(),
+
+  // Aura - Stake
+  allow.mainnet.aura.auraBAL_staking_rewarder.withdraw(),
+  allow.mainnet.aura.stkauraBAL.withdraw(undefined, c.avatar, c.avatar),
+  allow.mainnet.aura.stkauraBAL.redeem(undefined, c.avatar, c.avatar),
+
+  // Autonolas - OLAS Withdraw
+  allow.mainnet.autonolas.veolas.withdraw(),
+
   // Balancer - auraBAL / B-80BAL-20WETH
   balancer__unstake_withdraw(Chain.eth, balancer.B_auraBAL_STABLE_gauge),
   // Balancer - B-80BAL-20WETH
@@ -90,9 +137,45 @@ export default [
   // Balancer - rETH/WETH
   balancer__unstake_withdraw(Chain.eth, balancer.B_rETH_stable_gauge),
 
+  // Balancer - Lock
+  allow.mainnet.balancer.veBAL.withdraw(),
+
+  // Convex - Lock
+  allow.mainnet.convex.vlCVX.processExpiredLocks(),
+
+  // Enzyme - Diva stETH Vault
+  // Withdraw stETH
+  allow.mainnet.enzyme.Diva_stETH_Vault.redeemSharesInKind(c.avatar),
+  allow.mainnet.enzyme.Diva_stETH_Vault.redeemSharesForSpecificAssets(
+    c.avatar,
+    undefined,
+    [stETH]
+  ),
+
   // Lido
   lido__unstake_stETH(),
   lido__unwrap_and_unstake_wstETH(),
+
+  // Rocket Pool
+  allow.mainnet.rocket_pool.rETH.burn(),
+  allow.mainnet.rocket_pool.swap_router.swapFrom(),
+
+  // Stader
+  allow.mainnet.stader.user_withdraw_manager[
+    "requestWithdraw(uint256,address)"
+  ](undefined, c.avatar),
+  allow.mainnet.stader.user_withdraw_manager.claim(),
+
+  // Sommelier - TurboDIVETH
+  allow.mainnet.sommelier.TurboDIVETH.redeem(undefined, c.avatar, c.avatar),
+
+  // StakeWise v3 - Chorus One - MEV Max
+  allow.mainnet.stakewise_v3.chrorus_one_mev_max.burnOsToken(),
+  allow.mainnet.stakewise_v3.chrorus_one_mev_max.enterExitQueue(
+    undefined,
+    c.avatar
+  ),
+  allow.mainnet.stakewise_v3.chrorus_one_mev_max.claimExitedAssets(),
 
   /*********************************************
    * SWAPS

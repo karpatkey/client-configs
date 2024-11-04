@@ -106,7 +106,7 @@ export default [
   allowAction.lido.deposit(),
 
   // Rocket Pool
-  allowAction.rocket_pool.deposit(),
+  allowAction.rocketPool.deposit(),
 
   // Stader
   allowAction.stader.deposit(),
