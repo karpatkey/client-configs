@@ -22,6 +22,7 @@ import {
   WETH,
   wstETH,
   balancer,
+  maverick,
 } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
@@ -70,7 +71,7 @@ export default [
   balancer__swap(balancer.GHO_USDT_USDC_pId, [GHO], [USDC, USDT]),
   balancer__swap(balancer.GHO_USDT_USDC_pId, [USDC, USDT], [GHO]),
 
-  // CowSwap - Holdings
+  // CowSwap - Swapping of AAVE, COMP, DAI, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH
   cowswap__swap(
     [
       AAVE,
@@ -90,15 +91,20 @@ export default [
     Chain.eth,
     200
   ),
+  // CowSwap - Swapping of DAI, GHO, GYD, sDAI, USDC, USDT
   cowswap__swap(
     [DAI, GHO, GYD, sDAI, USDC, USDT],
     [DAI, GHO, GYD, sDAI, USDC, USDT],
     Chain.eth,
     200
   ),
+  // CowSwap - Swap GHO <-> stkGHO
   cowswap__swap([GHO, stkGHO], [GHO, stkGHO], Chain.eth, 200),
+  // CowSwap - Swap USDS -> [DAI, sUSDS, USDC, USDT]
   cowswap__swap([USDS], [DAI, sUSDS, USDC, USDT], Chain.eth, 200),
+  // CowSwap - Swap sUSDS -> [DAI, USDC, USDS, USDT]
   cowswap__swap([sUSDS], [DAI, USDC, USDS, USDT], Chain.eth, 200),
+  // CowSwap - Swap OETH -> [ETH, rETH, stETH, WETH, wstETH]
   cowswap__swap([OETH], [E_ADDRESS, rETH, stETH, WETH, wstETH], Chain.eth, 200),
 
   // Curve - Swap ETH <-> stETH
@@ -123,6 +129,16 @@ export default [
     {
       send: true,
     }
+  ),
+
+  // Maverick - Swap GHO <-> stkGHO
+  allowErc20Approve(
+    [GHO, stkGHO],
+    [contracts.mainnet.maverick.MaverickV2Router]
+  ),
+  allow.mainnet.maverick.MaverickV2Router.inputSingleWithTickLimit(
+    c.avatar,
+    maverick.GHO_stkGHO_pool
   ),
 
   // Uniswap v3 - Swaps

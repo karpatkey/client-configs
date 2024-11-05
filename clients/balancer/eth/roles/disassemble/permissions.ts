@@ -26,6 +26,12 @@ export default [
   // Unwrap ETH
   allow.mainnet.weth.withdraw(),
 
+  // Aave v2 - Staking of AAVE and GHO in Safety Module
+  allow.mainnet.aave_v2.stkAave.redeem(c.avatar),
+  allow.mainnet.aave_v2.stkAave.cooldown(),
+  allow.mainnet.aave_v2.stkGHO.redeem(c.avatar),
+  allow.mainnet.aave_v2.stkGHO.cooldown(),
+
   // Aave v3 - Withdraw DAI
   allow.mainnet.aave_v3.pool_v3.withdraw(DAI, undefined, c.avatar),
   // Aave v3 - Withdraw osETH
@@ -81,6 +87,10 @@ export default [
   allow.mainnet.origin.OETH_Vault.requestWithdrawal(),
   allow.mainnet.origin.OETH_Vault.claimWithdrawal(),
   allow.mainnet.origin.OETH_Vault.claimWithdrawals(),
+
+  // Rocket Pool
+  allow.mainnet.rocket_pool.rETH.burn(),
+  allow.mainnet.rocket_pool.swap_router.swapFrom(),
 
   // Spark - DSR/sDAI
   allow.mainnet.spark.sDAI.redeem(undefined, c.avatar, c.avatar),
