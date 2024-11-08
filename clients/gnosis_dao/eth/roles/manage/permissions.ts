@@ -26,16 +26,16 @@ export default [
    * DeFi-Kit permissions
    *********************************************/
   // Aave v2 - Staking of GHO in Safety Module
-  allowAction.aave_v2.stake({ targets: ["GHO"] }),
+  allowAction.aaveV2.stake({ targets: ["GHO"] }),
 
   // Aave v3 - Deposit wstETH
-  allowAction.aave_v3.deposit({ targets: ["wstETH"] }),
+  allowAction.aaveV3.deposit({ targets: ["wstETH"] }),
   // Aave v3 - Borrow GHO
-  allowAction.aave_v3.borrow({ targets: ["GHO"] }),
+  allowAction.aaveV3.borrow({ targets: ["GHO"] }),
   // Aave v3 - Borrow USDC
-  allowAction.aave_v3.borrow({ targets: ["USDC"] }),
+  allowAction.aaveV3.borrow({ targets: ["USDC"] }),
   // Aave v3 - Borrow WBTC
-  allowAction.aave_v3.borrow({ targets: ["WBTC"] }),
+  allowAction.aaveV3.borrow({ targets: ["WBTC"] }),
 
   // Ankr
   allowAction.ankr.deposit(),
@@ -72,32 +72,32 @@ export default [
   allowAction.convex.lock(),
 
   // CowSwap - DAI <> USDT
-  allowAction.cowswap.swap({
+  allowAction.cowSwap.swap({
     sell: [DAI, USDT],
     buy: [DAI, USDT],
   }),
   // CowSwap - USDC <> USDT
-  allowAction.cowswap.swap({
+  allowAction.cowSwap.swap({
     sell: [USDC, USDT],
     buy: [USDC, USDT],
   }),
   // CowSwap - wstETH -> stETH
-  allowAction.cowswap.swap({
+  allowAction.cowSwap.swap({
     sell: [wstETH],
     buy: [stETH],
   }),
   // CowSwap - osETH <> WETH
-  allowAction.cowswap.swap({
+  allowAction.cowSwap.swap({
     sell: [osETH, WETH],
     buy: [osETH, WETH],
   }),
   // CowSwap - rETH <> WETH
-  allowAction.cowswap.swap({
+  allowAction.cowSwap.swap({
     sell: [rETH, WETH],
     buy: [rETH, WETH],
   }),
   // CowSwap - GHO <> USDC
-  allowAction.cowswap.swap({
+  allowAction.cowSwap.swap({
     sell: [GHO, USDC],
     buy: [GHO, USDC],
   }),

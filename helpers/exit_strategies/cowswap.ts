@@ -28,21 +28,21 @@ export const cowswap__swap = async (
 
   switch (chain) {
     case Chain.eth:
-      return await allowActionEth.cowswap.swap({
+      return await allowActionEth.cowSwap.swap({
         sell: modifiedSell as (Address | "ETH")[],
         buy: modifiedBuy as (Address | "ETH")[],
         feeAmountBp: feeAmountBp,
       })
 
     case Chain.gno:
-      return await allowActionGno.cowswap.swap({
+      return await allowActionGno.cowSwap.swap({
         sell: modifiedSell as (Address | "XDAI")[],
         buy: modifiedBuy as (Address | "XDAI")[],
         feeAmountBp: feeAmountBp,
       })
 
     case Chain.arb1:
-      return await allowActionArb.cowswap.swap({
+      return await allowActionArb.cowSwap.swap({
         sell: modifiedSell as (Address | "ETH")[],
         buy: modifiedBuy as (Address | "ETH")[],
         feeAmountBp: feeAmountBp,

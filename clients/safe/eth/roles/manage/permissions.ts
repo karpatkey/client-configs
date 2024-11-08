@@ -30,7 +30,7 @@ export default [
   allowAction.aura.deposit({ targets: ["179"] }),
 
   // Aave v2 - Staking of GHO in Safety Module
-  allowAction.aave_v2.stake({ targets: ["GHO"] }),
+  allowAction.aaveV2.stake({ targets: ["GHO"] }),
 
   // Balancer - wstETH/WETH
   allowAction.balancer.deposit({ targets: ["wstETH-WETH-BPT"] }),
@@ -43,17 +43,17 @@ export default [
   allowAction.balancer.stake({ targets: ["osETH/wETH-BPT"] }),
 
   // CowSwap - Swapping of SAFE
-  allowAction.cowswap.swap({
+  allowAction.cowSwap.swap({
     sell: [SAFE],
     buy: ["ETH", DAI, stETH, USDC, WETH, wstETH],
   }),
   // CowSwap - Swapping of ETH
-  allowAction.cowswap.swap({
+  allowAction.cowSwap.swap({
     sell: ["ETH"],
     buy: [DAI, osETH, stETH, rETH, USDC, WETH, wstETH],
   }),
   // CowSwap - Swapping of AURA and BAL
-  allowAction.cowswap.swap({
+  allowAction.cowSwap.swap({
     sell: [AURA, BAL],
     buy: ["ETH", USDC, WETH],
   }),
