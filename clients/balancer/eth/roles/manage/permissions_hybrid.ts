@@ -27,7 +27,7 @@ export default [
    * DeFi-Kit permissions
    *********************************************/
   // Aave v2 - Staking of AAVE in Safety Module
-  allowAction.aave_v2.stake({ targets: ["AAVE"] }),
+  allowAction.aaveV2.stake({ targets: ["AAVE"] }),
 
   // // Compound v3 - cUSDCv3 - USDC
   // allowAction.compound_v3.deposit({

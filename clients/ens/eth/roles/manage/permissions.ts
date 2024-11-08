@@ -43,18 +43,18 @@ export default [
   allowAction.aura.deposit({ targets: ["179"] }),
 
   // Aave v3 - Deposit DAI
-  allowAction.aave_v3.deposit({ targets: ["DAI"] }),
+  allowAction.aaveV3.deposit({ targets: ["DAI"] }),
   // Aave v3 - Deposit ETH
-  allowAction.aave_v3.deposit({ targets: ["ETH"] }),
+  allowAction.aaveV3.deposit({ targets: ["ETH"] }),
   // Aave v3 - Deposit osETH
-  allowAction.aave_v3.deposit({ targets: ["osETH"] }),
+  allowAction.aaveV3.deposit({ targets: ["osETH"] }),
   // Aave v3 - Deposit USDC
-  allowAction.aave_v3.deposit({ targets: ["USDC"] }),
+  allowAction.aaveV3.deposit({ targets: ["USDC"] }),
   // Aave v3 - Deposit WETH
-  allowAction.aave_v3.deposit({ targets: ["WETH"] }),
+  allowAction.aaveV3.deposit({ targets: ["WETH"] }),
   // Removed as per a Steward's request on August 20, 2024.
   // // Aave v3 - Deposit wstETH
-  // allowAction.aave_v3.deposit({ targets: ["wstETH"] }),
+  // allowAction.aaveV3.deposit({ targets: ["wstETH"] }),
 
   // Balancer - wstETH/WETH
   allowAction.balancer.deposit({ targets: ["wstETH-WETH-BPT"] }),
@@ -81,7 +81,7 @@ export default [
   allowAction.convex.deposit({ targets: ["177"] }),
 
   // CowSwap - Swapping of ankrETH, AURA, BAL, COMP, CRV, CVX, DAI, ETHx, LDO, osETH, rETH, RPL, stETH, SWISE, USDC, USDT, WETH, wstETH
-  allowAction.cowswap.swap({
+  allowAction.cowSwap.swap({
     sell: [
       ankrETH,
       AURA,

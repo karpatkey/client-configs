@@ -27,16 +27,16 @@ export default [
    * DeFi-Kit permissions
    *********************************************/
   // Aave v2 - Staking of AAVE in Safety Module
-  allowAction.aave_v2.stake({ targets: ["AAVE"] }),
+  allowAction.aaveV2.stake({ targets: ["AAVE"] }),
 
   // Aave v3 - DAI
-  allowAction.aave_v3.deposit({ targets: ["DAI"] }),
+  allowAction.aaveV3.deposit({ targets: ["DAI"] }),
   // Aave v3 - USDC
-  allowAction.aave_v3.deposit({ targets: ["USDC"] }),
+  allowAction.aaveV3.deposit({ targets: ["USDC"] }),
 
   // Aave - Delegate Aave and stkAave to governance.karpatkey.eth
   // WARNING!: The delegate action allows delegate() and delegateByType(), the latter is not part of the orginal preset.
-  allowAction.aave_v3.delegate({
+  allowAction.aaveV3.delegate({
     targets: ["AAVE", "stkAAVE"],
     delegatee: GOVERNANCE_KPK,
   }),

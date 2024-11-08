@@ -15,7 +15,7 @@ import { balancer__swap } from "../../../../../helpers/exit_strategies/balancer"
 
 export default [
   // CowSwap - Holdings swaps
-  allowAction.cowswap.swap({
+  allowAction.cowSwap.swap({
     sell: [COMP, DAI, USDC, USDCe],
     buy: [DAI, USDC, USDCe],
   }),

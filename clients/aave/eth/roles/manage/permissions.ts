@@ -10,13 +10,13 @@ export default [
    * DeFi-Kit permissions
    *********************************************/
   // CowSwap - Swap GHO <-> stkGHO
-  allowAction.cowswap.swap({
+  allowAction.cowSwap.swap({
     sell: [GHO, stkGHO],
     buy: [GHO, stkGHO],
   }),
 
   // Aave v2 - Staking of GHO in Safety Module
-  allowAction.aave_v2.stake({ targets: ["GHO"] }),
+  allowAction.aaveV2.stake({ targets: ["GHO"] }),
 
   /*********************************************
    * Typed-presets permissions

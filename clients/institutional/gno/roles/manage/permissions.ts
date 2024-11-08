@@ -20,7 +20,7 @@ export default [
    * DeFi-Kit permissions
    *********************************************/
   // CowSwap - Holdings swaps
-  allowAction.cowswap.swap({
+  allowAction.cowSwap.swap({
     sell: [sDAI, USDC, USDCe, WXDAI],
     buy: [E_ADDRESS, sDAI, USDC, USDCe, WXDAI],
   }),

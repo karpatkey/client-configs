@@ -23,18 +23,18 @@ export default [
    * DeFi-Kit permissions
    *********************************************/
   // Aave v2 - Staking of GHO in Safety Module
-  allowAction.aave_v2.stake({ targets: ["GHO"] }),
+  allowAction.aaveV2.stake({ targets: ["GHO"] }),
   // Aave v3 - Deposit USDT
-  allowAction.aave_v3.deposit({ targets: ["USDT"] }),
+  allowAction.aaveV3.deposit({ targets: ["USDT"] }),
 
   // Convex - crvUSD/USDT
   allowAction.convex.deposit({ targets: ["179"] }),
 
   // CowSwap - [DAI, USDC, USDM] <-> [DAI, USDC, USDM]
-  allowAction.cowswap.swap({ sell: [DAI, USDC, USDM], buy: [DAI, USDC, USDM] }),
+  allowAction.cowSwap.swap({ sell: [DAI, USDC, USDM], buy: [DAI, USDC, USDM] }),
 
   // CowSwap - [USDC, wM] <-> [USDC, wM]
-  allowAction.cowswap.swap({ sell: [USDC, wM], buy: [USDC, wM] }),
+  allowAction.cowSwap.swap({ sell: [USDC, wM], buy: [USDC, wM] }),
 
   /*********************************************
    * Typed-presets permissions

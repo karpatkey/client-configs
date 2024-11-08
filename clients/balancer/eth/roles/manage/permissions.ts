@@ -41,28 +41,28 @@ export default [
    * DeFi-Kit permissions
    *********************************************/
   // Aave v2 - Staking of AAVE and GHO in Safety Module
-  allowAction.aave_v2.stake({ targets: ["AAVE", "GHO"] }),
+  allowAction.aaveV2.stake({ targets: ["AAVE", "GHO"] }),
 
   // Aave v3 - Deposit DAI
-  allowAction.aave_v3.deposit({ targets: ["DAI"] }),
+  allowAction.aaveV3.deposit({ targets: ["DAI"] }),
   // Aave v3 - Deposit osETH
-  allowAction.aave_v3.deposit({ targets: ["osETH"] }),
+  allowAction.aaveV3.deposit({ targets: ["osETH"] }),
   // Aave v3 - Deposit sDAI
-  allowAction.aave_v3.deposit({ targets: ["sDAI"] }),
+  allowAction.aaveV3.deposit({ targets: ["sDAI"] }),
   // Aave v3 - Deposit USDC
-  allowAction.aave_v3.deposit({ targets: ["USDC"] }),
+  allowAction.aaveV3.deposit({ targets: ["USDC"] }),
   // Aave v3 - Deposit USDS
-  allowAction.aave_v3.deposit({ targets: ["USDS"] }),
+  allowAction.aaveV3.deposit({ targets: ["USDS"] }),
   // Aave v3 - Deposit WBTC
-  allowAction.aave_v3.deposit({ targets: ["WBTC"] }),
+  allowAction.aaveV3.deposit({ targets: ["WBTC"] }),
   // Aave v3 - Deposit wstETH
-  allowAction.aave_v3.deposit({ targets: ["wstETH"] }),
+  allowAction.aaveV3.deposit({ targets: ["wstETH"] }),
   // Aave v3 - Borrow GHO
-  allowAction.aave_v3.borrow({ targets: ["GHO"] }),
+  allowAction.aaveV3.borrow({ targets: ["GHO"] }),
 
   // Aave - Delegate Aave and stkAave to governance.karpatkey.eth
   // WARNING!: The delegate action allows delegate() and delegateByType(), the latter is not part of the orginal preset
-  allowAction.aave_v3.delegate({
+  allowAction.aaveV3.delegate({
     targets: ["AAVE", "stkAAVE"],
     delegatee: GOVERNANCE_KPK,
   }),
@@ -71,7 +71,7 @@ export default [
   allowAction.convex.deposit({ targets: ["174"] }),
 
   // CowSwap - Swapping of AAVE, COMP, DAI, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH
-  allowAction.cowswap.swap({
+  allowAction.cowSwap.swap({
     sell: [
       AAVE,
       COMP,
@@ -91,35 +91,35 @@ export default [
   }),
 
   // CowSwap - Swapping of DAI, GHO, GYD, sDAI, USDC, USDT
-  allowAction.cowswap.swap({
+  allowAction.cowSwap.swap({
     sell: [DAI, GHO, GYD, sDAI, USDC, USDT],
     buy: [DAI, GHO, GYD, sDAI, USDC, USDT],
     feeAmountBp: 200,
   }),
 
   // CowSwap - Swap GHO <-> stkGHO
-  allowAction.cowswap.swap({
+  allowAction.cowSwap.swap({
     sell: [GHO, stkGHO],
     buy: [GHO, stkGHO],
     feeAmountBp: 200,
   }),
 
   // CowSwap - Swap USDS -> [DAI, sUSDS, USDC, USDT]
-  allowAction.cowswap.swap({
+  allowAction.cowSwap.swap({
     sell: [USDS],
     buy: [DAI, sUSDS, USDC, USDT],
     feeAmountBp: 200,
   }),
 
   // CowSwap - Swap sUSDS -> [DAI, USDC, USDS, USDT]
-  allowAction.cowswap.swap({
+  allowAction.cowSwap.swap({
     sell: [sUSDS],
     buy: [DAI, USDC, USDS, USDT],
     feeAmountBp: 200,
   }),
 
   // CowSwap - Swap OETH -> [ETH, rETH, stETH, WETH, wstETH]
-  allowAction.cowswap.swap({
+  allowAction.cowSwap.swap({
     sell: [OETH],
     buy: ["ETH", rETH, stETH, WETH, wstETH],
     feeAmountBp: 200,

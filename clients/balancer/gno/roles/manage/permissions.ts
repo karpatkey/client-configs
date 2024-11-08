@@ -18,19 +18,19 @@ export default [
    * DeFi-Kit permissions
    *********************************************/
   // CowSwap - Swap sDAI <-> [XDAI, USDC, USDT]
-  allowAction.cowswap.swap({
+  allowAction.cowSwap.swap({
     sell: [sDAI],
     buy: ["XDAI", USDC, USDT],
     feeAmountBp: 200,
   }),
-  allowAction.cowswap.swap({
+  allowAction.cowSwap.swap({
     sell: ["XDAI", USDC, USDT],
     buy: [sDAI],
     feeAmountBp: 200,
   }),
 
   // CowSwap - Swap GNO <-> WETH
-  allowAction.cowswap.swap({
+  allowAction.cowSwap.swap({
     sell: [GNO, WETH],
     buy: [GNO, WETH],
     feeAmountBp: 200,
