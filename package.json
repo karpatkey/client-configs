@@ -40,6 +40,6 @@
     "lint-staged": "^15.2.10"
   },
   "lint-staged": {  
-    "*.ts": ["prettier --write", "git add"]  
+    "*.ts": ["prettier --write .", "git add"]  
   }  
 }
