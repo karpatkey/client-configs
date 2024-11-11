@@ -40,8 +40,8 @@
     "lint-staged": "^15.2.10"
   },
   "lint-staged": {  
-    "*.ts": [  
-      "yarn prettier --write ."
+    "*.{js,ts,tsx,json,md}": [  
+      "yarn prettier --write"
     ]  
   }  
 }
