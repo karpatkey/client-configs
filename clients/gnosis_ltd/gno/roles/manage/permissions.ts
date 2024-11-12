@@ -81,7 +81,13 @@ export default [
    * Typed-presets permissions
    *********************************************/
   // Wrapping and unwrapping of XDAI, WXDAI
+  allow.gnosis.wxdai["deposit"]({
+    send: true,
+  }),
   allow.gnosis.wxdai["withdraw"](),
+
+  // CowSwap - vCOW
+  allow.gnosis.cowswap.vCOW.swapAll(),
 
   // Curve - EURe/x3CRV
   ...allowErc20Approve([EURe, x3CRV], [contracts.gnosis.curve.crvEUReUSD_pool]),
