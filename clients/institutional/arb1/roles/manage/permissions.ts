@@ -1,6 +1,6 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { allow as allowAction } from "defi-kit/eth"
+import { allow as allowAction } from "defi-kit/arb1"
 import {
   COMP,
   DAI,
@@ -23,6 +23,13 @@ export default [
   /*********************************************
    * DeFi-Kit permissions
    *********************************************/
+  // Aave v3 - Deposit DAI
+  allowAction.aaveV3.deposit({ targets: ["DAI"] }),
+  // Aave v3 - Deposit USDC
+  allowAction.aaveV3.deposit({ targets: ["USDC"] }),
+  // Aave v3 - Deposit USDC.e
+  allowAction.aaveV3.deposit({ targets: ["USDC.e"] }),
+
   // CowSwap - Holdings swaps
   allowAction.cowSwap.swap({
     sell: [COMP, DAI, USDC, USDCe],
@@ -32,64 +39,6 @@ export default [
   /*********************************************
    * Typed-presets permissions
    *********************************************/
-  // Aave v3 - Deposit DAI
-  ...allowErc20Approve([DAI], [contracts.arbitrumOne.aave_v3.pool_v3]),
-  allow.arbitrumOne.aave_v3.pool_v3["supply(address,uint256,address,uint16)"](
-    DAI,
-    undefined,
-    c.avatar
-  ),
-  allow.arbitrumOne.aave_v3.pool_v3["withdraw(bytes32)"](
-    // skip amount 30 bytes
-    // assetId: 2 bytes
-    c.bitmask({
-      shift: 30,
-      mask: "0xffff",
-      value: "0x0000", // DAI assetId: 0
-    })
-  ),
-  allow.arbitrumOne.aave_v3.pool_v3[
-    "setUserUseReserveAsCollateral(address,bool)"
-  ](DAI),
-  // Aave v3 - Deposit USDC
-  ...allowErc20Approve([USDC], [contracts.arbitrumOne.aave_v3.pool_v3]),
-  allow.arbitrumOne.aave_v3.pool_v3["supply(address,uint256,address,uint16)"](
-    USDC,
-    undefined,
-    c.avatar
-  ),
-  allow.arbitrumOne.aave_v3.pool_v3["withdraw(bytes32)"](
-    // skip amount 30 bytes
-    // assetId: 2 bytes
-    c.bitmask({
-      shift: 30,
-      mask: "0xffff",
-      value: "0x000c", // USDC assetId: 12
-    })
-  ),
-  allow.arbitrumOne.aave_v3.pool_v3[
-    "setUserUseReserveAsCollateral(address,bool)"
-  ](USDC),
-  // Aave v3 - Deposit USDC.e
-  ...allowErc20Approve([USDCe], [contracts.arbitrumOne.aave_v3.pool_v3]),
-  allow.arbitrumOne.aave_v3.pool_v3["supply(address,uint256,address,uint16)"](
-    USDCe,
-    undefined,
-    c.avatar
-  ),
-  allow.arbitrumOne.aave_v3.pool_v3["withdraw(bytes32)"](
-    // skip amount 30 bytes
-    // assetId: 2 bytes
-    c.bitmask({
-      shift: 30,
-      mask: "0xffff",
-      value: "0x0002", // USDC.e assetId: 2
-    })
-  ),
-  allow.arbitrumOne.aave_v3.pool_v3[
-    "setUserUseReserveAsCollateral(address,bool)"
-  ](USDCe),
-
   // Compound v3 - USDC
   ...allowErc20Approve([USDC], [contracts.arbitrumOne.compound_v3.cUSDCv3]),
   allow.arbitrumOne.compound_v3.cUSDCv3.supply(USDC),
