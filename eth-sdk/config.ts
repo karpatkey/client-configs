@@ -136,10 +136,17 @@ export const contracts = {
       crvUSDUSDT_f_pool: "0x390f3595bCa2Df7d23783dFd126427CCeb997BF4",
       crvUSDUSDT_f_gauge: "0x4e6bB6B7447B7B2Aa268C16AB87F4Bb48BF57939",
       sdai_usdm_pool: "0x425BfB93370F14fF525aDb6EaEAcfE1f4e3b5802",
+      USDeUSDC_pool: "0x02950460E2b9529D0E00284A5fA2d7bDF3fA4d72",
+      USDeDAI_pool: "0xF36a4BA50C603204c3FC6d2dA8b78A7b69CBC67d",
+      MtEthena_pool: "0x167478921b907422F8E88B43C4Af2B8BEa278d3A",
+      crvUSDUSDC_f_pool: "0x4DEcE678ceceb27446b35C672dC7d61F30bAD69E",
     },
     enzyme: {
       deposit_wrapper_2: "0x65BbAD6545B7ac9C30Fb0f07e64e25106Bf05eEc",
       Diva_stETH_Vault: "0x648B8d2340842a7040680915c4dAb89382eeEDA9",
+    },
+    ethena: {
+      sUsde: "0x9D39A5DE30e57443BfF2A8307A4256c8797A3497",
     },
     gyroscope: {
       sGYD: "0xeA50f402653c41cAdbaFD1f788341dB7B7F37816",
@@ -191,6 +198,9 @@ export const contracts = {
     },
     pancake_swap: {
       smart_router: "0x13f4EA83D0bd40E75C8222255bc855a974568Dd4",
+    },
+    pendle: {
+      routerV4: "0x888888888889758F76e7103c6CbF23ABbF58F946",
     },
     pods: {
       ETHAdapter: "0x4AAD0755eFd63F4e9B7Fac19Bd426db4a0d9b5E8",

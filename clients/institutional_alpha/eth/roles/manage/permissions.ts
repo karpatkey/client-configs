@@ -3,17 +3,30 @@ import { allow } from "zodiac-roles-sdk/kit"
 import { allow as allowAction } from "defi-kit/eth"
 import {
   ZERO_ADDRESS,
+  AAVE,
+  AURA,
+  BAL,
   COMP,
+  CRV,
   crvUSD,
+  CVX,
   DAI,
+  GHO,
+  GYD,
+  NOTE,
   sDAI,
+  sUSDe,
+  stkGHO,
   USDC,
+  USDe,
   USDM,
   USDT,
   WBTC,
   wM,
   wstETH,
+  balancer,
   morpho,
+  pendle,
 } from "../../../../../eth-sdk/addresses"
 import {
   DAI as DAI_opt,
@@ -25,6 +38,7 @@ import { USDC as USDC_base } from "../../../../../eth-sdk/addresses_base"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
+import { balancer__swap } from "../../../../../helpers/exit_strategies/balancer"
 import { avatar } from "../../index"
 
 export default [
@@ -55,6 +69,13 @@ export default [
   // Aave v3 - Borrow USDC
   allowAction.aaveV3.borrow({ targets: ["USDC"] }),
 
+  // Aura - GHO/USDC/USDT
+  allowAction.aura.deposit({ targets: ["157"] }),
+
+  // Balancer - GHO/USDC/USDT
+  allowAction.balancer.deposit({ targets: ["GHO/USDT/USDC"] }),
+  allowAction.balancer.stake({ targets: ["GHO/USDT/USDC"] }),
+
   // Convex - crvUSD/USDT
   allowAction.convex.deposit({ targets: ["179"] }),
 
@@ -67,6 +88,45 @@ export default [
   allowAction.cowSwap.swap({ sell: [DAI, USDC, USDM], buy: [DAI, USDC, USDM] }),
   // CowSwap - [USDC, wM] <-> [USDC, wM]
   allowAction.cowSwap.swap({ sell: [USDC, wM], buy: [USDC, wM] }),
+  // CowSwap - [AAVE, AURA, BAL, CRV, crvUSD, CVX, DAI, GHO, GYD, NOTE, sDAI, stkGHO, sUSDe, USDC, USDe, USDT]
+  allowAction.cowSwap.swap({
+    sell: [
+      AAVE,
+      AURA,
+      BAL,
+      CRV,
+      crvUSD,
+      CVX,
+      DAI,
+      GHO,
+      GYD,
+      NOTE,
+      sDAI,
+      stkGHO,
+      sUSDe,
+      USDC,
+      USDe,
+      USDT,
+    ],
+    buy: [
+      AAVE,
+      AURA,
+      BAL,
+      CRV,
+      crvUSD,
+      CVX,
+      DAI,
+      GHO,
+      GYD,
+      NOTE,
+      sDAI,
+      stkGHO,
+      sUSDe,
+      USDC,
+      USDe,
+      USDT,
+    ],
+  }),
 
   // Spark - DSR_sDAI
   allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
@@ -134,6 +194,13 @@ export default [
     undefined,
     ZERO_ADDRESS
   ),
+
+  // Ethena - Stake USDe
+  ...allowErc20Approve([USDe], [sUSDe]),
+  allow.mainnet.ethena.sUsde.deposit(undefined, c.avatar),
+  // Ethena - Unstake USDe
+  allow.mainnet.ethena.sUsde.cooldownShares(),
+  allow.mainnet.ethena.sUsde.unstake(c.avatar),
 
   // Maker - DSR (DAI Savings Rate)
   // The DsrManager provides an easy to use smart contract that allows
@@ -259,19 +326,94 @@ export default [
   ),
   allow.mainnet.notional_v3.nProxy.nTokenClaimIncentives(),
 
+  // Pendle - USDe/sUSDe <-> PT-sUSDE-DDMMMYYYY
+  ...allowErc20Approve([USDe, sUSDe], [contracts.mainnet.pendle.routerV4]),
+  allow.mainnet.pendle.routerV4.swapExactTokenForPt(
+    c.avatar,
+    c.or(
+      pendle.pendleMarket25Dec2024,
+      pendle.pendleMarket26Mar2025,
+      pendle.pendleMarket28May2025
+    ),
+    undefined,
+    undefined,
+    {
+      tokenIn: c.or(USDe, sUSDe),
+      tokenMintSy: c.or(USDe, sUSDe),
+    }
+  ),
+  ...allowErc20Approve(
+    [pendle.ptSusde26Dec2024, pendle.ptSusde27Mar2025, pendle.ptSusde29May2025],
+    [contracts.mainnet.pendle.routerV4]
+  ),
+  allow.mainnet.pendle.routerV4.swapExactPtForToken(
+    c.avatar,
+    c.or(
+      pendle.pendleMarket25Dec2024,
+      pendle.pendleMarket26Mar2025,
+      pendle.pendleMarket28May2025
+    ),
+    undefined,
+    {
+      tokenOut: c.or(USDe, sUSDe),
+      tokenRedeemSy: c.or(USDe, sUSDe),
+    }
+  ),
+
   /*********************************************
    * Swaps
    *********************************************/
-  // Curve - 3pool - Swap DAI <-> USDC
-  ...allowErc20Approve([DAI, USDC], [contracts.mainnet.curve.x3CRV_pool]),
-  allow.mainnet.curve.x3CRV_pool.exchange(
-    c.or(0, 1), // 0 = DAI, 1 = USDC
-    c.or(0, 1)
+  // Balancer - Swap GYD <-> sDAI
+  balancer__swap(balancer.ECLP_GYD_sDAI_2_pId, [GYD, sDAI], [GYD, sDAI]),
+
+  // Balancer - Swap [GHO, USDC, USDT] <-> [GHO, USDC, USDT]
+  balancer__swap(
+    balancer.GHO_USDT_USDC_pId,
+    [GHO, USDC, USDT],
+    [GHO, USDC, USDT]
   ),
+
+  // Curve - 3pool - Swap [DAI, USDC, USDT] <-> [DAI, USDC, USDT]
+  ...allowErc20Approve([DAI, USDC, USDT], [contracts.mainnet.curve.x3CRV_pool]),
+  allow.mainnet.curve.x3CRV_pool.exchange(),
 
   // Curve - Swap sDAI <-> USDM
   allowErc20Approve([sDAI, USDM], [contracts.mainnet.curve.sdai_usdm_pool]),
   allow.mainnet.curve.sdai_usdm_pool[
+    "exchange(int128,int128,uint256,uint256)"
+  ](),
+
+  // Curve - Swap USDe <-> USDC
+  allowErc20Approve([USDe, USDC], [contracts.mainnet.curve.USDeUSDC_pool]),
+  allow.mainnet.curve.USDeUSDC_pool[
+    "exchange(int128,int128,uint256,uint256)"
+  ](),
+
+  // Curve - Swap DAI <-> USDe
+  allowErc20Approve([DAI, USDe], [contracts.mainnet.curve.USDeDAI_pool]),
+  allow.mainnet.curve.USDeDAI_pool["exchange(int128,int128,uint256,uint256)"](),
+
+  // Curve - Swap sDAI <-> sUSDe
+  allowErc20Approve([sDAI, sUSDe], [contracts.mainnet.curve.MtEthena_pool]),
+  allow.mainnet.curve.MtEthena_pool[
+    "exchange(int128,int128,uint256,uint256)"
+  ](),
+
+  // Curve - Swap crvUSD <-> USDC
+  allowErc20Approve(
+    [crvUSD, USDC],
+    [contracts.mainnet.curve.crvUSDUSDC_f_pool]
+  ),
+  allow.mainnet.curve.crvUSDUSDC_f_pool[
+    "exchange(int128,int128,uint256,uint256)"
+  ](),
+
+  // Curve - Swap crvUSD <-> USDT
+  allowErc20Approve(
+    [crvUSD, USDT],
+    [contracts.mainnet.curve.crvUSDUSDT_f_pool]
+  ),
+  allow.mainnet.curve.crvUSDUSDT_f_pool[
     "exchange(int128,int128,uint256,uint256)"
   ](),
 
