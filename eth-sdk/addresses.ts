@@ -61,6 +61,7 @@ export const stETH = "0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84"
 export const stkAAVE = "0x4da27a545c0c5B758a6BA100e3a049001de870f5"
 export const stkGHO = "0x1a88Df1cFe15Af22B3c4c783D4e6F7F9e0C1885d"
 export const sUSD = "0x57Ab1ec28D129707052df4dF418D58a2D46d5f51"
+export const sUSDe = "0x9D39A5DE30e57443BfF2A8307A4256c8797A3497"
 export const sUSDS = "0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD"
 export const SUSHI = "0x6B3595068778DD592e39A122f4f5a5cF09C90fE2"
 export const SWISE = "0x48C3399719B582dD63eB5AADf12A40B4C3f52FA2"
@@ -68,6 +69,7 @@ export const SWPR = "0x6cAcDB97e3fC8136805a9E7c342d866ab77D0957"
 export const SYMM = "0x57dB3FfCa78dBbE0eFa0EC745D55f62aa0Cbd345"
 export const UNCX = "0xaDB2437e6F65682B85F814fBc12FeC0508A7B1D0"
 export const USDC = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
+export const USDe = "0x4c9EDD5852cd905f086C759E8383e09bff1E68B3"
 export const USDM = "0x59d9356e565ab3a36dd77763fc0d87feaf85508c"
 export const USDP = "0x1456688345527bE1f37E9e627DA0837D6f08C925"
 export const USDS = "0xdC035D45d973E3EC169d2276DDab16f1e407384F"
@@ -345,6 +347,15 @@ export const nexus = {
 // export const pancake_swap = {
 //   SMART_ROUTER: "0x13f4EA83D0bd40E75C8222255bc855a974568Dd4",
 // }
+
+export const pendle = {
+  pendleMarket26Mar2025:
+    "0xcDd26Eb5EB2Ce0f203a84553853667aE69Ca29Ce" as Address,
+  pendleMarket28May2025:
+    "0xB162B764044697cf03617C2EFbcB1f42e31E4766" as Address,
+  ptSusde27Mar2025: "0xE00bd3Df25fb187d6ABBB620b3dfd19839947b81" as Address,
+  ptSusde29May2025: "0xb7de5dFCb74d25c2f21841fbd6230355C50d9308" as Address,
+}
 
 // export const rocket_pool = {
 //   STORAGE: "0x1d8f8f00cfa6758d7bE78336684788Fb0ee0Fa46",

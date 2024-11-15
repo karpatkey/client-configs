@@ -1411,10 +1411,10 @@ defer-to-connect@^2.0.0:
   resolved "https://registry.yarnpkg.com/defer-to-connect/-/defer-to-connect-2.0.1.tgz#8016bdb4143e4632b77a3449c6236277de520587"
   integrity sha512-4tvttepXG1VaYGrRibk5EwJd1t4udunSOVMdLSAL6mId1ix438oPwPZMALY41FCijukO1L0twNcGsdzS7dHgDg==
 
-defi-kit@^2.2.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/defi-kit/-/defi-kit-2.2.1.tgz#fcbf3fbc6302f0f465b2af2541cbafe9be8f3d95"
-  integrity sha512-Dao+/PwjcUgHALmC3snGWorRqEUcXFLqso/j/9lv5qQOnceDa+p14cow05EJlwevlmfFItPlTMBzsEQZDPz0Ow==
+defi-kit@^2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/defi-kit/-/defi-kit-2.3.2.tgz#917a63726281c35c6486bc8e72640993439477bf"
+  integrity sha512-awFp3J9rWQTRph4CpjlRM85K3zGfvMSfTwCfPDeU2mmidgSzrI5J85EdI5a3u+tdWtlMLlthXc5EOtgmU+ETew==
   dependencies:
     "@asteasolutions/zod-to-openapi" "^5.5.0"
     "@gnosis-guild/eth-sdk" "^0.3.7"

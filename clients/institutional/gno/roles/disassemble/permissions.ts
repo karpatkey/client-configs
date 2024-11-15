@@ -36,9 +36,7 @@ export default [
   allow.gnosis.aave_v3.pool_v3.repay(USDC, undefined, undefined, c.avatar),
 
   // Spark - Withdraw DSR/sDAI
-  allow.gnosis.spark.SavingsXDaiAdapter.depositXDAI(c.avatar, {
-    send: true,
-  }),
+  allow.gnosis.spark.SavingsXDaiAdapter.redeemXDAI(undefined, c.avatar),
   allow.gnosis.spark.SavingsXDaiAdapter.redeem(undefined, c.avatar),
   // Spark - Withdraw sDAI
   allow.gnosis.spark.sparkLendingPoolV3.withdraw(sDAI, undefined, c.avatar),

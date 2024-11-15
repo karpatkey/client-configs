@@ -7,7 +7,7 @@ import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
 
 export default [
-  // CowSwap - Holdings swaps
+  // CowSwap - [COMP, DAI, sDAI, USDC] -> [DAI, sDAI, USDC]
   allowAction.cowSwap.swap({
     sell: [COMP, DAI, sDAI, USDC],
     buy: [DAI, sDAI, USDC],
