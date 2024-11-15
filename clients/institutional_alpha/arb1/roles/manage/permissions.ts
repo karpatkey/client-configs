@@ -34,7 +34,7 @@ export default [
   // Aave v3 - Deposit USDT
   allowAction.aaveV3.deposit({ targets: ["USDT"] }),
 
-  // CowSwap - [COMP, DAI, USDC, USDCe] <-> [DAI, USDC, USDCe]
+  // CowSwap - [COMP, DAI, USDC, USDCe] -> [DAI, USDC, USDCe]
   allowAction.cowSwap.swap({
     sell: [COMP, DAI, USDC, USDCe],
     buy: [DAI, USDC, USDCe],
