@@ -14,14 +14,14 @@ import { PermissionList } from "../../../../../types"
 import { balancer__swap } from "../../../../../helpers/exit_strategies/balancer"
 
 export default [
-  // CowSwap - Holdings swaps
+  // Balancer - USDC/DAI/USDT/USDC.e Pool - Swap [DAI, USDC, USDC.e] <-> [DAI, USDC, USDC.e]
+  balancer__swap(balancer._4POOL_pId, [DAI, USDC, USDCe], [DAI, USDC, USDCe]),
+
+  // CowSwap - [COMP, DAI, USDC, USDCe] -> [DAI, USDC, USDCe]
   allowAction.cowSwap.swap({
     sell: [COMP, DAI, USDC, USDCe],
     buy: [DAI, USDC, USDCe],
   }),
-
-  // Balancer - USDC/DAI/USDT/USDC.e Pool - Swap [DAI, USDC, USDC.e] <-> [DAI, USDC, USDC.e]
-  balancer__swap(balancer._4POOL_pId, [DAI, USDC, USDCe], [DAI, USDC, USDCe]),
 
   // Uniswap v3 - Swap [DAI, USDC, USDC.e] <-> [DAI, USDC, USDC.e]
   ...allowErc20Approve(

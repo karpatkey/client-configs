@@ -37,18 +37,18 @@ export default [
   // Aave v3 - Borrow USDC
   allowAction.aaveV3.borrow({ targets: ["USDC"] }),
 
-  // CowSwap - Holdings swaps
+  // CowSwap - [COMP, DAI, sDAI, USDC] -> [DAI, sDAI, USDC]
   allowAction.cowSwap.swap({
     sell: [COMP, DAI, sDAI, USDC],
     buy: [DAI, sDAI, USDC],
   }),
 
-  // Spark - DSR/sDAI
+  // Spark - DSR_sDAI
   allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
-  // Spark - Deposit sDAI
-  allowAction.spark.deposit({ targets: ["sDAI"] }),
   // Spark - Borrow DAI
   allowAction.spark.borrow({ targets: ["DAI"] }),
+  // Spark - Deposit sDAI
+  allowAction.spark.deposit({ targets: ["sDAI"] }),
   // Spark - Borrow USDC
   allowAction.spark.borrow({ targets: ["USDC"] }),
 

@@ -1,5 +1,6 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
+import { allow as allowAction } from "defi-kit/oeth"
 import {
   crvUSD,
   DAI,
@@ -16,65 +17,14 @@ import { balancer__swap } from "../../../../../helpers/exit_strategies/balancer"
 
 export default [
   /*********************************************
-   * Typed-presets permissions
+   * DeFi-Kit permissions
    *********************************************/
   // Aave v3 - Deposit DAI
-  ...allowErc20Approve([DAI], [contracts.optimism.aave_v3.pool_v3]),
-  allow.optimism.aave_v3.pool_v3["supply(address,uint256,address,uint16)"](
-    DAI,
-    undefined,
-    c.avatar
-  ),
-  allow.optimism.aave_v3.pool_v3["withdraw(bytes32)"](
-    // skip amount 30 bytes
-    // assetId: 2 bytes
-    c.bitmask({
-      shift: 30,
-      mask: "0xffff",
-      value: "0x0000", // DAI assetId: 0
-    })
-  ),
-  allow.optimism.aave_v3.pool_v3["setUserUseReserveAsCollateral(address,bool)"](
-    DAI
-  ),
-  // Aave v3 - Deposit USDC
-  ...allowErc20Approve([USDC], [contracts.optimism.aave_v3.pool_v3]),
-  allow.optimism.aave_v3.pool_v3["supply(address,uint256,address,uint16)"](
-    USDC,
-    undefined,
-    c.avatar
-  ),
-  allow.optimism.aave_v3.pool_v3["withdraw(bytes32)"](
-    // skip amount 30 bytes
-    // assetId: 2 bytes
-    c.bitmask({
-      shift: 30,
-      mask: "0xffff",
-      value: "0x000d", // USDC assetId: 13
-    })
-  ),
-  allow.optimism.aave_v3.pool_v3["setUserUseReserveAsCollateral(address,bool)"](
-    USDC
-  ),
-  // Aave v3 - Deposit USDC.e
-  ...allowErc20Approve([USDCe], [contracts.optimism.aave_v3.pool_v3]),
-  allow.optimism.aave_v3.pool_v3["supply(address,uint256,address,uint16)"](
-    USDCe,
-    undefined,
-    c.avatar
-  ),
-  allow.optimism.aave_v3.pool_v3["withdraw(bytes32)"](
-    // skip amount 30 bytes
-    // assetId: 2 bytes
-    c.bitmask({
-      shift: 30,
-      mask: "0xffff",
-      value: "0x0002", // USDC.e assetId: 2
-    })
-  ),
-  allow.optimism.aave_v3.pool_v3["setUserUseReserveAsCollateral(address,bool)"](
-    USDCe
-  ),
+  allowAction.aaveV3.deposit({ targets: ["DAI"] }),
+
+  /*********************************************
+   * Typed-presets permissions
+   *********************************************/
 
   /*********************************************
    * Swaps
