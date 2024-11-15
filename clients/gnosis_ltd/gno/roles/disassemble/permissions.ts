@@ -1,6 +1,5 @@
 import { allow } from "zodiac-roles-sdk/kit"
 import { c } from "zodiac-roles-sdk"
-import { contracts } from "../../../../../eth-sdk/config"
 import { aura, balancer, GNO } from "../../../../../eth-sdk/addresses_gno"
 import {
   aura__withdraw_balancer,
@@ -13,8 +12,7 @@ export default [
   /*********************************************
    * Protocol permissions
    *********************************************/
-
-  // unwrap XDAI
+  // Unwrap XDAI
   allow.gnosis.wxdai["withdraw"](),
 
   // Aura - wstETH/COW
