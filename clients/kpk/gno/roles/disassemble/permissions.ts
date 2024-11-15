@@ -6,7 +6,6 @@ export default [
   /*********************************************
    * Protocol permissions
    *********************************************/
-
   // Unwrap of XDAI
   allow.gnosis.wxdai.withdraw(),
 
