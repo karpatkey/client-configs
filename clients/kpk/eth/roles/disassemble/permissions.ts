@@ -55,6 +55,7 @@ export default [
   // Aura - Stake
   allow.mainnet.aura.auraBAL_staking_rewarder.withdraw(),
   allow.mainnet.aura.stkauraBAL.withdraw(undefined, c.avatar, c.avatar),
+
   allow.mainnet.aura.stkauraBAL.redeem(undefined, c.avatar, c.avatar),
 
   // Compound v3 - USDC
