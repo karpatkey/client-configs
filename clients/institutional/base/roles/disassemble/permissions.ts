@@ -4,12 +4,6 @@ import { cbETH, DAI, USDC, morpho } from "../../../../../eth-sdk/addresses_base"
 import { PermissionList } from "../../../../../types"
 
 export default [
-  // Aave v3 - Withdraw DAI
-  allow.base.aave_v3.pool_v3["withdraw(address,uint256,address)"](
-    DAI,
-    undefined,
-    c.avatar
-  ),
   // Aave v3 - Withdraw USDC
   allow.base.aave_v3.pool_v3["withdraw(address,uint256,address)"](
     USDC,
