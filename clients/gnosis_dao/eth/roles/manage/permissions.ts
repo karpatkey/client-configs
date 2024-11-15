@@ -76,6 +76,11 @@ export default [
     sell: [DAI, USDT],
     buy: [DAI, USDT],
   }),
+  // CowSwap - DAI <> USDC
+  allowAction.cowSwap.swap({
+    sell: [DAI, USDC],
+    buy: [DAI, USDC],
+  }),
   // CowSwap - USDC <> USDT
   allowAction.cowSwap.swap({
     sell: [USDC, USDT],

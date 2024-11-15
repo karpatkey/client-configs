@@ -1,9 +1,11 @@
 import { allow } from "zodiac-roles-sdk/kit"
+import { allow as allowAction } from "defi-kit/gno"
 import {
-  WXDAI,
   sDAI,
   USDC,
   USDCe,
+  WXDAI,
+  E_ADDRESS,
   balancer,
 } from "../../../../../eth-sdk/addresses_gno"
 import { contracts } from "../../../../../eth-sdk/config"
@@ -20,6 +22,12 @@ export default [
 
   // Balancer - USDT/USDC/WXDAI pool - Swap USDC <-> WXDAI
   balancer__swap(balancer.staBAL3_pId, [USDC, WXDAI], [USDC, WXDAI]),
+
+  // CowSwap - [sDAI, USDC, USDCe, WXDAI] -> [E_ADDRESS, sDAI, USDC, USDCe, WXDAI]
+  allowAction.cowSwap.swap({
+    sell: [sDAI, USDC, USDCe, WXDAI],
+    buy: [E_ADDRESS, sDAI, USDC, USDCe, WXDAI],
+  }),
 
   // Swap USDC.e -> USDC
   ...allowErc20Approve([USDCe], [contracts.gnosis.usdc_transmuter]),
