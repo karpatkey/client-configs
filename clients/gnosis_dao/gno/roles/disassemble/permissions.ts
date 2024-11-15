@@ -50,7 +50,9 @@ export default [
   allow.gnosis.aave_v3.pool_v3.withdraw(USDCe, undefined, c.avatar),
 
   // Arrakis - WETH/sDAI
-  // signMessage() already included
+  allow.gnosis.arrakis.sign_message_lib.signMessage(undefined, {
+    delegatecall: true,
+  }),
   allow.gnosis.arrakis.router.removeLiquidityPermit2({
     removeData: {
       vault: contracts.gnosis.arrakis.WETH_sDAI_vault,
