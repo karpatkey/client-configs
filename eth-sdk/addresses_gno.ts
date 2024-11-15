@@ -56,10 +56,12 @@ export const aura = {
     "0xde151980d461696543aa07a19bbe2603b20ecbae" as Address,
   auraRETH_WETH_rewarder:
     "0x37748422f82b0c07ccbd40347abc1da55ac138a0" as Address,
+  aura50WSTETH_50COW_rewarder:
+    "0x85298595d4f6f8fa91f8658ba9c10f9a85b17f62" as Address,
 }
 
 export const balancer = {
-  //Pids
+  // pIds
   sBAL3_pId:
     "0x7644fa5d0ea14fcf3e813fdf93ca9544f8567655000000000000000000000066",
   sBAL3_2_pId:
@@ -78,6 +80,10 @@ export const balancer = {
     "0x8189c4c96826d016a99986394103dfa9ae41e7ee0002000000000000000000aa",
   B_50WBTC_50WETH_pId:
     "0xe2343512dcf8a23d81e6cdc2fac656db1ff83aa100020000000000000000009b",
+  B_50WSTETH_50COW_pId:
+    "0x4cdabe9e07ca393943acfb9286bbbd0d0a310ff600020000000000000000005c",
+  B_GBPe_sDAI_pId:
+    "0x9d93f38b75b376acdfe607cd1ecf4495e047deff00000000000000000000009e",
 
   // Gauges
   B_50COW_50GNO_gauge: "0x91151ba698253e24c23a754d94f94049a17e8084" as Address,
@@ -96,6 +102,8 @@ export const balancer = {
   B_50wstETH_25BAL_25AURA_gauge:
     "0x64cee2356f959e78db36a4c23a28f0454447c3df" as Address,
   B_50wstETH_50COW_gauge:
+    "0xce18a3d0d928ab8883f355b5009d2de07d5c1d83" as Address,
+  B_50WSTETH_50COW_gauge:
     "0xce18a3d0d928ab8883f355b5009d2de07d5c1d83" as Address,
 }
 
