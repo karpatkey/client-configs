@@ -103,8 +103,6 @@ export const balancer = {
     "0x64cee2356f959e78db36a4c23a28f0454447c3df" as Address,
   B_50wstETH_50COW_gauge:
     "0xce18a3d0d928ab8883f355b5009d2de07d5c1d83" as Address,
-  B_50WSTETH_50COW_gauge:
-    "0xce18a3d0d928ab8883f355b5009d2de07d5c1d83" as Address,
 }
 
 export const curve = {

@@ -24,7 +24,7 @@ export default [
   // Balancer - GBPe/sDAI
   balancer__withdraw(balancer.B_GBPe_sDAI_pId),
   // Balancer - wstETH/COW
-  balancer__unstake_withdraw(Chain.gno, balancer.B_50WSTETH_50COW_gauge),
+  balancer__unstake_withdraw(Chain.gno, balancer.B_50wstETH_50COW_gauge),
 
   // Curve - EURe/x3CRV
   allow.gnosis.curve.crvEUReUSD_pool["remove_liquidity(uint256,uint256[2])"](),
