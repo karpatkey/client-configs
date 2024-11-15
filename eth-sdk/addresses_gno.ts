@@ -49,13 +49,27 @@ export const wstETH = "0x6C76971f98945AE98dD7d4DFcA8711ebea946eA6"
 export const WXDAI = "0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d"
 export const x3CRV = "0x1337BedC9D22ecbe766dF105c9623922A27963EC"
 
+export const aura = {
+  aura50WSTETH_50COW_rewarder:
+    "0x85298595d4f6f8fa91f8658ba9c10f9a85b17f62" as Address,
+}
+
 export const balancer = {
+  // Pids
   sBAL3_pId:
     "0x7644fa5d0ea14fcf3e813fdf93ca9544f8567655000000000000000000000066",
   sBAL3_2_pId:
     "0xfc095c811fe836ed12f247bcf042504342b73fb700000000000000000000009f",
   staBAL3_pId:
     "0x2086f52651837600180de173b09470f54ef7491000000000000000000000004f",
+  B_50WSTETH_50COW_pId:
+    "0x4cdabe9e07ca393943acfb9286bbbd0d0a310ff600020000000000000000005c",
+  B_GBPe_sDAI_pId:
+    "0x9d93f38b75b376acdfe607cd1ecf4495e047deff00000000000000000000009e",
+
+  // Gauges
+  B_50WSTETH_50COW_gauge:
+    "0xce18a3d0d928ab8883f355b5009d2de07d5c1d83" as Address,
 }
 
 export const curve = {
