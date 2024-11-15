@@ -330,11 +330,7 @@ export default [
   ...allowErc20Approve([USDe, sUSDe], [contracts.mainnet.pendle.routerV4]),
   allow.mainnet.pendle.routerV4.swapExactTokenForPt(
     c.avatar,
-    c.or(
-      pendle.pendleMarket25Dec2024,
-      pendle.pendleMarket26Mar2025,
-      pendle.pendleMarket28May2025
-    ),
+    c.or(pendle.pendleMarket26Mar2025, pendle.pendleMarket28May2025),
     undefined,
     undefined,
     {
@@ -343,16 +339,12 @@ export default [
     }
   ),
   ...allowErc20Approve(
-    [pendle.ptSusde26Dec2024, pendle.ptSusde27Mar2025, pendle.ptSusde29May2025],
+    [pendle.ptSusde27Mar2025, pendle.ptSusde29May2025],
     [contracts.mainnet.pendle.routerV4]
   ),
   allow.mainnet.pendle.routerV4.swapExactPtForToken(
     c.avatar,
-    c.or(
-      pendle.pendleMarket25Dec2024,
-      pendle.pendleMarket26Mar2025,
-      pendle.pendleMarket28May2025
-    ),
+    c.or(pendle.pendleMarket26Mar2025, pendle.pendleMarket28May2025),
     undefined,
     {
       tokenOut: c.or(USDe, sUSDe),

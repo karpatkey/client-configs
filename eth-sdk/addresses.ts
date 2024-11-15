@@ -349,10 +349,10 @@ export const nexus = {
 // }
 
 export const pendle = {
-  pendleMarket25Dec2024: "0xa0ab94DeBB3cC9A7eA77f3205ba4AB23276feD08" as Address,
-  pendleMarket26Mar2025: "0xcDd26Eb5EB2Ce0f203a84553853667aE69Ca29Ce" as Address,
-  pendleMarket28May2025: "0xB162B764044697cf03617C2EFbcB1f42e31E4766" as Address,
-  ptSusde26Dec2024: "0xEe9085fC268F6727d5D4293dBABccF901ffDCC29" as Address,
+  pendleMarket26Mar2025:
+    "0xcDd26Eb5EB2Ce0f203a84553853667aE69Ca29Ce" as Address,
+  pendleMarket28May2025:
+    "0xB162B764044697cf03617C2EFbcB1f42e31E4766" as Address,
   ptSusde27Mar2025: "0xE00bd3Df25fb187d6ABBB620b3dfd19839947b81" as Address,
   ptSusde29May2025: "0xb7de5dFCb74d25c2f21841fbd6230355C50d9308" as Address,
 }
