@@ -1,6 +1,6 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { cbETH, DAI, USDC, morpho } from "../../../../../eth-sdk/addresses_base"
+import { cbETH, USDC, morpho } from "../../../../../eth-sdk/addresses_base"
 import { PermissionList } from "../../../../../types"
 
 export default [
@@ -20,7 +20,7 @@ export default [
       irm: morpho.Adaptative_Curve_IRM,
     },
     undefined,
-    0,
+    undefined,
     c.avatar,
     c.avatar
   ),
