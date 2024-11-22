@@ -46,28 +46,28 @@ export default [
    * DeFi-Kit permissions
    *********************************************/
   // Aave v2 - Staking of GHO in Safety Module
-  allowAction.aaveV2.stake({ targets: ["GHO"] }),
+  allowAction.aave_v2.stake({ targets: ["GHO"] }),
 
   // Aave v3 - Deposit crvUSD
-  allowAction.aaveV3.deposit({ targets: ["crvUSD"] }),
+  allowAction.aave_v3.deposit({ targets: ["crvUSD"] }),
   // Aave v3 - Deposit DAI
-  allowAction.aaveV3.deposit({ targets: ["DAI"] }),
+  allowAction.aave_v3.deposit({ targets: ["DAI"] }),
   // Aave v3 - Deposit sDAI
-  allowAction.aaveV3.deposit({ targets: ["sDAI"] }),
+  allowAction.aave_v3.deposit({ targets: ["sDAI"] }),
   // Aave v3 - Deposit sUSDe
-  allowAction.aaveV3.deposit({ targets: ["sUSDe"] }),
+  allowAction.aave_v3.deposit({ targets: ["sUSDe"] }),
   // Aave v3 - Deposit USDC
-  allowAction.aaveV3.deposit({ targets: ["USDC"] }),
+  allowAction.aave_v3.deposit({ targets: ["USDC"] }),
   // Aave v3 - Deposit USDe
-  allowAction.aaveV3.deposit({ targets: ["USDe"] }),
+  allowAction.aave_v3.deposit({ targets: ["USDe"] }),
   // Aave v3 - Deposit USDS
-  allowAction.aaveV3.deposit({ targets: ["USDS"] }),
+  allowAction.aave_v3.deposit({ targets: ["USDS"] }),
   // Aave v3 - Deposit USDT
-  allowAction.aaveV3.deposit({ targets: ["USDT"] }),
+  allowAction.aave_v3.deposit({ targets: ["USDT"] }),
   // Aave v3 - Borrow DAI
-  allowAction.aaveV3.borrow({ targets: ["DAI"] }),
+  allowAction.aave_v3.borrow({ targets: ["DAI"] }),
   // Aave v3 - Borrow USDC
-  allowAction.aaveV3.borrow({ targets: ["USDC"] }),
+  allowAction.aave_v3.borrow({ targets: ["USDC"] }),
 
   // Aura - GHO/USDC/USDT
   allowAction.aura.deposit({ targets: ["157"] }),
@@ -80,16 +80,16 @@ export default [
   allowAction.convex.deposit({ targets: ["179"] }),
 
   // CowSwap - [COMP, DAI, sDAI, USDC] -> [DAI, sDAI, USDC]
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [COMP, DAI, sDAI, USDC],
     buy: [DAI, sDAI, USDC],
   }),
   // CowSwap - [DAI, USDC, USDM] <-> [DAI, USDC, USDM]
-  allowAction.cowSwap.swap({ sell: [DAI, USDC, USDM], buy: [DAI, USDC, USDM] }),
+  allowAction.cowswap.swap({ sell: [DAI, USDC, USDM], buy: [DAI, USDC, USDM] }),
   // CowSwap - [USDC, wM] <-> [USDC, wM]
-  allowAction.cowSwap.swap({ sell: [USDC, wM], buy: [USDC, wM] }),
+  allowAction.cowswap.swap({ sell: [USDC, wM], buy: [USDC, wM] }),
   // CowSwap - [AAVE, AURA, BAL, CRV, crvUSD, CVX, DAI, GHO, GYD, NOTE, sDAI, stkGHO, sUSDe, USDC, USDe, USDT]
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [
       AAVE,
       AURA,

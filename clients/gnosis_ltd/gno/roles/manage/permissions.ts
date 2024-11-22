@@ -29,47 +29,47 @@ export default [
   allowAction.balancer.stake({ targets: ["B-50wstETH-50COW"] }),
 
   // CowSwap - XDAI -> EURe/USDC.e/USDT
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: ["XDAI"],
     buy: [EURe, USDCe, USDT],
   }),
   // CowSwap - XDAI <- EURe/USDC.e/USDT
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [EURe, USDCe, USDT],
     buy: ["XDAI"],
   }),
 
   // CowSwap - WXDAI -> EURe/USDC.e/USDT
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [WXDAI],
     buy: [EURe, USDCe, USDT],
   }),
   // CowSwap - WXDAI <- EURe/USDC.e/USDT
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [EURe, USDCe, USDT],
     buy: [WXDAI],
   }),
 
   // CowSwap - USDC.e <-> USDT
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [USDCe, USDT],
     buy: [USDCe, USDT],
   }),
 
   // CowSwap - USDC <-> USDC.e
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [USDC, USDCe],
     buy: [USDC, USDCe],
   }),
 
   // CowSwap - EURe <-> USDC.e
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [EURe, USDCe],
     buy: [EURe, USDCe],
   }),
 
   // CowSwap - EURe <-> USDT
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [EURe, USDT],
     buy: [EURe, USDT],
   }),

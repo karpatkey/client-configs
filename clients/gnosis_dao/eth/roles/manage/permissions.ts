@@ -26,16 +26,16 @@ export default [
    * DeFi-Kit permissions
    *********************************************/
   // Aave v2 - Staking of GHO in Safety Module
-  allowAction.aaveV2.stake({ targets: ["GHO"] }),
+  allowAction.aave_v2.stake({ targets: ["GHO"] }),
 
   // Aave v3 - Deposit wstETH
-  allowAction.aaveV3.deposit({ targets: ["wstETH"] }),
+  allowAction.aave_v3.deposit({ targets: ["wstETH"] }),
   // Aave v3 - Borrow GHO
-  allowAction.aaveV3.borrow({ targets: ["GHO"] }),
+  allowAction.aave_v3.borrow({ targets: ["GHO"] }),
   // Aave v3 - Borrow USDC
-  allowAction.aaveV3.borrow({ targets: ["USDC"] }),
+  allowAction.aave_v3.borrow({ targets: ["USDC"] }),
   // Aave v3 - Borrow WBTC
-  allowAction.aaveV3.borrow({ targets: ["WBTC"] }),
+  allowAction.aave_v3.borrow({ targets: ["WBTC"] }),
 
   // Ankr
   allowAction.ankr.deposit(),
@@ -72,37 +72,37 @@ export default [
   allowAction.convex.lock(),
 
   // CowSwap - DAI <> USDT
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [DAI, USDT],
     buy: [DAI, USDT],
   }),
   // CowSwap - DAI <> USDC
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [DAI, USDC],
     buy: [DAI, USDC],
   }),
   // CowSwap - USDC <> USDT
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [USDC, USDT],
     buy: [USDC, USDT],
   }),
   // CowSwap - wstETH -> stETH
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [wstETH],
     buy: [stETH],
   }),
   // CowSwap - osETH <> WETH
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [osETH, WETH],
     buy: [osETH, WETH],
   }),
   // CowSwap - rETH <> WETH
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [rETH, WETH],
     buy: [rETH, WETH],
   }),
   // CowSwap - GHO <> USDC
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [GHO, USDC],
     buy: [GHO, USDC],
   }),
@@ -111,7 +111,7 @@ export default [
   allowAction.lido.deposit(),
 
   // Rocket Pool
-  allowAction.rocketPool.deposit(),
+  allowAction.rocket_pool.deposit(),
 
   // Stader
   allowAction.stader.deposit(),

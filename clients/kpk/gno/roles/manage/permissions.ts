@@ -17,19 +17,19 @@ export default [
    * DeFi-Kit permissions
    *********************************************/
   // CowSwap - Holdings swaps
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [USDC, USDT, sDAI],
     buy: [E_ADDRESS, USDC, USDT, WETH, WXDAI],
   }),
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [WXDAI],
     buy: [USDC, USDT, WETH],
   }),
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [wstETH],
     buy: [WETH],
   }),
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [CRV],
     buy: [E_ADDRESS, USDC, WXDAI],
   }),

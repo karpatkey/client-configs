@@ -20,13 +20,13 @@ export default [
    * DeFi-Kit permissions
    *********************************************/
   // Aave v3 - Deposit DAI
-  allowAction.aaveV3.deposit({ targets: ["DAI"] }),
+  allowAction.aave_v3.deposit({ targets: ["DAI"] }),
   // Aave v3 - Deposit USDC
-  allowAction.aaveV3.deposit({ targets: ["USDC"] }),
+  allowAction.aave_v3.deposit({ targets: ["USDC"] }),
   // Aave v3 - Deposit USDC.e
-  allowAction.aaveV3.deposit({ targets: ["USDC.e"] }),
+  allowAction.aave_v3.deposit({ targets: ["USDC.e"] }),
   // Aave v3 - Deposit USDT
-  allowAction.aaveV3.deposit({ targets: ["USDT"] }),
+  allowAction.aave_v3.deposit({ targets: ["USDT"] }),
 
   /*********************************************
    * Typed-presets permissions

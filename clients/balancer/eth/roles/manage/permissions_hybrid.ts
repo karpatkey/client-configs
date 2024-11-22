@@ -27,7 +27,7 @@ export default [
    * DeFi-Kit permissions
    *********************************************/
   // Aave v2 - Staking of AAVE in Safety Module
-  allowAction.aaveV2.stake({ targets: ["AAVE"] }),
+  allowAction.aave_v2.stake({ targets: ["AAVE"] }),
 
   // // Compound v3 - cUSDCv3 - USDC
   // allowAction.compound_v3.deposit({
@@ -39,11 +39,11 @@ export default [
   allowAction.lido.deposit(),
 
   // Rocket Pool
-  allowAction.rocketPool.deposit(),
+  allowAction.rocket_pool.deposit(),
 
   // Uniswap v3 - WBTC + WETH, Range: 11.786 - 15.082. Fee: 0.3%.
   // WARNING!: With the deposit action we are allowing to send ETH and the functions that involve ETH.
-  allowAction.uniswapV3.deposit({ targets: ["430246"] }),
+  allowAction.uniswap_v3.deposit({ targets: ["430246"] }),
 
   /*********************************************
    * Typed-presets permissions

@@ -18,7 +18,7 @@ export default [
   balancer__swap(balancer._4POOL_pId, [DAI, USDC, USDCe], [DAI, USDC, USDCe]),
 
   // CowSwap - [COMP, DAI, USDC, USDCe] -> [DAI, USDC, USDCe]
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [COMP, DAI, USDC, USDCe],
     buy: [DAI, USDC, USDCe],
   }),

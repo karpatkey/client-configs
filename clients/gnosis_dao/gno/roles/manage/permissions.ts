@@ -27,21 +27,21 @@ export default [
    * DeFi-Kit permissions
    *********************************************/
   // Aave v3 - Deposit XDAI
-  allowAction.aaveV3.deposit({ targets: ["XDAI"] }),
+  allowAction.aave_v3.deposit({ targets: ["XDAI"] }),
   // Aave v3 - Deposit WXDAI
-  allowAction.aaveV3.deposit({ targets: ["WXDAI"] }),
+  allowAction.aave_v3.deposit({ targets: ["WXDAI"] }),
   // Aave v3 - Deposit wstETH
-  allowAction.aaveV3.deposit({ targets: ["wstETH"] }),
+  allowAction.aave_v3.deposit({ targets: ["wstETH"] }),
   // Aave v3 - Deposit WETH
-  allowAction.aaveV3.deposit({ targets: ["WETH"] }),
+  allowAction.aave_v3.deposit({ targets: ["WETH"] }),
   // Aave v3 - Deposit USDC
-  allowAction.aaveV3.deposit({ targets: ["USDC"] }),
+  allowAction.aave_v3.deposit({ targets: ["USDC"] }),
   // Aave v3 - Deposit EURe
-  allowAction.aaveV3.deposit({ targets: ["EURe"] }),
+  allowAction.aave_v3.deposit({ targets: ["EURe"] }),
   // Aave v3 - Deposit GNO
-  allowAction.aaveV3.deposit({ targets: ["GNO"] }),
+  allowAction.aave_v3.deposit({ targets: ["GNO"] }),
   // Aave v3 - Deposit USDC.e
-  allowAction.aaveV3.deposit({ targets: ["USDC.e"] }),
+  allowAction.aave_v3.deposit({ targets: ["USDC.e"] }),
 
   // Aura - WETH/wstETH
   allowAction.aura.deposit({ targets: ["0"] }),
@@ -97,47 +97,47 @@ export default [
   allowAction.balancer.stake({ targets: ["EURe/sDAI"] }),
 
   // CowSwap - XDAI -> EURe/USDC.e/USDT
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: ["XDAI"],
     buy: [EURe, USDCe, USDT],
   }),
   // CowSwap - XDAI <- EURe/USDC.e/USDT
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [EURe, USDCe, USDT],
     buy: ["XDAI"],
   }),
 
   // CowSwap - WXDAI -> EURe/USDC.e/USDT
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [WXDAI],
     buy: [EURe, USDCe, USDT],
   }),
   // CowSwap - WXDAI <- EURe/USDC.e/USDT
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [EURe, USDCe, USDT],
     buy: [WXDAI],
   }),
 
   // CowSwap - USDC.e <-> USDT
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [USDCe, USDT],
     buy: [USDCe, USDT],
   }),
 
   // CowSwap - USDC <-> USDC.e
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [USDC, USDCe],
     buy: [USDC, USDCe],
   }),
 
   // CowSwap - EURe <-> USDC.e
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [EURe, USDCe],
     buy: [EURe, USDCe],
   }),
 
   // CowSwap - EURe <-> USDT
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [EURe, USDT],
     buy: [EURe, USDT],
   }),

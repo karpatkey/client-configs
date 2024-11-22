@@ -34,23 +34,23 @@ export default [
    * DeFi-Kit permissions
    *********************************************/
   // Aave v3 - DAI
-  allowAction.aaveV3.deposit({ targets: ["DAI"] }),
+  allowAction.aave_v3.deposit({ targets: ["DAI"] }),
   // Aave v3 - ETH
-  allowAction.aaveV3.deposit({ targets: ["ETH"] }),
+  allowAction.aave_v3.deposit({ targets: ["ETH"] }),
   // Aave v3 - osETH
-  allowAction.aaveV3.deposit({ targets: ["osETH"] }),
+  allowAction.aave_v3.deposit({ targets: ["osETH"] }),
   // Aave v3 - rETH
-  allowAction.aaveV3.deposit({ targets: ["rETH"] }),
+  allowAction.aave_v3.deposit({ targets: ["rETH"] }),
   // Aave v3 - USDC
-  allowAction.aaveV3.deposit({ targets: ["USDC"] }),
+  allowAction.aave_v3.deposit({ targets: ["USDC"] }),
   // Aave v3 - USDT
-  allowAction.aaveV3.deposit({ targets: ["USDT"] }),
+  allowAction.aave_v3.deposit({ targets: ["USDT"] }),
   // Aave v3 - WETH
-  allowAction.aaveV3.deposit({ targets: ["WETH"] }),
+  allowAction.aave_v3.deposit({ targets: ["WETH"] }),
   // Aave v3 - wstETH
-  allowAction.aaveV3.deposit({ targets: ["wstETH"] }),
+  allowAction.aave_v3.deposit({ targets: ["wstETH"] }),
   // Aave v3 - Stake GHO
-  allowAction.aaveV3.stake({ targets: ["GHO"] }),
+  allowAction.aave_v3.stake({ targets: ["GHO"] }),
 
   // Aura - wstETH/WETH
   allowAction.aura.deposit({ targets: ["153"] }),
@@ -90,7 +90,7 @@ export default [
   allowAction.convex.deposit({ targets: ["268"] }),
 
   // CowSwap
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [
       "ETH",
       AAVE,
@@ -119,7 +119,7 @@ export default [
   allowAction.lido.deposit(),
 
   // Rocket Pool
-  allowAction.rocketPool.deposit(),
+  allowAction.rocket_pool.deposit(),
 
   // Spark - DSR/sDAI
   allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
@@ -137,7 +137,7 @@ export default [
   allowAction.spark.deposit({ targets: ["wstETH"] }),
 
   // Uniswap v3 - wNXN/WETH
-  allowAction.uniswapV3.deposit({ tokens: ["wNXM", "WETH"] }),
+  allowAction.uniswap_v3.deposit({ tokens: ["wNXM", "WETH"] }),
 
   /*********************************************
    * Typed-presets permissions

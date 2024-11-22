@@ -20,7 +20,7 @@ export default [
    * DeFi-Kit permissions
    *********************************************/
   // Aave v3 - Deposit DAI
-  allowAction.aaveV3.deposit({ targets: ["DAI"] }),
+  allowAction.aave_v3.deposit({ targets: ["DAI"] }),
 
   /*********************************************
    * Typed-presets permissions

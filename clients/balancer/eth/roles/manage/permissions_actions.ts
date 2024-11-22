@@ -27,16 +27,16 @@ export default [
    * DeFi-Kit permissions
    *********************************************/
   // Aave v2 - Staking of AAVE in Safety Module
-  allowAction.aaveV2.stake({ targets: ["AAVE"] }),
+  allowAction.aave_v2.stake({ targets: ["AAVE"] }),
 
   // Aave v3 - DAI
-  allowAction.aaveV3.deposit({ targets: ["DAI"] }),
+  allowAction.aave_v3.deposit({ targets: ["DAI"] }),
   // Aave v3 - USDC
-  allowAction.aaveV3.deposit({ targets: ["USDC"] }),
+  allowAction.aave_v3.deposit({ targets: ["USDC"] }),
 
   // Aave - Delegate Aave and stkAave to governance.karpatkey.eth
   // WARNING!: The delegate action allows delegate() and delegateByType(), the latter is not part of the orginal preset.
-  allowAction.aaveV3.delegate({
+  allowAction.aave_v3.delegate({
     targets: ["AAVE", "stkAAVE"],
     delegatee: GOVERNANCE_KPK,
   }),
@@ -51,12 +51,12 @@ export default [
   allowAction.lido.deposit(),
 
   // Rocket Pool
-  allowAction.rocketPool.deposit(),
+  allowAction.rocket_pool.deposit(),
 
   // Uniswap v3 - WBTC + WETH, Range: 11.786 - 15.082. Fee: 0.3%.
   // WARNING!: With the deposit action we are allowing to send ETH and the functions that involve ETH.
-  // allowAction.uniswapV3.deposit({ tokens: ["WBTC", "WETH"], fees: ["0.3%"] }),
-  allowAction.uniswapV3.deposit({ targets: ["430246"] }),
+  // allowAction.uniswap_v3.deposit({ tokens: ["WBTC", "WETH"], fees: ["0.3%"] }),
+  allowAction.uniswap_v3.deposit({ targets: ["430246"] }),
 
   /*********************************************
    * Typed-presets permissions

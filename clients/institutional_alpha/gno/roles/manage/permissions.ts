@@ -20,24 +20,24 @@ export default [
    * DeFi-Kit permissions
    *********************************************/
   // Aave v3 - Deposit sDAI
-  allowAction.aaveV3.deposit({ targets: ["sDAI"] }),
+  allowAction.aave_v3.deposit({ targets: ["sDAI"] }),
   // Aave v3 - Deposit USDC
-  allowAction.aaveV3.deposit({ targets: ["USDC"] }),
+  allowAction.aave_v3.deposit({ targets: ["USDC"] }),
   // Aave v3 - Deposit USDC.e
-  allowAction.aaveV3.deposit({ targets: ["USDC.e"] }),
+  allowAction.aave_v3.deposit({ targets: ["USDC.e"] }),
   // Aave v3 - Deposit WXDAI
-  allowAction.aaveV3.deposit({ targets: ["WXDAI"] }),
+  allowAction.aave_v3.deposit({ targets: ["WXDAI"] }),
   // Aave v3 - Deposit XDAI
-  allowAction.aaveV3.deposit({ targets: ["XDAI"] }),
+  allowAction.aave_v3.deposit({ targets: ["XDAI"] }),
   // Aave v3 - Borrow USDC
-  allowAction.aaveV3.borrow({ targets: ["USDC"] }),
+  allowAction.aave_v3.borrow({ targets: ["USDC"] }),
   // Aave v3 - Borrow WXDAI
-  allowAction.aaveV3.borrow({ targets: ["WXDAI"] }),
+  allowAction.aave_v3.borrow({ targets: ["WXDAI"] }),
   // Aave v3 - Borrow XDAI
-  allowAction.aaveV3.borrow({ targets: ["XDAI"] }),
+  allowAction.aave_v3.borrow({ targets: ["XDAI"] }),
 
   // CowSwap - [sDAI, USDC, USDCe, WXDAI] -> [E_ADDRESS, sDAI, USDC, USDCe, WXDAI]
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [sDAI, USDC, USDCe, WXDAI],
     buy: [E_ADDRESS, sDAI, USDC, USDCe, WXDAI],
   }),

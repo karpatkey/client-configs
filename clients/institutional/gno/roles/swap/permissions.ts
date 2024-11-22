@@ -24,7 +24,7 @@ export default [
   balancer__swap(balancer.staBAL3_pId, [USDC, WXDAI], [USDC, WXDAI]),
 
   // CowSwap - [sDAI, USDC, USDCe, WXDAI] -> [E_ADDRESS, sDAI, USDC, USDCe, WXDAI]
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [sDAI, USDC, USDCe, WXDAI],
     buy: [E_ADDRESS, sDAI, USDC, USDCe, WXDAI],
   }),

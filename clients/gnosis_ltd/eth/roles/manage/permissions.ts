@@ -30,27 +30,27 @@ export default [
   allowAction.lido.deposit(),
 
   // CowSwap - DAI <> USDC
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [DAI, USDC],
     buy: [DAI, USDC],
   }),
   // CowSwap - DAI <> USDT
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [DAI, USDT],
     buy: [DAI, USDT],
   }),
   // CowSwap - USDC <> USDT
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [USDC, USDT],
     buy: [USDC, USDT],
   }),
   // CowSwap - sDAI <> USDC
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [sDAI, USDC],
     buy: [sDAI, USDC],
   }),
   // CowSwap - sDAI <> USDT
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [sDAI, USDT],
     buy: [sDAI, USDT],
   }),

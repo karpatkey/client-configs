@@ -41,28 +41,28 @@ export default [
    * DeFi-Kit permissions
    *********************************************/
   // Aave v2 - Staking of AAVE and GHO in Safety Module
-  allowAction.aaveV2.stake({ targets: ["AAVE", "GHO"] }),
+  allowAction.aave_v2.stake({ targets: ["AAVE", "GHO"] }),
 
   // Aave v3 - Deposit DAI
-  allowAction.aaveV3.deposit({ targets: ["DAI"] }),
+  allowAction.aave_v3.deposit({ targets: ["DAI"] }),
   // Aave v3 - Deposit osETH
-  allowAction.aaveV3.deposit({ targets: ["osETH"] }),
+  allowAction.aave_v3.deposit({ targets: ["osETH"] }),
   // Aave v3 - Deposit sDAI
-  allowAction.aaveV3.deposit({ targets: ["sDAI"] }),
+  allowAction.aave_v3.deposit({ targets: ["sDAI"] }),
   // Aave v3 - Deposit USDC
-  allowAction.aaveV3.deposit({ targets: ["USDC"] }),
+  allowAction.aave_v3.deposit({ targets: ["USDC"] }),
   // Aave v3 - Deposit USDS
-  allowAction.aaveV3.deposit({ targets: ["USDS"] }),
+  allowAction.aave_v3.deposit({ targets: ["USDS"] }),
   // Aave v3 - Deposit WBTC
-  allowAction.aaveV3.deposit({ targets: ["WBTC"] }),
+  allowAction.aave_v3.deposit({ targets: ["WBTC"] }),
   // Aave v3 - Deposit wstETH
-  allowAction.aaveV3.deposit({ targets: ["wstETH"] }),
+  allowAction.aave_v3.deposit({ targets: ["wstETH"] }),
   // Aave v3 - Borrow GHO
-  allowAction.aaveV3.borrow({ targets: ["GHO"] }),
+  allowAction.aave_v3.borrow({ targets: ["GHO"] }),
 
   // Aave - Delegate Aave and stkAave to governance.karpatkey.eth
   // WARNING!: The delegate action allows delegate() and delegateByType(), the latter is not part of the orginal preset
-  allowAction.aaveV3.delegate({
+  allowAction.aave_v3.delegate({
     targets: ["AAVE", "stkAAVE"],
     delegatee: GOVERNANCE_KPK,
   }),
@@ -71,7 +71,7 @@ export default [
   allowAction.convex.deposit({ targets: ["174"] }),
 
   // CowSwap - Swapping of AAVE, COMP, DAI, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [
       AAVE,
       COMP,
@@ -91,35 +91,35 @@ export default [
   }),
 
   // CowSwap - Swapping of DAI, GHO, GYD, sDAI, USDC, USDT
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [DAI, GHO, GYD, sDAI, USDC, USDT],
     buy: [DAI, GHO, GYD, sDAI, USDC, USDT],
     feeAmountBp: 200,
   }),
 
   // CowSwap - Swap GHO <-> stkGHO
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [GHO, stkGHO],
     buy: [GHO, stkGHO],
     feeAmountBp: 200,
   }),
 
   // CowSwap - Swap USDS -> [DAI, sUSDS, USDC, USDT]
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [USDS],
     buy: [DAI, sUSDS, USDC, USDT],
     feeAmountBp: 200,
   }),
 
   // CowSwap - Swap sUSDS -> [DAI, USDC, USDS, USDT]
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [sUSDS],
     buy: [DAI, USDC, USDS, USDT],
     feeAmountBp: 200,
   }),
 
   // CowSwap - Swap OETH -> [ETH, rETH, stETH, WETH, wstETH]
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [OETH],
     buy: ["ETH", rETH, stETH, WETH, wstETH],
     feeAmountBp: 200,
@@ -129,7 +129,7 @@ export default [
   allowAction.lido.deposit(),
 
   // Rocket Pool
-  allowAction.rocketPool.deposit(),
+  allowAction.rocket_pool.deposit(),
 
   // Spark - DSR/sDAI
   allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
@@ -138,8 +138,8 @@ export default [
 
   // Uniswap v3 - WBTC + WETH, Range: 11.786 - 15.082. Fee: 0.3%.
   // WARNING!: With the deposit action we are allowing to send ETH and the functions that involve ETH.
-  // allowAction.uniswapV3.deposit({ tokens: ["WBTC", "WETH"], fees: ["0.3%"] }),
-  allowAction.uniswapV3.deposit({ targets: ["430246"] }), // WARNING!: THIS MUST BE CHANGED BY THE PRECEDING CODE
+  // allowAction.uniswap_v3.deposit({ tokens: ["WBTC", "WETH"], fees: ["0.3%"] }),
+  allowAction.uniswap_v3.deposit({ targets: ["430246"] }), // WARNING!: THIS MUST BE CHANGED BY THE PRECEDING CODE
 
   /*********************************************
    * Typed-presets permissions

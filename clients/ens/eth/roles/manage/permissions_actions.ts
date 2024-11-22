@@ -39,13 +39,13 @@ export default [
   allowAction.aura.deposit({ targets: ["109"] }),
 
   // Aave v3 - DAI
-  allowAction.aaveV3.deposit({ targets: ["DAI"] }),
+  allowAction.aave_v3.deposit({ targets: ["DAI"] }),
   // Aave v3 - ETH
-  allowAction.aaveV3.deposit({ targets: ["ETH"] }),
+  allowAction.aave_v3.deposit({ targets: ["ETH"] }),
   // Aave v3 - USDC
-  allowAction.aaveV3.deposit({ targets: ["USDC"] }),
+  allowAction.aave_v3.deposit({ targets: ["USDC"] }),
   // Aave v3 - WETH
-  allowAction.aaveV3.deposit({ targets: ["WETH"] }),
+  allowAction.aave_v3.deposit({ targets: ["WETH"] }),
 
   // Balancer - wstETH/WETH
   allowAction.balancer.deposit({ targets: ["wstETH-WETH-BPT"] }),
@@ -72,7 +72,7 @@ export default [
   allowAction.lido.deposit(),
 
   // Rocket Pool
-  allowAction.rocketPool.deposit(),
+  allowAction.rocket_pool.deposit(),
 
   // Spark - ETH
   allowAction.spark.deposit({ targets: ["ETH"] }),

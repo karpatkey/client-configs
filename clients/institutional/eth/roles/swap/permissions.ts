@@ -8,7 +8,7 @@ import { PermissionList } from "../../../../../types"
 
 export default [
   // CowSwap - [COMP, DAI, sDAI, USDC] -> [DAI, sDAI, USDC]
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [COMP, DAI, sDAI, USDC],
     buy: [DAI, sDAI, USDC],
   }),

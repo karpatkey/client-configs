@@ -30,7 +30,7 @@ export default [
   allowAction.aura.deposit({ targets: ["179"] }),
 
   // Aave v2 - Staking of GHO in Safety Module
-  allowAction.aaveV2.stake({ targets: ["GHO"] }),
+  allowAction.aave_v2.stake({ targets: ["GHO"] }),
 
   // Balancer - wstETH/WETH
   allowAction.balancer.deposit({ targets: ["wstETH-WETH-BPT"] }),
@@ -43,17 +43,17 @@ export default [
   allowAction.balancer.stake({ targets: ["osETH/wETH-BPT"] }),
 
   // CowSwap - Swapping of SAFE
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [SAFE],
     buy: ["ETH", DAI, stETH, USDC, WETH, wstETH],
   }),
   // CowSwap - Swapping of ETH
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: ["ETH"],
     buy: [DAI, osETH, stETH, rETH, USDC, WETH, wstETH],
   }),
   // CowSwap - Swapping of AURA and BAL
-  allowAction.cowSwap.swap({
+  allowAction.cowswap.swap({
     sell: [AURA, BAL],
     buy: ["ETH", USDC, WETH],
   }),
@@ -62,7 +62,7 @@ export default [
   allowAction.lido.deposit(),
 
   // Uniswap v3 - SAFE + WETH - Current NFT Ids: 711659 and 774338
-  allowAction.uniswapV3.deposit({ tokens: ["SAFE", "WETH"] }),
+  allowAction.uniswap_v3.deposit({ tokens: ["SAFE", "WETH"] }),
 
   /*********************************************
    * Typed-presets permissions

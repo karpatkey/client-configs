@@ -13,7 +13,7 @@ export default [
    * DeFi-Kit permissions
    *********************************************/
   // Aave v3 - Deposit USDC
-  allowAction.aaveV3.deposit({ targets: ["USDC"] }),
+  allowAction.aave_v3.deposit({ targets: ["USDC"] }),
 
   /*********************************************
    * Typed-presets permissions
