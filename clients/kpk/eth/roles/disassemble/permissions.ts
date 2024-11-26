@@ -38,10 +38,10 @@ export default [
   allow.mainnet.weth.withdraw(),
 
   // Aave v2 - Staking of AAVE and GHO in Safety Module
-  allow.mainnet.aave_v2.stkAave.redeem(c.avatar),
-  allow.mainnet.aave_v2.stkAave.cooldown(),
-  allow.mainnet.aave_v2.stkGHO.redeem(c.avatar),
-  allow.mainnet.aave_v2.stkGHO.cooldown(),
+  allow.mainnet.aaveV2.stkAave.redeem(c.avatar),
+  allow.mainnet.aaveV2.stkAave.cooldown(),
+  allow.mainnet.aaveV2.stkGho.redeem(c.avatar),
+  allow.mainnet.aaveV2.stkGho.cooldown(),
 
   // Aura - wstETH/WETH
   aura__withdraw_balancer(
@@ -50,16 +50,16 @@ export default [
   ),
 
   // Aura - Lock
-  allow.mainnet.aura.vlAURA.processExpiredLocks(),
+  allow.mainnet.aura.vlAura.processExpiredLocks(),
 
   // Aura - Stake
-  allow.mainnet.aura.auraBAL_staking_rewarder.withdraw(),
-  allow.mainnet.aura.stkauraBAL.withdraw(undefined, c.avatar, c.avatar),
+  allow.mainnet.aura.auraBalStakingRewarder.withdraw(),
+  allow.mainnet.aura.stkauraBal.withdraw(undefined, c.avatar, c.avatar),
 
-  allow.mainnet.aura.stkauraBAL.redeem(undefined, c.avatar, c.avatar),
+  allow.mainnet.aura.stkauraBal.redeem(undefined, c.avatar, c.avatar),
 
   // Compound v3 - USDC
-  allow.mainnet.compound_v3.cUSDCv3.withdraw(USDC),
+  allow.mainnet.compoundV3.cUsdcV3.withdraw(USDC),
 
   // Convex - USDT/WBTC/WETH
   convex__withdraw(convex.crvUSDTWBTCWETH_rewarder),
@@ -68,27 +68,27 @@ export default [
   convex__withdraw(convex.GHOBTCwstE_rewarder),
 
   // Curve - USDT/WBTC/WETH
-  allow.mainnet.curve.crvUSDTWBTCWETH_pool[
+  allow.mainnet.curve.crvUsdtWbtcWethPool[
     "remove_liquidity(uint256,uint256[3],bool)"
   ](),
-  allow.mainnet.curve.crvUSDTWBTCWETH_pool[
+  allow.mainnet.curve.crvUsdtWbtcWethPool[
     "remove_liquidity_one_coin(uint256,uint256,uint256,bool)"
   ](),
-  allow.mainnet.curve.crvUSDTWBTCWETH_gauge["withdraw(uint256)"](),
+  allow.mainnet.curve.crvUsdtWbtcWethGauge["withdraw(uint256)"](),
 
   // Curve - Tricrypto GHO (GHO/WBTC/wstETH)
-  allow.mainnet.curve.tricryptoGHO_pool[
+  allow.mainnet.curve.tricryptoGhoPool[
     "remove_liquidity(uint256,uint256[3],bool)"
   ](),
-  allow.mainnet.curve.tricryptoGHO_pool[
+  allow.mainnet.curve.tricryptoGhoPool[
     "remove_liquidity_one_coin(uint256,uint256,uint256,bool)"
   ](),
-  allow.mainnet.curve.tricryptoGHO_gauge["withdraw(uint256)"](),
+  allow.mainnet.curve.tricryptoGhoGauge["withdraw(uint256)"](),
 
   // Enzyme - Diva stETH Vault
   // Withdraw stETH
-  allow.mainnet.enzyme.Diva_stETH_Vault.redeemSharesInKind(c.avatar),
-  allow.mainnet.enzyme.Diva_stETH_Vault.redeemSharesForSpecificAssets(
+  allow.mainnet.enzyme.divaStEthVault.redeemSharesInKind(c.avatar),
+  allow.mainnet.enzyme.divaStEthVault.redeemSharesForSpecificAssets(
     c.avatar,
     undefined,
     [stETH]
@@ -99,20 +99,20 @@ export default [
   lido__unwrap_and_unstake_wstETH(),
 
   // Maker - DSR (DAI Savings Rate)
-  allow.mainnet.maker.dsr_manager.exit(c.avatar),
-  allow.mainnet.maker.dsr_manager.exitAll(c.avatar),
+  allow.mainnet.maker.dsrManager.exit(c.avatar),
+  allow.mainnet.maker.dsrManager.exitAll(c.avatar),
 
   // pods - ETHphoria Vault
   // Withdraw stETH
-  allow.mainnet.pods.ETHoriaVault.redeem(undefined, c.avatar, c.avatar),
+  allow.mainnet.pods.ethoriaVault.redeem(undefined, c.avatar, c.avatar),
 
   // Rocket Pool
-  allow.mainnet.rocket_pool.rETH.burn(),
-  allow.mainnet.rocket_pool.swap_router.swapFrom(),
+  allow.mainnet.rocketPool.rEth.burn(),
+  allow.mainnet.rocketPool.swapRouter.swapFrom(),
 
   // Spark - DSR/sDAI
-  allow.mainnet.spark.sDAI.redeem(undefined, c.avatar, c.avatar),
-  allow.mainnet.spark.sDAI.withdraw(undefined, c.avatar, c.avatar),
+  allow.mainnet.spark.sDai.redeem(undefined, c.avatar, c.avatar),
+  allow.mainnet.spark.sDai.withdraw(undefined, c.avatar, c.avatar),
 
   /*********************************************
    * SWAPS
@@ -140,25 +140,23 @@ export default [
   cowswap__swap([E_ADDRESS, WETH], [DAI, USDT, USDC], Chain.eth),
 
   // Curve - Swaps in 3pool
-  ...allowErc20Approve([DAI, USDC, USDT], [contracts.mainnet.curve.x3CRV_pool]),
-  allow.mainnet.curve.x3CRV_pool["exchange"](),
+  ...allowErc20Approve([DAI, USDC, USDT], [contracts.mainnet.curve.x3CrvPool]),
+  allow.mainnet.curve.x3CrvPool["exchange"](),
 
   // Curve - Swap ETH/stETH (steCRV)
-  ...allowErc20Approve([stETH], [contracts.mainnet.curve.steth_eth_pool]),
-  allow.mainnet.curve.steth_eth_pool["exchange"](),
+  ...allowErc20Approve([stETH], [contracts.mainnet.curve.steCrvPool]),
+  allow.mainnet.curve.steCrvPool["exchange"](),
 
   // Curve - Swaps ETH/stETH (stETH-ng-f)
-  ...allowErc20Approve([stETH], [contracts.mainnet.curve.stETH_ng_f_pool]),
-  allow.mainnet.curve.stETH_ng_f_pool[
-    "exchange(int128,int128,uint256,uint256)"
-  ](),
+  ...allowErc20Approve([stETH], [contracts.mainnet.curve.stEthNgfPool]),
+  allow.mainnet.curve.stEthNgfPool["exchange(int128,int128,uint256,uint256)"](),
 
   // Uniswap V3 - Swaps
   ...allowErc20Approve(
     [DAI, USDC, USDT, WETH, wstETH],
-    [contracts.mainnet.uniswap_v3.router_2]
+    [contracts.mainnet.uniswapV3.router2]
   ),
-  allow.mainnet.uniswap_v3.router_2.exactInputSingle(
+  allow.mainnet.uniswapV3.router2.exactInputSingle(
     {
       tokenIn: c.or(DAI, USDC, USDT, WETH, wstETH),
       tokenOut: c.or(DAI, USDC, USDT, WETH, wstETH),

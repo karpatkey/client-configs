@@ -67,80 +67,80 @@ export default [
   }),
 
   // Compound v3 - USDC
-  ...allowErc20Approve([USDC], [contracts.mainnet.compound_v3.cUSDCv3]),
-  allow.mainnet.compound_v3.cUSDCv3.supply(USDC),
-  allow.mainnet.compound_v3.cUSDCv3.withdraw(USDC),
+  ...allowErc20Approve([USDC], [contracts.mainnet.compoundV3.cUsdcV3]),
+  allow.mainnet.compoundV3.cUsdcV3.supply(USDC),
+  allow.mainnet.compoundV3.cUsdcV3.withdraw(USDC),
 
   // Compound v3 - Claim rewards
-  allow.mainnet.compound_v3.CometRewards.claim(undefined, c.avatar),
+  allow.mainnet.compoundV3.cometRewards.claim(undefined, c.avatar),
 
   // Curve - USDT/WBTC/WETH
   ...allowErc20Approve(
     [USDT, WBTC, WETH],
-    [contracts.mainnet.curve.crvUSDTWBTCWETH_pool]
+    [contracts.mainnet.curve.crvUsdtWbtcWethPool]
   ),
-  allow.mainnet.curve.crvUSDTWBTCWETH_pool[
+  allow.mainnet.curve.crvUsdtWbtcWethPool[
     "add_liquidity(uint256[3],uint256,bool)"
   ](undefined, undefined, undefined, {
     send: true,
   }),
-  allow.mainnet.curve.crvUSDTWBTCWETH_pool[
+  allow.mainnet.curve.crvUsdtWbtcWethPool[
     "remove_liquidity(uint256,uint256[3],bool)"
   ](),
-  allow.mainnet.curve.crvUSDTWBTCWETH_pool[
+  allow.mainnet.curve.crvUsdtWbtcWethPool[
     "remove_liquidity_one_coin(uint256,uint256,uint256,bool)"
   ](),
   ...allowErc20Approve(
-    [contracts.mainnet.curve.crvUSDTWBTCWETH_pool],
-    [contracts.mainnet.curve.crvUSDTWBTCWETH_gauge]
+    [contracts.mainnet.curve.crvUsdtWbtcWethPool],
+    [contracts.mainnet.curve.crvUsdtWbtcWethGauge]
   ),
-  allow.mainnet.curve.crvUSDTWBTCWETH_gauge["deposit(uint256)"](),
-  allow.mainnet.curve.crvUSDTWBTCWETH_gauge["withdraw(uint256)"](),
+  allow.mainnet.curve.crvUsdtWbtcWethGauge["deposit(uint256)"](),
+  allow.mainnet.curve.crvUsdtWbtcWethGauge["withdraw(uint256)"](),
 
   // Curve - Tricrypto GHO (GHO/WBTC/wstETH)
   ...allowErc20Approve(
     [GHO, WBTC, wstETH],
-    [contracts.mainnet.curve.tricryptoGHO_pool]
+    [contracts.mainnet.curve.tricryptoGhoPool]
   ),
-  allow.mainnet.curve.tricryptoGHO_pool[
+  allow.mainnet.curve.tricryptoGhoPool[
     "add_liquidity(uint256[3],uint256,bool)"
   ](),
-  allow.mainnet.curve.tricryptoGHO_pool[
+  allow.mainnet.curve.tricryptoGhoPool[
     "remove_liquidity(uint256,uint256[3],bool)"
   ](),
-  allow.mainnet.curve.tricryptoGHO_pool[
+  allow.mainnet.curve.tricryptoGhoPool[
     "remove_liquidity_one_coin(uint256,uint256,uint256,bool)"
   ](),
   ...allowErc20Approve(
-    [contracts.mainnet.curve.tricryptoGHO_pool],
-    [contracts.mainnet.curve.tricryptoGHO_gauge]
+    [contracts.mainnet.curve.tricryptoGhoPool],
+    [contracts.mainnet.curve.tricryptoGhoGauge]
   ),
-  allow.mainnet.curve.tricryptoGHO_gauge["deposit(uint256)"](),
-  allow.mainnet.curve.tricryptoGHO_gauge["withdraw(uint256)"](),
+  allow.mainnet.curve.tricryptoGhoGauge["deposit(uint256)"](),
+  allow.mainnet.curve.tricryptoGhoGauge["withdraw(uint256)"](),
 
   // Curve - Deposit and Stake using a special ZAP
   ...allowErc20Approve(
     [GHO, WBTC, wstETH],
-    [contracts.mainnet.curve.stake_deposit_zap]
+    [contracts.mainnet.curve.stakeDepositZap]
   ),
   ...allowErc20Approve(
     [USDT, WBTC, WETH],
-    [contracts.mainnet.curve.stake_deposit_zap]
+    [contracts.mainnet.curve.stakeDepositZap]
   ),
-  allow.mainnet.curve.stake_deposit_zap[
+  allow.mainnet.curve.stakeDepositZap[
     "deposit_and_stake(address,address,address,uint256,address[],uint256[],uint256,bool,bool,address)"
   ](
     c.or(
-      contracts.mainnet.curve.tricryptoGHO_pool,
-      contracts.mainnet.curve.crvUSDTWBTCWETH_pool
+      contracts.mainnet.curve.tricryptoGhoPool,
+      contracts.mainnet.curve.crvUsdtWbtcWethPool
     ),
     c.or(
-      contracts.mainnet.curve.tricryptoGHO_pool,
-      contracts.mainnet.curve.crvUSDTWBTCWETH_pool
+      contracts.mainnet.curve.tricryptoGhoPool,
+      contracts.mainnet.curve.crvUsdtWbtcWethPool
     ),
     c.or(
-      contracts.mainnet.curve.tricryptoGHO_gauge,
-      contracts.mainnet.curve.crvUSDTWBTCWETH_gauge
+      contracts.mainnet.curve.tricryptoGhoGauge,
+      contracts.mainnet.curve.crvUsdtWbtcWethGauge
     ),
     3,
     c.or([GHO, WBTC, wstETH], [USDT, WBTC, E_ADDRESS], [USDT, WBTC, WETH]),
@@ -156,8 +156,8 @@ export default [
 
   // Enzyme - Diva stETH Vault
   // Deposit ETH
-  allow.mainnet.enzyme.deposit_wrapper_2.exchangeEthAndBuyShares(
-    contracts.mainnet.enzyme.Diva_stETH_Vault,
+  allow.mainnet.enzyme.depositWrapper2.exchangeEthAndBuyShares(
+    contracts.mainnet.enzyme.divaStEthVault,
     undefined,
     "0xDEF171Fe48CF0115B1d80b88dc8eAB59176FEe57", // Paraswap v5: Augustus Swapper Mainnet
     "0x216B4B4Ba9F3e719726886d34a177484278Bfcae", // Paraswap v5: Token TransferProxy Mainnet
@@ -168,11 +168,11 @@ export default [
     }
   ),
   // Deposit stETH
-  ...allowErc20Approve([stETH], [contracts.mainnet.enzyme.Diva_stETH_Vault]),
-  allow.mainnet.enzyme.Diva_stETH_Vault.buyShares(),
+  ...allowErc20Approve([stETH], [contracts.mainnet.enzyme.divaStEthVault]),
+  allow.mainnet.enzyme.divaStEthVault.buyShares(),
   // Withdraw stETH
-  allow.mainnet.enzyme.Diva_stETH_Vault.redeemSharesInKind(c.avatar),
-  allow.mainnet.enzyme.Diva_stETH_Vault.redeemSharesForSpecificAssets(
+  allow.mainnet.enzyme.divaStEthVault.redeemSharesInKind(c.avatar),
+  allow.mainnet.enzyme.divaStEthVault.redeemSharesForSpecificAssets(
     c.avatar,
     undefined,
     [stETH]
@@ -184,15 +184,15 @@ export default [
   // and activate/deactivate the Dai Savings Rate to start earning savings
   // on a pool of dai in a single function call.
   // https://docs.makerdao.com/smart-contract-modules/proxy-module/dsr-manager-detailed-documentation#contract-details
-  ...allowErc20Approve([DAI], [contracts.mainnet.maker.dsr_manager]),
-  allow.mainnet.maker.dsr_manager.join(c.avatar),
-  allow.mainnet.maker.dsr_manager.exit(c.avatar),
-  allow.mainnet.maker.dsr_manager.exitAll(c.avatar),
+  ...allowErc20Approve([DAI], [contracts.mainnet.maker.dsrManager]),
+  allow.mainnet.maker.dsrManager.join(c.avatar),
+  allow.mainnet.maker.dsrManager.exit(c.avatar),
+  allow.mainnet.maker.dsrManager.exitAll(c.avatar),
 
   // pods - ETHphoria Vault
   // Deposit ETH
-  allow.mainnet.pods.ETHAdapter.deposit(
-    contracts.mainnet.pods.ETHoriaVault,
+  allow.mainnet.pods.ethAdapter.deposit(
+    contracts.mainnet.pods.ethoriaVault,
     c.avatar,
     undefined,
     {
@@ -200,16 +200,16 @@ export default [
     }
   ),
   // Deposit stETH
-  ...allowErc20Approve([stETH], [contracts.mainnet.pods.ETHoriaVault]),
-  allow.mainnet.pods.ETHoriaVault.deposit(undefined, c.avatar),
+  ...allowErc20Approve([stETH], [contracts.mainnet.pods.ethoriaVault]),
+  allow.mainnet.pods.ethoriaVault.deposit(undefined, c.avatar),
   // Withdraw stETH
-  allow.mainnet.pods.ETHoriaVault.redeem(undefined, c.avatar, c.avatar),
+  allow.mainnet.pods.ethoriaVault.redeem(undefined, c.avatar, c.avatar),
 
   // SAFE - Claim
-  allow.mainnet.safe.ecosystem_airdrop.claimVestedTokens(undefined, c.avatar),
-  allow.mainnet.safe.user_airdrop.claimVestedTokens(undefined, c.avatar),
-  allow.mainnet.safe.user_airdrop_sep5.claimVestedTokens(undefined, c.avatar),
+  allow.mainnet.safe.ecosystemAirdrop.claimVestedTokens(undefined, c.avatar),
+  allow.mainnet.safe.userAirdrop.claimVestedTokens(undefined, c.avatar),
+  allow.mainnet.safe.userAirdropSep5.claimVestedTokens(undefined, c.avatar),
   // SAFE - Lock
-  ...allowErc20Approve([SAFE], [contracts.mainnet.safe.token_lock]),
-  allow.mainnet.safe.token_lock.lock(),
+  ...allowErc20Approve([SAFE], [contracts.mainnet.safe.tokenLock]),
+  allow.mainnet.safe.tokenLock.lock(),
 ] satisfies PermissionList

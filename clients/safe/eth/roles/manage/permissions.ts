@@ -12,7 +12,7 @@ import {
   USDC,
   WETH,
   wstETH,
-  uniswap_v2,
+  uniswapV2,
 } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
@@ -68,8 +68,8 @@ export default [
    * Typed-presets permissions
    *********************************************/
   // Uniswap v2 - SAFE/WETH
-  allowErc20Approve([SAFE], [contracts.mainnet.uniswap_v2.router_2]),
-  allow.mainnet.uniswap_v2.router_2.addLiquidityETH(
+  allowErc20Approve([SAFE], [contracts.mainnet.uniswapV2.router2]),
+  allow.mainnet.uniswapV2.router2.addLiquidityETH(
     SAFE,
     undefined,
     undefined,
@@ -81,10 +81,10 @@ export default [
     }
   ),
   allowErc20Approve(
-    [uniswap_v2.LP_SAFE_ETH],
-    [contracts.mainnet.uniswap_v2.router_2]
+    [uniswapV2.LP_SAFE_ETH],
+    [contracts.mainnet.uniswapV2.router2]
   ),
-  allow.mainnet.uniswap_v2.router_2.removeLiquidityETH(
+  allow.mainnet.uniswapV2.router2.removeLiquidityETH(
     SAFE,
     undefined,
     undefined,

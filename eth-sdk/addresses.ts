@@ -223,7 +223,7 @@ export const balancer = {
 //   cUSDC: "0x39AA39c021dfbaE8faC545936693aC917d5E7563",
 // }
 
-// export const compound_v3 = {
+// export const compoundV3 = {
 //   cUSDCv3: "0xc3d688B66703497DAA19211EEdff47f25384cdc3",
 //   cWETHv3: "0xA17581A9E3356d9A858b789D68B4d866e593aE94",
 //   MainnetBulker: "0xa397a8C2086C554B531c02E29f3291c9704B00c7",
@@ -344,7 +344,7 @@ export const nexus = {
   ],
 }
 
-// export const pancake_swap = {
+// export const pancakeSwap = {
 //   SMART_ROUTER: "0x13f4EA83D0bd40E75C8222255bc855a974568Dd4",
 // }
 
@@ -391,7 +391,7 @@ export const pendle = {
 //   ROUTE_PROCESSOR_3_2: "0x5550D13389bB70F45fCeF58f19f6b6e87F6e747d",
 // }
 
-export const uniswap_v2 = {
+export const uniswapV2 = {
   LP_SAFE_ETH: "0xC36442b4a4522E871399CD717aBDD847Ab11FE88" as Address,
 }
 
