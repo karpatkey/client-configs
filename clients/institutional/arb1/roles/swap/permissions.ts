@@ -26,9 +26,9 @@ export default [
   // Uniswap v3 - Swap [DAI, USDC, USDC.e] <-> [DAI, USDC, USDC.e]
   ...allowErc20Approve(
     [DAI, USDC, USDCe],
-    [contracts.mainnet.uniswap_v3.router_2]
+    [contracts.mainnet.uniswapV3.router2]
   ),
-  allow.mainnet.uniswap_v3.router_2.exactInputSingle({
+  allow.mainnet.uniswapV3.router2.exactInputSingle({
     tokenIn: c.or(DAI, USDC, USDCe),
     tokenOut: c.or(DAI, USDC, USDCe),
     recipient: c.avatar,

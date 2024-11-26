@@ -14,8 +14,8 @@ export default [
   }),
 
   // Curve - 3pool - Swap DAI <-> USDC
-  ...allowErc20Approve([DAI, USDC], [contracts.mainnet.curve.x3CRV_pool]),
-  allow.mainnet.curve.x3CRV_pool.exchange(
+  ...allowErc20Approve([DAI, USDC], [contracts.mainnet.curve.x3CrvPool]),
+  allow.mainnet.curve.x3CrvPool.exchange(
     c.or(0, 1), // 0 = DAI, 1 = USDC
     c.or(0, 1)
   ),

@@ -17,7 +17,7 @@ describe("AuraRelocker", () => {
 
   it("allows claiming rewards from the zap only with lockCvx", async () => {
     await expect(
-      kit.asMember.aura.claim_zap.claimRewards(
+      kit.asMember.aura.claimZapV3.claimRewards(
         [
           "0x89D3D732da8bf0f88659Cf3738E5E44e553f9ED7",
           "0xDd1fE5AD401D4777cE89959b7fa587e569Bf125D",
@@ -44,7 +44,7 @@ describe("AuraRelocker", () => {
     ).toBeForbidden()
 
     await expect(
-      kit.asMember.aura.claim_zap.claimRewards(
+      kit.asMember.aura.claimZapV3.claimRewards(
         [
           "0x89D3D732da8bf0f88659Cf3738E5E44e553f9ED7",
           "0xDd1fE5AD401D4777cE89959b7fa587e569Bf125D",

@@ -35,25 +35,25 @@ export default [
   // Balancer - BCoW AMM COW/wstETH (Staking not available)
   ...allowErc20Approve(
     [COW, wstETH],
-    [contracts.mainnet.balancer.BCoW_50COW_50wstETH]
+    [contracts.mainnet.balancer.bCow50Cow50Wsteth]
   ),
-  allow.mainnet.balancer.BCoW_50COW_50wstETH.joinPool(),
-  allow.mainnet.balancer.BCoW_50COW_50wstETH.exitPool(),
+  allow.mainnet.balancer.bCow50Cow50Wsteth.joinPool(),
+  allow.mainnet.balancer.bCow50Cow50Wsteth.exitPool(),
 
   // Balancer - BCoW AMM USDC/WETH
   ...allowErc20Approve(
     [USDC, WETH],
-    [contracts.mainnet.balancer.BCoW_50WETH_50USDC]
+    [contracts.mainnet.balancer.bCow50Weth50Usdc]
   ),
-  allow.mainnet.balancer.BCoW_50WETH_50USDC.joinPool(),
-  allow.mainnet.balancer.BCoW_50WETH_50USDC.exitPool(),
+  allow.mainnet.balancer.bCow50Weth50Usdc.joinPool(),
+  allow.mainnet.balancer.bCow50Weth50Usdc.exitPool(),
   ...allowErc20Approve(
-    [contracts.mainnet.balancer.BCoW_50WETH_50USDC],
-    [contracts.mainnet.balancer.BCoW_50WETH_50USDC_gauge]
+    [contracts.mainnet.balancer.bCow50Weth50Usdc],
+    [contracts.mainnet.balancer.bCow50Weth50UsdcGauge]
   ),
-  allow.mainnet.balancer.BCoW_50WETH_50USDC_gauge["withdraw(uint256)"](),
-  allow.mainnet.balancer.BCoW_50WETH_50USDC_gauge["claim_rewards()"](),
-  allow.mainnet.balancer.BCoW_50WETH_50USDC_gauge["deposit(uint256)"](),
+  allow.mainnet.balancer.bCow50Weth50UsdcGauge["withdraw(uint256)"](),
+  allow.mainnet.balancer.bCow50Weth50UsdcGauge["claim_rewards()"](),
+  allow.mainnet.balancer.bCow50Weth50UsdcGauge["deposit(uint256)"](),
   allow.mainnet.balancer.vault.setRelayerApproval(
     c.avatar,
     contracts.mainnet.balancer.relayer
@@ -61,10 +61,10 @@ export default [
   // gaugeClaimRewards() and gaugeWithdraw() added manually to the Relayer v6 ABI
   // from the RelayerLibrary: 0xeA66501dF1A00261E3bB79D1E90444fc6A186B62
   allow.mainnet.balancer.relayer.gaugeClaimRewards([
-    contracts.mainnet.balancer.BCoW_50WETH_50USDC_gauge,
+    contracts.mainnet.balancer.bCow50Weth50UsdcGauge,
   ]),
   allow.mainnet.balancer.relayer.gaugeWithdraw(
-    contracts.mainnet.balancer.BCoW_50WETH_50USDC_gauge,
+    contracts.mainnet.balancer.bCow50Weth50UsdcGauge,
     c.avatar,
     c.avatar
   ),

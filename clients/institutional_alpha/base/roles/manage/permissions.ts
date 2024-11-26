@@ -19,8 +19,8 @@ export default [
    * Typed-presets permissions
    *********************************************/
   // Morpho Blue - cbETH/USDC
-  ...allowErc20Approve([USDC], [contracts.mainnet.morpho.morpho_blue]),
-  allow.mainnet.morpho.morpho_blue.supply(
+  ...allowErc20Approve([USDC], [contracts.mainnet.morpho.morphoBlue]),
+  allow.mainnet.morpho.morphoBlue.supply(
     {
       loanToken: USDC,
       collateralToken: cbETH,
@@ -32,7 +32,7 @@ export default [
     c.avatar,
     "0x"
   ),
-  allow.mainnet.morpho.morpho_blue.withdraw(
+  allow.mainnet.morpho.morphoBlue.withdraw(
     {
       loanToken: USDC,
       collateralToken: cbETH,
@@ -50,15 +50,15 @@ export default [
    *********************************************/
   // Base -> Mainnet
   // USDC (Base) -> USDC (Mainnet)
-  ...allowErc20Approve([USDC], [contracts.base.circle_token_messenger]),
-  allow.base.circle_token_messenger.depositForBurn(
+  ...allowErc20Approve([USDC], [contracts.base.circleTokenMessenger]),
+  allow.base.circleTokenMessenger.depositForBurn(
     undefined,
     0,
     "0x" + avatar.slice(2).padStart(64, "0"),
     USDC
   ),
   // Claim bridged USDC from Mainnet
-  allow.base.circle_message_transmitter.receiveMessage(
+  allow.base.circleMessageTransmitter.receiveMessage(
     c.and(
       // version: 4 bytes (00000000)
       // source domain: 4 bytes(00000000)
@@ -75,24 +75,24 @@ export default [
       c.bitmask({
         shift: 20 + 12,
         mask: "0xffffffffffffffffffff",
-        value: contracts.mainnet.circle_token_messenger.slice(0, 22),
+        value: contracts.mainnet.circleTokenMessenger.slice(0, 22),
       }),
       c.bitmask({
         shift: 20 + 12 + 10,
         mask: "0xffffffffffffffffffff",
-        value: "0x" + contracts.mainnet.circle_token_messenger.slice(22, 42),
+        value: "0x" + contracts.mainnet.circleTokenMessenger.slice(22, 42),
       }),
       // recipient: 32 bytes
       // Circle Token Messenger (Base)
       c.bitmask({
         shift: 20 + 32 + 12,
         mask: "0xffffffffffffffffffff",
-        value: contracts.base.circle_token_messenger.slice(0, 22),
+        value: contracts.base.circleTokenMessenger.slice(0, 22),
       }),
       c.bitmask({
         shift: 20 + 32 + 12 + 10,
         mask: "0xffffffffffffffffffff",
-        value: "0x" + contracts.base.circle_token_messenger.slice(22, 42),
+        value: "0x" + contracts.base.circleTokenMessenger.slice(22, 42),
       }),
       // message body: dynamic
       // skip selector (4 bytes) + 32 bytes chunk with 0
@@ -136,8 +136,8 @@ export default [
     )
   ),
   // USDC (Base) -> USDC (Mainnet) - HOP
-  ...allowErc20Approve([USDC], [contracts.base.l2_hop_cctp]),
-  allow.base.l2_hop_cctp.send(
+  ...allowErc20Approve([USDC], [contracts.base.l2HopCctp]),
+  allow.base.l2HopCctp.send(
     1, // Mainnet
     c.avatar
   ),

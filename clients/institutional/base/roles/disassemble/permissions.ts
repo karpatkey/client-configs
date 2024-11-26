@@ -12,7 +12,7 @@ export default [
   ),
 
   // Morpho Blue - Withdraw cbETH/USDC
-  allow.mainnet.morpho.morpho_blue.withdraw(
+  allow.mainnet.morpho.morphoBlue.withdraw(
     {
       loanToken: USDC,
       collateralToken: cbETH,

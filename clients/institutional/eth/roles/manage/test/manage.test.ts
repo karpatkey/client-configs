@@ -25,12 +25,12 @@ describe("Institutional", () => {
         kit.asMember.weth
           .attach(USDC)
           .approve(
-            contracts.mainnet.circle_token_messenger,
+            contracts.mainnet.circleTokenMessenger,
             parseUnits("1000", 6)
           )
       ).not.toRevert()
       await expect(
-        kit.asMember.circle_token_messenger.depositForBurn(
+        kit.asMember.circleTokenMessenger.depositForBurn(
           parseUnits("1000", 6),
           2,
           "0x" + institutional_avatar.slice(2).padStart(64, "0"),
@@ -46,7 +46,7 @@ describe("Institutional", () => {
         "00000000000000000000000000000000000000000000000000000000004c4b40000000000000000000000000" +
         institutional_avatar.slice(2)
       await expect(
-        kit.asMember.circle_message_transmitter.receiveMessage(
+        kit.asMember.circleMessageTransmitter.receiveMessage(
           message,
           "0xf0135945530c1c08835160fc6a2ece40b3f3dfd79b77bd92a313ad70b2ebc0b3010cdc93987535a52db56b2a5740e753031f9572a2b4865e6eb87b8fc1d1322f1c54611ed629fd3cceda39d958a3538f3d2f81384156bc4b037277ede1b0a1c2ca3a96a00e9f6f03bb6ddb71c7b9c5cf0a826264b033a3c83d0fda0ab7842a0b5b1b"
         )
@@ -62,7 +62,7 @@ describe("Institutional", () => {
         "00000000000000000000000000000000000000000000000000000000004c4c10"
       console.log("Message: ", message)
       await expect(
-        kit.asMember.amb_eth_xdai.safeExecuteSignaturesWithAutoGasLimit(
+        kit.asMember.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
           message,
           "0x041c1b1c1bc97b6bf0d0aa9747b3d67a41d9b44d59bc88786a53d556ebdb41925c28c31be06811b13a90d7425217e81f0308782cec9f1f8a53efea1f6119528e63d431610c5427863194fe1b17ca43f8cf31fcf4b384eac8ecd40cc038f6e0e3e82df983a9d1d918647ab97eaa6d0907f849da2b439ee25cea79d084cf31fc2e960f4e71693e0bef8383abe60ffee4e8324da1cdea9e854fd968c9dee7a9d4356df1cfc1ba3baa1b0f765a888b33bc5e54f3329ed19b69295ce94a9a1ef83968a2311ccc3769f72a6502187f5c9ed76a6d249db9ea7e173abf2745559a938ffeb3174d61d1260b4060e4b8523552498c4efe75ff5acc88b3f73baa692ae899f119ed6951d6"
         )
@@ -94,7 +94,7 @@ describe("Institutional", () => {
         "0000000000000000000000000000000000000000000000008ac7230489e80000d8bfcc0594814b4f3a61288b8aa56820354bcd4ae898085a8c10dd0d11e1c0e04aa42145aa6ebf72e164c9bbc74fbd3788045016"
       console.log("Message: ", message)
       await expect(
-        kit.asMember.gno_xdai_bridge.executeSignatures(
+        kit.asMember.gnoXdaiBridge.executeSignatures(
           message,
           "0x041c1b1c1b1626e3796b01f4a2bed572344f3bc4737bc5e2ae2a65a24266fe9381718d1627bed8e7c4719afdd7d5ae3a1b40d8449b8092eb243ef937f4f17dab180e0f1bf657c189c163ac81260b1815161f3d004619c1aeb8459f05727a80c650d1d34cd5c8c5e32e6e3851f23ba8af632d698fdd3e2381f72b92141561cec4b137d950121da5e302daf6b185f9eb9d8fdb8e5865455e022f31990fe734d5ed5c0b054b1a3007cab99dc6e2e0c9c6e12bcac87814beeb0a3decb8073d9b9ec03a41a342bc2b600b8e7ee40131c49d9f0120f60d11837f510c6d9a4f95a709962074d15d592158361b5d63d39244f131450c0c26d9f34066d89ea980fd497a63ce84b68116"
         )

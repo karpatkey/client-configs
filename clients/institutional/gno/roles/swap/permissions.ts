@@ -30,9 +30,9 @@ export default [
   }),
 
   // Swap USDC.e -> USDC
-  ...allowErc20Approve([USDCe], [contracts.gnosis.usdc_transmuter]),
-  allow.gnosis.usdc_transmuter.withdraw(),
+  ...allowErc20Approve([USDCe], [contracts.gnosis.usdcTransmuter]),
+  allow.gnosis.usdcTransmuter.withdraw(),
   // Swap USDC -> USDC.e
-  ...allowErc20Approve([USDC], [contracts.gnosis.usdc_transmuter]),
-  allow.gnosis.usdc_transmuter.deposit(),
+  ...allowErc20Approve([USDC], [contracts.gnosis.usdcTransmuter]),
+  allow.gnosis.usdcTransmuter.deposit(),
 ] satisfies PermissionList

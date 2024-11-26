@@ -14,27 +14,32 @@ import { allowErc20Approve } from "../../../../../utils/erc20"
 
 export default [
   // Aave v3 - Withdraw DAI
-  allow.mainnet.aave_v3.pool_v3.withdraw(DAI, undefined, c.avatar),
+  allow.mainnet.aaveV3.lendingPoolV3.withdraw(DAI, undefined, c.avatar),
   // Aave v3 - Withdraw sDAI
-  allow.mainnet.aave_v3.pool_v3.withdraw(sDAI, undefined, c.avatar),
+  allow.mainnet.aaveV3.lendingPoolV3.withdraw(sDAI, undefined, c.avatar),
   // Aave v3 - Withdraw USDC
-  allow.mainnet.aave_v3.pool_v3.withdraw(USDC, undefined, c.avatar),
+  allow.mainnet.aaveV3.lendingPoolV3.withdraw(USDC, undefined, c.avatar),
   // Aave v3 - Repay DAI
-  ...allowErc20Approve([DAI], [contracts.mainnet.aave_v3.pool_v3]),
-  allow.mainnet.aave_v3.pool_v3.repay(DAI, undefined, undefined, c.avatar),
+  ...allowErc20Approve([DAI], [contracts.mainnet.aaveV3.lendingPoolV3]),
+  allow.mainnet.aaveV3.lendingPoolV3.repay(DAI, undefined, undefined, c.avatar),
   // Aave v3 - Repay USDC
-  ...allowErc20Approve([USDC], [contracts.mainnet.aave_v3.pool_v3]),
-  allow.mainnet.aave_v3.pool_v3.repay(USDC, undefined, undefined, c.avatar),
+  ...allowErc20Approve([USDC], [contracts.mainnet.aaveV3.lendingPoolV3]),
+  allow.mainnet.aaveV3.lendingPoolV3.repay(
+    USDC,
+    undefined,
+    undefined,
+    c.avatar
+  ),
 
   // Compound v3 - USDC
-  allow.mainnet.compound_v3.cUSDCv3.withdraw(USDC),
+  allow.mainnet.compoundV3.cUsdcV3.withdraw(USDC),
 
   // Maker - Withdraw DSR (DAI Savings Rate)
-  allow.mainnet.maker.dsr_manager.exit(c.avatar),
-  allow.mainnet.maker.dsr_manager.exitAll(c.avatar),
+  allow.mainnet.maker.dsrManager.exit(c.avatar),
+  allow.mainnet.maker.dsrManager.exitAll(c.avatar),
 
   // Morpho Blue - Withdraw wstETH/USDC
-  allow.mainnet.morpho.morpho_blue.withdraw(
+  allow.mainnet.morpho.morphoBlue.withdraw(
     {
       loanToken: USDC,
       collateralToken: wstETH,
@@ -47,7 +52,7 @@ export default [
     c.avatar
   ),
   // Morpho Blue - Withdraw WBTC/USDC
-  allow.mainnet.morpho.morpho_blue.withdraw(
+  allow.mainnet.morpho.morphoBlue.withdraw(
     {
       loanToken: USDC,
       collateralToken: WBTC,
@@ -61,24 +66,14 @@ export default [
   ),
 
   // Spark - Withdraw DSR/sDAI
-  allow.mainnet.spark.sDAI.redeem(undefined, c.avatar, c.avatar),
-  allow.mainnet.spark.sDAI.withdraw(undefined, c.avatar, c.avatar),
+  allow.mainnet.spark.sDai.redeem(undefined, c.avatar, c.avatar),
+  allow.mainnet.spark.sDai.withdraw(undefined, c.avatar, c.avatar),
   // Spark - Withdraw sDAI
-  allow.mainnet.spark.sparkLendingPoolV3.withdraw(sDAI, undefined, c.avatar),
+  allow.mainnet.spark.lendingPoolV3.withdraw(sDAI, undefined, c.avatar),
   // Spark - Repay DAI
-  ...allowErc20Approve([DAI], [contracts.mainnet.spark.sparkLendingPoolV3]),
-  allow.mainnet.spark.sparkLendingPoolV3.repay(
-    DAI,
-    undefined,
-    undefined,
-    c.avatar
-  ),
+  ...allowErc20Approve([DAI], [contracts.mainnet.spark.lendingPoolV3]),
+  allow.mainnet.spark.lendingPoolV3.repay(DAI, undefined, undefined, c.avatar),
   // Spark - Repay USDC
-  ...allowErc20Approve([USDC], [contracts.mainnet.spark.sparkLendingPoolV3]),
-  allow.mainnet.spark.sparkLendingPoolV3.repay(
-    USDC,
-    undefined,
-    undefined,
-    c.avatar
-  ),
+  ...allowErc20Approve([USDC], [contracts.mainnet.spark.lendingPoolV3]),
+  allow.mainnet.spark.lendingPoolV3.repay(USDC, undefined, undefined, c.avatar),
 ] satisfies PermissionList

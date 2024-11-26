@@ -62,18 +62,18 @@ export default [
    * Typed-presets permissions
    *********************************************/
   // Azuro - AZUR Staking and Unstaking
-  allowErc20Approve([AZUR], [contracts.mainnet.azuro.stAZUR]),
-  allow.mainnet.azuro.stAZUR.depositFor(c.avatar),
-  allow.mainnet.azuro.stAZUR.requestWithdrawal(),
-  allow.mainnet.azuro.stAZUR.withdrawTo(c.avatar),
+  allowErc20Approve([AZUR], [contracts.mainnet.azuro.stAzur]),
+  allow.mainnet.azuro.stAzur.depositFor(c.avatar),
+  allow.mainnet.azuro.stAzur.requestWithdrawal(),
+  allow.mainnet.azuro.stAzur.withdrawTo(c.avatar),
 
   // Compound v3 - USDC
-  allowErc20Approve([USDC], [contracts.mainnet.compound_v3.cUSDCv3]),
-  allow.mainnet.compound_v3.cUSDCv3.supply(USDC),
-  allow.mainnet.compound_v3.cUSDCv3.withdraw(USDC),
+  allowErc20Approve([USDC], [contracts.mainnet.compoundV3.cUsdcV3]),
+  allow.mainnet.compoundV3.cUsdcV3.supply(USDC),
+  allow.mainnet.compoundV3.cUsdcV3.withdraw(USDC),
 
   // CowSwap - vCOW
-  allow.mainnet.cowswap.vCOW.swapAll(),
+  allow.mainnet.cowSwap.vCow.swapAll(),
 
   // The Graph
   // The undelegate() was added manually to the staking contract ABI
@@ -81,13 +81,13 @@ export default [
   // and by looking to the Internal Txns of a undelegate() call
   // you can get the implementation where the undelegate() is:
   // 0xA479c00cDa8C07bce458D7a826C7b091672EB92C
-  allow.mainnet.the_graph.staking.undelegate(GRAPH_DELEGATEE),
-  allow.mainnet.the_graph.staking.unlockDelegationToTransferredIndexer(
+  allow.mainnet.theGraph.staking.undelegate(GRAPH_DELEGATEE),
+  allow.mainnet.theGraph.staking.unlockDelegationToTransferredIndexer(
     GRAPH_DELEGATEE
   ),
   // Withdraw GRT
   // _newIndexer Re-delegate to indexer address if non-zero, withdraw if zero address
-  allow.mainnet.the_graph.staking.withdrawDelegated(
+  allow.mainnet.theGraph.staking.withdrawDelegated(
     GRAPH_DELEGATEE,
     ZERO_ADDRESS
   ),
@@ -95,6 +95,6 @@ export default [
   /*********************************************
    * Bridge
    *********************************************/
-  allowErc20Approve([GRT], [contracts.mainnet.the_graph.proxy]),
+  allowErc20Approve([GRT], [contracts.mainnet.theGraph.proxy]),
   allow.mainnet.arb_l1_gateway_router.outboundTransfer(GRT, GNOSIS_LTD_ARB),
 ] satisfies PermissionList

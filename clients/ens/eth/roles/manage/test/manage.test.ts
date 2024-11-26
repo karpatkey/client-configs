@@ -2,7 +2,7 @@ import { id, keccak256, parseEther, toUtf8Bytes } from "ethers"
 import { applyPermissions, wrapEth } from "../../../../../../test/helpers"
 
 import { revertToBase } from "../../../../../../test/snapshot"
-import permissions from "../permissions_typed"
+import permissions from "../permissions"
 import { ENS, WETH, cowswap } from "../../../../../../eth-sdk/addresses"
 import { avatar } from "../../../../../../test/wallets"
 import kit from "../../../../../../test/kit"
@@ -27,7 +27,7 @@ describe("ENS", () => {
       ).not.toRevert()
 
       await expect(
-        kit.asMember.cowswap.order_signer.signOrder.delegateCall(
+        kit.asMember.cowSwap.orderSigner.signOrder.delegateCall(
           {
             sellToken: WETH,
             buyToken: ENS,
@@ -49,16 +49,16 @@ describe("ENS", () => {
     })
   })
 
-  describe("compound_v3", () => {
+  describe("compoundV3", () => {
     it("allow depositing ETH", async () => {
       await expect(
-        kit.asMember.compound_v3.cWETHv3.allow(
-          contracts.mainnet.compound_v3.MainnetBulker,
+        kit.asMember.compoundV3.cWethV3.allow(
+          contracts.mainnet.compoundV3.mainnetBulker,
           true
         )
       ).not.toRevert()
       await expect(
-        kit.asMember.compound_v3.MainnetBulker.invoke(
+        kit.asMember.compoundV3.mainnetBulker.invoke(
           [
             "0x414354494f4e5f535550504c595f4e41544956455f544f4b454e000000000000",
           ],

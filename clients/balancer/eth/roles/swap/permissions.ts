@@ -108,8 +108,8 @@ export default [
   cowswap__swap([OETH], [E_ADDRESS, rETH, stETH, WETH, wstETH], Chain.eth, 200),
 
   // Curve - Swap ETH <-> stETH
-  allowErc20Approve([stETH], [contracts.mainnet.curve.steth_eth_pool]),
-  allow.mainnet.curve.steth_eth_pool.exchange(
+  allowErc20Approve([stETH], [contracts.mainnet.curve.steCrvPool]),
+  allow.mainnet.curve.steCrvPool.exchange(
     undefined,
     undefined,
     undefined,
@@ -120,8 +120,8 @@ export default [
   ),
 
   // Curve - Swap ETH <-> OETH
-  allowErc20Approve([OETH], [contracts.mainnet.curve.OETHCRV_f_pool]),
-  allow.mainnet.curve.OETHCRV_f_pool["exchange(int128,int128,uint256,uint256)"](
+  allowErc20Approve([OETH], [contracts.mainnet.curve.oEthCrvPool]),
+  allow.mainnet.curve.oEthCrvPool["exchange(int128,int128,uint256,uint256)"](
     undefined,
     undefined,
     undefined,
@@ -132,11 +132,8 @@ export default [
   ),
 
   // Maverick - Swap GHO <-> stkGHO
-  allowErc20Approve(
-    [GHO, stkGHO],
-    [contracts.mainnet.maverick.MaverickV2Router]
-  ),
-  allow.mainnet.maverick.MaverickV2Router.inputSingleWithTickLimit(
+  allowErc20Approve([GHO, stkGHO], [contracts.mainnet.maverick.v2Router]),
+  allow.mainnet.maverick.v2Router.inputSingleWithTickLimit(
     c.avatar,
     maverick.GHO_stkGHO_pool
   ),
@@ -157,11 +154,11 @@ export default [
       WETH,
       wstETH,
     ],
-    [contracts.mainnet.uniswap_v3.router_2]
+    [contracts.mainnet.uniswapV3.router2]
   ),
 
   // Uniswap v3 - Swapping of tokens AAVE, COMP, DAI, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH
-  allow.mainnet.uniswap_v3.router_2.exactInputSingle({
+  allow.mainnet.uniswapV3.router2.exactInputSingle({
     tokenIn: c.or(
       AAVE,
       COMP,

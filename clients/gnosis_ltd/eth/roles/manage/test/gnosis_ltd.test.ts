@@ -16,7 +16,7 @@ describe("GnosisLTD", () => {
   describe("lido", () => {
     it("deposit", async () => {
       await expect(
-        kit.asMember.lido.stETH.submit(ZERO_ADDRESS, {
+        kit.asMember.lido.stEth.submit(ZERO_ADDRESS, {
           value: parseEther("1"),
         })
       ).not.toRevert()

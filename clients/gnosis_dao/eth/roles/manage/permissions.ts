@@ -122,11 +122,9 @@ export default [
   // Angle - wstETH-EUR-Vault
   ...allowErc20Approve(
     [wstETH, EURA],
-    [contracts.mainnet.angle.wstETH_EUR_Vault]
+    [contracts.mainnet.angle.wstEthEurVault]
   ),
-  allow.mainnet.angle.wstETH_EUR_Vault[
-    "angle(uint8[],bytes[],address,address)"
-  ](
+  allow.mainnet.angle.wstEthEurVault["angle(uint8[],bytes[],address,address)"](
     c.every(
       c.or(
         1, // closeVault
@@ -153,17 +151,17 @@ export default [
   ),
 
   // Autonolas - OLAS Lock
-  ...allowErc20Approve([OLAS], [contracts.mainnet.autonolas.veolas]),
-  allow.mainnet.autonolas.veolas.createLock(),
-  allow.mainnet.autonolas.veolas.increaseAmount(),
-  allow.mainnet.autonolas.veolas.increaseUnlockTime(),
+  ...allowErc20Approve([OLAS], [contracts.mainnet.autonolas.veOlas]),
+  allow.mainnet.autonolas.veOlas.createLock(),
+  allow.mainnet.autonolas.veOlas.increaseAmount(),
+  allow.mainnet.autonolas.veOlas.increaseUnlockTime(),
   // Autonolas - OLAS Withdraw
-  allow.mainnet.autonolas.veolas.withdraw(),
+  allow.mainnet.autonolas.veOlas.withdraw(),
 
   // Enzyme - Diva stETH Vault
   // Deposit ETH
-  allow.mainnet.enzyme.deposit_wrapper_2.exchangeEthAndBuyShares(
-    contracts.mainnet.enzyme.Diva_stETH_Vault,
+  allow.mainnet.enzyme.depositWrapper2.exchangeEthAndBuyShares(
+    contracts.mainnet.enzyme.divaStEthVault,
     undefined,
     "0xDEF171Fe48CF0115B1d80b88dc8eAB59176FEe57", // Paraswap v5: Augustus Swapper Mainnet
     "0x216B4B4Ba9F3e719726886d34a177484278Bfcae", // Paraswap v5: Token TransferProxy Mainnet
@@ -174,41 +172,41 @@ export default [
     }
   ),
   // Deposit stETH
-  ...allowErc20Approve([stETH], [contracts.mainnet.enzyme.Diva_stETH_Vault]),
-  allow.mainnet.enzyme.Diva_stETH_Vault.buyShares(),
+  ...allowErc20Approve([stETH], [contracts.mainnet.enzyme.divaStEthVault]),
+  allow.mainnet.enzyme.divaStEthVault.buyShares(),
   // Withdraw stETH
-  allow.mainnet.enzyme.Diva_stETH_Vault.redeemSharesInKind(c.avatar),
-  allow.mainnet.enzyme.Diva_stETH_Vault.redeemSharesForSpecificAssets(
+  allow.mainnet.enzyme.divaStEthVault.redeemSharesInKind(c.avatar),
+  allow.mainnet.enzyme.divaStEthVault.redeemSharesForSpecificAssets(
     c.avatar,
     undefined,
     [stETH]
   ),
 
   // Merkl (Angle) - Claim
-  allow.mainnet.merkl.angle_distributor.claim([avatar], [GHO]),
+  allow.mainnet.merkl.angleDistributor.claim([avatar], [GHO]),
 
   // SAFE - Claim
-  allow.mainnet.safe.ecosystem_airdrop.claimVestedTokens(undefined, c.avatar),
-  allow.mainnet.safe.user_airdrop.claimVestedTokens(undefined, c.avatar),
-  allow.mainnet.safe.user_airdrop_sep5.claimVestedTokens(undefined, c.avatar),
+  allow.mainnet.safe.ecosystemAirdrop.claimVestedTokens(undefined, c.avatar),
+  allow.mainnet.safe.userAirdrop.claimVestedTokens(undefined, c.avatar),
+  allow.mainnet.safe.userAirdropSep5.claimVestedTokens(undefined, c.avatar),
   // SAFE - Lock
-  ...allowErc20Approve([SAFE], [contracts.mainnet.safe.token_lock]),
-  allow.mainnet.safe.token_lock.lock(),
+  ...allowErc20Approve([SAFE], [contracts.mainnet.safe.tokenLock]),
+  allow.mainnet.safe.tokenLock.lock(),
 
   // Sommelier - TurboDIVETH
   ...allowErc20Approve(
     [balancer.B_rETH_stable],
-    [contracts.mainnet.sommelier.TurboDIVETH]
+    [contracts.mainnet.sommelier.turboDivEth]
   ),
-  allow.mainnet.sommelier.TurboDIVETH.deposit(undefined, c.avatar),
-  allow.mainnet.sommelier.TurboDIVETH.redeem(undefined, c.avatar, c.avatar),
+  allow.mainnet.sommelier.turboDivEth.deposit(undefined, c.avatar),
+  allow.mainnet.sommelier.turboDivEth.redeem(undefined, c.avatar, c.avatar),
 
   // StakeWise v3 - Chorus One - MEV Max
-  allow.mainnet.stakewise_v3.chrorus_one_mev_max.deposit(c.avatar, undefined, {
+  allow.mainnet.stakeWiseV3.chrorusOneMevMax.deposit(c.avatar, undefined, {
     send: true,
   }),
-  allow.mainnet.stakewise_v3.chrorus_one_mev_max.updateState(),
-  allow.mainnet.stakewise_v3.chrorus_one_mev_max.updateStateAndDeposit(
+  allow.mainnet.stakeWiseV3.chrorusOneMevMax.updateState(),
+  allow.mainnet.stakeWiseV3.chrorusOneMevMax.updateStateAndDeposit(
     c.avatar,
     undefined,
     undefined,
@@ -216,11 +214,11 @@ export default [
       send: true,
     }
   ),
-  allow.mainnet.stakewise_v3.chrorus_one_mev_max.mintOsToken(c.avatar),
-  allow.mainnet.stakewise_v3.chrorus_one_mev_max.burnOsToken(),
-  allow.mainnet.stakewise_v3.chrorus_one_mev_max.enterExitQueue(
+  allow.mainnet.stakeWiseV3.chrorusOneMevMax.mintOsToken(c.avatar),
+  allow.mainnet.stakeWiseV3.chrorusOneMevMax.burnOsToken(),
+  allow.mainnet.stakeWiseV3.chrorusOneMevMax.enterExitQueue(
     undefined,
     c.avatar
   ),
-  allow.mainnet.stakewise_v3.chrorus_one_mev_max.claimExitedAssets(),
+  allow.mainnet.stakeWiseV3.chrorusOneMevMax.claimExitedAssets(),
 ] satisfies PermissionList

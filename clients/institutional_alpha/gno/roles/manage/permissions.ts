@@ -79,36 +79,36 @@ export default [
   balancer__swap(balancer.staBAL3_pId, [USDC, WXDAI], [USDC, WXDAI]),
 
   // Swap USDC.e -> USDC
-  ...allowErc20Approve([USDCe], [contracts.gnosis.usdc_transmuter]),
-  allow.gnosis.usdc_transmuter.withdraw(),
+  ...allowErc20Approve([USDCe], [contracts.gnosis.usdcTransmuter]),
+  allow.gnosis.usdcTransmuter.withdraw(),
   // Swap USDC -> USDC.e
-  ...allowErc20Approve([USDC], [contracts.gnosis.usdc_transmuter]),
-  allow.gnosis.usdc_transmuter.deposit(),
+  ...allowErc20Approve([USDC], [contracts.gnosis.usdcTransmuter]),
+  allow.gnosis.usdcTransmuter.deposit(),
 
   /*********************************************
    * Bridge
    *********************************************/
   // Bridge - Gnosis -> Mainnet
   // XDAI (Gnosis) -> DAI (Mainnet)
-  allow.gnosis.xdai_bridge_2.relayTokens(c.avatar, {
+  allow.gnosis.xdaiBridge2.relayTokens(c.avatar, {
     send: true,
   }),
   // XDAI (Gnosis) -> DAI (Mainnet) - HOP
-  allow.gnosis.hop_dai_wrapper.swapAndSend(
+  allow.gnosis.hopDaiWrapper.swapAndSend(
     1, // Mainnet
     c.avatar
   ),
 
   // // COMP (Gnosis) -> COMP (Mainnet)
   // allow.gnosis.comp.transferAndCall(
-  //   contracts.gnosis.xdai_bridge,
+  //   contracts.gnosis.xdaiBridge,
   //   undefined,
   //   avatar
   // ),
 
   // USDC (Gnosis) -> USDC (Mainnet)
   allow.gnosis.usdc.transferAndCall(
-    contracts.gnosis.xdai_bridge,
+    contracts.gnosis.xdaiBridge,
     undefined,
     avatar
   ),
