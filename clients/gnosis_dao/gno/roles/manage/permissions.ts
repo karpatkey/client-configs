@@ -15,7 +15,7 @@ import {
   wstETH,
   WXDAI,
   x3CRV,
-  ZERO_ADDRESS,
+  zeroAddress,
   curve,
 } from "../../../../../eth-sdk/addresses_gno"
 import { contracts } from "../../../../../eth-sdk/config"
@@ -179,7 +179,7 @@ export default [
     addData: {
       vault: contracts.gnosis.arrakis.wethSdaiVault,
       receiver: c.avatar,
-      gauge: ZERO_ADDRESS,
+      gauge: zeroAddress,
     },
     permit: {
       permitted: c.every({
@@ -196,7 +196,7 @@ export default [
     removeData: {
       vault: contracts.gnosis.arrakis.wethSdaiVault,
       receiver: c.avatar,
-      gauge: ZERO_ADDRESS,
+      gauge: zeroAddress,
     },
     permit: {
       permitted: {
@@ -214,7 +214,7 @@ export default [
     addData: {
       vault: contracts.gnosis.arrakis.wethWstEthVault,
       receiver: c.avatar,
-      gauge: ZERO_ADDRESS,
+      gauge: zeroAddress,
     },
     permit: {
       permitted: c.every({
@@ -231,7 +231,7 @@ export default [
     removeData: {
       vault: contracts.gnosis.arrakis.wethWstEthVault,
       receiver: c.avatar,
-      gauge: ZERO_ADDRESS,
+      gauge: zeroAddress,
     },
     permit: {
       permitted: {
@@ -305,7 +305,7 @@ export default [
     "remove_liquidity_one_coin(uint256,uint256,uint256)"
   ](),
   ...allowErc20Approve(
-    [curve.crvEUReUSD],
+    [curve.crvEureUsd],
     [contracts.gnosis.curve.crvEureUsdGauge]
   ),
   allow.gnosis.curve.crvEureUsdGauge["deposit(uint256)"](),

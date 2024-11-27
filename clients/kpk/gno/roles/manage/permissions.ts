@@ -9,7 +9,7 @@ import {
   WETH,
   wstETH,
   WXDAI,
-  E_ADDRESS,
+  eAddress,
 } from "../../../../../eth-sdk/addresses_gno"
 
 export default [
@@ -19,7 +19,7 @@ export default [
   // CowSwap - Holdings swaps
   allowAction.cowswap.swap({
     sell: [USDC, USDT, sDAI],
-    buy: [E_ADDRESS, USDC, USDT, WETH, WXDAI],
+    buy: [eAddress, USDC, USDT, WETH, WXDAI],
   }),
   allowAction.cowswap.swap({
     sell: [WXDAI],
@@ -31,7 +31,7 @@ export default [
   }),
   allowAction.cowswap.swap({
     sell: [CRV],
-    buy: [E_ADDRESS, USDC, WXDAI],
+    buy: [eAddress, USDC, WXDAI],
   }),
 
   // Spark - DSR/sDAI

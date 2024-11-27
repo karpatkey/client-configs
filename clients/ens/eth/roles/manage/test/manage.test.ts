@@ -3,7 +3,7 @@ import { applyPermissions, wrapEth } from "../../../../../../test/helpers"
 
 import { revertToBase } from "../../../../../../test/snapshot"
 import permissions from "../permissions"
-import { ENS, WETH, cowswap } from "../../../../../../eth-sdk/addresses"
+import { ENS, WETH, cowSwap } from "../../../../../../eth-sdk/addresses"
 import { avatar } from "../../../../../../test/wallets"
 import kit from "../../../../../../test/kit"
 import { contracts } from "../../../../../../eth-sdk/config"
@@ -20,10 +20,10 @@ describe("ENS", () => {
     await wrapEth(parseEther("1"))
   })
 
-  describe("cowswap", () => {
+  describe("cowSwap", () => {
     it("Forbid swapping WETH to ENS", async () => {
       await expect(
-        kit.asMember.weth.approve(cowswap.GPv2_VAULT_RELAYER, parseEther("1"))
+        kit.asMember.weth.approve(cowSwap.gpv2VaultRelayer, parseEther("1"))
       ).not.toRevert()
 
       await expect(

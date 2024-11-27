@@ -17,14 +17,14 @@ export default [
 
   // Aura - wstETH/COW
   aura__withdraw_balancer(
-    aura.aura50WSTETH_50COW_rewarder,
-    balancer.B_50WSTETH_50COW_pId
+    aura.aura50WstEth50CowRewarder,
+    balancer.b50WstEth50CowPid
   ),
 
   // Balancer - GBPe/sDAI
-  balancer__withdraw(balancer.B_GBPe_sDAI_pId),
+  balancer__withdraw(balancer.bGbpeSdaiPid),
   // Balancer - wstETH/COW
-  balancer__unstake_withdraw(Chain.gno, balancer.B_50wstETH_50COW_gauge),
+  balancer__unstake_withdraw(Chain.gno, balancer.b50WstEth50CowGauge),
 
   // Curve - EURe/x3CRV
   allow.gnosis.curve.crvEureUsdPool["remove_liquidity(uint256,uint256[2])"](),

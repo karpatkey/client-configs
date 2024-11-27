@@ -7,7 +7,7 @@ import { parseUnits } from "ethers"
 import { USDC } from "../../../../../../eth-sdk/addresses"
 import { avatar as institutional_avatar } from "../../../index"
 
-describe("Institutional", () => {
+describe("institutional", () => {
   beforeAll(async () => {
     // fresh role with Institutional manage permissions
     await revertToBase()

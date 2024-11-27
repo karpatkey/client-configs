@@ -15,7 +15,7 @@ import {
   aura,
   balancer,
   convex,
-  E_ADDRESS,
+  eAddress,
 } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
@@ -45,8 +45,8 @@ export default [
 
   // Aura - wstETH/WETH
   aura__withdraw_balancer(
-    aura.auraB_stETH_stable_rewarder,
-    balancer.B_stETH_stable_pid
+    aura.auraBstEthStableRewarder,
+    balancer.bStEthStablePid
   ),
 
   // Aura - Lock
@@ -62,10 +62,10 @@ export default [
   allow.mainnet.compoundV3.cUsdcV3.withdraw(USDC),
 
   // Convex - USDT/WBTC/WETH
-  convex__withdraw(convex.crvUSDTWBTCWETH_rewarder),
+  convex__withdraw(convex.crvUsdtWbtcWethRewarder),
 
   // Convex - GHO/WBTC/wstETH
-  convex__withdraw(convex.GHOBTCwstE_rewarder),
+  convex__withdraw(convex.ghoBtcWstEthRewarder),
 
   // Curve - USDT/WBTC/WETH
   allow.mainnet.curve.crvUsdtWbtcWethPool[
@@ -118,26 +118,26 @@ export default [
    * SWAPS
    *********************************************/
   // Balancer - Swap rETH <-> WETH
-  balancer__swap(balancer.B_rETH_stable_pid, [rETH, WETH], [rETH, WETH]),
+  balancer__swap(balancer.bREthStablePid, [rETH, WETH], [rETH, WETH]),
 
   // Balancer - Swap WETH <-> wstETH
-  balancer__swap(balancer.B_stETH_stable_pid, [WETH, wstETH], [wstETH, WETH]),
+  balancer__swap(balancer.bStEthStablePid, [WETH, wstETH], [wstETH, WETH]),
 
   // CowSwap - Holdings
   cowswap__swap([DAI, USDC, USDT], [DAI, USDC, USDT, WETH], Chain.eth),
   cowswap__swap([CRV, COMP, CVX, NOTE], [DAI, USDC], Chain.eth),
 
   // CowSwap - DAI -> [ETH, USDC, USDT]
-  cowswap__swap([DAI], [E_ADDRESS, USDC, USDT], Chain.eth),
+  cowswap__swap([DAI], [eAddress, USDC, USDT], Chain.eth),
 
-  // CowSwap - USDT -> [USDC, DAI, E_ADDRESS]
-  cowswap__swap([USDT], [USDC, DAI, E_ADDRESS], Chain.eth),
+  // CowSwap - USDT -> [USDC, DAI, eAddress]
+  cowswap__swap([USDT], [USDC, DAI, eAddress], Chain.eth),
 
-  // Cowswap - USDC -> [DAI, USDT, E_ADDRESS]
-  cowswap__swap([USDC], [DAI, USDT, E_ADDRESS], Chain.eth),
+  // Cowswap - USDC -> [DAI, USDT, eAddress]
+  cowswap__swap([USDC], [DAI, USDT, eAddress], Chain.eth),
 
   // Cowswap - [ETH, WETH] -> [DAI, USDT, USDC]
-  cowswap__swap([E_ADDRESS, WETH], [DAI, USDT, USDC], Chain.eth),
+  cowswap__swap([eAddress, WETH], [DAI, USDT, USDC], Chain.eth),
 
   // Curve - Swaps in 3pool
   ...allowErc20Approve([DAI, USDC, USDT], [contracts.mainnet.curve.x3CrvPool]),

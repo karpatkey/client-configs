@@ -2,7 +2,7 @@ import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { allow as allowAction } from "defi-kit/eth"
 import {
-  ZERO_ADDRESS,
+  zeroAddress,
   AAVE,
   AURA,
   BAL,
@@ -188,7 +188,7 @@ export default [
     undefined,
     undefined,
     undefined,
-    ZERO_ADDRESS
+    zeroAddress
   ),
 
   // Ethena - Stake USDe
@@ -215,8 +215,8 @@ export default [
     {
       loanToken: USDC,
       collateralToken: wstETH,
-      oracle: morpho.Oracle_wstETH_USDC,
-      irm: morpho.Adaptative_Curve_IRM,
+      oracle: morpho.oracleWstEthUsdc,
+      irm: morpho.adaptativeCurveIrm,
     },
     undefined,
     undefined,
@@ -227,8 +227,8 @@ export default [
     {
       loanToken: USDC,
       collateralToken: wstETH,
-      oracle: morpho.Oracle_wstETH_USDC,
-      irm: morpho.Adaptative_Curve_IRM,
+      oracle: morpho.oracleWstEthUsdc,
+      irm: morpho.adaptativeCurveIrm,
     },
     undefined,
     undefined,
@@ -241,8 +241,8 @@ export default [
     {
       loanToken: USDC,
       collateralToken: WBTC,
-      oracle: morpho.Oracle_WBTC_USDC,
-      irm: morpho.Adaptative_Curve_IRM,
+      oracle: morpho.oracleWbtcUsdc,
+      irm: morpho.adaptativeCurveIrm,
     },
     undefined,
     undefined,
@@ -253,8 +253,8 @@ export default [
     {
       loanToken: USDC,
       collateralToken: WBTC,
-      oracle: morpho.Oracle_WBTC_USDC,
-      irm: morpho.Adaptative_Curve_IRM,
+      oracle: morpho.oracleWbtcUsdc,
+      irm: morpho.adaptativeCurveIrm,
     },
     undefined,
     undefined,
@@ -267,8 +267,8 @@ export default [
     {
       loanToken: USDT,
       collateralToken: WBTC,
-      oracle: morpho.Oracle_WBTC_USDT,
-      irm: morpho.Adaptative_Curve_IRM,
+      oracle: morpho.oracleWbtcUsdt,
+      irm: morpho.adaptativeCurveIrm,
     },
     undefined,
     undefined,
@@ -279,8 +279,8 @@ export default [
     {
       loanToken: USDT,
       collateralToken: WBTC,
-      oracle: morpho.Oracle_WBTC_USDT,
-      irm: morpho.Adaptative_Curve_IRM,
+      oracle: morpho.oracleWbtcUsdt,
+      irm: morpho.adaptativeCurveIrm,
     },
     undefined,
     undefined,
@@ -352,14 +352,10 @@ export default [
    * Swaps
    *********************************************/
   // Balancer - Swap GYD <-> sDAI
-  balancer__swap(balancer.ECLP_GYD_sDAI_2_pId, [GYD, sDAI], [GYD, sDAI]),
+  balancer__swap(balancer.eclpGydSdai2Pid, [GYD, sDAI], [GYD, sDAI]),
 
   // Balancer - Swap [GHO, USDC, USDT] <-> [GHO, USDC, USDT]
-  balancer__swap(
-    balancer.GHO_USDT_USDC_pId,
-    [GHO, USDC, USDT],
-    [GHO, USDC, USDT]
-  ),
+  balancer__swap(balancer.ghoUsdtUsdcPid, [GHO, USDC, USDT], [GHO, USDC, USDT]),
 
   // Curve - 3pool - Swap [DAI, USDC, USDT] <-> [DAI, USDC, USDT]
   ...allowErc20Approve([DAI, USDC, USDT], [contracts.mainnet.curve.x3CrvPool]),

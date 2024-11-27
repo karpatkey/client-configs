@@ -24,8 +24,8 @@ export default [
     {
       loanToken: USDC,
       collateralToken: cbETH,
-      oracle: morpho.Oracle_cbETH_USDC,
-      irm: morpho.Adaptative_Curve_IRM,
+      oracle: morpho.oracleCbEthUsdc,
+      irm: morpho.adaptativeCurveIrm,
     },
     undefined,
     undefined,
@@ -36,8 +36,8 @@ export default [
     {
       loanToken: USDC,
       collateralToken: cbETH,
-      oracle: morpho.Oracle_cbETH_USDC,
-      irm: morpho.Adaptative_Curve_IRM,
+      oracle: morpho.oracleCbEthUsdc,
+      irm: morpho.adaptativeCurveIrm,
     },
     undefined,
     undefined,

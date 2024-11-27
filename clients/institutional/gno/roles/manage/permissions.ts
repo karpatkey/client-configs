@@ -6,7 +6,7 @@ import {
   USDC,
   USDCe,
   WXDAI,
-  E_ADDRESS,
+  eAddress,
   balancer,
 } from "../../../../../eth-sdk/addresses_gno"
 import { contracts } from "../../../../../eth-sdk/config"
@@ -34,10 +34,10 @@ export default [
   // Aave v3 - Borrow XDAI
   allowAction.aave_v3.borrow({ targets: ["XDAI"] }),
 
-  // CowSwap - [sDAI, USDC, USDCe, WXDAI] -> [E_ADDRESS, sDAI, USDC, USDCe, WXDAI]
+  // CowSwap - [sDAI, USDC, USDCe, WXDAI] -> [eAddress, sDAI, USDC, USDCe, WXDAI]
   allowAction.cowswap.swap({
     sell: [sDAI, USDC, USDCe, WXDAI],
-    buy: [E_ADDRESS, sDAI, USDC, USDCe, WXDAI],
+    buy: [eAddress, sDAI, USDC, USDCe, WXDAI],
   }),
 
   // Spark - DSR/sDAI
@@ -68,13 +68,13 @@ export default [
    * Swaps
    *********************************************/
   // Balancer - USDT/sDAI/USDC Pool - Swap sDAI <-> USDC
-  balancer__swap(balancer.sBAL3_pId, [sDAI, USDC], [sDAI, USDC]),
+  balancer__swap(balancer.sBal3Pid, [sDAI, USDC], [sDAI, USDC]),
 
   // Balancer - USDT/sDAI/USDC.e pool - Swap sDAI <-> USDC.e
-  balancer__swap(balancer.sBAL3_2_pId, [sDAI, USDCe], [sDAI, USDCe]),
+  balancer__swap(balancer.sBAL3NewPid, [sDAI, USDCe], [sDAI, USDCe]),
 
   // Balancer - USDT/USDC/WXDAI pool - Swap USDC <-> WXDAI
-  balancer__swap(balancer.staBAL3_pId, [USDC, WXDAI], [USDC, WXDAI]),
+  balancer__swap(balancer.staBal3Pid, [USDC, WXDAI], [USDC, WXDAI]),
 
   // Swap USDC.e -> USDC
   ...allowErc20Approve([USDCe], [contracts.gnosis.usdcTransmuter]),

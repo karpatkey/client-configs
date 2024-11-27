@@ -2,7 +2,7 @@ import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { contracts } from "../../../../../eth-sdk/config"
 import {
-  E_ADDRESS,
+  eAddress,
   DAI,
   rETH,
   sDAI,
@@ -12,7 +12,7 @@ import {
   WETH,
   wstETH,
   balancer,
-  ZERO_ADDRESS,
+  zeroAddress,
 } from "../../../../../eth-sdk/addresses"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
@@ -57,29 +57,29 @@ export default [
   // _newIndexer Re-delegate to indexer address if non-zero, withdraw if zero address
   allow.mainnet.theGraph.staking.withdrawDelegated(
     GRAPH_DELEGATEE,
-    ZERO_ADDRESS
+    zeroAddress
   ),
 
   /*********************************************
    * SWAPS
    *********************************************/
   // Balancer - Swap rETH <-> WETH
-  balancer__swap(balancer.B_rETH_stable_pid, [rETH, WETH], [rETH, WETH]),
+  balancer__swap(balancer.bREthStablePid, [rETH, WETH], [rETH, WETH]),
 
   // Balancer - Swap WETH <-> wstETH
-  balancer__swap(balancer.B_stETH_stable_pid, [WETH, wstETH], [wstETH, WETH]),
+  balancer__swap(balancer.bStEthStablePid, [WETH, wstETH], [wstETH, WETH]),
 
-  // CowSwap - DAI -> [USDC, USDT, E_ADDRESS]
-  cowswap__swap([DAI], [USDC, USDT, E_ADDRESS], Chain.eth),
+  // CowSwap - DAI -> [USDC, USDT, eAddress]
+  cowswap__swap([DAI], [USDC, USDT, eAddress], Chain.eth),
 
-  // CowSwap - USDT -> [USDC, DAI, E_ADDRESS]
-  cowswap__swap([USDT], [USDC, DAI, E_ADDRESS], Chain.eth),
+  // CowSwap - USDT -> [USDC, DAI, eAddress]
+  cowswap__swap([USDT], [USDC, DAI, eAddress], Chain.eth),
 
-  // Cowswap - USDC -> [DAI, USDT, E_ADDRESS]
-  cowswap__swap([USDC], [DAI, USDT, E_ADDRESS], Chain.eth),
+  // Cowswap - USDC -> [DAI, USDT, eAddress]
+  cowswap__swap([USDC], [DAI, USDT, eAddress], Chain.eth),
 
   // Cowswap - [ETH, WETH] -> [DAI, USDT, USDC]
-  cowswap__swap([E_ADDRESS, WETH], [DAI, USDT, USDC], Chain.eth),
+  cowswap__swap([eAddress, WETH], [DAI, USDT, USDC], Chain.eth),
 
   // CowSwap - DAI <> USDC
   cowswap__swap([DAI, USDC], [DAI, USDC], Chain.eth),

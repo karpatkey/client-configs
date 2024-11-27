@@ -15,7 +15,7 @@ import {
   wstETH,
   aura,
   balancer,
-  E_ADDRESS,
+  eAddress,
 } from "../../../../../eth-sdk/addresses"
 import { PermissionList } from "../../../../../types"
 import {
@@ -98,26 +98,23 @@ export default [
 
   // Aura - auraBAL
   aura__withdraw_balancer(
-    aura.auraB_auraBAL_stable_rewarder,
-    balancer.B_auraBAL_stable_pId
+    aura.auraBauraBalStableRewarder,
+    balancer.bAuraBalStablePid
   ),
 
   // Aura - COW/GNO
-  aura__withdraw_balancer(
-    aura.aura50COW_50GNO_rewarder,
-    balancer.B_50COW_50GNO_pId
-  ),
+  aura__withdraw_balancer(aura.aura50Cow50GnoRewarder, balancer.b50Cow50GnoPid),
 
   // Aura - COW/WETH
   aura__withdraw_balancer(
-    aura.aura50COW_50WETH_rewarder,
-    balancer.B_50COW_50WETH_pId
+    aura.aura50Cow50WethRewarder,
+    balancer.b50Cow50WethPid
   ),
 
   // Aura - rETH/WETH
   aura__withdraw_balancer(
-    aura.auraB_rETH_stable_rewarder,
-    balancer.B_rETH_stable_pid
+    aura.auraBrEthStableRewarder,
+    balancer.bREthStablePid
   ),
 
   // Aura - Lock
@@ -132,18 +129,18 @@ export default [
   allow.mainnet.autonolas.veOlas.withdraw(),
 
   // Balancer - auraBAL / B-80BAL-20WETH
-  balancer__unstake_withdraw(Chain.eth, balancer.B_auraBAL_STABLE_gauge),
+  balancer__unstake_withdraw(Chain.eth, balancer.bAuraBalStableGauge),
   // Balancer - B-80BAL-20WETH
-  balancer__withdraw(balancer.B_80BAL_20WETH_pId),
+  balancer__withdraw(balancer.b80Bal20WethPid),
 
   // Balancer - COW/GNO
-  balancer__unstake_withdraw(Chain.eth, balancer.B_50COW_50GNO_gauge),
+  balancer__unstake_withdraw(Chain.eth, balancer.b50Cow50GnoGauge),
 
   // Balancer - COW/WETH
-  balancer__unstake_withdraw(Chain.eth, balancer.B_50COW_50WETH_gauge),
+  balancer__unstake_withdraw(Chain.eth, balancer.b50Cow50WethGauge),
 
   // Balancer - rETH/WETH
-  balancer__unstake_withdraw(Chain.eth, balancer.B_rETH_stable_gauge),
+  balancer__unstake_withdraw(Chain.eth, balancer.bREthStableGauge),
 
   // Balancer - Lock
   allow.mainnet.balancer.veBal.withdraw(),
@@ -190,22 +187,22 @@ export default [
    * SWAPS
    *********************************************/
   // Balancer - Swap rETH <-> WETH
-  balancer__swap(balancer.B_rETH_stable_pid, [rETH, WETH], [rETH, WETH]),
+  balancer__swap(balancer.bREthStablePid, [rETH, WETH], [rETH, WETH]),
 
   // Balancer - Swap WETH <-> wstETH
-  balancer__swap(balancer.B_stETH_stable_pid, [WETH, wstETH], [wstETH, WETH]),
+  balancer__swap(balancer.bStEthStablePid, [WETH, wstETH], [wstETH, WETH]),
 
   // CowSwap - DAI -> [ETH, USDC, USDT]
-  cowswap__swap([DAI], [E_ADDRESS, USDC, USDT], Chain.eth),
+  cowswap__swap([DAI], [eAddress, USDC, USDT], Chain.eth),
 
-  // CowSwap - USDT -> [USDC, DAI, E_ADDRESS]
-  cowswap__swap([USDT], [USDC, DAI, E_ADDRESS], Chain.eth),
+  // CowSwap - USDT -> [USDC, DAI, eAddress]
+  cowswap__swap([USDT], [USDC, DAI, eAddress], Chain.eth),
 
-  // Cowswap - USDC -> [DAI, USDT, E_ADDRESS]
-  cowswap__swap([USDC], [DAI, USDT, E_ADDRESS], Chain.eth),
+  // Cowswap - USDC -> [DAI, USDT, eAddress]
+  cowswap__swap([USDC], [DAI, USDT, eAddress], Chain.eth),
 
   // Cowswap - [ETH, WETH] -> [DAI, USDT, USDC]
-  cowswap__swap([E_ADDRESS, WETH], [DAI, USDT, USDC], Chain.eth),
+  cowswap__swap([eAddress, WETH], [DAI, USDT, USDC], Chain.eth),
 
   // CowSwap - DAI <> USDT
   cowswap__swap([DAI, USDT], [DAI, USDT], Chain.eth),

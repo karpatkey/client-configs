@@ -2,8 +2,8 @@ import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { allow as allowAction } from "defi-kit/eth"
 import {
-  E_ADDRESS,
-  ZERO_ADDRESS,
+  eAddress,
+  zeroAddress,
   AAVE,
   COMP,
   DAI,
@@ -195,12 +195,12 @@ export default [
     contracts.mainnet.curve.oEthCrvPool,
     contracts.mainnet.curve.oEthCrvGauge,
     2,
-    [E_ADDRESS, OETH],
+    [eAddress, OETH],
     undefined,
     undefined,
     undefined,
     undefined,
-    ZERO_ADDRESS,
+    zeroAddress,
     { send: true }
   ),
 
@@ -254,41 +254,41 @@ export default [
    * SWAPS
    *********************************************/
   // Balancer - Swap COMP -> WETH
-  balancer__swap(balancer.B_50COMP_50WETH_pId, [COMP], [WETH]),
+  balancer__swap(balancer.b50Comp50WethPid, [COMP], [WETH]),
 
   // Balancer - Swap WETH -> DAI
-  balancer__swap(balancer.B_60WETH_40DAI_pId, [WETH], [DAI]),
+  balancer__swap(balancer.b60Weth40DaiPid, [WETH], [DAI]),
 
   // Balancer - Swap WETH -> USDC
-  balancer__swap(balancer.B_50USDC_50WETH_pId, [WETH], [USDC]),
+  balancer__swap(balancer.b50Usdc50WethPid, [WETH], [USDC]),
 
   // Balancer - Swap WETH <-> wstETH
-  balancer__swap(balancer.B_stETH_stable_pid, [WETH, wstETH], [WETH, wstETH]),
+  balancer__swap(balancer.bStEthStablePid, [WETH, wstETH], [WETH, wstETH]),
 
   // Balancer - Swap WETH <-> wstETH
-  balancer__swap(balancer.ECLP_wstETH_wETH_pId, [WETH, wstETH], [WETH, wstETH]),
+  balancer__swap(balancer.eclpWstEthWethPid, [WETH, wstETH], [WETH, wstETH]),
 
   // Balancer - Swap rETH <-> WETH
-  balancer__swap(balancer.B_rETH_stable_pid, [rETH, WETH], [rETH, WETH]),
+  balancer__swap(balancer.bREthStablePid, [rETH, WETH], [rETH, WETH]),
 
   // Balancer - Swap GYD <-> USDT
-  balancer__swap(balancer.ECLP_GYD_USDT_pId, [GYD, USDT], [GYD, USDT]),
+  balancer__swap(balancer.eclpGydUsdtPid, [GYD, USDT], [GYD, USDT]),
 
   // Balancer - Swap GYD <-> sDAI
-  balancer__swap(balancer.ECLP_GYD_sDAI_pId, [GYD, sDAI], [GYD, sDAI]),
+  balancer__swap(balancer.eclpGydSdaiPid, [GYD, sDAI], [GYD, sDAI]),
 
   // Balancer - Swap GYD <-> sDAI
-  balancer__swap(balancer.ECLP_GYD_sDAI_2_pId, [GYD, sDAI], [GYD, sDAI]),
+  balancer__swap(balancer.eclpGydSdai2Pid, [GYD, sDAI], [GYD, sDAI]),
 
   // Balancer - Swap GYD <-> USDC
-  balancer__swap(balancer.ECLP_GYD_USDC_pId, [GYD, USDC], [GYD, USDC]),
+  balancer__swap(balancer.eclpGydUsdcPid, [GYD, USDC], [GYD, USDC]),
 
   // Balancer - Swap GHO <-> GYD
-  balancer__swap(balancer.ECLP_GHO_GYD_pId, [GHO, GYD], [GHO, GYD]),
+  balancer__swap(balancer.eclpGhoGydPid, [GHO, GYD], [GHO, GYD]),
 
   // Balancer - Swap GHO <-> [USDC, USDT]
-  balancer__swap(balancer.GHO_USDT_USDC_pId, [GHO], [USDC, USDT]),
-  balancer__swap(balancer.GHO_USDT_USDC_pId, [USDC, USDT], [GHO]),
+  balancer__swap(balancer.ghoUsdtUsdcPid, [GHO], [USDC, USDT]),
+  balancer__swap(balancer.ghoUsdtUsdcPid, [USDC, USDT], [GHO]),
 
   // Curve - Swap ETH <-> stETH
   allowErc20Approve([stETH], [contracts.mainnet.curve.steCrvPool]),
@@ -318,7 +318,7 @@ export default [
   allowErc20Approve([GHO, stkGHO], [contracts.mainnet.maverick.v2Router]),
   allow.mainnet.maverick.v2Router.inputSingleWithTickLimit(
     c.avatar,
-    maverick.GHO_stkGHO_pool
+    maverick.ghoStkGhoPool
   ),
 
   // Uniswap v3 - Swaps

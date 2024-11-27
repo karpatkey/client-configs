@@ -5,7 +5,7 @@ import { revertToBase } from "../../../../../../test/snapshot"
 import permissions from "./permissions"
 import kit from "../../../../../../test/kit"
 
-describe("AuraRelocker", () => {
+describe("auraRelocker", () => {
   beforeAll(async () => {
     // fresh role with ENS manage permissions
     await revertToBase()

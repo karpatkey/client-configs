@@ -21,7 +21,7 @@ import {
   WETH,
   wNXM,
   wstETH,
-  ZERO_ADDRESS,
+  zeroAddress,
   curve,
   nexus,
 } from "../../../../../eth-sdk/addresses"
@@ -229,7 +229,7 @@ export default [
   allow.mainnet.curve.steCrvPool.remove_liquidity_one_coin(),
   allow.mainnet.curve.steCrvPool.remove_liquidity_imbalance(),
   ...allowErc20Approve(
-    [curve.steCRV],
+    [curve.steCrv],
     [contracts.mainnet.curve.steCrvPoolGauge]
   ),
   allow.mainnet.curve.steCrvPoolGauge["deposit(uint256)"](),
@@ -296,7 +296,7 @@ export default [
       undefined,
       undefined,
       undefined,
-      ZERO_ADDRESS
+      zeroAddress
     ),
     targetAddress: pool,
   })),

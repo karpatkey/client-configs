@@ -15,8 +15,8 @@ import {
   WBTC,
   WETH,
   wstETH,
-  ZERO_ADDRESS,
-  E_ADDRESS,
+  zeroAddress,
+  eAddress,
 } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
@@ -143,12 +143,12 @@ export default [
       contracts.mainnet.curve.crvUsdtWbtcWethGauge
     ),
     3,
-    c.or([GHO, WBTC, wstETH], [USDT, WBTC, E_ADDRESS], [USDT, WBTC, WETH]),
+    c.or([GHO, WBTC, wstETH], [USDT, WBTC, eAddress], [USDT, WBTC, WETH]),
     undefined,
     undefined,
     undefined,
     undefined,
-    ZERO_ADDRESS,
+    zeroAddress,
     {
       send: true,
     }

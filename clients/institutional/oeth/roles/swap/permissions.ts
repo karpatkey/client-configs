@@ -15,7 +15,7 @@ import { balancer__swap } from "../../../../../helpers/exit_strategies/balancer"
 export default [
   // Balancer - USDC/USDC.e/DAI/USDT Pool - Swap [DAI, USDC, USDCe] <-> [DAI, USDC, USDCe]
   balancer__swap(
-    balancer.Stable_Beets_pId,
+    balancer.stableBeetsPid,
     [DAI, USDC, USDCe],
     [DAI, USDC, USDCe]
   ),

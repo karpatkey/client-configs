@@ -195,7 +195,7 @@ export default [
 
   // Sommelier - TurboDIVETH
   ...allowErc20Approve(
-    [balancer.B_rETH_stable],
+    [balancer.bREthStable],
     [contracts.mainnet.sommelier.turboDivEth]
   ),
   allow.mainnet.sommelier.turboDivEth.deposit(undefined, c.avatar),

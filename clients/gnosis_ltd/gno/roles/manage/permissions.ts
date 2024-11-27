@@ -106,7 +106,7 @@ export default [
     "remove_liquidity_one_coin(uint256,uint256,uint256)"
   ](),
   ...allowErc20Approve(
-    [curve.crvEUReUSD],
+    [curve.crvEureUsd],
     [contracts.gnosis.curve.crvEureUsdGauge]
   ),
   allow.gnosis.curve.crvEureUsdGauge["deposit(uint256)"](),

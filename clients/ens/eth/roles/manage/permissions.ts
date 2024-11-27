@@ -19,8 +19,8 @@ import {
   USDC,
   USDT,
   WETH,
-  E_ADDRESS,
-  ZERO_ADDRESS,
+  eAddress,
+  zeroAddress,
   wstETH,
   curve,
 } from "../../../../../eth-sdk/addresses"
@@ -180,7 +180,7 @@ export default [
   allow.mainnet.curve.steCrvPool.remove_liquidity_one_coin(),
   allow.mainnet.curve.steCrvPool.remove_liquidity_imbalance(),
   ...allowErc20Approve(
-    [curve.steCRV],
+    [curve.steCrv],
     [contracts.mainnet.curve.steCrvPoolGauge]
   ),
   allow.mainnet.curve.steCrvPoolGauge["deposit(uint256)"](),
@@ -224,18 +224,18 @@ export default [
       contracts.mainnet.curve.steCrvPool,
       contracts.mainnet.curve.stEthNgfPool
     ),
-    c.or(curve.steCRV, contracts.mainnet.curve.stEthNgfPool),
+    c.or(curve.steCrv, contracts.mainnet.curve.stEthNgfPool),
     c.or(
       contracts.mainnet.curve.steCrvPoolGauge,
       contracts.mainnet.curve.stEthNgfGauge
     ),
     2,
-    [E_ADDRESS, stETH],
+    [eAddress, stETH],
     undefined,
     undefined,
     undefined,
     undefined,
-    ZERO_ADDRESS,
+    zeroAddress,
     { send: true }
   ),
 

@@ -9,7 +9,7 @@ import {
   sDAI,
   USDC,
   USDT,
-  ZERO_ADDRESS,
+  zeroAddress,
 } from "../../../../../eth-sdk/addresses"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
@@ -89,7 +89,7 @@ export default [
   // _newIndexer Re-delegate to indexer address if non-zero, withdraw if zero address
   allow.mainnet.theGraph.staking.withdrawDelegated(
     GRAPH_DELEGATEE,
-    ZERO_ADDRESS
+    zeroAddress
   ),
 
   /*********************************************

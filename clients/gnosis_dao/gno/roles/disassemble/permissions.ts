@@ -11,7 +11,7 @@ import {
   WETH,
   wstETH,
   WXDAI,
-  ZERO_ADDRESS,
+  zeroAddress,
 } from "../../../../../eth-sdk/addresses_gno"
 import { contracts } from "../../../../../eth-sdk/config"
 import {
@@ -57,7 +57,7 @@ export default [
     removeData: {
       vault: contracts.gnosis.arrakis.wethSdaiVault,
       receiver: c.avatar,
-      gauge: ZERO_ADDRESS,
+      gauge: zeroAddress,
     },
     permit: {
       permitted: {
@@ -72,7 +72,7 @@ export default [
     removeData: {
       vault: contracts.gnosis.arrakis.wethWstEthVault,
       receiver: c.avatar,
-      gauge: ZERO_ADDRESS,
+      gauge: zeroAddress,
     },
     permit: {
       permitted: {
@@ -82,51 +82,45 @@ export default [
   }),
 
   // Aura - WETH/wstETH
-  aura__withdraw_balancer(
-    aura.auraWETH_WSTETH_rewarder,
-    balancer.WETH_WSTETH_pId
-  ),
+  aura__withdraw_balancer(aura.auraWethWstEthRewarder, balancer.wethWstEthPid),
   // Aura - EURe/sDAI
-  aura__withdraw_balancer(aura.auraEure_sDAI_rewarder, balancer.Eure_sDAI_pId),
+  aura__withdraw_balancer(aura.auraEureSdaiRewarder, balancer.eureSdaiPid),
   // Aura - Gyroscope ECLP rETH/WETH
-  aura__withdraw_balancer(
-    aura.auraRETH_WETH_rewarder,
-    balancer.ECLP_RETH_WETH_pId
-  ),
+  aura__withdraw_balancer(aura.auraRethWethRewarder, balancer.eclpRethWethPid),
 
   // Azuro - XDAI LP
   allow.gnosis.azuro.lpAzrXdai.withdrawLiquidity(),
 
   // Balancer - wstETH/GNO
-  balancer__unstake_withdraw(Chain.gno, balancer.B_50wstETH_50GNO_gauge),
+  balancer__unstake_withdraw(Chain.gno, balancer.b50wstEth50GnoGauge),
   // Balancer - sDAI/wstETH
-  balancer__unstake_withdraw(Chain.gno, balancer.B_50sDAI_50wstETH_gauge),
+  balancer__unstake_withdraw(Chain.gno, balancer.b50Sdai50WstEthGauge),
   // Balancer - USDC.e/USDT/sDAI
-  balancer__unstake_withdraw(Chain.gno, balancer.sBAL3_2_gauge),
+  balancer__unstake_withdraw(Chain.gno, balancer.sBal3NewGauge),
   // Balancer - WETH/wstETH
-  balancer__unstake_withdraw(Chain.gno, balancer.bb_WETH_wstETH_gauge),
+  balancer__unstake_withdraw(Chain.gno, balancer.bbWethWstEthGauge),
   // Balancer - rETH/WETH
-  balancer__unstake_withdraw(Chain.gno, balancer.ECLP_rETH_WETH_gauge),
+  balancer__unstake_withdraw(Chain.gno, balancer.eclpRethWethGauge),
   // Balancer - osGNO/GNO
-  balancer__unstake_withdraw(Chain.gno, balancer.osGNO_GNO_gauge),
+  balancer__unstake_withdraw(Chain.gno, balancer.osGnoGnoGauge),
   // Balancer - WBTC/WETH
-  balancer__withdraw(balancer.B_50WBTC_50WETH_pId),
+  balancer__withdraw(balancer.b50Wbtc50WethPid),
   // Balancer - Gyroscope ECLP wstETH/WETH
-  balancer__unstake_withdraw(Chain.gno, balancer.ECLP_wstETH_WETH_gauge),
+  balancer__unstake_withdraw(Chain.gno, balancer.eclpWstEthWethGauge),
   // Balancer - wstETH/BAL/AURA
-  balancer__unstake_withdraw(Chain.gno, balancer.B_50wstETH_25BAL_25AURA_gauge),
+  balancer__unstake_withdraw(Chain.gno, balancer.b50WstEth25Bal25AuraGauge),
   // Balancer - wstETH/COW
-  balancer__unstake_withdraw(Chain.gno, balancer.B_50wstETH_50COW_gauge),
+  balancer__unstake_withdraw(Chain.gno, balancer.b50WstEth50CowGauge),
   // Balancer - COW/GNO
-  balancer__unstake_withdraw(Chain.gno, balancer.B_50COW_50GNO_gauge),
+  balancer__unstake_withdraw(Chain.gno, balancer.b50Cow50GnoGauge),
   // Balancer - stEUR/EURe
-  balancer__unstake_withdraw(Chain.gno, balancer.stEUR_EURe_gauge),
+  balancer__unstake_withdraw(Chain.gno, balancer.stEurEureGauge),
   // Balancer - GIV/GNO
-  balancer__withdraw(balancer.B_50GIV_50GNO_pId),
+  balancer__withdraw(balancer.b50Giv50GnoPid),
   // Balancer - WXDAI/GNO
-  balancer__withdraw(balancer.WXDAI_GNO_pId),
+  balancer__withdraw(balancer.wxdaiGnoPid),
   // Balancer - EURe/sDAI
-  balancer__unstake_withdraw(Chain.gno, balancer.EURe_sDAI_gauge),
+  balancer__unstake_withdraw(Chain.gno, balancer.eureSdaiGauge),
   // Balancer - BCoW AMM WETH/GNO (Staking not available)
   allow.gnosis.balancer.bCowAmm50Weth50Gno.exitPool(),
   // Balancer - BCoW AMM wstETH/sDAI (Staking not available)

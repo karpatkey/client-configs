@@ -16,18 +16,18 @@ export default [
    *********************************************/
   // Aura - wstETH/WETH
   aura__withdraw_balancer(
-    aura.auraB_stETH_stable_rewarder,
-    balancer.B_stETH_stable_pid
+    aura.auraBstEthStableRewarder,
+    balancer.bStEthStablePid
   ),
 
   // Balancer - COW/GNO
-  balancer__unstake_withdraw(Chain.eth, balancer.B_50COW_50GNO_gauge),
+  balancer__unstake_withdraw(Chain.eth, balancer.b50Cow50GnoGauge),
 
   // Balancer - COW/WETH
-  balancer__unstake_withdraw(Chain.eth, balancer.B_50COW_50WETH_gauge),
+  balancer__unstake_withdraw(Chain.eth, balancer.b50Cow50WethGauge),
 
   // Balancer - wstETH/WETH
-  balancer__unstake_withdraw(Chain.eth, balancer.B_stETH_stable_gauge),
+  balancer__unstake_withdraw(Chain.eth, balancer.bStEthStableGauge),
 
   // Balancer - BCoW AMM COW/wstETH (Staking not available)
   allow.mainnet.balancer.bCow50Cow50Wsteth.exitPool(),

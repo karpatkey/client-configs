@@ -79,8 +79,8 @@ export default [
     {
       loanToken: USDC,
       collateralToken: wstETH,
-      oracle: morpho.Oracle_wstETH_USDC,
-      irm: morpho.Adaptative_Curve_IRM,
+      oracle: morpho.oracleWstEthUsdc,
+      irm: morpho.adaptativeCurveIrm,
     },
     undefined,
     undefined,
@@ -91,8 +91,8 @@ export default [
     {
       loanToken: USDC,
       collateralToken: wstETH,
-      oracle: morpho.Oracle_wstETH_USDC,
-      irm: morpho.Adaptative_Curve_IRM,
+      oracle: morpho.oracleWstEthUsdc,
+      irm: morpho.adaptativeCurveIrm,
     },
     undefined,
     undefined,
@@ -105,8 +105,8 @@ export default [
     {
       loanToken: USDC,
       collateralToken: WBTC,
-      oracle: morpho.Oracle_WBTC_USDC,
-      irm: morpho.Adaptative_Curve_IRM,
+      oracle: morpho.oracleWbtcUsdc,
+      irm: morpho.adaptativeCurveIrm,
     },
     undefined,
     undefined,
@@ -117,8 +117,8 @@ export default [
     {
       loanToken: USDC,
       collateralToken: WBTC,
-      oracle: morpho.Oracle_WBTC_USDC,
-      irm: morpho.Adaptative_Curve_IRM,
+      oracle: morpho.oracleWbtcUsdc,
+      irm: morpho.adaptativeCurveIrm,
     },
     undefined,
     undefined,

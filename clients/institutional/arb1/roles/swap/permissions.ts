@@ -15,7 +15,7 @@ import { balancer__swap } from "../../../../../helpers/exit_strategies/balancer"
 
 export default [
   // Balancer - USDC/DAI/USDT/USDC.e Pool - Swap [DAI, USDC, USDC.e] <-> [DAI, USDC, USDC.e]
-  balancer__swap(balancer._4POOL_pId, [DAI, USDC, USDCe], [DAI, USDC, USDCe]),
+  balancer__swap(balancer._4PoolPid, [DAI, USDC, USDCe], [DAI, USDC, USDCe]),
 
   // CowSwap - [COMP, DAI, USDC, USDCe] -> [DAI, USDC, USDCe]
   allowAction.cowswap.swap({

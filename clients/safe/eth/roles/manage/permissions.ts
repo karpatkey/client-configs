@@ -81,7 +81,7 @@ export default [
     }
   ),
   allowErc20Approve(
-    [uniswapV2.LP_SAFE_ETH],
+    [uniswapV2.lpSafeEth],
     [contracts.mainnet.uniswapV2.router2]
   ),
   allow.mainnet.uniswapV2.router2.removeLiquidityETH(
