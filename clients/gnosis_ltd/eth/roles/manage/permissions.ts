@@ -96,5 +96,5 @@ export default [
    * Bridge
    *********************************************/
   allowErc20Approve([GRT], [contracts.mainnet.theGraph.proxy]),
-  allow.mainnet.arb_l1_gateway_router.outboundTransfer(GRT, GNOSIS_LTD_ARB),
+  allow.mainnet.arbL1GatewayRouter.outboundTransfer(GRT, GNOSIS_LTD_ARB),
 ] satisfies PermissionList

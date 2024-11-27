@@ -2,7 +2,7 @@ import { allow } from "zodiac-roles-sdk/kit"
 import { PermissionList } from "../../../../../../types"
 
 export default [
-  allow.mainnet.aura.claim_zap.claimRewards(
+  allow.mainnet.aura.claimZapV3.claimRewards(
     undefined,
     undefined,
     undefined,
