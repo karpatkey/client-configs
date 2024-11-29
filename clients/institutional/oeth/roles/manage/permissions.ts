@@ -79,6 +79,9 @@ export default [
   /*********************************************
    * Bridge
    *********************************************/
+  // NAV Calculator - bridgeStart - In the future, the bridged assets should be scoped appropriately.
+  allow.optimism.navCalculator.bridgeStart(),
+
   // Optimism -> Mainnet
   // DAI (Optimism) -> DAI (Mainnet)
   ...allowErc20Approve([DAI], [contracts.optimism.daiTokenBridge]),

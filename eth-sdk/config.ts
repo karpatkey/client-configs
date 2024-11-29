@@ -4,18 +4,23 @@ import { contracts as deFiKitContracts } from "defi-kit"
 export const contracts = {
   mainnet: {
     ...deFiKitContracts.mainnet,
+    navCalculator: "0xF0125A04d74782e6d2aD6d298F0Bc786e301AAc1",
   },
   gnosis: {
     ...deFiKitContracts.gnosis,
+    navCalculator: "0x4AbE155C97009e388E0493fe1516F636e0F3a390",
   },
   optimism: {
     ...deFiKitContracts.optimism,
+    navCalculator: "0x4AbE155C97009e388E0493fe1516F636e0F3a390",
   },
   arbitrumOne: {
     ...deFiKitContracts.arbitrumOne,
+    navCalculator: "0x4AbE155C97009e388E0493fe1516F636e0F3a390",
   },
   base: {
     ...deFiKitContracts.base,
+    navCalculator: "0x4AbE155C97009e388E0493fe1516F636e0F3a390",
   },
 } satisfies EthSdkConfig["contracts"]
 

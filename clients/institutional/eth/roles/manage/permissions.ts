@@ -139,6 +139,9 @@ export default [
   /*********************************************
    * Bridge
    *********************************************/
+  // NAV Calculator - bridgeStart - In the future, the bridged assets should be scoped appropriately.
+  allow.mainnet.navCalculator.bridgeStart(),
+
   // Mainnet -> Gnosis
   // DAI -> XDAI
   ...allowErc20Approve([DAI], [contracts.mainnet.gnoXdaiBridge]),
