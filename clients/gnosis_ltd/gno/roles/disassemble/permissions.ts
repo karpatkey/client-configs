@@ -22,7 +22,7 @@ export default [
   ),
 
   // Balancer - GBPe/sDAI
-  balancer__withdraw(balancer.bGbpeSdaiPid),
+  balancer__withdraw(balancer.bGbpeSdaiPid, false),
   // Balancer - wstETH/COW
   balancer__unstake_withdraw(Chain.gno, balancer.b50WstEth50CowGauge),
 

@@ -103,12 +103,17 @@ export default [
   ),
 
   // Aura - COW/GNO
-  aura__withdraw_balancer(aura.aura50Cow50GnoRewarder, balancer.b50Cow50GnoPid),
+  aura__withdraw_balancer(
+    aura.aura50Cow50GnoRewarder,
+    balancer.b50Cow50GnoPid,
+    false
+  ),
 
   // Aura - COW/WETH
   aura__withdraw_balancer(
     aura.aura50Cow50WethRewarder,
-    balancer.b50Cow50WethPid
+    balancer.b50Cow50WethPid,
+    false
   ),
 
   // Aura - rETH/WETH
@@ -134,10 +139,10 @@ export default [
   balancer__withdraw(balancer.b80Bal20WethPid),
 
   // Balancer - COW/GNO
-  balancer__unstake_withdraw(Chain.eth, balancer.b50Cow50GnoGauge),
+  balancer__unstake_withdraw(Chain.eth, balancer.b50Cow50GnoGauge, false),
 
   // Balancer - COW/WETH
-  balancer__unstake_withdraw(Chain.eth, balancer.b50Cow50WethGauge),
+  balancer__unstake_withdraw(Chain.eth, balancer.b50Cow50WethGauge, false),
 
   // Balancer - rETH/WETH
   balancer__unstake_withdraw(Chain.eth, balancer.bREthStableGauge),

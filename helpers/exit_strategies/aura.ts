@@ -15,7 +15,8 @@ export const aura__withdraw = (rewarder: Address): PermissionSet => {
 
 export const aura__withdraw_balancer = (
   rewarder: Address,
-  balancerPoolId: string
+  balancerPoolId: string,
+  allowExitOneCoin: boolean = true
 ): PermissionSet => {
   return [
     // It doesn't matter the blockchain we use, since we are overwriting
@@ -25,6 +26,13 @@ export const aura__withdraw_balancer = (
       targetAddress: rewarder,
     },
     // It doesn't matter the blockchain we use, as the Vault address remains the same
-    allow.mainnet.balancer.vault.exitPool(balancerPoolId, c.avatar, c.avatar),
+    allow.mainnet.balancer.vault.exitPool(balancerPoolId, c.avatar, c.avatar, {
+      userData: c.abiEncodedMatches(
+        allowExitOneCoin
+          ? [c.pass] // Constraint if allowExitOneCoin = true
+          : [c.or(1, 2, 3)], // Constraint if allowExitOneCoin = false
+        ["uint256"]
+      ),
+    }),
   ]
 }

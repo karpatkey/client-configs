@@ -86,7 +86,11 @@ export default [
   // Aura - EURe/sDAI
   aura__withdraw_balancer(aura.auraEureSdaiRewarder, balancer.eureSdaiPid),
   // Aura - Gyroscope ECLP rETH/WETH
-  aura__withdraw_balancer(aura.auraRethWethRewarder, balancer.eclpRethWethPid),
+  aura__withdraw_balancer(
+    aura.auraRethWethRewarder,
+    balancer.eclpRethWethPid,
+    false
+  ),
 
   // Azuro - XDAI LP
   allow.gnosis.azuro.lpAzrXdai.withdrawLiquidity(),
@@ -100,25 +104,25 @@ export default [
   // Balancer - WETH/wstETH
   balancer__unstake_withdraw(Chain.gno, balancer.bbWethWstEthGauge),
   // Balancer - rETH/WETH
-  balancer__unstake_withdraw(Chain.gno, balancer.eclpRethWethGauge),
+  balancer__unstake_withdraw(Chain.gno, balancer.eclpRethWethGauge, false),
   // Balancer - osGNO/GNO
   balancer__unstake_withdraw(Chain.gno, balancer.osGnoGnoGauge),
   // Balancer - WBTC/WETH
-  balancer__withdraw(balancer.b50Wbtc50WethPid),
+  balancer__withdraw(balancer.b50Wbtc50WethPid, false),
   // Balancer - Gyroscope ECLP wstETH/WETH
   balancer__unstake_withdraw(Chain.gno, balancer.eclpWstEthWethGauge),
   // Balancer - wstETH/BAL/AURA
   balancer__unstake_withdraw(Chain.gno, balancer.b50WstEth25Bal25AuraGauge),
   // Balancer - wstETH/COW
-  balancer__unstake_withdraw(Chain.gno, balancer.b50WstEth50CowGauge),
+  balancer__unstake_withdraw(Chain.gno, balancer.b50WstEth50CowGauge, false),
   // Balancer - COW/GNO
-  balancer__unstake_withdraw(Chain.gno, balancer.b50Cow50GnoGauge),
+  balancer__unstake_withdraw(Chain.gno, balancer.b50Cow50GnoGauge, false),
   // Balancer - stEUR/EURe
   balancer__unstake_withdraw(Chain.gno, balancer.stEurEureGauge),
   // Balancer - GIV/GNO
-  balancer__withdraw(balancer.b50Giv50GnoPid),
+  balancer__withdraw(balancer.b50Giv50GnoPid, false),
   // Balancer - WXDAI/GNO
-  balancer__withdraw(balancer.wxdaiGnoPid),
+  balancer__withdraw(balancer.wxdaiGnoPid, false),
   // Balancer - EURe/sDAI
   balancer__unstake_withdraw(Chain.gno, balancer.eureSdaiGauge),
   // Balancer - BCoW AMM WETH/GNO (Staking not available)
