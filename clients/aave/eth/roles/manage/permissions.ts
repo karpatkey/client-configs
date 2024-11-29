@@ -21,6 +21,6 @@ export default [
   /*********************************************
    * Typed-presets permissions
    *********************************************/
-  allow.mainnet.aave_v2.gho.transfer(aave_collector),
-  allow.mainnet.aave_v2.aave.transfer(aave_collector),
+  allow.mainnet.aaveV2.gho.transfer(aave_collector),
+  allow.mainnet.aaveV2.aave.transfer(aave_collector),
 ] satisfies PermissionList

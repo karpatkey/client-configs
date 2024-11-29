@@ -2,8 +2,8 @@ import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { allow as allowAction } from "defi-kit/eth"
 import {
-  E_ADDRESS,
-  ZERO_ADDRESS,
+  eAddress,
+  zeroAddress,
   AAVE,
   COMP,
   DAI,
@@ -151,62 +151,62 @@ export default [
   }),
 
   // Aave Merit rewards (https://apps.aavechan.com/merit)
-  allow.mainnet.aave_v3.merit_distributor.claim([avatar]),
+  allow.mainnet.aaveV3.meritDistributor.claim([avatar]),
 
   // Compound v3 - USDC
-  allowErc20Approve([USDC], [contracts.mainnet.compound_v3.cUSDCv3]),
-  allow.mainnet.compound_v3.cUSDCv3.supply(USDC),
-  allow.mainnet.compound_v3.cUSDCv3.withdraw(USDC),
+  allowErc20Approve([USDC], [contracts.mainnet.compoundV3.cUsdcV3]),
+  allow.mainnet.compoundV3.cUsdcV3.supply(USDC),
+  allow.mainnet.compoundV3.cUsdcV3.withdraw(USDC),
 
   // Compound v3 - Claim rewards
-  allow.mainnet.compound_v3.CometRewards.claim(undefined, c.avatar),
+  allow.mainnet.compoundV3.cometRewards.claim(undefined, c.avatar),
 
   // Curve - ETH/OETH
-  ...allowErc20Approve([OETH], [contracts.mainnet.curve.OETHCRV_f_pool]),
-  allow.mainnet.curve.OETHCRV_f_pool["add_liquidity(uint256[2],uint256)"](
+  ...allowErc20Approve([OETH], [contracts.mainnet.curve.oEthCrvPool]),
+  allow.mainnet.curve.oEthCrvPool["add_liquidity(uint256[2],uint256)"](
     undefined,
     undefined,
     {
       send: true,
     }
   ),
-  allow.mainnet.curve.OETHCRV_f_pool["remove_liquidity(uint256,uint256[2])"](),
-  allow.mainnet.curve.OETHCRV_f_pool[
+  allow.mainnet.curve.oEthCrvPool["remove_liquidity(uint256,uint256[2])"](),
+  allow.mainnet.curve.oEthCrvPool[
     "remove_liquidity_imbalance(uint256[2],uint256)"
   ](),
-  allow.mainnet.curve.OETHCRV_f_pool[
+  allow.mainnet.curve.oEthCrvPool[
     "remove_liquidity_one_coin(uint256,int128,uint256)"
   ](),
   ...allowErc20Approve(
-    [contracts.mainnet.curve.OETHCRV_f_pool],
-    [contracts.mainnet.curve.OETHCRV_f_gauge]
+    [contracts.mainnet.curve.oEthCrvPool],
+    [contracts.mainnet.curve.oEthCrvGauge]
   ),
-  allow.mainnet.curve.OETHCRV_f_gauge["deposit(uint256)"](),
-  allow.mainnet.curve.OETHCRV_f_gauge["withdraw(uint256)"](),
-  allow.mainnet.curve.OETHCRV_f_gauge["claim_rewards()"](),
-  allow.mainnet.curve.crv_minter.mint(contracts.mainnet.curve.OETHCRV_f_gauge),
+  allow.mainnet.curve.oEthCrvGauge["deposit(uint256)"](),
+  allow.mainnet.curve.oEthCrvGauge["withdraw(uint256)"](),
+  allow.mainnet.curve.oEthCrvGauge["claim_rewards()"](),
+  allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.oEthCrvGauge),
 
   // Curve - Deposit and Stake using a special ZAP
-  ...allowErc20Approve([OETH], [contracts.mainnet.curve.stake_deposit_zap]),
-  allow.mainnet.curve.stake_deposit_zap[
+  ...allowErc20Approve([OETH], [contracts.mainnet.curve.stakeDepositZap]),
+  allow.mainnet.curve.stakeDepositZap[
     "deposit_and_stake(address,address,address,uint256,address[],uint256[],uint256,bool,bool,address)"
   ](
-    contracts.mainnet.curve.OETHCRV_f_pool,
-    contracts.mainnet.curve.OETHCRV_f_pool,
-    contracts.mainnet.curve.OETHCRV_f_gauge,
+    contracts.mainnet.curve.oEthCrvPool,
+    contracts.mainnet.curve.oEthCrvPool,
+    contracts.mainnet.curve.oEthCrvGauge,
     2,
-    [E_ADDRESS, OETH],
+    [eAddress, OETH],
     undefined,
     undefined,
     undefined,
     undefined,
-    ZERO_ADDRESS,
+    zeroAddress,
     { send: true }
   ),
 
   // Gyroscope - Staking/Unstaking GYD
-  allow.mainnet.gyroscope.sGYD.deposit(undefined, c.avatar),
-  allow.mainnet.gyroscope.sGYD.redeem(undefined, c.avatar, c.avatar),
+  allow.mainnet.gyroscope.sGyd.deposit(undefined, c.avatar),
+  allow.mainnet.gyroscope.sGyd.redeem(undefined, c.avatar, c.avatar),
 
   // Maker - DSR (DAI Savings Rate)
   // The DsrManager provides an easy to use smart contract that allows
@@ -214,30 +214,30 @@ export default [
   // and activate/deactivate the Dai Savings Rate to start earning savings
   // on a pool of dai in a single function call.
   // https://docs.makerdao.com/smart-contract-modules/proxy-module/dsr-manager-detailed-documentation#contract-details
-  allowErc20Approve([DAI], [contracts.mainnet.maker.dsr_manager]),
-  allow.mainnet.maker.dsr_manager.join(c.avatar),
-  allow.mainnet.maker.dsr_manager.exit(c.avatar),
-  allow.mainnet.maker.dsr_manager.exitAll(c.avatar),
+  allowErc20Approve([DAI], [contracts.mainnet.maker.dsrManager]),
+  allow.mainnet.maker.dsrManager.join(c.avatar),
+  allow.mainnet.maker.dsrManager.exit(c.avatar),
+  allow.mainnet.maker.dsrManager.exitAll(c.avatar),
 
   // Origin - Mint OETH
-  allow.mainnet.origin.OETH_Zapper.deposit({ send: true }),
+  allow.mainnet.origin.oEthZapper.deposit({ send: true }),
   // Origin - Redeem via ARM (Automated Redemption Manager)
-  allowErc20Approve([OETH], [contracts.mainnet.origin.ARM_OETH_WETH]),
-  allow.mainnet.origin.ARM_OETH_WETH[
+  allowErc20Approve([OETH], [contracts.mainnet.origin.armOethWeth]),
+  allow.mainnet.origin.armOethWeth[
     "swapExactTokensForTokens(address,address,uint256,uint256,address)"
   ](OETH, WETH, undefined, undefined, c.avatar),
   // Origin - Redeem via OETH Vault
   // OETH is burnt by the user so no approval is needed
-  allow.mainnet.origin.OETH_Vault.requestWithdrawal(),
-  allow.mainnet.origin.OETH_Vault.claimWithdrawal(),
-  allow.mainnet.origin.OETH_Vault.claimWithdrawals(),
+  allow.mainnet.origin.oEthVault.requestWithdrawal(),
+  allow.mainnet.origin.oEthVault.claimWithdrawal(),
+  allow.mainnet.origin.oEthVault.claimWithdrawals(),
 
   // StakeWise v3 - Genesis Vault
-  allow.mainnet.stakewise_v3.genesis.deposit(c.avatar, undefined, {
+  allow.mainnet.stakeWiseV3.genesis.deposit(c.avatar, undefined, {
     send: true,
   }),
-  allow.mainnet.stakewise_v3.genesis.updateState(),
-  allow.mainnet.stakewise_v3.genesis.updateStateAndDeposit(
+  allow.mainnet.stakeWiseV3.genesis.updateState(),
+  allow.mainnet.stakeWiseV3.genesis.updateStateAndDeposit(
     c.avatar,
     undefined,
     undefined,
@@ -245,54 +245,54 @@ export default [
       send: true,
     }
   ),
-  allow.mainnet.stakewise_v3.genesis.mintOsToken(c.avatar),
-  allow.mainnet.stakewise_v3.genesis.burnOsToken(),
-  allow.mainnet.stakewise_v3.genesis.enterExitQueue(undefined, c.avatar),
-  allow.mainnet.stakewise_v3.genesis.claimExitedAssets(),
+  allow.mainnet.stakeWiseV3.genesis.mintOsToken(c.avatar),
+  allow.mainnet.stakeWiseV3.genesis.burnOsToken(),
+  allow.mainnet.stakeWiseV3.genesis.enterExitQueue(undefined, c.avatar),
+  allow.mainnet.stakeWiseV3.genesis.claimExitedAssets(),
 
   /*********************************************
    * SWAPS
    *********************************************/
   // Balancer - Swap COMP -> WETH
-  balancer__swap(balancer.B_50COMP_50WETH_pId, [COMP], [WETH]),
+  balancer__swap(balancer.b50Comp50WethPid, [COMP], [WETH]),
 
   // Balancer - Swap WETH -> DAI
-  balancer__swap(balancer.B_60WETH_40DAI_pId, [WETH], [DAI]),
+  balancer__swap(balancer.b60Weth40DaiPid, [WETH], [DAI]),
 
   // Balancer - Swap WETH -> USDC
-  balancer__swap(balancer.B_50USDC_50WETH_pId, [WETH], [USDC]),
+  balancer__swap(balancer.b50Usdc50WethPid, [WETH], [USDC]),
 
   // Balancer - Swap WETH <-> wstETH
-  balancer__swap(balancer.B_stETH_stable_pid, [WETH, wstETH], [WETH, wstETH]),
+  balancer__swap(balancer.bStEthStablePid, [WETH, wstETH], [WETH, wstETH]),
 
   // Balancer - Swap WETH <-> wstETH
-  balancer__swap(balancer.ECLP_wstETH_wETH_pId, [WETH, wstETH], [WETH, wstETH]),
+  balancer__swap(balancer.eclpWstEthWethPid, [WETH, wstETH], [WETH, wstETH]),
 
   // Balancer - Swap rETH <-> WETH
-  balancer__swap(balancer.B_rETH_stable_pid, [rETH, WETH], [rETH, WETH]),
+  balancer__swap(balancer.bREthStablePid, [rETH, WETH], [rETH, WETH]),
 
   // Balancer - Swap GYD <-> USDT
-  balancer__swap(balancer.ECLP_GYD_USDT_pId, [GYD, USDT], [GYD, USDT]),
+  balancer__swap(balancer.eclpGydUsdtPid, [GYD, USDT], [GYD, USDT]),
 
   // Balancer - Swap GYD <-> sDAI
-  balancer__swap(balancer.ECLP_GYD_sDAI_pId, [GYD, sDAI], [GYD, sDAI]),
+  balancer__swap(balancer.eclpGydSdaiPid, [GYD, sDAI], [GYD, sDAI]),
 
   // Balancer - Swap GYD <-> sDAI
-  balancer__swap(balancer.ECLP_GYD_sDAI_2_pId, [GYD, sDAI], [GYD, sDAI]),
+  balancer__swap(balancer.eclpGydSdai2Pid, [GYD, sDAI], [GYD, sDAI]),
 
   // Balancer - Swap GYD <-> USDC
-  balancer__swap(balancer.ECLP_GYD_USDC_pId, [GYD, USDC], [GYD, USDC]),
+  balancer__swap(balancer.eclpGydUsdcPid, [GYD, USDC], [GYD, USDC]),
 
   // Balancer - Swap GHO <-> GYD
-  balancer__swap(balancer.ECLP_GHO_GYD_pId, [GHO, GYD], [GHO, GYD]),
+  balancer__swap(balancer.eclpGhoGydPid, [GHO, GYD], [GHO, GYD]),
 
   // Balancer - Swap GHO <-> [USDC, USDT]
-  balancer__swap(balancer.GHO_USDT_USDC_pId, [GHO], [USDC, USDT]),
-  balancer__swap(balancer.GHO_USDT_USDC_pId, [USDC, USDT], [GHO]),
+  balancer__swap(balancer.ghoUsdtUsdcPid, [GHO], [USDC, USDT]),
+  balancer__swap(balancer.ghoUsdtUsdcPid, [USDC, USDT], [GHO]),
 
   // Curve - Swap ETH <-> stETH
-  allowErc20Approve([stETH], [contracts.mainnet.curve.steth_eth_pool]),
-  allow.mainnet.curve.steth_eth_pool.exchange(
+  allowErc20Approve([stETH], [contracts.mainnet.curve.steCrvPool]),
+  allow.mainnet.curve.steCrvPool.exchange(
     undefined,
     undefined,
     undefined,
@@ -303,8 +303,8 @@ export default [
   ),
 
   // Curve - Swap ETH <-> OETH
-  allowErc20Approve([OETH], [contracts.mainnet.curve.OETHCRV_f_pool]),
-  allow.mainnet.curve.OETHCRV_f_pool["exchange(int128,int128,uint256,uint256)"](
+  allowErc20Approve([OETH], [contracts.mainnet.curve.oEthCrvPool]),
+  allow.mainnet.curve.oEthCrvPool["exchange(int128,int128,uint256,uint256)"](
     undefined,
     undefined,
     undefined,
@@ -315,13 +315,10 @@ export default [
   ),
 
   // Maverick - Swap GHO <-> stkGHO
-  allowErc20Approve(
-    [GHO, stkGHO],
-    [contracts.mainnet.maverick.MaverickV2Router]
-  ),
-  allow.mainnet.maverick.MaverickV2Router.inputSingleWithTickLimit(
+  allowErc20Approve([GHO, stkGHO], [contracts.mainnet.maverick.v2Router]),
+  allow.mainnet.maverick.v2Router.inputSingleWithTickLimit(
     c.avatar,
-    maverick.GHO_stkGHO_pool
+    maverick.ghoStkGhoPool
   ),
 
   // Uniswap v3 - Swaps
@@ -340,11 +337,11 @@ export default [
       WETH,
       wstETH,
     ],
-    [contracts.mainnet.uniswap_v3.router_2]
+    [contracts.mainnet.uniswapV3.router2]
   ),
 
   // Uniswap v3 - Swapping of tokens AAVE, COMP, DAI, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH
-  allow.mainnet.uniswap_v3.router_2.exactInputSingle({
+  allow.mainnet.uniswapV3.router2.exactInputSingle({
     tokenIn: c.or(
       AAVE,
       COMP,
@@ -367,10 +364,10 @@ export default [
    * Bridge
    *********************************************/
   // DAI (Mainnet) -> XDAI (Gnosis)
-  ...allowErc20Approve([DAI], [contracts.mainnet.gno_xdai_bridge]),
-  allow.mainnet.gno_xdai_bridge.relayTokens(c.avatar, undefined),
+  ...allowErc20Approve([DAI], [contracts.mainnet.gnoXdaiBridge]),
+  allow.mainnet.gnoXdaiBridge.relayTokens(c.avatar, undefined),
   // Claim bridged XDAI from Gnosis
-  allow.mainnet.gno_xdai_bridge.executeSignatures(
+  allow.mainnet.gnoXdaiBridge.executeSignatures(
     c.and(
       // Avatar address
       c.bitmask({
@@ -389,25 +386,25 @@ export default [
       c.bitmask({
         shift: 20 + 32 + 32,
         mask: "0xffffffffffffffffffff",
-        value: contracts.mainnet.gno_xdai_bridge.slice(0, 22), // First 10 bytes of the avatar address
+        value: contracts.mainnet.gnoXdaiBridge.slice(0, 22), // First 10 bytes of the avatar address
       }),
       c.bitmask({
         shift: 20 + 32 + 32 + 10,
         mask: "0xffffffffffffffffffff",
-        value: "0x" + contracts.mainnet.gno_xdai_bridge.slice(22, 42), // Last 10 bytes of the avatar address
+        value: "0x" + contracts.mainnet.gnoXdaiBridge.slice(22, 42), // Last 10 bytes of the avatar address
       })
     )
   ),
 
   // GNO (Mainnet) -> GNO (Gnosis)
-  ...allowErc20Approve([GNO], [contracts.mainnet.gno_omnibridge]),
-  allow.mainnet.gno_omnibridge["relayTokens(address,address,uint256)"](
+  ...allowErc20Approve([GNO], [contracts.mainnet.gnoOmnibridge]),
+  allow.mainnet.gnoOmnibridge["relayTokens(address,address,uint256)"](
     GNO,
     c.avatar
   ),
 
   // Claim bridged GNO from Gnosis
-  allow.mainnet.amb_eth_xdai.safeExecuteSignaturesWithAutoGasLimit(
+  allow.mainnet.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
     c.and(
       // messageId: 32 bytes
       // First 4 bytes
@@ -433,23 +430,23 @@ export default [
       c.bitmask({
         shift: 32,
         mask: "0xffffffffffffffffffff",
-        value: contracts.gnosis.xdai_bridge.slice(0, 22), // First 10 bytes of the sender address (XDAI Bridge)
+        value: contracts.gnosis.xdaiBridge.slice(0, 22), // First 10 bytes of the sender address (XDAI Bridge)
       }),
       c.bitmask({
         shift: 32 + 10,
         mask: "0xffffffffffffffffffff",
-        value: "0x" + contracts.gnosis.xdai_bridge.slice(22, 42), // Second 10 bytes of the sender address (XDAI Bridge)
+        value: "0x" + contracts.gnosis.xdaiBridge.slice(22, 42), // Second 10 bytes of the sender address (XDAI Bridge)
       }),
       // executor: 20 bytes
       c.bitmask({
         shift: 32 + 20,
         mask: "0xffffffffffffffffffff",
-        value: contracts.mainnet.gno_omnibridge.slice(0, 22), // First 10 bytes of the executor address (Omnibridge)
+        value: contracts.mainnet.gnoOmnibridge.slice(0, 22), // First 10 bytes of the executor address (Omnibridge)
       }),
       c.bitmask({
         shift: 32 + 20 + 10,
         mask: "0xffffffffffffffffffff",
-        value: "0x" + contracts.mainnet.gno_omnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
+        value: "0x" + contracts.mainnet.gnoOmnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
       }),
       // gasLimit: 4 bytes
       c.bitmask({

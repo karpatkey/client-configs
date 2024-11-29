@@ -5,19 +5,15 @@ import { PermissionList } from "../../../../../types"
 
 export default [
   // Aave v3 - Withdraw USDC
-  allow.base.aave_v3.pool_v3["withdraw(address,uint256,address)"](
-    USDC,
-    undefined,
-    c.avatar
-  ),
+  allow.base.aaveV3.lendingPoolV3.withdraw(USDC, undefined, c.avatar),
 
   // Morpho Blue - Withdraw cbETH/USDC
-  allow.mainnet.morpho.morpho_blue.withdraw(
+  allow.mainnet.morpho.morphoBlue.withdraw(
     {
       loanToken: USDC,
       collateralToken: cbETH,
-      oracle: morpho.Oracle_cbETH_USDC,
-      irm: morpho.Adaptative_Curve_IRM,
+      oracle: morpho.oracleCbEthUsdc,
+      irm: morpho.adaptativeCurveIrm,
     },
     undefined,
     undefined,

@@ -6,33 +6,33 @@ import { allowErc20Approve } from "../../utils/erc20"
 export const lido__unstake_stETH = (): PermissionSet => {
   return [
     ...allowErc20Approve(
-      [contracts.mainnet.lido.stETH],
-      [contracts.mainnet.lido.unstETH]
+      [contracts.mainnet.lido.stEth],
+      [contracts.mainnet.lido.unstEth]
     ),
 
     // Request stETH Withdrawal - Locks your stETH in the queue. In exchange you receive an NFT, that represents your position
     // in the queue
-    allow.mainnet.lido.unstETH["requestWithdrawals"](undefined, c.avatar),
+    allow.mainnet.lido.unstEth["requestWithdrawals"](undefined, c.avatar),
 
     // Claim ETH - Once the request is finalized by the oracle report and becomes claimable,
     // this function claims your ether and burns the NFT
-    allow.mainnet.lido.unstETH["claimWithdrawals"](),
+    allow.mainnet.lido.unstEth["claimWithdrawals"](),
   ]
 }
 
 export const lido__unwrap_and_unstake_wstETH = (): PermissionSet => {
   return [
     ...allowErc20Approve(
-      [contracts.mainnet.lido.wstETH],
-      [contracts.mainnet.lido.unstETH]
+      [contracts.mainnet.lido.wstEth],
+      [contracts.mainnet.lido.unstEth]
     ),
 
     // Request wstETH Withdrawal - Transfers the wstETH to the unstETH to be burned in exchange for stETH. Then it locks your stETH
     // in the queue. In exchange you receive an NFT, that represents your position in the queue
-    allow.mainnet.lido.unstETH["requestWithdrawalsWstETH"](undefined, c.avatar),
+    allow.mainnet.lido.unstEth["requestWithdrawalsWstETH"](undefined, c.avatar),
 
     // Claim ETH - Once the request is finalized by the oracle report and becomes claimable,
     // this function claims your ether and burns the NFT
-    allow.mainnet.lido.unstETH["claimWithdrawals"](),
+    allow.mainnet.lido.unstEth["claimWithdrawals"](),
   ]
 }

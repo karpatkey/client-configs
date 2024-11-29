@@ -40,24 +40,24 @@ export default [
    * Typed-presets permissions
    *********************************************/
   // Compound v3 - USDC
-  ...allowErc20Approve([USDC], [contracts.arbitrumOne.compound_v3.cUSDCv3]),
-  allow.arbitrumOne.compound_v3.cUSDCv3.supply(USDC),
-  allow.arbitrumOne.compound_v3.cUSDCv3.withdraw(USDC),
+  ...allowErc20Approve([USDC], [contracts.arbitrumOne.compoundV3.cUsdcV3]),
+  allow.arbitrumOne.compoundV3.cUsdcV3.supply(USDC),
+  allow.arbitrumOne.compoundV3.cUsdcV3.withdraw(USDC),
   // Compound v3 - Claim rewards
-  allow.arbitrumOne.compound_v3.CometRewards.claim(undefined, c.avatar),
+  allow.arbitrumOne.compoundV3.cometRewards.claim(undefined, c.avatar),
 
   /*********************************************
    * Swaps
    *********************************************/
   // Balancer - USDC/DAI/USDT/USDC.e Pool - Swap [DAI, USDC, USDC.e] <-> [DAI, USDC, USDC.e]
-  balancer__swap(balancer._4POOL_pId, [DAI, USDC, USDCe], [DAI, USDC, USDCe]),
+  balancer__swap(balancer._4PoolPid, [DAI, USDC, USDCe], [DAI, USDC, USDCe]),
 
   // Uniswap v3 - Swap [DAI, USDC, USDC.e] <-> [DAI, USDC, USDC.e]
   ...allowErc20Approve(
     [DAI, USDC, USDCe],
-    [contracts.mainnet.uniswap_v3.router_2]
+    [contracts.mainnet.uniswapV3.router2]
   ),
-  allow.mainnet.uniswap_v3.router_2.exactInputSingle({
+  allow.mainnet.uniswapV3.router2.exactInputSingle({
     tokenIn: c.or(DAI, USDC, USDCe),
     tokenOut: c.or(DAI, USDC, USDCe),
     recipient: c.avatar,
@@ -68,33 +68,33 @@ export default [
    *********************************************/
   // Arbitrum -> Mainnet
   // DAI (Arbitrum) -> DAI (Mainnet)
-  ...allowErc20Approve([DAI], [contracts.arbitrumOne.gateway_router]),
-  allow.arbitrumOne.gateway_router[
+  ...allowErc20Approve([DAI], [contracts.arbitrumOne.gatewayRouter]),
+  allow.arbitrumOne.gatewayRouter[
     "outboundTransfer(address,address,uint256,bytes)"
   ](DAI_eth, c.avatar, undefined, "0x"),
   // DAI (Arbitrum) -> DAI (Mainnet) - HOP
-  ...allowErc20Approve([DAI], [contracts.arbitrumOne.hop_dai_wrapper]),
-  allow.arbitrumOne.hop_dai_wrapper.swapAndSend(
+  ...allowErc20Approve([DAI], [contracts.arbitrumOne.hopDaiWrapper]),
+  allow.arbitrumOne.hopDaiWrapper.swapAndSend(
     1, // Mainnet
     c.avatar
   ),
 
   // COMP (Arbitrum) -> COMP (Mainnet)
-  ...allowErc20Approve([COMP], [contracts.arbitrumOne.gateway_router]),
-  allow.arbitrumOne.gateway_router[
+  ...allowErc20Approve([COMP], [contracts.arbitrumOne.gatewayRouter]),
+  allow.arbitrumOne.gatewayRouter[
     "outboundTransfer(address,address,uint256,bytes)"
   ](COMP_eth, c.avatar, undefined, "0x"),
 
   // USDC (Arbitrum) -> USDC (Mainnet)
-  ...allowErc20Approve([USDC], [contracts.arbitrumOne.circle_token_messenger]),
-  allow.arbitrumOne.circle_token_messenger.depositForBurn(
+  ...allowErc20Approve([USDC], [contracts.arbitrumOne.circleTokenMessenger]),
+  allow.arbitrumOne.circleTokenMessenger.depositForBurn(
     undefined,
     0,
     "0x" + avatar.slice(2).padStart(64, "0"),
     USDC
   ),
   // Claim bridged USDC from Mainnet
-  allow.arbitrumOne.circle_message_transmitter.receiveMessage(
+  allow.arbitrumOne.circleMessageTransmitter.receiveMessage(
     c.and(
       // version: 4 bytes (00000000)
       // source domain: 4 bytes(00000000)
@@ -111,25 +111,24 @@ export default [
       c.bitmask({
         shift: 20 + 12,
         mask: "0xffffffffffffffffffff",
-        value: contracts.mainnet.circle_token_messenger.slice(0, 22),
+        value: contracts.mainnet.circleTokenMessenger.slice(0, 22),
       }),
       c.bitmask({
         shift: 20 + 12 + 10,
         mask: "0xffffffffffffffffffff",
-        value: "0x" + contracts.mainnet.circle_token_messenger.slice(22, 42),
+        value: "0x" + contracts.mainnet.circleTokenMessenger.slice(22, 42),
       }),
       // recipient: 32 bytes
       // Circle Token Messenger (Arbitrum)
       c.bitmask({
         shift: 20 + 32 + 12,
         mask: "0xffffffffffffffffffff",
-        value: contracts.arbitrumOne.circle_token_messenger.slice(0, 22),
+        value: contracts.arbitrumOne.circleTokenMessenger.slice(0, 22),
       }),
       c.bitmask({
         shift: 20 + 32 + 12 + 10,
         mask: "0xffffffffffffffffffff",
-        value:
-          "0x" + contracts.arbitrumOne.circle_token_messenger.slice(22, 42),
+        value: "0x" + contracts.arbitrumOne.circleTokenMessenger.slice(22, 42),
       }),
       // message body: dynamic
       // skip selector (4 bytes) + 32 bytes chunk with 0
@@ -173,8 +172,8 @@ export default [
     )
   ),
   // USDC (Arbitrum) -> USDC (Mainnet) - HOP
-  ...allowErc20Approve([USDC], [contracts.arbitrumOne.l2_hop_cctp]),
-  allow.arbitrumOne.l2_hop_cctp.send(
+  ...allowErc20Approve([USDC], [contracts.arbitrumOne.l2HopCctp]),
+  allow.arbitrumOne.l2HopCctp.send(
     1, // Mainnet
     c.avatar
   ),

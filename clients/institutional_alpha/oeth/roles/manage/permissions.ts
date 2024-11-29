@@ -37,14 +37,14 @@ export default [
    *********************************************/
   // Balancer - USDC/USDC.e/DAI/USDT Pool - Swap [DAI, USDC, USDCe] <-> [DAI, USDC, USDCe]
   balancer__swap(
-    balancer.Stable_Beets_pId,
+    balancer.stableBeetsPid,
     [DAI, USDC, USDCe],
     [DAI, USDC, USDCe]
   ),
 
   // Curve - 3pool - Swap DAI <-> USDC.e
-  ...allowErc20Approve([DAI, USDCe], [contracts.optimism.curve.x3CRV_pool]),
-  allow.optimism.curve.x3CRV_pool["exchange(int128,int128,uint256,uint256)"](
+  ...allowErc20Approve([DAI, USDCe], [contracts.optimism.curve.x3CrvPool]),
+  allow.optimism.curve.x3CrvPool["exchange(int128,int128,uint256,uint256)"](
     c.or(0, 1), // 0 = DAI, 1 = USDC.e
     c.or(0, 1)
   ),
@@ -52,9 +52,9 @@ export default [
   // Curve - crvUSDC/USDC - Swap crvUSDC <-> USDC
   ...allowErc20Approve(
     [crvUSD, USDC],
-    [contracts.optimism.curve.crvUSD_USDC_pool]
+    [contracts.optimism.curve.crvUsdUsdcPool]
   ),
-  allow.optimism.curve.crvUSD_USDC_pool[
+  allow.optimism.curve.crvUsdUsdcPool[
     "exchange(int128,int128,uint256,uint256)"
   ](
     c.or(0, 1), // 0 = crvUSDC, 1 = USDC
@@ -64,9 +64,9 @@ export default [
   // Curve - crvUSDC/USDC.e - Swap crvUSDC <-> USDC.e
   ...allowErc20Approve(
     [crvUSD, USDCe],
-    [contracts.optimism.curve.crvUSD_USDCe_pool]
+    [contracts.optimism.curve.crvUsdUsdcePool]
   ),
-  allow.optimism.curve.crvUSD_USDCe_pool[
+  allow.optimism.curve.crvUsdUsdcePool[
     "exchange(int128,int128,uint256,uint256)"
   ](
     c.or(0, 1), // 0 = crvUSDC, 1 = USDC.e
@@ -74,11 +74,8 @@ export default [
   ),
 
   // Curve - sUSD Synthetix - Swap DAI <-> USDC.e
-  ...allowErc20Approve(
-    [DAI, USDCe],
-    [contracts.optimism.curve.sUSD3CRV_f_pool]
-  ),
-  allow.optimism.curve.sUSD3CRV_f_pool[
+  ...allowErc20Approve([DAI, USDCe], [contracts.optimism.curve.sUsd3CrvPool]),
+  allow.optimism.curve.sUsd3CrvPool[
     "exchange_underlying(int128,int128,uint256,uint256)"
   ](
     c.or(1, 2), // 1 = DAI, 2 = USDC.e
@@ -90,26 +87,26 @@ export default [
    *********************************************/
   // Optimism -> Mainnet
   // DAI (Optimism) -> DAI (Mainnet)
-  ...allowErc20Approve([DAI], [contracts.optimism.dai_token_bridge]),
-  allow.optimism.dai_token_bridge.withdraw(DAI),
-  allow.optimism.dai_token_bridge.withdrawTo(DAI, c.avatar),
+  ...allowErc20Approve([DAI], [contracts.optimism.daiTokenBridge]),
+  allow.optimism.daiTokenBridge.withdraw(DAI),
+  allow.optimism.daiTokenBridge.withdrawTo(DAI, c.avatar),
   // DAI (Optimism) -> DAI (Mainnet) - HOP
-  ...allowErc20Approve([DAI], [contracts.optimism.hop_dai_wrapper]),
-  allow.optimism.hop_dai_wrapper.swapAndSend(
+  ...allowErc20Approve([DAI], [contracts.optimism.hopDaiWrapper]),
+  allow.optimism.hopDaiWrapper.swapAndSend(
     1, // Mainnet
     c.avatar
   ),
 
   // USDC (Optimism) -> USDC (Mainnet)
-  ...allowErc20Approve([USDC], [contracts.optimism.circle_token_messenger]),
-  allow.optimism.circle_token_messenger.depositForBurn(
+  ...allowErc20Approve([USDC], [contracts.optimism.circleTokenMessenger]),
+  allow.optimism.circleTokenMessenger.depositForBurn(
     undefined,
     0,
     "0x" + avatar.slice(2).padStart(64, "0"),
     USDC
   ),
   // Claim bridged USDC from Mainnet
-  allow.optimism.circle_message_transmitter.receiveMessage(
+  allow.optimism.circleMessageTransmitter.receiveMessage(
     c.and(
       // version: 4 bytes (00000000)
       // source domain: 4 bytes(00000000)
@@ -126,24 +123,24 @@ export default [
       c.bitmask({
         shift: 20 + 12,
         mask: "0xffffffffffffffffffff",
-        value: contracts.mainnet.circle_token_messenger.slice(0, 22),
+        value: contracts.mainnet.circleTokenMessenger.slice(0, 22),
       }),
       c.bitmask({
         shift: 20 + 12 + 10,
         mask: "0xffffffffffffffffffff",
-        value: "0x" + contracts.mainnet.circle_token_messenger.slice(22, 42),
+        value: "0x" + contracts.mainnet.circleTokenMessenger.slice(22, 42),
       }),
       // recipient: 32 bytes
       // Circle Token Messenger (Optimism)
       c.bitmask({
         shift: 20 + 32 + 12,
         mask: "0xffffffffffffffffffff",
-        value: contracts.optimism.circle_token_messenger.slice(0, 22),
+        value: contracts.optimism.circleTokenMessenger.slice(0, 22),
       }),
       c.bitmask({
         shift: 20 + 32 + 12 + 10,
         mask: "0xffffffffffffffffffff",
-        value: "0x" + contracts.optimism.circle_token_messenger.slice(22, 42),
+        value: "0x" + contracts.optimism.circleTokenMessenger.slice(22, 42),
       }),
       // message body: dynamic
       // skip selector (4 bytes) + 32 bytes chunk with 0
@@ -187,8 +184,8 @@ export default [
     )
   ),
   // USDC (Optimism) -> USDC (Mainnet) - HOP
-  ...allowErc20Approve([USDC], [contracts.optimism.l2_hop_cctp]),
-  allow.optimism.l2_hop_cctp.send(
+  ...allowErc20Approve([USDC], [contracts.optimism.l2HopCctp]),
+  allow.optimism.l2HopCctp.send(
     1, // Mainnet
     c.avatar
   ),

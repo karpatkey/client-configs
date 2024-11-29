@@ -5,7 +5,7 @@ import { PermissionList } from "../../../../../types"
 
 export default [
   // Aave v3 - Withdraw DAI
-  allow.arbitrumOne.aave_v3.pool_v3["withdraw(bytes32)"](
+  allow.arbitrumOne.aaveV3.lendingPoolV3["withdraw(bytes32)"](
     // skip amount 30 bytes
     // assetId: 2 bytes
     c.bitmask({
@@ -15,7 +15,7 @@ export default [
     })
   ),
   // Aave v3 - Withdraw USDC
-  allow.arbitrumOne.aave_v3.pool_v3["withdraw(bytes32)"](
+  allow.arbitrumOne.aaveV3.lendingPoolV3["withdraw(bytes32)"](
     // skip amount 30 bytes
     // assetId: 2 bytes
     c.bitmask({
@@ -25,7 +25,7 @@ export default [
     })
   ),
   // Aave v3 - Withdraw USDC.e
-  allow.arbitrumOne.aave_v3.pool_v3["withdraw(bytes32)"](
+  allow.arbitrumOne.aaveV3.lendingPoolV3["withdraw(bytes32)"](
     // skip amount 30 bytes
     // assetId: 2 bytes
     c.bitmask({
@@ -36,5 +36,5 @@ export default [
   ),
 
   // Compound v3 - Withdraw USDC
-  allow.arbitrumOne.compound_v3.cUSDCv3.withdraw(USDC),
+  allow.arbitrumOne.compoundV3.cUsdcV3.withdraw(USDC),
 ] satisfies PermissionList

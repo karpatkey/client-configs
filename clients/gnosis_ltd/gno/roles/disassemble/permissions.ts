@@ -17,33 +17,33 @@ export default [
 
   // Aura - wstETH/COW
   aura__withdraw_balancer(
-    aura.aura50WSTETH_50COW_rewarder,
-    balancer.B_50WSTETH_50COW_pId
+    aura.aura50WstEth50CowRewarder,
+    balancer.b50WstEth50CowPid
   ),
 
   // Balancer - GBPe/sDAI
-  balancer__withdraw(balancer.B_GBPe_sDAI_pId),
+  balancer__withdraw(balancer.bGbpeSdaiPid, false),
   // Balancer - wstETH/COW
-  balancer__unstake_withdraw(Chain.gno, balancer.B_50wstETH_50COW_gauge),
+  balancer__unstake_withdraw(Chain.gno, balancer.b50WstEth50CowGauge),
 
   // Curve - EURe/x3CRV
-  allow.gnosis.curve.crvEUReUSD_pool["remove_liquidity(uint256,uint256[2])"](),
-  allow.gnosis.curve.crvEUReUSD_pool[
+  allow.gnosis.curve.crvEureUsdPool["remove_liquidity(uint256,uint256[2])"](),
+  allow.gnosis.curve.crvEureUsdPool[
     "remove_liquidity_one_coin(uint256,uint256,uint256)"
   ](),
-  allow.gnosis.curve.crvEUReUSD_zap["remove_liquidity(uint256,uint256[4])"](),
-  allow.gnosis.curve.crvEUReUSD_zap[
+  allow.gnosis.curve.crvEureUsdZap["remove_liquidity(uint256,uint256[4])"](),
+  allow.gnosis.curve.crvEureUsdZap[
     "remove_liquidity_one_coin(uint256,uint256,uint256)"
   ](),
-  allow.gnosis.curve.crvEUReUSD_gauge["withdraw(uint256)"](),
+  allow.gnosis.curve.crvEureUsdGauge["withdraw(uint256)"](),
 
   // HOP - WXDAI/hDAI Pool
-  allow.gnosis.hop.DAI_Liquidity_Pool.removeLiquidity(),
-  allow.gnosis.hop.DAI_Liquidity_Pool.removeLiquidityImbalance(),
-  allow.gnosis.hop.DAI_Liquidity_Pool.removeLiquidityOneToken(),
-  allow.gnosis.hop.DAI_Rewards_2.withdraw(),
-  allow.gnosis.hop.DAI_Rewards_2.exit(),
+  allow.gnosis.hop.daiLiquidityPool.removeLiquidity(),
+  allow.gnosis.hop.daiLiquidityPool.removeLiquidityImbalance(),
+  allow.gnosis.hop.daiLiquidityPool.removeLiquidityOneToken(),
+  allow.gnosis.hop.daiRewards2.withdraw(),
+  allow.gnosis.hop.daiRewards2.exit(),
 
   // Spark - GNO
-  allow.gnosis.spark.sparkLendingPoolV3.withdraw(GNO, undefined, c.avatar),
+  allow.gnosis.spark.lendingPoolV3.withdraw(GNO, undefined, c.avatar),
 ] satisfies PermissionList

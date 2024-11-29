@@ -2,7 +2,7 @@ import { PermissionSet } from "zodiac-roles-sdk"
 import { allow as allowActionEth } from "defi-kit/eth"
 import { allow as allowActionGno } from "defi-kit/gno"
 import { allow as allowActionArb } from "defi-kit/arb1"
-import { E_ADDRESS } from "../../eth-sdk/addresses"
+import { eAddress } from "../../eth-sdk/addresses"
 import { Chain } from "../../types"
 import { Address } from "@gnosis-guild/eth-sdk"
 
@@ -11,9 +11,9 @@ const replaceAddress = (
   chain: Chain
 ): (Address | "ETH" | "XDAI")[] => {
   if (chain === Chain.gno) {
-    return arr.map((addr) => (addr === E_ADDRESS ? "XDAI" : addr))
+    return arr.map((addr) => (addr === eAddress ? "XDAI" : addr))
   } else {
-    return arr.map((addr) => (addr === E_ADDRESS ? "ETH" : addr))
+    return arr.map((addr) => (addr === eAddress ? "ETH" : addr))
   }
 }
 

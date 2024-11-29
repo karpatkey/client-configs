@@ -3,7 +3,7 @@ import { applyPermissions } from "../../../../../../test/helpers"
 import kit from "../../../../../../test/kit"
 import { revertToBase } from "../../../../../../test/snapshot"
 import permissions from "../permissions"
-import { ZERO_ADDRESS, ENS, WETH } from "../../../../../../eth-sdk/addresses"
+import { zeroAddress, ENS, WETH } from "../../../../../../eth-sdk/addresses"
 
 describe("GnosisLTD", () => {
   beforeAll(async () => {
@@ -16,7 +16,7 @@ describe("GnosisLTD", () => {
   describe("lido", () => {
     it("deposit", async () => {
       await expect(
-        kit.asMember.lido.stETH.submit(ZERO_ADDRESS, {
+        kit.asMember.lido.stEth.submit(zeroAddress, {
           value: parseEther("1"),
         })
       ).not.toRevert()

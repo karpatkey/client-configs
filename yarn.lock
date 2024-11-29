@@ -1411,10 +1411,10 @@ defer-to-connect@^2.0.0:
   resolved "https://registry.yarnpkg.com/defer-to-connect/-/defer-to-connect-2.0.1.tgz#8016bdb4143e4632b77a3449c6236277de520587"
   integrity sha512-4tvttepXG1VaYGrRibk5EwJd1t4udunSOVMdLSAL6mId1ix438oPwPZMALY41FCijukO1L0twNcGsdzS7dHgDg==
 
-defi-kit@^2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/defi-kit/-/defi-kit-2.4.0.tgz#41fe522e9c55d8f4e892252fccbfb146033f7006"
-  integrity sha512-YxKEueff7QYFZ8Ie2iWB0PKQz37Ljd1kcjuo3p6Ap2Qi2ZhoIhIg1WT8zhNxjawOX+jCthGAjm2EQlC8YO4V9w==
+defi-kit@^2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/defi-kit/-/defi-kit-2.6.0.tgz#989ce4a568ea8084278f3d11c649bbdeddd8933c"
+  integrity sha512-BZmrhAO7Vft9ApLokLLgb2NzlHnzS7JFbLJ+ftIV8QLD5M/39KAi7LtJngT/ovQ4F+x4dg6t2cwfYc3xoKfIcg==
   dependencies:
     "@asteasolutions/zod-to-openapi" "^5.5.0"
     "@gnosis-guild/eth-sdk" "^0.3.7"
@@ -3546,6 +3546,11 @@ zodiac-roles-deployments@^2.2.6:
   resolved "https://registry.yarnpkg.com/zodiac-roles-deployments/-/zodiac-roles-deployments-2.2.6.tgz#35820f49ef8e1c14b20f60ddeccfa96a726e1203"
   integrity sha512-J8TWxoXlpbdh0aBVJHx0B7SufImLxw/SCD3e+FeTdJyuv9DrXLjE/FXYwnzXz3wP8Xut2pwDOqf3KMf5vFm8cQ==
 
+zodiac-roles-deployments@^2.3.2:
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/zodiac-roles-deployments/-/zodiac-roles-deployments-2.3.3.tgz#5072d8e57cf09a9ff5a477788fe4033810aea2d0"
+  integrity sha512-2HM+vvzEHVSt7UKzUD6DYbf7Lu5ONVY7fbNV9zJG9rQ0lBP/tCnkVoJyWE6YzF2th3yNsvzAvSfiRr4pb/rORA==
+
 zodiac-roles-sdk@^2.14.5:
   version "2.14.5"
   resolved "https://registry.yarnpkg.com/zodiac-roles-sdk/-/zodiac-roles-sdk-2.14.5.tgz#0a31d2fa7486546978d39374255073f667626e2c"
@@ -3553,3 +3558,11 @@ zodiac-roles-sdk@^2.14.5:
   dependencies:
     ethers "^6.13.2"
     zodiac-roles-deployments "^2.2.6"
+
+zodiac-roles-sdk@^2.17.0:
+  version "2.17.0"
+  resolved "https://registry.yarnpkg.com/zodiac-roles-sdk/-/zodiac-roles-sdk-2.17.0.tgz#3b2c955a8bee3153f836f231d0df2dbd3c31209c"
+  integrity sha512-iZFKDR9VNn/xBfLzBWt6wV+fwPcGIZOAISsS6lkr5UAhkDsRfvUMuWv267+7anmESUmZF04I0zbnc9c7fnVAnA==
+  dependencies:
+    ethers "^6.13.2"
+    zodiac-roles-deployments "^2.3.2"

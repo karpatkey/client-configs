@@ -56,11 +56,11 @@ export default [
    * Typed-presets permissions
    *********************************************/
   // Compound v3 - USDC
-  ...allowErc20Approve([USDC], [contracts.mainnet.compound_v3.cUSDCv3]),
-  allow.mainnet.compound_v3.cUSDCv3.supply(USDC),
-  allow.mainnet.compound_v3.cUSDCv3.withdraw(USDC),
+  ...allowErc20Approve([USDC], [contracts.mainnet.compoundV3.cUsdcV3]),
+  allow.mainnet.compoundV3.cUsdcV3.supply(USDC),
+  allow.mainnet.compoundV3.cUsdcV3.withdraw(USDC),
   // Compound v3 - Claim rewards
-  allow.mainnet.compound_v3.CometRewards.claim(undefined, c.avatar),
+  allow.mainnet.compoundV3.cometRewards.claim(undefined, c.avatar),
 
   // Maker - DSR (DAI Savings Rate)
   // The DsrManager provides an easy to use smart contract that allows
@@ -68,31 +68,31 @@ export default [
   // and activate/deactivate the Dai Savings Rate to start earning savings
   // on a pool of dai in a single function call.
   // https://docs.makerdao.com/smart-contract-modules/proxy-module/dsr-manager-detailed-documentation#contract-details
-  ...allowErc20Approve([DAI], [contracts.mainnet.maker.dsr_manager]),
-  allow.mainnet.maker.dsr_manager.join(c.avatar),
-  allow.mainnet.maker.dsr_manager.exit(c.avatar),
-  allow.mainnet.maker.dsr_manager.exitAll(c.avatar),
+  ...allowErc20Approve([DAI], [contracts.mainnet.maker.dsrManager]),
+  allow.mainnet.maker.dsrManager.join(c.avatar),
+  allow.mainnet.maker.dsrManager.exit(c.avatar),
+  allow.mainnet.maker.dsrManager.exitAll(c.avatar),
 
   // Morpho Blue - wstETH/USDC
-  ...allowErc20Approve([USDC], [contracts.mainnet.morpho.morpho_blue]),
-  allow.mainnet.morpho.morpho_blue.supply(
+  ...allowErc20Approve([USDC], [contracts.mainnet.morpho.morphoBlue]),
+  allow.mainnet.morpho.morphoBlue.supply(
     {
       loanToken: USDC,
       collateralToken: wstETH,
-      oracle: morpho.Oracle_wstETH_USDC,
-      irm: morpho.Adaptative_Curve_IRM,
+      oracle: morpho.oracleWstEthUsdc,
+      irm: morpho.adaptativeCurveIrm,
     },
     undefined,
     undefined,
     c.avatar,
     "0x"
   ),
-  allow.mainnet.morpho.morpho_blue.withdraw(
+  allow.mainnet.morpho.morphoBlue.withdraw(
     {
       loanToken: USDC,
       collateralToken: wstETH,
-      oracle: morpho.Oracle_wstETH_USDC,
-      irm: morpho.Adaptative_Curve_IRM,
+      oracle: morpho.oracleWstEthUsdc,
+      irm: morpho.adaptativeCurveIrm,
     },
     undefined,
     undefined,
@@ -101,24 +101,24 @@ export default [
   ),
   // Morpho Blue - WBTC/USDC
   // USDC approval already included
-  allow.mainnet.morpho.morpho_blue.supply(
+  allow.mainnet.morpho.morphoBlue.supply(
     {
       loanToken: USDC,
       collateralToken: WBTC,
-      oracle: morpho.Oracle_WBTC_USDC,
-      irm: morpho.Adaptative_Curve_IRM,
+      oracle: morpho.oracleWbtcUsdc,
+      irm: morpho.adaptativeCurveIrm,
     },
     undefined,
     undefined,
     c.avatar,
     "0x"
   ),
-  allow.mainnet.morpho.morpho_blue.withdraw(
+  allow.mainnet.morpho.morphoBlue.withdraw(
     {
       loanToken: USDC,
       collateralToken: WBTC,
-      oracle: morpho.Oracle_WBTC_USDC,
-      irm: morpho.Adaptative_Curve_IRM,
+      oracle: morpho.oracleWbtcUsdc,
+      irm: morpho.adaptativeCurveIrm,
     },
     undefined,
     undefined,
@@ -130,8 +130,8 @@ export default [
    * Swaps
    *********************************************/
   // Curve - 3pool - Swap DAI <-> USDC
-  ...allowErc20Approve([DAI, USDC], [contracts.mainnet.curve.x3CRV_pool]),
-  allow.mainnet.curve.x3CRV_pool.exchange(
+  ...allowErc20Approve([DAI, USDC], [contracts.mainnet.curve.x3CrvPool]),
+  allow.mainnet.curve.x3CrvPool.exchange(
     c.or(0, 1), // 0 = DAI, 1 = USDC
     c.or(0, 1)
   ),
@@ -141,10 +141,10 @@ export default [
    *********************************************/
   // Mainnet -> Gnosis
   // DAI -> XDAI
-  ...allowErc20Approve([DAI], [contracts.mainnet.gno_xdai_bridge]),
-  allow.mainnet.gno_xdai_bridge.relayTokens(c.avatar, undefined),
+  ...allowErc20Approve([DAI], [contracts.mainnet.gnoXdaiBridge]),
+  allow.mainnet.gnoXdaiBridge.relayTokens(c.avatar, undefined),
   // Claim bridged XDAI from Gnosis
-  allow.mainnet.gno_xdai_bridge.executeSignatures(
+  allow.mainnet.gnoXdaiBridge.executeSignatures(
     c.and(
       // Avatar address
       c.bitmask({
@@ -163,18 +163,18 @@ export default [
       c.bitmask({
         shift: 20 + 32 + 32,
         mask: "0xffffffffffffffffffff",
-        value: contracts.mainnet.gno_xdai_bridge.slice(0, 22), // First 10 bytes of the avatar address
+        value: contracts.mainnet.gnoXdaiBridge.slice(0, 22), // First 10 bytes of the avatar address
       }),
       c.bitmask({
         shift: 20 + 32 + 32 + 10,
         mask: "0xffffffffffffffffffff",
-        value: "0x" + contracts.mainnet.gno_xdai_bridge.slice(22, 42), // Last 10 bytes of the avatar address
+        value: "0x" + contracts.mainnet.gnoXdaiBridge.slice(22, 42), // Last 10 bytes of the avatar address
       })
     )
   ),
   // DAI (Mainnet) -> DAI (Gnosis) - HOP
-  ...allowErc20Approve([DAI], [contracts.mainnet.hop_dai_bridge]),
-  allow.mainnet.hop_dai_bridge.sendToL2(
+  ...allowErc20Approve([DAI], [contracts.mainnet.hopDaiBridge]),
+  allow.mainnet.hopDaiBridge.sendToL2(
     100, // Gnosis
     c.avatar,
     undefined,
@@ -184,13 +184,13 @@ export default [
   ),
 
   // // COMP (Mainnet) -> COMP (Gnosis)
-  // ...allowErc20Approve([COMP], [contracts.mainnet.gno_omnibridge]),
-  // allow.mainnet.gno_omnibridge["relayTokens(address,address,uint256)"](
+  // ...allowErc20Approve([COMP], [contracts.mainnet.gnoOmnibridge]),
+  // allow.mainnet.gnoOmnibridge["relayTokens(address,address,uint256)"](
   //   COMP,
   //   c.avatar
   // ),
   // // Claim bridged COMP from Gnosis
-  // allow.mainnet.amb_eth_xdai.safeExecuteSignaturesWithAutoGasLimit(
+  // allow.mainnet.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
   //   c.and(
   //     // messageId: 32 bytes
   //     // First 4 bytes
@@ -216,23 +216,23 @@ export default [
   //     c.bitmask({
   //       shift: 32,
   //       mask: "0xffffffffffffffffffff",
-  //       value: contracts.gnosis.xdai_bridge.slice(0, 22), // First 10 bytes of the sender address (XDAI Bridge)
+  //       value: contracts.gnosis.xdaiBridge.slice(0, 22), // First 10 bytes of the sender address (XDAI Bridge)
   //     }),
   //     c.bitmask({
   //       shift: 32 + 10,
   //       mask: "0xffffffffffffffffffff",
-  //       value: "0x" + contracts.gnosis.xdai_bridge.slice(22, 42), // Second 10 bytes of the sender address (XDAI Bridge)
+  //       value: "0x" + contracts.gnosis.xdaiBridge.slice(22, 42), // Second 10 bytes of the sender address (XDAI Bridge)
   //     }),
   //     // executor: 20 bytes
   //     c.bitmask({
   //       shift: 32 + 20,
   //       mask: "0xffffffffffffffffffff",
-  //       value: contracts.mainnet.gno_omnibridge.slice(0, 22), // First 10 bytes of the executor address (Omnibridge)
+  //       value: contracts.mainnet.gnoOmnibridge.slice(0, 22), // First 10 bytes of the executor address (Omnibridge)
   //     }),
   //     c.bitmask({
   //       shift: 32 + 20 + 10,
   //       mask: "0xffffffffffffffffffff",
-  //       value: "0x" + contracts.mainnet.gno_omnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
+  //       value: "0x" + contracts.mainnet.gnoOmnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
   //     }),
   //     // gasLimit: 4 bytes
   //     c.bitmask({
@@ -280,15 +280,15 @@ export default [
   // ),
 
   // USDC (Mainnet) -> USDC.e (Gnosis)
-  ...allowErc20Approve([USDC], [contracts.mainnet.gno_omnibridge]),
-  allow.mainnet.gno_omnibridge.relayTokensAndCall(
+  ...allowErc20Approve([USDC], [contracts.mainnet.gnoOmnibridge]),
+  allow.mainnet.gnoOmnibridge.relayTokensAndCall(
     USDC,
-    contracts.gnosis.usdc_transmuter,
+    contracts.gnosis.usdcTransmuter,
     undefined,
     "0x" + avatar.slice(2).padStart(64, "0")
   ),
   // Claim bridged USDC from Gnosis
-  allow.mainnet.amb_eth_xdai.safeExecuteSignaturesWithAutoGasLimit(
+  allow.mainnet.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
     c.and(
       // messageId: 32 bytes
       // First 4 bytes
@@ -314,23 +314,23 @@ export default [
       c.bitmask({
         shift: 32,
         mask: "0xffffffffffffffffffff",
-        value: contracts.gnosis.xdai_bridge.slice(0, 22), // First 10 bytes of the sender address (XDAI Bridge)
+        value: contracts.gnosis.xdaiBridge.slice(0, 22), // First 10 bytes of the sender address (XDAI Bridge)
       }),
       c.bitmask({
         shift: 32 + 10,
         mask: "0xffffffffffffffffffff",
-        value: "0x" + contracts.gnosis.xdai_bridge.slice(22, 42), // Second 10 bytes of the sender address (XDAI Bridge)
+        value: "0x" + contracts.gnosis.xdaiBridge.slice(22, 42), // Second 10 bytes of the sender address (XDAI Bridge)
       }),
       // executor: 20 bytes
       c.bitmask({
         shift: 32 + 20,
         mask: "0xffffffffffffffffffff",
-        value: contracts.mainnet.gno_omnibridge.slice(0, 22), // First 10 bytes of the executor address (Omnibridge)
+        value: contracts.mainnet.gnoOmnibridge.slice(0, 22), // First 10 bytes of the executor address (Omnibridge)
       }),
       c.bitmask({
         shift: 32 + 20 + 10,
         mask: "0xffffffffffffffffffff",
-        value: "0x" + contracts.mainnet.gno_omnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
+        value: "0x" + contracts.mainnet.gnoOmnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
       }),
       // gasLimit: 4 bytes
       c.bitmask({
@@ -380,12 +380,12 @@ export default [
 
   // Mainnet -> Optimism
   // DAI (Mainnet) -> DAI (Optimism)
-  ...allowErc20Approve([DAI], [contracts.mainnet.opt_dai_bridge]),
-  allow.mainnet.opt_dai_bridge.depositERC20(DAI, DAI_opt),
-  allow.mainnet.opt_dai_bridge.depositERC20To(DAI, DAI_opt, c.avatar),
+  ...allowErc20Approve([DAI], [contracts.mainnet.optDaiBridge]),
+  allow.mainnet.optDaiBridge.depositERC20(DAI, DAI_opt),
+  allow.mainnet.optDaiBridge.depositERC20To(DAI, DAI_opt, c.avatar),
   // DAI (Mainnet) -> DAI (Optimism) - HOP
-  ...allowErc20Approve([DAI], [contracts.mainnet.hop_dai_bridge]),
-  allow.mainnet.hop_dai_bridge.sendToL2(
+  ...allowErc20Approve([DAI], [contracts.mainnet.hopDaiBridge]),
+  allow.mainnet.hopDaiBridge.sendToL2(
     10, // Optimism
     c.avatar,
     undefined,
@@ -395,20 +395,20 @@ export default [
   ),
 
   // COMP (Mainnet) -> COMP (Optimism)
-  ...allowErc20Approve([COMP], [contracts.mainnet.opt_gateway]),
-  allow.mainnet.opt_gateway.depositERC20(COMP, COMP_opt),
-  allow.mainnet.opt_gateway.depositERC20To(COMP, COMP_opt, c.avatar),
+  ...allowErc20Approve([COMP], [contracts.mainnet.optGateway]),
+  allow.mainnet.optGateway.depositERC20(COMP, COMP_opt),
+  allow.mainnet.optGateway.depositERC20To(COMP, COMP_opt, c.avatar),
 
   // USDC (Mainnet) -> USDC (Optimism)
-  ...allowErc20Approve([USDC], [contracts.mainnet.circle_token_messenger]),
-  allow.mainnet.circle_token_messenger.depositForBurn(
+  ...allowErc20Approve([USDC], [contracts.mainnet.circleTokenMessenger]),
+  allow.mainnet.circleTokenMessenger.depositForBurn(
     undefined,
     2,
     "0x" + avatar.slice(2).padStart(64, "0"),
     USDC
   ),
   // Claim bridged USDC from Optimism
-  allow.mainnet.circle_message_transmitter.receiveMessage(
+  allow.mainnet.circleMessageTransmitter.receiveMessage(
     c.and(
       // version: 4 bytes (00000000)
       // source domain: 4 bytes(00000002)
@@ -425,12 +425,12 @@ export default [
       c.bitmask({
         shift: 20 + 12,
         mask: "0xffffffffffffffffffff",
-        value: contracts.optimism.circle_token_messenger.slice(0, 22),
+        value: contracts.optimism.circleTokenMessenger.slice(0, 22),
       }),
       c.bitmask({
         shift: 20 + 12 + 10,
         mask: "0xffffffffffffffffffff",
-        value: "0x" + contracts.optimism.circle_token_messenger.slice(22, 42),
+        value: "0x" + contracts.optimism.circleTokenMessenger.slice(22, 42),
       }),
       // recipient: 32 bytes
       // skip the first 12 bytes of the address with 0's
@@ -438,12 +438,12 @@ export default [
       c.bitmask({
         shift: 20 + 32 + 12,
         mask: "0xffffffffffffffffffff",
-        value: contracts.mainnet.circle_token_messenger.slice(0, 22),
+        value: contracts.mainnet.circleTokenMessenger.slice(0, 22),
       }),
       c.bitmask({
         shift: 20 + 32 + 12 + 10,
         mask: "0xffffffffffffffffffff",
-        value: "0x" + contracts.mainnet.circle_token_messenger.slice(22, 42),
+        value: "0x" + contracts.mainnet.circleTokenMessenger.slice(22, 42),
       }),
       // message body: dynamic
       // skip selector (4 bytes) + 32 bytes chunk with 0
@@ -487,19 +487,19 @@ export default [
     )
   ),
   // USDC (Mainnet) -> USDC (Optimism) - HOP
-  ...allowErc20Approve([USDC], [contracts.mainnet.l1_hop_cctp]),
-  allow.mainnet.l1_hop_cctp.send(
+  ...allowErc20Approve([USDC], [contracts.mainnet.l1HopCctp]),
+  allow.mainnet.l1HopCctp.send(
     10, // Optimism
     c.avatar
   ),
 
   // Mainnet -> Arbitrum
   // DAI (Mainnet) -> DAI (Arbitrum)
-  ...allowErc20Approve([DAI], [contracts.mainnet.arb_dai_gateway]),
-  allow.mainnet.arb_dai_gateway.outboundTransfer(DAI, c.avatar),
+  ...allowErc20Approve([DAI], [contracts.mainnet.arbDaiGateway]),
+  allow.mainnet.arbDaiGateway.outboundTransfer(DAI, c.avatar),
   // DAI (Mainnet) -> DAI (Arbitrum) - HOP
-  ...allowErc20Approve([DAI], [contracts.mainnet.hop_dai_bridge]),
-  allow.mainnet.hop_dai_bridge.sendToL2(
+  ...allowErc20Approve([DAI], [contracts.mainnet.hopDaiBridge]),
+  allow.mainnet.hopDaiBridge.sendToL2(
     42161, // Arbitrum
     c.avatar,
     undefined,
@@ -509,19 +509,19 @@ export default [
   ),
 
   // COMP (Mainnet) -> COMP (Arbitrum)
-  ...allowErc20Approve([COMP], [contracts.mainnet.arb_erc20_gateway]),
-  allow.mainnet.arb_erc20_gateway.outboundTransfer(COMP, c.avatar),
+  ...allowErc20Approve([COMP], [contracts.mainnet.arbErc20Gateway]),
+  allow.mainnet.arbErc20Gateway.outboundTransfer(COMP, c.avatar),
 
   // USDC (Mainnet) -> USDC (Arbitrum)
-  ...allowErc20Approve([USDC], [contracts.mainnet.circle_token_messenger]),
-  allow.mainnet.circle_token_messenger.depositForBurn(
+  ...allowErc20Approve([USDC], [contracts.mainnet.circleTokenMessenger]),
+  allow.mainnet.circleTokenMessenger.depositForBurn(
     undefined,
     3,
     "0x" + avatar.slice(2).padStart(64, "0"),
     USDC
   ),
   // Claim bridged USDC from Arbitrum
-  allow.mainnet.circle_message_transmitter.receiveMessage(
+  allow.mainnet.circleMessageTransmitter.receiveMessage(
     c.and(
       // version: 4 bytes (00000000)
       // source domain: 4 bytes(00000003)
@@ -538,13 +538,12 @@ export default [
       c.bitmask({
         shift: 20 + 12,
         mask: "0xffffffffffffffffffff",
-        value: contracts.arbitrumOne.circle_token_messenger.slice(0, 22),
+        value: contracts.arbitrumOne.circleTokenMessenger.slice(0, 22),
       }),
       c.bitmask({
         shift: 20 + 12 + 10,
         mask: "0xffffffffffffffffffff",
-        value:
-          "0x" + contracts.arbitrumOne.circle_token_messenger.slice(22, 42),
+        value: "0x" + contracts.arbitrumOne.circleTokenMessenger.slice(22, 42),
       }),
       // recipient: 32 bytes
       // skip the first 12 bytes of the address with 0's
@@ -552,12 +551,12 @@ export default [
       c.bitmask({
         shift: 20 + 32 + 12,
         mask: "0xffffffffffffffffffff",
-        value: contracts.mainnet.circle_token_messenger.slice(0, 22),
+        value: contracts.mainnet.circleTokenMessenger.slice(0, 22),
       }),
       c.bitmask({
         shift: 20 + 32 + 12 + 10,
         mask: "0xffffffffffffffffffff",
-        value: "0x" + contracts.mainnet.circle_token_messenger.slice(22, 42),
+        value: "0x" + contracts.mainnet.circleTokenMessenger.slice(22, 42),
       }),
       // message body: dynamic
       // skip selector (4 bytes) + 32 bytes chunk with 0
@@ -601,23 +600,23 @@ export default [
     )
   ),
   // USDC (Mainnet) -> USDC (Arbitrum) - HOP
-  ...allowErc20Approve([USDC], [contracts.mainnet.l1_hop_cctp]),
-  allow.mainnet.l1_hop_cctp.send(
+  ...allowErc20Approve([USDC], [contracts.mainnet.l1HopCctp]),
+  allow.mainnet.l1HopCctp.send(
     42161, // Arbitrum
     c.avatar
   ),
 
   // Mainnet -> Base
   // USDC (Mainnet) -> USDC (Base)
-  ...allowErc20Approve([USDC], [contracts.mainnet.circle_token_messenger]),
-  allow.mainnet.circle_token_messenger.depositForBurn(
+  ...allowErc20Approve([USDC], [contracts.mainnet.circleTokenMessenger]),
+  allow.mainnet.circleTokenMessenger.depositForBurn(
     undefined,
     6,
     "0x" + avatar.slice(2).padStart(64, "0"),
     USDC
   ),
   // Claim bridged USDC from Base
-  allow.mainnet.circle_message_transmitter.receiveMessage(
+  allow.mainnet.circleMessageTransmitter.receiveMessage(
     c.and(
       // version: 4 bytes (00000000)
       // source domain: 4 bytes(00000006)
@@ -634,12 +633,12 @@ export default [
       c.bitmask({
         shift: 20 + 12,
         mask: "0xffffffffffffffffffff",
-        value: contracts.base.circle_token_messenger.slice(0, 22),
+        value: contracts.base.circleTokenMessenger.slice(0, 22),
       }),
       c.bitmask({
         shift: 20 + 12 + 10,
         mask: "0xffffffffffffffffffff",
-        value: "0x" + contracts.base.circle_token_messenger.slice(22, 42),
+        value: "0x" + contracts.base.circleTokenMessenger.slice(22, 42),
       }),
       // recipient: 32 bytes
       // skip the first 12 bytes of the address with 0's
@@ -647,12 +646,12 @@ export default [
       c.bitmask({
         shift: 20 + 32 + 12,
         mask: "0xffffffffffffffffffff",
-        value: contracts.mainnet.circle_token_messenger.slice(0, 22),
+        value: contracts.mainnet.circleTokenMessenger.slice(0, 22),
       }),
       c.bitmask({
         shift: 20 + 32 + 12 + 10,
         mask: "0xffffffffffffffffffff",
-        value: "0x" + contracts.mainnet.circle_token_messenger.slice(22, 42),
+        value: "0x" + contracts.mainnet.circleTokenMessenger.slice(22, 42),
       }),
       // message body: dynamic
       // skip selector (4 bytes) + 32 bytes chunk with 0
@@ -696,8 +695,8 @@ export default [
     )
   ),
   // USDC (Mainnet) -> USDC (Base) - HOP
-  ...allowErc20Approve([USDC], [contracts.mainnet.l1_hop_cctp]),
-  allow.mainnet.l1_hop_cctp.send(
+  ...allowErc20Approve([USDC], [contracts.mainnet.l1HopCctp]),
+  allow.mainnet.l1HopCctp.send(
     8453, // Base
     c.avatar
   ),

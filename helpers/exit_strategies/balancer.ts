@@ -8,16 +8,27 @@ import { contracts } from "../../eth-sdk/config"
 // import { ethers } from "ethers"
 // import { providers } from "../providers"
 
-export const balancer__withdraw = (balancerPoolId: string): PermissionSet => {
+export const balancer__withdraw = (
+  balancerPoolId: string,
+  allowExitOneCoin: boolean = true
+): PermissionSet => {
   return [
     // It doesn't matter the blockchain we use, as the Vault address remains the same
-    allow.mainnet.balancer.vault.exitPool(balancerPoolId, c.avatar, c.avatar),
+    allow.mainnet.balancer.vault.exitPool(balancerPoolId, c.avatar, c.avatar, {
+      userData: c.abiEncodedMatches(
+        allowExitOneCoin
+          ? [c.pass] // Constraint if allowExitOneCoin = true
+          : [c.or(1, 2, 3)], // Constraint if allowExitOneCoin = false
+        ["uint256"]
+      ),
+    }),
   ]
 }
 
 export const balancer__unstake_withdraw = async (
   chain: Chain,
-  gauge: Address
+  gauge: Address,
+  allowExitOneCoin: boolean = true
 ): Promise<PermissionSet> => {
   const sdk = sdks[chain]
 
@@ -51,7 +62,14 @@ export const balancer__unstake_withdraw = async (
       targetAddress: gauge,
     },
     // It doesn't matter the blockchain we use, as the Vault address remains the same
-    allow.mainnet.balancer.vault.exitPool(balancerPoolId, c.avatar, c.avatar),
+    allow.mainnet.balancer.vault.exitPool(balancerPoolId, c.avatar, c.avatar, {
+      userData: c.abiEncodedMatches(
+        allowExitOneCoin
+          ? [c.pass] // Constraint if allowExitOneCoin = true
+          : [c.or(1, 2, 3)], // Constraint if allowExitOneCoin = false
+        ["uint256"]
+      ),
+    }),
   ]
 }
 

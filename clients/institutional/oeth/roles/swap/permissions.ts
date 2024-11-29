@@ -15,14 +15,14 @@ import { balancer__swap } from "../../../../../helpers/exit_strategies/balancer"
 export default [
   // Balancer - USDC/USDC.e/DAI/USDT Pool - Swap [DAI, USDC, USDCe] <-> [DAI, USDC, USDCe]
   balancer__swap(
-    balancer.Stable_Beets_pId,
+    balancer.stableBeetsPid,
     [DAI, USDC, USDCe],
     [DAI, USDC, USDCe]
   ),
 
   // Curve - 3pool - Swap DAI <-> USDC.e
-  ...allowErc20Approve([DAI, USDCe], [contracts.optimism.curve.x3CRV_pool]),
-  allow.optimism.curve.x3CRV_pool["exchange(int128,int128,uint256,uint256)"](
+  ...allowErc20Approve([DAI, USDCe], [contracts.optimism.curve.x3CrvPool]),
+  allow.optimism.curve.x3CrvPool["exchange(int128,int128,uint256,uint256)"](
     c.or(0, 1), // 0 = DAI, 1 = USDC.e
     c.or(0, 1)
   ),
@@ -30,9 +30,9 @@ export default [
   // Curve - crvUSDC/USDC - Swap crvUSDC <-> USDC
   ...allowErc20Approve(
     [crvUSD, USDC],
-    [contracts.optimism.curve.crvUSD_USDC_pool]
+    [contracts.optimism.curve.crvUsdUsdcPool]
   ),
-  allow.optimism.curve.crvUSD_USDC_pool[
+  allow.optimism.curve.crvUsdUsdcPool[
     "exchange(int128,int128,uint256,uint256)"
   ](
     c.or(0, 1), // 0 = crvUSDC, 1 = USDC
@@ -42,9 +42,9 @@ export default [
   // Curve - crvUSDC/USDC.e - Swap crvUSDC <-> USDC.e
   ...allowErc20Approve(
     [crvUSD, USDCe],
-    [contracts.optimism.curve.crvUSD_USDCe_pool]
+    [contracts.optimism.curve.crvUsdUsdcePool]
   ),
-  allow.optimism.curve.crvUSD_USDCe_pool[
+  allow.optimism.curve.crvUsdUsdcePool[
     "exchange(int128,int128,uint256,uint256)"
   ](
     c.or(0, 1), // 0 = crvUSDC, 1 = USDC.e
@@ -52,11 +52,8 @@ export default [
   ),
 
   // Curve - sUSD Synthetix - Swap DAI <-> USDC.e
-  ...allowErc20Approve(
-    [DAI, USDCe],
-    [contracts.optimism.curve.sUSD3CRV_f_pool]
-  ),
-  allow.optimism.curve.sUSD3CRV_f_pool[
+  ...allowErc20Approve([DAI, USDCe], [contracts.optimism.curve.sUsd3CrvPool]),
+  allow.optimism.curve.sUsd3CrvPool[
     "exchange_underlying(int128,int128,uint256,uint256)"
   ](
     c.or(1, 2), // 1 = DAI, 2 = USDC.e
