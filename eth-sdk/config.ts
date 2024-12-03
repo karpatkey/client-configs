@@ -5,6 +5,17 @@ export const contracts = {
   mainnet: {
     ...deFiKitContracts.mainnet,
     navCalculator: "0xF0125A04d74782e6d2aD6d298F0Bc786e301AAc1",
+    curve: {
+      ...deFiKitContracts.mainnet.curve,
+      ethxfPool: "0x59Ab5a5b5d617E478a2479B0cAD80DA7e2831492",
+      ethxfGauge: "0x7671299eA7B4bbE4f3fD305A994e6443b4be680E",
+      ankrCrvPool: "0xA96A65c051bF88B4095Ee1f2451C2A9d43F53Ae2",
+      ankrCrvGauge: "0x6d10ed2cF043E6fcf51A0e7b4C2Af3Fa06695707",
+    },
+    etherfi: {
+      liquidEth: "0xf0bb20865277aBd641a307eCe5Ee04E79073416C",
+      tellerWithMultiAssetSupport: "0x5c135e8eC99557b412b9B4492510dCfBD36066F5",
+    },
   },
   gnosis: {
     ...deFiKitContracts.gnosis,
