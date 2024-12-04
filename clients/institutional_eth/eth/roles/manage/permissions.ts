@@ -4,14 +4,28 @@ import { allow as allowAction } from "defi-kit/eth"
 import {
   eAddress,
   zeroAddress,
-  ETHx,
   ankrETH,
+  AURA,
+  BAL,
+  cbETH,
+  CRV,
+  CVX,
+  eETH,
+  ETHFI,
+  ETHx,
+  osETH,
+  rETH,
+  RPL,
+  stETH,
+  SWISE,
+  weETH,
+  WETH,
+  wstETH,
   curve,
 } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
-import { avatar } from "../../index"
 
 export default [
   /*********************************************
@@ -33,6 +47,46 @@ export default [
   allowAction.convex.deposit({ targets: ["232"] }),
   // Convex - ankrETH/ETH
   allowAction.convex.deposit({ targets: ["27"] }),
+
+  // CowSwap - [ankrETH, AURA, BAL, cbETH, CRV, CVX, eETH, ETH, ETHFI, ETHx, liquidETH, osETH, rETH, RPL, stETH, SWISE, weETH, WETH, wstETH] <->
+  // [ankrETH, cbETH, eETH, ETH, ETHx, liquidETH, osETH, rETH, stETH, weETH, WETH, wstETH]
+  allowAction.cowswap.swap({
+    sell: [
+      ankrETH,
+      AURA,
+      BAL,
+      cbETH,
+      CRV,
+      CVX,
+      eETH,
+      "ETH",
+      ETHFI,
+      ETHx,
+      contracts.mainnet.etherfi.liquidEth,
+      osETH,
+      rETH,
+      RPL,
+      stETH,
+      SWISE,
+      weETH,
+      WETH,
+      wstETH,
+    ],
+    buy: [
+      ankrETH,
+      cbETH,
+      eETH,
+      "ETH",
+      ETHx,
+      contracts.mainnet.etherfi.liquidEth,
+      osETH,
+      rETH,
+      stETH,
+      weETH,
+      WETH,
+      wstETH,
+    ],
+  }),
 
   // Uniswap v3 - WETH/wstETH
   allowAction.uniswap_v3.deposit({ tokens: ["WETH", "wstETH"] }),
@@ -105,5 +159,23 @@ export default [
     undefined,
     zeroAddress,
     { send: true }
+  ),
+
+  // ether.fi - Liquid ETH - Deposit
+  ...allowErc20Approve(
+    [eETH, weETH, WETH],
+    [contracts.mainnet.etherfi.liquidEth]
+  ),
+  allow.mainnet.etherfi.tellerWithMultiAssetSupport.deposit(
+    c.or(eETH, weETH, WETH)
+  ),
+  // ether.fi - Liquid ETH - Withdraw
+  ...allowErc20Approve(
+    [contracts.mainnet.etherfi.liquidEth],
+    [contracts.mainnet.etherfi.atomicQueue]
+  ),
+  allow.mainnet.etherfi.atomicQueue.updateAtomicRequest(
+    contracts.mainnet.etherfi.liquidEth,
+    c.or(eETH, weETH)
   ),
 ] satisfies PermissionList

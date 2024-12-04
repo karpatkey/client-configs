@@ -15,6 +15,7 @@ export const contracts = {
     etherfi: {
       liquidEth: "0xf0bb20865277aBd641a307eCe5Ee04E79073416C",
       tellerWithMultiAssetSupport: "0x5c135e8eC99557b412b9B4492510dCfBD36066F5",
+      atomicQueue: "0xD45884B592E316eB816199615A95C182F75dea07",
     },
   },
   gnosis: {

@@ -11,6 +11,7 @@ export const AZUR = "0x9E6be44cC1236eEf7e1f197418592D363BedCd5A"
 export const auraBAL = "0x616e8BfA43F920657B3497DBf40D6b1A02D4608d"
 export const BAL = "0xba100000625a3754423978a60c9317c58a424e3D"
 export const BOB = "0xB0B195aEFA3650A6908f15CdaC7D92F8a5791B0B"
+export const cbETH = "0xBe9895146f7AF43049ca1c1AE358B0541Ea49704"
 export const COMP = "0xc00e94Cb662C3520282E6f5717214004A7f26888"
 export const COW = "0xDEf1CA1fb7FBcDC777520aa7f396b4E015F497aB"
 export const CREAM = "0x2ba592F78dB6436527729929AAf6c908497cB200"
@@ -20,6 +21,7 @@ export const CVX = "0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D2B"
 export const D2D = "0x43D4A3cd90ddD2F8f4f693170C9c8098163502ad"
 export const DAI = "0x6B175474E89094C44Da98b954EedeAC495271d0F"
 export const eETH = "0x35fA164735182de50811E8e2E824cFb9B6118ac2"
+export const ETHFI = "0xFe0c30065B384F05761f15d0CC899D4F9F9Cc0eB"
 export const ENS = "0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72"
 export const ETHx = "0xA35b1B31Ce002FBF2058D22F30f95D405200A15b"
 export const EURA = "0x1a7e4e63778B4f12a199C062f3eFdD288afCBce8"
@@ -102,6 +104,8 @@ export const aura = {
     "0x82FeB430d9D14eE5E635C41807e03fD8F5FfFDeC" as Address,
   aura50Cow50WethRewarder:
     "0xA6e54eA1C67396Bde9e92cA462197bE59Af3E875" as Address,
+  auraosEthWethRewarder:
+    "0x5F032f15B4e910252EDaDdB899f7201E89C8cD6b" as Address,
 }
 
 export const balancer = {
@@ -115,6 +119,7 @@ export const balancer = {
   bREthStableGauge: "0x79eF6103A513951a3b25743DB509E267685726B7" as Address,
   b50Cow50GnoGauge: "0x57AB3b673878C3fEaB7f8FF434C40Ab004408c4c" as Address,
   b50Cow50WethGauge: "0x7C777eEA1dC264e71E567Fcc9B6DdaA9064Eff51" as Address,
+  osEthWethGauge: "0xc592c33e51A764B94DB0702D8BAf4035eD577aED" as Address,
 
   // pIds
   bStEthStablePid:
@@ -149,22 +154,27 @@ export const balancer = {
     "0xaa7a70070e7495fe86c67225329dbd39baa2f63b000200000000000000000663",
   ghoUsdtUsdcPid:
     "0x8353157092ed8be69a9df8f95af097bbf33cb2af0000000000000000000005d9",
+  osEthWethPid:
+    "0xdacf5fa19b1f720111609043ac67a9818262850c000000000000000000000635",
 }
 
 export const convex = {
   // LPs
-  steCrv: "0x9518c9063eB0262D791f38d8d6Eb0aca33c63ed0" as Address,
-  stEthNgf: "0x1b74fa5951dfa4c03D0127011548fA79b956f63B" as Address,
-  cDaicUsdc: "0x32512Bee3848bfcBb7bEAf647aa697a100f3b706" as Address,
+  cvxsteCrv: "0x9518c9063eB0262D791f38d8d6Eb0aca33c63ed0" as Address,
+  cvxstEthNgf: "0x1b74fa5951dfa4c03D0127011548fA79b956f63B" as Address,
+  cvxcDaicUsdc: "0x32512Bee3848bfcBb7bEAf647aa697a100f3b706" as Address,
 
   // Rewarders
-  steCrvRewarder: "0x0A760466E1B4621579a82a39CB56Dda2F4E70f03" as Address,
-  stEthNgfRewarder: "0x6B27D7BC63F1999D14fF9bA900069ee516669ee8" as Address,
-  cDaicUsdcRewarder: "0xf34DFF761145FF0B05e917811d488B441F33a968" as Address,
-  crvUsdtWbtcWethRewarder:
+  cvxsteCrvRewarder: "0x0A760466E1B4621579a82a39CB56Dda2F4E70f03" as Address,
+  cvxstEthNgfRewarder: "0x6B27D7BC63F1999D14fF9bA900069ee516669ee8" as Address,
+  cvxcDaicUsdcRewarder: "0xf34DFF761145FF0B05e917811d488B441F33a968" as Address,
+  cvxcrvUsdtWbtcWethRewarder:
     "0xb05262D4aaAA38D0Af4AaB244D446ebDb5afd4A7" as Address,
-  ghoBtcWstEthRewarder: "0x923D3C32f870E7953dd4020D0585D6419C44e4Ca" as Address,
-  oEthCrvRewarder: "0x24b65DC1cf053A8D96872c323d29e86ec43eB33A" as Address,
+  cvxGhoBtcWstEthRewarder:
+    "0x923D3C32f870E7953dd4020D0585D6419C44e4Ca" as Address,
+  cvxOethCrvRewarder: "0x24b65DC1cf053A8D96872c323d29e86ec43eB33A" as Address,
+  cvxethxRewarder: "0x399e111c7209a741B06F8F86Ef0Fdd88fC198D20" as Address,
+  cvxankrCrvRewarder: "0x8798b81b0261934aa850C8de8622472bfdc143F4" as Address,
 }
 
 export const cowSwap = {
