@@ -62,10 +62,10 @@ export default [
   allow.mainnet.compoundV3.cUsdcV3.withdraw(USDC),
 
   // Convex - USDT/WBTC/WETH
-  convex__withdraw(convex.crvUsdtWbtcWethRewarder),
+  convex__withdraw(convex.cvxcrvUsdtWbtcWethRewarder),
 
   // Convex - GHO/WBTC/wstETH
-  convex__withdraw(convex.ghoBtcWstEthRewarder),
+  convex__withdraw(convex.cvxGhoBtcWstEthRewarder),
 
   // Curve - USDT/WBTC/WETH
   allow.mainnet.curve.crvUsdtWbtcWethPool[

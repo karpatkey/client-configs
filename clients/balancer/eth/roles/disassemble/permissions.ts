@@ -54,7 +54,7 @@ export default [
   allow.mainnet.compoundV3.cUsdcV3.withdraw(USDC),
 
   // Convex - ETH/OETH
-  convex__withdraw(convex.oEthCrvRewarder),
+  convex__withdraw(convex.cvxOethCrvRewarder),
 
   // Curve - ETH/OETH
   allow.mainnet.curve.oEthCrvPool["remove_liquidity(uint256,uint256[2])"](),
