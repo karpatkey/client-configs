@@ -21,8 +21,6 @@ export default [
   /*********************************************
    * DeFi-Kit permissions
    *********************************************/
-  // // Aura - 50COW-50WETH
-  // allowAction.aura.deposit({ targets: ["105"] }),
   // Aura - Lock
   allowAction.aura.lock(),
 
