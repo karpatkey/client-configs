@@ -22,9 +22,6 @@ import {
 import { Chain, PermissionList } from "../../../../../types"
 
 export default [
-  /*********************************************
-   * Protocol permissions
-   *********************************************/
   // Unwrap XDAI
   allow.gnosis.wxdai["withdraw"](),
 

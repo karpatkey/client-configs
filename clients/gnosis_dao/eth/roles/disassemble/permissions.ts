@@ -1,43 +1,27 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import {
-  ankrETH,
-  DAI,
   GHO,
-  ETHx,
-  rETH,
-  osETH,
   USDC,
-  USDT,
   WBTC,
-  WETH,
   stETH,
   wstETH,
   aura,
   balancer,
-  eAddress,
 } from "../../../../../eth-sdk/addresses"
 import { PermissionList } from "../../../../../types"
 import {
-  lido__unstake_stETH,
-  lido__unwrap_and_unstake_wstETH,
-} from "../../../../../helpers/exit_strategies/lido"
-import { aura__withdraw_balancer } from "../../../../../helpers/exit_strategies/aura"
-import {
+  aura__withdraw_balancer,
   balancer__withdraw,
   balancer__unstake_withdraw,
-  balancer__swap,
-} from "../../../../../helpers/exit_strategies/balancer"
-import { cowswap__swap } from "../../../../../helpers/exit_strategies/cowswap"
+  lido__unstake_stETH,
+  lido__unwrap_and_unstake_wstETH,
+} from "../../../../../helpers/exit_strategies"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { contracts } from "../../../../../eth-sdk/config"
 import { Chain } from "../../../../../types"
 
 export default [
-  /*********************************************
-   * Protocol permissions
-   *********************************************/
-
   // Aave v2 - Staking of GHO in Safety Module
   allow.mainnet.aaveV2.stkGho.redeem(c.avatar),
   allow.mainnet.aaveV2.stkGho.cooldown(),
@@ -187,71 +171,4 @@ export default [
     c.avatar
   ),
   allow.mainnet.stakeWiseV3.chrorusOneMevMax.claimExitedAssets(),
-
-  /*********************************************
-   * SWAPS
-   *********************************************/
-  // Balancer - Swap rETH <-> WETH
-  balancer__swap(balancer.bREthStablePid, [rETH, WETH], [rETH, WETH]),
-
-  // Balancer - Swap WETH <-> wstETH
-  balancer__swap(balancer.bStEthStablePid, [WETH, wstETH], [wstETH, WETH]),
-
-  // CowSwap - DAI -> [ETH, USDC, USDT]
-  cowswap__swap([DAI], [eAddress, USDC, USDT], Chain.eth),
-
-  // CowSwap - USDT -> [USDC, DAI, eAddress]
-  cowswap__swap([USDT], [USDC, DAI, eAddress], Chain.eth),
-
-  // Cowswap - USDC -> [DAI, USDT, eAddress]
-  cowswap__swap([USDC], [DAI, USDT, eAddress], Chain.eth),
-
-  // Cowswap - [ETH, WETH] -> [DAI, USDT, USDC]
-  cowswap__swap([eAddress, WETH], [DAI, USDT, USDC], Chain.eth),
-
-  // CowSwap - DAI <> USDT
-  cowswap__swap([DAI, USDT], [DAI, USDT], Chain.eth),
-
-  // CowSwap - USDC <> USDT
-  cowswap__swap([USDC, USDT], [USDC, USDT], Chain.eth),
-
-  // CowSwap - wstETH -> stETH
-  cowswap__swap([wstETH], [stETH], Chain.eth),
-
-  // CowSwap - osETH <> WETH
-  cowswap__swap([osETH], [WETH], Chain.eth),
-
-  // CowSwap - rETH <> WETH
-  cowswap__swap([rETH, WETH], [rETH, WETH], Chain.eth),
-
-  // CowSwap - GHO <> USDC
-  cowswap__swap([GHO, USDC], [GHO, USDC], Chain.eth),
-
-  // Curve - Swaps in 3pool
-  ...allowErc20Approve([DAI, USDC, USDT], [contracts.mainnet.curve.x3CrvPool]),
-  allow.mainnet.curve.x3CrvPool["exchange"](),
-
-  // Curve - Swap ETH/stETH (steCRV)
-  ...allowErc20Approve([stETH], [contracts.mainnet.curve.steCrvPool]),
-  allow.mainnet.curve.steCrvPool["exchange"](),
-
-  // Curve - Swaps ETH/stETH (stETH-ng-f)
-  ...allowErc20Approve([stETH], [contracts.mainnet.curve.stEthNgfPool]),
-  allow.mainnet.curve.stEthNgfPool["exchange(int128,int128,uint256,uint256)"](),
-
-  // Uniswap V3 - Swaps
-  ...allowErc20Approve(
-    [ankrETH, DAI, ETHx, USDC, USDT, WETH, wstETH],
-    [contracts.mainnet.uniswapV3.router2]
-  ),
-  allow.mainnet.uniswapV3.router2.exactInputSingle(
-    {
-      tokenIn: c.or(ankrETH, DAI, ETHx, USDC, USDT, WETH, wstETH),
-      tokenOut: c.or(DAI, USDC, USDT, WETH, wstETH),
-      recipient: c.avatar,
-    },
-    {
-      send: true,
-    }
-  ),
 ] satisfies PermissionList
