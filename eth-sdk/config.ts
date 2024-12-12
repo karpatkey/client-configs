@@ -75,9 +75,6 @@ export const contracts = {
       wstEthAaGauge: "0x675eC042325535F6e176638Dd2d4994F645502B9",
       distributorProxy: "0x074306bc6a6fc1bd02b425dd41d742adf36ca9c6",
     },
-    maverick: {
-      v2Router: "0x62e31802c6145A2D5E842EeD8efe01fC224422fA",
-    },
     merkl: {
       angleDistributor: "0x3Ef3D8bA38EBe18DB133cEc108f4D14CE00Dd9Ae",
     },
