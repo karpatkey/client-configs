@@ -39,7 +39,7 @@ export default [
   // Balancer - rETH/WETH
   allowAction.balancer.deposit({ targets: ["B-rETH-STABLE"] }),
   allowAction.balancer.stake({ targets: ["B-rETH-STABLE"] }),
-  // Balancer - WETH/osETH
+  // Balancer - osETH/WETH
   allowAction.balancer.deposit({ targets: ["osETH/wETH-BPT"] }),
   allowAction.balancer.stake({ targets: ["osETH/wETH-BPT"] }),
 
