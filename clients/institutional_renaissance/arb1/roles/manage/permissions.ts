@@ -1,11 +1,21 @@
 import { c } from "zodiac-roles-sdk"
+import { allow as allowAction } from "defi-kit/arb1"
 import { allow } from "zodiac-roles-sdk/kit"
-import { USDC } from "../../../../../eth-sdk/addresses_arb"
+import { GMX, USDC } from "../../../../../eth-sdk/addresses_arb"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
 
 export default [
+  /*********************************************
+   * DeFi-Kit permissions
+   *********************************************/
+  // CowSwap - Swap GMX <-> USDC
+  allowAction.cowswap.swap({
+    sell: [GMX, USDC],
+    buy: [GMX, USDC],
+  }),
+
   /*********************************************
    * Bridge
    *********************************************/
