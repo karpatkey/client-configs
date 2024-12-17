@@ -204,6 +204,7 @@ export default [
   ),
 
   // Gyroscope - Staking/Unstaking GYD
+  ...allowErc20Approve([GYD], [contracts.mainnet.gyroscope.sGyd]),
   allow.mainnet.gyroscope.sGyd.deposit(undefined, c.avatar),
   allow.mainnet.gyroscope.sGyd.redeem(undefined, c.avatar, c.avatar),
 
