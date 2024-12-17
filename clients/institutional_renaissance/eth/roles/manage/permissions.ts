@@ -1,7 +1,28 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { allow as allowAction } from "defi-kit/eth"
-import { DAI, USDC, GNO } from "../../../../../eth-sdk/addresses"
+import {
+  ankrETH,
+  AURA,
+  BAL,
+  cbETH,
+  CRV,
+  CVX,
+  DAI,
+  eETH,
+  ETHFI,
+  ETHx,
+  GNO,
+  osETH,
+  rETH,
+  RPL,
+  stETH,
+  SWISE,
+  USDC,
+  weETH,
+  WETH,
+  wstETH,
+} from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
@@ -18,6 +39,46 @@ export default [
 
   // Spark - SKY_USDS
   allowAction.spark.deposit({ targets: ["SKY_USDS"] }),
+
+  // CowSwap - [ankrETH, AURA, BAL, cbETH, CRV, CVX, eETH, ETH, ETHFI, ETHx, liquidETH, osETH, rETH, RPL, stETH, SWISE, weETH, WETH, wstETH] ->
+  // [ankrETH, cbETH, eETH, ETH, ETHx, liquidETH, osETH, rETH, stETH, weETH, WETH, wstETH]
+  allowAction.cowswap.swap({
+    sell: [
+      ankrETH,
+      AURA,
+      BAL,
+      cbETH,
+      CRV,
+      CVX,
+      eETH,
+      "ETH",
+      ETHFI,
+      ETHx,
+      contracts.mainnet.etherfi.liquidEth,
+      osETH,
+      rETH,
+      RPL,
+      stETH,
+      SWISE,
+      weETH,
+      WETH,
+      wstETH,
+    ],
+    buy: [
+      ankrETH,
+      cbETH,
+      eETH,
+      "ETH",
+      ETHx,
+      contracts.mainnet.etherfi.liquidEth,
+      osETH,
+      rETH,
+      stETH,
+      weETH,
+      WETH,
+      wstETH,
+    ],
+  }),
 
   /*********************************************
    * Bridge

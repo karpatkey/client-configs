@@ -1,7 +1,14 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { allow as allowAction } from "defi-kit/gno"
-import { GNO, USDC, USDCe } from "../../../../../eth-sdk/addresses_gno"
+import {
+  GNO,
+  osGNO,
+  sDAI,
+  USDC,
+  USDCe,
+  WXDAI,
+} from "../../../../../eth-sdk/addresses_gno"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
@@ -11,8 +18,21 @@ export default [
   /*********************************************
    * DeFi-Kit permissions
    *********************************************/
+  // CowSwap - [GNO, osGNO, sDAI, USDC, USDC.e, WXDAI, xDAI] -> [GNO, osGNO, sDAI, USDC, USDC.e, WXDAI, xDAI]
+  allowAction.cowswap.swap({
+    sell: ["XDAI", GNO, osGNO, sDAI, USDC, USDCe, WXDAI],
+    buy: ["XDAI", GNO, osGNO, sDAI, USDC, USDCe, WXDAI],
+  }),
+
   // Spark - DSR/sDAI
   allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
+
+  // StakeWise v3 - Genesis
+  allowAction.stakewise_v3.stake({ targets: ["Genesis Vault"] }),
+  // StakeWise v3 - Serenita
+  allowAction.stakewise_v3.stake({ targets: ["Serenita"] }),
+  // StakeWise v3 - NEDO
+  allowAction.stakewise_v3.stake({ targets: ["NEDO"] }),
 
   /*********************************************
    * Typed-presets permissions
@@ -20,33 +40,6 @@ export default [
   // Wrapping and unwrapping of XDAI, WXDAI
   allow.gnosis.wxdai.deposit({ send: true }),
   allow.gnosis.wxdai.withdraw(),
-
-  // StakeWise v3 - Genesis
-  allowErc20Approve([GNO], [contracts.gnosis.stakeWiseV3.genesis]),
-  allow.gnosis.stakeWiseV3.genesis.deposit(undefined, c.avatar),
-  allow.gnosis.stakeWiseV3.genesis.updateState(),
-  allow.gnosis.stakeWiseV3.genesis.mintOsToken(c.avatar),
-  allow.gnosis.stakeWiseV3.genesis.burnOsToken(),
-  allow.gnosis.stakeWiseV3.genesis.enterExitQueue(undefined, c.avatar),
-  allow.gnosis.stakeWiseV3.genesis.claimExitedAssets(),
-
-  // StakeWise v3 - Serenita
-  allowErc20Approve([GNO], [contracts.gnosis.stakeWiseV3.serenita]),
-  allow.gnosis.stakeWiseV3.serenita.deposit(undefined, c.avatar),
-  allow.gnosis.stakeWiseV3.serenita.updateState(),
-  allow.gnosis.stakeWiseV3.serenita.mintOsToken(c.avatar),
-  allow.gnosis.stakeWiseV3.serenita.burnOsToken(),
-  allow.gnosis.stakeWiseV3.serenita.enterExitQueue(undefined, c.avatar),
-  allow.gnosis.stakeWiseV3.serenita.claimExitedAssets(),
-
-  // StakeWise v3 - NEDO
-  allowErc20Approve([GNO], [contracts.gnosis.stakeWiseV3.nedo]),
-  allow.gnosis.stakeWiseV3.nedo.deposit(undefined, c.avatar),
-  allow.gnosis.stakeWiseV3.nedo.updateState(),
-  allow.gnosis.stakeWiseV3.nedo.mintOsToken(c.avatar),
-  allow.gnosis.stakeWiseV3.nedo.burnOsToken(),
-  allow.gnosis.stakeWiseV3.nedo.enterExitQueue(undefined, c.avatar),
-  allow.gnosis.stakeWiseV3.nedo.claimExitedAssets(),
 
   /*********************************************
    * Swaps
