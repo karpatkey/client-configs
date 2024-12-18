@@ -2,8 +2,6 @@ import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import {
   eAddress,
-  AAVE,
-  COMP,
   DAI,
   GHO,
   GYD,
@@ -12,13 +10,10 @@ import {
   sDAI,
   sUSDS,
   stETH,
-  stkAAVE,
   stkGHO,
-  SWISE,
   USDC,
   USDS,
   USDT,
-  WBTC,
   WETH,
   wstETH,
   balancer,
@@ -33,139 +28,81 @@ import {
 import { Chain } from "../../../../../types"
 
 export default [
-  // Balancer - Swap COMP -> WETH
-  balancer__swap(balancer.b50Comp50WethPid, [COMP], [WETH]),
+  // Balancer - wstETH -> WETH
+  balancer__swap(balancer.bStEthStablePid, [wstETH], [WETH]),
 
-  // Balancer - Swap WETH -> DAI
-  balancer__swap(balancer.b60Weth40DaiPid, [WETH], [DAI]),
+  // Balancer - wstETH -> WETH
+  balancer__swap(balancer.eclpWstEthWethPid, [wstETH], [WETH]),
 
-  // Balancer - Swap WETH -> USDC
-  balancer__swap(balancer.b50Usdc50WethPid, [WETH], [USDC]),
+  // Balancer - rETH -> WETH
+  balancer__swap(balancer.bREthStablePid, [rETH], [WETH]),
 
-  // Balancer - Swap WETH <-> wstETH
-  balancer__swap(balancer.bStEthStablePid, [WETH, wstETH], [WETH, wstETH]),
+  // Balancer - GYD -> USDT
+  balancer__swap(balancer.eclpGydUsdtPid, [GYD], [USDT]),
 
-  // Balancer - Swap WETH <-> wstETH
-  balancer__swap(balancer.eclpWstEthWethPid, [WETH, wstETH], [WETH, wstETH]),
+  // Balancer - GYD -> sDAI
+  balancer__swap(balancer.eclpGydSdaiPid, [GYD], [sDAI]),
 
-  // Balancer - Swap rETH <-> WETH
-  balancer__swap(balancer.bREthStablePid, [rETH, WETH], [rETH, WETH]),
+  // Balancer - GYD -> sDAI
+  balancer__swap(balancer.eclpGydSdai2Pid, [GYD], [sDAI]),
 
-  // Balancer - Swap GYD <-> USDT
-  balancer__swap(balancer.eclpGydUsdtPid, [GYD, USDT], [GYD, USDT]),
+  // Balancer - GYD -> USDC
+  balancer__swap(balancer.eclpGydUsdcPid, [GYD], [USDC]),
 
-  // Balancer - Swap GYD <-> sDAI
-  balancer__swap(balancer.eclpGydSdaiPid, [GYD, sDAI], [GYD, sDAI]),
-
-  // Balancer - Swap GYD <-> sDAI
-  balancer__swap(balancer.eclpGydSdai2Pid, [GYD, sDAI], [GYD, sDAI]),
-
-  // Balancer - Swap GYD <-> USDC
-  balancer__swap(balancer.eclpGydUsdcPid, [GYD, USDC], [GYD, USDC]),
-
-  // Balancer - Swap GHO <-> GYD
-  balancer__swap(balancer.eclpGhoGydPid, [GHO, GYD], [GHO, GYD]),
-
-  // Balancer - Swap GHO <-> [USDC, USDT]
+  // Balancer - GHO -> [USDC, USDT]
   balancer__swap(balancer.ghoUsdtUsdcPid, [GHO], [USDC, USDT]),
-  balancer__swap(balancer.ghoUsdtUsdcPid, [USDC, USDT], [GHO]),
 
-  // CowSwap - Swapping of AAVE, COMP, DAI, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH
+  // CowSwap - [OETH, rETH, stETH, WETH, wstETH] -> [ETH, WETH]
   cowswap__swap(
-    [
-      AAVE,
-      COMP,
-      DAI,
-      rETH,
-      stETH,
-      stkAAVE,
-      SWISE,
-      USDC,
-      USDT,
-      WBTC,
-      WETH,
-      wstETH,
-    ],
-    [DAI, rETH, stETH, USDC, USDT, WBTC, WETH, wstETH],
+    [OETH, rETH, stETH, WETH, wstETH],
+    [eAddress, WETH],
     Chain.eth,
     200
   ),
-  // CowSwap - Swapping of DAI, GHO, GYD, sDAI, USDC, USDT
+  // CowSwap - stkGHO -> GHO
+  cowswap__swap([stkGHO], [GHO], Chain.eth, 200),
+  // CowSwap - [DAI, GHO, GYD, sDAI, sUSDS, USDC, USDS, USDT] -> [DAI, USDC, USDT]
   cowswap__swap(
-    [DAI, GHO, GYD, sDAI, USDC, USDT],
-    [DAI, GHO, GYD, sDAI, USDC, USDT],
+    [DAI, GHO, GYD, sDAI, sUSDS, USDC, USDS, USDT],
+    [DAI, USDC, USDT],
     Chain.eth,
     200
   ),
-  // CowSwap - Swap GHO <-> stkGHO
-  cowswap__swap([GHO, stkGHO], [GHO, stkGHO], Chain.eth, 200),
-  // CowSwap - Swap USDS -> [DAI, sUSDS, USDC, USDT]
-  cowswap__swap([USDS], [DAI, sUSDS, USDC, USDT], Chain.eth, 200),
-  // CowSwap - Swap sUSDS -> [DAI, USDC, USDS, USDT]
-  cowswap__swap([sUSDS], [DAI, USDC, USDS, USDT], Chain.eth, 200),
-  // CowSwap - Swap OETH -> [ETH, rETH, stETH, WETH, wstETH]
-  cowswap__swap([OETH], [eAddress, rETH, stETH, WETH, wstETH], Chain.eth, 200),
 
-  // Curve - Swap ETH <-> stETH
+  // Curve - Swap stETH -> ETH
   allowErc20Approve([stETH], [contracts.mainnet.curve.steCrvPool]),
-  allow.mainnet.curve.steCrvPool.exchange(
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    {
-      send: true,
-    }
-  ),
+  allow.mainnet.curve.steCrvPool.exchange(1, 0),
 
-  // Curve - Swap ETH <-> OETH
+  // Curve - Swap OETH -> ETH
   allowErc20Approve([OETH], [contracts.mainnet.curve.oEthCrvPool]),
   allow.mainnet.curve.oEthCrvPool["exchange(int128,int128,uint256,uint256)"](
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    {
-      send: true,
-    }
+    1,
+    0
   ),
 
   // Uniswap v3 - Swaps
   allowErc20Approve(
-    [
-      AAVE,
-      COMP,
-      DAI,
-      rETH,
-      stETH,
-      stkAAVE,
-      SWISE,
-      USDC,
-      USDT,
-      WBTC,
-      WETH,
-      wstETH,
-    ],
+    [OETH, rETH, stETH, WETH, wstETH],
     [contracts.mainnet.uniswapV3.router2]
   ),
 
-  // Uniswap v3 - Swapping of tokens AAVE, COMP, DAI, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH
+  // Uniswap v3 - [OETH, rETH, stETH, WETH, wstETH] -> WETH
   allow.mainnet.uniswapV3.router2.exactInputSingle({
-    tokenIn: c.or(
-      AAVE,
-      COMP,
-      DAI,
-      rETH,
-      stETH,
-      stkAAVE,
-      SWISE,
-      USDC,
-      USDT,
-      WBTC,
-      WETH,
-      wstETH
-    ),
-    tokenOut: c.or(DAI, rETH, stETH, USDC, USDT, WBTC, WETH, wstETH),
+    tokenIn: c.or(OETH, rETH, stETH, WETH, wstETH),
+    tokenOut: WETH,
+    recipient: c.avatar,
+  }),
+
+  // Uniswap v3 - Swaps
+  allowErc20Approve(
+    [DAI, USDT, USDC, GYD, sDAI, GHO, USDS, sUSDS],
+    [contracts.mainnet.uniswapV3.router2]
+  ),
+
+  // Uniswap v3 - [DAI, GHO, GYD, sDAI, sUSDS, USDC, USDS, USDT] -> [DAI, USDC, USDT]
+  allow.mainnet.uniswapV3.router2.exactInputSingle({
+    tokenIn: c.or(DAI, GHO, GYD, sDAI, sUSDS, USDC, USDS, USDT),
+    tokenOut: c.or(DAI, USDT, USDC),
     recipient: c.avatar,
   }),
 ] satisfies PermissionList

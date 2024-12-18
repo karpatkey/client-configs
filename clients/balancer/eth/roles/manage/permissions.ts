@@ -69,7 +69,8 @@ export default [
   // Convex - ETH/OETH
   allowAction.convex.deposit({ targets: ["174"] }),
 
-  // CowSwap - Swapping of AAVE, COMP, DAI, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH
+  // CowSwap - [AAVE, COMP, DAI, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH] ->
+  // [DAI, rETH, stETH, USDC, USDT, WBTC, WETH, wstETH]
   allowAction.cowswap.swap({
     sell: [
       AAVE,
@@ -89,35 +90,35 @@ export default [
     feeAmountBp: 200,
   }),
 
-  // CowSwap - Swapping of DAI, GHO, GYD, sDAI, USDC, USDT
+  // CowSwap - [DAI, GHO, GYD, sDAI, USDC, USDT] -> [DAI, GHO, GYD, sDAI, USDC, USDT]
   allowAction.cowswap.swap({
     sell: [DAI, GHO, GYD, sDAI, USDC, USDT],
     buy: [DAI, GHO, GYD, sDAI, USDC, USDT],
     feeAmountBp: 200,
   }),
 
-  // CowSwap - Swap GHO <-> stkGHO
+  // CowSwap - GHO <-> stkGHO
   allowAction.cowswap.swap({
     sell: [GHO, stkGHO],
     buy: [GHO, stkGHO],
     feeAmountBp: 200,
   }),
 
-  // CowSwap - Swap USDS -> [DAI, sUSDS, USDC, USDT]
+  // CowSwap - USDS -> [DAI, sUSDS, USDC, USDT]
   allowAction.cowswap.swap({
     sell: [USDS],
     buy: [DAI, sUSDS, USDC, USDT],
     feeAmountBp: 200,
   }),
 
-  // CowSwap - Swap sUSDS -> [DAI, USDC, USDS, USDT]
+  // CowSwap - sUSDS -> [DAI, USDC, USDS, USDT]
   allowAction.cowswap.swap({
     sell: [sUSDS],
     buy: [DAI, USDC, USDS, USDT],
     feeAmountBp: 200,
   }),
 
-  // CowSwap - Swap OETH -> [ETH, rETH, stETH, WETH, wstETH]
+  // CowSwap - OETH -> [ETH, rETH, stETH, WETH, wstETH]
   allowAction.cowswap.swap({
     sell: [OETH],
     buy: ["ETH", rETH, stETH, WETH, wstETH],
@@ -253,44 +254,44 @@ export default [
   /*********************************************
    * SWAPS
    *********************************************/
-  // Balancer - Swap COMP -> WETH
+  // Balancer - COMP -> WETH
   balancer__swap(balancer.b50Comp50WethPid, [COMP], [WETH]),
 
-  // Balancer - Swap WETH -> DAI
+  // Balancer - WETH -> DAI
   balancer__swap(balancer.b60Weth40DaiPid, [WETH], [DAI]),
 
-  // Balancer - Swap WETH -> USDC
+  // Balancer - WETH -> USDC
   balancer__swap(balancer.b50Usdc50WethPid, [WETH], [USDC]),
 
-  // Balancer - Swap WETH <-> wstETH
+  // Balancer - WETH <-> wstETH
   balancer__swap(balancer.bStEthStablePid, [WETH, wstETH], [WETH, wstETH]),
 
-  // Balancer - Swap WETH <-> wstETH
+  // Balancer - WETH <-> wstETH
   balancer__swap(balancer.eclpWstEthWethPid, [WETH, wstETH], [WETH, wstETH]),
 
-  // Balancer - Swap rETH <-> WETH
+  // Balancer - rETH <-> WETH
   balancer__swap(balancer.bREthStablePid, [rETH, WETH], [rETH, WETH]),
 
-  // Balancer - Swap GYD <-> USDT
+  // Balancer - GYD <-> USDT
   balancer__swap(balancer.eclpGydUsdtPid, [GYD, USDT], [GYD, USDT]),
 
-  // Balancer - Swap GYD <-> sDAI
+  // Balancer - GYD <-> sDAI
   balancer__swap(balancer.eclpGydSdaiPid, [GYD, sDAI], [GYD, sDAI]),
 
-  // Balancer - Swap GYD <-> sDAI
+  // Balancer - GYD <-> sDAI
   balancer__swap(balancer.eclpGydSdai2Pid, [GYD, sDAI], [GYD, sDAI]),
 
-  // Balancer - Swap GYD <-> USDC
+  // Balancer - GYD <-> USDC
   balancer__swap(balancer.eclpGydUsdcPid, [GYD, USDC], [GYD, USDC]),
 
-  // Balancer - Swap GHO <-> GYD
+  // Balancer - GHO <-> GYD
   balancer__swap(balancer.eclpGhoGydPid, [GHO, GYD], [GHO, GYD]),
 
-  // Balancer - Swap GHO <-> [USDC, USDT]
+  // Balancer - GHO <-> [USDC, USDT]
   balancer__swap(balancer.ghoUsdtUsdcPid, [GHO], [USDC, USDT]),
   balancer__swap(balancer.ghoUsdtUsdcPid, [USDC, USDT], [GHO]),
 
-  // Curve - Swap ETH <-> stETH
+  // Curve - ETH <-> stETH
   allowErc20Approve([stETH], [contracts.mainnet.curve.steCrvPool]),
   allow.mainnet.curve.steCrvPool.exchange(
     undefined,
@@ -302,7 +303,7 @@ export default [
     }
   ),
 
-  // Curve - Swap ETH <-> OETH
+  // Curve - ETH <-> OETH
   allowErc20Approve([OETH], [contracts.mainnet.curve.oEthCrvPool]),
   allow.mainnet.curve.oEthCrvPool["exchange(int128,int128,uint256,uint256)"](
     undefined,
@@ -333,7 +334,8 @@ export default [
     [contracts.mainnet.uniswapV3.router2]
   ),
 
-  // Uniswap v3 - Swapping of tokens AAVE, COMP, DAI, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH
+  // Uniswap v3 - [AAVE, COMP, DAI, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH] ->
+  // [DAI, rETH, stETH, USDC, USDT, WBTC, WETH, wstETH]
   allow.mainnet.uniswapV3.router2.exactInputSingle({
     tokenIn: c.or(
       AAVE,
