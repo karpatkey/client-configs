@@ -1,14 +1,14 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { aura, balancer } from "../../../../../eth-sdk/addresses"
-import { contracts } from "../../../../../eth-sdk/config"
+import { aura, balancer } from "../../../../../../eth-sdk/addresses"
+import { contracts } from "../../../../../../eth-sdk/config"
 import {
   aura__withdraw_balancer,
   balancer__unstake_withdraw,
   lido__unstake_stETH,
   lido__unwrap_and_unstake_wstETH,
-} from "../../../../../helpers/exit_strategies"
-import { PermissionList, Chain } from "../../../../../types"
+} from "../../../../../../helpers/exit_strategies"
+import { PermissionList, Chain } from "../../../../../../types"
 
 export default [
   /*********************************************
