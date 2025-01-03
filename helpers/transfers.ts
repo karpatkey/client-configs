@@ -14,23 +14,10 @@ export const transferErc20 = (token: Address, to: Address): PermissionSet => {
   ]
 }
 
-export const transferEth = (from: Address, to: Address): PermissionSet => {
+export const transferEth = (to: Address): PermissionSet => {
   return [
-    // It doesn't matter the blockchain we use, since we are overwriting
-    // the address of the rewarder (abis are the same indistinctively of the blockchain)
     {
-      ...allow.mainnet.safe.singleton.execTransaction(
-        to,
-        undefined,
-        "0x",
-        0,
-        0,
-        0,
-        0,
-        zeroAddress,
-        zeroAddress
-      ),
-      targetAddress: from,
+      targetAddress: to,
       send: true,
     },
   ]
