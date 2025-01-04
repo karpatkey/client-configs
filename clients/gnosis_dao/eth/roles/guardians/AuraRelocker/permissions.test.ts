@@ -16,7 +16,6 @@ describe("auraRelocker", () => {
   })
 
   it("Allows claiming all kinds of rewards from the zap, with the option to relock AURA tokens. It can also process expired locked tokens", async () => {
-    // TODO: add a test for the call to the approve function
     await expect(
       kit.asMember.auraToken.aura.approve(
         contracts.mainnet.aura.claimZapV3,
