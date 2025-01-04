@@ -10,6 +10,7 @@ export const contracts = {
     angle: {
       wstEthEurVault: "0x73aaf8694BA137a7537E7EF544fcf5E2475f227B",
     },
+    auraToken: { aura: "0xC0c293ce456fF0ED870ADd98a0828Dd4d2903DBF" }, // FIXME: Add me to defi-kit config?
     autonolas: {
       veOlas: "0x7e01A500805f8A52Fad229b3015AD130A332B7b3",
     },
