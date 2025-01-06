@@ -1,5 +1,5 @@
-import { parseEther } from "ethers"
-import { applyPermissions, wrapEth } from "../../../../../../test/helpers"
+import { applyPermissions } from "../../../../../../test/helpers"
+import { AURA } from "../../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../../eth-sdk/config"
 import { revertToBase } from "../../../../../../test/snapshot"
 import permissions from "./permissions"
@@ -7,20 +7,15 @@ import kit from "../../../../../../test/kit"
 
 describe("auraRelocker", () => {
   beforeAll(async () => {
-    // fresh role with ENS manage permissions
     await revertToBase()
     await applyPermissions(permissions)
-
-    // acquire 1 WETH for avatar
-    await wrapEth(parseEther("1"))
   })
 
   it("Allows claiming all kinds of rewards from the zap, with the option to relock AURA tokens. It can also process expired locked tokens", async () => {
     await expect(
-      kit.asMember.auraToken.aura.approve(
-        contracts.mainnet.aura.claimZapV3,
-        87623879238792
-      )
+      kit.asMember.weth
+        .attach(AURA)
+        .approve(contracts.mainnet.aura.claimZapV3, 87623879238792)
     )
 
     await expect(
