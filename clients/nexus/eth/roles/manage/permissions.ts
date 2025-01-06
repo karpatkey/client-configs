@@ -5,6 +5,7 @@ import {
   AAVE,
   AURA,
   BAL,
+  cbBTC,
   CRV,
   CVX,
   DAI,
@@ -14,10 +15,15 @@ import {
   osETH,
   rETH,
   RPL,
+  sUSDe,
+  sUSDS,
   stETH,
   SWISE,
   USDC,
+  USDe,
+  USDS,
   USDT,
+  USR,
   WETH,
   wNXM,
   wstETH,
@@ -89,7 +95,8 @@ export default [
   // Convex - osETH/rETH
   allowAction.convex.deposit({ targets: ["268"] }),
 
-  // CowSwap
+  // CowSwap - [AAVE, AURA, BAL, CRV, CVX, DAI, ETH, GHO, LDO, osETH, rETH, RPL, stETH, SWISE, USDC, USDT, WETH, wNXM, wstETH] ->
+  // [DAI, ETH, GHO, osETH, rETH, stETH, USDC, USDT, WETH, wNXM, wstETH]
   allowAction.cowswap.swap({
     sell: [
       "ETH",
@@ -115,6 +122,31 @@ export default [
     buy: ["ETH", DAI, GHO, osETH, rETH, stETH, USDC, USDT, WETH, wNXM, wstETH],
   }),
 
+  // CowSwap - [GHO, USDS, USDe, USR, sUSDS, sUSDe] -> [GHO, USDC, USDS, USDe, USR, WNXM, sUSDS, sUSDe, wETH, wstETH]
+  allowAction.cowswap.swap({
+    sell: [GHO, USDS, USDe, USR, sUSDS, sUSDe],
+    buy: [GHO, USDC, USDS, USDe, USR, wNXM, sUSDS, sUSDe, WETH, wstETH],
+  }),
+
+  // CowSwap - [ETH, GHO, stETH, sUSDe, sUSDS, USDC, USDe, USDS, USR, WETH, WNXM, wstETH] -> [cbBTC, sUSDe, sUSDS, USDe, USDS, USR]
+  allowAction.cowswap.swap({
+    sell: [
+      "ETH",
+      GHO,
+      stETH,
+      sUSDe,
+      sUSDS,
+      USDC,
+      USDe,
+      USDS,
+      USR,
+      WETH,
+      wNXM,
+      wstETH,
+    ],
+    buy: [cbBTC, sUSDe, sUSDS, USDe, USDS, USR],
+  }),
+
   // Lido
   allowAction.lido.deposit(),
 
@@ -123,6 +155,8 @@ export default [
 
   // Spark - DSR/sDAI
   allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
+  // Spark - SKY_USDS
+  allowAction.spark.deposit({ targets: ["SKY_USDS"] }),
   // Spark - ETH
   allowAction.spark.deposit({ targets: ["ETH"] }),
   // Spark - rETH
@@ -135,6 +169,9 @@ export default [
   allowAction.spark.deposit({ targets: ["WETH"] }),
   // Spark - wstETH
   allowAction.spark.deposit({ targets: ["wstETH"] }),
+
+  // StakeWise v3 - Genesis
+  allowAction.stakewise_v3.stake({ targets: ["Genesis"] }),
 
   // Uniswap v3 - wNXN/WETH
   allowAction.uniswap_v3.deposit({ tokens: ["wNXM", "WETH"] }),
@@ -164,6 +201,11 @@ export default [
     undefined,
     c.avatar
   ),
+
+  // Aave v3 - Lido Market - USDC
+  ...allowErc20Approve([USDC], [contracts.mainnet.aaveV3.lendingPoolLidoV3]),
+  allow.mainnet.aaveV3.lendingPoolLidoV3.supply(USDC, undefined, c.avatar),
+  allow.mainnet.aaveV3.lendingPoolLidoV3.withdraw(USDC, undefined, c.avatar),
 
   // Aave v3 - Lido Market - WETH
   ...allowErc20Approve([WETH], [contracts.mainnet.aaveV3.lendingPoolLidoV3]),
@@ -263,6 +305,13 @@ export default [
   allow.mainnet.curve.osEthRethGauge["claim_rewards()"](),
   allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.osEthRethGauge),
 
+  // Ethena - Stake USDe
+  ...allowErc20Approve([USDe], [sUSDe]),
+  allow.mainnet.ethena.sUsde.deposit(undefined, c.avatar),
+  // Ethena - Unstake USDe
+  allow.mainnet.ethena.sUsde.cooldownShares(),
+  allow.mainnet.ethena.sUsde.unstake(c.avatar),
+
   // Maker - DSR (DAI Savings Rate)
   // The DsrManager provides an easy to use smart contract that allows
   // service providers to deposit/withdraw dai into the DSR contract pot,
@@ -312,25 +361,15 @@ export default [
     targetAddress: pool,
   })),
 
-  // StakeWise v3 - Genesis Vault
-  allow.mainnet.stakeWiseV3.genesis.deposit(c.avatar, undefined, {
-    send: true,
-  }),
-  allow.mainnet.stakeWiseV3.genesis.updateState(),
-  allow.mainnet.stakeWiseV3.genesis.updateStateAndDeposit(
-    c.avatar,
-    undefined,
-    undefined,
-    {
-      send: true,
-    }
-  ),
-  allow.mainnet.stakeWiseV3.genesis.mintOsToken(c.avatar),
-  allow.mainnet.stakeWiseV3.genesis.burnOsToken(),
-  allow.mainnet.stakeWiseV3.genesis.enterExitQueue(undefined, c.avatar),
-  allow.mainnet.stakeWiseV3.genesis.claimExitedAssets(),
+  // Resolv - Stake/Unstake USR
+  ...allowErc20Approve([USR], [contracts.mainnet.resolv.stUsr]),
+  allow.mainnet.resolv.stUsr["deposit(uint256)"](),
+  ...allowErc20Approve([contracts.mainnet.resolv.stUsr], [USR]),
+  allow.mainnet.resolv.stUsr["withdraw(uint256)"](),
 
-  // SWAPS
+  /*********************************************
+   * Swaps
+   *********************************************/
   // Balancer - Swap osETH for WETH
   allow.mainnet.balancer.vault.swap(
     {
