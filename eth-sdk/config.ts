@@ -105,6 +105,9 @@ export const contracts = {
       ethAdapter: "0x4AAD0755eFd63F4e9B7Fac19Bd426db4a0d9b5E8",
       ethoriaVault: "0x5FE4B38520e856921978715C8579D2D7a4d2274F",
     },
+    resolv: {
+      stUsr: "0x6c8984bc7DBBeDAf4F6b2FD766f16eBB7d10AAb4",
+    },
     safe: {
       singleton: "0xd9Db270c1B5E3Bd161E8c8503c55cEABeE709552", // GnosisSafe Implementation
       tokenLock: "0x0a7CB434f96f65972D46A5c1A64a9654dC9959b2",
