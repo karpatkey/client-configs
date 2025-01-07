@@ -106,6 +106,7 @@ export const contracts = {
       ethoriaVault: "0x5FE4B38520e856921978715C8579D2D7a4d2274F",
     },
     safe: {
+      singleton: "0xd9Db270c1B5E3Bd161E8c8503c55cEABeE709552", // GnosisSafe Implementation
       tokenLock: "0x0a7CB434f96f65972D46A5c1A64a9654dC9959b2",
       ecosystemAirdrop: "0x29067F28306419923BCfF96E37F95E0f58ABdBBe",
       userAirdrop: "0xA0b937D5c8E32a80E3a8ed4227CD020221544ee6",
