@@ -32,16 +32,34 @@ import {
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
-import { avatar } from "../../index"
+import {
+  avatar,
+  kpkGovernance,
+  snapshotCowId,
+  snapshotLidoId,
+  snapshotSafeId,
+} from "../../index"
 
 export default [
   /*********************************************
    * DeFi-Kit permissions
    *********************************************/
-  // Aave v2 - Staking of AAVE in Safety Module
-  allowAction.aave_v2.stake({ targets: ["AAVE"] }),
-  // Aave v2 - Staking of GHO in Safety Module
-  allowAction.aave_v2.stake({ targets: ["GHO"] }),
+  // Aave v3 - Staking of AAVE in Safety Module
+  allowAction.aave_v3.stake({ targets: ["AAVE"] }),
+  // Aave v3 - Staking of GHO in Safety Module
+  allowAction.aave_v3.stake({ targets: ["GHO"] }),
+  // Aave v3 - Delegate AAVE to governance.karpatkey.eth
+  allowAction.aave_v3.delegate({ targets: ["AAVE"], delegatee: kpkGovernance }),
+  // Aave v3 - Delegate stkAAVE to governance.karpatkey.eth
+  allowAction.aave_v3.delegate({
+    targets: ["stkAAVE"],
+    delegatee: kpkGovernance,
+  }),
+  // Aave v3 - Delegate aAAVE to governance.karpatkey.eth
+  allowAction.aave_v3.delegate({
+    targets: ["aEthAAVE"],
+    delegatee: kpkGovernance,
+  }),
 
   // Spark - SKY_USDS
   allowAction.spark.deposit({ targets: ["SKY_USDS"] }),
@@ -106,6 +124,28 @@ export default [
       UNI,
     ],
   }),
+
+  /*********************************************
+   * Typed-presets permissions
+   *********************************************/
+  // Cow - Delegate/Undelgate COW on Snapshot
+  allow.mainnet.snapshot.delegation.setDelegate(snapshotCowId, kpkGovernance),
+  allow.mainnet.snapshot.delegation.clearDelegate(snapshotCowId),
+
+  // Lido - Delegate/Undelgate LDO on Snapshot
+  allow.mainnet.snapshot.delegation.setDelegate(snapshotLidoId, kpkGovernance),
+  allow.mainnet.snapshot.delegation.clearDelegate(snapshotLidoId),
+
+  // Lido - Delegate/Undelgate LDO on Aragon
+  allow.mainnet.lido.aragonVoting.assignDelegate(kpkGovernance),
+  allow.mainnet.lido.aragonVoting.unassignDelegate(),
+
+  // Safe - Delegate/Undelgate SAFE on Snapshot
+  allow.mainnet.snapshot.delegation.setDelegate(snapshotSafeId, kpkGovernance),
+  allow.mainnet.snapshot.delegation.clearDelegate(snapshotSafeId),
+
+  // Uniswap - Delegate/Undelgate UNI on Tally
+  allow.mainnet.uniswapV3.uni.delegate(c.or(kpkGovernance, avatar)),
 
   /*********************************************
    * Bridge

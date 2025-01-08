@@ -1,5 +1,6 @@
 import { EthSdkConfig, defineConfig } from "@gnosis-guild/eth-sdk"
 import { contracts as deFiKitContracts } from "defi-kit"
+import { uniswapV2 } from "./addresses"
 
 export const contracts = {
   mainnet: {
@@ -75,6 +76,10 @@ export const contracts = {
       wstEthAaGauge: "0x675eC042325535F6e176638Dd2d4994F645502B9",
       distributorProxy: "0x074306bc6a6fc1bd02b425dd41d742adf36ca9c6",
     },
+    lido: {
+      ...deFiKitContracts.mainnet.lido,
+      aragonVoting: "0x2e59A20f205bB85a89C53f1936454680651E618e",
+    },
     merkl: {
       angleDistributor: "0x3Ef3D8bA38EBe18DB133cEc108f4D14CE00Dd9Ae",
     },
@@ -118,6 +123,9 @@ export const contracts = {
     siloV2: {
       router: "0x8658047e48CC09161f4152c79155Dac1d710Ff0a",
     },
+    snapshot: {
+      delegation: "0x469788fE6E9E9681C6ebF3bF78e7Fd26Fc015446",
+    },
     sommelier: {
       turboDivEth: "0x6c1edce139291Af5b84fB1e496c9747F83E876c9",
     },
@@ -137,6 +145,10 @@ export const contracts = {
     },
     uniswapV2: {
       router2: "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D",
+    },
+    uniswapV3: {
+      ...deFiKitContracts.mainnet.uniswapV3,
+      uni: "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
     },
     votium: {
       bribe: "0x19BBC3463Dd8d07f55438014b021Fb457EBD4595",
