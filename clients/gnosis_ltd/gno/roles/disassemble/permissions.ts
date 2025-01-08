@@ -45,5 +45,5 @@ export default [
   allow.gnosis.hop.daiRewards2.exit(),
 
   // Spark - GNO
-  allow.gnosis.spark.lendingPoolV3.withdraw(GNO, undefined, c.avatar),
+  allow.gnosis.spark.poolV3.withdraw(GNO, undefined, c.avatar),
 ] satisfies PermissionList

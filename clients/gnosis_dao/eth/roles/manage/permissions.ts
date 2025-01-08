@@ -29,13 +29,13 @@ export default [
   allowAction.aave_v2.stake({ targets: ["GHO"] }),
 
   // Aave v3 - Deposit wstETH
-  allowAction.aave_v3.deposit({ targets: ["wstETH"] }),
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["wstETH"] }),
   // Aave v3 - Borrow GHO
-  allowAction.aave_v3.borrow({ targets: ["GHO"] }),
+  allowAction.aave_v3.borrow({ market: "Core", targets: ["GHO"] }),
   // Aave v3 - Borrow USDC
-  allowAction.aave_v3.borrow({ targets: ["USDC"] }),
+  allowAction.aave_v3.borrow({ market: "Core", targets: ["USDC"] }),
   // Aave v3 - Borrow WBTC
-  allowAction.aave_v3.borrow({ targets: ["WBTC"] }),
+  allowAction.aave_v3.borrow({ market: "Core", targets: ["WBTC"] }),
 
   // Ankr
   allowAction.ankr.deposit(),

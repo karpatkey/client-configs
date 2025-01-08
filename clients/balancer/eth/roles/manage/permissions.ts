@@ -43,21 +43,21 @@ export default [
   allowAction.aave_v2.stake({ targets: ["AAVE", "GHO"] }),
 
   // Aave v3 - Deposit DAI
-  allowAction.aave_v3.deposit({ targets: ["DAI"] }),
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["DAI"] }),
   // Aave v3 - Deposit osETH
-  allowAction.aave_v3.deposit({ targets: ["osETH"] }),
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["osETH"] }),
   // Aave v3 - Deposit sDAI
-  allowAction.aave_v3.deposit({ targets: ["sDAI"] }),
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["sDAI"] }),
   // Aave v3 - Deposit USDC
-  allowAction.aave_v3.deposit({ targets: ["USDC"] }),
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["USDC"] }),
   // Aave v3 - Deposit USDS
-  allowAction.aave_v3.deposit({ targets: ["USDS"] }),
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["USDS"] }),
   // Aave v3 - Deposit WBTC
-  allowAction.aave_v3.deposit({ targets: ["WBTC"] }),
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["WBTC"] }),
   // Aave v3 - Deposit wstETH
-  allowAction.aave_v3.deposit({ targets: ["wstETH"] }),
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["wstETH"] }),
   // Aave v3 - Borrow GHO
-  allowAction.aave_v3.borrow({ targets: ["GHO"] }),
+  allowAction.aave_v3.borrow({ market: "Core", targets: ["GHO"] }),
 
   // Aave - Delegate Aave and stkAave to governance.karpatkey.eth
   // WARNING!: The delegate action allows delegate() and delegateByType(), the latter is not part of the orginal preset

@@ -27,24 +27,24 @@ export default [
 
   // Aave v3 - Deposit XDAI
   allow.gnosis.aaveV3.wrappedTokenGatewayV3.withdrawETH(
-    contracts.gnosis.aaveV3.lendingPoolV3,
+    contracts.gnosis.aaveV3.poolV3,
     undefined,
     c.avatar
   ),
   // Aave v3 - Deposit WXDAI
-  allow.gnosis.aaveV3.lendingPoolV3.withdraw(WXDAI, undefined, c.avatar),
+  allow.gnosis.aaveV3.poolV3.withdraw(WXDAI, undefined, c.avatar),
   // Aave v3 - Deposit wstETH
-  allow.gnosis.aaveV3.lendingPoolV3.withdraw(wstETH, undefined, c.avatar),
+  allow.gnosis.aaveV3.poolV3.withdraw(wstETH, undefined, c.avatar),
   // Aave v3 - Deposit WETH
-  allow.gnosis.aaveV3.lendingPoolV3.withdraw(WETH, undefined, c.avatar),
+  allow.gnosis.aaveV3.poolV3.withdraw(WETH, undefined, c.avatar),
   // Aave v3 - Deposit USDC
-  allow.gnosis.aaveV3.lendingPoolV3.withdraw(USDC, undefined, c.avatar),
+  allow.gnosis.aaveV3.poolV3.withdraw(USDC, undefined, c.avatar),
   // Aave v3 - Deposit EURe
-  allow.gnosis.aaveV3.lendingPoolV3.withdraw(EURe, undefined, c.avatar),
+  allow.gnosis.aaveV3.poolV3.withdraw(EURe, undefined, c.avatar),
   // Aave v3 - Deposit GNO
-  allow.gnosis.aaveV3.lendingPoolV3.withdraw(GNO, undefined, c.avatar),
+  allow.gnosis.aaveV3.poolV3.withdraw(GNO, undefined, c.avatar),
   // Aave v3 - Deposit USDC.e
-  allow.gnosis.aaveV3.lendingPoolV3.withdraw(USDCe, undefined, c.avatar),
+  allow.gnosis.aaveV3.poolV3.withdraw(USDCe, undefined, c.avatar),
 
   // Arrakis - WETH/sDAI
   allow.gnosis.arrakis.signMessageLib.signMessage(undefined, {
@@ -163,25 +163,25 @@ export default [
   allow.gnosis.spark.savingsXdaiAdapter.redeemXDAI(undefined, c.avatar),
   allow.gnosis.spark.savingsXdaiAdapter.redeem(undefined, c.avatar),
   // Spark - GNO
-  allow.gnosis.spark.lendingPoolV3.withdraw(GNO, undefined, c.avatar),
+  allow.gnosis.spark.poolV3.withdraw(GNO, undefined, c.avatar),
   // Spark - XDAI
   allow.gnosis.spark.wrappedTokenGatewayV3.withdrawETH(
-    contracts.gnosis.spark.lendingPoolV3,
+    contracts.gnosis.spark.poolV3,
     undefined,
     c.avatar
   ),
   // Spark - WXDAI
-  allow.gnosis.spark.lendingPoolV3.withdraw(WXDAI, undefined, c.avatar),
+  allow.gnosis.spark.poolV3.withdraw(WXDAI, undefined, c.avatar),
   // Spark - WETH
-  allow.gnosis.spark.lendingPoolV3.withdraw(WETH, undefined, c.avatar),
+  allow.gnosis.spark.poolV3.withdraw(WETH, undefined, c.avatar),
   // Spark - USDC.e
-  allow.gnosis.spark.lendingPoolV3.withdraw(USDCe, undefined, c.avatar),
+  allow.gnosis.spark.poolV3.withdraw(USDCe, undefined, c.avatar),
   // Spark - EURe
-  allow.gnosis.spark.lendingPoolV3.withdraw(EURe, undefined, c.avatar),
+  allow.gnosis.spark.poolV3.withdraw(EURe, undefined, c.avatar),
   // Spark - USDT
-  allow.gnosis.spark.lendingPoolV3.withdraw(USDT, undefined, c.avatar),
+  allow.gnosis.spark.poolV3.withdraw(USDT, undefined, c.avatar),
   // Spark - USDC
-  allow.gnosis.spark.lendingPoolV3.withdraw(USDC, undefined, c.avatar),
+  allow.gnosis.spark.poolV3.withdraw(USDC, undefined, c.avatar),
 
   // StakeWise v3 - Axol.io
   allow.gnosis.stakeWiseV3.axol.burnOsToken(),

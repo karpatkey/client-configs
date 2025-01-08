@@ -43,15 +43,15 @@ export default [
   allowAction.aura.deposit({ targets: ["179"] }),
 
   // Aave v3 - Deposit DAI
-  allowAction.aave_v3.deposit({ targets: ["DAI"] }),
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["DAI"] }),
   // Aave v3 - Deposit ETH
-  allowAction.aave_v3.deposit({ targets: ["ETH"] }),
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["ETH"] }),
   // Aave v3 - Deposit osETH
-  allowAction.aave_v3.deposit({ targets: ["osETH"] }),
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["osETH"] }),
   // Aave v3 - Deposit USDC
-  allowAction.aave_v3.deposit({ targets: ["USDC"] }),
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["USDC"] }),
   // Aave v3 - Deposit WETH
-  allowAction.aave_v3.deposit({ targets: ["WETH"] }),
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["WETH"] }),
   // Removed as per a Steward's request on August 20, 2024.
   // // Aave v3 - Deposit wstETH
   // allowAction.aave_v3.deposit({ targets: ["wstETH"] }),

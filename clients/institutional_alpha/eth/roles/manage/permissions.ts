@@ -49,25 +49,25 @@ export default [
   allowAction.aave_v2.stake({ targets: ["GHO"] }),
 
   // Aave v3 - Deposit crvUSD
-  allowAction.aave_v3.deposit({ targets: ["crvUSD"] }),
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["crvUSD"] }),
   // Aave v3 - Deposit DAI
-  allowAction.aave_v3.deposit({ targets: ["DAI"] }),
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["DAI"] }),
   // Aave v3 - Deposit sDAI
-  allowAction.aave_v3.deposit({ targets: ["sDAI"] }),
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["sDAI"] }),
   // Aave v3 - Deposit sUSDe
-  allowAction.aave_v3.deposit({ targets: ["sUSDe"] }),
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["sUSDe"] }),
   // Aave v3 - Deposit USDC
-  allowAction.aave_v3.deposit({ targets: ["USDC"] }),
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["USDC"] }),
   // Aave v3 - Deposit USDe
-  allowAction.aave_v3.deposit({ targets: ["USDe"] }),
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["USDe"] }),
   // Aave v3 - Deposit USDS
-  allowAction.aave_v3.deposit({ targets: ["USDS"] }),
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["USDS"] }),
   // Aave v3 - Deposit USDT
-  allowAction.aave_v3.deposit({ targets: ["USDT"] }),
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["USDT"] }),
   // Aave v3 - Borrow DAI
-  allowAction.aave_v3.borrow({ targets: ["DAI"] }),
+  allowAction.aave_v3.borrow({ market: "Core", targets: ["DAI"] }),
   // Aave v3 - Borrow USDC
-  allowAction.aave_v3.borrow({ targets: ["USDC"] }),
+  allowAction.aave_v3.borrow({ market: "Core", targets: ["USDC"] }),
 
   // Aura - GHO/USDC/USDT
   allowAction.aura.deposit({ targets: ["157"] }),

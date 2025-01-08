@@ -27,15 +27,15 @@ export default [
    * DeFi-Kit permissions
    *********************************************/
   // Aave v3 - Deposit DAI
-  allowAction.aave_v3.deposit({ targets: ["DAI"] }),
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["DAI"] }),
   // Aave v3 - Deposit sDAI
-  allowAction.aave_v3.deposit({ targets: ["sDAI"] }),
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["sDAI"] }),
   // Aave v3 - Deposit USDC
-  allowAction.aave_v3.deposit({ targets: ["USDC"] }),
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["USDC"] }),
   // Aave v3 - Borrow DAI
-  allowAction.aave_v3.borrow({ targets: ["DAI"] }),
+  allowAction.aave_v3.borrow({ market: "Core", targets: ["DAI"] }),
   // Aave v3 - Borrow USDC
-  allowAction.aave_v3.borrow({ targets: ["USDC"] }),
+  allowAction.aave_v3.borrow({ market: "Core", targets: ["USDC"] }),
 
   // CowSwap - [COMP, DAI, sDAI, USDC] -> [DAI, sDAI, USDC]
   allowAction.cowswap.swap({

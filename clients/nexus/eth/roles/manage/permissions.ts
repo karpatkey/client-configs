@@ -40,21 +40,21 @@ export default [
    * DeFi-Kit permissions
    *********************************************/
   // Aave v3 - DAI
-  allowAction.aave_v3.deposit({ targets: ["DAI"] }),
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["DAI"] }),
   // Aave v3 - ETH
-  allowAction.aave_v3.deposit({ targets: ["ETH"] }),
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["ETH"] }),
   // Aave v3 - osETH
-  allowAction.aave_v3.deposit({ targets: ["osETH"] }),
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["osETH"] }),
   // Aave v3 - rETH
-  allowAction.aave_v3.deposit({ targets: ["rETH"] }),
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["rETH"] }),
   // Aave v3 - USDC
-  allowAction.aave_v3.deposit({ targets: ["USDC"] }),
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["USDC"] }),
   // Aave v3 - USDT
-  allowAction.aave_v3.deposit({ targets: ["USDT"] }),
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["USDT"] }),
   // Aave v3 - WETH
-  allowAction.aave_v3.deposit({ targets: ["WETH"] }),
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["WETH"] }),
   // Aave v3 - wstETH
-  allowAction.aave_v3.deposit({ targets: ["wstETH"] }),
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["wstETH"] }),
   // Aave v3 - Stake GHO
   allowAction.aave_v3.stake({ targets: ["GHO"] }),
 
@@ -188,34 +188,34 @@ export default [
   // Aave v3 - Lido Market - ETH
   ...allowErc20Approve(
     [contracts.mainnet.aaveV3.aEthWeth],
-    [contracts.mainnet.aaveV3.wrappedTokenGatewayLidoV3]
+    [contracts.mainnet.aaveV3.wrappedTokenGatewayPrimeV3]
   ),
-  allow.mainnet.aaveV3.wrappedTokenGatewayLidoV3.depositETH(
-    contracts.mainnet.aaveV3.lendingPoolLidoV3,
+  allow.mainnet.aaveV3.wrappedTokenGatewayPrimeV3.depositETH(
+    contracts.mainnet.aaveV3.poolPrimeV3,
     c.avatar,
     undefined,
     { send: true }
   ),
-  allow.mainnet.aaveV3.wrappedTokenGatewayLidoV3.withdrawETH(
-    contracts.mainnet.aaveV3.lendingPoolLidoV3,
+  allow.mainnet.aaveV3.wrappedTokenGatewayPrimeV3.withdrawETH(
+    contracts.mainnet.aaveV3.poolPrimeV3,
     undefined,
     c.avatar
   ),
 
   // Aave v3 - Lido Market - USDC
-  ...allowErc20Approve([USDC], [contracts.mainnet.aaveV3.lendingPoolLidoV3]),
-  allow.mainnet.aaveV3.lendingPoolLidoV3.supply(USDC, undefined, c.avatar),
-  allow.mainnet.aaveV3.lendingPoolLidoV3.withdraw(USDC, undefined, c.avatar),
+  ...allowErc20Approve([USDC], [contracts.mainnet.aaveV3.poolPrimeV3]),
+  allow.mainnet.aaveV3.poolPrimeV3.supply(USDC, undefined, c.avatar),
+  allow.mainnet.aaveV3.poolPrimeV3.withdraw(USDC, undefined, c.avatar),
 
   // Aave v3 - Lido Market - WETH
-  ...allowErc20Approve([WETH], [contracts.mainnet.aaveV3.lendingPoolLidoV3]),
-  allow.mainnet.aaveV3.lendingPoolLidoV3.supply(WETH, undefined, c.avatar),
-  allow.mainnet.aaveV3.lendingPoolLidoV3.withdraw(WETH, undefined, c.avatar),
+  ...allowErc20Approve([WETH], [contracts.mainnet.aaveV3.poolPrimeV3]),
+  allow.mainnet.aaveV3.poolPrimeV3.supply(WETH, undefined, c.avatar),
+  allow.mainnet.aaveV3.poolPrimeV3.withdraw(WETH, undefined, c.avatar),
 
   // Aave v3 - Lido Market - wstETH
-  ...allowErc20Approve([wstETH], [contracts.mainnet.aaveV3.lendingPoolLidoV3]),
-  allow.mainnet.aaveV3.lendingPoolLidoV3.supply(wstETH, undefined, c.avatar),
-  allow.mainnet.aaveV3.lendingPoolLidoV3.withdraw(wstETH, undefined, c.avatar),
+  ...allowErc20Approve([wstETH], [contracts.mainnet.aaveV3.poolPrimeV3]),
+  allow.mainnet.aaveV3.poolPrimeV3.supply(wstETH, undefined, c.avatar),
+  allow.mainnet.aaveV3.poolPrimeV3.withdraw(wstETH, undefined, c.avatar),
 
   // Balancer - BCoW AMM wNXM/WETH (Staking not available)
   ...allowErc20Approve(

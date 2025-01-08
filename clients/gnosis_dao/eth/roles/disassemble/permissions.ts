@@ -27,29 +27,19 @@ export default [
   allow.mainnet.aaveV2.stkGho.cooldown(),
 
   // Aave v3 - Withdraw wstETH
-  allow.mainnet.aaveV3.lendingPoolV3.withdraw(wstETH, undefined, c.avatar),
+  allow.mainnet.aaveV3.poolCoreV3.withdraw(wstETH, undefined, c.avatar),
 
   // Aave v3 - Repay GHO
-  ...allowErc20Approve([GHO], [contracts.mainnet.aaveV3.lendingPoolV3]),
-  allow.mainnet.aaveV3.lendingPoolV3.repay(GHO, undefined, undefined, c.avatar),
+  ...allowErc20Approve([GHO], [contracts.mainnet.aaveV3.poolCoreV3]),
+  allow.mainnet.aaveV3.poolCoreV3.repay(GHO, undefined, undefined, c.avatar),
 
   // Aave v3 - Repay USDC
-  ...allowErc20Approve([USDC], [contracts.mainnet.aaveV3.lendingPoolV3]),
-  allow.mainnet.aaveV3.lendingPoolV3.repay(
-    USDC,
-    undefined,
-    undefined,
-    c.avatar
-  ),
+  ...allowErc20Approve([USDC], [contracts.mainnet.aaveV3.poolCoreV3]),
+  allow.mainnet.aaveV3.poolCoreV3.repay(USDC, undefined, undefined, c.avatar),
 
   // Aave v3 - Repay WBTC
-  ...allowErc20Approve([WBTC], [contracts.mainnet.aaveV3.lendingPoolV3]),
-  allow.mainnet.aaveV3.lendingPoolV3.repay(
-    WBTC,
-    undefined,
-    undefined,
-    c.avatar
-  ),
+  ...allowErc20Approve([WBTC], [contracts.mainnet.aaveV3.poolCoreV3]),
+  allow.mainnet.aaveV3.poolCoreV3.repay(WBTC, undefined, undefined, c.avatar),
 
   // Ankr
   allow.mainnet.ankr.flashUnstake.swapEth(undefined, c.avatar),
