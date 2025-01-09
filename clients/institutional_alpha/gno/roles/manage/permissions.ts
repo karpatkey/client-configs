@@ -13,7 +13,7 @@ import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
 import { avatar } from "../../index"
-import { balancer__swap } from "../../../../../helpers/exit_strategies/balancer"
+import { balancerSwap } from "../../../../../helpers/exit_strategies/balancer"
 
 export default [
   /*********************************************
@@ -36,13 +36,13 @@ export default [
   // Aave v3 - Borrow XDAI
   allowAction.aave_v3.borrow({ targets: ["XDAI"] }),
 
-  // CowSwap - [sDAI, USDC, USDCe, WXDAI] -> [eAddress, sDAI, USDC, USDCe, WXDAI]
+  // CowSwap - [sDAI, USDC, USDCe, WXDAI] -> [ETH, sDAI, USDC, USDCe, WXDAI]
   allowAction.cowswap.swap({
     sell: [sDAI, USDC, USDCe, WXDAI],
     buy: [eAddress, sDAI, USDC, USDCe, WXDAI],
   }),
 
-  // Spark - DSR/sDAI
+  // Spark - DSR_sDAI
   allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
   // Spark - Deposit sDAI
   allowAction.spark.deposit({ targets: ["sDAI"] }),
@@ -69,14 +69,14 @@ export default [
   /*********************************************
    * Swaps
    *********************************************/
-  // Balancer - USDT/sDAI/USDC Pool - Swap sDAI <-> USDC
-  balancer__swap(balancer.sBal3Pid, [sDAI, USDC], [sDAI, USDC]),
+  // Balancer - sDAI <-> USDC
+  balancerSwap(balancer.sBal3Pid, [sDAI, USDC], [sDAI, USDC]),
 
-  // Balancer - USDT/sDAI/USDC.e pool - Swap sDAI <-> USDC.e
-  balancer__swap(balancer.sBAL3NewPid, [sDAI, USDCe], [sDAI, USDCe]),
+  // Balancer - sDAI <-> USDC.e
+  balancerSwap(balancer.sBAL3NewPid, [sDAI, USDCe], [sDAI, USDCe]),
 
-  // Balancer - USDT/USDC/WXDAI pool - Swap USDC <-> WXDAI
-  balancer__swap(balancer.staBal3Pid, [USDC, WXDAI], [USDC, WXDAI]),
+  // Balancer - USDC <-> WXDAI
+  balancerSwap(balancer.staBal3Pid, [USDC, WXDAI], [USDC, WXDAI]),
 
   // Swap USDC.e -> USDC
   ...allowErc20Approve([USDCe], [contracts.gnosis.usdcTransmuter]),
@@ -101,13 +101,6 @@ export default [
     1, // Mainnet
     c.avatar
   ),
-
-  // // COMP (Gnosis) -> COMP (Mainnet)
-  // allow.gnosis.comp.transferAndCall(
-  //   contracts.gnosis.xdaiBridge,
-  //   undefined,
-  //   avatar
-  // ),
 
   // USDC (Gnosis) -> USDC (Mainnet)
   allow.gnosis.usdc.transferAndCall(

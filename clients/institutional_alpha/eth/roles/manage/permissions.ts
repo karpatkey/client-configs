@@ -38,7 +38,7 @@ import { USDC as USDC_base } from "../../../../../eth-sdk/addresses_base"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
-import { balancer__swap } from "../../../../../helpers/exit_strategies/balancer"
+import { balancerSwap } from "../../../../../helpers/exit_strategies/balancer"
 import { avatar } from "../../index"
 
 export default [
@@ -48,25 +48,25 @@ export default [
   // Aave v2 - Staking of GHO in Safety Module
   allowAction.aave_v2.stake({ targets: ["GHO"] }),
 
-  // Aave v3 - Deposit crvUSD
+  // Aave v3 Core Market - Deposit crvUSD
   allowAction.aave_v3.deposit({ market: "Core", targets: ["crvUSD"] }),
-  // Aave v3 - Deposit DAI
+  // Aave v3 Core Market - Deposit DAI
   allowAction.aave_v3.deposit({ market: "Core", targets: ["DAI"] }),
-  // Aave v3 - Deposit sDAI
+  // Aave v3 Core Market - Deposit sDAI
   allowAction.aave_v3.deposit({ market: "Core", targets: ["sDAI"] }),
-  // Aave v3 - Deposit sUSDe
+  // Aave v3 Core Market - Deposit sUSDe
   allowAction.aave_v3.deposit({ market: "Core", targets: ["sUSDe"] }),
-  // Aave v3 - Deposit USDC
+  // Aave v3 Core Market - Deposit USDC
   allowAction.aave_v3.deposit({ market: "Core", targets: ["USDC"] }),
-  // Aave v3 - Deposit USDe
+  // Aave v3 Core Market - Deposit USDe
   allowAction.aave_v3.deposit({ market: "Core", targets: ["USDe"] }),
-  // Aave v3 - Deposit USDS
+  // Aave v3 Core Market - Deposit USDS
   allowAction.aave_v3.deposit({ market: "Core", targets: ["USDS"] }),
-  // Aave v3 - Deposit USDT
+  // Aave v3 Core Market - Deposit USDT
   allowAction.aave_v3.deposit({ market: "Core", targets: ["USDT"] }),
-  // Aave v3 - Borrow DAI
+  // Aave v3 Core Market - Borrow DAI
   allowAction.aave_v3.borrow({ market: "Core", targets: ["DAI"] }),
-  // Aave v3 - Borrow USDC
+  // Aave v3 Core Market - Borrow USDC
   allowAction.aave_v3.borrow({ market: "Core", targets: ["USDC"] }),
 
   // Aura - GHO/USDC/USDT
@@ -88,7 +88,8 @@ export default [
   allowAction.cowswap.swap({ sell: [DAI, USDC, USDM], buy: [DAI, USDC, USDM] }),
   // CowSwap - [USDC, wM] <-> [USDC, wM]
   allowAction.cowswap.swap({ sell: [USDC, wM], buy: [USDC, wM] }),
-  // CowSwap - [AAVE, AURA, BAL, CRV, crvUSD, CVX, DAI, GHO, GYD, NOTE, sDAI, stkGHO, sUSDe, USDC, USDe, USDT]
+  // CowSwap - [AAVE, AURA, BAL, CRV, crvUSD, CVX, DAI, GHO, GYD, NOTE, sDAI, stkGHO, sUSDe, USDC, USDe, USDT] <->
+  // [AAVE, AURA, BAL, CRV, crvUSD, CVX, DAI, GHO, GYD, NOTE, sDAI, stkGHO, sUSDe, USDC, USDe, USDT]
   allowAction.cowswap.swap({
     sell: [
       AAVE,
@@ -142,7 +143,7 @@ export default [
   /*********************************************
    * Typed-presets permissions
    *********************************************/
-  // Compound v3 - USDC
+  // Compound v3 - Deposit USDC
   ...allowErc20Approve([USDC], [contracts.mainnet.compoundV3.cUsdcV3]),
   allow.mainnet.compoundV3.cUsdcV3.supply(USDC),
   allow.mainnet.compoundV3.cUsdcV3.withdraw(USDC),
@@ -351,39 +352,39 @@ export default [
   /*********************************************
    * Swaps
    *********************************************/
-  // Balancer - Swap GYD <-> sDAI
-  balancer__swap(balancer.eclpGydSdai2Pid, [GYD, sDAI], [GYD, sDAI]),
+  // Balancer - GYD <-> sDAI
+  balancerSwap(balancer.eclpGydSdai2Pid, [GYD, sDAI], [GYD, sDAI]),
 
-  // Balancer - Swap [GHO, USDC, USDT] <-> [GHO, USDC, USDT]
-  balancer__swap(balancer.ghoUsdtUsdcPid, [GHO, USDC, USDT], [GHO, USDC, USDT]),
+  // Balancer - [GHO, USDC, USDT] <-> [GHO, USDC, USDT]
+  balancerSwap(balancer.ghoUsdtUsdcPid, [GHO, USDC, USDT], [GHO, USDC, USDT]),
 
-  // Curve - 3pool - Swap [DAI, USDC, USDT] <-> [DAI, USDC, USDT]
+  // Curve - [DAI, USDC, USDT] <-> [DAI, USDC, USDT]
   ...allowErc20Approve([DAI, USDC, USDT], [contracts.mainnet.curve.x3CrvPool]),
   allow.mainnet.curve.x3CrvPool.exchange(),
 
-  // Curve - Swap sDAI <-> USDM
+  // Curve - sDAI <-> USDM
   allowErc20Approve([sDAI, USDM], [contracts.mainnet.curve.sDaiUsdmPool]),
   allow.mainnet.curve.sDaiUsdmPool["exchange(int128,int128,uint256,uint256)"](),
 
-  // Curve - Swap USDe <-> USDC
+  // Curve - USDe <-> USDC
   allowErc20Approve([USDe, USDC], [contracts.mainnet.curve.usdeUsdcPool]),
   allow.mainnet.curve.usdeUsdcPool["exchange(int128,int128,uint256,uint256)"](),
 
-  // Curve - Swap DAI <-> USDe
+  // Curve - DAI <-> USDe
   allowErc20Approve([DAI, USDe], [contracts.mainnet.curve.usdeDaiPool]),
   allow.mainnet.curve.usdeDaiPool["exchange(int128,int128,uint256,uint256)"](),
 
-  // Curve - Swap sDAI <-> sUSDe
+  // Curve - sDAI <-> sUSDe
   allowErc20Approve([sDAI, sUSDe], [contracts.mainnet.curve.mtEthenaPool]),
   allow.mainnet.curve.mtEthenaPool["exchange(int128,int128,uint256,uint256)"](),
 
-  // Curve - Swap crvUSD <-> USDC
+  // Curve - crvUSD <-> USDC
   allowErc20Approve([crvUSD, USDC], [contracts.mainnet.curve.crvUsdUsdcPool]),
   allow.mainnet.curve.crvUsdUsdcPool[
     "exchange(int128,int128,uint256,uint256)"
   ](),
 
-  // Curve - Swap crvUSD <-> USDT
+  // Curve - crvUSD <-> USDT
   allowErc20Approve([crvUSD, USDT], [contracts.mainnet.curve.crvUsdUsdtPool]),
   allow.mainnet.curve.crvUsdUsdtPool[
     "exchange(int128,int128,uint256,uint256)"
@@ -447,102 +448,6 @@ export default [
     undefined,
     "0x10720f58Cf4A22fa540ff10430fD967d2ef102de" // Relayer
   ),
-
-  // // COMP (Mainnet) -> COMP (Gnosis)
-  // ...allowErc20Approve([COMP], [contracts.mainnet.gnoOmnibridge]),
-  // allow.mainnet.gnoOmnibridge["relayTokens(address,address,uint256)"](
-  //   COMP,
-  //   c.avatar
-  // ),
-  // // Claim bridged COMP from Gnosis
-  // allow.mainnet.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
-  //   c.and(
-  //     // messageId: 32 bytes
-  //     // First 4 bytes
-  //     c.bitmask({
-  //       shift: 0,
-  //       mask: "0xffffffff",
-  //       value: "0x00050000",
-  //     }),
-  //     // Next 10 bytes
-  //     c.bitmask({
-  //       shift: 4,
-  //       mask: "0xffffffffffffffffffff",
-  //       value: "0xa7823d6f1e31569f5186",
-  //     }),
-  //     // Next 10 bytes
-  //     c.bitmask({
-  //       shift: 4 + 10,
-  //       mask: "0xffffffffffffffffffff",
-  //       value: "0x1e345b30c6bebf70ebe7",
-  //     }),
-  //     // skip last 8 bytes (nonce)
-  //     // sender: 20 bytes
-  //     c.bitmask({
-  //       shift: 32,
-  //       mask: "0xffffffffffffffffffff",
-  //       value: contracts.gnosis.xdaiBridge.slice(0, 22), // First 10 bytes of the sender address (XDAI Bridge)
-  //     }),
-  //     c.bitmask({
-  //       shift: 32 + 10,
-  //       mask: "0xffffffffffffffffffff",
-  //       value: "0x" + contracts.gnosis.xdaiBridge.slice(22, 42), // Second 10 bytes of the sender address (XDAI Bridge)
-  //     }),
-  //     // executor: 20 bytes
-  //     c.bitmask({
-  //       shift: 32 + 20,
-  //       mask: "0xffffffffffffffffffff",
-  //       value: contracts.mainnet.gnoOmnibridge.slice(0, 22), // First 10 bytes of the executor address (Omnibridge)
-  //     }),
-  //     c.bitmask({
-  //       shift: 32 + 20 + 10,
-  //       mask: "0xffffffffffffffffffff",
-  //       value: "0x" + contracts.mainnet.gnoOmnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
-  //     }),
-  //     // gasLimit: 4 bytes
-  //     c.bitmask({
-  //       shift: 32 + 20 + 20,
-  //       mask: "0xffffffff",
-  //       value: "0x000927c0",
-  //     }),
-  //     // dataType + chainIds: 5 bytes
-  //     c.bitmask({
-  //       shift: 32 + 20 + 20 + 4,
-  //       mask: "0xffffffffff",
-  //       value: "0x0101806401",
-  //     }),
-  //     // selector (handleNativeTokens): 4 bytes
-  //     c.bitmask({
-  //       shift: 32 + 20 + 20 + 4 + 5,
-  //       mask: "0xffffffff",
-  //       value: "0x272255bb",
-  //     }),
-  //     // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
-  //     // Token address
-  //     c.bitmask({
-  //       shift: 32 + 20 + 20 + 4 + 5 + 4 + 12,
-  //       mask: "0xffffffffffffffffffff",
-  //       value: COMP.slice(0, 22), // First 10 bytes of the token address
-  //     }),
-  //     c.bitmask({
-  //       shift: 32 + 20 + 20 + 4 + 5 + 4 + 12 + 10,
-  //       mask: "0xffffffffffffffffffff",
-  //       value: "0x" + COMP.slice(22, 42), // Last 10 bytes of the token address
-  //     }),
-  //     // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
-  //     // Avatar address
-  //     c.bitmask({
-  //       shift: 32 + 20 + 20 + 4 + 5 + 4 + 32 + 12,
-  //       mask: "0xffffffffffffffffffff",
-  //       value: avatar.slice(0, 22), // First 10 bytes of the avatar address
-  //     }),
-  //     c.bitmask({
-  //       shift: 32 + 20 + 20 + 4 + 5 + 4 + 32 + 12 + 10,
-  //       mask: "0xffffffffffffffffffff",
-  //       value: "0x" + avatar.slice(22, 42), // Last 10 bytes of the avatar address
-  //     })
-  //   )
-  // ),
 
   // USDC (Mainnet) -> USDC.e (Gnosis)
   ...allowErc20Approve([USDC], [contracts.mainnet.gnoOmnibridge]),

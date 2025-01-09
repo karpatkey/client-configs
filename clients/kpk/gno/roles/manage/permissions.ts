@@ -34,7 +34,7 @@ export default [
     buy: [eAddress, USDC, WXDAI],
   }),
 
-  // Spark - DSR/sDAI
+  // Spark - DSR_sDAI
   allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
 
   /*********************************************

@@ -26,7 +26,7 @@ export default [
   ...allowErc20Approve([USDC], [contracts.mainnet.aaveV3.poolCoreV3]),
   allow.mainnet.aaveV3.poolCoreV3.repay(USDC, undefined, undefined, c.avatar),
 
-  // Compound v3 - USDC
+  // Compound v3 - Withdraw USDC
   allow.mainnet.compoundV3.cUsdcV3.withdraw(USDC),
 
   // Maker - Withdraw DSR (DAI Savings Rate)

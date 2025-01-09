@@ -20,14 +20,14 @@ import {
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
-import { aura__withdraw_balancer } from "../../../../../helpers/exit_strategies/aura"
-import { balancer__swap } from "../../../../../helpers/exit_strategies/balancer"
-import { cowswap__swap } from "../../../../../helpers/exit_strategies/cowswap"
+import { auraWithdrawBalancer } from "../../../../../helpers/exit_strategies/aura"
+import { balancerSwap } from "../../../../../helpers/exit_strategies/balancer"
+import { cowswapSwap } from "../../../../../helpers/exit_strategies/cowswap"
 import {
-  lido__unstake_stETH,
-  lido__unwrap_and_unstake_wstETH,
+  lidoUnstakeStEth,
+  lidoUnwrapAndUnstakeWstEth,
 } from "../../../../../helpers/exit_strategies/lido"
-import { convex__withdraw } from "../../../../../helpers/exit_strategies/convex"
+import { convexWithdraw } from "../../../../../helpers/exit_strategies/convex"
 import { Chain } from "../../../../../types"
 
 export default [
@@ -44,10 +44,7 @@ export default [
   allow.mainnet.aaveV2.stkGho.cooldown(),
 
   // Aura - wstETH/WETH
-  aura__withdraw_balancer(
-    aura.auraBstEthStableRewarder,
-    balancer.bStEthStablePid
-  ),
+  auraWithdrawBalancer(aura.auraBstEthStableRewarder, balancer.bStEthStablePid),
 
   // Aura - Lock
   allow.mainnet.aura.vlAura.processExpiredLocks(),
@@ -58,14 +55,14 @@ export default [
 
   allow.mainnet.aura.stkauraBal.redeem(undefined, c.avatar, c.avatar),
 
-  // Compound v3 - USDC
+  // Compound v3 - Withdraw USDC
   allow.mainnet.compoundV3.cUsdcV3.withdraw(USDC),
 
   // Convex - USDT/WBTC/WETH
-  convex__withdraw(convex.cvxcrvUsdtWbtcWethRewarder),
+  convexWithdraw(convex.cvxcrvUsdtWbtcWethRewarder),
 
   // Convex - GHO/WBTC/wstETH
-  convex__withdraw(convex.cvxGhoBtcWstEthRewarder),
+  convexWithdraw(convex.cvxGhoBtcWstEthRewarder),
 
   // Curve - USDT/WBTC/WETH
   allow.mainnet.curve.crvUsdtWbtcWethPool[
@@ -95,8 +92,8 @@ export default [
   ),
 
   // Lido
-  lido__unstake_stETH(),
-  lido__unwrap_and_unstake_wstETH(),
+  lidoUnstakeStEth(),
+  lidoUnwrapAndUnstakeWstEth(),
 
   // Maker - DSR (DAI Savings Rate)
   allow.mainnet.maker.dsrManager.exit(c.avatar),
@@ -110,7 +107,7 @@ export default [
   allow.mainnet.rocketPool.rEth.burn(),
   allow.mainnet.rocketPool.swapRouter.swapFrom(),
 
-  // Spark - DSR/sDAI
+  // Spark - DSR_sDAI
   allow.mainnet.spark.sDai.redeem(undefined, c.avatar, c.avatar),
   allow.mainnet.spark.sDai.withdraw(undefined, c.avatar, c.avatar),
 
@@ -118,26 +115,26 @@ export default [
    * SWAPS
    *********************************************/
   // Balancer - Swap rETH <-> WETH
-  balancer__swap(balancer.bREthStablePid, [rETH, WETH], [rETH, WETH]),
+  balancerSwap(balancer.bREthStablePid, [rETH, WETH], [rETH, WETH]),
 
   // Balancer - Swap WETH <-> wstETH
-  balancer__swap(balancer.bStEthStablePid, [WETH, wstETH], [wstETH, WETH]),
+  balancerSwap(balancer.bStEthStablePid, [WETH, wstETH], [wstETH, WETH]),
 
   // CowSwap - Holdings
-  cowswap__swap([DAI, USDC, USDT], [DAI, USDC, USDT, WETH], Chain.eth),
-  cowswap__swap([CRV, COMP, CVX, NOTE], [DAI, USDC], Chain.eth),
+  cowswapSwap([DAI, USDC, USDT], [DAI, USDC, USDT, WETH], Chain.eth),
+  cowswapSwap([CRV, COMP, CVX, NOTE], [DAI, USDC], Chain.eth),
 
   // CowSwap - DAI -> [ETH, USDC, USDT]
-  cowswap__swap([DAI], [eAddress, USDC, USDT], Chain.eth),
+  cowswapSwap([DAI], [eAddress, USDC, USDT], Chain.eth),
 
   // CowSwap - USDT -> [USDC, DAI, eAddress]
-  cowswap__swap([USDT], [USDC, DAI, eAddress], Chain.eth),
+  cowswapSwap([USDT], [USDC, DAI, eAddress], Chain.eth),
 
   // Cowswap - USDC -> [DAI, USDT, eAddress]
-  cowswap__swap([USDC], [DAI, USDT, eAddress], Chain.eth),
+  cowswapSwap([USDC], [DAI, USDT, eAddress], Chain.eth),
 
   // Cowswap - [ETH, WETH] -> [DAI, USDT, USDC]
-  cowswap__swap([eAddress, WETH], [DAI, USDT, USDC], Chain.eth),
+  cowswapSwap([eAddress, WETH], [DAI, USDT, USDC], Chain.eth),
 
   // Curve - Swaps in 3pool
   ...allowErc20Approve([DAI, USDC, USDT], [contracts.mainnet.curve.x3CrvPool]),

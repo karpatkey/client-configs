@@ -96,23 +96,23 @@ export default [
   allowAction.balancer.deposit({ targets: ["EURe/sDAI"] }),
   allowAction.balancer.stake({ targets: ["EURe/sDAI"] }),
 
-  // CowSwap - XDAI -> EURe/USDC.e/USDT
+  // CowSwap - XDAI -> [EURe, USDC.e, USDT]
   allowAction.cowswap.swap({
     sell: ["XDAI"],
     buy: [EURe, USDCe, USDT],
   }),
-  // CowSwap - XDAI <- EURe/USDC.e/USDT
+  // CowSwap - [EURe, USDC.e, USDT] -> XDAI
   allowAction.cowswap.swap({
     sell: [EURe, USDCe, USDT],
     buy: ["XDAI"],
   }),
 
-  // CowSwap - WXDAI -> EURe/USDC.e/USDT
+  // CowSwap - WXDAI -> [EURe, USDC.e, USDT]
   allowAction.cowswap.swap({
     sell: [WXDAI],
     buy: [EURe, USDCe, USDT],
   }),
-  // CowSwap - WXDAI <- EURe/USDC.e/USDT
+  // CowSwap - [EURe, USDC.e, USDT] -> WXDAI
   allowAction.cowswap.swap({
     sell: [EURe, USDCe, USDT],
     buy: [WXDAI],
@@ -142,23 +142,23 @@ export default [
     buy: [EURe, USDT],
   }),
 
-  // Spark - DSR/sDAI
+  // Spark - DSR_sDAI
   allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
-  // Spark - GNO
+  // Spark - Deposit GNO
   allowAction.spark.deposit({ targets: ["GNO"] }),
-  // Spark - XDAI
+  // Spark - Deposit XDAI
   allowAction.spark.deposit({ targets: ["XDAI"] }),
-  // Spark - WXDAI
+  // Spark - Deposit WXDAI
   allowAction.spark.deposit({ targets: ["WXDAI"] }),
-  // Spark - WETH
+  // Spark - Deposit WETH
   allowAction.spark.deposit({ targets: ["WETH"] }),
-  // Spark - USDC.e
+  // Spark - Deposit USDC.e
   allowAction.spark.deposit({ targets: ["USDC.e"] }),
-  // Spark - EURe
+  // Spark - Deposit EURe
   allowAction.spark.deposit({ targets: ["EURe"] }),
-  // Spark - USDT
+  // Spark - Deposit USDT
   allowAction.spark.deposit({ targets: ["USDT"] }),
-  // Spark - USDC
+  // Spark - Deposit USDC
   allowAction.spark.deposit({ targets: ["USDC"] }),
 
   /*********************************************

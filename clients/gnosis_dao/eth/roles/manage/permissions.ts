@@ -25,7 +25,7 @@ export default [
   /*********************************************
    * DeFi-Kit permissions
    *********************************************/
-  // Aave v2 - Staking of GHO in Safety Module
+  // Aave Safety Module - Stake GHO
   allowAction.aave_v2.stake({ targets: ["GHO"] }),
 
   // Aave v3 - Deposit wstETH
@@ -71,17 +71,17 @@ export default [
   // Convex - Lock
   allowAction.convex.lock(),
 
-  // CowSwap - DAI <> USDT
+  // CowSwap - DAI <-> USDT
   allowAction.cowswap.swap({
     sell: [DAI, USDT],
     buy: [DAI, USDT],
   }),
-  // CowSwap - DAI <> USDC
+  // CowSwap - DAI <-> USDC
   allowAction.cowswap.swap({
     sell: [DAI, USDC],
     buy: [DAI, USDC],
   }),
-  // CowSwap - USDC <> USDT
+  // CowSwap - USDC <-> USDT
   allowAction.cowswap.swap({
     sell: [USDC, USDT],
     buy: [USDC, USDT],
@@ -91,17 +91,17 @@ export default [
     sell: [wstETH],
     buy: [stETH],
   }),
-  // CowSwap - osETH <> WETH
+  // CowSwap - osETH <-> WETH
   allowAction.cowswap.swap({
     sell: [osETH, WETH],
     buy: [osETH, WETH],
   }),
-  // CowSwap - rETH <> WETH
+  // CowSwap - rETH <-> WETH
   allowAction.cowswap.swap({
     sell: [rETH, WETH],
     buy: [rETH, WETH],
   }),
-  // CowSwap - GHO <> USDC
+  // CowSwap - GHO <-> USDC
   allowAction.cowswap.swap({
     sell: [GHO, USDC],
     buy: [GHO, USDC],
@@ -115,6 +115,9 @@ export default [
 
   // Stader
   allowAction.stader.deposit(),
+
+  // StakeWise v3 - Chorus One - MEV Max
+  allowAction.stakewise_v3.stake({ targets: ["Chorus One - MEV Max"] }),
 
   /*********************************************
    * Typed-presets permissions
@@ -200,25 +203,4 @@ export default [
   ),
   allow.mainnet.sommelier.turboDivEth.deposit(undefined, c.avatar),
   allow.mainnet.sommelier.turboDivEth.redeem(undefined, c.avatar, c.avatar),
-
-  // StakeWise v3 - Chorus One - MEV Max
-  allow.mainnet.stakeWiseV3.chrorusOneMevMax.deposit(c.avatar, undefined, {
-    send: true,
-  }),
-  allow.mainnet.stakeWiseV3.chrorusOneMevMax.updateState(),
-  allow.mainnet.stakeWiseV3.chrorusOneMevMax.updateStateAndDeposit(
-    c.avatar,
-    undefined,
-    undefined,
-    {
-      send: true,
-    }
-  ),
-  allow.mainnet.stakeWiseV3.chrorusOneMevMax.mintOsToken(c.avatar),
-  allow.mainnet.stakeWiseV3.chrorusOneMevMax.burnOsToken(),
-  allow.mainnet.stakeWiseV3.chrorusOneMevMax.enterExitQueue(
-    undefined,
-    c.avatar
-  ),
-  allow.mainnet.stakeWiseV3.chrorusOneMevMax.claimExitedAssets(),
 ] satisfies PermissionList

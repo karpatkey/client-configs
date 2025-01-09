@@ -24,7 +24,7 @@ export default [
     buy: ["XDAI", GNO, osGNO, sDAI, USDC, USDCe, WXDAI],
   }),
 
-  // Spark - DSR/sDAI
+  // Spark - DSR_sDAI
   allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
 
   // StakeWise v3 - Genesis

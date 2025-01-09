@@ -8,7 +8,7 @@ import { contracts } from "../../eth-sdk/config"
 // import { ethers } from "ethers"
 // import { providers } from "../providers"
 
-export const balancer__withdraw = (
+export const balancerWithdraw = (
   balancerPoolId: string,
   allowExitOneCoin: boolean = true
 ): PermissionSet => {
@@ -25,7 +25,7 @@ export const balancer__withdraw = (
   ]
 }
 
-export const balancer__unstake_withdraw = async (
+export const balancerUnstakeWithdraw = async (
   chain: Chain,
   gauge: Address,
   allowExitOneCoin: boolean = true
@@ -73,7 +73,7 @@ export const balancer__unstake_withdraw = async (
   ]
 }
 
-export const balancer__swap = (
+export const balancerSwap = (
   balancerPoolId: string,
   assetsIn: Address[],
   assetsOut: Address[]

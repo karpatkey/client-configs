@@ -22,47 +22,47 @@ import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
 import {
-  balancer__swap,
-  cowswap__swap,
+  balancerSwap,
+  cowswapSwap,
 } from "../../../../../helpers/exit_strategies"
 import { Chain } from "../../../../../types"
 
 export default [
   // Balancer - wstETH -> WETH
-  balancer__swap(balancer.bStEthStablePid, [wstETH], [WETH]),
+  balancerSwap(balancer.bStEthStablePid, [wstETH], [WETH]),
 
   // Balancer - wstETH -> WETH
-  balancer__swap(balancer.eclpWstEthWethPid, [wstETH], [WETH]),
+  balancerSwap(balancer.eclpWstEthWethPid, [wstETH], [WETH]),
 
   // Balancer - rETH -> WETH
-  balancer__swap(balancer.bREthStablePid, [rETH], [WETH]),
+  balancerSwap(balancer.bREthStablePid, [rETH], [WETH]),
 
   // Balancer - GYD -> USDT
-  balancer__swap(balancer.eclpGydUsdtPid, [GYD], [USDT]),
+  balancerSwap(balancer.eclpGydUsdtPid, [GYD], [USDT]),
 
   // Balancer - GYD -> sDAI
-  balancer__swap(balancer.eclpGydSdaiPid, [GYD], [sDAI]),
+  balancerSwap(balancer.eclpGydSdaiPid, [GYD], [sDAI]),
 
   // Balancer - GYD -> sDAI
-  balancer__swap(balancer.eclpGydSdai2Pid, [GYD], [sDAI]),
+  balancerSwap(balancer.eclpGydSdai2Pid, [GYD], [sDAI]),
 
   // Balancer - GYD -> USDC
-  balancer__swap(balancer.eclpGydUsdcPid, [GYD], [USDC]),
+  balancerSwap(balancer.eclpGydUsdcPid, [GYD], [USDC]),
 
   // Balancer - GHO -> [USDC, USDT]
-  balancer__swap(balancer.ghoUsdtUsdcPid, [GHO], [USDC, USDT]),
+  balancerSwap(balancer.ghoUsdtUsdcPid, [GHO], [USDC, USDT]),
 
   // CowSwap - [OETH, rETH, stETH, WETH, wstETH] -> [ETH, WETH]
-  cowswap__swap(
+  cowswapSwap(
     [OETH, rETH, stETH, WETH, wstETH],
     [eAddress, WETH],
     Chain.eth,
     200
   ),
   // CowSwap - stkGHO -> GHO
-  cowswap__swap([stkGHO], [GHO], Chain.eth, 200),
+  cowswapSwap([stkGHO], [GHO], Chain.eth, 200),
   // CowSwap - [DAI, GHO, GYD, sDAI, sUSDS, USDC, USDS, USDT] -> [DAI, USDC, USDT]
-  cowswap__swap(
+  cowswapSwap(
     [DAI, GHO, GYD, sDAI, sUSDS, USDC, USDS, USDT],
     [DAI, USDC, USDT],
     Chain.eth,
@@ -80,26 +80,22 @@ export default [
     0
   ),
 
-  // Uniswap v3 - Swaps
+  // Uniswap v3 - [OETH, rETH, stETH, WETH, wstETH] -> WETH
   allowErc20Approve(
     [OETH, rETH, stETH, WETH, wstETH],
     [contracts.mainnet.uniswapV3.router2]
   ),
-
-  // Uniswap v3 - [OETH, rETH, stETH, WETH, wstETH] -> WETH
   allow.mainnet.uniswapV3.router2.exactInputSingle({
     tokenIn: c.or(OETH, rETH, stETH, WETH, wstETH),
     tokenOut: WETH,
     recipient: c.avatar,
   }),
 
-  // Uniswap v3 - Swaps
+  // Uniswap v3 - [DAI, GHO, GYD, sDAI, sUSDS, USDC, USDS, USDT] -> [DAI, USDC, USDT]
   allowErc20Approve(
     [DAI, USDT, USDC, GYD, sDAI, GHO, USDS, sUSDS],
     [contracts.mainnet.uniswapV3.router2]
   ),
-
-  // Uniswap v3 - [DAI, GHO, GYD, sDAI, sUSDS, USDC, USDS, USDT] -> [DAI, USDC, USDT]
   allow.mainnet.uniswapV3.router2.exactInputSingle({
     tokenIn: c.or(DAI, GHO, GYD, sDAI, sUSDS, USDC, USDS, USDT),
     tokenOut: c.or(DAI, USDT, USDC),

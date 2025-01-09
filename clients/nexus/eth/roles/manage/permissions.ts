@@ -153,7 +153,7 @@ export default [
   // Rocket Pool
   allowAction.rocket_pool.deposit(),
 
-  // Spark - DSR/sDAI
+  // Spark - DSR_sDAI
   allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
   // Spark - SKY_USDS
   allowAction.spark.deposit({ targets: ["SKY_USDS"] }),
@@ -225,7 +225,7 @@ export default [
   allow.mainnet.balancer.bCow50Wnxm50Weth.joinPool(),
   allow.mainnet.balancer.bCow50Wnxm50Weth.exitPool(),
 
-  // Compound v3 - ETH
+  // Compound v3 - Deposit ETH
   allow.mainnet.compoundV3.cWethV3.allow(
     contracts.mainnet.compoundV3.mainnetBulker
   ),
@@ -249,12 +249,12 @@ export default [
     { send: true }
   ),
 
-  // Compound v3 - USDC
+  // Compound v3 - Deposit USDC
   ...allowErc20Approve([USDC], [contracts.mainnet.compoundV3.cUsdcV3]),
   allow.mainnet.compoundV3.cUsdcV3.supply(USDC),
   allow.mainnet.compoundV3.cUsdcV3.withdraw(USDC),
 
-  // Compound v3 - USDT
+  // Compound v3 - Deposit USDT
   ...allowErc20Approve([USDT], [contracts.mainnet.compoundV3.cUsdtV3]),
   allow.mainnet.compoundV3.cUsdtV3.supply(USDT),
   allow.mainnet.compoundV3.cUsdtV3.withdraw(USDT),

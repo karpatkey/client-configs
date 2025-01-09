@@ -11,11 +11,11 @@ import {
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
-import { balancer__swap } from "../../../../../helpers/exit_strategies/balancer"
+import { balancerSwap } from "../../../../../helpers/exit_strategies/balancer"
 
 export default [
-  // Balancer - USDC/DAI/USDT/USDC.e Pool - Swap [DAI, USDC, USDC.e] <-> [DAI, USDC, USDC.e]
-  balancer__swap(balancer._4PoolPid, [DAI, USDC, USDCe], [DAI, USDC, USDCe]),
+  // Balancer - [DAI, USDC, USDC.e] <-> [DAI, USDC, USDC.e]
+  balancerSwap(balancer.b4PoolPid, [DAI, USDC, USDCe], [DAI, USDC, USDCe]),
 
   // CowSwap - [COMP, DAI, USDC, USDCe] -> [DAI, USDC, USDCe]
   allowAction.cowswap.swap({
@@ -23,7 +23,7 @@ export default [
     buy: [DAI, USDC, USDCe],
   }),
 
-  // Uniswap v3 - Swap [DAI, USDC, USDC.e] <-> [DAI, USDC, USDC.e]
+  // Uniswap v3 - [DAI, USDC, USDC.e] <-> [DAI, USDC, USDC.e]
   ...allowErc20Approve(
     [DAI, USDC, USDCe],
     [contracts.mainnet.uniswapV3.router2]

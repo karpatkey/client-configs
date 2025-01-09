@@ -54,7 +54,7 @@ export default [
   // Rocket Pool
   allowAction.rocket_pool.deposit(),
 
-  // Spark - DSR/sDAI
+  // Spark - DSR_sDAI
   allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
 
   /*********************************************
@@ -66,7 +66,7 @@ export default [
     send: true,
   }),
 
-  // Compound v3 - USDC
+  // Compound v3 - Deposit USDC
   ...allowErc20Approve([USDC], [contracts.mainnet.compoundV3.cUsdcV3]),
   allow.mainnet.compoundV3.cUsdcV3.supply(USDC),
   allow.mainnet.compoundV3.cUsdcV3.withdraw(USDC),

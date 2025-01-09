@@ -11,9 +11,9 @@ import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
 import {
-  aura__withdraw_balancer,
-  balancer__unstake_withdraw,
-  convex__withdraw,
+  auraWithdrawBalancer,
+  balancerUnstakeWithdraw,
+  convexWithdraw,
 } from "../../../../../helpers/exit_strategies"
 import { Chain } from "../../../../../types"
 
@@ -22,22 +22,19 @@ export default [
   allow.mainnet.weth.withdraw(),
 
   // Aura - rETH/WETH
-  aura__withdraw_balancer(
-    aura.auraBrEthStableRewarder,
-    balancer.bREthStablePid
-  ),
+  auraWithdrawBalancer(aura.auraBrEthStableRewarder, balancer.bREthStablePid),
   // Aura - osETH/WETH
-  aura__withdraw_balancer(aura.auraosEthWethRewarder, balancer.osEthWethPid),
+  auraWithdrawBalancer(aura.auraosEthWethRewarder, balancer.osEthWethPid),
 
   // Balancer - rETH/WETH
-  balancer__unstake_withdraw(Chain.eth, balancer.bREthStableGauge),
+  balancerUnstakeWithdraw(Chain.eth, balancer.bREthStableGauge),
   // Balancer - WETH/osETH
-  balancer__unstake_withdraw(Chain.eth, balancer.osEthWethGauge),
+  balancerUnstakeWithdraw(Chain.eth, balancer.osEthWethGauge),
 
   // Convex - ETHx/ETH - ethx-f
-  convex__withdraw(convex.cvxethxRewarder),
+  convexWithdraw(convex.cvxethxRewarder),
   // Convex - ankrETH/ETH
-  convex__withdraw(convex.cvxankrCrvRewarder),
+  convexWithdraw(convex.cvxankrCrvRewarder),
 
   // Curve - ETHx/ETH - ethx-f
   allow.mainnet.curve.ethxfPool["remove_liquidity(uint256,uint256[2])"](),

@@ -11,18 +11,18 @@ import {
 } from "../../../../../eth-sdk/addresses"
 import { PermissionList } from "../../../../../types"
 import {
-  aura__withdraw_balancer,
-  balancer__withdraw,
-  balancer__unstake_withdraw,
-  lido__unstake_stETH,
-  lido__unwrap_and_unstake_wstETH,
+  auraWithdrawBalancer,
+  balancerWithdraw,
+  balancerUnstakeWithdraw,
+  lidoUnstakeStEth,
+  lidoUnwrapAndUnstakeWstEth,
 } from "../../../../../helpers/exit_strategies"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { contracts } from "../../../../../eth-sdk/config"
 import { Chain } from "../../../../../types"
 
 export default [
-  // Aave v2 - Staking of GHO in Safety Module
+  // Aave Safety Module - Unstake GHO
   allow.mainnet.aaveV2.stkGho.redeem(c.avatar),
   allow.mainnet.aaveV2.stkGho.cooldown(),
 
@@ -71,30 +71,27 @@ export default [
   ),
 
   // Aura - auraBAL
-  aura__withdraw_balancer(
+  auraWithdrawBalancer(
     aura.auraBauraBalStableRewarder,
     balancer.bAuraBalStablePid
   ),
 
   // Aura - COW/GNO
-  aura__withdraw_balancer(
+  auraWithdrawBalancer(
     aura.aura50Cow50GnoRewarder,
     balancer.b50Cow50GnoPid,
     false
   ),
 
   // Aura - COW/WETH
-  aura__withdraw_balancer(
+  auraWithdrawBalancer(
     aura.aura50Cow50WethRewarder,
     balancer.b50Cow50WethPid,
     false
   ),
 
   // Aura - rETH/WETH
-  aura__withdraw_balancer(
-    aura.auraBrEthStableRewarder,
-    balancer.bREthStablePid
-  ),
+  auraWithdrawBalancer(aura.auraBrEthStableRewarder, balancer.bREthStablePid),
 
   // Aura - Lock
   allow.mainnet.aura.vlAura.processExpiredLocks(),
@@ -108,18 +105,18 @@ export default [
   allow.mainnet.autonolas.veOlas.withdraw(),
 
   // Balancer - auraBAL / B-80BAL-20WETH
-  balancer__unstake_withdraw(Chain.eth, balancer.bAuraBalStableGauge),
+  balancerUnstakeWithdraw(Chain.eth, balancer.bAuraBalStableGauge),
   // Balancer - B-80BAL-20WETH
-  balancer__withdraw(balancer.b80Bal20WethPid),
+  balancerWithdraw(balancer.b80Bal20WethPid),
 
   // Balancer - COW/GNO
-  balancer__unstake_withdraw(Chain.eth, balancer.b50Cow50GnoGauge, false),
+  balancerUnstakeWithdraw(Chain.eth, balancer.b50Cow50GnoGauge, false),
 
   // Balancer - COW/WETH
-  balancer__unstake_withdraw(Chain.eth, balancer.b50Cow50WethGauge, false),
+  balancerUnstakeWithdraw(Chain.eth, balancer.b50Cow50WethGauge, false),
 
   // Balancer - rETH/WETH
-  balancer__unstake_withdraw(Chain.eth, balancer.bREthStableGauge),
+  balancerUnstakeWithdraw(Chain.eth, balancer.bREthStableGauge),
 
   // Balancer - Lock
   allow.mainnet.balancer.veBal.withdraw(),
@@ -137,8 +134,8 @@ export default [
   ),
 
   // Lido
-  lido__unstake_stETH(),
-  lido__unwrap_and_unstake_wstETH(),
+  lidoUnstakeStEth(),
+  lidoUnwrapAndUnstakeWstEth(),
 
   // Rocket Pool
   allow.mainnet.rocketPool.rEth.burn(),

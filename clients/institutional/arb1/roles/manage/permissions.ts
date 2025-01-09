@@ -17,7 +17,7 @@ import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
 import { avatar } from "../../index"
-import { balancer__swap } from "../../../../../helpers/exit_strategies/balancer"
+import { balancerSwap } from "../../../../../helpers/exit_strategies/balancer"
 
 export default [
   /*********************************************
@@ -39,7 +39,7 @@ export default [
   /*********************************************
    * Typed-presets permissions
    *********************************************/
-  // Compound v3 - USDC
+  // Compound v3 - Deposit USDC
   ...allowErc20Approve([USDC], [contracts.arbitrumOne.compoundV3.cUsdcV3]),
   allow.arbitrumOne.compoundV3.cUsdcV3.supply(USDC),
   allow.arbitrumOne.compoundV3.cUsdcV3.withdraw(USDC),
@@ -49,10 +49,10 @@ export default [
   /*********************************************
    * Swaps
    *********************************************/
-  // Balancer - USDC/DAI/USDT/USDC.e Pool - Swap [DAI, USDC, USDC.e] <-> [DAI, USDC, USDC.e]
-  balancer__swap(balancer._4PoolPid, [DAI, USDC, USDCe], [DAI, USDC, USDCe]),
+  // Balancer [DAI, USDC, USDC.e] <-> [DAI, USDC, USDC.e]
+  balancerSwap(balancer.b4PoolPid, [DAI, USDC, USDCe], [DAI, USDC, USDCe]),
 
-  // Uniswap v3 - Swap [DAI, USDC, USDC.e] <-> [DAI, USDC, USDC.e]
+  // Uniswap v3 - [DAI, USDC, USDC.e] <-> [DAI, USDC, USDC.e]
   ...allowErc20Approve(
     [DAI, USDC, USDCe],
     [contracts.mainnet.uniswapV3.router2]

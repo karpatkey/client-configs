@@ -13,7 +13,7 @@ export const aura__withdraw = (rewarder: Address): PermissionSet => {
   ]
 }
 
-export const aura__withdraw_balancer = (
+export const auraWithdrawBalancer = (
   rewarder: Address,
   balancerPoolId: string,
   allowExitOneCoin: boolean = true

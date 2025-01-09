@@ -15,9 +15,9 @@ import {
 } from "../../../../../eth-sdk/addresses_gno"
 import { contracts } from "../../../../../eth-sdk/config"
 import {
-  aura__withdraw_balancer,
-  balancer__unstake_withdraw,
-  balancer__withdraw,
+  auraWithdrawBalancer,
+  balancerUnstakeWithdraw,
+  balancerWithdraw,
 } from "../../../../../helpers/exit_strategies"
 import { Chain, PermissionList } from "../../../../../types"
 
@@ -25,25 +25,25 @@ export default [
   // Unwrap XDAI
   allow.gnosis.wxdai["withdraw"](),
 
-  // Aave v3 - Deposit XDAI
+  // Aave v3 - Withdraw XDAI
   allow.gnosis.aaveV3.wrappedTokenGatewayV3.withdrawETH(
     contracts.gnosis.aaveV3.poolV3,
     undefined,
     c.avatar
   ),
-  // Aave v3 - Deposit WXDAI
+  // Aave v3 - Withdraw WXDAI
   allow.gnosis.aaveV3.poolV3.withdraw(WXDAI, undefined, c.avatar),
-  // Aave v3 - Deposit wstETH
+  // Aave v3 - Withdraw wstETH
   allow.gnosis.aaveV3.poolV3.withdraw(wstETH, undefined, c.avatar),
-  // Aave v3 - Deposit WETH
+  // Aave v3 - Withdraw WETH
   allow.gnosis.aaveV3.poolV3.withdraw(WETH, undefined, c.avatar),
-  // Aave v3 - Deposit USDC
+  // Aave v3 - Withdraw USDC
   allow.gnosis.aaveV3.poolV3.withdraw(USDC, undefined, c.avatar),
-  // Aave v3 - Deposit EURe
+  // Aave v3 - Withdraw EURe
   allow.gnosis.aaveV3.poolV3.withdraw(EURe, undefined, c.avatar),
-  // Aave v3 - Deposit GNO
+  // Aave v3 - Withdraw GNO
   allow.gnosis.aaveV3.poolV3.withdraw(GNO, undefined, c.avatar),
-  // Aave v3 - Deposit USDC.e
+  // Aave v3 - Withdraw USDC.e
   allow.gnosis.aaveV3.poolV3.withdraw(USDCe, undefined, c.avatar),
 
   // Arrakis - WETH/sDAI
@@ -79,11 +79,11 @@ export default [
   }),
 
   // Aura - WETH/wstETH
-  aura__withdraw_balancer(aura.auraWethWstEthRewarder, balancer.wethWstEthPid),
+  auraWithdrawBalancer(aura.auraWethWstEthRewarder, balancer.wethWstEthPid),
   // Aura - EURe/sDAI
-  aura__withdraw_balancer(aura.auraEureSdaiRewarder, balancer.eureSdaiPid),
+  auraWithdrawBalancer(aura.auraEureSdaiRewarder, balancer.eureSdaiPid),
   // Aura - Gyroscope ECLP rETH/WETH
-  aura__withdraw_balancer(
+  auraWithdrawBalancer(
     aura.auraRethWethRewarder,
     balancer.eclpRethWethPid,
     false
@@ -93,35 +93,35 @@ export default [
   allow.gnosis.azuro.lpAzrXdai.withdrawLiquidity(),
 
   // Balancer - wstETH/GNO
-  balancer__unstake_withdraw(Chain.gno, balancer.b50wstEth50GnoGauge),
+  balancerUnstakeWithdraw(Chain.gno, balancer.b50wstEth50GnoGauge),
   // Balancer - sDAI/wstETH
-  balancer__unstake_withdraw(Chain.gno, balancer.b50Sdai50WstEthGauge),
+  balancerUnstakeWithdraw(Chain.gno, balancer.b50Sdai50WstEthGauge),
   // Balancer - USDC.e/USDT/sDAI
-  balancer__unstake_withdraw(Chain.gno, balancer.sBal3NewGauge),
+  balancerUnstakeWithdraw(Chain.gno, balancer.sBal3NewGauge),
   // Balancer - WETH/wstETH
-  balancer__unstake_withdraw(Chain.gno, balancer.bbWethWstEthGauge),
+  balancerUnstakeWithdraw(Chain.gno, balancer.bbWethWstEthGauge),
   // Balancer - rETH/WETH
-  balancer__unstake_withdraw(Chain.gno, balancer.eclpRethWethGauge, false),
+  balancerUnstakeWithdraw(Chain.gno, balancer.eclpRethWethGauge, false),
   // Balancer - osGNO/GNO
-  balancer__unstake_withdraw(Chain.gno, balancer.osGnoGnoGauge),
+  balancerUnstakeWithdraw(Chain.gno, balancer.osGnoGnoGauge),
   // Balancer - WBTC/WETH
-  balancer__withdraw(balancer.b50Wbtc50WethPid, false),
+  balancerWithdraw(balancer.b50Wbtc50WethPid, false),
   // Balancer - Gyroscope ECLP wstETH/WETH
-  balancer__unstake_withdraw(Chain.gno, balancer.eclpWstEthWethGauge),
+  balancerUnstakeWithdraw(Chain.gno, balancer.eclpWstEthWethGauge),
   // Balancer - wstETH/BAL/AURA
-  balancer__unstake_withdraw(Chain.gno, balancer.b50WstEth25Bal25AuraGauge),
+  balancerUnstakeWithdraw(Chain.gno, balancer.b50WstEth25Bal25AuraGauge),
   // Balancer - wstETH/COW
-  balancer__unstake_withdraw(Chain.gno, balancer.b50WstEth50CowGauge, false),
+  balancerUnstakeWithdraw(Chain.gno, balancer.b50WstEth50CowGauge, false),
   // Balancer - COW/GNO
-  balancer__unstake_withdraw(Chain.gno, balancer.b50Cow50GnoGauge, false),
+  balancerUnstakeWithdraw(Chain.gno, balancer.b50Cow50GnoGauge, false),
   // Balancer - stEUR/EURe
-  balancer__unstake_withdraw(Chain.gno, balancer.stEurEureGauge),
+  balancerUnstakeWithdraw(Chain.gno, balancer.stEurEureGauge),
   // Balancer - GIV/GNO
-  balancer__withdraw(balancer.b50Giv50GnoPid, false),
+  balancerWithdraw(balancer.b50Giv50GnoPid, false),
   // Balancer - WXDAI/GNO
-  balancer__withdraw(balancer.wxdaiGnoPid, false),
+  balancerWithdraw(balancer.wxdaiGnoPid, false),
   // Balancer - EURe/sDAI
-  balancer__unstake_withdraw(Chain.gno, balancer.eureSdaiGauge),
+  balancerUnstakeWithdraw(Chain.gno, balancer.eureSdaiGauge),
   // Balancer - BCoW AMM WETH/GNO (Staking not available)
   allow.gnosis.balancer.bCowAmm50Weth50Gno.exitPool(),
   // Balancer - BCoW AMM wstETH/sDAI (Staking not available)
@@ -159,28 +159,28 @@ export default [
     destination: c.avatar,
   }),
 
-  // Spark - DSR/sDAI
+  // Spark - DSR_sDAI
   allow.gnosis.spark.savingsXdaiAdapter.redeemXDAI(undefined, c.avatar),
   allow.gnosis.spark.savingsXdaiAdapter.redeem(undefined, c.avatar),
-  // Spark - GNO
+  // Spark - Withdraw GNO
   allow.gnosis.spark.poolV3.withdraw(GNO, undefined, c.avatar),
-  // Spark - XDAI
+  // Spark - Withdraw XDAI
   allow.gnosis.spark.wrappedTokenGatewayV3.withdrawETH(
     contracts.gnosis.spark.poolV3,
     undefined,
     c.avatar
   ),
-  // Spark - WXDAI
+  // Spark - Withdraw WXDAI
   allow.gnosis.spark.poolV3.withdraw(WXDAI, undefined, c.avatar),
-  // Spark - WETH
+  // Spark - Withdraw WETH
   allow.gnosis.spark.poolV3.withdraw(WETH, undefined, c.avatar),
-  // Spark - USDC.e
+  // Spark - Withdraw USDC.e
   allow.gnosis.spark.poolV3.withdraw(USDCe, undefined, c.avatar),
-  // Spark - EURe
+  // Spark - Withdraw EURe
   allow.gnosis.spark.poolV3.withdraw(EURe, undefined, c.avatar),
-  // Spark - USDT
+  // Spark - Withdraw USDT
   allow.gnosis.spark.poolV3.withdraw(USDT, undefined, c.avatar),
-  // Spark - USDC
+  // Spark - Withdraw USDC
   allow.gnosis.spark.poolV3.withdraw(USDC, undefined, c.avatar),
 
   // StakeWise v3 - Axol.io

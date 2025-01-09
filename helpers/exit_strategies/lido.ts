@@ -3,7 +3,7 @@ import { allow } from "zodiac-roles-sdk/kit"
 import { contracts } from "../../eth-sdk/config"
 import { allowErc20Approve } from "../../utils/erc20"
 
-export const lido__unstake_stETH = (): PermissionSet => {
+export const lidoUnstakeStEth = (): PermissionSet => {
   return [
     ...allowErc20Approve(
       [contracts.mainnet.lido.stEth],
@@ -20,7 +20,7 @@ export const lido__unstake_stETH = (): PermissionSet => {
   ]
 }
 
-export const lido__unwrap_and_unstake_wstETH = (): PermissionSet => {
+export const lidoUnwrapAndUnstakeWstEth = (): PermissionSet => {
   return [
     ...allowErc20Approve(
       [contracts.mainnet.lido.wstEth],
