@@ -17,44 +17,44 @@ import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
 import {
-  convex__withdraw,
-  lido__unstake_stETH,
-  lido__unwrap_and_unstake_wstETH,
+  convexWithdraw,
+  lidoUnstakeStEth,
+  lidoUnwrapAndUnstakeWstEth,
 } from "../../../../../helpers/exit_strategies"
 
 export default [
   // Unwrap ETH
   allow.mainnet.weth.withdraw(),
 
-  // Aave v2 - Staking of AAVE and GHO in Safety Module
+  // Aave Safety Module - Unstake AAVE and GHO
   allow.mainnet.aaveV2.stkAave.redeem(c.avatar),
   allow.mainnet.aaveV2.stkAave.cooldown(),
   allow.mainnet.aaveV2.stkGho.redeem(c.avatar),
   allow.mainnet.aaveV2.stkGho.cooldown(),
 
-  // Aave v3 - Withdraw DAI
-  allow.mainnet.aaveV3.lendingPoolV3.withdraw(DAI, undefined, c.avatar),
-  // Aave v3 - Withdraw osETH
-  allow.mainnet.aaveV3.lendingPoolV3.withdraw(osETH, undefined, c.avatar),
-  // Aave v3 - Withdraw sDAI
-  allow.mainnet.aaveV3.lendingPoolV3.withdraw(sDAI, undefined, c.avatar),
-  // Aave v3 - Withdraw USDC
-  allow.mainnet.aaveV3.lendingPoolV3.withdraw(USDC, undefined, c.avatar),
-  // Aave v3 - Withdraw USDS
-  allow.mainnet.aaveV3.lendingPoolV3.withdraw(USDS, undefined, c.avatar),
-  // Aave v3 - Withdraw WBTC
-  allow.mainnet.aaveV3.lendingPoolV3.withdraw(WBTC, undefined, c.avatar),
-  // Aave v3 - Withdraw wstETH
-  allow.mainnet.aaveV3.lendingPoolV3.withdraw(wstETH, undefined, c.avatar),
+  // Aave v3 Core Market - Withdraw DAI
+  allow.mainnet.aaveV3.poolCoreV3.withdraw(DAI, undefined, c.avatar),
+  // Aave v3 Core Market - Withdraw osETH
+  allow.mainnet.aaveV3.poolCoreV3.withdraw(osETH, undefined, c.avatar),
+  // Aave v3 Core Market - Withdraw sDAI
+  allow.mainnet.aaveV3.poolCoreV3.withdraw(sDAI, undefined, c.avatar),
+  // Aave v3 Core Market - Withdraw USDC
+  allow.mainnet.aaveV3.poolCoreV3.withdraw(USDC, undefined, c.avatar),
+  // Aave v3 Core Market - Withdraw USDS
+  allow.mainnet.aaveV3.poolCoreV3.withdraw(USDS, undefined, c.avatar),
+  // Aave v3 Core Market - Withdraw WBTC
+  allow.mainnet.aaveV3.poolCoreV3.withdraw(WBTC, undefined, c.avatar),
+  // Aave v3 Core Market - Withdraw wstETH
+  allow.mainnet.aaveV3.poolCoreV3.withdraw(wstETH, undefined, c.avatar),
   // Aave v3 - Repay GHO
-  ...allowErc20Approve([GHO], [contracts.mainnet.aaveV3.lendingPoolV3]),
-  allow.mainnet.aaveV3.lendingPoolV3.repay(GHO, undefined, undefined, c.avatar),
+  ...allowErc20Approve([GHO], [contracts.mainnet.aaveV3.poolCoreV3]),
+  allow.mainnet.aaveV3.poolCoreV3.repay(GHO, undefined, undefined, c.avatar),
 
-  // Compound v3 - USDC
+  // Compound v3 - Withdraw USDC
   allow.mainnet.compoundV3.cUsdcV3.withdraw(USDC),
 
   // Convex - ETH/OETH
-  convex__withdraw(convex.cvxOethCrvRewarder),
+  convexWithdraw(convex.cvxOethCrvRewarder),
 
   // Curve - ETH/OETH
   allow.mainnet.curve.oEthCrvPool["remove_liquidity(uint256,uint256[2])"](),
@@ -70,8 +70,8 @@ export default [
   allow.mainnet.gyroscope.sGyd.redeem(undefined, c.avatar, c.avatar),
 
   // Lido
-  lido__unstake_stETH(),
-  lido__unwrap_and_unstake_wstETH(),
+  lidoUnstakeStEth(),
+  lidoUnwrapAndUnstakeWstEth(),
 
   // Maker - DSR (DAI Savings Rate)
   allow.mainnet.maker.dsrManager.exit(c.avatar),
@@ -92,7 +92,7 @@ export default [
   allow.mainnet.rocketPool.rEth.burn(),
   allow.mainnet.rocketPool.swapRouter.swapFrom(),
 
-  // Spark - DSR/sDAI
+  // Spark - DSR_sDAI
   allow.mainnet.spark.sDai.redeem(undefined, c.avatar, c.avatar),
   allow.mainnet.spark.sDai.withdraw(undefined, c.avatar, c.avatar),
   // Spark - SKY_USDS

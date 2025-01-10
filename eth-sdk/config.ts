@@ -1,6 +1,5 @@
 import { EthSdkConfig, defineConfig } from "@gnosis-guild/eth-sdk"
 import { contracts as deFiKitContracts } from "defi-kit"
-import { uniswapV2 } from "./addresses"
 
 export const contracts = {
   mainnet: {

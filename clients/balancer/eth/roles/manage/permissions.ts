@@ -29,41 +29,38 @@ import {
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
-import { balancer__swap } from "../../../../../helpers/exit_strategies/balancer"
-import { avatar } from "../../index"
-
-// governance.karpatkey.eth
-const GOVERNANCE_KPK = "0x8787FC2De4De95c53e5E3a4e5459247D9773ea52"
+import { balancerSwap } from "../../../../../helpers/exit_strategies"
+import { avatar, kpkGovernance } from "../../../eth"
 
 export default [
   /*********************************************
    * DeFi-Kit permissions
    *********************************************/
-  // Aave v2 - Staking of AAVE and GHO in Safety Module
-  allowAction.aave_v2.stake({ targets: ["AAVE", "GHO"] }),
+  // Aave Safety Module - Stake AAVE and GHO
+  allowAction.aave_v3.stake({ targets: ["AAVE", "GHO"] }),
 
-  // Aave v3 - Deposit DAI
-  allowAction.aave_v3.deposit({ targets: ["DAI"] }),
-  // Aave v3 - Deposit osETH
-  allowAction.aave_v3.deposit({ targets: ["osETH"] }),
-  // Aave v3 - Deposit sDAI
-  allowAction.aave_v3.deposit({ targets: ["sDAI"] }),
-  // Aave v3 - Deposit USDC
-  allowAction.aave_v3.deposit({ targets: ["USDC"] }),
-  // Aave v3 - Deposit USDS
-  allowAction.aave_v3.deposit({ targets: ["USDS"] }),
-  // Aave v3 - Deposit WBTC
-  allowAction.aave_v3.deposit({ targets: ["WBTC"] }),
-  // Aave v3 - Deposit wstETH
-  allowAction.aave_v3.deposit({ targets: ["wstETH"] }),
-  // Aave v3 - Borrow GHO
-  allowAction.aave_v3.borrow({ targets: ["GHO"] }),
+  // Aave v3 Core Market - Deposit DAI
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["DAI"] }),
+  // Aave v3 Core Market - Deposit osETH
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["osETH"] }),
+  // Aave v3 Core Market - Deposit sDAI
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["sDAI"] }),
+  // Aave v3 Core Market - Deposit USDC
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["USDC"] }),
+  // Aave v3 Core Market - Deposit USDS
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["USDS"] }),
+  // Aave v3 Core Market - Deposit WBTC
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["WBTC"] }),
+  // Aave v3 Core Market - Deposit wstETH
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["wstETH"] }),
+  // Aave v3 Core Market - Borrow GHO
+  allowAction.aave_v3.borrow({ market: "Core", targets: ["GHO"] }),
 
-  // Aave - Delegate Aave and stkAave to governance.karpatkey.eth
+  // Aave - Delegate AAVE and stkAAVE to governance.karpatkey.eth
   // WARNING!: The delegate action allows delegate() and delegateByType(), the latter is not part of the orginal preset
   allowAction.aave_v3.delegate({
     targets: ["AAVE", "stkAAVE"],
-    delegatee: GOVERNANCE_KPK,
+    delegatee: kpkGovernance,
   }),
 
   // Convex - ETH/OETH
@@ -90,7 +87,7 @@ export default [
     feeAmountBp: 200,
   }),
 
-  // CowSwap - [DAI, GHO, GYD, sDAI, USDC, USDT] -> [DAI, GHO, GYD, sDAI, USDC, USDT]
+  // CowSwap - [DAI, GHO, GYD, sDAI, USDC, USDT] <-> [DAI, GHO, GYD, sDAI, USDC, USDT]
   allowAction.cowswap.swap({
     sell: [DAI, GHO, GYD, sDAI, USDC, USDT],
     buy: [DAI, GHO, GYD, sDAI, USDC, USDT],
@@ -131,10 +128,13 @@ export default [
   // Rocket Pool
   allowAction.rocket_pool.deposit(),
 
-  // Spark - DSR/sDAI
+  // Spark - DSR_sDAI
   allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
   // Spark - SKY_USDS
   allowAction.spark.deposit({ targets: ["SKY_USDS"] }),
+
+  // StakeWise v3 - Genesis Vault
+  allowAction.stakewise_v3.stake({ targets: ["Genesis"] }),
 
   // Uniswap v3 - WBTC + WETH, Range: 11.786 - 15.082. Fee: 0.3%.
   // WARNING!: With the deposit action we are allowing to send ETH and the functions that involve ETH.
@@ -153,7 +153,7 @@ export default [
   // Aave Merit rewards (https://apps.aavechan.com/merit)
   allow.mainnet.aaveV3.meritDistributor.claim([avatar]),
 
-  // Compound v3 - USDC
+  // Compound v3 - Deposit USDC
   allowErc20Approve([USDC], [contracts.mainnet.compoundV3.cUsdcV3]),
   allow.mainnet.compoundV3.cUsdcV3.supply(USDC),
   allow.mainnet.compoundV3.cUsdcV3.withdraw(USDC),
@@ -233,63 +233,45 @@ export default [
   allow.mainnet.origin.oEthVault.claimWithdrawal(),
   allow.mainnet.origin.oEthVault.claimWithdrawals(),
 
-  // StakeWise v3 - Genesis Vault
-  allow.mainnet.stakeWiseV3.genesis.deposit(c.avatar, undefined, {
-    send: true,
-  }),
-  allow.mainnet.stakeWiseV3.genesis.updateState(),
-  allow.mainnet.stakeWiseV3.genesis.updateStateAndDeposit(
-    c.avatar,
-    undefined,
-    undefined,
-    {
-      send: true,
-    }
-  ),
-  allow.mainnet.stakeWiseV3.genesis.mintOsToken(c.avatar),
-  allow.mainnet.stakeWiseV3.genesis.burnOsToken(),
-  allow.mainnet.stakeWiseV3.genesis.enterExitQueue(undefined, c.avatar),
-  allow.mainnet.stakeWiseV3.genesis.claimExitedAssets(),
-
   /*********************************************
    * SWAPS
    *********************************************/
   // Balancer - COMP -> WETH
-  balancer__swap(balancer.b50Comp50WethPid, [COMP], [WETH]),
+  balancerSwap(balancer.b50Comp50WethPid, [COMP], [WETH]),
 
   // Balancer - WETH -> DAI
-  balancer__swap(balancer.b60Weth40DaiPid, [WETH], [DAI]),
+  balancerSwap(balancer.b60Weth40DaiPid, [WETH], [DAI]),
 
   // Balancer - WETH -> USDC
-  balancer__swap(balancer.b50Usdc50WethPid, [WETH], [USDC]),
+  balancerSwap(balancer.b50Usdc50WethPid, [WETH], [USDC]),
 
   // Balancer - WETH <-> wstETH
-  balancer__swap(balancer.bStEthStablePid, [WETH, wstETH], [WETH, wstETH]),
+  balancerSwap(balancer.bStEthStablePid, [WETH, wstETH], [WETH, wstETH]),
 
   // Balancer - WETH <-> wstETH
-  balancer__swap(balancer.eclpWstEthWethPid, [WETH, wstETH], [WETH, wstETH]),
+  balancerSwap(balancer.eclpWstEthWethPid, [WETH, wstETH], [WETH, wstETH]),
 
   // Balancer - rETH <-> WETH
-  balancer__swap(balancer.bREthStablePid, [rETH, WETH], [rETH, WETH]),
+  balancerSwap(balancer.bREthStablePid, [rETH, WETH], [rETH, WETH]),
 
   // Balancer - GYD <-> USDT
-  balancer__swap(balancer.eclpGydUsdtPid, [GYD, USDT], [GYD, USDT]),
+  balancerSwap(balancer.eclpGydUsdtPid, [GYD, USDT], [GYD, USDT]),
 
   // Balancer - GYD <-> sDAI
-  balancer__swap(balancer.eclpGydSdaiPid, [GYD, sDAI], [GYD, sDAI]),
+  balancerSwap(balancer.eclpGydSdaiPid, [GYD, sDAI], [GYD, sDAI]),
 
   // Balancer - GYD <-> sDAI
-  balancer__swap(balancer.eclpGydSdai2Pid, [GYD, sDAI], [GYD, sDAI]),
+  balancerSwap(balancer.eclpGydSdai2Pid, [GYD, sDAI], [GYD, sDAI]),
 
   // Balancer - GYD <-> USDC
-  balancer__swap(balancer.eclpGydUsdcPid, [GYD, USDC], [GYD, USDC]),
+  balancerSwap(balancer.eclpGydUsdcPid, [GYD, USDC], [GYD, USDC]),
 
   // Balancer - GHO <-> GYD
-  balancer__swap(balancer.eclpGhoGydPid, [GHO, GYD], [GHO, GYD]),
+  balancerSwap(balancer.eclpGhoGydPid, [GHO, GYD], [GHO, GYD]),
 
   // Balancer - GHO <-> [USDC, USDT]
-  balancer__swap(balancer.ghoUsdtUsdcPid, [GHO], [USDC, USDT]),
-  balancer__swap(balancer.ghoUsdtUsdcPid, [USDC, USDT], [GHO]),
+  balancerSwap(balancer.ghoUsdtUsdcPid, [GHO], [USDC, USDT]),
+  balancerSwap(balancer.ghoUsdtUsdcPid, [USDC, USDT], [GHO]),
 
   // Curve - ETH <-> stETH
   allowErc20Approve([stETH], [contracts.mainnet.curve.steCrvPool]),
@@ -315,7 +297,8 @@ export default [
     }
   ),
 
-  // Uniswap v3 - Swaps
+  // Uniswap v3 - [AAVE, COMP, DAI, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH] ->
+  // [DAI, rETH, stETH, USDC, USDT, WBTC, WETH, wstETH]
   allowErc20Approve(
     [
       AAVE,
@@ -333,9 +316,6 @@ export default [
     ],
     [contracts.mainnet.uniswapV3.router2]
   ),
-
-  // Uniswap v3 - [AAVE, COMP, DAI, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH] ->
-  // [DAI, rETH, stETH, USDC, USDT, WBTC, WETH, wstETH]
   allow.mainnet.uniswapV3.router2.exactInputSingle({
     tokenIn: c.or(
       AAVE,

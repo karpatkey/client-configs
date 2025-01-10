@@ -17,7 +17,7 @@ const replaceAddress = (
   }
 }
 
-export const cowswap__swap = async (
+export const cowswapSwap = async (
   sell: Address[],
   buy: Address[],
   chain: Chain,

@@ -18,13 +18,13 @@ export default [
   /*********************************************
    * DeFi-Kit permissions
    *********************************************/
-  // CowSwap - [GNO, osGNO, sDAI, USDC, USDC.e, WXDAI, xDAI] -> [GNO, osGNO, sDAI, USDC, USDC.e, WXDAI, xDAI]
+  // CowSwap - [GNO, osGNO, sDAI, USDC, USDC.e, WXDAI, xDAI] <-> [GNO, osGNO, sDAI, USDC, USDC.e, WXDAI, xDAI]
   allowAction.cowswap.swap({
     sell: ["XDAI", GNO, osGNO, sDAI, USDC, USDCe, WXDAI],
     buy: ["XDAI", GNO, osGNO, sDAI, USDC, USDCe, WXDAI],
   }),
 
-  // Spark - DSR/sDAI
+  // Spark - DSR_sDAI
   allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
 
   // StakeWise v3 - Genesis

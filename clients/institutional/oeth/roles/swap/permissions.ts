@@ -10,24 +10,20 @@ import {
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
-import { balancer__swap } from "../../../../../helpers/exit_strategies/balancer"
+import { balancerSwap } from "../../../../../helpers/exit_strategies/balancer"
 
 export default [
-  // Balancer - USDC/USDC.e/DAI/USDT Pool - Swap [DAI, USDC, USDCe] <-> [DAI, USDC, USDCe]
-  balancer__swap(
-    balancer.stableBeetsPid,
-    [DAI, USDC, USDCe],
-    [DAI, USDC, USDCe]
-  ),
+  // Balancer - [DAI, USDC, USDCe] <-> [DAI, USDC, USDCe]
+  balancerSwap(balancer.stableBeetsPid, [DAI, USDC, USDCe], [DAI, USDC, USDCe]),
 
-  // Curve - 3pool - Swap DAI <-> USDC.e
+  // Curve - DAI <-> USDC.e
   ...allowErc20Approve([DAI, USDCe], [contracts.optimism.curve.x3CrvPool]),
   allow.optimism.curve.x3CrvPool["exchange(int128,int128,uint256,uint256)"](
     c.or(0, 1), // 0 = DAI, 1 = USDC.e
     c.or(0, 1)
   ),
 
-  // Curve - crvUSDC/USDC - Swap crvUSDC <-> USDC
+  // Curve - crvUSDC <-> USDC
   ...allowErc20Approve(
     [crvUSD, USDC],
     [contracts.optimism.curve.crvUsdUsdcPool]
@@ -39,7 +35,7 @@ export default [
     c.or(0, 1)
   ),
 
-  // Curve - crvUSDC/USDC.e - Swap crvUSDC <-> USDC.e
+  // Curve - crvUSDC <-> USDC.e
   ...allowErc20Approve(
     [crvUSD, USDCe],
     [contracts.optimism.curve.crvUsdUsdcePool]
@@ -51,7 +47,7 @@ export default [
     c.or(0, 1)
   ),
 
-  // Curve - sUSD Synthetix - Swap DAI <-> USDC.e
+  // Curve - DAI <-> USDC.e
   ...allowErc20Approve([DAI, USDCe], [contracts.optimism.curve.sUsd3CrvPool]),
   allow.optimism.curve.sUsd3CrvPool[
     "exchange_underlying(int128,int128,uint256,uint256)"

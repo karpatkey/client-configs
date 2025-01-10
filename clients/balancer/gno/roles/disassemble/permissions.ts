@@ -3,7 +3,7 @@ import { allow } from "zodiac-roles-sdk/kit"
 import { PermissionList } from "../../../../../types"
 
 export default [
-  // Spark - DSR/sDAI
+  // Spark - DSR_sDAI
   allow.gnosis.spark.savingsXdaiAdapter.redeemXDAI(undefined, c.avatar),
   allow.gnosis.spark.savingsXdaiAdapter.redeem(undefined, c.avatar),
 

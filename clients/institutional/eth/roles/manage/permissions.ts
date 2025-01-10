@@ -26,16 +26,16 @@ export default [
   /*********************************************
    * DeFi-Kit permissions
    *********************************************/
-  // Aave v3 - Deposit DAI
-  allowAction.aave_v3.deposit({ targets: ["DAI"] }),
-  // Aave v3 - Deposit sDAI
-  allowAction.aave_v3.deposit({ targets: ["sDAI"] }),
-  // Aave v3 - Deposit USDC
-  allowAction.aave_v3.deposit({ targets: ["USDC"] }),
-  // Aave v3 - Borrow DAI
-  allowAction.aave_v3.borrow({ targets: ["DAI"] }),
-  // Aave v3 - Borrow USDC
-  allowAction.aave_v3.borrow({ targets: ["USDC"] }),
+  // Aave v3 Core Market - Deposit DAI
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["DAI"] }),
+  // Aave v3 Core Market - Deposit sDAI
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["sDAI"] }),
+  // Aave v3 Core Market - Deposit USDC
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["USDC"] }),
+  // Aave v3 Core Market - Borrow DAI
+  allowAction.aave_v3.borrow({ market: "Core", targets: ["DAI"] }),
+  // Aave v3 Core Market - Borrow USDC
+  allowAction.aave_v3.borrow({ market: "Core", targets: ["USDC"] }),
 
   // CowSwap - [COMP, DAI, sDAI, USDC] -> [DAI, sDAI, USDC]
   allowAction.cowswap.swap({
@@ -55,7 +55,7 @@ export default [
   /*********************************************
    * Typed-presets permissions
    *********************************************/
-  // Compound v3 - USDC
+  // Compound v3 - Deposit USDC
   ...allowErc20Approve([USDC], [contracts.mainnet.compoundV3.cUsdcV3]),
   allow.mainnet.compoundV3.cUsdcV3.supply(USDC),
   allow.mainnet.compoundV3.cUsdcV3.withdraw(USDC),
@@ -129,7 +129,7 @@ export default [
   /*********************************************
    * Swaps
    *********************************************/
-  // Curve - 3pool - Swap DAI <-> USDC
+  // Curve - DAI <-> USDC
   ...allowErc20Approve([DAI, USDC], [contracts.mainnet.curve.x3CrvPool]),
   allow.mainnet.curve.x3CrvPool.exchange(
     c.or(0, 1), // 0 = DAI, 1 = USDC

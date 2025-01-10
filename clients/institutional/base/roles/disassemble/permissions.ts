@@ -5,7 +5,7 @@ import { PermissionList } from "../../../../../types"
 
 export default [
   // Aave v3 - Withdraw USDC
-  allow.base.aaveV3.lendingPoolV3.withdraw(USDC, undefined, c.avatar),
+  allow.base.aaveV3.poolV3.withdraw(USDC, undefined, c.avatar),
 
   // Morpho Blue - Withdraw cbETH/USDC
   allow.mainnet.morpho.morphoBlue.withdraw(

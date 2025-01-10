@@ -22,11 +22,13 @@ import {
   eAddress,
   zeroAddress,
   wstETH,
+  balancer,
   curve,
 } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
+import { balancerSwap } from "../../../../../helpers/exit_strategies"
 
 export default [
   /*********************************************
@@ -42,19 +44,16 @@ export default [
   // Aura - osETH/WETH
   allowAction.aura.deposit({ targets: ["179"] }),
 
-  // Aave v3 - Deposit DAI
-  allowAction.aave_v3.deposit({ targets: ["DAI"] }),
-  // Aave v3 - Deposit ETH
-  allowAction.aave_v3.deposit({ targets: ["ETH"] }),
-  // Aave v3 - Deposit osETH
-  allowAction.aave_v3.deposit({ targets: ["osETH"] }),
-  // Aave v3 - Deposit USDC
-  allowAction.aave_v3.deposit({ targets: ["USDC"] }),
-  // Aave v3 - Deposit WETH
-  allowAction.aave_v3.deposit({ targets: ["WETH"] }),
-  // Removed as per a Steward's request on August 20, 2024.
-  // // Aave v3 - Deposit wstETH
-  // allowAction.aave_v3.deposit({ targets: ["wstETH"] }),
+  // Aave v3 Core Market - Deposit DAI
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["DAI"] }),
+  // Aave v3 Core Market - Deposit ETH
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["ETH"] }),
+  // Aave v3 Core Market - Deposit osETH
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["osETH"] }),
+  // Aave v3 Core Market - Deposit USDC
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["USDC"] }),
+  // Aave v3 Core Market - Deposit WETH
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["WETH"] }),
 
   // Balancer - wstETH/WETH
   allowAction.balancer.deposit({ targets: ["wstETH-WETH-BPT"] }),
@@ -66,21 +65,14 @@ export default [
   allowAction.balancer.deposit({ targets: ["osETH/wETH-BPT"] }),
   allowAction.balancer.stake({ targets: ["osETH/wETH-BPT"] }),
 
-  // // Compound v3 - cUSDCv3 - USDC
-  // allowAction.compoundV3.deposit({
-  //   targets: ["cUSDCv3"],
-  //   tokens: ["USDC"],
-  // }),
-  // // Compound v3 - cWETHv3 - ETH
-  // allowAction.compoundV3.deposit({ targets: ["cWETHv3"], tokens: ["ETH"] }),
-
   // Convex - ETH/stETH - steCRV
   allowAction.convex.deposit({ targets: ["25"] }),
 
   // Convex - ETH/stETH - stETH-ng-f
   allowAction.convex.deposit({ targets: ["177"] }),
 
-  // CowSwap - Swapping of ankrETH, AURA, BAL, COMP, CRV, CVX, DAI, ETHx, LDO, osETH, rETH, RPL, stETH, SWISE, USDC, USDT, WETH, wstETH
+  // CowSwap - [ankrETH, AURA, BAL, COMP, CRV, CVX, DAI, ETHx, LDO, osETH, rETH, RPL, stETH, SWISE, USDC, USDT, WETH, wstETH] ->
+  // [DAI, rETH, USDC, USDT, stETH, WETH, wstETH]
   allowAction.cowswap.swap({
     sell: [
       ankrETH,
@@ -111,9 +103,9 @@ export default [
   // Rocket Pool
   allowAction.rocket_pool.deposit(),
 
-  // Spark - ETH
+  // Spark - Deposit ETH
   allowAction.spark.deposit({ targets: ["ETH"] }),
-  // Spark - WETH
+  // Spark - Deposit WETH
   allowAction.spark.deposit({ targets: ["WETH"] }),
 
   // Stader
@@ -128,23 +120,12 @@ export default [
     send: true,
   }),
 
-  // Removed as per a Steward's request on August 20, 2024.
-  // // Aave v3 - Lido Market - WETH
-  // ...allowErc20Approve([WETH], [contracts.mainnet.aaveV3.lendingPoolLidoV3]),
-  // allow.mainnet.aaveV3.lendingPoolLidoV3.supply(WETH, undefined, c.avatar),
-  // allow.mainnet.aaveV3.lendingPoolLidoV3.withdraw(WETH, undefined, c.avatar),
-
-  // // Aave v3 - Lido Market - wstETH
-  // ...allowErc20Approve([wstETH], [contracts.mainnet.aaveV3.lendingPoolLidoV3]),
-  // allow.mainnet.aaveV3.lendingPoolLidoV3.supply(wstETH, undefined, c.avatar),
-  // allow.mainnet.aaveV3.lendingPoolLidoV3.withdraw(wstETH, undefined, c.avatar),
-
-  // Compound v3 - USDC
+  // Compound v3 - Deposit USDC
   ...allowErc20Approve([USDC], [contracts.mainnet.compoundV3.cUsdcV3]),
   allow.mainnet.compoundV3.cUsdcV3.supply(USDC),
   allow.mainnet.compoundV3.cUsdcV3.withdraw(USDC),
 
-  // Compound v3 - ETH
+  // Compound v3 - Deposit ETH
   allow.mainnet.compoundV3.cWethV3.allow(
     contracts.mainnet.compoundV3.mainnetBulker
   ),
@@ -268,252 +249,33 @@ export default [
   allow.mainnet.stakeWiseV3.genesis.enterExitQueue(undefined, c.avatar),
   allow.mainnet.stakeWiseV3.genesis.claimExitedAssets(),
 
-  // SWAPS
-  // Balancer - Swaps
-  ...allowErc20Approve(
-    [ankrETH, AURA, BAL, COMP, ETHx, rETH, WETH, wstETH],
-    [contracts.mainnet.balancer.vault]
-  ),
+  /*********************************************
+   * SWAPS
+   *********************************************/
+  // Balancer - AURA -> WETH
+  balancerSwap(balancer.b50Weth50AuraPid, [AURA], [WETH]),
+  // Balancer - BAL -> WETH
+  balancerSwap(balancer.b80Bal20WethPid, [BAL], [WETH]),
+  // Balancer - WETH -> DAI
+  balancerSwap(balancer.b60Weth40DaiPid, [WETH], [DAI]),
+  // Balancer - WETH -> USDC
+  balancerSwap(balancer.b50Usdc50WethPid, [WETH], [USDC]),
+  // Balancer - COMP -> WETH
+  balancerSwap(balancer.b50Comp50WethPid, [COMP], [WETH]),
+  // Balancer - WETH <-> wstETH
+  balancerSwap(balancer.bStEthStablePid, [WETH, wstETH], [WETH, wstETH]),
+  // Balancer - WETH <-> wstETH
+  balancerSwap(balancer.eclpWstEthWethPid, [WETH, wstETH], [WETH, wstETH]),
+  // Balancer - rETH <-> WETH
+  balancerSwap(balancer.bREthStablePid, [rETH, WETH], [rETH, WETH]),
+  // Balancer - ankrETH <-> wstETH
+  balancerSwap(balancer.ankrEthWstEthPid, [ankrETH, wstETH], [ankrETH, wstETH]),
+  // Balancer - ETHx <-> WETH
+  balancerSwap(balancer.ethxWethPid, [ETHx, WETH], [ETHx, WETH]),
+  // Balancer - osETH <-> WETH
+  balancerSwap(balancer.osEthWethPid, [osETH, WETH], [osETH, WETH]),
 
-  // Balancer - Swap AURA for WETH
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0xcfca23ca9ca720b6e98e3eb9b6aa0ffc4a5c08b9000200000000000000000274",
-      assetIn: AURA,
-      assetOut: WETH,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
-
-  // Balancer - Swap BAL for WETH
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0x5c6ee304399dbdb9c8ef030ab642b10820db8f56000200000000000000000014",
-      assetIn: BAL,
-      assetOut: WETH,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
-
-  // Balancer - Swap WETH for DAI
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0x0b09dea16768f0799065c475be02919503cb2a3500020000000000000000001a",
-      assetIn: WETH,
-      assetOut: DAI,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
-
-  // Balancer - Swap WETH for USDC
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0x96646936b91d6b9d7d0c47c496afbf3d6ec7b6f8000200000000000000000019",
-      assetIn: WETH,
-      assetOut: USDC,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
-
-  // Balancer - Swap COMP for WETH
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0xefaa1604e82e1b3af8430b90192c1b9e8197e377000200000000000000000021",
-      assetIn: COMP,
-      assetOut: WETH,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
-
-  // Balancer - Swap wstETH for WETH
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0x93d199263632a4ef4bb438f1feb99e57b4b5f0bd0000000000000000000005c2",
-      assetIn: wstETH,
-      assetOut: WETH,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
-
-  // Balancer - Swap WETH for wstETH
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0x93d199263632a4ef4bb438f1feb99e57b4b5f0bd0000000000000000000005c2",
-      assetIn: WETH,
-      assetOut: wstETH,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
-
-  // Balancer - Swap wstETH for WETH
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0xf01b0684c98cd7ada480bfdf6e43876422fa1fc10002000000000000000005de",
-      assetIn: wstETH,
-      assetOut: WETH,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
-
-  // Balancer - Swap WETH for wstETH
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0xf01b0684c98cd7ada480bfdf6e43876422fa1fc10002000000000000000005de",
-      assetIn: WETH,
-      assetOut: wstETH,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
-
-  // Balancer - Swap rETH for WETH
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0x1e19cf2d73a72ef1332c882f20534b6519be0276000200000000000000000112",
-      assetIn: rETH,
-      assetOut: WETH,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
-
-  // Balancer - Swap WETH for rETH
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0x1e19cf2d73a72ef1332c882f20534b6519be0276000200000000000000000112",
-      assetIn: WETH,
-      assetOut: rETH,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
-
-  // Balancer - Swap wstETH for ankrETH
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0xdfe6e7e18f6cc65fa13c8d8966013d4fda74b6ba000000000000000000000558",
-      assetIn: wstETH,
-      assetOut: ankrETH,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
-
-  // Balancer - Swap ankrETH for wstETH
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0xdfe6e7e18f6cc65fa13c8d8966013d4fda74b6ba000000000000000000000558",
-      assetIn: ankrETH,
-      assetOut: wstETH,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
-
-  // Balancer - Swap ETHx for WETH
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0x37b18b10ce5635a84834b26095a0ae5639dcb7520000000000000000000005cb",
-      assetIn: ETHx,
-      assetOut: WETH,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
-
-  // Balancer - Swap WETH for ETHx
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0x37b18b10ce5635a84834b26095a0ae5639dcb7520000000000000000000005cb",
-      assetIn: WETH,
-      assetOut: ETHx,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
-
-  // Balancer - Swap osETH for WETH
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0xdacf5fa19b1f720111609043ac67a9818262850c000000000000000000000635",
-      assetIn: osETH,
-      assetOut: WETH,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
-
-  // Balancer - Swap WETH for osETH
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0xdacf5fa19b1f720111609043ac67a9818262850c000000000000000000000635",
-      assetIn: WETH,
-      assetOut: osETH,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
-
-  // Curve - Swap ETH <> stETH
+  // Curve - ETH <-> stETH
   ...allowErc20Approve([stETH], [contracts.mainnet.curve.steCrvPool]),
   allow.mainnet.curve.steCrvPool.exchange(
     undefined,
@@ -525,18 +287,18 @@ export default [
     }
   ),
 
-  // Curve - Swap in 3pool
+  // Curve - [DAI, USDC, USDT] <-> [DAI, USDC, USDT]
   ...allowErc20Approve([DAI, USDC, USDT], [contracts.mainnet.curve.x3CrvPool]),
   allow.mainnet.curve.x3CrvPool.exchange(),
 
-  // Curve - Swap CVX for ETH
+  // Curve - CVX -> ETH
   ...allowErc20Approve([CVX], [contracts.mainnet.curve.cvxEthPool]),
   allow.mainnet.curve.cvxEthPool["exchange(uint256,uint256,uint256,uint256)"](
     1,
     0
   ),
 
-  // Curve - Swap ankrETH <> ETH
+  // Curve - ankrETH <-> ETH
   ...allowErc20Approve([ankrETH], [contracts.mainnet.curve.ankrEthPool]),
   allow.mainnet.curve.ankrEthPool.exchange(
     undefined,
@@ -548,7 +310,7 @@ export default [
     }
   ),
 
-  // PancakeSwap - Swap ETHx <> WETH
+  // PancakeSwap - ETHx <-> WETH
   ...allowErc20Approve(
     [ETHx, WETH],
     [contracts.mainnet.pancakeSwap.smartRouter]
@@ -559,7 +321,8 @@ export default [
     recipient: c.avatar,
   }),
 
-  // Uniswap v3 - Swaps
+  // Uniswap v3 - [ankrETH, AURA, BAL, COMP, CRV, CVX, DAI, ETHx, LDO, osETH, rETH, RPL, stETH, SWISE, USDC, USDT, WETH, wstETH] ->
+  // [DAI, rETH, USDC, USDT, stETH, WETH, wstETH]
   ...allowErc20Approve(
     [
       ankrETH,
@@ -583,8 +346,6 @@ export default [
     ],
     [contracts.mainnet.uniswapV3.router2]
   ),
-
-  // Uniswap v3 - Swapping of tokens ankrETH, AURA, BAL, COMP, CRV, CVX, DAI, ETHx, LDO, osETH, rETH, RPL, stETH, SWISE, USDC, USDT, WETH, wstETH
   allow.mainnet.uniswapV3.router2.exactInputSingle({
     tokenIn: c.or(
       ankrETH,

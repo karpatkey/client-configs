@@ -14,24 +14,19 @@ import { allowErc20Approve } from "../../../../../utils/erc20"
 
 export default [
   // Aave v3 - Withdraw DAI
-  allow.mainnet.aaveV3.lendingPoolV3.withdraw(DAI, undefined, c.avatar),
+  allow.mainnet.aaveV3.poolCoreV3.withdraw(DAI, undefined, c.avatar),
   // Aave v3 - Withdraw sDAI
-  allow.mainnet.aaveV3.lendingPoolV3.withdraw(sDAI, undefined, c.avatar),
+  allow.mainnet.aaveV3.poolCoreV3.withdraw(sDAI, undefined, c.avatar),
   // Aave v3 - Withdraw USDC
-  allow.mainnet.aaveV3.lendingPoolV3.withdraw(USDC, undefined, c.avatar),
+  allow.mainnet.aaveV3.poolCoreV3.withdraw(USDC, undefined, c.avatar),
   // Aave v3 - Repay DAI
-  ...allowErc20Approve([DAI], [contracts.mainnet.aaveV3.lendingPoolV3]),
-  allow.mainnet.aaveV3.lendingPoolV3.repay(DAI, undefined, undefined, c.avatar),
+  ...allowErc20Approve([DAI], [contracts.mainnet.aaveV3.poolCoreV3]),
+  allow.mainnet.aaveV3.poolCoreV3.repay(DAI, undefined, undefined, c.avatar),
   // Aave v3 - Repay USDC
-  ...allowErc20Approve([USDC], [contracts.mainnet.aaveV3.lendingPoolV3]),
-  allow.mainnet.aaveV3.lendingPoolV3.repay(
-    USDC,
-    undefined,
-    undefined,
-    c.avatar
-  ),
+  ...allowErc20Approve([USDC], [contracts.mainnet.aaveV3.poolCoreV3]),
+  allow.mainnet.aaveV3.poolCoreV3.repay(USDC, undefined, undefined, c.avatar),
 
-  // Compound v3 - USDC
+  // Compound v3 - Withdraw USDC
   allow.mainnet.compoundV3.cUsdcV3.withdraw(USDC),
 
   // Maker - Withdraw DSR (DAI Savings Rate)
@@ -69,11 +64,11 @@ export default [
   allow.mainnet.spark.sDai.redeem(undefined, c.avatar, c.avatar),
   allow.mainnet.spark.sDai.withdraw(undefined, c.avatar, c.avatar),
   // Spark - Withdraw sDAI
-  allow.mainnet.spark.lendingPoolV3.withdraw(sDAI, undefined, c.avatar),
+  allow.mainnet.spark.poolV3.withdraw(sDAI, undefined, c.avatar),
   // Spark - Repay DAI
-  ...allowErc20Approve([DAI], [contracts.mainnet.spark.lendingPoolV3]),
-  allow.mainnet.spark.lendingPoolV3.repay(DAI, undefined, undefined, c.avatar),
+  ...allowErc20Approve([DAI], [contracts.mainnet.spark.poolV3]),
+  allow.mainnet.spark.poolV3.repay(DAI, undefined, undefined, c.avatar),
   // Spark - Repay USDC
-  ...allowErc20Approve([USDC], [contracts.mainnet.spark.lendingPoolV3]),
-  allow.mainnet.spark.lendingPoolV3.repay(USDC, undefined, undefined, c.avatar),
+  ...allowErc20Approve([USDC], [contracts.mainnet.spark.poolV3]),
+  allow.mainnet.spark.poolV3.repay(USDC, undefined, undefined, c.avatar),
 ] satisfies PermissionList

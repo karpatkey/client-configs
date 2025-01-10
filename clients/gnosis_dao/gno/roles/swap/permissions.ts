@@ -9,23 +9,23 @@ import {
 import { PermissionList } from "../../../../../types"
 
 export default [
-  // CowSwap - XDAI -> EURe/USDC.e/USDT
+  // CowSwap - XDAI -> [EURe, USDC.e, USDT]
   allowAction.cowswap.swap({
     sell: ["XDAI"],
     buy: [EURe, USDCe, USDT],
   }),
-  // CowSwap - XDAI <- EURe/USDC.e/USDT
+  // CowSwap - [EURe, USDC.e, USDT] -> XDAI
   allowAction.cowswap.swap({
     sell: [EURe, USDCe, USDT],
     buy: ["XDAI"],
   }),
 
-  // CowSwap - WXDAI -> EURe/USDC.e/USDT
+  // CowSwap - WXDAI -> [EURe, USDC.e, USDT]
   allowAction.cowswap.swap({
     sell: [WXDAI],
     buy: [EURe, USDCe, USDT],
   }),
-  // CowSwap - WXDAI <- EURe/USDC.e/USDT
+  // CowSwap - [EURe, USDC.e, USDT] -> WXDAI
   allowAction.cowswap.swap({
     sell: [EURe, USDCe, USDT],
     buy: [WXDAI],

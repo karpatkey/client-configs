@@ -2,9 +2,9 @@ import { allow } from "zodiac-roles-sdk/kit"
 import { c } from "zodiac-roles-sdk"
 import { aura, balancer, GNO } from "../../../../../eth-sdk/addresses_gno"
 import {
-  aura__withdraw_balancer,
-  balancer__withdraw,
-  balancer__unstake_withdraw,
+  auraWithdrawBalancer,
+  balancerWithdraw,
+  balancerUnstakeWithdraw,
 } from "../../../../../helpers/exit_strategies"
 import { Chain, PermissionList } from "../../../../../types"
 
@@ -16,15 +16,15 @@ export default [
   allow.gnosis.wxdai["withdraw"](),
 
   // Aura - wstETH/COW
-  aura__withdraw_balancer(
+  auraWithdrawBalancer(
     aura.aura50WstEth50CowRewarder,
     balancer.b50WstEth50CowPid
   ),
 
   // Balancer - GBPe/sDAI
-  balancer__withdraw(balancer.bGbpeSdaiPid, false),
+  balancerWithdraw(balancer.bGbpeSdaiPid, false),
   // Balancer - wstETH/COW
-  balancer__unstake_withdraw(Chain.gno, balancer.b50WstEth50CowGauge),
+  balancerUnstakeWithdraw(Chain.gno, balancer.b50WstEth50CowGauge),
 
   // Curve - EURe/x3CRV
   allow.gnosis.curve.crvEureUsdPool["remove_liquidity(uint256,uint256[2])"](),
@@ -44,6 +44,6 @@ export default [
   allow.gnosis.hop.daiRewards2.withdraw(),
   allow.gnosis.hop.daiRewards2.exit(),
 
-  // Spark - GNO
-  allow.gnosis.spark.lendingPoolV3.withdraw(GNO, undefined, c.avatar),
+  // Spark - Withdraw GNO
+  allow.gnosis.spark.poolV3.withdraw(GNO, undefined, c.avatar),
 ] satisfies PermissionList
