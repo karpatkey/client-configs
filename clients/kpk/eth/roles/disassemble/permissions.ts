@@ -37,7 +37,7 @@ export default [
   // Unwrap ETH
   allow.mainnet.weth.withdraw(),
 
-  // Aave v2 - Staking of AAVE and GHO in Safety Module
+  // Aave Safety Module - Unstake AAVE and GHO
   allow.mainnet.aaveV2.stkAave.redeem(c.avatar),
   allow.mainnet.aaveV2.stkAave.cooldown(),
   allow.mainnet.aaveV2.stkGho.redeem(c.avatar),
@@ -114,41 +114,42 @@ export default [
   /*********************************************
    * SWAPS
    *********************************************/
-  // Balancer - Swap rETH <-> WETH
+  // Balancer - rETH <-> WETH
   balancerSwap(balancer.bREthStablePid, [rETH, WETH], [rETH, WETH]),
 
-  // Balancer - Swap WETH <-> wstETH
+  // Balancer - WETH <-> wstETH
   balancerSwap(balancer.bStEthStablePid, [WETH, wstETH], [wstETH, WETH]),
 
-  // CowSwap - Holdings
+  // CowSwap - [DAI, USDC, USDT] -> [DAI, USDC, USDT, WETH]
   cowswapSwap([DAI, USDC, USDT], [DAI, USDC, USDT, WETH], Chain.eth),
+  // CowSwap - [CRV, COMP, CVX, NOTE] -> [DAI, USDC]
   cowswapSwap([CRV, COMP, CVX, NOTE], [DAI, USDC], Chain.eth),
 
   // CowSwap - DAI -> [ETH, USDC, USDT]
   cowswapSwap([DAI], [eAddress, USDC, USDT], Chain.eth),
 
-  // CowSwap - USDT -> [USDC, DAI, eAddress]
-  cowswapSwap([USDT], [USDC, DAI, eAddress], Chain.eth),
+  // CowSwap - USDT ->[ETH, DAI, USDC]
+  cowswapSwap([USDT], [eAddress, DAI, USDC], Chain.eth),
 
-  // Cowswap - USDC -> [DAI, USDT, eAddress]
-  cowswapSwap([USDC], [DAI, USDT, eAddress], Chain.eth),
+  // Cowswap - USDC -> [ETH, DAI, USDT]
+  cowswapSwap([USDC], [eAddress, DAI, USDT], Chain.eth),
 
-  // Cowswap - [ETH, WETH] -> [DAI, USDT, USDC]
-  cowswapSwap([eAddress, WETH], [DAI, USDT, USDC], Chain.eth),
+  // Cowswap - [ETH, WETH] -> [DAI, USDC, USDT]
+  cowswapSwap([eAddress, WETH], [DAI, USDC, USDT], Chain.eth),
 
-  // Curve - Swaps in 3pool
+  // Curve - [DAI, USDC, USDT] <-> [DAI, USDC, USDT]
   ...allowErc20Approve([DAI, USDC, USDT], [contracts.mainnet.curve.x3CrvPool]),
   allow.mainnet.curve.x3CrvPool["exchange"](),
 
-  // Curve - Swap ETH/stETH (steCRV)
+  // Curve - ETH <-> stETH
   ...allowErc20Approve([stETH], [contracts.mainnet.curve.steCrvPool]),
   allow.mainnet.curve.steCrvPool["exchange"](),
 
-  // Curve - Swaps ETH/stETH (stETH-ng-f)
+  // Curve - ETH <-> stETH
   ...allowErc20Approve([stETH], [contracts.mainnet.curve.stEthNgfPool]),
   allow.mainnet.curve.stEthNgfPool["exchange(int128,int128,uint256,uint256)"](),
 
-  // Uniswap V3 - Swaps
+  // Uniswap V3 - [DAI, ETH, USDC, USDT, WETH, wstETH] -> [DAI, USDC, USDT, WETH, wstETH]
   ...allowErc20Approve(
     [DAI, USDC, USDT, WETH, wstETH],
     [contracts.mainnet.uniswapV3.router2]

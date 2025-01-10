@@ -26,7 +26,7 @@ export default [
    * DeFi-Kit permissions
    *********************************************/
   // Aave Safety Module - Stake GHO
-  allowAction.aave_v2.stake({ targets: ["GHO"] }),
+  allowAction.aave_v3.stake({ targets: ["GHO"] }),
 
   // Aave v3 - Deposit wstETH
   allowAction.aave_v3.deposit({ market: "Core", targets: ["wstETH"] }),

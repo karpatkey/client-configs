@@ -15,7 +15,7 @@ export default [
   }),
 
   // Aave Safety Module - Stake of GHO
-  allowAction.aave_v2.stake({ targets: ["GHO"] }),
+  allowAction.aave_v3.stake({ targets: ["GHO"] }),
 
   /*********************************************
    * Typed-presets permissions

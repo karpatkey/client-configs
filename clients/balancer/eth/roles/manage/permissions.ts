@@ -37,7 +37,7 @@ export default [
    * DeFi-Kit permissions
    *********************************************/
   // Aave Safety Module - Stake AAVE and GHO
-  allowAction.aave_v2.stake({ targets: ["AAVE", "GHO"] }),
+  allowAction.aave_v3.stake({ targets: ["AAVE", "GHO"] }),
 
   // Aave v3 Core Market - Deposit DAI
   allowAction.aave_v3.deposit({ market: "Core", targets: ["DAI"] }),
@@ -56,7 +56,7 @@ export default [
   // Aave v3 Core Market - Borrow GHO
   allowAction.aave_v3.borrow({ market: "Core", targets: ["GHO"] }),
 
-  // Aave - Delegate Aave and stkAave to governance.karpatkey.eth
+  // Aave - Delegate AAVE and stkAAVE to governance.karpatkey.eth
   // WARNING!: The delegate action allows delegate() and delegateByType(), the latter is not part of the orginal preset
   allowAction.aave_v3.delegate({
     targets: ["AAVE", "stkAAVE"],

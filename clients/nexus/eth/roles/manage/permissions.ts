@@ -28,35 +28,46 @@ import {
   wNXM,
   wstETH,
   zeroAddress,
+  balancer,
   curve,
   nexus,
 } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
 import { PermissionList } from "../../../../../types"
+import { balancerSwap } from "../../../../../helpers/exit_strategies"
 
 export default [
   /*********************************************
    * DeFi-Kit permissions
    *********************************************/
-  // Aave v3 - DAI
-  allowAction.aave_v3.deposit({ market: "Core", targets: ["DAI"] }),
-  // Aave v3 - ETH
-  allowAction.aave_v3.deposit({ market: "Core", targets: ["ETH"] }),
-  // Aave v3 - osETH
-  allowAction.aave_v3.deposit({ market: "Core", targets: ["osETH"] }),
-  // Aave v3 - rETH
-  allowAction.aave_v3.deposit({ market: "Core", targets: ["rETH"] }),
-  // Aave v3 - USDC
-  allowAction.aave_v3.deposit({ market: "Core", targets: ["USDC"] }),
-  // Aave v3 - USDT
-  allowAction.aave_v3.deposit({ market: "Core", targets: ["USDT"] }),
-  // Aave v3 - WETH
-  allowAction.aave_v3.deposit({ market: "Core", targets: ["WETH"] }),
-  // Aave v3 - wstETH
-  allowAction.aave_v3.deposit({ market: "Core", targets: ["wstETH"] }),
-  // Aave v3 - Stake GHO
+  // Aave Safety Module - Stake GHO
   allowAction.aave_v3.stake({ targets: ["GHO"] }),
+  // Aave v3 Core Market - Deposit DAI
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["DAI"] }),
+  // Aave v3 Core Market - Deposit ETH
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["ETH"] }),
+  // Aave v3 Core Market - Deposit osETH
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["osETH"] }),
+  // Aave v3 Core Market - Deposit rETH
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["rETH"] }),
+  // Aave v3 Core Market - Deposit USDC
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["USDC"] }),
+  // Aave v3 Core Market - Deposit USDT
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["USDT"] }),
+  // Aave v3 Core Market - Deposit WETH
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["WETH"] }),
+  // Aave v3 Core Market - Deposit wstETH
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["wstETH"] }),
+
+  // Aave v3 Prime Market - Deposit ETH
+  allowAction.aave_v3.deposit({ market: "Prime", targets: ["ETH"] }),
+  // Aave v3 Prime Market - Deposit USDC
+  allowAction.aave_v3.deposit({ market: "Prime", targets: ["USDC"] }),
+  // Aave v3 Prime Market - Deposit WETH
+  allowAction.aave_v3.deposit({ market: "Prime", targets: ["WETH"] }),
+  // Aave v3 Prime Market - Deposit wstETH
+  allowAction.aave_v3.deposit({ market: "Prime", targets: ["wstETH"] }),
 
   // Aura - wstETH/WETH
   allowAction.aura.deposit({ targets: ["153"] }),
@@ -157,17 +168,17 @@ export default [
   allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
   // Spark - SKY_USDS
   allowAction.spark.deposit({ targets: ["SKY_USDS"] }),
-  // Spark - ETH
+  // Spark - Deposit ETH
   allowAction.spark.deposit({ targets: ["ETH"] }),
-  // Spark - rETH
+  // Spark - Deposit rETH
   allowAction.spark.deposit({ targets: ["rETH"] }),
-  // Spark - USDC
+  // Spark - Deposit USDC
   allowAction.spark.deposit({ targets: ["USDC"] }),
-  // Spark - USDT
+  // Spark - Deposit USDT
   allowAction.spark.deposit({ targets: ["USDT"] }),
-  // Spark - WETH
+  // Spark - Deposit WETH
   allowAction.spark.deposit({ targets: ["WETH"] }),
-  // Spark - wstETH
+  // Spark - Deposit wstETH
   allowAction.spark.deposit({ targets: ["wstETH"] }),
 
   // StakeWise v3 - Genesis
@@ -184,38 +195,6 @@ export default [
   allow.mainnet.weth.deposit({
     send: true,
   }),
-
-  // Aave v3 - Lido Market - ETH
-  ...allowErc20Approve(
-    [contracts.mainnet.aaveV3.aEthWeth],
-    [contracts.mainnet.aaveV3.wrappedTokenGatewayPrimeV3]
-  ),
-  allow.mainnet.aaveV3.wrappedTokenGatewayPrimeV3.depositETH(
-    contracts.mainnet.aaveV3.poolPrimeV3,
-    c.avatar,
-    undefined,
-    { send: true }
-  ),
-  allow.mainnet.aaveV3.wrappedTokenGatewayPrimeV3.withdrawETH(
-    contracts.mainnet.aaveV3.poolPrimeV3,
-    undefined,
-    c.avatar
-  ),
-
-  // Aave v3 - Lido Market - USDC
-  ...allowErc20Approve([USDC], [contracts.mainnet.aaveV3.poolPrimeV3]),
-  allow.mainnet.aaveV3.poolPrimeV3.supply(USDC, undefined, c.avatar),
-  allow.mainnet.aaveV3.poolPrimeV3.withdraw(USDC, undefined, c.avatar),
-
-  // Aave v3 - Lido Market - WETH
-  ...allowErc20Approve([WETH], [contracts.mainnet.aaveV3.poolPrimeV3]),
-  allow.mainnet.aaveV3.poolPrimeV3.supply(WETH, undefined, c.avatar),
-  allow.mainnet.aaveV3.poolPrimeV3.withdraw(WETH, undefined, c.avatar),
-
-  // Aave v3 - Lido Market - wstETH
-  ...allowErc20Approve([wstETH], [contracts.mainnet.aaveV3.poolPrimeV3]),
-  allow.mainnet.aaveV3.poolPrimeV3.supply(wstETH, undefined, c.avatar),
-  allow.mainnet.aaveV3.poolPrimeV3.withdraw(wstETH, undefined, c.avatar),
 
   // Balancer - BCoW AMM wNXM/WETH (Staking not available)
   ...allowErc20Approve(
@@ -370,35 +349,11 @@ export default [
   /*********************************************
    * Swaps
    *********************************************/
-  // Balancer - Swap osETH for WETH
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0xdacf5fa19b1f720111609043ac67a9818262850c000000000000000000000635",
-      assetIn: osETH,
-      assetOut: WETH,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
+  // Balancer - osETH <-> WETH
+  balancerSwap(balancer.osEthWethPid, [osETH, WETH], [osETH, WETH]),
 
-  // Balancer - Swap WETH for osETH
-  allow.mainnet.balancer.vault.swap(
-    {
-      poolId:
-        "0xdacf5fa19b1f720111609043ac67a9818262850c000000000000000000000635",
-      assetIn: WETH,
-      assetOut: osETH,
-    },
-    {
-      recipient: c.avatar,
-      sender: c.avatar,
-    }
-  ),
-
-  // Uniswap v3 - Swaps
+  // Uniswap v3 - [AAVE, AURA, BAL, CRV, CVX, DAI, GHO, LDO, osETH, rETH, RPL, stETH, SWISE, USDC, USDT, WETH, WNXM, wstETH] ->
+  // [DAI, GHO, osETH, rETH, stETH, USDC, USDT, WETH, wNXM, wstETH]
   ...allowErc20Approve(
     [
       AAVE,
@@ -422,8 +377,6 @@ export default [
     ],
     [contracts.mainnet.uniswapV3.router2]
   ),
-
-  // Uniswap v3 - Swapping of tokens AAVE, AURA, BAL, CRV, CVX, DAI, GHO, LDO, osETH, rETH, RPL, stETH, SWISE, USDC, USDT, WETH, WNXM, wstETH
   allow.mainnet.uniswapV3.router2.exactInputSingle({
     tokenIn: c.or(
       AAVE,

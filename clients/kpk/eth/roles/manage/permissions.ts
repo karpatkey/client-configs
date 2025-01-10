@@ -26,8 +26,8 @@ export default [
   /*********************************************
    * DeFi-Kit permissions
    *********************************************/
-  // Aave v2 - Staking of AAVE and GHO in Safety Module
-  allowAction.aave_v2.stake({ targets: ["AAVE", "GHO"] }),
+  // Aave Safety Module - Stake AAVE and GHO
+  allowAction.aave_v3.stake({ targets: ["AAVE", "GHO"] }),
 
   // Aura - wstETH/WETH
   allowAction.aura.deposit({ targets: ["153"] }),
@@ -41,11 +41,12 @@ export default [
   // Convex - GHO/WBTC/wstETH
   allowAction.convex.deposit({ targets: ["297"] }),
 
-  // CowSwap - Holdings
+  // CowSwap - [DAI, USDC, USDT] -> [DAI, USDC, USDT, WETH]
   allowAction.cowswap.swap({
     sell: [DAI, USDC, USDT],
     buy: [DAI, USDC, USDT, WETH],
   }),
+  // CowSwap - [CRV, COMP, CVX, NOTE] -> [DAI, USDC]
   allowAction.cowswap.swap({ sell: [CRV, COMP, CVX, NOTE], buy: [DAI, USDC] }),
 
   // Lido

@@ -18,7 +18,7 @@ export default [
   /*********************************************
    * DeFi-Kit permissions
    *********************************************/
-  // CowSwap - [GNO, osGNO, sDAI, USDC, USDC.e, WXDAI, xDAI] -> [GNO, osGNO, sDAI, USDC, USDC.e, WXDAI, xDAI]
+  // CowSwap - [GNO, osGNO, sDAI, USDC, USDC.e, WXDAI, xDAI] <-> [GNO, osGNO, sDAI, USDC, USDC.e, WXDAI, xDAI]
   allowAction.cowswap.swap({
     sell: ["XDAI", GNO, osGNO, sDAI, USDC, USDCe, WXDAI],
     buy: ["XDAI", GNO, osGNO, sDAI, USDC, USDCe, WXDAI],
