@@ -12,14 +12,7 @@ export default [
     undefined,
     undefined,
     undefined,
-    {
-      claimCvxCrv: undefined,
-      claimLockedCvx: undefined,
-      lockCvxCrv: false,
-      lockCrvDeposit: false,
-      useAllWalletFunds: false,
-      useCompounder: false,
-      lockCvx: true,
-    }
+    undefined
   ),
+  allow.mainnet.aura.vlAura.processExpiredLocks(undefined),
 ] satisfies PermissionList
