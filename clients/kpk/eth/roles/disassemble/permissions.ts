@@ -149,19 +149,14 @@ export default [
   ...allowErc20Approve([stETH], [contracts.mainnet.curve.stEthNgfPool]),
   allow.mainnet.curve.stEthNgfPool["exchange(int128,int128,uint256,uint256)"](),
 
-  // Uniswap V3 - [DAI, ETH, USDC, USDT, WETH, wstETH] -> [DAI, USDC, USDT, WETH, wstETH]
+  // Uniswap V3 - [DAI, USDC, USDT, WETH, wstETH] <-> [DAI, USDC, USDT, WETH, wstETH]
   ...allowErc20Approve(
     [DAI, USDC, USDT, WETH, wstETH],
     [contracts.mainnet.uniswapV3.router2]
   ),
-  allow.mainnet.uniswapV3.router2.exactInputSingle(
-    {
-      tokenIn: c.or(DAI, USDC, USDT, WETH, wstETH),
-      tokenOut: c.or(DAI, USDC, USDT, WETH, wstETH),
-      recipient: c.avatar,
-    },
-    {
-      send: true,
-    }
-  ),
+  allow.mainnet.uniswapV3.router2.exactInputSingle({
+    tokenIn: c.or(DAI, USDC, USDT, WETH, wstETH),
+    tokenOut: c.or(DAI, USDC, USDT, WETH, wstETH),
+    recipient: c.avatar,
+  }),
 ] satisfies PermissionList
