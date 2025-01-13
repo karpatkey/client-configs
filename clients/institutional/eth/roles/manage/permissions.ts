@@ -62,17 +62,6 @@ export default [
   // Compound v3 - Claim rewards
   allow.mainnet.compoundV3.cometRewards.claim(undefined, c.avatar),
 
-  // Maker - DSR (DAI Savings Rate)
-  // The DsrManager provides an easy to use smart contract that allows
-  // service providers to deposit/withdraw dai into the DSR contract pot,
-  // and activate/deactivate the Dai Savings Rate to start earning savings
-  // on a pool of dai in a single function call.
-  // https://docs.makerdao.com/smart-contract-modules/proxy-module/dsr-manager-detailed-documentation#contract-details
-  ...allowErc20Approve([DAI], [contracts.mainnet.maker.dsrManager]),
-  allow.mainnet.maker.dsrManager.join(c.avatar),
-  allow.mainnet.maker.dsrManager.exit(c.avatar),
-  allow.mainnet.maker.dsrManager.exitAll(c.avatar),
-
   // Morpho Blue - wstETH/USDC
   ...allowErc20Approve([USDC], [contracts.mainnet.morpho.morphoBlue]),
   allow.mainnet.morpho.morphoBlue.supply(
@@ -125,6 +114,17 @@ export default [
     c.avatar,
     c.avatar
   ),
+
+  // Sky - DSR (DAI Savings Rate)
+  // The DsrManager provides an easy to use smart contract that allows
+  // service providers to deposit/withdraw dai into the DSR contract pot,
+  // and activate/deactivate the Dai Savings Rate to start earning savings
+  // on a pool of dai in a single function call.
+  // https://docs.makerdao.com/smart-contract-modules/proxy-module/dsr-manager-detailed-documentation#contract-details
+  ...allowErc20Approve([DAI], [contracts.mainnet.sky.dsrManager]),
+  allow.mainnet.sky.dsrManager.join(c.avatar),
+  allow.mainnet.sky.dsrManager.exit(c.avatar),
+  allow.mainnet.sky.dsrManager.exitAll(c.avatar),
 
   /*********************************************
    * Swaps

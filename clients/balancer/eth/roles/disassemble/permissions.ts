@@ -73,10 +73,6 @@ export default [
   lidoUnstakeStEth(),
   lidoUnwrapAndUnstakeWstEth(),
 
-  // Maker - DSR (DAI Savings Rate)
-  allow.mainnet.maker.dsrManager.exit(c.avatar),
-  allow.mainnet.maker.dsrManager.exitAll(c.avatar),
-
   // Origin - Redeem via ARM (Automated Redemption Manager)
   allowErc20Approve([OETH], [contracts.mainnet.origin.armOethWeth]),
   allow.mainnet.origin.armOethWeth[
@@ -91,6 +87,10 @@ export default [
   // Rocket Pool
   allow.mainnet.rocketPool.rEth.burn(),
   allow.mainnet.rocketPool.swapRouter.swapFrom(),
+
+  // Sky - DSR (DAI Savings Rate)
+  allow.mainnet.sky.dsrManager.exit(c.avatar),
+  allow.mainnet.sky.dsrManager.exitAll(c.avatar),
 
   // Spark - DSR_sDAI
   allow.mainnet.spark.sDai.redeem(undefined, c.avatar, c.avatar),

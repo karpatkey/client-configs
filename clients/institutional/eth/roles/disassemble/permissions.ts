@@ -29,10 +29,6 @@ export default [
   // Compound v3 - Withdraw USDC
   allow.mainnet.compoundV3.cUsdcV3.withdraw(USDC),
 
-  // Maker - Withdraw DSR (DAI Savings Rate)
-  allow.mainnet.maker.dsrManager.exit(c.avatar),
-  allow.mainnet.maker.dsrManager.exitAll(c.avatar),
-
   // Morpho Blue - Withdraw wstETH/USDC
   allow.mainnet.morpho.morphoBlue.withdraw(
     {
@@ -59,6 +55,10 @@ export default [
     c.avatar,
     c.avatar
   ),
+
+  // Sky - Withdraw DSR (DAI Savings Rate)
+  allow.mainnet.sky.dsrManager.exit(c.avatar),
+  allow.mainnet.sky.dsrManager.exitAll(c.avatar),
 
   // Spark - Withdraw DSR/sDAI
   allow.mainnet.spark.sDai.redeem(undefined, c.avatar, c.avatar),

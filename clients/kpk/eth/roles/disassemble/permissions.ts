@@ -95,10 +95,6 @@ export default [
   lidoUnstakeStEth(),
   lidoUnwrapAndUnstakeWstEth(),
 
-  // Maker - DSR (DAI Savings Rate)
-  allow.mainnet.maker.dsrManager.exit(c.avatar),
-  allow.mainnet.maker.dsrManager.exitAll(c.avatar),
-
   // pods - ETHphoria Vault
   // Withdraw stETH
   allow.mainnet.pods.ethoriaVault.redeem(undefined, c.avatar, c.avatar),
@@ -106,6 +102,10 @@ export default [
   // Rocket Pool
   allow.mainnet.rocketPool.rEth.burn(),
   allow.mainnet.rocketPool.swapRouter.swapFrom(),
+
+  // Sky - DSR (DAI Savings Rate)
+  allow.mainnet.sky.dsrManager.exit(c.avatar),
+  allow.mainnet.sky.dsrManager.exitAll(c.avatar),
 
   // Spark - DSR_sDAI
   allow.mainnet.spark.sDai.redeem(undefined, c.avatar, c.avatar),

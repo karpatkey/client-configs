@@ -291,17 +291,6 @@ export default [
   allow.mainnet.ethena.sUsde.cooldownShares(),
   allow.mainnet.ethena.sUsde.unstake(c.avatar),
 
-  // Maker - DSR (DAI Savings Rate)
-  // The DsrManager provides an easy to use smart contract that allows
-  // service providers to deposit/withdraw dai into the DSR contract pot,
-  // and activate/deactivate the Dai Savings Rate to start earning savings
-  // on a pool of dai in a single function call.
-  // https://docs.makerdao.com/smart-contract-modules/proxy-module/dsr-manager-detailed-documentation#contract-details
-  ...allowErc20Approve([DAI], [contracts.mainnet.maker.dsrManager]),
-  allow.mainnet.maker.dsrManager.join(c.avatar),
-  allow.mainnet.maker.dsrManager.exit(c.avatar),
-  allow.mainnet.maker.dsrManager.exitAll(c.avatar),
-
   // Nexus Mutual
   // Deposit ETH in exchange for NXM; redeem NXM in exchange for ETH
   allow.mainnet.nexus.ramm.swap(undefined, undefined, undefined, {
@@ -345,6 +334,17 @@ export default [
   allow.mainnet.resolv.stUsr["deposit(uint256)"](),
   ...allowErc20Approve([contracts.mainnet.resolv.stUsr], [USR]),
   allow.mainnet.resolv.stUsr["withdraw(uint256)"](),
+
+  // Sky - DSR (DAI Savings Rate)
+  // The DsrManager provides an easy to use smart contract that allows
+  // service providers to deposit/withdraw dai into the DSR contract pot,
+  // and activate/deactivate the Dai Savings Rate to start earning savings
+  // on a pool of dai in a single function call.
+  // https://docs.makerdao.com/smart-contract-modules/proxy-module/dsr-manager-detailed-documentation#contract-details
+  ...allowErc20Approve([DAI], [contracts.mainnet.sky.dsrManager]),
+  allow.mainnet.sky.dsrManager.join(c.avatar),
+  allow.mainnet.sky.dsrManager.exit(c.avatar),
+  allow.mainnet.sky.dsrManager.exitAll(c.avatar),
 
   /*********************************************
    * Swaps
