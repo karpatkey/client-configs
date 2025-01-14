@@ -133,31 +133,6 @@ export default [
     buy: ["ETH", DAI, GHO, osETH, rETH, stETH, USDC, USDT, WETH, wNXM, wstETH],
   }),
 
-  // CowSwap - [GHO, USDS, USDe, USR, sUSDS, sUSDe] -> [GHO, USDC, USDS, USDe, USR, WNXM, sUSDS, sUSDe, wETH, wstETH]
-  allowAction.cowswap.swap({
-    sell: [GHO, USDS, USDe, USR, sUSDS, sUSDe],
-    buy: [GHO, USDC, USDS, USDe, USR, wNXM, sUSDS, sUSDe, WETH, wstETH],
-  }),
-
-  // CowSwap - [ETH, GHO, stETH, sUSDe, sUSDS, USDC, USDe, USDS, USR, WETH, WNXM, wstETH] -> [cbBTC, sUSDe, sUSDS, USDe, USDS, USR]
-  allowAction.cowswap.swap({
-    sell: [
-      "ETH",
-      GHO,
-      stETH,
-      sUSDe,
-      sUSDS,
-      USDC,
-      USDe,
-      USDS,
-      USR,
-      WETH,
-      wNXM,
-      wstETH,
-    ],
-    buy: [cbBTC, sUSDe, sUSDS, USDe, USDS, USR],
-  }),
-
   // Lido
   allowAction.lido.deposit(),
 
@@ -284,13 +259,6 @@ export default [
   allow.mainnet.curve.osEthRethGauge["claim_rewards()"](),
   allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.osEthRethGauge),
 
-  // Ethena - Stake USDe
-  ...allowErc20Approve([USDe], [sUSDe]),
-  allow.mainnet.ethena.sUsde.deposit(undefined, c.avatar),
-  // Ethena - Unstake USDe
-  allow.mainnet.ethena.sUsde.cooldownShares(),
-  allow.mainnet.ethena.sUsde.unstake(c.avatar),
-
   // Nexus Mutual
   // Deposit ETH in exchange for NXM; redeem NXM in exchange for ETH
   allow.mainnet.nexus.ramm.swap(undefined, undefined, undefined, {
@@ -328,12 +296,6 @@ export default [
     ...allow.mainnet.nexus.stakingPool.withdraw(),
     targetAddress: pool,
   })),
-
-  // Resolv - Stake/Unstake USR
-  ...allowErc20Approve([USR], [contracts.mainnet.resolv.stUsr]),
-  allow.mainnet.resolv.stUsr["deposit(uint256)"](),
-  ...allowErc20Approve([contracts.mainnet.resolv.stUsr], [USR]),
-  allow.mainnet.resolv.stUsr["withdraw(uint256)"](),
 
   // Sky - DSR (DAI Savings Rate)
   // The DsrManager provides an easy to use smart contract that allows
