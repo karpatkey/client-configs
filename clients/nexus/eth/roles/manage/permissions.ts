@@ -315,12 +315,9 @@ export default [
   allow.mainnet.etherfi.eEth.withdraw(),
 
   // Deposit and Stake using a depositAdapter
-  allow.mainnet.etherfi.depositAdapter.depositETHForWeETH(
-      undefined,
-      {
-       send: true
-      }
-  ),
+  allow.mainnet.etherfi.depositAdapter.depositETHForWeETH(undefined, {
+    send: true,
+  }),
 
   /*********************************************
    * Swaps
