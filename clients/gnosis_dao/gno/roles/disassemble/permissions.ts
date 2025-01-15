@@ -46,38 +46,6 @@ export default [
   // Aave v3 - Withdraw USDC.e
   allow.gnosis.aaveV3.poolV3.withdraw(USDCe, undefined, c.avatar),
 
-  // Arrakis - WETH/sDAI
-  allow.gnosis.arrakis.signMessageLib.signMessage(undefined, {
-    delegatecall: true,
-  }),
-  allow.gnosis.arrakis.router.removeLiquidityPermit2({
-    removeData: {
-      vault: contracts.gnosis.arrakis.wethSdaiVault,
-      receiver: c.avatar,
-      gauge: zeroAddress,
-    },
-    permit: {
-      permitted: {
-        token: contracts.gnosis.arrakis.wethSdaiVault,
-      },
-    },
-  }),
-
-  // Arrakis - WETH/wstETH
-  // signMessage() already included
-  allow.gnosis.arrakis.router.removeLiquidityPermit2({
-    removeData: {
-      vault: contracts.gnosis.arrakis.wethWstEthVault,
-      receiver: c.avatar,
-      gauge: zeroAddress,
-    },
-    permit: {
-      permitted: {
-        token: contracts.gnosis.arrakis.wethWstEthVault,
-      },
-    },
-  }),
-
   // Aura - WETH/wstETH
   auraWithdrawBalancer(aura.auraWethWstEthRewarder, balancer.wethWstEthPid),
   // Aura - EURe/sDAI
