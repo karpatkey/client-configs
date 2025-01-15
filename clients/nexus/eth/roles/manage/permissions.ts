@@ -307,6 +307,20 @@ export default [
   allow.mainnet.sky.dsrManager.join(c.avatar),
   allow.mainnet.sky.dsrManager.exit(c.avatar),
   allow.mainnet.sky.dsrManager.exitAll(c.avatar),
+  // Wrap eEth
+  allow.mainnet.etherfi.eEth.wrap(),
+  // Unwrap WeEth
+  allow.mainnet.etherfi.WeEth.unwrap(),
+  //WithDraw eEth
+  allow.mainnet.etherfi.eEth.withdraw(),
+
+  // Deposit and Stake using a depositAdapter
+  allow.mainnet.etherfi.depositAdapter.depositETHForWeETH(
+      undefined,
+      {
+       send: true
+      }
+  ),
 
   /*********************************************
    * Swaps
