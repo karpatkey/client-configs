@@ -5,32 +5,29 @@ import {
   AAVE,
   AURA,
   BAL,
-  cbBTC,
+  balancer,
   CRV,
+  curve,
   CVX,
   DAI,
   GHO,
   LDO,
+  nexus,
   NXM,
   osETH,
   rETH,
   RPL,
-  sUSDe,
-  sUSDS,
   stETH,
+  sUSDS,
   SWISE,
   USDC,
-  USDe,
   USDS,
   USDT,
-  USR,
+  weETH,
   WETH,
   wNXM,
   wstETH,
   zeroAddress,
-  balancer,
-  curve,
-  nexus,
 } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
@@ -129,8 +126,25 @@ export default [
       WETH,
       wNXM,
       wstETH,
+      USDS,
+      sUSDS,
     ],
-    buy: ["ETH", DAI, GHO, osETH, rETH, stETH, USDC, USDT, WETH, wNXM, wstETH],
+    buy: [
+      "ETH",
+      DAI,
+      GHO,
+      osETH,
+      rETH,
+      stETH,
+      USDC,
+      USDT,
+      WETH,
+      wNXM,
+      wstETH,
+      sUSDS,
+      wNXM,
+      USDS,
+    ],
   }),
 
   // Lido
@@ -308,6 +322,19 @@ export default [
   allow.mainnet.sky.dsrManager.exit(c.avatar),
   allow.mainnet.sky.dsrManager.exitAll(c.avatar),
 
+  // Wrap eEth
+  allow.mainnet.etherfi.eEth.wrap(),
+  // Unwrap WeEth
+  allow.mainnet.etherfi.WeEth.unwrap(),
+  //WithDraw eEth
+  allow.mainnet.etherfi.eEth.withdraw(),
+
+  // Deposit and Stake using a depositAdapter
+  allow.mainnet.etherfi.depositAdapter.depositETHForWeETH(
+    undefined,
+    "0x0000000000000000000000000000000000000000"
+  ),
+
   /*********************************************
    * Swaps
    *********************************************/
@@ -336,6 +363,7 @@ export default [
       WETH,
       wNXM,
       wstETH,
+      weETH,
     ],
     [contracts.mainnet.uniswapV3.router2]
   ),
@@ -358,7 +386,8 @@ export default [
       USDT,
       WETH,
       wNXM,
-      wstETH
+      wstETH,
+      weETH
     ),
     tokenOut: c.or(
       DAI,
@@ -370,7 +399,8 @@ export default [
       USDT,
       WETH,
       wNXM,
-      wstETH
+      wstETH,
+      weETH
     ),
     recipient: c.avatar,
   }),
