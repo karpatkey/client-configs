@@ -54,6 +54,8 @@ export default [
   allowAction.aave_v3.deposit({ market: "Core", targets: ["USDC"] }),
   // Aave v3 Core Market - Deposit WETH
   allowAction.aave_v3.deposit({ market: "Core", targets: ["WETH"] }),
+  // Aave v3 Core Market - Deposit USDT
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["USDT"] }),
 
   // Balancer - wstETH/WETH
   allowAction.balancer.deposit({ targets: ["wstETH-WETH-BPT"] }),
@@ -124,6 +126,11 @@ export default [
   ...allowErc20Approve([USDC], [contracts.mainnet.compoundV3.cUsdcV3]),
   allow.mainnet.compoundV3.cUsdcV3.supply(USDC),
   allow.mainnet.compoundV3.cUsdcV3.withdraw(USDC),
+
+  // Compound v3 - Deposit USDT
+  ...allowErc20Approve([USDT], [contracts.mainnet.compoundV3.cUsdtV3]),
+  allow.mainnet.compoundV3.cUsdtV3.supply(USDC),
+  allow.mainnet.compoundV3.cUsdtV3.withdraw(USDC),
 
   // Compound v3 - Deposit ETH
   allow.mainnet.compoundV3.cWethV3.allow(
