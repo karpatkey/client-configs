@@ -200,6 +200,7 @@ export const contracts = {
       seednode: "0x9eeB6be79899CfE45018866A2113c6b77fa96F35",
     },
     navCalculator: "0x4AbE155C97009e388E0493fe1516F636e0F3a390",
+    testSubRoleRolesMod: "0x3EF41F89CD74604DC618BB23C6a7d185Bd5F911E",
   },
   optimism: {
     ...deFiKitContracts.optimism,
