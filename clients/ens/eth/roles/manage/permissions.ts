@@ -57,6 +57,8 @@ export default [
   allowAction.aave_v3.deposit({ market: "Core", targets: ["WETH"] }),
   // Aave v3 Core Market - Deposit USDT
   allowAction.aave_v3.deposit({ market: "Core", targets: ["USDT"] }),
+  // Aave v3 Core Market - Deposit USDS
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["USDS"] }),
 
   // Balancer - wstETH/WETH
   allowAction.balancer.deposit({ targets: ["wstETH-WETH-BPT"] }),
