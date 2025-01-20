@@ -25,6 +25,7 @@ import {
   balancer,
   curve,
   OETH,
+  USDM,
 } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
@@ -430,6 +431,7 @@ export default [
       SWISE,
       USDC,
       USDT,
+      USDM,
       WETH,
       wstETH,
     ],
@@ -458,5 +460,41 @@ export default [
     ),
     tokenOut: c.or(DAI, rETH, USDC, USDT, stETH, WETH, wstETH),
     recipient: c.avatar,
+  }),
+
+  // Uniswap v3 - [ETH <-> USDT], Fee: [0.3, 0.05]
+  allow.mainnet.uniswapV3.router2.exactInputSingle({
+    tokenIn: c.or(WETH, USDT),
+    tokenOut: c.or(WETH, USDT),
+    recipient: c.avatar,
+    fee: c.or(30, 500),
+  }),
+  // Uniswap v3 - [ETH <-> USDC], Fee: [0.3, 0.05]
+  allow.mainnet.uniswapV3.router2.exactInputSingle({
+    tokenIn: c.or(WETH, USDC),
+    tokenOut: c.or(WETH, USDC),
+    recipient: c.avatar,
+    fee: c.or(30, 500),
+  }),
+  // Uniswap v3 - [USDM <-> USDT], Fee: [0.05]
+  allow.mainnet.uniswapV3.router2.exactInputSingle({
+    tokenIn: c.or(USDM, USDT),
+    tokenOut: c.or(USDM, USDT),
+    recipient: c.avatar,
+    fee: 500,
+  }),
+  // Uniswap v3 - [USDC <-> USDT], Fee: [0.01]
+  allow.mainnet.uniswapV3.router2.exactInputSingle({
+    tokenIn: c.or(USDC, USDT),
+    tokenOut: c.or(USDT, USDC),
+    recipient: c.avatar,
+    fee: 100,
+  }),
+  // Uniswap v3 - [ETH <-> USDT], Fee: [0.01, 0.05]
+  allow.mainnet.uniswapV3.router2.exactInputSingle({
+    tokenIn: c.or(WETH, USDT),
+    tokenOut: c.or(USDT, WETH),
+    recipient: c.avatar,
+    fee: c.or(100, 500),
   }),
 ] satisfies PermissionList
