@@ -229,11 +229,14 @@ export default [
   ),
 
   //Curve - OETH/ETH
-  ...allowErc20Approve([OETH], [
-    contracts.mainnet.curve.oEthCrvPool,
-    contracts.mainnet.curve.oEthCrvGauge,
-    contracts.mainnet.curve.crvDepositAndStakeZap
-  ]),
+  ...allowErc20Approve(
+    [OETH],
+    [
+      contracts.mainnet.curve.oEthCrvPool,
+      contracts.mainnet.curve.oEthCrvGauge,
+      contracts.mainnet.curve.crvDepositAndStakeZap,
+    ]
+  ),
   //swap
   allow.mainnet.curve.oEthCrvPool.exchange(
     undefined,
@@ -241,7 +244,7 @@ export default [
     undefined,
     [contracts.mainnet.curve.oEthCrvPool, zeroAddress],
     {
-      send: true
+      send: true,
     }
   ),
   //deposit
@@ -253,12 +256,12 @@ export default [
     }
   ),
   //stake
-  allow.mainnet.curve.oEthCrvGauge.deposit(
-    {
-      send: true
-    }
-  ),
-  allow.mainnet.curve.crvDepositAndStakeZap["deposit_and_stake(address,address,address,uint256,address[],uint256[],uint256,bool,bool,address)"](
+  allow.mainnet.curve.oEthCrvGauge.deposit({
+    send: true,
+  }),
+  allow.mainnet.curve.crvDepositAndStakeZap[
+    "deposit_and_stake(address,address,address,uint256,address[],uint256[],uint256,bool,bool,address)"
+  ](
     contracts.mainnet.curve.oEthCrvPool,
     contracts.mainnet.curve.oEthCrvPool,
     contracts.mainnet.curve.oEthCrvGauge,
@@ -270,17 +273,17 @@ export default [
     false,
     zeroAddress,
     {
-      send: true
+      send: true,
     }
   ),
   //withdraw/claim
   allow.mainnet.curve.oEthCrvPool["remove_liquidity(uint256,uint256[2])"](),
   allow.mainnet.curve.oEthCrvPool[
     "remove_liquidity_imbalance(uint256[2],uint256)"
-    ](),
+  ](),
   allow.mainnet.curve.oEthCrvPool[
     "remove_liquidity_one_coin(uint256,int128,uint256)"
-    ](),
+  ](),
   allow.mainnet.curve.oEthCrvGauge["deposit(uint256)"](),
   allow.mainnet.curve.oEthCrvGauge["withdraw(uint256)"](),
   allow.mainnet.curve.oEthCrvGauge["claim_rewards()"](),
