@@ -27,6 +27,7 @@ import {
   OETH,
   USDM,
   x3CRV,
+  sDAI,
 } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
@@ -265,6 +266,7 @@ export default [
   allow.mainnet.curve.oEthCrvGauge.deposit({
     send: true,
   }),
+  ...allowErc20Approve([OETH], [contracts.mainnet.curve.crvDepositAndStakeZap]),
   allow.mainnet.curve.crvDepositAndStakeZap[
     "deposit_and_stake(address,address,address,uint256,address[],uint256[],uint256,bool,bool,address)"
   ](
@@ -330,6 +332,7 @@ export default [
       send: true,
     }
   ),
+  ...allowErc20Approve([x3CRV], [contracts.mainnet.curve.crvDepositAndStakeZap]),
   allow.mainnet.curve.crvDepositAndStakeZap[
     "deposit_and_stake(address,address,address,uint256,address[],uint256[],uint256,bool,bool,address)"
   ](
@@ -358,9 +361,70 @@ export default [
   allow.mainnet.curve.crvDaiUsdtUsdtGauge["deposit(uint256)"](),
   allow.mainnet.curve.crvDaiUsdtUsdtGauge["withdraw(uint256)"](),
   allow.mainnet.curve.crvDaiUsdtUsdtGauge["claim_rewards()"](),
-  allow.mainnet.curve.crvMinter.mint(
-    contracts.mainnet.curve.crvDaiUsdtUsdtGauge
+  allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.crvDaiUsdtUsdtGauge),
+
+  //Curve sDAI - USDM
+  //swap
+  allow.mainnet.curve.sDaiUsdmPool.exchange(
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    {
+      send: true,
+    }
   ),
+  //Deposit
+  ...allowErc20Approve([sDAI], [contracts.mainnet.curve.sDaiUsdmPool]),
+  allow.mainnet.curve.sDaiUsdmPool["add_liquidity(uint256[2],uint256)"](
+    undefined,
+    undefined,
+    {
+      send: true,
+    }
+  ),
+  //Stake
+  ...allowErc20Approve([sDAI], [contracts.mainnet.curve.crvLiquidityGaugeV6]),
+  allow.mainnet.curve.crvLiquidityGaugeV6.deposit({
+    send: true
+  }),
+  //Deposit and stake
+  ...allowErc20Approve([sDAI], [contracts.mainnet.curve.crvDepositAndStakeZap]),
+  allow.mainnet.curve.crvLiquidityGaugeV6.set_approve_deposit(
+    contracts.mainnet.curve.crvDepositAndStakeZap,
+    true,
+    {
+      send: true
+    }),
+  allow.mainnet.curve.crvDepositAndStakeZap[
+    "deposit_and_stake(address,address,address,uint256,address[],uint256[],uint256,bool,bool,address)"
+    ](
+    contracts.mainnet.curve.sDaiUsdmPool,
+    x3CRV,
+    contracts.mainnet.curve.crvLiquidityGaugeV6,
+    2,
+    [sDAI, USDM],
+    undefined,
+    undefined,
+    false,
+    true,
+    zeroAddress,
+    {
+      send: true,
+    }
+  ),
+  //withdraw/claim
+  allow.mainnet.curve.sDaiUsdmPool["remove_liquidity(uint256,uint256[2])"](),
+  allow.mainnet.curve.sDaiUsdmPool[
+    "remove_liquidity_imbalance(uint256[2],uint256)"
+    ](),
+  allow.mainnet.curve.sDaiUsdmPool[
+    "remove_liquidity_one_coin(uint256,int128,uint256)"
+    ](),
+  allow.mainnet.curve.crvLiquidityGaugeV6["deposit(uint256)"](),
+  allow.mainnet.curve.crvLiquidityGaugeV6["withdraw(uint256)"](),
+  allow.mainnet.curve.crvLiquidityGaugeV6["claim_rewards()"](),
+  allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.crvLiquidityGaugeV6),
 
   // Sky - DSR (DAI Savings Rate)
   // The DsrManager provides an easy to use smart contract that allows

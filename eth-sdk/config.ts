@@ -47,6 +47,7 @@ export const contracts = {
       crvUsdUsdtGauge: "0x4e6bB6B7447B7B2Aa268C16AB87F4Bb48BF57939",
       crvDepositAndStakeZap: "0x56C526b0159a258887e0d79ec3a80dfb940d0cD7",
       crvDaiUsdtUsdtGauge: "0xbFcF63294aD7105dEa65aA58F8AE5BE2D9d0952A",
+      crvLiquidityGaugeV6: "0xcF5136C67fA8A375BaBbDf13c0307EF994b5681D",
       sDaiUsdmPool: "0x425BfB93370F14fF525aDb6EaEAcfE1f4e3b5802",
       usdeUsdcPool: "0x02950460E2b9529D0E00284A5fA2d7bDF3fA4d72",
       usdeDaiPool: "0xF36a4BA50C603204c3FC6d2dA8b78A7b69CBC67d",
