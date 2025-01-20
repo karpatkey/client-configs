@@ -263,7 +263,7 @@ export default [
   allowErc20Approve([OETH], [contracts.mainnet.origin.armOethWeth]),
   allow.mainnet.origin.armOethWeth[
     "swapExactTokensForTokens(address,address,uint256,uint256,address)"
-    ](OETH, WETH, undefined, undefined, c.avatar),
+  ](OETH, WETH, undefined, undefined, c.avatar),
   // Origin - Redeem via OETH Vault
   // OETH is burnt by the user so no approval is needed
   allow.mainnet.origin.oEthVault.requestWithdrawal(),
