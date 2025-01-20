@@ -359,6 +359,10 @@ export default [
   balancerSwap(balancer.ethxWethPid, [ETHx, WETH], [ETHx, WETH]),
   // Balancer - osETH <-> WETH
   balancerSwap(balancer.osEthWethPid, [osETH, WETH], [osETH, WETH]),
+  // Balancer - oETH <-> WETH
+  balancerSwap(balancer.oEthWethPid, [OETH, WETH], [OETH, WETH]),
+  // Balancer - USDC <-> USDT
+  balancerSwap(balancer.usdcUsdtPid, [USDC, USDT], [USDC, USDT]),
 
   // Curve - ETH <-> stETH
   ...allowErc20Approve([stETH], [contracts.mainnet.curve.steCrvPool]),
