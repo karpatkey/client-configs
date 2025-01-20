@@ -110,6 +110,8 @@ export default [
   allowAction.spark.deposit({ targets: ["ETH"] }),
   // Spark - Deposit WETH
   allowAction.spark.deposit({ targets: ["WETH"] }),
+  // Spark - Deposit USDS
+  allowAction.spark.deposit({ targets: ["SKY_USDS"]}),
 
   // Stader
   allowAction.stader.deposit(),
@@ -227,8 +229,8 @@ export default [
     zeroAddress,
     { send: true }
   ),
-
-  //Curve - OETH/ETH
+  
+  //Curve - oETH/ETH
   ...allowErc20Approve(
     [OETH],
     [
