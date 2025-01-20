@@ -24,6 +24,7 @@ import {
   wstETH,
   balancer,
   curve,
+  OETH,
 } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
@@ -255,6 +256,19 @@ export default [
   allow.mainnet.stakeWiseV3.genesis.burnOsToken(),
   allow.mainnet.stakeWiseV3.genesis.enterExitQueue(undefined, c.avatar),
   allow.mainnet.stakeWiseV3.genesis.claimExitedAssets(),
+
+  // Origin - Mint OETH
+  allow.mainnet.origin.oEthZapper.deposit({ send: true }),
+  // Origin - Redeem via ARM (Automated Redemption Manager)
+  allowErc20Approve([OETH], [contracts.mainnet.origin.armOethWeth]),
+  allow.mainnet.origin.armOethWeth[
+    "swapExactTokensForTokens(address,address,uint256,uint256,address)"
+    ](OETH, WETH, undefined, undefined, c.avatar),
+  // Origin - Redeem via OETH Vault
+  // OETH is burnt by the user so no approval is needed
+  allow.mainnet.origin.oEthVault.requestWithdrawal(),
+  allow.mainnet.origin.oEthVault.claimWithdrawal(),
+  allow.mainnet.origin.oEthVault.claimWithdrawals(),
 
   /*********************************************
    * SWAPS
