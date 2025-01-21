@@ -520,7 +520,6 @@ export default [
       SWISE,
       USDC,
       USDT,
-      USDM,
       WETH,
       wstETH,
     ],
@@ -570,6 +569,7 @@ export default [
   }),
 
   // Uniswap v3 - [USDM <-> USDT], Fee: [0.05]
+  ...allowErc20Approve([USDM, USDT], [contracts.mainnet.uniswapV3.router2]),
   allow.mainnet.uniswapV3.router2.exactInputSingle({
     tokenIn: c.or(USDM, USDT),
     tokenOut: c.or(USDM, USDT),
@@ -578,6 +578,7 @@ export default [
   }),
 
   // Uniswap v3 - [USDC <-> USDT], Fee: [0.01]
+  ...allowErc20Approve([USDC, USDT], [contracts.mainnet.uniswapV3.router2]),
   allow.mainnet.uniswapV3.router2.exactInputSingle({
     tokenIn: c.or(USDC, USDT),
     tokenOut: c.or(USDT, USDC),
