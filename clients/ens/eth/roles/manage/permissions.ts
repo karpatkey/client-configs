@@ -165,6 +165,8 @@ export default [
 
   // Spark - SKY_USDS
   allowAction.spark.deposit({ targets: ["SKY_USDS"] }),
+  // Spark - Stake - Farm USDS
+  allowAction.spark.stake(),
   // Spark - Deposit ETH
   allowAction.spark.deposit({ targets: ["ETH"] }),
   // Spark - Deposit WETH
