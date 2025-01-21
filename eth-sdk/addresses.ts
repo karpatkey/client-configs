@@ -176,7 +176,7 @@ export const balancer = {
   oEthWethPid:
     "0x7056c8dfa8182859ed0d4fb0ef0886fdf3d2edcf000200000000000000000623",
   usdcUsdtPid:
-    "0x8353157092ed8be69a9df8f95af097bbf33cb2af0000000000000000000005d9"
+    "0x8353157092ed8be69a9df8f95af097bbf33cb2af0000000000000000000005d9",
 }
 
 export const convex = {
