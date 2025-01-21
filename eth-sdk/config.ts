@@ -66,6 +66,11 @@ export const contracts = {
       liquidEth: "0xf0bb20865277aBd641a307eCe5Ee04E79073416C",
       tellerWithMultiAssetSupport: "0x5c135e8eC99557b412b9B4492510dCfBD36066F5",
       atomicQueue: "0xD45884B592E316eB816199615A95C182F75dea07",
+      depositAdapter: "0xcfC6d9Bd7411962Bfe7145451A7EF71A24b6A7A2",
+      eEth: "0x35fA164735182de50811E8e2E824cFb9B6118ac2",
+      weEth: "0xCd5fE23C85820F7B72D0926FC9b05b43E359b7ee",
+      liquidityPool: "0x308861A430be4cce5502d0A12724771Fc6DaF216",
+      withdrawRequestNft: "0x7d5706f6ef3F89B3951E23e557CDFBC3239D4E2c",
     },
     gyroscope: {
       sGyd: "0xeA50f402653c41cAdbaFD1f788341dB7B7F37816",

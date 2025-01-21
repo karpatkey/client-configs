@@ -5,25 +5,23 @@ import {
   AAVE,
   AURA,
   BAL,
-  cbBTC,
   CRV,
   CVX,
   DAI,
+  eETH,
   GHO,
   LDO,
   NXM,
   osETH,
   rETH,
   RPL,
-  sUSDe,
   sUSDS,
   stETH,
   SWISE,
   USDC,
-  USDe,
   USDS,
   USDT,
-  USR,
+  weETH,
   WETH,
   wNXM,
   wstETH,
@@ -133,29 +131,24 @@ export default [
     buy: ["ETH", DAI, GHO, osETH, rETH, stETH, USDC, USDT, WETH, wNXM, wstETH],
   }),
 
-  // CowSwap - [GHO, USDS, USDe, USR, sUSDS, sUSDe] -> [GHO, USDC, USDS, USDe, USR, WNXM, sUSDS, sUSDe, wETH, wstETH]
+  // CowSwap - [USDS] <-> [ETH, sUSDS, USDC, WETH, wNXM, wstETH]
   allowAction.cowswap.swap({
-    sell: [GHO, USDS, USDe, USR, sUSDS, sUSDe],
-    buy: [GHO, USDC, USDS, USDe, USR, wNXM, sUSDS, sUSDe, WETH, wstETH],
+    sell: [USDS],
+    buy: ["ETH", sUSDS, USDC, WETH, wNXM, wstETH],
+  }),
+  allowAction.cowswap.swap({
+    sell: ["ETH", sUSDS, USDC, WETH, wNXM, wstETH],
+    buy: [USDS],
   }),
 
-  // CowSwap - [ETH, GHO, stETH, sUSDe, sUSDS, USDC, USDe, USDS, USR, WETH, WNXM, wstETH] -> [cbBTC, sUSDe, sUSDS, USDe, USDS, USR]
+  // CowSwap - [eETH, weETH]  <-> [ETH, eETH, rETH, stETH, WETH, wstETH]
   allowAction.cowswap.swap({
-    sell: [
-      "ETH",
-      GHO,
-      stETH,
-      sUSDe,
-      sUSDS,
-      USDC,
-      USDe,
-      USDS,
-      USR,
-      WETH,
-      wNXM,
-      wstETH,
-    ],
-    buy: [cbBTC, sUSDe, sUSDS, USDe, USDS, USR],
+    sell: [eETH, weETH],
+    buy: ["ETH", eETH, rETH, stETH, WETH, wstETH],
+  }),
+  allowAction.cowswap.swap({
+    sell: ["ETH", eETH, rETH, stETH, WETH, wstETH],
+    buy: [eETH, weETH],
   }),
 
   // Lido
@@ -284,12 +277,23 @@ export default [
   allow.mainnet.curve.osEthRethGauge["claim_rewards()"](),
   allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.osEthRethGauge),
 
-  // Ethena - Stake USDe
-  ...allowErc20Approve([USDe], [sUSDe]),
-  allow.mainnet.ethena.sUsde.deposit(undefined, c.avatar),
-  // Ethena - Unstake USDe
-  allow.mainnet.ethena.sUsde.cooldownShares(),
-  allow.mainnet.ethena.sUsde.unstake(c.avatar),
+  // Ether.fi
+  // Stake ETH for eETH
+  allow.mainnet.etherfi.liquidityPool["deposit()"]({ send: true }),
+  // Request Withdrawal - A Withdraw Request NFT is issued
+  ...allowErc20Approve([eETH], [contracts.mainnet.etherfi.liquidityPool]),
+  allow.mainnet.etherfi.liquidityPool.requestWithdraw(c.avatar),
+  // Funds can be claimed once the request is finalized
+  allow.mainnet.etherfi.withdrawRequestNft.claimWithdraw(),
+  // Stake ETH for weETH
+  allow.mainnet.etherfi.depositAdapter.depositETHForWeETH(undefined, {
+    send: true,
+  }),
+  // Wrap eETH
+  ...allowErc20Approve([eETH], [contracts.mainnet.etherfi.weEth]),
+  allow.mainnet.etherfi.weEth.wrap(),
+  // Unwrap weETH
+  allow.mainnet.etherfi.weEth.unwrap(),
 
   // Nexus Mutual
   // Deposit ETH in exchange for NXM; redeem NXM in exchange for ETH
@@ -329,12 +333,6 @@ export default [
     targetAddress: pool,
   })),
 
-  // Resolv - Stake/Unstake USR
-  ...allowErc20Approve([USR], [contracts.mainnet.resolv.stUsr]),
-  allow.mainnet.resolv.stUsr["deposit(uint256)"](),
-  ...allowErc20Approve([contracts.mainnet.resolv.stUsr], [USR]),
-  allow.mainnet.resolv.stUsr["withdraw(uint256)"](),
-
   // Sky - DSR (DAI Savings Rate)
   // The DsrManager provides an easy to use smart contract that allows
   // service providers to deposit/withdraw dai into the DSR contract pot,
@@ -352,8 +350,7 @@ export default [
   // Balancer - osETH <-> WETH
   balancerSwap(balancer.osEthWethPid, [osETH, WETH], [osETH, WETH]),
 
-  // Uniswap v3 - [AAVE, AURA, BAL, CRV, CVX, DAI, GHO, LDO, osETH, rETH, RPL, stETH, SWISE, USDC, USDT, WETH, WNXM, wstETH] ->
-  // [DAI, GHO, osETH, rETH, stETH, USDC, USDT, WETH, wNXM, wstETH]
+  // Uniswap v3
   ...allowErc20Approve(
     [
       AAVE,
@@ -371,12 +368,15 @@ export default [
       SWISE,
       USDC,
       USDT,
+      weETH,
       WETH,
       wNXM,
       wstETH,
     ],
     [contracts.mainnet.uniswapV3.router2]
   ),
+  // Uniswap v3 - [AAVE, AURA, BAL, CRV, CVX, DAI, GHO, LDO, osETH, rETH, RPL, stETH, SWISE, USDC, USDT, WETH, WNXM, wstETH] ->
+  // [DAI, GHO, osETH, rETH, stETH, USDC, USDT, WETH, wNXM, wstETH]
   allow.mainnet.uniswapV3.router2.exactInputSingle({
     tokenIn: c.or(
       AAVE,
@@ -411,5 +411,13 @@ export default [
       wstETH
     ),
     recipient: c.avatar,
+  }),
+
+  // Uniswap v3 - [weETH <-> WETH], Fee: [0.01, 0.05]
+  allow.mainnet.uniswapV3.router2.exactInputSingle({
+    tokenIn: c.or(weETH, WETH),
+    tokenOut: c.or(weETH, WETH),
+    recipient: c.avatar,
+    fee: c.or(100, 500),
   }),
 ] satisfies PermissionList
