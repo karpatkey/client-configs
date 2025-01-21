@@ -2,6 +2,8 @@ import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { allow as allowAction } from "defi-kit/eth"
 import {
+  eAddress,
+  zeroAddress,
   ankrETH,
   AURA,
   BAL,
@@ -11,23 +13,23 @@ import {
   DAI,
   ETHx,
   LDO,
+  OETH,
   osETH,
   rETH,
   RPL,
+  sDAI,
+  sUSDS,
   stETH,
   SWISE,
   USDC,
+  USDM,
+  USDS,
   USDT,
   WETH,
-  eAddress,
-  zeroAddress,
   wstETH,
+  x3CRV,
   balancer,
   curve,
-  OETH,
-  USDM,
-  x3CRV,
-  sDAI,
 } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
 import { allowErc20Approve } from "../../../../../utils/erc20"
@@ -56,12 +58,12 @@ export default [
   allowAction.aave_v3.deposit({ market: "Core", targets: ["osETH"] }),
   // Aave v3 Core Market - Deposit USDC
   allowAction.aave_v3.deposit({ market: "Core", targets: ["USDC"] }),
-  // Aave v3 Core Market - Deposit WETH
-  allowAction.aave_v3.deposit({ market: "Core", targets: ["WETH"] }),
-  // Aave v3 Core Market - Deposit USDT
-  allowAction.aave_v3.deposit({ market: "Core", targets: ["USDT"] }),
   // Aave v3 Core Market - Deposit USDS
   allowAction.aave_v3.deposit({ market: "Core", targets: ["USDS"] }),
+  // Aave v3 Core Market - Deposit USDT
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["USDT"] }),
+  // Aave v3 Core Market - Deposit WETH
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["WETH"] }),
 
   // Balancer - wstETH/WETH
   allowAction.balancer.deposit({ targets: ["wstETH-WETH-BPT"] }),
@@ -75,7 +77,8 @@ export default [
 
   // Convex - ETH/stETH - steCRV
   allowAction.convex.deposit({ targets: ["25"] }),
-
+  // Convex - ETH/OETH
+  allowAction.convex.deposit({ targets: ["174"] }),
   // Convex - ETH/stETH - stETH-ng-f
   allowAction.convex.deposit({ targets: ["177"] }),
 
@@ -105,18 +108,67 @@ export default [
     buy: [DAI, rETH, USDC, USDT, stETH, WETH, wstETH],
   }),
 
+  // CowSwap - [ankrETH, AURA, BAL, COMP, CRV, CVX, DAI, ETHx, LDO, osETH, rETH, RPL, stETH, SWISE, USDC, USDT, WETH, wstETH] <->
+  // [OETH, sUSDS, USDM, USDS, USDT]
+  allowAction.cowswap.swap({
+    sell: [
+      ankrETH,
+      AURA,
+      BAL,
+      COMP,
+      CRV,
+      CVX,
+      DAI,
+      ETHx,
+      LDO,
+      osETH,
+      rETH,
+      RPL,
+      stETH,
+      SWISE,
+      USDC,
+      USDT,
+      WETH,
+      wstETH,
+    ],
+    buy: [OETH, sUSDS, USDM, USDS, USDT],
+  }),
+  allowAction.cowswap.swap({
+    sell: [OETH, sUSDS, USDM, USDS, USDT],
+    buy: [
+      ankrETH,
+      AURA,
+      BAL,
+      COMP,
+      CRV,
+      CVX,
+      DAI,
+      ETHx,
+      LDO,
+      osETH,
+      rETH,
+      RPL,
+      stETH,
+      SWISE,
+      USDC,
+      USDT,
+      WETH,
+      wstETH,
+    ],
+  }),
+
   // Lido
   allowAction.lido.deposit(),
 
   // Rocket Pool
   allowAction.rocket_pool.deposit(),
 
+  // Spark - SKY_USDS
+  allowAction.spark.deposit({ targets: ["SKY_USDS"] }),
   // Spark - Deposit ETH
   allowAction.spark.deposit({ targets: ["ETH"] }),
   // Spark - Deposit WETH
   allowAction.spark.deposit({ targets: ["WETH"] }),
-  // Spark - Deposit USDS
-  allowAction.spark.deposit({ targets: ["SKY_USDS"] }),
 
   // Stader
   allowAction.stader.deposit(),
@@ -137,8 +189,8 @@ export default [
 
   // Compound v3 - Deposit USDT
   ...allowErc20Approve([USDT], [contracts.mainnet.compoundV3.cUsdtV3]),
-  allow.mainnet.compoundV3.cUsdtV3.supply(USDC),
-  allow.mainnet.compoundV3.cUsdtV3.withdraw(USDC),
+  allow.mainnet.compoundV3.cUsdtV3.supply(USDT),
+  allow.mainnet.compoundV3.cUsdtV3.withdraw(USDT),
 
   // Compound v3 - Deposit ETH
   allow.mainnet.compoundV3.cWethV3.allow(
@@ -211,22 +263,99 @@ export default [
   allow.mainnet.curve.stEthNgfGauge["claim_rewards()"](),
   allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.stEthNgfGauge),
 
+  // Curve - ETH/OETH
+  ...allowErc20Approve([OETH], [contracts.mainnet.curve.oEthCrvPool]),
+  allow.mainnet.curve.oEthCrvPool["add_liquidity(uint256[2],uint256)"](
+    undefined,
+    undefined,
+    {
+      send: true,
+    }
+  ),
+  allow.mainnet.curve.oEthCrvPool["remove_liquidity(uint256,uint256[2])"](),
+  allow.mainnet.curve.oEthCrvPool[
+    "remove_liquidity_imbalance(uint256[2],uint256)"
+  ](),
+  allow.mainnet.curve.oEthCrvPool[
+    "remove_liquidity_one_coin(uint256,int128,uint256)"
+  ](),
+  ...allowErc20Approve(
+    [contracts.mainnet.curve.oEthCrvPool],
+    [contracts.mainnet.curve.oEthCrvGauge]
+  ),
+  allow.mainnet.curve.oEthCrvGauge["deposit(uint256)"](),
+  allow.mainnet.curve.oEthCrvGauge["withdraw(uint256)"](),
+  allow.mainnet.curve.oEthCrvGauge["claim_rewards()"](),
+  allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.oEthCrvGauge),
+
+  // Curve - x3CRV - DAI/USDC/USDT
+  ...allowErc20Approve([DAI, USDC, USDT], [contracts.mainnet.curve.x3CrvPool]),
+  allow.mainnet.curve.x3CrvPool.add_liquidity(),
+  allow.mainnet.curve.x3CrvPool.remove_liquidity(),
+  allow.mainnet.curve.x3CrvPool.remove_liquidity_imbalance(),
+  allow.mainnet.curve.x3CrvPool.remove_liquidity_one_coin(),
+  ...allowErc20Approve(
+    [contracts.mainnet.curve.x3CrvPool],
+    [contracts.mainnet.curve.x3CrvGauge]
+  ),
+  allow.mainnet.curve.x3CrvGauge["deposit(uint256)"](),
+  allow.mainnet.curve.x3CrvGauge.withdraw(),
+  allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.x3CrvGauge),
+  // Deposit and Stake using a special ZAP
+  allow.mainnet.curve.x3CrvGauge.set_approve_deposit(
+    contracts.mainnet.curve.stakeDepositZap
+  ),
+
+  // Curve - sDAI/USDM
+  ...allowErc20Approve([sDAI, USDM], [contracts.mainnet.curve.sDaiUsdmPool]),
+  allow.mainnet.curve.sDaiUsdmPool["add_liquidity(uint256[],uint256)"](),
+  allow.mainnet.curve.sDaiUsdmPool["remove_liquidity(uint256,uint256[])"](),
+  allow.mainnet.curve.sDaiUsdmPool[
+    "remove_liquidity_imbalance(uint256[],uint256)"
+  ](),
+  allow.mainnet.curve.sDaiUsdmPool[
+    "remove_liquidity_one_coin(uint256,int128,uint256)"
+  ](),
+  ...allowErc20Approve(
+    [contracts.mainnet.curve.sDaiUsdmPool],
+    [contracts.mainnet.curve.sDaiUsdmGauge]
+  ),
+  allow.mainnet.curve.sDaiUsdmGauge["deposit(uint256)"](),
+  allow.mainnet.curve.sDaiUsdmGauge["withdraw(uint256)"](),
+  allow.mainnet.curve.sDaiUsdmGauge["claim_rewards()"](),
+  allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.sDaiUsdmGauge),
+
   // Curve - Deposit and Stake using a special ZAP
-  ...allowErc20Approve([stETH], [contracts.mainnet.curve.stakeDepositZap]),
+  ...allowErc20Approve(
+    [DAI, OETH, sDAI, stETH, USDC, USDM, USDT],
+    [contracts.mainnet.curve.stakeDepositZap]
+  ),
   allow.mainnet.curve.stakeDepositZap[
     "deposit_and_stake(address,address,address,uint256,address[],uint256[],uint256,bool,bool,address)"
   ](
     c.or(
       contracts.mainnet.curve.steCrvPool,
-      contracts.mainnet.curve.stEthNgfPool
+      contracts.mainnet.curve.stEthNgfPool,
+      contracts.mainnet.curve.oEthCrvPool,
+      contracts.mainnet.curve.x3CrvPool,
+      contracts.mainnet.curve.sDaiUsdmPool
     ),
-    c.or(curve.steCrv, contracts.mainnet.curve.stEthNgfPool),
+    c.or(
+      curve.steCrv,
+      contracts.mainnet.curve.stEthNgfPool,
+      contracts.mainnet.curve.oEthCrvPool,
+      x3CRV,
+      contracts.mainnet.curve.sDaiUsdmPool
+    ),
     c.or(
       contracts.mainnet.curve.steCrvPoolGauge,
-      contracts.mainnet.curve.stEthNgfGauge
+      contracts.mainnet.curve.stEthNgfGauge,
+      contracts.mainnet.curve.oEthCrvGauge,
+      contracts.mainnet.curve.x3CrvGauge,
+      contracts.mainnet.curve.sDaiUsdmGauge
     ),
-    2,
-    [eAddress, stETH],
+    c.or(2, 3),
+    c.or([eAddress, stETH], [eAddress, OETH], [DAI, USDC, USDT], [sDAI, USDM]),
     undefined,
     undefined,
     undefined,
@@ -235,204 +364,18 @@ export default [
     { send: true }
   ),
 
-  //Curve - oETH/ETH
-  ...allowErc20Approve(
-    [OETH],
-    [
-      contracts.mainnet.curve.oEthCrvPool,
-      contracts.mainnet.curve.oEthCrvGauge,
-      contracts.mainnet.curve.crvDepositAndStakeZap,
-    ]
-  ),
-  //swap
-  allow.mainnet.curve.oEthCrvPool.exchange(
-    undefined,
-    undefined,
-    undefined,
-    [contracts.mainnet.curve.oEthCrvPool, zeroAddress],
-    {
-      send: true,
-    }
-  ),
-  //deposit
-  allow.mainnet.curve.oEthCrvPool["add_liquidity(uint256[2],uint256)"](
-    undefined,
-    undefined,
-    {
-      send: true,
-    }
-  ),
-  //stake
-  allow.mainnet.curve.oEthCrvGauge.deposit({
-    send: true,
-  }),
-  ...allowErc20Approve([OETH], [contracts.mainnet.curve.crvDepositAndStakeZap]),
-  allow.mainnet.curve.crvDepositAndStakeZap[
-    "deposit_and_stake(address,address,address,uint256,address[],uint256[],uint256,bool,bool,address)"
-  ](
-    contracts.mainnet.curve.oEthCrvPool,
-    contracts.mainnet.curve.oEthCrvPool,
-    contracts.mainnet.curve.oEthCrvGauge,
-    2,
-    [eAddress, OETH],
-    undefined,
-    undefined,
-    false,
-    false,
-    zeroAddress,
-    {
-      send: true,
-    }
-  ),
-  //withdraw/claim
-  allow.mainnet.curve.oEthCrvPool["remove_liquidity(uint256,uint256[2])"](),
-  allow.mainnet.curve.oEthCrvPool[
-    "remove_liquidity_imbalance(uint256[2],uint256)"
-  ](),
-  allow.mainnet.curve.oEthCrvPool[
-    "remove_liquidity_one_coin(uint256,int128,uint256)"
-  ](),
-  allow.mainnet.curve.oEthCrvGauge["deposit(uint256)"](),
-  allow.mainnet.curve.oEthCrvGauge["withdraw(uint256)"](),
-  allow.mainnet.curve.oEthCrvGauge["claim_rewards()"](),
-  allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.oEthCrvGauge),
-
-  //Curve DAI-USDC-USDT
-  //swap
-  allow.mainnet.curve.x3CrvPool.exchange(
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    {
-      send: true,
-    }
-  ),
-  //Deposit
-  ...allowErc20Approve([DAI], [contracts.mainnet.dai]),
-  ...allowErc20Approve([USDC], [contracts.mainnet.dai]),
-  ...allowErc20Approve([USDT], [contracts.mainnet.usdc]),
-  allow.mainnet.curve.x3CrvPool["add_liquidity(uint256[2],uint256)"](
-    undefined,
-    undefined,
-    {
-      send: true,
-    }
-  ),
-  //Stake
-  ...allowErc20Approve([x3CRV], [contracts.mainnet.curve.crvDaiUsdtUsdtGauge]),
-  allow.mainnet.curve.crvDaiUsdtUsdtGauge.deposit({
-    send: true,
-  }),
-  //Deposit and stake
-  allow.mainnet.curve.crvDaiUsdtUsdtGauge.set_approve_deposit(
-    contracts.mainnet.curve.crvDepositAndStakeZap,
-    true,
-    {
-      send: true,
-    }
-  ),
-  ...allowErc20Approve(
-    [x3CRV],
-    [contracts.mainnet.curve.crvDepositAndStakeZap]
-  ),
-  allow.mainnet.curve.crvDepositAndStakeZap[
-    "deposit_and_stake(address,address,address,uint256,address[],uint256[],uint256,bool,bool,address)"
-  ](
-    contracts.mainnet.curve.x3CrvPool,
-    x3CRV,
-    contracts.mainnet.curve.crvDaiUsdtUsdtGauge,
-    3,
-    [DAI, USDC, USDT],
-    undefined,
-    undefined,
-    false,
-    false,
-    zeroAddress,
-    {
-      send: true,
-    }
-  ),
-  //withdraw/claim
-  allow.mainnet.curve.x3CrvPool["remove_liquidity(uint256,uint256[2])"](),
-  allow.mainnet.curve.x3CrvPool[
-    "remove_liquidity_imbalance(uint256[2],uint256)"
-  ](),
-  allow.mainnet.curve.x3CrvPool[
-    "remove_liquidity_one_coin(uint256,int128,uint256)"
-  ](),
-  allow.mainnet.curve.crvDaiUsdtUsdtGauge["deposit(uint256)"](),
-  allow.mainnet.curve.crvDaiUsdtUsdtGauge["withdraw(uint256)"](),
-  allow.mainnet.curve.crvDaiUsdtUsdtGauge["claim_rewards()"](),
-  allow.mainnet.curve.crvMinter.mint(
-    contracts.mainnet.curve.crvDaiUsdtUsdtGauge
-  ),
-
-  //Curve sDAI - USDM
-  //swap
-  allow.mainnet.curve.sDaiUsdmPool.exchange(
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    {
-      send: true,
-    }
-  ),
-  //Deposit
-  ...allowErc20Approve([sDAI], [contracts.mainnet.curve.sDaiUsdmPool]),
-  allow.mainnet.curve.sDaiUsdmPool["add_liquidity(uint256[2],uint256)"](
-    undefined,
-    undefined,
-    {
-      send: true,
-    }
-  ),
-  //Stake
-  ...allowErc20Approve([sDAI], [contracts.mainnet.curve.crvLiquidityGaugeV6]),
-  allow.mainnet.curve.crvLiquidityGaugeV6.deposit({
-    send: true,
-  }),
-  //Deposit and stake
-  ...allowErc20Approve([sDAI], [contracts.mainnet.curve.crvDepositAndStakeZap]),
-  allow.mainnet.curve.crvLiquidityGaugeV6.set_approve_deposit(
-    contracts.mainnet.curve.crvDepositAndStakeZap,
-    true,
-    {
-      send: true,
-    }
-  ),
-  allow.mainnet.curve.crvDepositAndStakeZap[
-    "deposit_and_stake(address,address,address,uint256,address[],uint256[],uint256,bool,bool,address)"
-  ](
-    contracts.mainnet.curve.sDaiUsdmPool,
-    x3CRV,
-    contracts.mainnet.curve.crvLiquidityGaugeV6,
-    2,
-    [sDAI, USDM],
-    undefined,
-    undefined,
-    false,
-    true,
-    zeroAddress,
-    {
-      send: true,
-    }
-  ),
-  //withdraw/claim
-  allow.mainnet.curve.sDaiUsdmPool["remove_liquidity(uint256,uint256[2])"](),
-  allow.mainnet.curve.sDaiUsdmPool[
-    "remove_liquidity_imbalance(uint256[2],uint256)"
-  ](),
-  allow.mainnet.curve.sDaiUsdmPool[
-    "remove_liquidity_one_coin(uint256,int128,uint256)"
-  ](),
-  allow.mainnet.curve.crvLiquidityGaugeV6["deposit(uint256)"](),
-  allow.mainnet.curve.crvLiquidityGaugeV6["withdraw(uint256)"](),
-  allow.mainnet.curve.crvLiquidityGaugeV6["claim_rewards()"](),
-  allow.mainnet.curve.crvMinter.mint(
-    contracts.mainnet.curve.crvLiquidityGaugeV6
-  ),
+  // Origin - Mint OETH
+  allow.mainnet.origin.oEthZapper.deposit({ send: true }),
+  // Origin - Redeem via ARM (Automated Redemption Manager)
+  allowErc20Approve([OETH], [contracts.mainnet.origin.armOethWeth]),
+  allow.mainnet.origin.armOethWeth[
+    "swapExactTokensForTokens(address,address,uint256,uint256,address)"
+  ](OETH, WETH, undefined, undefined, c.avatar),
+  // Origin - Redeem via OETH Vault
+  // OETH is burnt by the user so no approval is needed
+  allow.mainnet.origin.oEthVault.requestWithdrawal(),
+  allow.mainnet.origin.oEthVault.claimWithdrawal(),
+  allow.mainnet.origin.oEthVault.claimWithdrawals(),
 
   // Sky - DSR (DAI Savings Rate)
   // The DsrManager provides an easy to use smart contract that allows
@@ -463,19 +406,6 @@ export default [
   allow.mainnet.stakeWiseV3.genesis.enterExitQueue(undefined, c.avatar),
   allow.mainnet.stakeWiseV3.genesis.claimExitedAssets(),
 
-  // Origin - Mint OETH
-  allow.mainnet.origin.oEthZapper.deposit({ send: true }),
-  // Origin - Redeem via ARM (Automated Redemption Manager)
-  allowErc20Approve([OETH], [contracts.mainnet.origin.armOethWeth]),
-  allow.mainnet.origin.armOethWeth[
-    "swapExactTokensForTokens(address,address,uint256,uint256,address)"
-  ](OETH, WETH, undefined, undefined, c.avatar),
-  // Origin - Redeem via OETH Vault
-  // OETH is burnt by the user so no approval is needed
-  allow.mainnet.origin.oEthVault.requestWithdrawal(),
-  allow.mainnet.origin.oEthVault.claimWithdrawal(),
-  allow.mainnet.origin.oEthVault.claimWithdrawals(),
-
   /*********************************************
    * SWAPS
    *********************************************/
@@ -501,7 +431,7 @@ export default [
   balancerSwap(balancer.ethxWethPid, [ETHx, WETH], [ETHx, WETH]),
   // Balancer - osETH <-> WETH
   balancerSwap(balancer.osEthWethPid, [osETH, WETH], [osETH, WETH]),
-  // Balancer - oETH <-> WETH
+  // Balancer - OETH <-> WETH
   balancerSwap(balancer.oEthWethPid, [OETH, WETH], [OETH, WETH]),
   // Balancer - USDC <-> USDT
   balancerSwap(balancer.usdcUsdtPid, [USDC, USDT], [USDC, USDT]),
@@ -540,6 +470,22 @@ export default [
       send: true,
     }
   ),
+
+  // Curve - ETH <-> OETH
+  allowErc20Approve([OETH], [contracts.mainnet.curve.oEthCrvPool]),
+  allow.mainnet.curve.oEthCrvPool["exchange(int128,int128,uint256,uint256)"](
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    {
+      send: true,
+    }
+  ),
+
+  // Curve - sDAI <-> USDM
+  allowErc20Approve([sDAI, USDM], [contracts.mainnet.curve.sDaiUsdmPool]),
+  allow.mainnet.curve.sDaiUsdmPool["exchange(int128,int128,uint256,uint256)"](),
 
   // PancakeSwap - ETHx <-> WETH
   ...allowErc20Approve(
@@ -603,20 +549,24 @@ export default [
     recipient: c.avatar,
   }),
 
-  // Uniswap v3 - [ETH <-> USDT], Fee: [0.3, 0.05]
+  // Uniswap v3 - [USDT <-> WETH], Fee: [0.01, 0.05, 0.3]
+  ...allowErc20Approve([USDT, WETH], [contracts.mainnet.uniswapV3.router2]),
   allow.mainnet.uniswapV3.router2.exactInputSingle({
-    tokenIn: c.or(WETH, USDT),
-    tokenOut: c.or(WETH, USDT),
+    tokenIn: c.or(USDT, WETH),
+    tokenOut: c.or(USDT, WETH),
     recipient: c.avatar,
-    fee: c.or(30, 500),
+    fee: c.or(100, 500, 3000),
   }),
-  // Uniswap v3 - [ETH <-> USDC], Fee: [0.3, 0.05]
+
+  // Uniswap v3 - [USDC <-> WETH], Fee: [0.05, 0.3]
+  ...allowErc20Approve([USDC, WETH], [contracts.mainnet.uniswapV3.router2]),
   allow.mainnet.uniswapV3.router2.exactInputSingle({
-    tokenIn: c.or(WETH, USDC),
-    tokenOut: c.or(WETH, USDC),
+    tokenIn: c.or(USDC, WETH),
+    tokenOut: c.or(USDC, WETH),
     recipient: c.avatar,
-    fee: c.or(30, 500),
+    fee: c.or(500, 3000),
   }),
+
   // Uniswap v3 - [USDM <-> USDT], Fee: [0.05]
   allow.mainnet.uniswapV3.router2.exactInputSingle({
     tokenIn: c.or(USDM, USDT),
@@ -624,18 +574,12 @@ export default [
     recipient: c.avatar,
     fee: 500,
   }),
+
   // Uniswap v3 - [USDC <-> USDT], Fee: [0.01]
   allow.mainnet.uniswapV3.router2.exactInputSingle({
     tokenIn: c.or(USDC, USDT),
     tokenOut: c.or(USDT, USDC),
     recipient: c.avatar,
     fee: 100,
-  }),
-  // Uniswap v3 - [ETH <-> USDT], Fee: [0.01, 0.05]
-  allow.mainnet.uniswapV3.router2.exactInputSingle({
-    tokenIn: c.or(WETH, USDT),
-    tokenOut: c.or(USDT, WETH),
-    recipient: c.avatar,
-    fee: c.or(100, 500),
   }),
 ] satisfies PermissionList
