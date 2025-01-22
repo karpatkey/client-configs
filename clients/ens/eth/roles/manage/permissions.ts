@@ -184,16 +184,6 @@ export default [
     send: true,
   }),
 
-  // Compound v3 - Deposit USDC
-  ...allowErc20Approve([USDC], [contracts.mainnet.compoundV3.cUsdcV3]),
-  allow.mainnet.compoundV3.cUsdcV3.supply(USDC),
-  allow.mainnet.compoundV3.cUsdcV3.withdraw(USDC),
-
-  // Compound v3 - Deposit USDT
-  ...allowErc20Approve([USDT], [contracts.mainnet.compoundV3.cUsdtV3]),
-  allow.mainnet.compoundV3.cUsdtV3.supply(USDT),
-  allow.mainnet.compoundV3.cUsdtV3.withdraw(USDT),
-
   // Compound v3 - Deposit ETH
   allow.mainnet.compoundV3.cWethV3.allow(
     contracts.mainnet.compoundV3.mainnetBulker
@@ -217,6 +207,16 @@ export default [
     ),
     { send: true }
   ),
+
+  // Compound v3 - Deposit USDC
+  ...allowErc20Approve([USDC], [contracts.mainnet.compoundV3.cUsdcV3]),
+  allow.mainnet.compoundV3.cUsdcV3.supply(USDC),
+  allow.mainnet.compoundV3.cUsdcV3.withdraw(USDC),
+
+  // Compound v3 - Deposit USDT
+  ...allowErc20Approve([USDT], [contracts.mainnet.compoundV3.cUsdtV3]),
+  allow.mainnet.compoundV3.cUsdtV3.supply(USDT),
+  allow.mainnet.compoundV3.cUsdtV3.withdraw(USDT),
 
   // Compound v3 - Claim rewards
   allow.mainnet.compoundV3.cometRewards.claim(undefined, c.avatar),
