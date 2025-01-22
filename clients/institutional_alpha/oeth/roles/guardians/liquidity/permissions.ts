@@ -1,10 +1,9 @@
-import { allow as allowAction } from "defi-kit/oeth"
+import { c } from "zodiac-roles-sdk"
+import { allow } from "zodiac-roles-sdk/kit"
 import { PermissionList } from "../../../../../../types"
+import { USDC } from "../../../../../../eth-sdk/addresses_opt"
 
 export default [
-  /*********************************************
-   * DeFi-Kit permissions
-   *********************************************/
-  // Aave v3 - Deposit USDC
-  allowAction.aave_v3.deposit({ targets: ["USDC"] }),
+  // Aave v3 - Withdraw USDC
+  allow.optimism.aaveV3.poolV3.withdraw(USDC, undefined, c.avatar),
 ] satisfies PermissionList
