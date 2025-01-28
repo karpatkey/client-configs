@@ -1,28 +1,15 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { allow as allowAction } from "defi-kit/oeth"
 import { crvUSD, DAI, USDC, USDCe, balancer } from "@/addresses/oeth"
 import { USDC as USDC_eth } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
-import { Parameters } from "../../../parameters"
 import { balancerSwap } from "@/exit_strategies/balancer"
+import { Parameters } from "../../../../parameters"
 
 export default (parameters: Parameters) =>
   [
-    /*********************************************
-     * DeFi-Kit permissions
-     *********************************************/
-    // Aave v3 - Deposit DAI
-    allowAction.aave_v3.deposit({ targets: ["DAI"] }),
-    // Aave v3 - Deposit USDC
-    allowAction.aave_v3.deposit({ targets: ["USDC"] }),
-    // Aave v3 - Deposit USDC.e
-    allowAction.aave_v3.deposit({ targets: ["USDC.e"] }),
-    // Aave v3 - Deposit USDT
-    allowAction.aave_v3.deposit({ targets: ["USDT"] }),
-
     /*********************************************
      * Swaps
      *********************************************/
