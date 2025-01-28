@@ -12,7 +12,10 @@ export type PermissionList = (
 
 export interface Role {
   roleKey: string
-  permissions: PermissionList | ((parameters: Parameters) => PermissionList)
+  permissions: {
+    allowedActions: PermissionList
+    allowedCalls: PermissionList | ((parameters: Parameters) => PermissionList)
+  }
   members: `0x${string}`[]
 }
 

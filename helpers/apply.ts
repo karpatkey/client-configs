@@ -30,15 +30,18 @@ export const compileApplyData = async ({
     )
   }
 
-  let permissionList: PermissionList
-  if (typeof role.permissions === "function") {
+  let callPermissions: PermissionList
+  if (typeof role.permissions.allowedCalls === "function") {
     // handle parametrized permissions
-    permissionList = role.permissions(instance.parameters || {})
+    callPermissions = role.permissions.allowedCalls(instance.parameters || {})
   } else {
-    permissionList = role.permissions
+    callPermissions = role.permissions.allowedCalls
   }
 
-  const awaitedPermissions = await Promise.all(permissionList)
+  const awaitedPermissions = await Promise.all([
+    ...role.permissions.allowedActions,
+    ...callPermissions,
+  ])
   const { targets, annotations } = processPermissions(awaitedPermissions)
   checkIntegrity(targets)
 

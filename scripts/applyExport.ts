@@ -8,7 +8,6 @@ import {
   Target,
   applyAnnotations,
   applyTargets,
-  checkIntegrity,
   fetchRole,
   posterAbi,
   processPermissions,
@@ -24,7 +23,6 @@ import {
   Result,
 } from "ethers"
 import { encodeBytes32String } from "defi-kit"
-import { Client } from "@/types"
 import { compileApplyData } from "../helpers/apply"
 
 const isAddress = (address: string): address is `0x${string}` =>
