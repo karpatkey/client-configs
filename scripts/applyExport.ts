@@ -51,7 +51,9 @@ async function main() {
       roleArg,
     })
 
-  const encodedRoleKey = encodeBytes32String(role.roleKey)
+  const roleKeyPrefix = instance.roleKeyPrefix || ""
+  const roleKey = roleKeyPrefix + role.roleKey
+  const encodedRoleKey = encodeBytes32String(roleKey)
 
   const currentRole = await fetchRole({
     address: instance.rolesMod,
