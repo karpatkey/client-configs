@@ -1,1 +1,0 @@
-export const avatar = "0xdF8EE91120154BdC3Cb628f0535B6511e52327Ff"
