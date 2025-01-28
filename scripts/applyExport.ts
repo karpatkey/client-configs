@@ -93,7 +93,7 @@ async function main() {
 
   const filePath = path.join(
     __dirname,
-    `../../export/${clientArg}_${chainArg}_${instanceArg}_${roleArg}.json`
+    `../export/${clientArg}_${chainArg}_${instanceArg}_${roleArg}.json`
   )
   fs.writeFileSync(filePath, JSON.stringify(txBuilderJson, null, 2))
 
