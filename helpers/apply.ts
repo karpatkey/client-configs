@@ -1,5 +1,25 @@
-import { checkIntegrity, processPermissions } from "zodiac-roles-sdk"
-import type { Client, PermissionList } from "@/types"
+import {
+  checkIntegrity,
+  Permission,
+  PermissionSet,
+  processPermissions,
+} from "zodiac-roles-sdk"
+import type { Client, PermissionList, Role } from "@/types"
+
+export const preprocessPermissions = async <P extends {}>(
+  permissions: Role<P>["permissions"],
+  parameters?: P
+): Promise<(Permission | PermissionSet)[]> => {
+  let callPermissions: PermissionList
+  if (typeof permissions.allowedCalls === "function") {
+    // handle parametrized permissions
+    callPermissions = permissions.allowedCalls(parameters || ({} as any))
+  } else {
+    callPermissions = permissions.allowedCalls
+  }
+
+  return await Promise.all([...permissions.allowedActions, ...callPermissions])
+}
 
 export const compileApplyData = async ({
   clientArg,
@@ -30,19 +50,9 @@ export const compileApplyData = async ({
     )
   }
 
-  let callPermissions: PermissionList
-  if (typeof role.permissions.allowedCalls === "function") {
-    // handle parametrized permissions
-    callPermissions = role.permissions.allowedCalls(instance.parameters || {})
-  } else {
-    callPermissions = role.permissions.allowedCalls
-  }
-
-  const awaitedPermissions = await Promise.all([
-    ...role.permissions.allowedActions,
-    ...callPermissions,
-  ])
-  const { targets, annotations } = processPermissions(awaitedPermissions)
+  const { targets, annotations } = processPermissions(
+    await preprocessPermissions(role.permissions, instance.parameters)
+  )
   checkIntegrity(targets)
 
   return { targets, annotations, role, instance, chainId }

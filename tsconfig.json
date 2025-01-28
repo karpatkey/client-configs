@@ -21,6 +21,7 @@
       "@/contracts": ["./eth-sdk/config.ts"],
       "@/helpers": ["./helpers/index.ts"],
       "@/types": ["./types.ts"],
+      "@/test/*": ["./test/*"],
       "@/exit_strategies/*": ["./exit_strategies/*"]
     }
   },

@@ -1,8 +1,7 @@
-import { applyPermissions } from "../../../../../../test/helpers"
-import { avatar } from "../../../../../../test/wallets"
-import { revertToBase } from "../../../../../../test/snapshot"
-import permissions from "../permissions"
-import kit from "../../../../../../test/kit"
+import { applyPermissions } from "@/test/helpers"
+import { avatar } from "@/test/wallets"
+import * as permissions from "../permissions"
+import kit from "@/test/kit"
 import { balancer } from "@/addresses/eth"
 import { parseEther } from "ethers"
 import { COW, GNO } from "@/addresses/eth"
@@ -10,7 +9,6 @@ import { COW, GNO } from "@/addresses/eth"
 describe("GnosisDAO", () => {
   beforeAll(async () => {
     // fresh role with Institutional manage permissions
-    await revertToBase()
     await applyPermissions(permissions)
   })
 

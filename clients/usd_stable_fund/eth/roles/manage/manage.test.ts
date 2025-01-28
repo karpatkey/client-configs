@@ -1,17 +1,15 @@
-import { applyPermissions, stealErc20 } from "../../../../../../test/helpers"
-import { revertToBase } from "../../../../../../test/snapshot"
-import permissions from "../permissions"
-import kit from "../../../../../../test/kit"
-import { contracts } from "@/contracts"
 import { parseUnits } from "ethers"
+import { applyPermissions, stealErc20 } from "@/test/helpers"
+import * as permissions from "./permissions"
+import kit from "@/test/kit"
+import { contracts } from "@/contracts"
 import { USDC } from "@/addresses/eth"
-import { parameters as stableFundParameters } from "../../../instances/main"
+import { parameters as stableFundParameters } from "../../instances/main"
 
 describe("stable_fund", () => {
   beforeAll(async () => {
     // Fresh role with stable_fund manage permissions
-    await revertToBase()
-    await applyPermissions(permissions)
+    await applyPermissions(permissions, stableFundParameters)
   })
 
   describe("Bridge USDC to Optimism", () => {
