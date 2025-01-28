@@ -2,15 +2,10 @@ import { allow as allowAction } from "defi-kit/gno"
 import { sDAI, USDC, USDCe, WXDAI } from "@/addresses/gno"
 
 export default [
-  /*********************************************
-   * DeFi-Kit permissions
-   *********************************************/
   // Aave v3 - Deposit sDAI
   allowAction.aave_v3.deposit({ targets: ["sDAI"] }),
   // Aave v3 - Deposit USDC
   allowAction.aave_v3.deposit({ targets: ["USDC"] }),
-  // Aave v3 - Deposit USDC.e
-  allowAction.aave_v3.deposit({ targets: ["USDC.e"] }),
   // Aave v3 - Deposit WXDAI
   allowAction.aave_v3.deposit({ targets: ["WXDAI"] }),
   // Aave v3 - Deposit XDAI
