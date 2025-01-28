@@ -1,13 +1,6 @@
 #!/usr/bin/env ts-node
 import yargs from "yargs"
-import {
-  Annotation,
-  Permission,
-  PermissionSet,
-  Target,
-  checkIntegrity,
-  processPermissions,
-} from "zodiac-roles-sdk"
+import { Annotation, Target } from "zodiac-roles-sdk"
 import { compileApplyData } from "../helpers/apply"
 
 const ZODIAC_ROLES_APP = "https://roles.gnosisguild.org"
