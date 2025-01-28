@@ -1,21 +1,13 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { allow as allowAction } from "defi-kit/eth"
 import {
-  AAVE,
-  AURA,
-  BAL,
   COMP,
-  CRV,
   crvUSD,
-  CVX,
   DAI,
   GHO,
   GYD,
-  NOTE,
   sDAI,
   sUSDe,
-  stkGHO,
   USDC,
   USDe,
   USDM,
