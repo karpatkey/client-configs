@@ -10,11 +10,11 @@ export type PermissionList = (
   | Promise<PermissionSet>
 )[]
 
-export interface Role {
+export interface Role<T extends Parameters = Parameters> {
   roleKey: string
   permissions: {
     allowedActions: PermissionList
-    allowedCalls: PermissionList | ((parameters: Parameters) => PermissionList)
+    allowedCalls: PermissionList | ((parameters: T) => PermissionList)
   }
   members: `0x${string}`[]
 }
