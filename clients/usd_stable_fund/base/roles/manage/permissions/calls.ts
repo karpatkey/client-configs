@@ -1,112 +1,69 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { allow as allowAction } from "defi-kit/oeth"
-import { crvUSD, DAI, USDC, USDCe, balancer } from "@/addresses/oeth"
+import { USDC, cbETH, morpho } from "@/addresses/base"
 import { USDC as USDC_eth } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
-import { balancerSwap } from "@/exit_strategies/balancer"
-import { Parameters } from "../../../parameters"
+import { Parameters } from "../../../../parameters"
 
 export default (parameters: Parameters) =>
   [
     /*********************************************
-     * DeFi-Kit permissions
+     * Typed-presets permissions
      *********************************************/
-    // Aave v3 - Deposit DAI
-    allowAction.aave_v3.deposit({ targets: ["DAI"] }),
-    // Aave v3 - Deposit USDC
-    allowAction.aave_v3.deposit({ targets: ["USDC"] }),
-    // Aave v3 - Deposit USDC.e
-    allowAction.aave_v3.deposit({ targets: ["USDC.e"] }),
-
-    /*********************************************
-     * Swaps
-     *********************************************/
-    // Balancer - [DAI, USDC, USDCe] <-> [DAI, USDC, USDCe]
-    balancerSwap(
-      balancer.stableBeetsPid,
-      [DAI, USDC, USDCe],
-      [DAI, USDC, USDCe]
+    // Morpho Blue - cbETH/USDC
+    ...allowErc20Approve([USDC], [contracts.mainnet.morpho.morphoBlue]),
+    allow.mainnet.morpho.morphoBlue.supply(
+      {
+        loanToken: USDC,
+        collateralToken: cbETH,
+        oracle: morpho.oracleCbEthUsdc,
+        irm: morpho.adaptativeCurveIrm,
+      },
+      undefined,
+      undefined,
+      c.avatar,
+      "0x"
     ),
-
-    // Curve - DAI <-> USDC.e
-    ...allowErc20Approve([DAI, USDCe], [contracts.optimism.curve.x3CrvPool]),
-    allow.optimism.curve.x3CrvPool["exchange(int128,int128,uint256,uint256)"](
-      c.or(0, 1), // 0 = DAI, 1 = USDC.e
-      c.or(0, 1)
-    ),
-
-    // Curve - crvUSDC <-> USDC
-    ...allowErc20Approve(
-      [crvUSD, USDC],
-      [contracts.optimism.curve.crvUsdUsdcPool]
-    ),
-    allow.optimism.curve.crvUsdUsdcPool[
-      "exchange(int128,int128,uint256,uint256)"
-    ](
-      c.or(0, 1), // 0 = crvUSDC, 1 = USDC
-      c.or(0, 1)
-    ),
-
-    // Curve - crvUSDC <-> USDC.e
-    ...allowErc20Approve(
-      [crvUSD, USDCe],
-      [contracts.optimism.curve.crvUsdUsdcePool]
-    ),
-    allow.optimism.curve.crvUsdUsdcePool[
-      "exchange(int128,int128,uint256,uint256)"
-    ](
-      c.or(0, 1), // 0 = crvUSDC, 1 = USDC.e
-      c.or(0, 1)
-    ),
-
-    // Curve - DAI <-> USDC.e
-    ...allowErc20Approve([DAI, USDCe], [contracts.optimism.curve.sUsd3CrvPool]),
-    allow.optimism.curve.sUsd3CrvPool[
-      "exchange_underlying(int128,int128,uint256,uint256)"
-    ](
-      c.or(1, 2), // 1 = DAI, 2 = USDC.e
-      c.or(1, 2)
+    allow.mainnet.morpho.morphoBlue.withdraw(
+      {
+        loanToken: USDC,
+        collateralToken: cbETH,
+        oracle: morpho.oracleCbEthUsdc,
+        irm: morpho.adaptativeCurveIrm,
+      },
+      undefined,
+      undefined,
+      c.avatar,
+      c.avatar
     ),
 
     /*********************************************
      * Bridge
      *********************************************/
     // NAV Calculator - bridgeStart - In the future, the bridged assets should be scoped appropriately.
-    allow.optimism.navCalculator.bridgeStart(),
+    allow.base.navCalculator.bridgeStart(),
 
-    // Optimism -> Mainnet
-    // DAI (Optimism) -> DAI (Mainnet)
-    ...allowErc20Approve([DAI], [contracts.optimism.daiTokenBridge]),
-    allow.optimism.daiTokenBridge.withdraw(DAI),
-    allow.optimism.daiTokenBridge.withdrawTo(DAI, c.avatar),
-    // DAI (Optimism) -> DAI (Mainnet) - HOP
-    ...allowErc20Approve([DAI], [contracts.optimism.hopDaiWrapper]),
-    allow.optimism.hopDaiWrapper.swapAndSend(
-      1, // Mainnet
-      c.avatar
-    ),
-
-    // USDC (Optimism) -> USDC (Mainnet)
-    ...allowErc20Approve([USDC], [contracts.optimism.circleTokenMessenger]),
-    allow.optimism.circleTokenMessenger.depositForBurn(
+    // Base -> Mainnet
+    // USDC (Base) -> USDC (Mainnet)
+    ...allowErc20Approve([USDC], [contracts.base.circleTokenMessenger]),
+    allow.base.circleTokenMessenger.depositForBurn(
       undefined,
       0,
       "0x" + parameters.avatar.slice(2).padStart(64, "0"),
       USDC
     ),
     // Claim bridged USDC from Mainnet
-    allow.optimism.circleMessageTransmitter.receiveMessage(
+    allow.base.circleMessageTransmitter.receiveMessage(
       c.and(
         // version: 4 bytes (00000000)
         // source domain: 4 bytes(00000000)
-        // destination domain: 4 bytes (00000002)
+        // destination domain: 4 bytes (00000006)
         c.bitmask({
           shift: 0,
           mask: "0xffffffffffffffffffffffff",
-          value: "0x000000000000000000000002",
+          value: "0x000000000000000000000006",
         }),
         // skip nonce 8 bytes
         // sender: 32 bytes
@@ -123,16 +80,16 @@ export default (parameters: Parameters) =>
           value: "0x" + contracts.mainnet.circleTokenMessenger.slice(22, 42),
         }),
         // recipient: 32 bytes
-        // Circle Token Messenger (Optimism)
+        // Circle Token Messenger (Base)
         c.bitmask({
           shift: 20 + 32 + 12,
           mask: "0xffffffffffffffffffff",
-          value: contracts.optimism.circleTokenMessenger.slice(0, 22),
+          value: contracts.base.circleTokenMessenger.slice(0, 22),
         }),
         c.bitmask({
           shift: 20 + 32 + 12 + 10,
           mask: "0xffffffffffffffffffff",
-          value: "0x" + contracts.optimism.circleTokenMessenger.slice(22, 42),
+          value: "0x" + contracts.base.circleTokenMessenger.slice(22, 42),
         }),
         // message body: dynamic
         // skip selector (4 bytes) + 32 bytes chunk with 0
@@ -175,9 +132,9 @@ export default (parameters: Parameters) =>
         })
       )
     ),
-    // USDC (Optimism) -> USDC (Mainnet) - HOP
-    ...allowErc20Approve([USDC], [contracts.optimism.l2HopCctp]),
-    allow.optimism.l2HopCctp.send(
+    // USDC (Base) -> USDC (Mainnet) - HOP
+    ...allowErc20Approve([USDC], [contracts.base.l2HopCctp]),
+    allow.base.l2HopCctp.send(
       1, // Mainnet
       c.avatar
     ),
