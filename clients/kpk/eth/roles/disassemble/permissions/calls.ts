@@ -22,7 +22,6 @@ import { allowErc20Approve } from "@/helpers"
 import { PermissionList, Chain } from "@/types"
 import { auraWithdrawBalancer } from "@/exit_strategies/aura"
 import { balancerSwap } from "@/exit_strategies/balancer"
-import { cowswapSwap } from "@/exit_strategies/cowswap"
 import {
   lidoUnstakeStEth,
   lidoUnwrapAndUnstakeWstEth,
@@ -118,23 +117,6 @@ export default [
 
   // Balancer - WETH <-> wstETH
   balancerSwap(balancer.bStEthStablePid, [WETH, wstETH], [wstETH, WETH]),
-
-  // CowSwap - [DAI, USDC, USDT] -> [DAI, USDC, USDT, WETH]
-  cowswapSwap([DAI, USDC, USDT], [DAI, USDC, USDT, WETH], Chain.eth),
-  // CowSwap - [CRV, COMP, CVX, NOTE] -> [DAI, USDC]
-  cowswapSwap([CRV, COMP, CVX, NOTE], [DAI, USDC], Chain.eth),
-
-  // CowSwap - DAI -> [ETH, USDC, USDT]
-  cowswapSwap([DAI], [eAddress, USDC, USDT], Chain.eth),
-
-  // CowSwap - USDT ->[ETH, DAI, USDC]
-  cowswapSwap([USDT], [eAddress, DAI, USDC], Chain.eth),
-
-  // Cowswap - USDC -> [ETH, DAI, USDT]
-  cowswapSwap([USDC], [eAddress, DAI, USDT], Chain.eth),
-
-  // Cowswap - [ETH, WETH] -> [DAI, USDC, USDT]
-  cowswapSwap([eAddress, WETH], [DAI, USDC, USDT], Chain.eth),
 
   // Curve - [DAI, USDC, USDT] <-> [DAI, USDC, USDT]
   ...allowErc20Approve([DAI, USDC, USDT], [contracts.mainnet.curve.x3CrvPool]),
