@@ -1,21 +1,7 @@
 import type { Permission, PermissionSet } from "zodiac-roles-sdk"
 
-export interface Role {
-  roleKey: string
-  permissions: (Permission | PermissionSet | Promise<PermissionSet>)[]
-  members: `0x${string}`[]
-}
-
-export type ChainId = 1 | 10 | 100 | 8453 | 42161
-
-export interface Client {
-  chainId: ChainId
-  roles: {
-    [key: string]: Role
-  }
-  mods: {
-    [key: string]: `0x${string}`
-  }
+type Parameters = {
+  [key: string]: string
 }
 
 export type PermissionList = (
@@ -23,6 +9,28 @@ export type PermissionList = (
   | PermissionSet
   | Promise<PermissionSet>
 )[]
+
+export interface Role {
+  roleKey: string
+  permissions: PermissionList | ((parameters: Parameters) => PermissionList)
+  members: `0x${string}`[]
+}
+
+export type ChainId = 1 | 10 | 100 | 8453 | 42161
+
+interface Instance {
+  rolesMod: `0x${string}`
+  parameters?: Parameters
+}
+export interface Client {
+  chainId: ChainId
+  roles: {
+    [key: string]: Role
+  }
+  instances: {
+    [key: string]: Instance
+  }
+}
 
 export enum Chain {
   eth = 1,
