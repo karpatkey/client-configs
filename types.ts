@@ -9,11 +9,12 @@ export interface Role {
 export type ChainId = 1 | 10 | 100 | 8453 | 42161
 
 export interface Client {
-  avatar: `0x${string}`
-  rolesMod: `0x${string}`
   chainId: ChainId
   roles: {
     [key: string]: Role
+  }
+  mods: {
+    [key: string]: `0x${string}`
   }
 }
 

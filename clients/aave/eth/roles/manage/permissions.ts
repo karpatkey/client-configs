@@ -2,7 +2,7 @@ import { allow } from "zodiac-roles-sdk/kit"
 import { allow as allowAction } from "defi-kit/eth"
 import { GHO, stkGHO } from "../../../../../eth-sdk/addresses"
 import { PermissionList } from "../../../../../types"
-import { aaveCollector } from "../../../eth"
+import { aaveCollector } from "../../addresses"
 
 export default [
   /*********************************************
