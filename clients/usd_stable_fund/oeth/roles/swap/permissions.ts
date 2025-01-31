@@ -1,12 +1,6 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import {
-  crvUSD,
-  DAI,
-  USDC,
-  USDCe,
-  balancer,
-} from "../../../../../eth-sdk/addresses/oeth"
+import { crvUSD, DAI, USDC, USDCe, balancer } from "@/addresses/oeth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "../../../../../types"

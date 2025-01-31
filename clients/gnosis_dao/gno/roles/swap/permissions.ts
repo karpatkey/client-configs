@@ -1,11 +1,5 @@
 import { allow as allowAction } from "defi-kit/gno"
-import {
-  EURe,
-  USDC,
-  USDCe,
-  USDT,
-  WXDAI,
-} from "../../../../../eth-sdk/addresses/gno"
+import { EURe, USDC, USDCe, USDT, WXDAI } from "@/addresses/gno"
 import { PermissionList } from "../../../../../types"
 
 export default [

@@ -2,8 +2,6 @@ import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { allow as allowAction } from "defi-kit/eth"
 import {
-  eAddress,
-  zeroAddress,
   ankrETH,
   AURA,
   BAL,
@@ -23,6 +21,7 @@ import {
   wstETH,
   curve,
 } from "@/addresses/eth"
+import { zeroAddress, eAddress } from "@/addresses"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "../../../../../types"

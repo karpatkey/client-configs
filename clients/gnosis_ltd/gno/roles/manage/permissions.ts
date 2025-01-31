@@ -10,7 +10,7 @@ import {
   WXDAI,
   x3CRV,
   curve,
-} from "../../../../../eth-sdk/addresses/gno"
+} from "@/addresses/gno"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "../../../../../types"
 

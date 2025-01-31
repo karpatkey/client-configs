@@ -1,13 +1,7 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { allow as allowAction } from "defi-kit/eth"
-import {
-  COMP,
-  DAI,
-  USDC,
-  USDCe,
-  balancer,
-} from "../../../../../eth-sdk/addresses/arb1"
+import { COMP, DAI, USDC, USDCe, balancer } from "@/addresses/arb1"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "../../../../../types"

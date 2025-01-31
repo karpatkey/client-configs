@@ -17,6 +17,7 @@
     "types": ["jest"],
     "paths": {
       "@/addresses": ["./eth-sdk/addresses/index.ts"],
+      "@/addresses/*": ["./eth-sdk/addresses/*"],
       "@/contracts": ["./eth-sdk/config.ts"],
       "@/helpers": ["./helpers/index.ts"],
       "@/exit_strategies/*": ["./exit_strategies/*"]

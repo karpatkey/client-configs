@@ -1,7 +1,6 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import {
-  eAddress,
   DAI,
   GHO,
   GYD,
@@ -18,6 +17,7 @@ import {
   wstETH,
   balancer,
 } from "@/addresses/eth"
+import { eAddress } from "@/addresses"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "../../../../../types"

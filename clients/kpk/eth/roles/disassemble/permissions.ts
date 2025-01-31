@@ -15,8 +15,8 @@ import {
   aura,
   balancer,
   convex,
-  eAddress,
 } from "@/addresses/eth"
+import { eAddress } from "@/addresses"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "../../../../../types"

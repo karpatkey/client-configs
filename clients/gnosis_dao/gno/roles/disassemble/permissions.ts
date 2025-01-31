@@ -11,8 +11,7 @@ import {
   WETH,
   wstETH,
   WXDAI,
-  zeroAddress,
-} from "../../../../../eth-sdk/addresses/gno"
+} from "@/addresses/gno"
 import { contracts } from "@/contracts"
 import {
   balancerUnstakeWithdraw,

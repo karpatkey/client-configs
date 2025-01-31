@@ -1,12 +1,13 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { USDC, zeroAddress } from "@/addresses/eth"
+import { USDC } from "@/addresses/eth"
 import { PermissionList } from "../../../../../types"
 import {
   lidoUnstakeStEth,
   lidoUnwrapAndUnstakeWstEth,
 } from "@/exit_strategies/lido"
 import { graphDelegatee } from "../../../eth"
+import { zeroAddress } from "@/addresses"
 
 export default [
   // Aura - Lock
