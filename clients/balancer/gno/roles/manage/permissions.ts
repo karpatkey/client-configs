@@ -1,13 +1,7 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { allow as allowAction } from "defi-kit/gno"
-import {
-  GNO,
-  sDAI,
-  USDC,
-  USDT,
-  WETH,
-} from "../../../../../eth-sdk/addresses/gno"
+import { GNO, sDAI, USDC, USDT, WETH } from "@/addresses/gno"
 import { contracts } from "@/contracts"
 import { PermissionList } from "../../../../../types"
 import { Parameters } from "../../parameters"

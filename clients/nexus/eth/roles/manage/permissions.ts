@@ -1,13 +1,7 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { allow as allowAction } from "defi-kit/eth"
-import { addresses, zeroAddress } from "@/addresses"
-import { contracts } from "@/contracts"
-import { allowErc20Approve } from "@/helpers"
-import { PermissionList } from "../../../../../types"
-import { balancerSwap } from "@/exit_strategies/balancer"
-
-const {
+import {
   AAVE,
   AURA,
   BAL,
@@ -34,7 +28,12 @@ const {
   balancer,
   curve,
   nexus,
-} = addresses.eth
+} from "@/addresses/eth"
+import { zeroAddress } from "@/addresses"
+import { contracts } from "@/contracts"
+import { allowErc20Approve } from "@/helpers"
+import { PermissionList } from "../../../../../types"
+import { balancerSwap } from "@/exit_strategies/balancer"
 
 export default [
   /*********************************************

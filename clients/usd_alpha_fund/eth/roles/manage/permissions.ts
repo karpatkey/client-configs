@@ -2,7 +2,6 @@ import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { allow as allowAction } from "defi-kit/eth"
 import {
-  zeroAddress,
   AAVE,
   AURA,
   BAL,
@@ -32,14 +31,15 @@ import {
   DAI as DAI_opt,
   COMP as COMP_opt,
   USDC as USDC_opt,
-} from "../../../../../eth-sdk/addresses/oeth"
-import { USDC as USDC_arb } from "../../../../../eth-sdk/addresses/arb1"
-import { USDC as USDC_base } from "../../../../../eth-sdk/addresses/base"
+} from "@/addresses/oeth"
+import { USDC as USDC_arb } from "@/addresses/arb1"
+import { USDC as USDC_base } from "@/addresses/base"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "../../../../../types"
 import { balancerSwap } from "@/exit_strategies/balancer"
 import { avatar } from "../../index"
+import { zeroAddress } from "@/addresses"
 
 export default [
   /*********************************************

@@ -1,16 +1,8 @@
 import { PermissionList } from "../../../../../types"
 import { allow } from "zodiac-roles-sdk/kit"
 import { allow as allowAction } from "defi-kit/gno"
-import {
-  CRV,
-  USDC,
-  USDT,
-  sDAI,
-  WETH,
-  wstETH,
-  WXDAI,
-  eAddress,
-} from "../../../../../eth-sdk/addresses/gno"
+import { CRV, USDC, USDT, sDAI, WETH, wstETH, WXDAI } from "@/addresses/gno"
+import { eAddress } from "@/addresses"
 
 export default [
   /*********************************************

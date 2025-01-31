@@ -1,5 +1,5 @@
 import { JsonRpcProvider } from "ethers"
-import config from "@/contracts"
+import config from "../eth-sdk/config"
 
 export const providers = {
   [1]: new JsonRpcProvider(config.rpc?.mainnet),
