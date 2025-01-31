@@ -18,15 +18,15 @@ export const allowErc20Approve = (
 
 export const allowErc20Transfer = (
   tokens: readonly `0x${string}`[],
-  spenders: readonly `0x${string}`[]
+  recipients: readonly `0x${string}`[]
 ) =>
   forAll(tokens, {
-    signature: "approve(address,uint256)",
+    signature: "transfer(address,uint256)",
     condition: c.calldataMatches(
       [
-        spenders.length === 1
-          ? spenders[0]
-          : c.or(...(spenders as [string, string, ...string[]])),
+        recipients.length === 1
+          ? recipients[0]
+          : c.or(...(recipients as [string, string, ...string[]])),
       ],
       ["address", "uint256"]
     ),

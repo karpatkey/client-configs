@@ -9,10 +9,10 @@ import {
   USDT,
   WETH,
 } from "../../../../../../eth-sdk/addresses"
-import { transferErc20 } from "../../../../../../helpers/transfers"
 import { avatar as twap } from "../../../../twap/eth"
 import { legalDefenseFund } from "../../../eth"
 import { PermissionList } from "../../../../../../types"
+import { allowErc20Transfer } from "../../../../../../helpers/erc20"
 
 export default [
   /*********************************************
@@ -36,17 +36,9 @@ export default [
   /*********************************************
    * Transfers
    *********************************************/
-  // Transfer sDAI to Legal Defense Fund
-  transferErc20(sDAI, legalDefenseFund),
-  // Transfer sUSDS to Legal Defense Fund
-  transferErc20(sUSDS, legalDefenseFund),
-  // Transfer USDC to Legal Defense Fund
-  transferErc20(USDC, legalDefenseFund),
+  // Transfer sDAI, sUSDS,USDC to Legal Defense Fund
+  allowErc20Transfer([sDAI, sUSDS, USDC], [legalDefenseFund]),
 
-  // Transfer COW to TWAP Safe
-  transferErc20(COW, twap),
-  // Transfer USDC to TWAP Safe
-  transferErc20(USDC, twap),
-  // Transfer WETH to TWAP Safe
-  transferErc20(WETH, twap),
+  // Transfer COW, USDC, WETH to TWAP Safe
+  allowErc20Transfer([COW, USDC, WETH], [twap]),
 ] satisfies PermissionList

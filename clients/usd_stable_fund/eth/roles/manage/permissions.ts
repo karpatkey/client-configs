@@ -18,7 +18,7 @@ import {
 import { USDC as USDC_arb } from "../../../../../eth-sdk/addresses_arb"
 import { USDC as USDC_base } from "../../../../../eth-sdk/addresses_base"
 import { contracts } from "../../../../../eth-sdk/config"
-import { allowErc20Approve } from "../../../../../utils/erc20"
+import { allowErc20Approve } from "../../../../../helpers/erc20"
 import { PermissionList } from "../../../../../types"
 import { avatar } from "../../index"
 

@@ -11,7 +11,7 @@ import {
   x3CRV,
   curve,
 } from "../../../../../eth-sdk/addresses_gno"
-import { allowErc20Approve } from "../../../../../utils/erc20"
+import { allowErc20Approve } from "../../../../../helpers/erc20"
 import { PermissionList } from "../../../../../types"
 
 export default [
