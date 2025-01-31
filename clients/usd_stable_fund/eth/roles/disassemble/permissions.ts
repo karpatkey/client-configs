@@ -10,7 +10,7 @@ import {
 } from "../../../../../eth-sdk/addresses"
 import { PermissionList } from "../../../../../types"
 import { contracts } from "../../../../../eth-sdk/config"
-import { allowErc20Approve } from "../../../../../utils/erc20"
+import { allowErc20Approve } from "../../../../../helpers/erc20"
 
 export default [
   // Aave v3 - Withdraw DAI

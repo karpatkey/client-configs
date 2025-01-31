@@ -11,7 +11,7 @@ import {
   USDT,
   zeroAddress,
 } from "../../../../../eth-sdk/addresses"
-import { allowErc20Approve } from "../../../../../utils/erc20"
+import { allowErc20Approve } from "../../../../../helpers/erc20"
 import { PermissionList } from "../../../../../types"
 import { graphDelegatee, gnosisLtdArb } from "../../../eth"
 

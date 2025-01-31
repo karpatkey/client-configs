@@ -6,27 +6,19 @@ import {
   WETH,
 } from "../../../../../../eth-sdk/addresses"
 import { avatar as main, legalDefenseFund, buyBack } from "../../../../main/eth"
-import { transferErc20 } from "../../../../../../helpers/transfers"
+import { allowErc20Transfer } from "../../../../../../helpers/erc20"
 import { PermissionList } from "../../../../../../types"
 
 export default [
   /*********************************************
    * Transfers
    *********************************************/
-  // Transfer COW to Main Treasury
-  transferErc20(COW, main),
-  // Transfer USDC to Main Treasury
-  transferErc20(USDC, main),
-  // Transfer WETH to Main Treasury
-  transferErc20(WETH, main),
+  // Transfer COW, USDC, WETH to Main Treasury
+  allowErc20Transfer([COW, USDC, WETH], [main]),
 
-  // Transfer sDAI to Legal Defense Fund
-  transferErc20(sDAI, legalDefenseFund),
-  // Transfer sUSDS to Legal Defense Fund
-  transferErc20(sUSDS, legalDefenseFund),
-  // Transfer USDC to Legal Defense Fund
-  transferErc20(USDC, legalDefenseFund),
+  // Transfer sDAI, sUSDS, USDC to Legal Defense Fund
+  allowErc20Transfer([sDAI, sUSDS, USDC], [legalDefenseFund]),
 
   // Transfer COW to Buyback Recipient
-  transferErc20(COW, buyBack),
+  allowErc20Transfer([COW], [buyBack]),
 ] satisfies PermissionList

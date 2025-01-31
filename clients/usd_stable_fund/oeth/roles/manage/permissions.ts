@@ -10,7 +10,7 @@ import {
 } from "../../../../../eth-sdk/addresses_opt"
 import { USDC as USDC_eth } from "../../../../../eth-sdk/addresses"
 import { contracts } from "../../../../../eth-sdk/config"
-import { allowErc20Approve } from "../../../../../utils/erc20"
+import { allowErc20Approve } from "../../../../../helpers/erc20"
 import { PermissionList } from "../../../../../types"
 import { avatar } from "../../index"
 import { balancerSwap } from "../../../../../helpers/exit_strategies/balancer"

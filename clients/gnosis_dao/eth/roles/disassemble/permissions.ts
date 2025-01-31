@@ -17,7 +17,7 @@ import {
   lidoUnstakeStEth,
   lidoUnwrapAndUnstakeWstEth,
 } from "../../../../../helpers/exit_strategies"
-import { allowErc20Approve } from "../../../../../utils/erc20"
+import { allowErc20Approve } from "../../../../../helpers/erc20"
 import { contracts } from "../../../../../eth-sdk/config"
 import { Chain } from "../../../../../types"
 
