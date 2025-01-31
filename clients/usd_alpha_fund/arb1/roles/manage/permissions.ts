@@ -7,17 +7,17 @@ import {
   USDC,
   USDCe,
   balancer,
-} from "../../../../../eth-sdk/addresses_arb"
+} from "../../../../../eth-sdk/addresses/arb1"
 import {
   COMP as COMP_eth,
   DAI as DAI_eth,
   USDC as USDC_eth,
-} from "../../../../../eth-sdk/addresses"
-import { contracts } from "../../../../../eth-sdk/config"
-import { allowErc20Approve } from "../../../../../helpers/erc20"
+} from "@/addresses/eth"
+import { contracts } from "@/contracts"
+import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "../../../../../types"
 import { avatar } from "../../index"
-import { balancerSwap } from "../../../../../helpers/exit_strategies/balancer"
+import { balancerSwap } from "@/exit_strategies/balancer"
 
 export default [
   /*********************************************

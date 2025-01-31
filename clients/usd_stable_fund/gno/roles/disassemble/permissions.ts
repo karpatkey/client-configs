@@ -1,8 +1,8 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { WXDAI, sDAI, USDC } from "../../../../../eth-sdk/addresses_gno"
-import { contracts } from "../../../../../eth-sdk/config"
-import { allowErc20Approve } from "../../../../../helpers/erc20"
+import { WXDAI, sDAI, USDC } from "../../../../../eth-sdk/addresses/gno"
+import { contracts } from "@/contracts"
+import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "../../../../../types"
 
 export default [

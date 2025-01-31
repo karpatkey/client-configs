@@ -1,6 +1,6 @@
-import { DAI, sDAI, USDC, USDT } from "../../../../../eth-sdk/addresses"
+import { DAI, sDAI, USDC, USDT } from "@/addresses/eth"
 import { PermissionList } from "../../../../../types"
-import { cowswapSwap } from "../../../../../helpers/exit_strategies"
+import { cowswapSwap } from "@/exit_strategies/cowswap"
 import { Chain } from "../../../../../types"
 
 export default [

@@ -12,15 +12,15 @@ import {
   WETH,
   wstETH,
   convex,
-} from "../../../../../eth-sdk/addresses"
-import { contracts } from "../../../../../eth-sdk/config"
-import { allowErc20Approve } from "../../../../../helpers/erc20"
+} from "@/addresses/eth"
+import { contracts } from "@/contracts"
+import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "../../../../../types"
+import { convexWithdraw } from "@/exit_strategies/convex"
 import {
-  convexWithdraw,
   lidoUnstakeStEth,
   lidoUnwrapAndUnstakeWstEth,
-} from "../../../../../helpers/exit_strategies"
+} from "@/exit_strategies/lido"
 
 export default [
   // Unwrap ETH

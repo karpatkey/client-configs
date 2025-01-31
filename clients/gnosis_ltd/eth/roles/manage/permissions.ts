@@ -1,17 +1,9 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { allow as allowAction } from "defi-kit/eth"
-import { contracts } from "../../../../../eth-sdk/config"
-import {
-  AZUR,
-  DAI,
-  GRT,
-  sDAI,
-  USDC,
-  USDT,
-  zeroAddress,
-} from "../../../../../eth-sdk/addresses"
-import { allowErc20Approve } from "../../../../../helpers/erc20"
+import { contracts } from "@/contracts"
+import { AZUR, DAI, GRT, sDAI, USDC, USDT, zeroAddress } from "@/addresses/eth"
+import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "../../../../../types"
 import { graphDelegatee, gnosisLtdArb } from "../../../eth"
 

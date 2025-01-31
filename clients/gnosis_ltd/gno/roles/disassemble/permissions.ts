@@ -1,12 +1,13 @@
 import { allow } from "zodiac-roles-sdk/kit"
 import { c } from "zodiac-roles-sdk"
-import { aura, balancer, GNO } from "../../../../../eth-sdk/addresses_gno"
-import {
-  auraWithdrawBalancer,
-  balancerWithdraw,
-  balancerUnstakeWithdraw,
-} from "../../../../../helpers/exit_strategies"
+import { aura, balancer, GNO } from "../../../../../eth-sdk/addresses/gno"
+
 import { Chain, PermissionList } from "../../../../../types"
+import { auraWithdrawBalancer } from "@/exit_strategies/aura"
+import {
+  balancerUnstakeWithdraw,
+  balancerWithdraw,
+} from "@/exit_strategies/balancer"
 
 export default [
   /*********************************************

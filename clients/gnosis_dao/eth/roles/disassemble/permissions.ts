@@ -1,24 +1,18 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import {
-  GHO,
-  USDC,
-  WBTC,
-  stETH,
-  wstETH,
-  aura,
-  balancer,
-} from "../../../../../eth-sdk/addresses"
+import { GHO, USDC, WBTC, stETH, wstETH, aura, balancer } from "@/addresses/eth"
 import { PermissionList } from "../../../../../types"
+import { auraWithdrawBalancer } from "@/exit_strategies/aura"
 import {
-  auraWithdrawBalancer,
-  balancerWithdraw,
   balancerUnstakeWithdraw,
+  balancerWithdraw,
+} from "@/exit_strategies/balancer"
+import {
   lidoUnstakeStEth,
   lidoUnwrapAndUnstakeWstEth,
-} from "../../../../../helpers/exit_strategies"
-import { allowErc20Approve } from "../../../../../helpers/erc20"
-import { contracts } from "../../../../../eth-sdk/config"
+} from "@/exit_strategies/lido"
+import { allowErc20Approve } from "@/helpers"
+import { contracts } from "@/contracts"
 import { Chain } from "../../../../../types"
 
 export default [

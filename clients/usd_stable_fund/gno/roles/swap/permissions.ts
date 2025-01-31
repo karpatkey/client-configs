@@ -7,11 +7,11 @@ import {
   WXDAI,
   eAddress,
   balancer,
-} from "../../../../../eth-sdk/addresses_gno"
-import { contracts } from "../../../../../eth-sdk/config"
-import { allowErc20Approve } from "../../../../../helpers/erc20"
+} from "../../../../../eth-sdk/addresses/gno"
+import { contracts } from "@/contracts"
+import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "../../../../../types"
-import { balancerSwap } from "../../../../../helpers/exit_strategies/balancer"
+import { balancerSwap } from "@/exit_strategies/balancer"
 
 export default [
   // Balancer - sDAI <-> USDC

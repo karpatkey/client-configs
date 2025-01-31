@@ -13,7 +13,7 @@ import {
   wstETH,
   morpho,
   USDS,
-} from "../../../../../../eth-sdk/addresses"
+} from "@/addresses/eth"
 
 export default [
   // Aave v3 Core Market - Withdraw crvUSD

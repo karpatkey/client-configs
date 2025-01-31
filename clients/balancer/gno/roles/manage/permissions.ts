@@ -7,8 +7,8 @@ import {
   USDC,
   USDT,
   WETH,
-} from "../../../../../eth-sdk/addresses_gno"
-import { contracts } from "../../../../../eth-sdk/config"
+} from "../../../../../eth-sdk/addresses/gno"
+import { contracts } from "@/contracts"
 import { PermissionList } from "../../../../../types"
 import { Parameters } from "../../parameters"
 

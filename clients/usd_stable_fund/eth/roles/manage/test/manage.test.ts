@@ -2,9 +2,9 @@ import { applyPermissions, stealErc20 } from "../../../../../../test/helpers"
 import { revertToBase } from "../../../../../../test/snapshot"
 import permissions from "../permissions"
 import kit from "../../../../../../test/kit"
-import { contracts } from "../../../../../../eth-sdk/config"
+import { contracts } from "@/contracts"
 import { parseUnits } from "ethers"
-import { USDC } from "../../../../../../eth-sdk/addresses"
+import { USDC } from "@/addresses/eth"
 import { avatar as stable_fund_avatar } from "../../../index"
 
 describe("stable_fund", () => {

@@ -1,7 +1,7 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { PermissionList } from "../../../../../../types"
-import { USDC, wstETH, morpho } from "../../../../../../eth-sdk/addresses"
+import { USDC, wstETH, morpho } from "@/addresses/eth"
 
 export default [
   // Aave v3 Core Market - Withdraw USDC

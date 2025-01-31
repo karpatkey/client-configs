@@ -10,7 +10,7 @@ import {
   wstETH,
   WXDAI,
   eAddress,
-} from "../../../../../eth-sdk/addresses_gno"
+} from "../../../../../eth-sdk/addresses/gno"
 
 export default [
   /*********************************************

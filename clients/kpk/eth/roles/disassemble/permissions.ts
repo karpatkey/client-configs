@@ -16,18 +16,18 @@ import {
   balancer,
   convex,
   eAddress,
-} from "../../../../../eth-sdk/addresses"
-import { contracts } from "../../../../../eth-sdk/config"
-import { allowErc20Approve } from "../../../../../helpers/erc20"
+} from "@/addresses/eth"
+import { contracts } from "@/contracts"
+import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "../../../../../types"
-import { auraWithdrawBalancer } from "../../../../../helpers/exit_strategies/aura"
-import { balancerSwap } from "../../../../../helpers/exit_strategies/balancer"
-import { cowswapSwap } from "../../../../../helpers/exit_strategies/cowswap"
+import { auraWithdrawBalancer } from "@/exit_strategies/aura"
+import { balancerSwap } from "@/exit_strategies/balancer"
+import { cowswapSwap } from "@/exit_strategies/cowswap"
 import {
   lidoUnstakeStEth,
   lidoUnwrapAndUnstakeWstEth,
-} from "../../../../../helpers/exit_strategies/lido"
-import { convexWithdraw } from "../../../../../helpers/exit_strategies/convex"
+} from "@/exit_strategies/lido"
+import { convexWithdraw } from "@/exit_strategies/convex"
 import { Chain } from "../../../../../types"
 
 export default [

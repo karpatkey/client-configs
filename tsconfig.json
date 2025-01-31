@@ -14,14 +14,21 @@
     "target": "es2022",
     "typeRoots": ["./node_modules/@types"],
     "lib": ["ES2023"],
-    "types": ["jest"]
+    "types": ["jest"],
+    "paths": {
+      "@/addresses": ["./eth-sdk/addresses/index.ts"],
+      "@/contracts": ["./eth-sdk/config.ts"],
+      "@/helpers": ["./helpers/index.ts"],
+      "@/exit_strategies/*": ["./exit_strategies/*"]
+    }
   },
   "include": [
     "test/**/*",
     "clients/**/*",
     "eth-sdk/**/*",
     "scripts/**/*",
-    "utils/**/*"
+    "helpers/**/*",
+    "exit_strategies/**/*"
   ],
   "exclude": ["node_modules", "build"]
 }

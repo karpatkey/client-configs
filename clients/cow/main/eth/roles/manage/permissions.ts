@@ -1,18 +1,10 @@
 import { allow } from "zodiac-roles-sdk/kit"
 import { allow as allowAction } from "defi-kit/eth"
-import {
-  COW,
-  DAI,
-  sDAI,
-  sUSDS,
-  USDC,
-  USDT,
-  WETH,
-} from "../../../../../../eth-sdk/addresses"
+import { COW, DAI, sDAI, sUSDS, USDC, USDT, WETH } from "@/addresses/eth"
 import { avatar as twap } from "../../../../twap/eth"
 import { legalDefenseFund } from "../../../eth"
 import { PermissionList } from "../../../../../../types"
-import { allowErc20Transfer } from "../../../../../../helpers/erc20"
+import { allowErc20Transfer } from "@/helpers"
 
 export default [
   /*********************************************

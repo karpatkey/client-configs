@@ -8,4 +8,4 @@ export const USDCe = "0x7F5c764cBc14f9669B88837ca1490cCa17c31607"
 export const balancer = {
   stableBeetsPid:
     "0x9da11ff60bfc5af527f58fd61679c3ac98d040d9000000000000000000000100",
-}
+} as const
