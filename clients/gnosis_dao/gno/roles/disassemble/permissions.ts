@@ -12,14 +12,14 @@ import {
   wstETH,
   WXDAI,
   zeroAddress,
-} from "../../../../../eth-sdk/addresses_gno"
-import { contracts } from "../../../../../eth-sdk/config"
+} from "../../../../../eth-sdk/addresses/gno"
+import { contracts } from "@/contracts"
 import {
-  auraWithdrawBalancer,
   balancerUnstakeWithdraw,
   balancerWithdraw,
-} from "../../../../../helpers/exit_strategies"
+} from "@/exit_strategies/balancer"
 import { Chain, PermissionList } from "../../../../../types"
+import { auraWithdrawBalancer } from "@/exit_strategies/aura"
 
 export default [
   // Unwrap XDAI

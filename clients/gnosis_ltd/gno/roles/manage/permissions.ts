@@ -1,6 +1,6 @@
 import { allow } from "zodiac-roles-sdk/kit"
 import { allow as allowAction } from "defi-kit/gno"
-import { contracts } from "../../../../../eth-sdk/config"
+import { contracts } from "@/contracts"
 import {
   EURe,
   hDAI,
@@ -10,8 +10,8 @@ import {
   WXDAI,
   x3CRV,
   curve,
-} from "../../../../../eth-sdk/addresses_gno"
-import { allowErc20Approve } from "../../../../../helpers/erc20"
+} from "../../../../../eth-sdk/addresses/gno"
+import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "../../../../../types"
 
 export default [

@@ -2,8 +2,8 @@ import { PermissionSet } from "zodiac-roles-sdk"
 import { allow as allowActionEth } from "defi-kit/eth"
 import { allow as allowActionGno } from "defi-kit/gno"
 import { allow as allowActionArb } from "defi-kit/arb1"
-import { eAddress } from "../../eth-sdk/addresses"
-import { Chain } from "../../types"
+import { eAddress } from "@/addresses"
+import { Chain } from "../types"
 import { Address } from "@gnosis-guild/eth-sdk"
 
 const replaceAddress = (

@@ -8,9 +8,9 @@ import {
   USDC,
   USDCe,
   WXDAI,
-} from "../../../../../eth-sdk/addresses_gno"
-import { contracts } from "../../../../../eth-sdk/config"
-import { allowErc20Approve } from "../../../../../helpers/erc20"
+} from "../../../../../eth-sdk/addresses/gno"
+import { contracts } from "@/contracts"
+import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "../../../../../types"
 import { avatar } from "../../index"
 

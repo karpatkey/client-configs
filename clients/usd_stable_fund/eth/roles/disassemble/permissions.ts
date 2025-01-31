@@ -1,16 +1,9 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import {
-  DAI,
-  sDAI,
-  USDC,
-  WBTC,
-  wstETH,
-  morpho,
-} from "../../../../../eth-sdk/addresses"
+import { DAI, sDAI, USDC, WBTC, wstETH, morpho } from "@/addresses/eth"
 import { PermissionList } from "../../../../../types"
-import { contracts } from "../../../../../eth-sdk/config"
-import { allowErc20Approve } from "../../../../../helpers/erc20"
+import { contracts } from "@/contracts"
+import { allowErc20Approve } from "@/helpers"
 
 export default [
   // Aave v3 - Withdraw DAI

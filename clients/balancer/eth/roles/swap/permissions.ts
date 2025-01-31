@@ -17,14 +17,12 @@ import {
   WETH,
   wstETH,
   balancer,
-} from "../../../../../eth-sdk/addresses"
-import { contracts } from "../../../../../eth-sdk/config"
-import { allowErc20Approve } from "../../../../../helpers/erc20"
+} from "@/addresses/eth"
+import { contracts } from "@/contracts"
+import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "../../../../../types"
-import {
-  balancerSwap,
-  cowswapSwap,
-} from "../../../../../helpers/exit_strategies"
+import { cowswapSwap } from "@/exit_strategies/cowswap"
+import { balancerSwap } from "@/exit_strategies/balancer"
 import { Chain } from "../../../../../types"
 
 export default [

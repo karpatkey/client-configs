@@ -1,8 +1,3 @@
-import { Address } from "@gnosis-guild/eth-sdk"
-
-export const zeroAddress = "0x0000000000000000000000000000000000000000"
-export const eAddress = "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE"
-
 // Tokens
 export const AAVE = "0xDF613aF6B44a31299E48131e9347F034347E2F00"
 export const AGVE = "0x3a97704a1b25F08aa230ae53B352e2e72ef52843"
@@ -51,13 +46,11 @@ export const WXDAI = "0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d"
 export const x3CRV = "0x1337BedC9D22ecbe766dF105c9623922A27963EC"
 
 export const aura = {
-  auraWethWstEthRewarder:
-    "0x026d163c28cc7dbf57d6ed57f14208ee412ca526" as Address,
-  auraEureSdaiRewarder: "0xde151980d461696543aa07a19bbe2603b20ecbae" as Address,
-  auraRethWethRewarder: "0x37748422f82b0c07ccbd40347abc1da55ac138a0" as Address,
-  aura50WstEth50CowRewarder:
-    "0x85298595d4f6f8fa91f8658ba9c10f9a85b17f62" as Address,
-}
+  auraWethWstEthRewarder: "0x026d163c28cc7dbf57d6ed57f14208ee412ca526",
+  auraEureSdaiRewarder: "0xde151980d461696543aa07a19bbe2603b20ecbae",
+  auraRethWethRewarder: "0x37748422f82b0c07ccbd40347abc1da55ac138a0",
+  aura50WstEth50CowRewarder: "0x85298595d4f6f8fa91f8658ba9c10f9a85b17f62",
+} as const
 
 export const balancer = {
   // pIds
@@ -85,21 +78,20 @@ export const balancer = {
     "0x9d93f38b75b376acdfe607cd1ecf4495e047deff00000000000000000000009e",
 
   // Gauges
-  b50Cow50GnoGauge: "0x91151ba698253e24c23a754d94f94049a17e8084" as Address,
-  stEurEureGauge: "0x49b7c059bf0a71583918928d33c84dcb2aa001f8" as Address,
-  eureSdaiGauge: "0xbb2598b89202596a743be0b615001d7d5164f167" as Address,
-  b50wstEth50GnoGauge: "0xb812249d60b80c7cbc9398e382ed6dfdf82e23d2" as Address,
-  b50Sdai50WstEthGauge: "0x4d13d387f372dbe5125b7d78e75094ac85b31edc" as Address,
-  sBal3NewGauge: "0x306b2e81fc7c6f73f2460e3974538d724a88f8a5" as Address,
-  bbWethWstEthGauge: "0x27519f69b2ac912aeb6fe066180fb25a17c71755" as Address,
-  eclpRethWethGauge: "0x25f822eb509177e393a32181182ae3981eee6e53" as Address,
-  osGnoGnoGauge: "0x1350724a020b27c4f0e369bb00ae3127022d5465" as Address,
-  eclpWstEthWethGauge: "0xa1ff1e44e4f8346398767f94ae7dbeab71522164" as Address,
-  b50WstEth25Bal25AuraGauge:
-    "0x64cee2356f959e78db36a4c23a28f0454447c3df" as Address,
-  b50WstEth50CowGauge: "0xce18a3d0d928ab8883f355b5009d2de07d5c1d83" as Address,
-}
+  b50Cow50GnoGauge: "0x91151ba698253e24c23a754d94f94049a17e8084",
+  stEurEureGauge: "0x49b7c059bf0a71583918928d33c84dcb2aa001f8",
+  eureSdaiGauge: "0xbb2598b89202596a743be0b615001d7d5164f167",
+  b50wstEth50GnoGauge: "0xb812249d60b80c7cbc9398e382ed6dfdf82e23d2",
+  b50Sdai50WstEthGauge: "0x4d13d387f372dbe5125b7d78e75094ac85b31edc",
+  sBal3NewGauge: "0x306b2e81fc7c6f73f2460e3974538d724a88f8a5",
+  bbWethWstEthGauge: "0x27519f69b2ac912aeb6fe066180fb25a17c71755",
+  eclpRethWethGauge: "0x25f822eb509177e393a32181182ae3981eee6e53",
+  osGnoGnoGauge: "0x1350724a020b27c4f0e369bb00ae3127022d5465",
+  eclpWstEthWethGauge: "0xa1ff1e44e4f8346398767f94ae7dbeab71522164",
+  b50WstEth25Bal25AuraGauge: "0x64cee2356f959e78db36a4c23a28f0454447c3df",
+  b50WstEth50CowGauge: "0xce18a3d0d928ab8883f355b5009d2de07d5c1d83",
+} as const
 
 export const curve = {
-  crvEureUsd: "0x0CA1C1eC4EBf3CC67a9f545fF90a3795b318cA4a" as Address,
-}
+  crvEureUsd: "0x0CA1C1eC4EBf3CC67a9f545fF90a3795b318cA4a",
+} as const

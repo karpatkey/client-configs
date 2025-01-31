@@ -30,11 +30,11 @@ import {
   x3CRV,
   balancer,
   curve,
-} from "../../../../../eth-sdk/addresses"
-import { contracts } from "../../../../../eth-sdk/config"
-import { allowErc20Approve } from "../../../../../helpers/erc20"
+} from "@/addresses/eth"
+import { contracts } from "@/contracts"
+import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "../../../../../types"
-import { balancerSwap } from "../../../../../helpers/exit_strategies"
+import { balancerSwap } from "@/exit_strategies/balancer"
 
 export default [
   /*********************************************

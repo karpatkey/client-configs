@@ -1,8 +1,3 @@
-import { Address } from "@gnosis-guild/eth-sdk"
-
-export const zeroAddress = "0x0000000000000000000000000000000000000000"
-export const eAddress = "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE"
-
 // Tokens
 export const _1INCH = "0x111111111117dC0aa78b770fA6A738034120C302"
 export const AAVE = "0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9"
@@ -97,40 +92,34 @@ export const wstETH = "0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0"
 export const x3CRV = "0x6c3F90f043a72FA612cbac8115EE7e52BDe6E490"
 
 export const aaveV3 = {
-  aEthWeth: "0x4d5F47FA6A74757f35C14fD3a6Ef8E3C9BC514E8" as Address,
-}
+  aEthWeth: "0x4d5F47FA6A74757f35C14fD3a6Ef8E3C9BC514E8",
+} as const
 
 // export const across_v2 = {
 //   HUB_POOL_V2: "0xc186fA914353c44b2E33eBE05f21846F1048bEda",
-// }
+// } as const
 
 export const aura = {
-  auraBstEthStableRewarder:
-    "0x2a14dB8D09dB0542f6A371c0cB308A768227D67D" as Address,
-  auraBauraBalStableRewarder:
-    "0x89D3D732da8bf0f88659Cf3738E5E44e553f9ED7" as Address,
-  auraBrEthStableRewarder:
-    "0xDd1fE5AD401D4777cE89959b7fa587e569Bf125D" as Address,
-  aura50Cow50GnoRewarder:
-    "0x82FeB430d9D14eE5E635C41807e03fD8F5FfFDeC" as Address,
-  aura50Cow50WethRewarder:
-    "0xA6e54eA1C67396Bde9e92cA462197bE59Af3E875" as Address,
-  auraosEthWethRewarder:
-    "0x5F032f15B4e910252EDaDdB899f7201E89C8cD6b" as Address,
-}
+  auraBstEthStableRewarder: "0x2a14dB8D09dB0542f6A371c0cB308A768227D67D",
+  auraBauraBalStableRewarder: "0x89D3D732da8bf0f88659Cf3738E5E44e553f9ED7",
+  auraBrEthStableRewarder: "0xDd1fE5AD401D4777cE89959b7fa587e569Bf125D",
+  aura50Cow50GnoRewarder: "0x82FeB430d9D14eE5E635C41807e03fD8F5FfFDeC",
+  aura50Cow50WethRewarder: "0xA6e54eA1C67396Bde9e92cA462197bE59Af3E875",
+  auraosEthWethRewarder: "0x5F032f15B4e910252EDaDdB899f7201E89C8cD6b",
+} as const
 
 export const balancer = {
   // BPTs
-  bStEthStable: "0x93d199263632a4EF4Bb438F1feB99e57b4b5f0BD" as Address,
-  bREthStable: "0x1E19CF2D73a72Ef1332C882F20534B6519Be0276" as Address,
+  bStEthStable: "0x93d199263632a4EF4Bb438F1feB99e57b4b5f0BD",
+  bREthStable: "0x1E19CF2D73a72Ef1332C882F20534B6519Be0276",
 
   // Gauges
-  bStEthStableGauge: "0x5C0F23A5c1be65Fa710d385814a7Fd1Bda480b1C" as Address,
-  bAuraBalStableGauge: "0x0312AA8D0BA4a1969Fddb382235870bF55f7f242" as Address,
-  bREthStableGauge: "0x79eF6103A513951a3b25743DB509E267685726B7" as Address,
-  b50Cow50GnoGauge: "0x57AB3b673878C3fEaB7f8FF434C40Ab004408c4c" as Address,
-  b50Cow50WethGauge: "0x7C777eEA1dC264e71E567Fcc9B6DdaA9064Eff51" as Address,
-  osEthWethGauge: "0xc592c33e51A764B94DB0702D8BAf4035eD577aED" as Address,
+  bStEthStableGauge: "0x5C0F23A5c1be65Fa710d385814a7Fd1Bda480b1C",
+  bAuraBalStableGauge: "0x0312AA8D0BA4a1969Fddb382235870bF55f7f242",
+  bREthStableGauge: "0x79eF6103A513951a3b25743DB509E267685726B7",
+  b50Cow50GnoGauge: "0x57AB3b673878C3fEaB7f8FF434C40Ab004408c4c",
+  b50Cow50WethGauge: "0x7C777eEA1dC264e71E567Fcc9B6DdaA9064Eff51",
+  osEthWethGauge: "0xc592c33e51A764B94DB0702D8BAf4035eD577aED",
 
   // pIds
   bStEthStablePid:
@@ -177,86 +166,82 @@ export const balancer = {
     "0x7056c8dfa8182859ed0d4fb0ef0886fdf3d2edcf000200000000000000000623",
   usdcUsdtPid:
     "0x8353157092ed8be69a9df8f95af097bbf33cb2af0000000000000000000005d9",
-}
+} as const
 
 export const convex = {
   // LPs
-  cvxsteCrv: "0x9518c9063eB0262D791f38d8d6Eb0aca33c63ed0" as Address,
-  cvxstEthNgf: "0x1b74fa5951dfa4c03D0127011548fA79b956f63B" as Address,
-  cvxcDaicUsdc: "0x32512Bee3848bfcBb7bEAf647aa697a100f3b706" as Address,
+  cvxsteCrv: "0x9518c9063eB0262D791f38d8d6Eb0aca33c63ed0",
+  cvxstEthNgf: "0x1b74fa5951dfa4c03D0127011548fA79b956f63B",
+  cvxcDaicUsdc: "0x32512Bee3848bfcBb7bEAf647aa697a100f3b706",
 
   // Rewarders
-  cvxsteCrvRewarder: "0x0A760466E1B4621579a82a39CB56Dda2F4E70f03" as Address,
-  cvxstEthNgfRewarder: "0x6B27D7BC63F1999D14fF9bA900069ee516669ee8" as Address,
-  cvxcDaicUsdcRewarder: "0xf34DFF761145FF0B05e917811d488B441F33a968" as Address,
-  cvxcrvUsdtWbtcWethRewarder:
-    "0xb05262D4aaAA38D0Af4AaB244D446ebDb5afd4A7" as Address,
-  cvxGhoBtcWstEthRewarder:
-    "0x923D3C32f870E7953dd4020D0585D6419C44e4Ca" as Address,
-  cvxOethCrvRewarder: "0x24b65DC1cf053A8D96872c323d29e86ec43eB33A" as Address,
-  cvxethxRewarder: "0x399e111c7209a741B06F8F86Ef0Fdd88fC198D20" as Address,
-  cvxankrCrvRewarder: "0x8798b81b0261934aa850C8de8622472bfdc143F4" as Address,
-}
+  cvxsteCrvRewarder: "0x0A760466E1B4621579a82a39CB56Dda2F4E70f03",
+  cvxstEthNgfRewarder: "0x6B27D7BC63F1999D14fF9bA900069ee516669ee8",
+  cvxcDaicUsdcRewarder: "0xf34DFF761145FF0B05e917811d488B441F33a968",
+  cvxcrvUsdtWbtcWethRewarder: "0xb05262D4aaAA38D0Af4AaB244D446ebDb5afd4A7",
+  cvxGhoBtcWstEthRewarder: "0x923D3C32f870E7953dd4020D0585D6419C44e4Ca",
+  cvxOethCrvRewarder: "0x24b65DC1cf053A8D96872c323d29e86ec43eB33A",
+  cvxethxRewarder: "0x399e111c7209a741B06F8F86Ef0Fdd88fC198D20",
+  cvxankrCrvRewarder: "0x8798b81b0261934aa850C8de8622472bfdc143F4",
+} as const
 
 export const cowSwap = {
   gpv2VaultRelayer: "0xC92E8bdf79f0507f65a392b0ab4667716BFE0110",
   orderSigner: "0x23dA9AdE38E4477b23770DeD512fD37b12381FAB",
-}
+} as const
 
 export const curve = {
-  steCrv: "0x06325440D014e39736583c165C2963BA99fAf14E" as Address,
-  crvCdaiCusdc: "0x845838DF265Dcd2c412A1Dc9e959c7d08537f8a2" as Address,
-  ankrCrv: "0xaA17A236F2bAdc98DDc0Cf999AbB47D47Fc0A6Cf" as Address,
-}
+  steCrv: "0x06325440D014e39736583c165C2963BA99fAf14E",
+  crvCdaiCusdc: "0x845838DF265Dcd2c412A1Dc9e959c7d08537f8a2",
+  ankrCrv: "0xaA17A236F2bAdc98DDc0Cf999AbB47D47Fc0A6Cf",
+} as const
 
 export const morpho = {
-  oracleWstEthUsdc: "0x48F7E36EB6B826B2dF4B2E630B62Cd25e89E40e2" as Address,
-  oracleWbtcUsdc: "0xDddd770BADd886dF3864029e4B377B5F6a2B6b83" as Address,
-  adaptativeCurveIrm: "0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC" as Address,
-  oracleWbtcUsdt: "0x008bF4B1cDA0cc9f0e882E0697f036667652E1ef" as Address,
-}
+  oracleWstEthUsdc: "0x48F7E36EB6B826B2dF4B2E630B62Cd25e89E40e2",
+  oracleWbtcUsdc: "0xDddd770BADd886dF3864029e4B377B5F6a2B6b83",
+  adaptativeCurveIrm: "0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC",
+  oracleWbtcUsdt: "0x008bF4B1cDA0cc9f0e882E0697f036667652E1ef",
+} as const
 
 export const nexus = {
   pools: [
-    "0x4AB04d7333293ab5E752fD4D2dE0c0E88c2cA0F8" as Address, // Pool #1
-    "0xF3745f76C137738b0371a820A098fC678672660a" as Address, // Pool #2
-    "0x462340b61e2ae2C13f01F66B727d1bFDc907E53e" as Address, // Pool #3
-    "0xed9915e07aF860C3263801E223C9EaB512EB7C09" as Address, // Pool #4
-    "0xCf4A288Ba45F53971D7acF481c28FFb4E049Cf9F" as Address, // Pool #5
-    "0xB57a99beEDf92bBD4306233E3bc1e2616465f4fD" as Address, // Pool #6
-    "0x5053f672f1cA522eCAd0975E29B3192ef5ada845" as Address, // Pool #7
-    "0x34D250E9fA70748C8af41470323B4Ea396f76c16" as Address, // Pool #8
-    "0x11547912aA7Da2792E67698AD3D5386828d92Cfd" as Address, // Pool #9
-    "0x8B65F957F96Cc81dC455f2b06ED137a4bCa35555" as Address, // Pool #10
-    "0x0638fD10BB23A04EfB41F1596aAC28Fb4d6cA910" as Address, // Pool #11
-    "0xB315340daBcF9B52CF0c592b37fdE899cEc7aD21" as Address, // Pool #12
-    "0xA52D015c9AaAF81A78Bb76087867E6564e9fB886" as Address, // Pool #13
-    "0x4e48e13086668754B57F0b28ACcE9578F74A2339" as Address, // Pool #14
-    "0x0EFE933c8a36e63Fc94D098E7D4b1352408f3979" as Address, // Pool #15
-    "0xa12B4c1A1d5FE83eD843D150D90cc6444d7d1F85" as Address, // Pool #16
-    "0x10FC91Cc80c480Fa857b62070424d65FB9F97B64" as Address, // Pool #17
-    "0x65fe7C7Dd7FFd0ebcc5dBd06DeC3d799EA89E751" as Address, // Pool #18
-    "0xDDbbaA04A82Bdc497FB9792cD41F50d1d389aE1c" as Address, // Pool #19
-    "0xA49f22437969F95C937254566Cce0d22eDD3F028" as Address, // Pool #20
-    "0xBbD326fbB7017404D1CEB7b6A94D176A9d9bC56b" as Address, // Pool #21
-    "0x5A44002A5CE1c2501759387895A3b4818C3F50b3" as Address, // Pool #22
-    "0x778Cc2E7d6f9C342b75ebFA1afef505e4477f378" as Address, // Pool #23
-    "0x376e98C2ecaDdE98898CC9a3DdDDf79eBa7A8efa" as Address, // Pool #24
-    "0x93bd6Aa97d84e09a113207Cd09cD5970F4e96AC1" as Address, // Pool #25
-    "0xfd4F81533d8D642bBCe67688142eea9aeF93b33c" as Address, // Pool #26
-    "0x37ac6B1d2C8873a1a772CD15a42208864d343ebd" as Address, // Pool #27
+    "0x4AB04d7333293ab5E752fD4D2dE0c0E88c2cA0F8", // Pool #1
+    "0xF3745f76C137738b0371a820A098fC678672660a", // Pool #2
+    "0x462340b61e2ae2C13f01F66B727d1bFDc907E53e", // Pool #3
+    "0xed9915e07aF860C3263801E223C9EaB512EB7C09", // Pool #4
+    "0xCf4A288Ba45F53971D7acF481c28FFb4E049Cf9F", // Pool #5
+    "0xB57a99beEDf92bBD4306233E3bc1e2616465f4fD", // Pool #6
+    "0x5053f672f1cA522eCAd0975E29B3192ef5ada845", // Pool #7
+    "0x34D250E9fA70748C8af41470323B4Ea396f76c16", // Pool #8
+    "0x11547912aA7Da2792E67698AD3D5386828d92Cfd", // Pool #9
+    "0x8B65F957F96Cc81dC455f2b06ED137a4bCa35555", // Pool #10
+    "0x0638fD10BB23A04EfB41F1596aAC28Fb4d6cA910", // Pool #11
+    "0xB315340daBcF9B52CF0c592b37fdE899cEc7aD21", // Pool #12
+    "0xA52D015c9AaAF81A78Bb76087867E6564e9fB886", // Pool #13
+    "0x4e48e13086668754B57F0b28ACcE9578F74A2339", // Pool #14
+    "0x0EFE933c8a36e63Fc94D098E7D4b1352408f3979", // Pool #15
+    "0xa12B4c1A1d5FE83eD843D150D90cc6444d7d1F85", // Pool #16
+    "0x10FC91Cc80c480Fa857b62070424d65FB9F97B64", // Pool #17
+    "0x65fe7C7Dd7FFd0ebcc5dBd06DeC3d799EA89E751", // Pool #18
+    "0xDDbbaA04A82Bdc497FB9792cD41F50d1d389aE1c", // Pool #19
+    "0xA49f22437969F95C937254566Cce0d22eDD3F028", // Pool #20
+    "0xBbD326fbB7017404D1CEB7b6A94D176A9d9bC56b", // Pool #21
+    "0x5A44002A5CE1c2501759387895A3b4818C3F50b3", // Pool #22
+    "0x778Cc2E7d6f9C342b75ebFA1afef505e4477f378", // Pool #23
+    "0x376e98C2ecaDdE98898CC9a3DdDDf79eBa7A8efa", // Pool #24
+    "0x93bd6Aa97d84e09a113207Cd09cD5970F4e96AC1", // Pool #25
+    "0xfd4F81533d8D642bBCe67688142eea9aeF93b33c", // Pool #26
+    "0x37ac6B1d2C8873a1a772CD15a42208864d343ebd", // Pool #27
   ],
-}
+} as const
 
 export const pendle = {
-  pendleMarket26Mar2025:
-    "0xcDd26Eb5EB2Ce0f203a84553853667aE69Ca29Ce" as Address,
-  pendleMarket28May2025:
-    "0xB162B764044697cf03617C2EFbcB1f42e31E4766" as Address,
-  ptSusde27Mar2025: "0xE00bd3Df25fb187d6ABBB620b3dfd19839947b81" as Address,
-  ptSusde29May2025: "0xb7de5dFCb74d25c2f21841fbd6230355C50d9308" as Address,
-}
+  pendleMarket26Mar2025: "0xcDd26Eb5EB2Ce0f203a84553853667aE69Ca29Ce",
+  pendleMarket28May2025: "0xB162B764044697cf03617C2EFbcB1f42e31E4766",
+  ptSusde27Mar2025: "0xE00bd3Df25fb187d6ABBB620b3dfd19839947b81",
+  ptSusde29May2025: "0xb7de5dFCb74d25c2f21841fbd6230355C50d9308",
+} as const
 
 export const uniswapV2 = {
-  lpSafeEth: "0xC36442b4a4522E871399CD717aBDD847Ab11FE88" as Address,
-}
+  lpSafeEth: "0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
+} as const

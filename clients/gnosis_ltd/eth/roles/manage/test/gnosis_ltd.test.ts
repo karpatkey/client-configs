@@ -3,7 +3,7 @@ import { applyPermissions } from "../../../../../../test/helpers"
 import kit from "../../../../../../test/kit"
 import { revertToBase } from "../../../../../../test/snapshot"
 import permissions from "../permissions"
-import { zeroAddress, ENS, WETH } from "../../../../../../eth-sdk/addresses"
+import { zeroAddress, ENS, WETH } from "@/addresses/eth"
 
 describe("GnosisLTD", () => {
   beforeAll(async () => {

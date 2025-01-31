@@ -1,20 +1,12 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import {
-  eETH,
-  weETH,
-  aura,
-  balancer,
-  convex,
-} from "../../../../../eth-sdk/addresses"
-import { contracts } from "../../../../../eth-sdk/config"
-import { allowErc20Approve } from "../../../../../helpers/erc20"
+import { eETH, weETH, aura, balancer, convex } from "@/addresses/eth"
+import { contracts } from "@/contracts"
+import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "../../../../../types"
-import {
-  auraWithdrawBalancer,
-  balancerUnstakeWithdraw,
-  convexWithdraw,
-} from "../../../../../helpers/exit_strategies"
+import { convexWithdraw } from "@/exit_strategies/convex"
+import { auraWithdrawBalancer } from "@/exit_strategies/aura"
+import { balancerUnstakeWithdraw } from "@/exit_strategies/balancer"
 import { Chain } from "../../../../../types"
 
 export default [

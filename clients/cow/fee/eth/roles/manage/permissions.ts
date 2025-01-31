@@ -1,9 +1,9 @@
 import { allow } from "zodiac-roles-sdk/kit"
-import { WETH } from "../../../../../../eth-sdk/addresses"
+import { WETH } from "@/addresses/eth"
 import { avatar as main } from "../../../../main/eth"
-import { allowEthTransfer } from "../../../../../../helpers/allowEthTransfer"
+import { allowEthTransfer } from "@/helpers"
 import { PermissionList } from "../../../../../../types"
-import { allowErc20Transfer } from "../../../../../../helpers/erc20"
+import { allowErc20Transfer } from "@/helpers"
 
 export default [
   /*********************************************

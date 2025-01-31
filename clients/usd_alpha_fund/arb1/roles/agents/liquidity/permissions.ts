@@ -1,7 +1,7 @@
 import { c } from "zodiac-roles-sdk"
 import { PermissionList } from "../../../../../../types"
 import { allow } from "zodiac-roles-sdk/kit"
-import { USDC } from "../../../../../../eth-sdk/addresses_arb"
+import { USDC } from "../../../../../../eth-sdk/addresses/arb1"
 
 export default [
   // Aave v3 - Withdraw USDC

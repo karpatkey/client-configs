@@ -5,7 +5,7 @@ import {
   USDCe,
   USDT,
   WXDAI,
-} from "../../../../../eth-sdk/addresses_gno"
+} from "../../../../../eth-sdk/addresses/gno"
 import { PermissionList } from "../../../../../types"
 
 export default [

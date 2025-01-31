@@ -1,11 +1,11 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { USDC, zeroAddress } from "../../../../../eth-sdk/addresses"
+import { USDC, zeroAddress } from "@/addresses/eth"
 import { PermissionList } from "../../../../../types"
 import {
   lidoUnstakeStEth,
   lidoUnwrapAndUnstakeWstEth,
-} from "../../../../../helpers/exit_strategies"
+} from "@/exit_strategies/lido"
 import { graphDelegatee } from "../../../eth"
 
 export default [

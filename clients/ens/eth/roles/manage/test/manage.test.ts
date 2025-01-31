@@ -3,10 +3,10 @@ import { applyPermissions, wrapEth } from "../../../../../../test/helpers"
 
 import { revertToBase } from "../../../../../../test/snapshot"
 import permissions from "../permissions"
-import { ENS, WETH, cowSwap } from "../../../../../../eth-sdk/addresses"
+import { ENS, WETH, cowSwap } from "@/addresses/eth"
 import { avatar } from "../../../../../../test/wallets"
 import kit from "../../../../../../test/kit"
-import { contracts } from "../../../../../../eth-sdk/config"
+import { contracts } from "@/contracts"
 
 // jest.setTimeout(180000)
 

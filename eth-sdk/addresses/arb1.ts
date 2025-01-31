@@ -9,4 +9,4 @@ export const USDT = "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9"
 export const balancer = {
   b4PoolPid:
     "0x423a1323c871abc9d89eb06855bf5347048fc4a5000000000000000000000496",
-}
+} as const

@@ -1,6 +1,6 @@
 import { applyPermissions } from "../../../../../../test/helpers"
-import { AURA } from "../../../../../../eth-sdk/addresses"
-import { contracts } from "../../../../../../eth-sdk/config"
+import { AURA } from "@/addresses/eth"
+import { contracts } from "@/contracts"
 import { revertToBase } from "../../../../../../test/snapshot"
 import permissions from "./permissions"
 import kit from "../../../../../../test/kit"

@@ -1,6 +1,6 @@
 import { allow } from "zodiac-roles-sdk/kit"
 import { allow as allowAction } from "defi-kit/eth"
-import { GHO, stkGHO } from "../../../../../eth-sdk/addresses"
+import { GHO, stkGHO } from "@/addresses/eth"
 import { PermissionList } from "../../../../../types"
 import { Parameters } from "../../parameters"
 

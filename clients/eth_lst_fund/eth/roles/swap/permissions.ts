@@ -17,8 +17,8 @@ import {
   weETH,
   WETH,
   wstETH,
-} from "../../../../../eth-sdk/addresses"
-import { contracts } from "../../../../../eth-sdk/config"
+} from "@/addresses/eth"
+import { contracts } from "@/contracts"
 import { PermissionList } from "../../../../../types"
 
 export default [

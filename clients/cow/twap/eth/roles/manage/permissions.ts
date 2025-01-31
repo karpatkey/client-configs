@@ -1,12 +1,6 @@
-import {
-  COW,
-  sDAI,
-  sUSDS,
-  USDC,
-  WETH,
-} from "../../../../../../eth-sdk/addresses"
+import { COW, sDAI, sUSDS, USDC, WETH } from "@/addresses/eth"
 import { avatar as main, legalDefenseFund, buyBack } from "../../../../main/eth"
-import { allowErc20Transfer } from "../../../../../../helpers/erc20"
+import { allowErc20Transfer } from "@/helpers"
 import { PermissionList } from "../../../../../../types"
 
 export default [

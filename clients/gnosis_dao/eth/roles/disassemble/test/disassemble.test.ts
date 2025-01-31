@@ -3,9 +3,9 @@ import { avatar } from "../../../../../../test/wallets"
 import { revertToBase } from "../../../../../../test/snapshot"
 import permissions from "../permissions"
 import kit from "../../../../../../test/kit"
-import { balancer } from "../../../../../../eth-sdk/addresses"
+import { balancer } from "@/addresses/eth"
 import { parseEther } from "ethers"
-import { COW, GNO } from "../../../../../../eth-sdk/addresses"
+import { COW, GNO } from "@/addresses/eth"
 
 describe("GnosisDAO", () => {
   beforeAll(async () => {

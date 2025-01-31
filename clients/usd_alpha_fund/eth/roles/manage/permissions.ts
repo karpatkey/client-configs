@@ -27,18 +27,18 @@ import {
   balancer,
   morpho,
   pendle,
-} from "../../../../../eth-sdk/addresses"
+} from "@/addresses/eth"
 import {
   DAI as DAI_opt,
   COMP as COMP_opt,
   USDC as USDC_opt,
-} from "../../../../../eth-sdk/addresses_opt"
-import { USDC as USDC_arb } from "../../../../../eth-sdk/addresses_arb"
-import { USDC as USDC_base } from "../../../../../eth-sdk/addresses_base"
-import { contracts } from "../../../../../eth-sdk/config"
-import { allowErc20Approve } from "../../../../../helpers/erc20"
+} from "../../../../../eth-sdk/addresses/oeth"
+import { USDC as USDC_arb } from "../../../../../eth-sdk/addresses/arb1"
+import { USDC as USDC_base } from "../../../../../eth-sdk/addresses/base"
+import { contracts } from "@/contracts"
+import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "../../../../../types"
-import { balancerSwap } from "../../../../../helpers/exit_strategies/balancer"
+import { balancerSwap } from "@/exit_strategies/balancer"
 import { avatar } from "../../index"
 
 export default [

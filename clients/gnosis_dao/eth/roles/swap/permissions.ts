@@ -8,9 +8,9 @@ import {
   WETH,
   stETH,
   wstETH,
-} from "../../../../../eth-sdk/addresses"
+} from "@/addresses/eth"
 import { PermissionList } from "../../../../../types"
-import { cowswapSwap } from "../../../../../helpers/exit_strategies"
+import { cowswapSwap } from "@/exit_strategies/cowswap"
 import { Chain } from "../../../../../types"
 
 export default [
