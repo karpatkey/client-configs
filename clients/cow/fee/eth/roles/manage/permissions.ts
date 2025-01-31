@@ -1,6 +1,6 @@
 import { allow } from "zodiac-roles-sdk/kit"
 import { WETH } from "@/addresses/eth"
-import { avatar as main } from "../../../../main/eth"
+import { mainTreasury } from "../../../../addresses"
 import { allowEthTransfer } from "@/helpers"
 import { PermissionList } from "../../../../../../types"
 import { allowErc20Transfer } from "@/helpers"
@@ -19,7 +19,7 @@ export default [
    * Transfers
    *********************************************/
   // Transfer ETH to Main Treasury
-  allowEthTransfer(main),
+  allowEthTransfer(mainTreasury),
   // Transfer WETH to Main Treasury
-  allowErc20Transfer([WETH], [main]),
+  allowErc20Transfer([WETH], [mainTreasury]),
 ] satisfies PermissionList
