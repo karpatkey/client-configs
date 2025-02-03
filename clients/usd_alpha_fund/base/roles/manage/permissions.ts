@@ -6,7 +6,7 @@ import { USDC as USDC_eth } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
-import { avatar } from "../../index"
+import { avatar } from "../../../addresses"
 
 export default [
   /*********************************************

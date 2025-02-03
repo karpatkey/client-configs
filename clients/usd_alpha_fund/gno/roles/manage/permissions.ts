@@ -6,7 +6,7 @@ import { eAddress } from "@/addresses"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
-import { avatar } from "../../index"
+import { avatar } from "../../../addresses"
 import { balancerSwap } from "@/exit_strategies/balancer"
 
 export default [
