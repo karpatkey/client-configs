@@ -12,7 +12,7 @@ import {
   curve,
 } from "@/addresses/gno"
 import { allowErc20Approve } from "@/helpers"
-import { PermissionList } from "../../../../../types"
+import { PermissionList } from "@/types"
 
 export default [
   /*********************************************

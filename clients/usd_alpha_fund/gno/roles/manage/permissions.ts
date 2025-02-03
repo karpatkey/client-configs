@@ -5,7 +5,7 @@ import { sDAI, USDC, USDCe, WXDAI, balancer } from "@/addresses/gno"
 import { eAddress } from "@/addresses"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
-import { PermissionList } from "../../../../../types"
+import { PermissionList } from "@/types"
 import { avatar } from "../../index"
 import { balancerSwap } from "@/exit_strategies/balancer"
 

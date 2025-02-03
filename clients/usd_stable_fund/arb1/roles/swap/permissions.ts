@@ -4,7 +4,7 @@ import { allow as allowAction } from "defi-kit/eth"
 import { COMP, DAI, USDC, USDCe, balancer } from "@/addresses/arb1"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
-import { PermissionList } from "../../../../../types"
+import { PermissionList } from "@/types"
 import { balancerSwap } from "@/exit_strategies/balancer"
 
 export default [

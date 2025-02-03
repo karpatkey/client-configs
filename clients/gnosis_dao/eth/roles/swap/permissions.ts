@@ -9,9 +9,8 @@ import {
   stETH,
   wstETH,
 } from "@/addresses/eth"
-import { PermissionList } from "../../../../../types"
 import { cowswapSwap } from "@/exit_strategies/cowswap"
-import { Chain } from "../../../../../types"
+import { Chain, PermissionList } from "@/types"
 
 export default [
   // CowSwap - DAI <-> USDT

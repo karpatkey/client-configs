@@ -3,11 +3,11 @@ import { allow } from "zodiac-roles-sdk/kit"
 import { eETH, weETH, aura, balancer, convex } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
-import { PermissionList } from "../../../../../types"
+import { PermissionList } from "@/types"
 import { convexWithdraw } from "@/exit_strategies/convex"
 import { auraWithdrawBalancer } from "@/exit_strategies/aura"
 import { balancerUnstakeWithdraw } from "@/exit_strategies/balancer"
-import { Chain } from "../../../../../types"
+import { Chain } from "@/types"
 
 export default [
   // Unwrap ETH

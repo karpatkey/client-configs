@@ -1,5 +1,5 @@
 import { checkIntegrity, processPermissions } from "zodiac-roles-sdk"
-import type { Client, PermissionList } from "../types"
+import type { Client, PermissionList } from "@/types"
 
 export const compileApplyData = async ({
   clientArg,

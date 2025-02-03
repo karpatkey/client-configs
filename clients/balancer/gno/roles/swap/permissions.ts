@@ -1,6 +1,6 @@
 import { allow as allowAction } from "defi-kit/gno"
 import { GNO, sDAI, USDC, USDT, WETH } from "@/addresses/gno"
-import { PermissionList } from "../../../../../types"
+import { PermissionList } from "@/types"
 
 export default [
   // CowSwap - Swap sDAI <-> [XDAI, USDC, USDT]

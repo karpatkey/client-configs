@@ -2,7 +2,7 @@ import { allow } from "zodiac-roles-sdk/kit"
 import { WETH } from "@/addresses/eth"
 import { mainTreasury } from "../../../../addresses"
 import { allowEthTransfer } from "@/helpers"
-import { PermissionList } from "../../../../../../types"
+import { PermissionList } from "@/types"
 import { allowErc20Transfer } from "@/helpers"
 
 export default [

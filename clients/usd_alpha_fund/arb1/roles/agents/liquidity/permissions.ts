@@ -1,5 +1,5 @@
 import { c } from "zodiac-roles-sdk"
-import { PermissionList } from "../../../../../../types"
+import { PermissionList } from "@/types"
 import { allow } from "zodiac-roles-sdk/kit"
 import { USDC } from "@/addresses/arb1"
 

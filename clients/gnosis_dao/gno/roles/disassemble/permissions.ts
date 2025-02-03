@@ -17,7 +17,7 @@ import {
   balancerUnstakeWithdraw,
   balancerWithdraw,
 } from "@/exit_strategies/balancer"
-import { Chain, PermissionList } from "../../../../../types"
+import { Chain, PermissionList } from "@/types"
 import { auraWithdrawBalancer } from "@/exit_strategies/aura"
 
 export default [

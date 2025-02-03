@@ -20,6 +20,7 @@
       "@/addresses/*": ["./eth-sdk/addresses/*"],
       "@/contracts": ["./eth-sdk/config.ts"],
       "@/helpers": ["./helpers/index.ts"],
+      "@/types": ["./types.ts"],
       "@/exit_strategies/*": ["./exit_strategies/*"]
     }
   },

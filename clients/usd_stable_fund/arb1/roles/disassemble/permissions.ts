@@ -1,7 +1,7 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { USDC } from "@/addresses/arb1"
-import { PermissionList } from "../../../../../types"
+import { PermissionList } from "@/types"
 
 export default [
   // Aave v3 - Withdraw DAI

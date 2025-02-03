@@ -5,7 +5,7 @@ import { contracts } from "@/contracts"
 import { AZUR, DAI, GRT, sDAI, USDC, USDT } from "@/addresses/eth"
 import { zeroAddress } from "@/addresses"
 import { allowErc20Approve } from "@/helpers"
-import { PermissionList } from "../../../../../types"
+import { PermissionList } from "@/types"
 import { graphDelegatee, gnosisLtdArb } from "../../addresses"
 
 export default [

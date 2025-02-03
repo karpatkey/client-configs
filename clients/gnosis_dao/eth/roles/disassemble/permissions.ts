@@ -1,7 +1,6 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { GHO, USDC, WBTC, stETH, wstETH, aura, balancer } from "@/addresses/eth"
-import { PermissionList } from "../../../../../types"
 import { auraWithdrawBalancer } from "@/exit_strategies/aura"
 import {
   balancerUnstakeWithdraw,
@@ -13,7 +12,7 @@ import {
 } from "@/exit_strategies/lido"
 import { allowErc20Approve } from "@/helpers"
 import { contracts } from "@/contracts"
-import { Chain } from "../../../../../types"
+import { Chain, PermissionList } from "@/types"
 
 export default [
   // Aave Safety Module - Unstake GHO
