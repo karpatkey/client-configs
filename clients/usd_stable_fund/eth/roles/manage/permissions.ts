@@ -12,7 +12,7 @@ import { USDC as USDC_base } from "@/addresses/base"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
-import { avatar } from "../../index"
+import { parameters } from "../../instances/main"
 
 export default [
   /*********************************************
@@ -145,12 +145,12 @@ export default [
       c.bitmask({
         shift: 0,
         mask: "0xffffffffffffffffffff",
-        value: avatar.slice(0, 22), // First 10 bytes of the avatar address
+        value: parameters.avatar.slice(0, 22), // First 10 bytes of the avatar address
       }),
       c.bitmask({
         shift: 10,
         mask: "0xffffffffffffffffffff",
-        value: "0x" + avatar.slice(22, 42), // Last 10 bytes of the avatar address
+        value: "0x" + parameters.avatar.slice(22, 42), // Last 10 bytes of the avatar address
       }),
       // skip 32 bytes corresponding to the amount
       // skip 32 bytes corresponding to the txHash from Gnosis
@@ -264,12 +264,12 @@ export default [
   //     c.bitmask({
   //       shift: 32 + 20 + 20 + 4 + 5 + 4 + 32 + 12,
   //       mask: "0xffffffffffffffffffff",
-  //       value: avatar.slice(0, 22), // First 10 bytes of the avatar address
+  //       value: parameters.avatar.slice(0, 22), // First 10 bytes of the avatar address
   //     }),
   //     c.bitmask({
   //       shift: 32 + 20 + 20 + 4 + 5 + 4 + 32 + 12 + 10,
   //       mask: "0xffffffffffffffffffff",
-  //       value: "0x" + avatar.slice(22, 42), // Last 10 bytes of the avatar address
+  //       value: "0x" + parameters.avatar.slice(22, 42), // Last 10 bytes of the avatar address
   //     })
   //   )
   // ),
@@ -280,7 +280,7 @@ export default [
     USDC,
     contracts.gnosis.usdcTransmuter,
     undefined,
-    "0x" + avatar.slice(2).padStart(64, "0")
+    "0x" + parameters.avatar.slice(2).padStart(64, "0")
   ),
   // Claim bridged USDC from Gnosis
   allow.mainnet.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
@@ -362,12 +362,12 @@ export default [
       c.bitmask({
         shift: 32 + 20 + 20 + 4 + 5 + 4 + 32 + 12,
         mask: "0xffffffffffffffffffff",
-        value: avatar.slice(0, 22), // First 10 bytes of the avatar address
+        value: parameters.avatar.slice(0, 22), // First 10 bytes of the avatar address
       }),
       c.bitmask({
         shift: 32 + 20 + 20 + 4 + 5 + 4 + 32 + 12 + 10,
         mask: "0xffffffffffffffffffff",
-        value: "0x" + avatar.slice(22, 42), // Last 10 bytes of the avatar address
+        value: "0x" + parameters.avatar.slice(22, 42), // Last 10 bytes of the avatar address
       })
     )
   ),
@@ -399,7 +399,7 @@ export default [
   allow.mainnet.circleTokenMessenger.depositForBurn(
     undefined,
     2,
-    "0x" + avatar.slice(2).padStart(64, "0"),
+    "0x" + parameters.avatar.slice(2).padStart(64, "0"),
     USDC
   ),
   // Claim bridged USDC from Optimism
@@ -459,12 +459,12 @@ export default [
       c.bitmask({
         shift: 20 + 32 + 32 + 36 + 32 + 12,
         mask: "0xffffffffffffffffffff",
-        value: avatar.slice(0, 22), // First 10 bytes of the avatar address
+        value: parameters.avatar.slice(0, 22), // First 10 bytes of the avatar address
       }),
       c.bitmask({
         shift: 20 + 32 + 32 + 36 + 32 + 12 + 10,
         mask: "0xffffffffffffffffffff",
-        value: "0x" + avatar.slice(22, 42), // Last 10 bytes of the avatar address
+        value: "0x" + parameters.avatar.slice(22, 42), // Last 10 bytes of the avatar address
       }),
       // skip 32 bytes chunk with 0
       // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
@@ -472,12 +472,12 @@ export default [
       c.bitmask({
         shift: 20 + 32 + 32 + 36 + 32 + 32 + 32 + 12,
         mask: "0xffffffffffffffffffff",
-        value: avatar.slice(0, 22), // First 10 bytes of the avatar address
+        value: parameters.avatar.slice(0, 22), // First 10 bytes of the avatar address
       }),
       c.bitmask({
         shift: 20 + 32 + 32 + 36 + 32 + 32 + 32 + 12 + 10,
         mask: "0xffffffffffffffffffff",
-        value: "0x" + avatar.slice(22, 42), // Last 10 bytes of the avatar address
+        value: "0x" + parameters.avatar.slice(22, 42), // Last 10 bytes of the avatar address
       })
     )
   ),
@@ -512,7 +512,7 @@ export default [
   allow.mainnet.circleTokenMessenger.depositForBurn(
     undefined,
     3,
-    "0x" + avatar.slice(2).padStart(64, "0"),
+    "0x" + parameters.avatar.slice(2).padStart(64, "0"),
     USDC
   ),
   // Claim bridged USDC from Arbitrum
@@ -572,12 +572,12 @@ export default [
       c.bitmask({
         shift: 20 + 32 + 32 + 36 + 32 + 12,
         mask: "0xffffffffffffffffffff",
-        value: avatar.slice(0, 22), // First 10 bytes of the avatar address
+        value: parameters.avatar.slice(0, 22), // First 10 bytes of the avatar address
       }),
       c.bitmask({
         shift: 20 + 32 + 32 + 36 + 32 + 12 + 10,
         mask: "0xffffffffffffffffffff",
-        value: "0x" + avatar.slice(22, 42), // Last 10 bytes of the avatar address
+        value: "0x" + parameters.avatar.slice(22, 42), // Last 10 bytes of the avatar address
       }),
       // skip 32 bytes chunk with 0
       // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
@@ -585,12 +585,12 @@ export default [
       c.bitmask({
         shift: 20 + 32 + 32 + 36 + 32 + 32 + 32 + 12,
         mask: "0xffffffffffffffffffff",
-        value: avatar.slice(0, 22), // First 10 bytes of the avatar address
+        value: parameters.avatar.slice(0, 22), // First 10 bytes of the avatar address
       }),
       c.bitmask({
         shift: 20 + 32 + 32 + 36 + 32 + 32 + 32 + 12 + 10,
         mask: "0xffffffffffffffffffff",
-        value: "0x" + avatar.slice(22, 42), // Last 10 bytes of the avatar address
+        value: "0x" + parameters.avatar.slice(22, 42), // Last 10 bytes of the avatar address
       })
     )
   ),
@@ -607,7 +607,7 @@ export default [
   allow.mainnet.circleTokenMessenger.depositForBurn(
     undefined,
     6,
-    "0x" + avatar.slice(2).padStart(64, "0"),
+    "0x" + parameters.avatar.slice(2).padStart(64, "0"),
     USDC
   ),
   // Claim bridged USDC from Base
@@ -667,12 +667,12 @@ export default [
       c.bitmask({
         shift: 20 + 32 + 32 + 36 + 32 + 12,
         mask: "0xffffffffffffffffffff",
-        value: avatar.slice(0, 22), // First 10 bytes of the avatar address
+        value: parameters.avatar.slice(0, 22), // First 10 bytes of the avatar address
       }),
       c.bitmask({
         shift: 20 + 32 + 32 + 36 + 32 + 12 + 10,
         mask: "0xffffffffffffffffffff",
-        value: "0x" + avatar.slice(22, 42), // Last 10 bytes of the avatar address
+        value: "0x" + parameters.avatar.slice(22, 42), // Last 10 bytes of the avatar address
       }),
       // skip 32 bytes chunk with 0
       // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
@@ -680,12 +680,12 @@ export default [
       c.bitmask({
         shift: 20 + 32 + 32 + 36 + 32 + 32 + 32 + 12,
         mask: "0xffffffffffffffffffff",
-        value: avatar.slice(0, 22), // First 10 bytes of the avatar address
+        value: parameters.avatar.slice(0, 22), // First 10 bytes of the avatar address
       }),
       c.bitmask({
         shift: 20 + 32 + 32 + 36 + 32 + 32 + 32 + 12 + 10,
         mask: "0xffffffffffffffffffff",
-        value: "0x" + avatar.slice(22, 42), // Last 10 bytes of the avatar address
+        value: "0x" + parameters.avatar.slice(22, 42), // Last 10 bytes of the avatar address
       })
     )
   ),
