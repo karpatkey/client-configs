@@ -1,5 +1,5 @@
 import { revertToBase } from "./snapshot"
-import { Status } from "@/types"
+import { Status } from "./types"
 
 global.afterAll(revertToBase)
 
