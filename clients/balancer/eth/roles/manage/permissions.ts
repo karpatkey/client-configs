@@ -30,6 +30,7 @@ import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
 import { balancerSwap } from "@/exit_strategies/balancer"
 import { Parameters } from "../../parameters"
+import { kpkGovernance } from "../../addresses"
 
 export default (parameters: Parameters) =>
   [
@@ -60,7 +61,7 @@ export default (parameters: Parameters) =>
     // WARNING!: The delegate action allows delegate() and delegateByType(), the latter is not part of the orginal preset
     allowAction.aave_v3.delegate({
       targets: ["AAVE", "stkAAVE"],
-      delegatee: parameters.kpkGovernance,
+      delegatee: kpkGovernance,
     }),
 
     // Convex - ETH/OETH

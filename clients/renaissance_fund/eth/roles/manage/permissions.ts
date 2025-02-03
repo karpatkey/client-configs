@@ -38,7 +38,7 @@ import {
   snapshotCowId,
   snapshotLidoId,
   snapshotSafeId,
-} from "../../index"
+} from "../../../addresses"
 
 export default [
   /*********************************************
