@@ -19,7 +19,7 @@ import {
   wstETH,
 } from "@/addresses/eth"
 import { contracts } from "@/contracts"
-import { PermissionList } from "../../../../../types"
+import { PermissionList } from "@/types"
 
 export default [
   // CowSwap - [ankrETH, AURA, BAL, cbETH, CRV, CVX, eETH, ETH, ETHFI, ETHx, liquidETH, osETH, rETH, RPL, stETH, SWISE, weETH, WETH, wstETH] ->

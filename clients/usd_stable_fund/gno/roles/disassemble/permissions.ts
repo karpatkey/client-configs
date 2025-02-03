@@ -3,7 +3,7 @@ import { allow } from "zodiac-roles-sdk/kit"
 import { WXDAI, sDAI, USDC } from "@/addresses/gno"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
-import { PermissionList } from "../../../../../types"
+import { PermissionList } from "@/types"
 
 export default [
   // Aave v3 - Withdraw XDAI

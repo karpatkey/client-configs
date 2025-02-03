@@ -1,4 +1,4 @@
-import { TestTransaction } from "../../../../../../test/types"
+import { TestTransaction } from "@/types"
 
 export default [
   //---------------------------------------------------------------------------------------------------------------------------------

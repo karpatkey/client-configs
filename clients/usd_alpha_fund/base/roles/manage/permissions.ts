@@ -5,7 +5,7 @@ import { USDC, cbETH, morpho } from "@/addresses/base"
 import { USDC as USDC_eth } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
-import { PermissionList } from "../../../../../types"
+import { PermissionList } from "@/types"
 import { avatar } from "../../index"
 
 export default [

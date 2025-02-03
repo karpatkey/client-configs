@@ -3,7 +3,7 @@ import { allow } from "zodiac-roles-sdk/kit"
 import { crvUSD, DAI, USDC, USDCe, balancer } from "@/addresses/oeth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
-import { PermissionList } from "../../../../../types"
+import { PermissionList } from "@/types"
 import { balancerSwap } from "@/exit_strategies/balancer"
 
 export default [

@@ -20,10 +20,10 @@ import {
 import { eAddress } from "@/addresses"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
-import { PermissionList } from "../../../../../types"
+import { PermissionList } from "@/types"
 import { cowswapSwap } from "@/exit_strategies/cowswap"
 import { balancerSwap } from "@/exit_strategies/balancer"
-import { Chain } from "../../../../../types"
+import { Chain } from "@/types"
 
 export default [
   // Balancer - wstETH -> WETH

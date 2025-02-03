@@ -1,6 +1,6 @@
 import { DAI, sDAI, USDC, USDT } from "@/addresses/eth"
 import { cowswapSwap } from "@/exit_strategies/cowswap"
-import { Chain, PermissionList } from "../../../../../types"
+import { Chain, PermissionList } from "@/types"
 
 export default [
   // CowSwap - DAI <-> USDC

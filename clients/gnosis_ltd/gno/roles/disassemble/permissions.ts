@@ -1,8 +1,7 @@
 import { allow } from "zodiac-roles-sdk/kit"
 import { c } from "zodiac-roles-sdk"
 import { aura, balancer, GNO } from "@/addresses/gno"
-
-import { Chain, PermissionList } from "../../../../../types"
+import { Chain, PermissionList } from "@/types"
 import { auraWithdrawBalancer } from "@/exit_strategies/aura"
 import {
   balancerUnstakeWithdraw,

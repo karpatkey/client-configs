@@ -11,7 +11,7 @@ import { USDC as USDC_arb } from "@/addresses/arb1"
 import { USDC as USDC_base } from "@/addresses/base"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
-import { PermissionList } from "../../../../../types"
+import { PermissionList } from "@/types"
 import { avatar } from "../../index"
 
 export default [

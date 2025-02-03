@@ -1,3 +1,3 @@
-import { PermissionList } from "../../../../../../types"
+import { PermissionList } from "@/types"
 
 export default [] satisfies PermissionList

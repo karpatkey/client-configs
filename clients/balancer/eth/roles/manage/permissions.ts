@@ -27,7 +27,7 @@ import {
 import { eAddress, zeroAddress } from "@/addresses"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
-import { PermissionList } from "../../../../../types"
+import { PermissionList } from "@/types"
 import { balancerSwap } from "@/exit_strategies/balancer"
 import { Parameters } from "../../parameters"
 

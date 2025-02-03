@@ -4,7 +4,7 @@ import { allow as allowAction } from "defi-kit/gno"
 import { GNO, osGNO, sDAI, USDC, USDCe, WXDAI } from "@/addresses/gno"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
-import { PermissionList } from "../../../../../types"
+import { PermissionList } from "@/types"
 import { avatar } from "../../index"
 
 export default [

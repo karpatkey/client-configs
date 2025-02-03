@@ -19,7 +19,7 @@ import {
 import { eAddress } from "@/addresses"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
-import { PermissionList } from "../../../../../types"
+import { PermissionList, Chain } from "@/types"
 import { auraWithdrawBalancer } from "@/exit_strategies/aura"
 import { balancerSwap } from "@/exit_strategies/balancer"
 import { cowswapSwap } from "@/exit_strategies/cowswap"
@@ -28,7 +28,6 @@ import {
   lidoUnwrapAndUnstakeWstEth,
 } from "@/exit_strategies/lido"
 import { convexWithdraw } from "@/exit_strategies/convex"
-import { Chain } from "../../../../../types"
 
 export default [
   /*********************************************
