@@ -6,7 +6,7 @@ import {
   lidoUnstakeStEth,
   lidoUnwrapAndUnstakeWstEth,
 } from "@/exit_strategies/lido"
-import { graphDelegatee } from "../../addresses"
+import { graphDelegatee } from "../../../addresses"
 import { zeroAddress } from "@/addresses"
 
 export default [
