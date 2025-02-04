@@ -17,13 +17,10 @@ import {
   wstETH,
   balancer,
 } from "@/addresses/eth"
-import { eAddress } from "@/addresses"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
-import { cowswapSwap } from "@/exit_strategies/cowswap"
 import { balancerSwap } from "@/exit_strategies/balancer"
-import { Chain } from "@/types"
 
 export default [
   // Balancer - wstETH -> WETH
@@ -49,23 +46,6 @@ export default [
 
   // Balancer - GHO -> [USDC, USDT]
   balancerSwap(balancer.ghoUsdtUsdcPid, [GHO], [USDC, USDT]),
-
-  // CowSwap - [OETH, rETH, stETH, WETH, wstETH] -> [ETH, WETH]
-  cowswapSwap(
-    [OETH, rETH, stETH, WETH, wstETH],
-    [eAddress, WETH],
-    Chain.eth,
-    200
-  ),
-  // CowSwap - stkGHO -> GHO
-  cowswapSwap([stkGHO], [GHO], Chain.eth, 200),
-  // CowSwap - [DAI, GHO, GYD, sDAI, sUSDS, USDC, USDS, USDT] -> [DAI, USDC, USDT]
-  cowswapSwap(
-    [DAI, GHO, GYD, sDAI, sUSDS, USDC, USDS, USDT],
-    [DAI, USDC, USDT],
-    Chain.eth,
-    200
-  ),
 
   // Curve - Swap stETH -> ETH
   allowErc20Approve([stETH], [contracts.mainnet.curve.steCrvPool]),
