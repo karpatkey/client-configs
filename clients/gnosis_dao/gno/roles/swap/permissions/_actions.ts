@@ -1,6 +1,5 @@
 import { allow as allowAction } from "defi-kit/gno"
 import { EURe, USDC, USDCe, USDT, WXDAI } from "@/addresses/gno"
-import { PermissionList } from "@/types"
 
 export default [
   // CowSwap - XDAI -> [EURe, USDC.e, USDT]
@@ -48,4 +47,4 @@ export default [
     sell: [EURe, USDT],
     buy: [EURe, USDT],
   }),
-] satisfies PermissionList
+]
