@@ -1,20 +1,10 @@
 import { allow } from "zodiac-roles-sdk/kit"
-import { allow as allowAction } from "defi-kit/eth"
 import { COW, DAI, sDAI, sUSDS, USDC, USDT, WETH } from "@/addresses/eth"
-import { legalDefenseFund, twapAvatar } from "../../../../addresses"
+import { legalDefenseFund, twapAvatar } from "../../../../../addresses"
 import { PermissionList } from "@/types"
 import { allowErc20Transfer } from "@/helpers"
 
 export default [
-  /*********************************************
-   * DeFi-Kit permissions
-   *********************************************/
-  // CowSwap - [DAI, ETH, USDC, USDT, WETH] -> [ETH, sDAI, sUSDS, WETH]
-  allowAction.cowswap.swap({
-    sell: ["ETH", DAI, USDC, USDT, WETH],
-    buy: ["ETH", sDAI, sUSDS, WETH],
-  }),
-
   /*********************************************
    * Typed-presets permissions
    *********************************************/
