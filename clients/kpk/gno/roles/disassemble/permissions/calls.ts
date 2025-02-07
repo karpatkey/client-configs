@@ -10,6 +10,6 @@ export default [
   allow.gnosis.wxdai.withdraw(),
 
   // Spark - DSR_sDAI
-  allow.mainnet.spark.sDai.redeem(undefined, c.avatar, c.avatar),
-  allow.mainnet.spark.sDai.withdraw(undefined, c.avatar, c.avatar),
+  allow.gnosis.spark.savingsXdaiAdapter.redeem(undefined, c.avatar),
+  allow.gnosis.spark.savingsXdaiAdapter.redeemXDAI(undefined, c.avatar),
 ] satisfies PermissionList
