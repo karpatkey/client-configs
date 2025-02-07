@@ -1,13 +1,11 @@
-import { parseEther, toUtf8Bytes } from "ethers"
-import { applyPermissions } from "../../../../../../test/helpers"
-import kit from "../../../../../../test/kit"
-import { revertToBase } from "../../../../../../test/snapshot"
-import permissions from "../permissions"
-import { zeroAddress, ENS, WETH } from "../../../../../../eth-sdk/addresses"
+import { parseEther } from "ethers"
+import { applyPermissions } from "@/test/helpers"
+import kit from "@/test/kit"
+import * as permissions from "../permissions"
+import { zeroAddress } from "@/addresses"
 
 describe("GnosisLTD", () => {
   beforeAll(async () => {
-    await revertToBase()
     await applyPermissions(permissions)
 
     // // acquire 1 WETH for avatar

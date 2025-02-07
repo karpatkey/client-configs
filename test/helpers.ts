@@ -1,4 +1,3 @@
-import { Permission, PermissionSet } from "zodiac-roles-sdk"
 import {
   BigNumberish,
   Contract,
@@ -13,18 +12,26 @@ import { avatar, owner, member } from "./wallets"
 import { getProvider } from "./provider"
 import { getRolesMod, testRoleKey } from "./rolesMod"
 import kit from "./kit"
+import { Role } from "@/types"
+import { preprocessPermissions } from "../helpers/apply"
 
-export const applyPermissions = async (
-  permissions: (Permission | PermissionSet | Promise<PermissionSet>)[]
+export const applyPermissions = async <P extends {}>(
+  permissions: Role<P>["permissions"],
+  parameters?: P
 ) => {
   const mod = await getRolesMod()
-  const calls = await apply(testRoleKey, permissions, {
-    address: (await mod.getAddress()) as `0x${string}`,
-    mode: "replace",
-    log: console.debug,
-    currentTargets: [],
-    currentAnnotations: [],
-  })
+
+  const calls = await apply(
+    testRoleKey,
+    await preprocessPermissions(permissions, parameters),
+    {
+      address: (await mod.getAddress()) as `0x${string}`,
+      mode: "replace",
+      log: console.debug,
+      currentTargets: [],
+      currentAnnotations: [],
+    }
+  )
 
   console.log(`Applying permissions with ${calls.length} calls`)
   const ownerSigner = await owner.getSigner()

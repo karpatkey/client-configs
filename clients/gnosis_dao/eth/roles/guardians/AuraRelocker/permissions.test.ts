@@ -1,13 +1,11 @@
-import { applyPermissions } from "../../../../../../test/helpers"
-import { AURA } from "../../../../../../eth-sdk/addresses"
-import { contracts } from "../../../../../../eth-sdk/config"
-import { revertToBase } from "../../../../../../test/snapshot"
-import permissions from "./permissions"
-import kit from "../../../../../../test/kit"
+import { applyPermissions } from "@/test/helpers"
+import { AURA } from "@/addresses/eth"
+import { contracts } from "@/contracts"
+import * as permissions from "./permissions"
+import kit from "@/test/kit"
 
 describe("auraRelocker", () => {
   beforeAll(async () => {
-    await revertToBase()
     await applyPermissions(permissions)
   })
 

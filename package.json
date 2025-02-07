@@ -6,8 +6,8 @@
   "scripts": {
     "setup": "cross-env NODE_OPTIONS=--max-old-space-size=4096 eth-sdk",
     "clean": "rimraf build",
-    "apply": "tsc && node build/scripts/apply.js",
-    "apply:export": "tsc && node build/scripts/applyExport.js",
+    "apply": "tsx ./scripts/apply.ts",
+    "apply:export": "tsx ./scripts/applyExport.ts",
     "anvil": "anvil --silent --fork-url ${FORK_RPC:-https://rpc.ankr.com/eth}",
     "test:watch-only": "jest --runInBand --watch",
     "test": "concurrently --raw --kill-others --passthrough-arguments --success first \"yarn anvil\" \"jest --runInBand {@}\" --",
@@ -30,6 +30,7 @@
     "rimraf": "^5.0.5",
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.1",
+    "tsx": "^4.19.2",
     "typescript": "^5.6.3",
     "wait-on": "^7.0.1",
     "yargs": "^17.7.2",

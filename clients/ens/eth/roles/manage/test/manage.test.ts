@@ -1,19 +1,17 @@
 import { id, keccak256, parseEther, toUtf8Bytes } from "ethers"
-import { applyPermissions, wrapEth } from "../../../../../../test/helpers"
+import { applyPermissions, wrapEth } from "@/test/helpers"
 
-import { revertToBase } from "../../../../../../test/snapshot"
-import permissions from "../permissions"
-import { ENS, WETH, cowSwap } from "../../../../../../eth-sdk/addresses"
-import { avatar } from "../../../../../../test/wallets"
-import kit from "../../../../../../test/kit"
-import { contracts } from "../../../../../../eth-sdk/config"
+import * as permissions from "../permissions"
+import { ENS, WETH, cowSwap } from "@/addresses/eth"
+import { avatar } from "@/test/wallets"
+import kit from "@/test/kit"
+import { contracts } from "@/contracts"
 
 // jest.setTimeout(180000)
 
 describe("ENS", () => {
   beforeAll(async () => {
     // fresh role with ENS manage permissions
-    await revertToBase()
     await applyPermissions(permissions)
 
     // acquire 1 WETH for avatar

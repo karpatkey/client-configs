@@ -1,4 +1,4 @@
-import permissions from "./permissions"
+import * as permissions from "./permissions"
 
 export { permissions }
 

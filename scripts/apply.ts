@@ -1,12 +1,7 @@
 #!/usr/bin/env ts-node
 import yargs from "yargs"
-import {
-  Permission,
-  PermissionSet,
-  checkIntegrity,
-  processPermissions,
-} from "zodiac-roles-sdk"
-import { Client } from "../types"
+import { Annotation, Target } from "zodiac-roles-sdk"
+import { compileApplyData } from "../helpers/apply"
 
 const ZODIAC_ROLES_APP = "https://roles.gnosisguild.org"
 
@@ -22,13 +17,13 @@ const CHAIN_PREFIX = {
  * Posts permission to Zodiac Roles app for storage
  * @returns The hash under which permissions have been stored
  */
-const postPermissions = async (
-  permissions: (Permission | PermissionSet | Promise<PermissionSet>)[]
-) => {
-  const awaitedPermissions = await Promise.all(permissions)
-  const { targets, annotations } = processPermissions(awaitedPermissions)
-  checkIntegrity(targets)
-
+const postPermissions = async ({
+  targets,
+  annotations,
+}: {
+  targets: Target[]
+  annotations: Annotation[]
+}) => {
   const res = await fetch(`${ZODIAC_ROLES_APP}/api/permissions`, {
     method: "POST",
     body: JSON.stringify({ targets, annotations }),
@@ -44,30 +39,33 @@ const postPermissions = async (
 
 async function main() {
   const args = await yargs(process.argv.slice(2))
-    .usage("$0 <client> <chain> <role>")
+    .usage("$0 <client> <chain> <instance> <role>")
     .positional("client", { demandOption: true, type: "string" })
     .positional("chain", { demandOption: true, type: "string" })
+    .positional("instance", { demandOption: true, type: "string" })
     .positional("role", { demandOption: true, type: "string" }).argv
 
-  const [clientArg, chainArg, roleArg] = args._ as [string, string, string]
+  const [clientArg, chainArg, instanceArg, roleArg] = args._ as [
+    string,
+    string,
+    string,
+    string,
+  ]
 
-  const { avatar, rolesMod, chainId, roles } = (await import(
-    `../clients/${clientArg}/${chainArg}`
-  )) as Client
+  const { targets, annotations, instance, chainId, role } =
+    await compileApplyData({
+      clientArg,
+      chainArg,
+      instanceArg,
+      roleArg,
+    })
 
-  const role = roles[roleArg]
-  if (!role) {
-    throw new Error(
-      `There is no '${roleArg}' role for client ${clientArg}, available roles: ${Object.keys(roles).join(", ")}`
-    )
-  }
-
-  const hash = await postPermissions(role.permissions)
+  const hash = await postPermissions({ targets, annotations })
 
   const permissionsPage = `${ZODIAC_ROLES_APP}/permissions/${CHAIN_PREFIX[chainId]}/${hash}`
   console.log(`Permissions page: ${permissionsPage}`)
 
-  const diffUrl = `${ZODIAC_ROLES_APP}/${CHAIN_PREFIX[chainId]}:${rolesMod}/roles/${role.roleKey}/diff/${hash}`
+  const diffUrl = `${ZODIAC_ROLES_APP}/${CHAIN_PREFIX[chainId]}:${instance.rolesMod}/roles/${role.roleKey}/diff/${hash}`
   console.log(`Permissions diff page: ${diffUrl}`)
 }
 
