@@ -3,13 +3,13 @@ import {
   AAVE,
   AURA,
   BAL,
+  cbBTC,
   CRV,
   CVX,
   DAI,
   eETH,
   GHO,
   LDO,
-  NXM,
   osETH,
   rETH,
   RPL,
@@ -69,6 +69,8 @@ export default [
   allowAction.aura.deposit({ targets: ["186"] }),
   // Aura - Gyroscope ECLP GHO/USDC 2
   allowAction.aura.deposit({ targets: ["195"] }),
+  // Aura - weETH/rETH
+  allowAction.aura.deposit({ targets: ["182"] }),
 
   // Balancer - wstETH/WETH
   allowAction.balancer.deposit({ targets: ["wstETH-WETH-BPT"] }),
@@ -88,6 +90,9 @@ export default [
   // Balancer - Gyroscope ECLP GHO/USDC 2
   allowAction.balancer.deposit({ targets: ["ECLP-GHO-USDC-2"] }),
   allowAction.balancer.stake({ targets: ["ECLP-GHO-USDC-2"] }),
+  // Balancer - weETH/rETH
+  allowAction.balancer.deposit({ targets: ["weETH/rETH"] }),
+  allowAction.balancer.stake({ targets: ["weETH/rETH"] }),
 
   // Convex - ETH/stETH - steCRV
   allowAction.convex.deposit({ targets: ["25"] }),
@@ -131,7 +136,7 @@ export default [
     buy: [USDS],
   }),
 
-  // CowSwap - [eETH, weETH]  <-> [ETH, eETH, rETH, stETH, WETH, wstETH]
+  // CowSwap - [eETH, weETH] <-> [ETH, eETH, rETH, stETH, WETH, wstETH]
   allowAction.cowswap.swap({
     sell: [eETH, weETH],
     buy: ["ETH", eETH, rETH, stETH, WETH, wstETH],
@@ -139,6 +144,12 @@ export default [
   allowAction.cowswap.swap({
     sell: ["ETH", eETH, rETH, stETH, WETH, wstETH],
     buy: [eETH, weETH],
+  }),
+
+  // CowSwap - [cbBTC] -> [USDC, USDT, WETH, wstETH]
+  allowAction.cowswap.swap({
+    sell: [cbBTC],
+    buy: [USDC, USDT, WETH, wstETH],
   }),
 
   // Lido
