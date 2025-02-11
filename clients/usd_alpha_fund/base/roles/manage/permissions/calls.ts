@@ -58,7 +58,7 @@ export default (parameters: Parameters) =>
     allow.base.circleMessageTransmitter.receiveMessage(
       c.and(
         // version: 4 bytes (00000000)
-        // source domain: 4 bytes(00000000)
+        // source domain: 4 bytes (00000000)
         // destination domain: 4 bytes (00000006)
         c.bitmask({
           shift: 0,
