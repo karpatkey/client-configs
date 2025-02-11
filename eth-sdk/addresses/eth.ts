@@ -108,7 +108,7 @@ export const aura = {
   auraosEthWethRewarder: "0x5F032f15B4e910252EDaDdB899f7201E89C8cD6b",
 } as const
 
-export const balancer = {
+export const balancerV2 = {
   // BPTs
   bStEthStable: "0x93d199263632a4EF4Bb438F1feB99e57b4b5f0BD",
   bREthStable: "0x1E19CF2D73a72Ef1332C882F20534B6519Be0276",
@@ -166,6 +166,11 @@ export const balancer = {
     "0x7056c8dfa8182859ed0d4fb0ef0886fdf3d2edcf000200000000000000000623",
   usdcUsdtPid:
     "0x8353157092ed8be69a9df8f95af097bbf33cb2af0000000000000000000005d9",
+} as const
+
+export const balancerV3 = {
+  aaveGhoUsdtUsdc: "0x85B2b559bC2D21104C4DEFdd6EFcA8A20343361D",
+  aaveLidoWethWstEth: "0xc4Ce391d82D164c166dF9c8336DDF84206b2F812",
 } as const
 
 export const convex = {

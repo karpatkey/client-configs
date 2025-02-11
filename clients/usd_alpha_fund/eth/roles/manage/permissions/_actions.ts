@@ -50,7 +50,7 @@ export default [
   // Aura - GHO/USDC/USDT
   allowAction.aura.deposit({ targets: ["157"] }),
 
-  // Balancer - GHO/USDC/USDT
+  // Balancer v2 - GHO/USDC/USDT
   allowAction.balancer.deposit({ targets: ["GHO/USDT/USDC"] }),
   allowAction.balancer.stake({ targets: ["GHO/USDT/USDC"] }),
 

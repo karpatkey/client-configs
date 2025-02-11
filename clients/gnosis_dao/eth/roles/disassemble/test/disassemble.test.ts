@@ -2,7 +2,7 @@ import { applyPermissions } from "@/test/helpers"
 import { avatar } from "@/test/wallets"
 import * as permissions from "../permissions"
 import kit from "@/test/kit"
-import { balancer } from "@/addresses/eth"
+import { balancerV2 } from "@/addresses/eth"
 import { parseEther } from "ethers"
 import { COW, GNO } from "@/addresses/eth"
 
@@ -16,7 +16,7 @@ describe("GnosisDAO", () => {
     it("exitPool", async () => {
       await expect(
         kit.asMember.balancer.vault.exitPool(
-          balancer.b50Cow50GnoPid,
+          balancerV2.b50Cow50GnoPid,
           avatar.address,
           avatar.address,
           {

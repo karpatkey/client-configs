@@ -51,13 +51,13 @@ export default [
   // Aave v3 Core Market - Deposit WETH
   allowAction.aave_v3.deposit({ market: "Core", targets: ["WETH"] }),
 
-  // Balancer - wstETH/WETH
+  // Balancer v2 - wstETH/WETH
   allowAction.balancer.deposit({ targets: ["wstETH-WETH-BPT"] }),
   allowAction.balancer.stake({ targets: ["wstETH-WETH-BPT"] }),
-  // Balancer - rETH/WETH
+  // Balancer v2 - rETH/WETH
   allowAction.balancer.deposit({ targets: ["B-rETH-STABLE"] }),
   allowAction.balancer.stake({ targets: ["B-rETH-STABLE"] }),
-  // Balancer - WETH/osETH
+  // Balancer v2 - WETH/osETH
   allowAction.balancer.deposit({ targets: ["osETH/wETH-BPT"] }),
   allowAction.balancer.stake({ targets: ["osETH/wETH-BPT"] }),
 

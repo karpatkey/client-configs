@@ -4,7 +4,6 @@ import {
   COMP,
   DAI,
   GHO,
-  GNO,
   GYD,
   OETH,
   rETH,
@@ -20,7 +19,6 @@ import {
   WBTC,
   WETH,
   wstETH,
-  balancer,
 } from "@/addresses/eth"
 import { kpkGovernance } from "../../../addresses"
 

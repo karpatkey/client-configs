@@ -23,6 +23,9 @@ export const contracts = {
       bCow50Weth50UsdcGauge: "0xF9423B78D784D610A00955E733dBa0bf9bda7B06",
       bCow50Wnxm50Weth: "0x7c838b3Ed3C15a5d5032e809B8714f0aE5e9A821",
     },
+    balancerV3: {
+      compositeLiquidityRouter: "0x1CD776897ef4f647bf8241Ec69549e4A9cb1D608",
+    },
     curve: {
       ...deFiKitContracts.mainnet.curve,
       steCrvPool: "0xDC24316b9AE028F1497c275EB9192a3Ea0f67022",
@@ -149,12 +152,12 @@ export const contracts = {
       staking: "0xF55041E37E12cD407ad00CE2910B8269B01263b9",
       proxy: "0x01cDC91B0A9bA741903aA3699BF4CE31d6C5cC06",
     },
+    uniswap: {
+      uni: "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+      permit2: "0x000000000022D473030F116dDEE9F6B43aC78BA3",
+    },
     uniswapV2: {
       router2: "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D",
-    },
-    uniswapV3: {
-      ...deFiKitContracts.mainnet.uniswapV3,
-      uni: "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
     },
     votium: {
       bribe: "0x19BBC3463Dd8d07f55438014b021Fb457EBD4595",

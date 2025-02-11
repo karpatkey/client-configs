@@ -11,7 +11,7 @@ export default [
   // Aave v3 - Deposit USDC.e
   allowAction.aave_v3.deposit({ targets: ["USDC.e"] }),
   // Aave v3 - Deposit USDT
-  allowAction.aave_v3.deposit({ targets: ["USDT"] }),
+  allowAction.aave_v3.deposit({ targets: ["USD₮0"] }),
 
   // CowSwap - [COMP, DAI, USDC, USDCe] -> [DAI, USDC, USDCe]
   allowAction.cowswap.swap({

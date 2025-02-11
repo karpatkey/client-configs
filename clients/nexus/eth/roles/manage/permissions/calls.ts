@@ -22,7 +22,7 @@ import {
   WETH,
   wNXM,
   wstETH,
-  balancer,
+  balancerV2,
   curve,
   nexus,
 } from "@/addresses/eth"
@@ -42,13 +42,20 @@ export default [
     send: true,
   }),
 
-  // Balancer - BCoW AMM wNXM/WETH (Staking not available)
+  // Balancer v2 - BCoW AMM wNXM/WETH (Staking not available)
   ...allowErc20Approve(
     [wNXM, WETH],
     [contracts.mainnet.balancer.bCow50Wnxm50Weth]
   ),
   allow.mainnet.balancer.bCow50Wnxm50Weth.joinPool(),
   allow.mainnet.balancer.bCow50Wnxm50Weth.exitPool(),
+
+  // Balancer v3 - Boosted USDT/GHO/USDC
+  ...allowErc20Approve([GHO, USDC, USDT], [contracts.mainnet.uniswap.permit2]),
+  allow.mainnet.uniswap.permit2.approve(
+    c.or(GHO, USDC, USDT),
+    contracts.mainnet.balancerV3.compositeLiquidityRouter
+  ),
 
   // Compound v3 - Deposit ETH
   allow.mainnet.compoundV3.cWethV3.allow(
@@ -201,7 +208,7 @@ export default [
    * Swaps
    *********************************************/
   // Balancer - osETH <-> WETH
-  balancerSwap(balancer.osEthWethPid, [osETH, WETH], [osETH, WETH]),
+  balancerSwap(balancerV2.osEthWethPid, [osETH, WETH], [osETH, WETH]),
 
   // Uniswap v3
   ...allowErc20Approve(

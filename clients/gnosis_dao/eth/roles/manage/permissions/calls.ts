@@ -1,19 +1,13 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import {
-  DAI,
   GHO,
   EURA,
   OLAS,
-  osETH,
-  rETH,
   SAFE,
   stETH,
-  USDC,
-  USDT,
-  WETH,
   wstETH,
-  balancer,
+  balancerV2,
 } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
@@ -103,7 +97,7 @@ export default (parameters: Parameters) =>
 
     // Sommelier - TurboDIVETH
     ...allowErc20Approve(
-      [balancer.bREthStable],
+      [balancerV2.bREthStable],
       [contracts.mainnet.sommelier.turboDivEth]
     ),
     allow.mainnet.sommelier.turboDivEth.deposit(undefined, c.avatar),

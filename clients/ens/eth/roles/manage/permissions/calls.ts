@@ -15,17 +15,15 @@ import {
   rETH,
   RPL,
   sDAI,
-  sUSDS,
   stETH,
   SWISE,
   USDC,
   USDM,
-  USDS,
   USDT,
   WETH,
   wstETH,
   x3CRV,
-  balancer,
+  balancerV2,
   curve,
 } from "@/addresses/eth"
 import { zeroAddress, eAddress } from "@/addresses"
@@ -272,31 +270,35 @@ export default [
    * SWAPS
    *********************************************/
   // Balancer - AURA -> WETH
-  balancerSwap(balancer.b50Weth50AuraPid, [AURA], [WETH]),
+  balancerSwap(balancerV2.b50Weth50AuraPid, [AURA], [WETH]),
   // Balancer - BAL -> WETH
-  balancerSwap(balancer.b80Bal20WethPid, [BAL], [WETH]),
+  balancerSwap(balancerV2.b80Bal20WethPid, [BAL], [WETH]),
   // Balancer - WETH -> DAI
-  balancerSwap(balancer.b60Weth40DaiPid, [WETH], [DAI]),
+  balancerSwap(balancerV2.b60Weth40DaiPid, [WETH], [DAI]),
   // Balancer - WETH -> USDC
-  balancerSwap(balancer.b50Usdc50WethPid, [WETH], [USDC]),
+  balancerSwap(balancerV2.b50Usdc50WethPid, [WETH], [USDC]),
   // Balancer - COMP -> WETH
-  balancerSwap(balancer.b50Comp50WethPid, [COMP], [WETH]),
+  balancerSwap(balancerV2.b50Comp50WethPid, [COMP], [WETH]),
   // Balancer - WETH <-> wstETH
-  balancerSwap(balancer.bStEthStablePid, [WETH, wstETH], [WETH, wstETH]),
+  balancerSwap(balancerV2.bStEthStablePid, [WETH, wstETH], [WETH, wstETH]),
   // Balancer - WETH <-> wstETH
-  balancerSwap(balancer.eclpWstEthWethPid, [WETH, wstETH], [WETH, wstETH]),
+  balancerSwap(balancerV2.eclpWstEthWethPid, [WETH, wstETH], [WETH, wstETH]),
   // Balancer - rETH <-> WETH
-  balancerSwap(balancer.bREthStablePid, [rETH, WETH], [rETH, WETH]),
+  balancerSwap(balancerV2.bREthStablePid, [rETH, WETH], [rETH, WETH]),
   // Balancer - ankrETH <-> wstETH
-  balancerSwap(balancer.ankrEthWstEthPid, [ankrETH, wstETH], [ankrETH, wstETH]),
+  balancerSwap(
+    balancerV2.ankrEthWstEthPid,
+    [ankrETH, wstETH],
+    [ankrETH, wstETH]
+  ),
   // Balancer - ETHx <-> WETH
-  balancerSwap(balancer.ethxWethPid, [ETHx, WETH], [ETHx, WETH]),
+  balancerSwap(balancerV2.ethxWethPid, [ETHx, WETH], [ETHx, WETH]),
   // Balancer - osETH <-> WETH
-  balancerSwap(balancer.osEthWethPid, [osETH, WETH], [osETH, WETH]),
+  balancerSwap(balancerV2.osEthWethPid, [osETH, WETH], [osETH, WETH]),
   // Balancer - OETH <-> WETH
-  balancerSwap(balancer.oEthWethPid, [OETH, WETH], [OETH, WETH]),
+  balancerSwap(balancerV2.oEthWethPid, [OETH, WETH], [OETH, WETH]),
   // Balancer - USDC <-> USDT
-  balancerSwap(balancer.usdcUsdtPid, [USDC, USDT], [USDC, USDT]),
+  balancerSwap(balancerV2.usdcUsdtPid, [USDC, USDT], [USDC, USDT]),
 
   // Curve - ETH <-> stETH
   ...allowErc20Approve([stETH], [contracts.mainnet.curve.steCrvPool]),
