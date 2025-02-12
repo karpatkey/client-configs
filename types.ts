@@ -23,6 +23,7 @@ export type ChainId = 1 | 10 | 100 | 8453 | 42161
 
 interface Instance {
   rolesMod: `0x${string}`
+  roleKeyPrefix?: string
   parameters?: Parameters
 }
 export interface Client {
