@@ -1,5 +1,5 @@
 import { allow as allowAction } from "defi-kit/gno"
-import { EURe, hDAI, USDC, USDCe, USDT, WXDAI } from "@/addresses/gno"
+import { EURe, USDC, USDCe, USDT, WXDAI } from "@/addresses/gno"
 
 export default [
   /*********************************************
@@ -8,10 +8,10 @@ export default [
   // Aura - wstETH/COW
   allowAction.aura.deposit({ targets: ["20"] }),
 
-  // Balancer - GBPe/sDAI
+  // Balancer v2 - GBPe/sDAI
   allowAction.balancer.deposit({ targets: ["GBPe/sDAI"] }),
   allowAction.balancer.stake({ targets: ["GBPe/sDAI"] }),
-  // Balancer - wstETH/COW
+  // Balancer v2 - wstETH/COW
   allowAction.balancer.deposit({ targets: ["B-50wstETH-50COW"] }),
   allowAction.balancer.stake({ targets: ["B-50wstETH-50COW"] }),
 

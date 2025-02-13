@@ -59,43 +59,43 @@ export default [
   // Azuro - XDAI LP
   allow.gnosis.azuro.lpAzrXdai.withdrawLiquidity(),
 
-  // Balancer - wstETH/GNO
+  // Balancer v2 - wstETH/GNO
   balancerUnstakeWithdraw(Chain.gno, balancer.b50wstEth50GnoGauge),
-  // Balancer - sDAI/wstETH
+  // Balancer v2 - sDAI/wstETH
   balancerUnstakeWithdraw(Chain.gno, balancer.b50Sdai50WstEthGauge),
-  // Balancer - USDC.e/USDT/sDAI
+  // Balancer v2 - USDC.e/USDT/sDAI
   balancerUnstakeWithdraw(Chain.gno, balancer.sBal3NewGauge),
-  // Balancer - WETH/wstETH
+  // Balancer v2 - WETH/wstETH
   balancerUnstakeWithdraw(Chain.gno, balancer.bbWethWstEthGauge),
-  // Balancer - rETH/WETH
+  // Balancer v2 - rETH/WETH
   balancerUnstakeWithdraw(Chain.gno, balancer.eclpRethWethGauge, false),
-  // Balancer - osGNO/GNO
+  // Balancer v2 - osGNO/GNO
   balancerUnstakeWithdraw(Chain.gno, balancer.osGnoGnoGauge),
-  // Balancer - WBTC/WETH
+  // Balancer v2 - WBTC/WETH
   balancerWithdraw(balancer.b50Wbtc50WethPid, false),
-  // Balancer - Gyroscope ECLP wstETH/WETH
+  // Balancer v2 - Gyroscope ECLP wstETH/WETH
   balancerUnstakeWithdraw(Chain.gno, balancer.eclpWstEthWethGauge),
-  // Balancer - wstETH/BAL/AURA
+  // Balancer v2 - wstETH/BAL/AURA
   balancerUnstakeWithdraw(Chain.gno, balancer.b50WstEth25Bal25AuraGauge),
-  // Balancer - wstETH/COW
+  // Balancer v2 - wstETH/COW
   balancerUnstakeWithdraw(Chain.gno, balancer.b50WstEth50CowGauge, false),
-  // Balancer - COW/GNO
+  // Balancer v2 - COW/GNO
   balancerUnstakeWithdraw(Chain.gno, balancer.b50Cow50GnoGauge, false),
-  // Balancer - stEUR/EURe
+  // Balancer v2 - stEUR/EURe
   balancerUnstakeWithdraw(Chain.gno, balancer.stEurEureGauge),
-  // Balancer - GIV/GNO
+  // Balancer v2 - GIV/GNO
   balancerWithdraw(balancer.b50Giv50GnoPid, false),
-  // Balancer - WXDAI/GNO
+  // Balancer v2 - WXDAI/GNO
   balancerWithdraw(balancer.wxdaiGnoPid, false),
-  // Balancer - EURe/sDAI
+  // Balancer v2 - EURe/sDAI
   balancerUnstakeWithdraw(Chain.gno, balancer.eureSdaiGauge),
-  // Balancer - BCoW AMM WETH/GNO (Staking not available)
+  // Balancer v2 - BCoW AMM WETH/GNO (Staking not available)
   allow.gnosis.balancer.bCowAmm50Weth50Gno.exitPool(),
-  // Balancer - BCoW AMM wstETH/sDAI (Staking not available)
+  // Balancer v2 - BCoW AMM wstETH/sDAI (Staking not available)
   allow.gnosis.balancer.bCowAmm50wstEth50sDai.exitPool(),
-  // Balancer - BCoW AMM GNO/OLAS (Staking not available)
+  // Balancer v2 - BCoW AMM GNO/OLAS (Staking not available)
   allow.gnosis.balancer.bCowAmm50Gno50Olas.exitPool(),
-  // Balancer - BCoW AMM GNO/COW (Staking not available)
+  // Balancer v2 - BCoW AMM GNO/COW (Staking not available)
   allow.gnosis.balancer.bCowAmm50Gno50Cow.exitPool(),
 
   // Curve - EURe/EURC.e

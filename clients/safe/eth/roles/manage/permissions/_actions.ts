@@ -26,13 +26,13 @@ export default [
   // Aave Safety Module - Stake GHO
   allowAction.aave_v3.stake({ targets: ["GHO"] }),
 
-  // Balancer - wstETH/WETH
+  // Balancer v2 - wstETH/WETH
   allowAction.balancer.deposit({ targets: ["wstETH-WETH-BPT"] }),
   allowAction.balancer.stake({ targets: ["wstETH-WETH-BPT"] }),
-  // Balancer - rETH/WETH
+  // Balancer v2 - rETH/WETH
   allowAction.balancer.deposit({ targets: ["B-rETH-STABLE"] }),
   allowAction.balancer.stake({ targets: ["B-rETH-STABLE"] }),
-  // Balancer - osETH/WETH
+  // Balancer v2 - osETH/WETH
   allowAction.balancer.deposit({ targets: ["osETH/wETH-BPT"] }),
   allowAction.balancer.stake({ targets: ["osETH/wETH-BPT"] }),
 

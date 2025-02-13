@@ -30,10 +30,10 @@ export default [
   // Aura - osETH/WETH
   allowAction.aura.deposit({ targets: ["179"] }),
 
-  // Balancer - rETH/WETH
+  // Balancer v2 - rETH/WETH
   allowAction.balancer.deposit({ targets: ["B-rETH-STABLE"] }),
   allowAction.balancer.stake({ targets: ["B-rETH-STABLE"] }),
-  // Balancer - osETH/WETH
+  // Balancer v2 - osETH/WETH
   allowAction.balancer.deposit({ targets: ["osETH/wETH-BPT"] }),
   allowAction.balancer.stake({ targets: ["osETH/wETH-BPT"] }),
 
