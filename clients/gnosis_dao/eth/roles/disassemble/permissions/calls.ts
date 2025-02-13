@@ -1,6 +1,14 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { GHO, USDC, WBTC, stETH, wstETH, aura, balancer } from "@/addresses/eth"
+import {
+  GHO,
+  USDC,
+  WBTC,
+  stETH,
+  wstETH,
+  aura,
+  balancerV2,
+} from "@/addresses/eth"
 import { auraWithdrawBalancer } from "@/exit_strategies/aura"
 import {
   balancerUnstakeWithdraw,
@@ -66,25 +74,25 @@ export default [
   // Aura - auraBAL
   auraWithdrawBalancer(
     aura.auraBauraBalStableRewarder,
-    balancer.bAuraBalStablePid
+    balancerV2.bAuraBalStablePid
   ),
 
   // Aura - COW/GNO
   auraWithdrawBalancer(
     aura.aura50Cow50GnoRewarder,
-    balancer.b50Cow50GnoPid,
+    balancerV2.b50Cow50GnoPid,
     false
   ),
 
   // Aura - COW/WETH
   auraWithdrawBalancer(
     aura.aura50Cow50WethRewarder,
-    balancer.b50Cow50WethPid,
+    balancerV2.b50Cow50WethPid,
     false
   ),
 
   // Aura - rETH/WETH
-  auraWithdrawBalancer(aura.auraBrEthStableRewarder, balancer.bREthStablePid),
+  auraWithdrawBalancer(aura.auraBrEthStableRewarder, balancerV2.bREthStablePid),
 
   // Aura - Lock
   allow.mainnet.aura.vlAura.processExpiredLocks(),
@@ -97,19 +105,19 @@ export default [
   // Autonolas - OLAS Withdraw
   allow.mainnet.autonolas.veOlas.withdraw(),
 
-  // Balancer - auraBAL / B-80BAL-20WETH
-  balancerUnstakeWithdraw(Chain.eth, balancer.bAuraBalStableGauge),
-  // Balancer - B-80BAL-20WETH
-  balancerWithdraw(balancer.b80Bal20WethPid),
+  // Balancer v2 - auraBAL / B-80BAL-20WETH
+  balancerUnstakeWithdraw(Chain.eth, balancerV2.bAuraBalStableGauge),
+  // Balancer v2 - B-80BAL-20WETH
+  balancerWithdraw(balancerV2.b80Bal20WethPid),
 
-  // Balancer - COW/GNO
-  balancerUnstakeWithdraw(Chain.eth, balancer.b50Cow50GnoGauge, false),
+  // Balancer v2 - COW/GNO
+  balancerUnstakeWithdraw(Chain.eth, balancerV2.b50Cow50GnoGauge, false),
 
-  // Balancer - COW/WETH
-  balancerUnstakeWithdraw(Chain.eth, balancer.b50Cow50WethGauge, false),
+  // Balancer v2 - COW/WETH
+  balancerUnstakeWithdraw(Chain.eth, balancerV2.b50Cow50WethGauge, false),
 
-  // Balancer - rETH/WETH
-  balancerUnstakeWithdraw(Chain.eth, balancer.bREthStableGauge),
+  // Balancer v2 - rETH/WETH
+  balancerUnstakeWithdraw(Chain.eth, balancerV2.bREthStableGauge),
 
   // Balancer - Lock
   allow.mainnet.balancer.veBal.withdraw(),

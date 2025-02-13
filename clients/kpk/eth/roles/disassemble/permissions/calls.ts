@@ -1,11 +1,7 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import {
-  CRV,
-  COMP,
-  CVX,
   DAI,
-  NOTE,
   rETH,
   USDC,
   USDT,
@@ -13,13 +9,12 @@ import {
   WETH,
   wstETH,
   aura,
-  balancer,
+  balancerV2,
   convex,
 } from "@/addresses/eth"
-import { eAddress } from "@/addresses"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
-import { PermissionList, Chain } from "@/types"
+import { PermissionList } from "@/types"
 import { auraWithdrawBalancer } from "@/exit_strategies/aura"
 import { balancerSwap } from "@/exit_strategies/balancer"
 import {
@@ -42,7 +37,10 @@ export default [
   allow.mainnet.aaveV2.stkGho.cooldown(),
 
   // Aura - wstETH/WETH
-  auraWithdrawBalancer(aura.auraBstEthStableRewarder, balancer.bStEthStablePid),
+  auraWithdrawBalancer(
+    aura.auraBstEthStableRewarder,
+    balancerV2.bStEthStablePid
+  ),
 
   // Aura - Lock
   allow.mainnet.aura.vlAura.processExpiredLocks(),
@@ -113,10 +111,10 @@ export default [
    * SWAPS
    *********************************************/
   // Balancer - rETH <-> WETH
-  balancerSwap(balancer.bREthStablePid, [rETH, WETH], [rETH, WETH]),
+  balancerSwap(balancerV2.bREthStablePid, [rETH, WETH], [rETH, WETH]),
 
   // Balancer - WETH <-> wstETH
-  balancerSwap(balancer.bStEthStablePid, [WETH, wstETH], [wstETH, WETH]),
+  balancerSwap(balancerV2.bStEthStablePid, [WETH, wstETH], [wstETH, WETH]),
 
   // Curve - [DAI, USDC, USDT] <-> [DAI, USDC, USDT]
   ...allowErc20Approve([DAI, USDC, USDT], [contracts.mainnet.curve.x3CrvPool]),

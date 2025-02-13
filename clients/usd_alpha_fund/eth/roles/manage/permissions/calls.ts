@@ -15,7 +15,7 @@ import {
   WBTC,
   wM,
   wstETH,
-  balancer,
+  balancerV2,
   morpho,
   pendle,
 } from "@/addresses/eth"
@@ -250,10 +250,14 @@ export default (parameters: Parameters) =>
      * Swaps
      *********************************************/
     // Balancer - GYD <-> sDAI
-    balancerSwap(balancer.eclpGydSdai2Pid, [GYD, sDAI], [GYD, sDAI]),
+    balancerSwap(balancerV2.eclpGydSdai2Pid, [GYD, sDAI], [GYD, sDAI]),
 
     // Balancer - [GHO, USDC, USDT] <-> [GHO, USDC, USDT]
-    balancerSwap(balancer.ghoUsdtUsdcPid, [GHO, USDC, USDT], [GHO, USDC, USDT]),
+    balancerSwap(
+      balancerV2.ghoUsdtUsdcPid,
+      [GHO, USDC, USDT],
+      [GHO, USDC, USDT]
+    ),
 
     // Curve - [DAI, USDC, USDT] <-> [DAI, USDC, USDT]
     ...allowErc20Approve(

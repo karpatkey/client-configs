@@ -106,9 +106,11 @@ export const aura = {
   aura50Cow50GnoRewarder: "0x82FeB430d9D14eE5E635C41807e03fD8F5FfFDeC",
   aura50Cow50WethRewarder: "0xA6e54eA1C67396Bde9e92cA462197bE59Af3E875",
   auraosEthWethRewarder: "0x5F032f15B4e910252EDaDdB899f7201E89C8cD6b",
+  auraAaveGhoUsdtUsdcRewarder: "0x8e89d41c563e6C3d9901ad75B75e2d8e140DEF04",
+  auraAaveLidoWethWstEthRewarder: "0xCF370C3279452143f68e350b824714B49593a334",
 } as const
 
-export const balancer = {
+export const balancerV2 = {
   // BPTs
   bStEthStable: "0x93d199263632a4EF4Bb438F1feB99e57b4b5f0BD",
   bREthStable: "0x1E19CF2D73a72Ef1332C882F20534B6519Be0276",
@@ -166,6 +168,16 @@ export const balancer = {
     "0x7056c8dfa8182859ed0d4fb0ef0886fdf3d2edcf000200000000000000000623",
   usdcUsdtPid:
     "0x8353157092ed8be69a9df8f95af097bbf33cb2af0000000000000000000005d9",
+} as const
+
+export const balancerV3 = {
+  // BPTs
+  aaveGhoUsdtUsdc: "0x85B2b559bC2D21104C4DEFdd6EFcA8A20343361D",
+  aaveLidoWethWstEth: "0xc4Ce391d82D164c166dF9c8336DDF84206b2F812",
+
+  // Gauges
+  aaveGhoUsdtUsdcGauge: "0x9fdD52eFEb601E4Bc78b89C6490505B8aC637E9f",
+  aaveLidoWethWstEthGauge: "0x4B891340b51889f438a03DC0e8aAAFB0Bc89e7A6",
 } as const
 
 export const convex = {

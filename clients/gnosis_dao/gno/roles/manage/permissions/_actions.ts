@@ -44,49 +44,49 @@ export default [
   // Aura - Gyroscope ECLP rETH/WETH
   allowAction.aura.deposit({ targets: ["26"] }),
 
-  // Balancer - wstETH/GNO
+  // Balancer v2 - wstETH/GNO
   allowAction.balancer.deposit({ targets: ["B-50wstETH-50GNO"] }),
   allowAction.balancer.stake({ targets: ["B-50wstETH-50GNO"] }),
-  // Balancer - sDAI/wstETH
+  // Balancer v2 - sDAI/wstETH
   allowAction.balancer.deposit({ targets: ["B-50sDAI-50wstETH"] }),
   allowAction.balancer.stake({ targets: ["B-50sDAI-50wstETH"] }),
-  // Balancer - USDC.e/USDT/sDAI
+  // Balancer v2 - USDC.e/USDT/sDAI
   allowAction.balancer.deposit({ targets: ["sBAL3"] }),
   allowAction.balancer.stake({ targets: ["sBAL3"] }),
-  // Balancer - WETH/wstETH
+  // Balancer v2 - WETH/wstETH
   allowAction.balancer.deposit({ targets: ["bb-WETH-wstETH"] }),
   allowAction.balancer.stake({ targets: ["bb-WETH-wstETH"] }),
-  // Balancer - rETH/WETH
+  // Balancer v2 - rETH/WETH
   allowAction.balancer.deposit({ targets: ["ECLP-rETH-WETH"] }),
   allowAction.balancer.stake({ targets: ["ECLP-rETH-WETH"] }),
-  // Balancer - osGNO/GNO
+  // Balancer v2 - osGNO/GNO
   allowAction.balancer.deposit({ targets: ["osGNO/GNO-BPT"] }),
   allowAction.balancer.stake({ targets: ["osGNO/GNO-BPT"] }),
-  // Balancer - WBTC/WETH
+  // Balancer v2 - WBTC/WETH
   allowAction.balancer.deposit({ targets: ["50WBTC-50WETH"] }),
   allowAction.balancer.stake({ targets: ["50WBTC-50WETH"] }),
-  // Balancer - Gyroscope ECLP wstETH/WETH
+  // Balancer v2 - Gyroscope ECLP wstETH/WETH
   allowAction.balancer.deposit({ targets: ["ECLP-wstETH-WETH"] }),
   allowAction.balancer.stake({ targets: ["ECLP-wstETH-WETH"] }),
-  // Balancer - wstETH/BAL/AURA
+  // Balancer v2 - wstETH/BAL/AURA
   allowAction.balancer.deposit({ targets: ["B-50wstETH-25BAL-25AURA"] }),
   allowAction.balancer.stake({ targets: ["B-50wstETH-25BAL-25AURA"] }),
-  // Balancer - wstETH/COW
+  // Balancer v2 - wstETH/COW
   allowAction.balancer.deposit({ targets: ["B-50wstETH-50COW"] }),
   allowAction.balancer.stake({ targets: ["B-50wstETH-50COW"] }),
-  // Balancer - COW/GNO
+  // Balancer v2 - COW/GNO
   allowAction.balancer.deposit({ targets: ["50COW-50GNO"] }),
   allowAction.balancer.stake({ targets: ["50COW-50GNO"] }),
-  // Balancer - stEUR/EURe
+  // Balancer v2 - stEUR/EURe
   allowAction.balancer.deposit({ targets: ["stEUR/EURe"] }),
   allowAction.balancer.stake({ targets: ["stEUR/EURe"] }),
-  // Balancer - GIV/GNO
+  // Balancer v2 - GIV/GNO
   allowAction.balancer.deposit({ targets: ["50GIV-50GNO"] }),
   allowAction.balancer.stake({ targets: ["50GIV-50GNO"] }),
-  // Balancer - WXDAI/GNO
+  // Balancer v2 - WXDAI/GNO
   allowAction.balancer.deposit({ targets: ["WXDAI-GNO"] }),
   allowAction.balancer.stake({ targets: ["WXDAI-GNO"] }),
-  // Balancer - EURe/sDAI
+  // Balancer v2 - EURe/sDAI
   allowAction.balancer.deposit({ targets: ["EURe/sDAI"] }),
   allowAction.balancer.stake({ targets: ["EURe/sDAI"] }),
 

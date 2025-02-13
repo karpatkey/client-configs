@@ -72,25 +72,25 @@ export default [
   // Aura - weETH/rETH
   allowAction.aura.deposit({ targets: ["182"] }),
 
-  // Balancer - wstETH/WETH
+  // Balancer v2 - wstETH/WETH
   allowAction.balancer.deposit({ targets: ["wstETH-WETH-BPT"] }),
   allowAction.balancer.stake({ targets: ["wstETH-WETH-BPT"] }),
-  // Balancer - osETH/WETH
+  // Balancer v2 - osETH/WETH
   allowAction.balancer.deposit({ targets: ["osETH/wETH-BPT"] }),
   allowAction.balancer.stake({ targets: ["osETH/wETH-BPT"] }),
-  // Balancer - rETH/WETH
+  // Balancer v2 - rETH/WETH
   allowAction.balancer.deposit({ targets: ["B-rETH-STABLE"] }),
   allowAction.balancer.stake({ targets: ["B-rETH-STABLE"] }),
-  // Balancer - GHO/USDT/USDC
+  // Balancer v2 - GHO/USDT/USDC
   allowAction.balancer.deposit({ targets: ["GHO/USDT/USDC"] }),
   allowAction.balancer.stake({ targets: ["GHO/USDT/USDC"] }),
-  // Balancer - sDAI/3Pool
+  // Balancer v2 - sDAI/3Pool
   allowAction.balancer.deposit({ targets: ["sDAI/3Pool"] }),
   allowAction.balancer.stake({ targets: ["sDAI/3Pool"] }),
-  // Balancer - Gyroscope ECLP GHO/USDC 2
+  // Balancer v2 - Gyroscope ECLP GHO/USDC 2
   allowAction.balancer.deposit({ targets: ["ECLP-GHO-USDC-2"] }),
   allowAction.balancer.stake({ targets: ["ECLP-GHO-USDC-2"] }),
-  // Balancer - weETH/rETH
+  // Balancer v2 - weETH/rETH
   allowAction.balancer.deposit({ targets: ["weETH/rETH"] }),
   allowAction.balancer.stake({ targets: ["weETH/rETH"] }),
 

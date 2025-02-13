@@ -1,6 +1,6 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { eETH, weETH, aura, balancer, convex } from "@/addresses/eth"
+import { eETH, weETH, aura, balancerV2, convex } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
@@ -14,14 +14,14 @@ export default [
   allow.mainnet.weth.withdraw(),
 
   // Aura - rETH/WETH
-  auraWithdrawBalancer(aura.auraBrEthStableRewarder, balancer.bREthStablePid),
+  auraWithdrawBalancer(aura.auraBrEthStableRewarder, balancerV2.bREthStablePid),
   // Aura - osETH/WETH
-  auraWithdrawBalancer(aura.auraosEthWethRewarder, balancer.osEthWethPid),
+  auraWithdrawBalancer(aura.auraosEthWethRewarder, balancerV2.osEthWethPid),
 
-  // Balancer - rETH/WETH
-  balancerUnstakeWithdraw(Chain.eth, balancer.bREthStableGauge),
-  // Balancer - WETH/osETH
-  balancerUnstakeWithdraw(Chain.eth, balancer.osEthWethGauge),
+  // Balancer v2 - rETH/WETH
+  balancerUnstakeWithdraw(Chain.eth, balancerV2.bREthStableGauge),
+  // Balancer v2 - WETH/osETH
+  balancerUnstakeWithdraw(Chain.eth, balancerV2.osEthWethGauge),
 
   // Convex - ETHx/ETH - ethx-f
   convexWithdraw(convex.cvxethxRewarder),

@@ -21,9 +21,9 @@ export default [
     balancer.b50WstEth50CowPid
   ),
 
-  // Balancer - GBPe/sDAI
+  // Balancer v2 - GBPe/sDAI
   balancerWithdraw(balancer.bGbpeSdaiPid, false),
-  // Balancer - wstETH/COW
+  // Balancer v2 - wstETH/COW
   balancerUnstakeWithdraw(Chain.gno, balancer.b50WstEth50CowGauge),
 
   // Curve - EURe/x3CRV

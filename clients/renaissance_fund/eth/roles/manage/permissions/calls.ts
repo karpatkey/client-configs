@@ -40,7 +40,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.snapshot.delegation.clearDelegate(snapshotSafeId),
 
     // Uniswap - Delegate/Undelgate UNI on Tally
-    allow.mainnet.uniswapV3.uni.delegate(c.or(kpkGovernance, c.avatar)),
+    allow.mainnet.uniswap.uni.delegate(c.or(kpkGovernance, c.avatar)),
 
     /*********************************************
      * Bridge

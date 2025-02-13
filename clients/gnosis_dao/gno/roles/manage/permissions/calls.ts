@@ -35,7 +35,7 @@ export default [
   allow.gnosis.azuro.lpAzrXdai.addLiquidity(),
   allow.gnosis.azuro.lpAzrXdai.withdrawLiquidity(),
 
-  // Balancer - BCoW AMM WETH/GNO (Staking not available)
+  // Balancer v2 - BCoW AMM WETH/GNO (Staking not available)
   ...allowErc20Approve(
     [GNO, WETH],
     [contracts.gnosis.balancer.bCowAmm50Weth50Gno]
@@ -43,7 +43,7 @@ export default [
   allow.gnosis.balancer.bCowAmm50Weth50Gno.joinPool(),
   allow.gnosis.balancer.bCowAmm50Weth50Gno.exitPool(),
 
-  // Balancer - BCoW AMM wstETH/sDAI (Staking not available)
+  // Balancer v2 - BCoW AMM wstETH/sDAI (Staking not available)
   ...allowErc20Approve(
     [sDAI, wstETH],
     [contracts.gnosis.balancer.bCowAmm50wstEth50sDai]
@@ -51,7 +51,7 @@ export default [
   allow.gnosis.balancer.bCowAmm50wstEth50sDai.joinPool(),
   allow.gnosis.balancer.bCowAmm50wstEth50sDai.exitPool(),
 
-  // Balancer - BCoW AMM GNO/OLAS (Staking not available)
+  // Balancer v2 - BCoW AMM GNO/OLAS (Staking not available)
   ...allowErc20Approve(
     [GNO, OLAS],
     [contracts.gnosis.balancer.bCowAmm50Gno50Olas]
@@ -59,7 +59,7 @@ export default [
   allow.gnosis.balancer.bCowAmm50Gno50Olas.joinPool(),
   allow.gnosis.balancer.bCowAmm50Gno50Olas.exitPool(),
 
-  // Balancer - BCoW AMM GNO/COW (Staking not available)
+  // Balancer v2 - BCoW AMM GNO/COW (Staking not available)
   ...allowErc20Approve(
     [GNO, COW],
     [contracts.gnosis.balancer.bCowAmm50Gno50Cow]
