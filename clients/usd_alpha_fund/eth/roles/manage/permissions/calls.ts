@@ -69,19 +69,52 @@ export default (parameters: Parameters) =>
     allow.mainnet.curve.crvUsdUsdtGauge["claim_rewards()"](),
     allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.crvUsdUsdtGauge),
 
+    // Curve - crvUSD/USDC
+    ...allowErc20Approve(
+      [crvUSD, USDC],
+      [contracts.mainnet.curve.crvUsdUsdcPool]
+    ),
+    allow.mainnet.curve.crvUsdUsdcPool["add_liquidity(uint256[2],uint256)"](),
+    allow.mainnet.curve.crvUsdUsdcPool[
+      "remove_liquidity(uint256,uint256[2])"
+    ](),
+    allow.mainnet.curve.crvUsdUsdcPool[
+      "remove_liquidity_imbalance(uint256[2],uint256)"
+    ](),
+    allow.mainnet.curve.crvUsdUsdcPool[
+      "remove_liquidity_one_coin(uint256,int128,uint256)"
+    ](),
+    ...allowErc20Approve(
+      [contracts.mainnet.curve.crvUsdUsdcPool],
+      [contracts.mainnet.curve.crvUsdUsdcGauge]
+    ),
+    allow.mainnet.curve.crvUsdUsdcGauge["deposit(uint256)"](),
+    allow.mainnet.curve.crvUsdUsdcGauge["withdraw(uint256)"](),
+    allow.mainnet.curve.crvUsdUsdcGauge["claim_rewards()"](),
+    allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.crvUsdUsdcGauge),
+
     // Curve - Deposit and Stake using a special ZAP
     ...allowErc20Approve(
-      [crvUSD, USDT],
+      [crvUSD, USDC, USDT],
       [contracts.mainnet.curve.stakeDepositZap]
     ),
     allow.mainnet.curve.stakeDepositZap[
       "deposit_and_stake(address,address,address,uint256,address[],uint256[],uint256,bool,bool,address)"
     ](
-      contracts.mainnet.curve.crvUsdUsdtPool,
-      contracts.mainnet.curve.crvUsdUsdtPool,
-      contracts.mainnet.curve.crvUsdUsdtGauge,
+      c.or(
+        contracts.mainnet.curve.crvUsdUsdtPool,
+        contracts.mainnet.curve.crvUsdUsdcPool
+      ),
+      c.or(
+        contracts.mainnet.curve.crvUsdUsdtPool,
+        contracts.mainnet.curve.crvUsdUsdcPool
+      ),
+      c.or(
+        contracts.mainnet.curve.crvUsdUsdtGauge,
+        contracts.mainnet.curve.crvUsdUsdcGauge
+      ),
       2,
-      [USDT, crvUSD],
+      c.or([USDT, crvUSD], [USDC, crvUSD]),
       undefined,
       undefined,
       undefined,

@@ -56,6 +56,8 @@ export default [
 
   // Convex - crvUSD/USDT
   allowAction.convex.deposit({ targets: ["179"] }),
+  // Convex - crvUSD/USDc
+  allowAction.convex.deposit({ targets: ["182"] }),
 
   // CowSwap - [COMP, DAI, sDAI, USDC] -> [DAI, sDAI, USDC]
   allowAction.cowswap.swap({

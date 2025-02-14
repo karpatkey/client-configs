@@ -55,6 +55,7 @@ export const contracts = {
       usdeDaiPool: "0xF36a4BA50C603204c3FC6d2dA8b78A7b69CBC67d",
       mtEthenaPool: "0x167478921b907422F8E88B43C4Af2B8BEa278d3A",
       crvUsdUsdcPool: "0x4DEcE678ceceb27446b35C672dC7d61F30bAD69E",
+      crvUsdUsdcGauge: "0x95f00391cB5EebCd190EB58728B4CE23DbFa6ac1",
       ethxfPool: "0x59Ab5a5b5d617E478a2479B0cAD80DA7e2831492",
       ethxfGauge: "0x7671299eA7B4bbE4f3fD305A994e6443b4be680E",
       ankrCrvPool: "0xA96A65c051bF88B4095Ee1f2451C2A9d43F53Ae2",
@@ -66,6 +67,7 @@ export const contracts = {
     },
     ethena: {
       sUsde: "0x9D39A5DE30e57443BfF2A8307A4256c8797A3497",
+      sEna: "0x8bE3460A480c80728a8C4D7a5D5303c85ba7B3b9",
     },
     etherfi: {
       liquidEth: "0xf0bb20865277aBd641a307eCe5Ee04E79073416C",
