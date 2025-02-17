@@ -44,43 +44,43 @@ export default [
     send: true,
   }),
 
-  // Aura - Aave Boosted USDT/GHO/USDC
-  ...allowErc20Approve(
-    [balancerV3.aaveGhoUsdtUsdc],
-    [contracts.mainnet.aura.booster]
-  ),
-  allow.mainnet.aura.booster.deposit("246"),
-  {
-    ...allow.mainnet.aura.rewarder.withdrawAndUnwrap(),
-    targetAddress: aura.auraAaveGhoUsdtUsdcRewarder,
-  },
-  {
-    ...allow.mainnet.aura.rewarder["getReward()"](),
-    targetAddress: aura.auraAaveGhoUsdtUsdcRewarder,
-  },
-  {
-    ...allow.mainnet.aura.rewarder["getReward(address,bool)"](c.avatar),
-    targetAddress: aura.auraAaveGhoUsdtUsdcRewarder,
-  },
+  // // Aura - Aave Boosted USDT/GHO/USDC
+  // ...allowErc20Approve(
+  //   [balancerV3.aaveGhoUsdtUsdc],
+  //   [contracts.mainnet.aura.booster]
+  // ),
+  // allow.mainnet.aura.booster.deposit("246"),
+  // {
+  //   ...allow.mainnet.aura.rewarder.withdrawAndUnwrap(),
+  //   targetAddress: aura.auraAaveGhoUsdtUsdcRewarder,
+  // },
+  // {
+  //   ...allow.mainnet.aura.rewarder["getReward()"](),
+  //   targetAddress: aura.auraAaveGhoUsdtUsdcRewarder,
+  // },
+  // {
+  //   ...allow.mainnet.aura.rewarder["getReward(address,bool)"](c.avatar),
+  //   targetAddress: aura.auraAaveGhoUsdtUsdcRewarder,
+  // },
 
-  // Aura - Aave Lido Boosted WETH/wstETH
-  ...allowErc20Approve(
-    [balancerV3.aaveLidoWethWstEth],
-    [contracts.mainnet.aura.booster]
-  ),
-  allow.mainnet.aura.booster.deposit("240"),
-  {
-    ...allow.mainnet.aura.rewarder.withdrawAndUnwrap(),
-    targetAddress: aura.auraAaveLidoWethWstEthRewarder,
-  },
-  {
-    ...allow.mainnet.aura.rewarder["getReward()"](),
-    targetAddress: aura.auraAaveLidoWethWstEthRewarder,
-  },
-  {
-    ...allow.mainnet.aura.rewarder["getReward(address,bool)"](c.avatar),
-    targetAddress: aura.auraAaveLidoWethWstEthRewarder,
-  },
+  // // Aura - Aave Lido Boosted WETH/wstETH
+  // ...allowErc20Approve(
+  //   [balancerV3.aaveLidoWethWstEth],
+  //   [contracts.mainnet.aura.booster]
+  // ),
+  // allow.mainnet.aura.booster.deposit("240"),
+  // {
+  //   ...allow.mainnet.aura.rewarder.withdrawAndUnwrap(),
+  //   targetAddress: aura.auraAaveLidoWethWstEthRewarder,
+  // },
+  // {
+  //   ...allow.mainnet.aura.rewarder["getReward()"](),
+  //   targetAddress: aura.auraAaveLidoWethWstEthRewarder,
+  // },
+  // {
+  //   ...allow.mainnet.aura.rewarder["getReward(address,bool)"](c.avatar),
+  //   targetAddress: aura.auraAaveLidoWethWstEthRewarder,
+  // },
 
   // Balancer v2 - BCoW AMM wNXM/WETH (Staking not available)
   ...allowErc20Approve(
@@ -90,45 +90,45 @@ export default [
   allow.mainnet.balancer.bCow50Wnxm50Weth.joinPool(),
   allow.mainnet.balancer.bCow50Wnxm50Weth.exitPool(),
 
-  // Balancer v3 - Aave Boosted USDT/GHO/USDC
-  ...allowErc20Approve([GHO, USDC, USDT], [contracts.mainnet.uniswap.permit2]),
-  allow.mainnet.uniswap.permit2.approve(
-    c.or(GHO, USDC, USDT),
-    contracts.mainnet.balancerV3.compositeLiquidityRouter
-  ),
-  allow.mainnet.balancerV3.compositeLiquidityRouter.addLiquidityProportionalToERC4626Pool(
-    balancerV3.aaveGhoUsdtUsdc
-  ),
-  allow.mainnet.balancerV3.compositeLiquidityRouter.addLiquidityUnbalancedToERC4626Pool(
-    balancerV3.aaveGhoUsdtUsdc
-  ),
-  ...allowErc20Approve(
-    [balancerV3.aaveGhoUsdtUsdc],
-    [contracts.mainnet.balancerV3.compositeLiquidityRouter]
-  ),
-  allow.mainnet.balancerV3.compositeLiquidityRouter.removeLiquidityProportionalFromERC4626Pool(
-    balancerV3.aaveGhoUsdtUsdc
-  ),
+  // // Balancer v3 - Aave Boosted USDT/GHO/USDC
+  // ...allowErc20Approve([GHO, USDC, USDT], [contracts.mainnet.uniswap.permit2]),
+  // allow.mainnet.uniswap.permit2.approve(
+  //   c.or(GHO, USDC, USDT),
+  //   contracts.mainnet.balancerV3.compositeLiquidityRouter
+  // ),
+  // allow.mainnet.balancerV3.compositeLiquidityRouter.addLiquidityProportionalToERC4626Pool(
+  //   balancerV3.aaveGhoUsdtUsdc
+  // ),
+  // allow.mainnet.balancerV3.compositeLiquidityRouter.addLiquidityUnbalancedToERC4626Pool(
+  //   balancerV3.aaveGhoUsdtUsdc
+  // ),
+  // ...allowErc20Approve(
+  //   [balancerV3.aaveGhoUsdtUsdc],
+  //   [contracts.mainnet.balancerV3.compositeLiquidityRouter]
+  // ),
+  // allow.mainnet.balancerV3.compositeLiquidityRouter.removeLiquidityProportionalFromERC4626Pool(
+  //   balancerV3.aaveGhoUsdtUsdc
+  // ),
 
-  // Balancer v3 - Aave Lido Boosted WETH/wstETH
-  ...allowErc20Approve([WETH, wstETH], [contracts.mainnet.uniswap.permit2]),
-  allow.mainnet.uniswap.permit2.approve(
-    c.or(WETH, wstETH),
-    contracts.mainnet.balancerV3.compositeLiquidityRouter
-  ),
-  allow.mainnet.balancerV3.compositeLiquidityRouter.addLiquidityProportionalToERC4626Pool(
-    balancerV3.aaveLidoWethWstEth
-  ),
-  allow.mainnet.balancerV3.compositeLiquidityRouter.addLiquidityUnbalancedToERC4626Pool(
-    balancerV3.aaveLidoWethWstEth
-  ),
-  ...allowErc20Approve(
-    [balancerV3.aaveLidoWethWstEth],
-    [contracts.mainnet.balancerV3.compositeLiquidityRouter]
-  ),
-  allow.mainnet.balancerV3.compositeLiquidityRouter.removeLiquidityProportionalFromERC4626Pool(
-    balancerV3.aaveLidoWethWstEth
-  ),
+  // // Balancer v3 - Aave Lido Boosted WETH/wstETH
+  // ...allowErc20Approve([WETH, wstETH], [contracts.mainnet.uniswap.permit2]),
+  // allow.mainnet.uniswap.permit2.approve(
+  //   c.or(WETH, wstETH),
+  //   contracts.mainnet.balancerV3.compositeLiquidityRouter
+  // ),
+  // allow.mainnet.balancerV3.compositeLiquidityRouter.addLiquidityProportionalToERC4626Pool(
+  //   balancerV3.aaveLidoWethWstEth
+  // ),
+  // allow.mainnet.balancerV3.compositeLiquidityRouter.addLiquidityUnbalancedToERC4626Pool(
+  //   balancerV3.aaveLidoWethWstEth
+  // ),
+  // ...allowErc20Approve(
+  //   [balancerV3.aaveLidoWethWstEth],
+  //   [contracts.mainnet.balancerV3.compositeLiquidityRouter]
+  // ),
+  // allow.mainnet.balancerV3.compositeLiquidityRouter.removeLiquidityProportionalFromERC4626Pool(
+  //   balancerV3.aaveLidoWethWstEth
+  // ),
 
   // Compound v3 - Deposit ETH
   allow.mainnet.compoundV3.cWethV3.allow(
