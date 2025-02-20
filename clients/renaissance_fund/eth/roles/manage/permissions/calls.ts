@@ -1,6 +1,6 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { _1INCH, DAI, GNO, USDC } from "@/addresses/eth"
+import { _1INCH, DAI, ENA, GNO, USDC } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
@@ -17,9 +17,18 @@ export default (parameters: Parameters) =>
     /*********************************************
      * Typed-presets permissions
      *********************************************/
+    // Aave Merit rewards (https://apps.aavechan.com/merit)
+    allow.mainnet.aaveV3.meritDistributor.claim([parameters.avatar]),
+
     // Cow - Delegate/Undelgate COW on Snapshot
     allow.mainnet.snapshot.delegation.setDelegate(snapshotCowId, kpkGovernance),
     allow.mainnet.snapshot.delegation.clearDelegate(snapshotCowId),
+
+    // Ethena - Stake ENA
+    ...allowErc20Approve([ENA], [contracts.mainnet.ethena.sEna]),
+    allow.mainnet.ethena.sEna.deposit(undefined, c.avatar),
+    allow.mainnet.ethena.sEna.cooldownShares(),
+    allow.mainnet.ethena.sEna.unstake(c.avatar),
 
     // Lido - Delegate/Undelgate LDO on Snapshot
     allow.mainnet.snapshot.delegation.setDelegate(

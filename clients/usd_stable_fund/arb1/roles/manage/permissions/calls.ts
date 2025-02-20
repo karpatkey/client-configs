@@ -78,7 +78,7 @@ export default (parameters: Parameters) =>
     allow.arbitrumOne.circleMessageTransmitter.receiveMessage(
       c.and(
         // version: 4 bytes (00000000)
-        // source domain: 4 bytes(00000000)
+        // source domain: 4 bytes (00000000)
         // destination domain: 4 bytes (00000003)
         c.bitmask({
           shift: 0,
