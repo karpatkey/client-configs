@@ -39,10 +39,13 @@ const postPermissions = async ({
 
 async function main() {
   const args = await yargs(process.argv.slice(2))
-    .usage("$0 <client> <chain> <instance> <role>")
+    .usage("$0 <client> <account(/instance)> <role>")
     .positional("client", { demandOption: true, type: "string" })
-    .positional("chain", { demandOption: true, type: "string" })
-    .positional("instance", { demandOption: true, type: "string" })
+    .positional("account", {
+      demandOption: true,
+      type: "string",
+      coerce: (value) => (value.includes("/") ? value : value + "/main"),
+    })
     .positional("role", { demandOption: true, type: "string" }).argv
 
   const [clientArg, chainArg, instanceArg, roleArg] = args._ as [
