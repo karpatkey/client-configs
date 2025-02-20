@@ -3,7 +3,7 @@ import { WETH } from "@/addresses/eth"
 import { mainTreasury } from "../../../../../addresses"
 import { PermissionList } from "@/types"
 import { allowErc20Transfer } from "@/helpers"
-import { allowEthTransferWithAnyData } from "@/helpers"
+import { allowEthTransfer } from "@/helpers"
 
 export default [
   /*********************************************
@@ -19,7 +19,7 @@ export default [
    * Transfers
    *********************************************/
   // Transfer ETH to Main Treasury
-  allowEthTransferWithAnyData(mainTreasury),
+  allowEthTransfer(mainTreasury),
   // Transfer WETH to Main Treasury
   allowErc20Transfer([WETH], [mainTreasury]),
 ] satisfies PermissionList

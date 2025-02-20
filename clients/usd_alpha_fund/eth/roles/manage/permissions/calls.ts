@@ -15,7 +15,9 @@ import {
   WBTC,
   wM,
   wstETH,
+  aura,
   balancerV2,
+  balancerV3,
   morpho,
   pendle,
 } from "@/addresses/eth"
@@ -38,6 +40,64 @@ export default (parameters: Parameters) =>
     /*********************************************
      * Typed-presets permissions
      *********************************************/
+    // Aura - Aave Boosted USDT/GHO/USDC
+    ...allowErc20Approve(
+      [balancerV3.aaveGhoUsdtUsdc],
+      [contracts.mainnet.aura.booster]
+    ),
+    allow.mainnet.aura.booster.deposit("246"),
+    {
+      ...allow.mainnet.aura.rewarder.withdrawAndUnwrap(),
+      targetAddress: aura.auraAaveGhoUsdtUsdcRewarder,
+    },
+    {
+      ...allow.mainnet.aura.rewarder["getReward()"](),
+      targetAddress: aura.auraAaveGhoUsdtUsdcRewarder,
+    },
+    {
+      ...allow.mainnet.aura.rewarder["getReward(address,bool)"](c.avatar),
+      targetAddress: aura.auraAaveGhoUsdtUsdcRewarder,
+    },
+
+    // Balancer v3 - Aave Boosted USDT/GHO/USDC
+    ...allowErc20Approve(
+      [GHO, USDC, USDT],
+      [contracts.mainnet.uniswap.permit2]
+    ),
+    allow.mainnet.uniswap.permit2.approve(
+      c.or(GHO, USDC, USDT),
+      contracts.mainnet.balancerV3.compositeLiquidityRouter
+    ),
+    allow.mainnet.balancerV3.compositeLiquidityRouter.addLiquidityProportionalToERC4626Pool(
+      balancerV3.aaveGhoUsdtUsdc
+    ),
+    allow.mainnet.balancerV3.compositeLiquidityRouter.addLiquidityUnbalancedToERC4626Pool(
+      balancerV3.aaveGhoUsdtUsdc
+    ),
+    ...allowErc20Approve(
+      [balancerV3.aaveGhoUsdtUsdc],
+      [contracts.mainnet.balancerV3.compositeLiquidityRouter]
+    ),
+    allow.mainnet.balancerV3.compositeLiquidityRouter.removeLiquidityProportionalFromERC4626Pool(
+      balancerV3.aaveGhoUsdtUsdc
+    ),
+    ...allowErc20Approve(
+      [balancerV3.aaveGhoUsdtUsdc],
+      [balancerV3.aaveGhoUsdtUsdcGauge]
+    ),
+    {
+      ...allow.mainnet.balancer.gauge["deposit(uint256)"](),
+      targetAddress: balancerV3.aaveGhoUsdtUsdcGauge,
+    },
+    {
+      ...allow.mainnet.balancer.gauge["withdraw(uint256)"](),
+      targetAddress: balancerV3.aaveGhoUsdtUsdcGauge,
+    },
+    {
+      ...allow.mainnet.balancer.gauge["claim_rewards()"](),
+      targetAddress: balancerV3.aaveGhoUsdtUsdcGauge,
+    },
+
     // Compound v3 - Deposit USDC
     ...allowErc20Approve([USDC], [contracts.mainnet.compoundV3.cUsdcV3]),
     allow.mainnet.compoundV3.cUsdcV3.supply(USDC),

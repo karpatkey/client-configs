@@ -17,8 +17,8 @@ import {
   USDC,
   USDe,
   USDM,
+  USDS,
   USDT,
-  WBTC,
   wM,
 } from "@/addresses/eth"
 
@@ -68,8 +68,8 @@ export default [
   allowAction.cowswap.swap({ sell: [DAI, USDC, USDM], buy: [DAI, USDC, USDM] }),
   // CowSwap - [USDC, wM] <-> [USDC, wM]
   allowAction.cowswap.swap({ sell: [USDC, wM], buy: [USDC, wM] }),
-  // CowSwap - [AAVE, AURA, BAL, CRV, crvUSD, CVX, DAI, GHO, GYD, NOTE, sDAI, stkGHO, sUSDe, USDC, USDe, USDT] <->
-  // [AAVE, AURA, BAL, CRV, crvUSD, CVX, DAI, GHO, GYD, NOTE, sDAI, stkGHO, sUSDe, USDC, USDe, USDT]
+  // CowSwap - [AAVE, AURA, BAL, CRV, crvUSD, CVX, DAI, GHO, GYD, NOTE, sDAI, stkGHO, sUSDe, USDC, USDe, USDS, USDT] <->
+  // [AAVE, AURA, BAL, CRV, crvUSD, CVX, DAI, GHO, GYD, NOTE, sDAI, stkGHO, sUSDe, USDC, USDe, USDS, USDT]
   allowAction.cowswap.swap({
     sell: [
       AAVE,
@@ -87,6 +87,7 @@ export default [
       sUSDe,
       USDC,
       USDe,
+      USDS,
       USDT,
     ],
     buy: [
@@ -105,6 +106,7 @@ export default [
       sUSDe,
       USDC,
       USDe,
+      USDS,
       USDT,
     ],
   }),
