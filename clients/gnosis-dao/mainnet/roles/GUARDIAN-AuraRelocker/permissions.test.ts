@@ -1,8 +1,14 @@
 import { applyPermissions } from "@/test/helpers"
 import { AURA } from "@/addresses/eth"
 import { contracts } from "@/contracts"
-import * as permissions from "./permissions"
 import kit from "@/test/kit"
+import calls from "./permissions/calls"
+import actions from "./permissions/_actions"
+
+const permissions = {
+  allowedCalls: calls,
+  allowedActions: actions,
+}
 
 describe("auraRelocker", () => {
   beforeAll(async () => {

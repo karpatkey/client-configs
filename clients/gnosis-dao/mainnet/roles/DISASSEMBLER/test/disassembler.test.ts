@@ -1,11 +1,16 @@
 import { applyPermissions } from "@/test/helpers"
 import { avatar } from "@/test/wallets"
-import * as permissions from "../permissions"
 import kit from "@/test/kit"
 import { balancerV2 } from "@/addresses/eth"
 import { parseEther } from "ethers"
 import { COW, GNO } from "@/addresses/eth"
+import calls from "../permissions/calls"
+import actions from "../permissions/_actions"
 
+const permissions = {
+  allowedCalls: calls,
+  allowedActions: actions,
+}
 describe("GnosisDAO", () => {
   beforeAll(async () => {
     // fresh role with Institutional manage permissions

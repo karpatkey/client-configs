@@ -1,13 +1,18 @@
 import { id, keccak256, parseEther, toUtf8Bytes } from "ethers"
 import { applyPermissions, wrapEth } from "@/test/helpers"
 
-import * as permissions from "../permissions"
+import calls from "../permissions/calls"
+import actions from "../permissions/_actions"
 import { ENS, WETH, cowSwap } from "@/addresses/eth"
 import { avatar } from "@/test/wallets"
 import kit from "@/test/kit"
 import { contracts } from "@/contracts"
 
 // jest.setTimeout(180000)
+const permissions = {
+  allowedCalls: calls,
+  allowedActions: actions,
+}
 
 describe("ENS", () => {
   beforeAll(async () => {

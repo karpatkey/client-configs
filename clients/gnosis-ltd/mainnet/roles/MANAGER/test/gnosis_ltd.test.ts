@@ -1,8 +1,14 @@
 import { parseEther } from "ethers"
 import { applyPermissions } from "@/test/helpers"
 import kit from "@/test/kit"
-import * as permissions from "../permissions"
 import { zeroAddress } from "@/addresses"
+import calls from "../permissions/calls"
+import actions from "../permissions/_actions"
+
+const permissions = {
+  allowedCalls: calls,
+  allowedActions: actions,
+}
 
 describe("GnosisLTD", () => {
   beforeAll(async () => {
