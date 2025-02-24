@@ -9,8 +9,8 @@ import {
   snapshotCowId,
   snapshotLidoId,
   snapshotSafeId,
-} from "../../../../addresses"
-import { Parameters } from "../../../../parameters"
+} from "../../../../gnosis/addresses"
+import { Parameters } from "../../../../gnosis/parameters"
 
 export default (parameters: Parameters) =>
   [

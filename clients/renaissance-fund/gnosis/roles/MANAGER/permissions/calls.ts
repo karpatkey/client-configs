@@ -4,7 +4,7 @@ import { USDC, USDCe } from "@/addresses/gno"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
-import { Parameters } from "../../../../parameters"
+import { Parameters } from "../../../parameters"
 
 export default (parameters: Parameters) =>
   [

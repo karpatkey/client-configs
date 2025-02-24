@@ -27,7 +27,7 @@ import {
   USDT,
   UNI,
 } from "@/addresses/eth"
-import { kpkGovernance } from "../../../../addresses"
+import { kpkGovernance } from "../../../../gnosis/addresses"
 
 export default [
   // Aave Safety Module - Stake AAVE
