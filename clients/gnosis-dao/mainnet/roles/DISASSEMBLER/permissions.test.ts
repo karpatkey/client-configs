@@ -4,8 +4,8 @@ import kit from "@/test/kit"
 import { balancerV2 } from "@/addresses/eth"
 import { parseEther } from "ethers"
 import { COW, GNO } from "@/addresses/eth"
-import allowedCalls from "../permissions/calls"
-import allowedActions from "../permissions/_actions"
+import allowedCalls from "./permissions/calls"
+import allowedActions from "./permissions/_actions"
 
 describe("GnosisDAO", () => {
   beforeAll(async () => {

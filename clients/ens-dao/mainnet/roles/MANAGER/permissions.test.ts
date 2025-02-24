@@ -1,8 +1,8 @@
 import { id, keccak256, parseEther, toUtf8Bytes } from "ethers"
 import { applyPermissions, wrapEth } from "@/test/helpers"
 
-import allowedCalls from "../permissions/calls"
-import allowedActions from "../permissions/_actions"
+import allowedCalls from "./permissions/calls"
+import allowedActions from "./permissions/_actions"
 import { ENS, WETH, cowSwap } from "@/addresses/eth"
 import { avatar } from "@/test/wallets"
 import kit from "@/test/kit"
