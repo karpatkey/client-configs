@@ -4,17 +4,16 @@ import kit from "@/test/kit"
 import { balancerV2 } from "@/addresses/eth"
 import { parseEther } from "ethers"
 import { COW, GNO } from "@/addresses/eth"
-import calls from "../permissions/calls"
-import actions from "../permissions/_actions"
+import allowedCalls from "../permissions/calls"
+import allowedActions from "../permissions/_actions"
 
-const permissions = {
-  allowedCalls: calls,
-  allowedActions: actions,
-}
 describe("GnosisDAO", () => {
   beforeAll(async () => {
     // fresh role with Institutional manage permissions
-    await applyPermissions(permissions)
+    await applyPermissions({
+      allowedCalls,
+      allowedActions,
+    })
   })
 
   describe("Exit Balancer One Coin", () => {

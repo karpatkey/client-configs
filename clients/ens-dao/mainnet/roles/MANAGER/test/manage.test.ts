@@ -1,23 +1,21 @@
 import { id, keccak256, parseEther, toUtf8Bytes } from "ethers"
 import { applyPermissions, wrapEth } from "@/test/helpers"
 
-import calls from "../permissions/calls"
-import actions from "../permissions/_actions"
+import allowedCalls from "../permissions/calls"
+import allowedActions from "../permissions/_actions"
 import { ENS, WETH, cowSwap } from "@/addresses/eth"
 import { avatar } from "@/test/wallets"
 import kit from "@/test/kit"
 import { contracts } from "@/contracts"
 
 // jest.setTimeout(180000)
-const permissions = {
-  allowedCalls: calls,
-  allowedActions: actions,
-}
-
-describe("ENS", () => {
+const permissions = describe("ENS", () => {
   beforeAll(async () => {
     // fresh role with ENS manage permissions
-    await applyPermissions(permissions)
+    await applyPermissions({
+      allowedCalls,
+      allowedActions,
+    })
 
     // acquire 1 WETH for avatar
     await wrapEth(parseEther("1"))

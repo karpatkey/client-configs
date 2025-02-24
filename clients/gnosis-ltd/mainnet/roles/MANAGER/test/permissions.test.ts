@@ -2,17 +2,15 @@ import { parseEther } from "ethers"
 import { applyPermissions } from "@/test/helpers"
 import kit from "@/test/kit"
 import { zeroAddress } from "@/addresses"
-import calls from "../permissions/calls"
-import actions from "../permissions/_actions"
-
-const permissions = {
-  allowedCalls: calls,
-  allowedActions: actions,
-}
+import allowedCalls from "../permissions/calls"
+import allowedActions from "../permissions/_actions"
 
 describe("GnosisLTD", () => {
   beforeAll(async () => {
-    await applyPermissions(permissions)
+    await applyPermissions({
+      allowedCalls,
+      allowedActions,
+    })
 
     // // acquire 1 WETH for avatar
     // await wrapEth(parseEther("1"));

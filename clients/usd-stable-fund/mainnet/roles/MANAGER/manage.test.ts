@@ -5,18 +5,19 @@ import kit from "@/test/kit"
 import { contracts } from "@/contracts"
 import { USDC } from "@/addresses/eth"
 import { parameters as stableFundParameters } from "../../instances/main"
-import calls from "./permissions/calls"
-import actions from "./permissions/_actions"
-
-const permissions = {
-  allowedCalls: calls,
-  allowedActions: actions,
-}
+import allowedCalls from "./permissions/calls"
+import allowedActions from "./permissions/_actions"
 
 describe("stable_fund", () => {
   beforeAll(async () => {
     // Fresh role with stable_fund manage permissions
-    await applyPermissions(permissions, stableFundParameters)
+    await applyPermissions(
+      {
+        allowedCalls,
+        allowedActions,
+      },
+      stableFundParameters
+    )
   })
 
   describe("Bridge USDC to Optimism", () => {

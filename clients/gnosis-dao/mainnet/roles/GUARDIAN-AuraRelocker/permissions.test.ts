@@ -2,17 +2,15 @@ import { applyPermissions } from "@/test/helpers"
 import { AURA } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import kit from "@/test/kit"
-import calls from "./permissions/calls"
-import actions from "./permissions/_actions"
-
-const permissions = {
-  allowedCalls: calls,
-  allowedActions: actions,
-}
+import allowedCalls from "./permissions/calls"
+import allowedActions from "./permissions/_actions"
 
 describe("auraRelocker", () => {
   beforeAll(async () => {
-    await applyPermissions(permissions)
+    await applyPermissions({
+      allowedCalls,
+      allowedActions,
+    })
   })
 
   it("Allows claiming all kinds of rewards from the zap, with the option to relock AURA tokens. It can also process expired locked tokens", async () => {
