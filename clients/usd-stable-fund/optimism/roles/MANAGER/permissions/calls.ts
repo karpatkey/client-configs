@@ -90,7 +90,7 @@ export default (parameters: Parameters) =>
     allow.optimism.circleMessageTransmitter.receiveMessage(
       c.and(
         // version: 4 bytes (00000000)
-        // source domain: 4 bytes(00000000)
+        // source domain: 4 bytes (00000000)
         // destination domain: 4 bytes (00000002)
         c.bitmask({
           shift: 0,

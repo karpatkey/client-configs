@@ -377,7 +377,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.circleMessageTransmitter.receiveMessage(
       c.and(
         // version: 4 bytes (00000000)
-        // source domain: 4 bytes(00000002)
+        // source domain: 4 bytes (00000002)
         // destination domain: 4 bytes (00000000)
         c.bitmask({
           shift: 0,
@@ -490,7 +490,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.circleMessageTransmitter.receiveMessage(
       c.and(
         // version: 4 bytes (00000000)
-        // source domain: 4 bytes(00000003)
+        // source domain: 4 bytes (00000003)
         // destination domain: 4 bytes (00000000)
         c.bitmask({
           shift: 0,
@@ -586,7 +586,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.circleMessageTransmitter.receiveMessage(
       c.and(
         // version: 4 bytes (00000000)
-        // source domain: 4 bytes(00000006)
+        // source domain: 4 bytes (00000006)
         // destination domain: 4 bytes (00000000)
         c.bitmask({
           shift: 0,

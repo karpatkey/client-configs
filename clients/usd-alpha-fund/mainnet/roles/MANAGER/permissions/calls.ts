@@ -15,7 +15,9 @@ import {
   WBTC,
   wM,
   wstETH,
+  aura,
   balancerV2,
+  balancerV3,
   morpho,
   pendle,
 } from "@/addresses/eth"
@@ -38,6 +40,64 @@ export default (parameters: Parameters) =>
     /*********************************************
      * Typed-presets permissions
      *********************************************/
+    // Aura - Aave Boosted USDT/GHO/USDC
+    ...allowErc20Approve(
+      [balancerV3.aaveGhoUsdtUsdc],
+      [contracts.mainnet.aura.booster]
+    ),
+    allow.mainnet.aura.booster.deposit("246"),
+    {
+      ...allow.mainnet.aura.rewarder.withdrawAndUnwrap(),
+      targetAddress: aura.auraAaveGhoUsdtUsdcRewarder,
+    },
+    {
+      ...allow.mainnet.aura.rewarder["getReward()"](),
+      targetAddress: aura.auraAaveGhoUsdtUsdcRewarder,
+    },
+    {
+      ...allow.mainnet.aura.rewarder["getReward(address,bool)"](c.avatar),
+      targetAddress: aura.auraAaveGhoUsdtUsdcRewarder,
+    },
+
+    // Balancer v3 - Aave Boosted USDT/GHO/USDC
+    ...allowErc20Approve(
+      [GHO, USDC, USDT],
+      [contracts.mainnet.uniswap.permit2]
+    ),
+    allow.mainnet.uniswap.permit2.approve(
+      c.or(GHO, USDC, USDT),
+      contracts.mainnet.balancerV3.compositeLiquidityRouter
+    ),
+    allow.mainnet.balancerV3.compositeLiquidityRouter.addLiquidityProportionalToERC4626Pool(
+      balancerV3.aaveGhoUsdtUsdc
+    ),
+    allow.mainnet.balancerV3.compositeLiquidityRouter.addLiquidityUnbalancedToERC4626Pool(
+      balancerV3.aaveGhoUsdtUsdc
+    ),
+    ...allowErc20Approve(
+      [balancerV3.aaveGhoUsdtUsdc],
+      [contracts.mainnet.balancerV3.compositeLiquidityRouter]
+    ),
+    allow.mainnet.balancerV3.compositeLiquidityRouter.removeLiquidityProportionalFromERC4626Pool(
+      balancerV3.aaveGhoUsdtUsdc
+    ),
+    ...allowErc20Approve(
+      [balancerV3.aaveGhoUsdtUsdc],
+      [balancerV3.aaveGhoUsdtUsdcGauge]
+    ),
+    {
+      ...allow.mainnet.balancer.gauge["deposit(uint256)"](),
+      targetAddress: balancerV3.aaveGhoUsdtUsdcGauge,
+    },
+    {
+      ...allow.mainnet.balancer.gauge["withdraw(uint256)"](),
+      targetAddress: balancerV3.aaveGhoUsdtUsdcGauge,
+    },
+    {
+      ...allow.mainnet.balancer.gauge["claim_rewards()"](),
+      targetAddress: balancerV3.aaveGhoUsdtUsdcGauge,
+    },
+
     // Compound v3 - Deposit USDC
     ...allowErc20Approve([USDC], [contracts.mainnet.compoundV3.cUsdcV3]),
     allow.mainnet.compoundV3.cUsdcV3.supply(USDC),
@@ -69,19 +129,52 @@ export default (parameters: Parameters) =>
     allow.mainnet.curve.crvUsdUsdtGauge["claim_rewards()"](),
     allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.crvUsdUsdtGauge),
 
+    // Curve - crvUSD/USDC
+    ...allowErc20Approve(
+      [crvUSD, USDC],
+      [contracts.mainnet.curve.crvUsdUsdcPool]
+    ),
+    allow.mainnet.curve.crvUsdUsdcPool["add_liquidity(uint256[2],uint256)"](),
+    allow.mainnet.curve.crvUsdUsdcPool[
+      "remove_liquidity(uint256,uint256[2])"
+    ](),
+    allow.mainnet.curve.crvUsdUsdcPool[
+      "remove_liquidity_imbalance(uint256[2],uint256)"
+    ](),
+    allow.mainnet.curve.crvUsdUsdcPool[
+      "remove_liquidity_one_coin(uint256,int128,uint256)"
+    ](),
+    ...allowErc20Approve(
+      [contracts.mainnet.curve.crvUsdUsdcPool],
+      [contracts.mainnet.curve.crvUsdUsdcGauge]
+    ),
+    allow.mainnet.curve.crvUsdUsdcGauge["deposit(uint256)"](),
+    allow.mainnet.curve.crvUsdUsdcGauge["withdraw(uint256)"](),
+    allow.mainnet.curve.crvUsdUsdcGauge["claim_rewards()"](),
+    allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.crvUsdUsdcGauge),
+
     // Curve - Deposit and Stake using a special ZAP
     ...allowErc20Approve(
-      [crvUSD, USDT],
+      [crvUSD, USDC, USDT],
       [contracts.mainnet.curve.stakeDepositZap]
     ),
     allow.mainnet.curve.stakeDepositZap[
       "deposit_and_stake(address,address,address,uint256,address[],uint256[],uint256,bool,bool,address)"
     ](
-      contracts.mainnet.curve.crvUsdUsdtPool,
-      contracts.mainnet.curve.crvUsdUsdtPool,
-      contracts.mainnet.curve.crvUsdUsdtGauge,
+      c.or(
+        contracts.mainnet.curve.crvUsdUsdtPool,
+        contracts.mainnet.curve.crvUsdUsdcPool
+      ),
+      c.or(
+        contracts.mainnet.curve.crvUsdUsdtPool,
+        contracts.mainnet.curve.crvUsdUsdcPool
+      ),
+      c.or(
+        contracts.mainnet.curve.crvUsdUsdtGauge,
+        contracts.mainnet.curve.crvUsdUsdcGauge
+      ),
       2,
-      [USDT, crvUSD],
+      c.or([USDT, crvUSD], [USDC, crvUSD]),
       undefined,
       undefined,
       undefined,
@@ -493,7 +586,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.circleMessageTransmitter.receiveMessage(
       c.and(
         // version: 4 bytes (00000000)
-        // source domain: 4 bytes(00000002)
+        // source domain: 4 bytes (00000002)
         // destination domain: 4 bytes (00000000)
         c.bitmask({
           shift: 0,
@@ -606,7 +699,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.circleMessageTransmitter.receiveMessage(
       c.and(
         // version: 4 bytes (00000000)
-        // source domain: 4 bytes(00000003)
+        // source domain: 4 bytes (00000003)
         // destination domain: 4 bytes (00000000)
         c.bitmask({
           shift: 0,
@@ -702,7 +795,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.circleMessageTransmitter.receiveMessage(
       c.and(
         // version: 4 bytes (00000000)
-        // source domain: 4 bytes(00000006)
+        // source domain: 4 bytes (00000006)
         // destination domain: 4 bytes (00000000)
         c.bitmask({
           shift: 0,
