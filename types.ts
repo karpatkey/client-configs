@@ -21,19 +21,11 @@ export interface Role<T extends Parameters = Parameters> {
 
 export type ChainId = 1 | 10 | 100 | 8453 | 42161
 
-interface Instance {
+export interface Instance {
   rolesMod: `0x${string}`
+  chainId: ChainId
   roleKeyPrefix?: string
   parameters?: Parameters
-}
-export interface Client {
-  chainId: ChainId
-  roles: {
-    [key: string]: Role
-  }
-  instances: {
-    [key: string]: Instance
-  }
 }
 
 export enum Chain {

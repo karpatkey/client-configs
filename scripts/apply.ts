@@ -48,30 +48,21 @@ async function main() {
     })
     .positional("role", { demandOption: true, type: "string" }).argv
 
-  const [clientArg, chainArg, instanceArg, roleArg] = args._ as [
-    string,
-    string,
-    string,
-    string,
-  ]
+  const [clientArg, accountArg, roleArg] = args._ as [string, string, string]
 
-  const { targets, annotations, instance, chainId, role } =
+  const { targets, annotations, members, instance, roleKey } =
     await compileApplyData({
       clientArg,
-      chainArg,
-      instanceArg,
+      accountArg,
       roleArg,
     })
 
   const hash = await postPermissions({ targets, annotations })
 
-  const permissionsPage = `${ZODIAC_ROLES_APP}/permissions/${CHAIN_PREFIX[chainId]}/${hash}`
+  const permissionsPage = `${ZODIAC_ROLES_APP}/permissions/${CHAIN_PREFIX[instance.chainId]}/${hash}`
   console.log(`Permissions page: ${permissionsPage}`)
 
-  const roleKeyPrefix = instance.roleKeyPrefix || ""
-  const roleKey = roleKeyPrefix + role.roleKey
-
-  const diffUrl = `${ZODIAC_ROLES_APP}/${CHAIN_PREFIX[chainId]}:${instance.rolesMod}/roles/${roleKey}/diff/${hash}`
+  const diffUrl = `${ZODIAC_ROLES_APP}/${CHAIN_PREFIX[instance.chainId]}:${instance.rolesMod}/roles/${roleKey}/diff/${hash}`
   console.log(`Permissions diff page: ${diffUrl}`)
 }
 

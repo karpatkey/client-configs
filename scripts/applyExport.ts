@@ -25,9 +25,6 @@ import {
 import { encodeBytes32String } from "defi-kit"
 import { compileApplyData } from "../helpers/apply"
 
-const isAddress = (address: string): address is `0x${string}` =>
-  address.match(/^0x[0-9a-fA-F]{40}$/) !== null
-
 async function main() {
   const args = await yargs(process.argv.slice(2))
     .usage("$0 <client> <account(/instance)> <role>")
@@ -39,28 +36,20 @@ async function main() {
     })
     .positional("role", { demandOption: true, type: "string" }).argv
 
-  const [clientArg, chainArg, instanceArg, roleArg] = args._ as [
-    string,
-    string,
-    string,
-    string,
-  ]
+  const [clientArg, accountArg, roleArg] = args._ as [string, string, string]
 
-  const { targets, annotations, instance, chainId, role } =
+  const { targets, annotations, members, instance, roleKey } =
     await compileApplyData({
       clientArg,
-      chainArg,
-      instanceArg,
+      accountArg,
       roleArg,
     })
 
-  const roleKeyPrefix = instance.roleKeyPrefix || ""
-  const roleKey = roleKeyPrefix + role.roleKey
   const encodedRoleKey = encodeBytes32String(roleKey)
 
   const currentRole = await fetchRole({
     address: instance.rolesMod,
-    chainId,
+    chainId: instance.chainId,
     roleKey: encodedRoleKey,
   })
   const currentTargets = (currentRole?.targets || []).filter(
@@ -71,7 +60,7 @@ async function main() {
   const calls = [
     ...(
       await applyTargets(encodedRoleKey, targets, {
-        chainId,
+        chainId: instance.chainId,
         address: instance.rolesMod,
         mode: "replace",
         currentTargets,
@@ -81,7 +70,7 @@ async function main() {
 
     ...(
       await applyAnnotations(encodedRoleKey, annotations, {
-        chainId: chainId,
+        chainId: instance.chainId,
         address: instance.rolesMod,
         mode: "replace",
         currentAnnotations,
@@ -92,13 +81,13 @@ async function main() {
 
   const txBuilderJson = exportToSafeTransactionBuilder(
     calls,
-    chainId,
-    role.roleKey
+    instance.chainId,
+    roleKey
   )
 
   const filePath = path.join(
     __dirname,
-    `../export/${clientArg.replace(/\//g, "-")}_${chainArg}_${instanceArg}_${roleArg}.json`
+    `../export/${clientArg}_${accountArg.replace(/\//g, "-")}_${roleArg}.json`
   )
   fs.writeFileSync(filePath, JSON.stringify(txBuilderJson, null, 2))
 
