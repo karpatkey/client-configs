@@ -40,23 +40,16 @@ export const compileApplyData = async ({
   )) as Instance
 
   const rolePath = `../clients/${clientArg}/${accountName}/roles/${roleArg}`
-  const members = (await import(`${rolePath}/members`)) as `0x${string}`[]
+  const members = (await import(`${rolePath}/members`))
+    .default as `0x${string}`[]
 
-  let allowedActions: PermissionList = []
-  try {
-    allowedActions = await import(`${rolePath}/permissions/_actions`)
-  } catch {
-    // ignore
-  }
+  const allowedActions: PermissionList = (
+    await import(`${rolePath}/permissions/_actions`)
+  ).default
 
-  let allowedCalls:
-    | PermissionList
-    | ((parameters: { [key: string]: any }) => PermissionList) = []
-  try {
-    allowedCalls = await import(`${rolePath}/permissions/calls`)
-  } catch {
-    // ignore
-  }
+  const allowedCalls: PermissionList | ((parameters: any) => PermissionList) = (
+    await import(`${rolePath}/permissions/calls`)
+  ).default
 
   const { targets, annotations } = processPermissions(
     await preprocessPermissions(

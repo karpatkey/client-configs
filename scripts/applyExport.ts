@@ -85,9 +85,14 @@ async function main() {
     roleKey
   )
 
+  const exportDir = path.join(__dirname, "../export")
+  if (!fs.existsSync(exportDir)) {
+    fs.mkdirSync(exportDir)
+  }
+
   const filePath = path.join(
-    __dirname,
-    `../export/${clientArg}_${accountArg.replace(/\//g, "-")}_${roleArg}.json`
+    exportDir,
+    `${clientArg}_${accountArg.replace(/\//g, "-")}_${roleArg}.json`
   )
   fs.writeFileSync(filePath, JSON.stringify(txBuilderJson, null, 2))
 
