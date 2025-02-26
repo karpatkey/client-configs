@@ -4,7 +4,7 @@
 // Applied draft: https://portal.karpatkey.dev/karpatkey-dao/mainnet/policy-drafts/9/permissions
 // Last synced:   Wed Feb 26 2025 14:31:49 GMT+0100 (Central European Standard Time)
 
-import { allow } from "defi-kit/eth";
+import { allow } from "defi-kit/eth"
 
 export default [
   // aave_v2
@@ -26,4 +26,4 @@ export default [
 
   // cowswap
   allow.cowswap.swap({ buy: ["ETH"], sell: ["ETH"], feeAmountBp: 345 }),
-];
+]
