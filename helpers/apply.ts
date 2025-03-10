@@ -4,10 +4,13 @@ import {
   PermissionSet,
   processPermissions,
 } from "zodiac-roles-sdk"
-import type { Client, PermissionList, Role } from "@/types"
+import type { Instance, PermissionList } from "@/types"
 
-export const preprocessPermissions = async <P extends {}>(
-  permissions: Role<P>["permissions"],
+export const preprocessPermissions = async <P extends { [key: string]: any }>(
+  permissions: {
+    allowedActions: PermissionList
+    allowedCalls: PermissionList | ((parameters: P) => PermissionList)
+  },
   parameters?: P
 ): Promise<(Permission | PermissionSet)[]> => {
   let callPermissions: PermissionList
@@ -23,37 +26,41 @@ export const preprocessPermissions = async <P extends {}>(
 
 export const compileApplyData = async ({
   clientArg,
-  chainArg,
-  instanceArg,
+  accountArg,
   roleArg,
 }: {
   clientArg: string
-  chainArg: string
-  instanceArg: string
+  accountArg: string
   roleArg: string
 }) => {
-  const { instances, roles, chainId } = (await import(
-    `../clients/${clientArg}/${chainArg}`
-  )) as Client
+  const [accountName, instanceName] = accountArg.split("/")
 
-  const instance = instances[instanceArg]
-  if (!instance) {
-    throw new Error(
-      `There is no Roles instance labeled '${instanceArg}' for client ${clientArg}, available instances: ${Object.keys(instances).join(", ")}`
-    )
-  }
+  const instance = (await import(
+    `../clients/${clientArg}/${accountName}/instances/${instanceName}`
+  )) as Instance
 
-  const role = roles[roleArg]
-  if (!role) {
-    throw new Error(
-      `There is no '${roleArg}' role for client ${clientArg}, available roles: ${Object.keys(roles).join(", ")}`
-    )
-  }
+  const rolePath = `../clients/${clientArg}/${accountName}/roles/${roleArg}`
+  const members = (await import(`${rolePath}/members`))
+    .default as `0x${string}`[]
+
+  const allowedActions: PermissionList = (
+    await import(`${rolePath}/permissions/_actions`)
+  ).default
+
+  const allowedCalls: PermissionList | ((parameters: any) => PermissionList) = (
+    await import(`${rolePath}/permissions/calls`)
+  ).default
 
   const { targets, annotations } = processPermissions(
-    await preprocessPermissions(role.permissions, instance.parameters)
+    await preprocessPermissions(
+      { allowedActions, allowedCalls },
+      instance.parameters
+    )
   )
   checkIntegrity(targets)
 
-  return { targets, annotations, role, instance, chainId }
+  const roleKeyPrefix = instance.roleKeyPrefix || ""
+  const roleKey = roleKeyPrefix + roleArg
+
+  return { targets, annotations, members, roleKey, instance }
 }

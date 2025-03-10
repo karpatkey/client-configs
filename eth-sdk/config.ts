@@ -1,4 +1,4 @@
-import { EthSdkConfig, defineConfig } from "@gnosis-guild/eth-sdk"
+import { defineConfig } from "@gnosis-guild/eth-sdk"
 import { contracts as deFiKitContracts } from "defi-kit"
 
 export const contracts = {
@@ -241,7 +241,7 @@ export const contracts = {
     },
     navCalculator: "0x4AbE155C97009e388E0493fe1516F636e0F3a390",
   },
-} satisfies EthSdkConfig["contracts"]
+} as const
 
 export default defineConfig({
   rpc: {

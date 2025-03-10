@@ -12,12 +12,15 @@ import { avatar, owner, member } from "./wallets"
 import { getProvider } from "./provider"
 import { getRolesMod, testRoleKey } from "./rolesMod"
 import kit from "./kit"
-import { Role } from "@/types"
+import { PermissionList } from "@/types"
 import { preprocessPermissions } from "../helpers/apply"
 
-export const applyPermissions = async <P extends {}>(
-  permissions: Role<P>["permissions"],
-  parameters?: P
+export const applyPermissions = async (
+  permissions: {
+    allowedActions: PermissionList
+    allowedCalls: PermissionList | ((parameters: any) => PermissionList)
+  },
+  parameters?: any
 ) => {
   const mod = await getRolesMod()
 
