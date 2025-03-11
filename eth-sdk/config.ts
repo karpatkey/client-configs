@@ -226,7 +226,7 @@ export const contracts = {
   arbitrumOne: {
     ...deFiKitContracts.arbitrumOne,
     gmx: {
-      exchangeRouter: "0x900173A66dbD345006C51fA35fA3aB760FcD843b",
+      exchangeRouter: "0x5aC4e27341e4cCcb3e5FD62f9E62db2Adf43dd57",
     },
     gyroscope: {
       sGyd: "0xeA50f402653c41cAdbaFD1f788341dB7B7F37816",
