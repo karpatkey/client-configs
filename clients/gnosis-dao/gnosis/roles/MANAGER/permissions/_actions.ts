@@ -89,6 +89,9 @@ export default [
   // Balancer v2 - EURe/sDAI
   allowAction.balancer.deposit({ targets: ["EURe/sDAI"] }),
   allowAction.balancer.stake({ targets: ["EURe/sDAI"] }),
+  // Balancer v2 - WBTC/WSTETH
+  allowAction.balancer.deposit({ targets: ["50WBTC/50WSTETH"] }),
+  allowAction.balancer.stake({ targets: ["50WBTC/50WSTETH"] }),
 
   // CowSwap - XDAI -> [EURe, USDC.e, USDT]
   allowAction.cowswap.swap({
@@ -154,4 +157,7 @@ export default [
   allowAction.spark.deposit({ targets: ["USDT"] }),
   // Spark - Deposit USDC
   allowAction.spark.deposit({ targets: ["USDC"] }),
+
+  // Uniswap v3 / Oku Trade - wstETH + sDAI
+  allowAction.uniswap_v3.deposit({ tokens: [wstETH, sDAI, GNO] })
 ]
