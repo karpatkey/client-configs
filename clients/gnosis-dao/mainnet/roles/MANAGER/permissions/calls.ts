@@ -64,12 +64,6 @@ export default (parameters: Parameters) =>
     // Autonolas - OLAS Withdraw
     allow.mainnet.autonolas.veOlas.withdraw(),
 
-    // Balancer - ECLP-bCSPX-sDAI Gauge
-    ...allowErc20Approve([GNO], [contracts.gnosis.balancer.eclpBcspxSdaiGauge]),
-    allow.gnosis.balancer.eclpBcspxSdaiGauge.set_reward_distributor(
-      GNO,
-    ),
-
     // Enzyme - Diva stETH Vault
     // Deposit stETH
     ...allowErc20Approve([stETH], [contracts.mainnet.enzyme.divaStEthVault]),

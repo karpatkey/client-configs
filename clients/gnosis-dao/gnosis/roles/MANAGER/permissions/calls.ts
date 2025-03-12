@@ -67,6 +67,12 @@ export default [
   allow.gnosis.balancer.bCowAmm50Gno50Cow.joinPool(),
   allow.gnosis.balancer.bCowAmm50Gno50Cow.exitPool(),
 
+  // Balancer v2 - ECLP-bCSPX-sDAI Gauge
+  ...allowErc20Approve([GNO], [contracts.gnosis.balancer.eclpBcspxSdaiGauge]),
+  allow.gnosis.balancer.eclpBcspxSdaiGauge.set_reward_distributor(
+    GNO,
+  ),
+
   // Curve - EURe/EURC.e
   ...allowErc20Approve([EURCe, EURe], [contracts.gnosis.curve.eureEurc]),
   allow.gnosis.curve.eureEurc["add_liquidity(uint256[],uint256)"](),
