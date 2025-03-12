@@ -159,5 +159,5 @@ export default [
   allowAction.spark.deposit({ targets: ["USDC"] }),
 
   // Uniswap v3 / Oku Trade - wstETH + sDAI
-  allowAction.uniswap_v3.deposit({ tokens: [wstETH, sDAI, GNO] })
+  allowAction.uniswap_v3.deposit({ tokens: [wstETH, sDAI, GNO] }),
 ]
