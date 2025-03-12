@@ -73,19 +73,22 @@ export default (parameters: Parameters) =>
       c.avatar,
       undefined,
       [],
-      [],
+      []
     ),
 
     // Enzyme - ETHx Hyperloop Vault
     // Deposit ETHx
-    ...allowErc20Approve([ETHx], [contracts.mainnet.enzyme.ethxHyperloopVaultComptrollerProxy]),
+    ...allowErc20Approve(
+      [ETHx],
+      [contracts.mainnet.enzyme.ethxHyperloopVaultComptrollerProxy]
+    ),
     allow.mainnet.enzyme.ethxHyperloopVaultComptrollerProxy.buyShares(),
     // Withdraw ETHx
     allow.mainnet.enzyme.ethxHyperloopVaultComptrollerProxy.redeemSharesInKind(
       c.avatar,
       undefined,
       [],
-      [],
+      []
     ),
 
     // // Maverick v2 - stkGHO/GHO Pool

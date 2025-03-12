@@ -69,9 +69,7 @@ export default [
 
   // Balancer v2 - ECLP-bCSPX-sDAI Gauge
   ...allowErc20Approve([GNO], [contracts.gnosis.balancer.eclpBcspxSdaiGauge]),
-  allow.gnosis.balancer.eclpBcspxSdaiGauge.set_reward_distributor(
-    GNO,
-  ),
+  allow.gnosis.balancer.eclpBcspxSdaiGauge.set_reward_distributor(GNO),
 
   // Curve - EURe/EURC.e
   ...allowErc20Approve([EURCe, EURe], [contracts.gnosis.curve.eureEurc]),
