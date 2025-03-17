@@ -1,5 +1,14 @@
 import { allow as allowAction } from "defi-kit/gno"
-import { EURe, GNO, sDAI, USDC, USDCe, USDT, wstETH, WXDAI, } from "@/addresses/gno"
+import {
+  EURe,
+  GNO,
+  sDAI,
+  USDC,
+  USDCe,
+  USDT,
+  wstETH,
+  WXDAI,
+} from "@/addresses/gno"
 
 export default [
   /*********************************************
