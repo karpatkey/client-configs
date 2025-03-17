@@ -1,19 +1,13 @@
 import { allow as allowAction } from "defi-kit/gno"
 import {
-  COW,
-  EURCe,
   EURe,
   GNO,
-  OLAS,
   sDAI,
   USDC,
   USDCe,
   USDT,
-  WETH,
   wstETH,
   WXDAI,
-  x3CRV,
-  curve,
 } from "@/addresses/gno"
 
 export default [
@@ -158,6 +152,19 @@ export default [
   // Spark - Deposit USDC
   allowAction.spark.deposit({ targets: ["USDC"] }),
 
-  // Uniswap v3 / Oku Trade - wstETH + sDAI
+  // StakeWise v3 - Axol.io
+  allowAction.stakewise_v3.stake({ targets: ["Axol.io"] }),
+  // StakeWise v3 - Stakecat
+  allowAction.stakewise_v3.stake({ targets: ["Stakecat"] }),
+  // StakeWise v3 - Stakesaurus SEA Home Nodes
+  allowAction.stakewise_v3.stake({ targets: ["Stakesaurus SEA Home Nodes"] }),
+  // StakeWise v3 - Serenita
+  allowAction.stakewise_v3.stake({ targets: ["Serenita"] }),
+  // StakeWise v3 - Genesis
+  allowAction.stakewise_v3.stake({ targets: ["Genesis Vault"] }),
+  // StakeWise v3 - NEDO
+  allowAction.stakewise_v3.stake({ targets: ["NEDO"] }),
+
+  // Uniswap v3 / Oku Trade - wstETH + sDAI + GNO
   allowAction.uniswap_v3.deposit({ tokens: [wstETH, sDAI, GNO] }),
 ]
