@@ -64,7 +64,8 @@ export const contracts = {
     enzyme: {
       depositWrapper2: "0x65BbAD6545B7ac9C30Fb0f07e64e25106Bf05eEc",
       divaStEthVault: "0x648B8d2340842a7040680915c4dAb89382eeEDA9",
-      ethxHyperloopVaultComptrollerProxy: "0x251d885bC93BA2120A8376DA71a45189a228e3ef",
+      ethxHyperloopVaultComptrollerProxy:
+        "0x251d885bC93BA2120A8376DA71a45189a228e3ef",
     },
     ethena: {
       sUsde: "0x9D39A5DE30e57443BfF2A8307A4256c8797A3497",
