@@ -1,10 +1,7 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { COMP, DAI, USDC, WBTC, wstETH, morpho } from "@/addresses/eth"
-import {
-  DAI as DAI_opt,
-  COMP as COMP_opt,
-} from "@/addresses/oeth"
+import { DAI as DAI_opt, COMP as COMP_opt } from "@/addresses/oeth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
