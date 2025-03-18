@@ -255,7 +255,7 @@ export default defineConfig({
     mainnet: "https://rpc.ankr.com/eth",
     gnosis: "https://rpc.gnosischain.com/",
     //gnosis: "https://rpc.ankr.com/gnosis"
-    optimism: "https://rpc.ankr.com/optimism",
+    optimism: "https://optimism-rpc.publicnode.com",
     arbitrumOne: "https://arb1.arbitrum.io/rpc",
     base: "https://base-rpc.publicnode.com",
   },
