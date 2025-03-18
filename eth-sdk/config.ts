@@ -232,6 +232,9 @@ export const contracts = {
   },
   arbitrumOne: {
     ...deFiKitContracts.arbitrumOne,
+    gmx: {
+      exchangeRouter: "0x5aC4e27341e4cCcb3e5FD62f9E62db2Adf43dd57",
+    },
     gyroscope: {
       sGyd: "0xeA50f402653c41cAdbaFD1f788341dB7B7F37816",
       stSgyd: "0xb4C19C1b16881A6d1d781264f0f8C0237D8Be0C7",
