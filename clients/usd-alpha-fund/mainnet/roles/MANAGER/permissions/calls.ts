@@ -21,10 +21,7 @@ import {
   morpho,
   pendle,
 } from "@/addresses/eth"
-import {
-  DAI as DAI_opt,
-  COMP as COMP_opt,
-} from "@/addresses/oeth"
+import { DAI as DAI_opt, COMP as COMP_opt } from "@/addresses/oeth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
