@@ -1,19 +1,13 @@
 import { allow as allowAction } from "defi-kit/gno"
 import {
-  COW,
-  EURCe,
   EURe,
   GNO,
-  OLAS,
   sDAI,
   USDC,
   USDCe,
   USDT,
-  WETH,
   wstETH,
   WXDAI,
-  x3CRV,
-  curve,
 } from "@/addresses/gno"
 
 export default [
@@ -89,6 +83,9 @@ export default [
   // Balancer v2 - EURe/sDAI
   allowAction.balancer.deposit({ targets: ["EURe/sDAI"] }),
   allowAction.balancer.stake({ targets: ["EURe/sDAI"] }),
+  // Balancer v2 - WBTC/WSTETH
+  allowAction.balancer.deposit({ targets: ["50WBTC/50WSTETH"] }),
+  allowAction.balancer.stake({ targets: ["50WBTC/50WSTETH"] }),
 
   // CowSwap - XDAI -> [EURe, USDC.e, USDT]
   allowAction.cowswap.swap({
@@ -154,4 +151,20 @@ export default [
   allowAction.spark.deposit({ targets: ["USDT"] }),
   // Spark - Deposit USDC
   allowAction.spark.deposit({ targets: ["USDC"] }),
+
+  // StakeWise v3 - Axol.io
+  allowAction.stakewise_v3.stake({ targets: ["Axol.io"] }),
+  // StakeWise v3 - Stakecat
+  allowAction.stakewise_v3.stake({ targets: ["Stakecat"] }),
+  // StakeWise v3 - Stakesaurus SEA Home Nodes
+  allowAction.stakewise_v3.stake({ targets: ["Stakesaurus SEA Home Nodes"] }),
+  // StakeWise v3 - Serenita
+  allowAction.stakewise_v3.stake({ targets: ["Serenita"] }),
+  // StakeWise v3 - Genesis
+  allowAction.stakewise_v3.stake({ targets: ["Genesis Vault"] }),
+  // StakeWise v3 - NEDO
+  allowAction.stakewise_v3.stake({ targets: ["NEDO"] }),
+
+  // Uniswap v3 / Oku Trade - wstETH + sDAI + GNO
+  allowAction.uniswap_v3.deposit({ tokens: [wstETH, sDAI, GNO] }),
 ]

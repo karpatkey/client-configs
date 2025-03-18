@@ -64,6 +64,8 @@ export const contracts = {
     enzyme: {
       depositWrapper2: "0x65BbAD6545B7ac9C30Fb0f07e64e25106Bf05eEc",
       divaStEthVault: "0x648B8d2340842a7040680915c4dAb89382eeEDA9",
+      ethxHyperloopVaultComptrollerProxy:
+        "0x251d885bC93BA2120A8376DA71a45189a228e3ef",
     },
     ethena: {
       sUsde: "0x9D39A5DE30e57443BfF2A8307A4256c8797A3497",
@@ -90,6 +92,10 @@ export const contracts = {
     lido: {
       ...deFiKitContracts.mainnet.lido,
       aragonVoting: "0x2e59A20f205bB85a89C53f1936454680651E618e",
+    },
+    maverickV2: {
+      rewardRouter: "0xc0C3BC532690af8922a2f260c6e1dEb6CFaB45A0",
+      position: "0x116193c58B40D50687c0433B2aa0cC4AE00bC32c",
     },
     merkl: {
       angleDistributor: "0x3Ef3D8bA38EBe18DB133cEc108f4D14CE00Dd9Ae",
@@ -184,6 +190,7 @@ export const contracts = {
       bCowAmm50wstEth50sDai: "0x5089007DEC8E93f891dcB908c9E2Af8d9DEdb72E",
       bCowAmm50Gno50Olas: "0xD7f99B1CDa3EeCf6b6eAa8a61ed21d061E745400",
       bCowAmm50Gno50Cow: "0x71663f74490673706D7b8860B7D02b7c76160bAe",
+      eclpBcspxSdaiGauge: "0xbcF4969d4dc6Cb86Ce0B8a101d220b558F14739C",
     },
     curve: {
       x3CrvPool: "0x7f90122BF0700F9E7e1F688fe926940E8839F353",
@@ -245,10 +252,10 @@ export const contracts = {
 
 export default defineConfig({
   rpc: {
-    mainnet: "https://rpc.ankr.com/eth",
+    mainnet: "https://ethereum-rpc.publicnode.com",
     gnosis: "https://rpc.gnosischain.com/",
     //gnosis: "https://rpc.ankr.com/gnosis"
-    optimism: "https://rpc.ankr.com/optimism",
+    optimism: "https://optimism-rpc.publicnode.com",
     arbitrumOne: "https://arb1.arbitrum.io/rpc",
     base: "https://base-rpc.publicnode.com",
   },

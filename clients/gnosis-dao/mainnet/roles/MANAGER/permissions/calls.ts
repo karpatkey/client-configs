@@ -2,12 +2,16 @@ import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import {
   GHO,
+  GNO,
+  ETHx,
   EURA,
   OLAS,
   SAFE,
   stETH,
+  stkGHO,
   wstETH,
   balancerV2,
+  maverickV2,
 } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
@@ -61,28 +65,48 @@ export default (parameters: Parameters) =>
     allow.mainnet.autonolas.veOlas.withdraw(),
 
     // Enzyme - Diva stETH Vault
-    // Deposit ETH
-    allow.mainnet.enzyme.depositWrapper2.exchangeEthAndBuyShares(
-      contracts.mainnet.enzyme.divaStEthVault,
-      undefined,
-      "0xDEF171Fe48CF0115B1d80b88dc8eAB59176FEe57", // Paraswap v5: Augustus Swapper Mainnet
-      "0x216B4B4Ba9F3e719726886d34a177484278Bfcae", // Paraswap v5: Token TransferProxy Mainnet
-      undefined,
-      undefined,
-      {
-        send: true,
-      }
-    ),
     // Deposit stETH
     ...allowErc20Approve([stETH], [contracts.mainnet.enzyme.divaStEthVault]),
     allow.mainnet.enzyme.divaStEthVault.buyShares(),
     // Withdraw stETH
-    allow.mainnet.enzyme.divaStEthVault.redeemSharesInKind(c.avatar),
-    allow.mainnet.enzyme.divaStEthVault.redeemSharesForSpecificAssets(
+    allow.mainnet.enzyme.divaStEthVault.redeemSharesInKind(
       c.avatar,
       undefined,
-      [stETH]
+      [],
+      []
     ),
+
+    // Enzyme - ETHx Hyperloop Vault
+    // Deposit ETHx
+    ...allowErc20Approve(
+      [ETHx],
+      [contracts.mainnet.enzyme.ethxHyperloopVaultComptrollerProxy]
+    ),
+    allow.mainnet.enzyme.ethxHyperloopVaultComptrollerProxy.buyShares(),
+    // Withdraw ETHx
+    allow.mainnet.enzyme.ethxHyperloopVaultComptrollerProxy.redeemSharesInKind(
+      c.avatar,
+      undefined,
+      [],
+      []
+    ),
+
+    // // Maverick v2 - stkGHO/GHO Pool
+    // // Add liquidity
+    // ...allowErc20Approve([GHO, stkGHO], [contracts.mainnet.maverickV2.rewardRouter]),
+    // allow.mainnet.maverickV2.rewardRouter.mintPositionNftToSender(
+    //   maverickV2.ghoStkGhoPool,
+    // ),
+    // // Withdraw liquidity
+    // allow.mainnet.maverickV2.position.checkDeadline(),
+    // allow.mainnet.maverickV2.position.checkSqrtPrice(
+    //   maverickV2.ghoStkGhoPool,
+    // ),
+    // allow.mainnet.maverickV2.position.removeLiquidity(
+    //   undefined,
+    //   c.avatar,
+    //   maverickV2.ghoStkGhoPool,
+    // ),
 
     // Merkl (Angle) - Claim
     allow.mainnet.merkl.angleDistributor.claim([parameters.avatar], [GHO]),

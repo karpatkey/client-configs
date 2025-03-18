@@ -8,7 +8,6 @@ import {
   OLAS,
   sDAI,
   USDC,
-  USDCe,
   USDT,
   WETH,
   wstETH,
@@ -66,6 +65,10 @@ export default [
   ),
   allow.gnosis.balancer.bCowAmm50Gno50Cow.joinPool(),
   allow.gnosis.balancer.bCowAmm50Gno50Cow.exitPool(),
+
+  // Balancer v2 - ECLP-bCSPX-sDAI Gauge
+  ...allowErc20Approve([GNO], [contracts.gnosis.balancer.eclpBcspxSdaiGauge]),
+  allow.gnosis.balancer.eclpBcspxSdaiGauge.set_reward_distributor(GNO),
 
   // Curve - EURe/EURC.e
   ...allowErc20Approve([EURCe, EURe], [contracts.gnosis.curve.eureEurc]),
@@ -133,58 +136,4 @@ export default [
   allow.gnosis.hyperdrive.wxdaiSdaiLp.removeLiquidity(undefined, undefined, {
     destination: c.avatar,
   }),
-
-  // StakeWise v3 - Axol.io
-  allowErc20Approve([GNO], [contracts.gnosis.stakeWiseV3.axol]),
-  allow.gnosis.stakeWiseV3.axol.deposit(undefined, c.avatar),
-  allow.gnosis.stakeWiseV3.axol.updateState(),
-  allow.gnosis.stakeWiseV3.axol.mintOsToken(c.avatar),
-  allow.gnosis.stakeWiseV3.axol.burnOsToken(),
-  allow.gnosis.stakeWiseV3.axol.enterExitQueue(undefined, c.avatar),
-  allow.gnosis.stakeWiseV3.axol.claimExitedAssets(),
-
-  // StakeWise v3 - Stakecat
-  allowErc20Approve([GNO], [contracts.gnosis.stakeWiseV3.stakecat]),
-  allow.gnosis.stakeWiseV3.stakecat.deposit(undefined, c.avatar),
-  allow.gnosis.stakeWiseV3.stakecat.updateState(),
-  allow.gnosis.stakeWiseV3.stakecat.mintOsToken(c.avatar),
-  allow.gnosis.stakeWiseV3.stakecat.burnOsToken(),
-  allow.gnosis.stakeWiseV3.stakecat.enterExitQueue(undefined, c.avatar),
-  allow.gnosis.stakeWiseV3.stakecat.claimExitedAssets(),
-
-  // StakeWise v3 - Stakesaurus
-  allowErc20Approve([GNO], [contracts.gnosis.stakeWiseV3.stakesaurus]),
-  allow.gnosis.stakeWiseV3.stakesaurus.deposit(undefined, c.avatar),
-  allow.gnosis.stakeWiseV3.stakesaurus.updateState(),
-  allow.gnosis.stakeWiseV3.stakesaurus.mintOsToken(c.avatar),
-  allow.gnosis.stakeWiseV3.stakesaurus.burnOsToken(),
-  allow.gnosis.stakeWiseV3.stakesaurus.enterExitQueue(undefined, c.avatar),
-  allow.gnosis.stakeWiseV3.stakesaurus.claimExitedAssets(),
-
-  // StakeWise v3 - Serenita
-  allowErc20Approve([GNO], [contracts.gnosis.stakeWiseV3.serenita]),
-  allow.gnosis.stakeWiseV3.serenita.deposit(undefined, c.avatar),
-  allow.gnosis.stakeWiseV3.serenita.updateState(),
-  allow.gnosis.stakeWiseV3.serenita.mintOsToken(c.avatar),
-  allow.gnosis.stakeWiseV3.serenita.burnOsToken(),
-  allow.gnosis.stakeWiseV3.serenita.enterExitQueue(undefined, c.avatar),
-  allow.gnosis.stakeWiseV3.serenita.claimExitedAssets(),
-
-  // StakeWise v3 - Genesis
-  allowErc20Approve([GNO], [contracts.gnosis.stakeWiseV3.genesis]),
-  allow.gnosis.stakeWiseV3.genesis.deposit(undefined, c.avatar),
-  allow.gnosis.stakeWiseV3.genesis.updateState(),
-  allow.gnosis.stakeWiseV3.genesis.mintOsToken(c.avatar),
-  allow.gnosis.stakeWiseV3.genesis.burnOsToken(),
-  allow.gnosis.stakeWiseV3.genesis.enterExitQueue(undefined, c.avatar),
-  allow.gnosis.stakeWiseV3.genesis.claimExitedAssets(),
-
-  // StakeWise v3 - NEDO
-  allowErc20Approve([GNO], [contracts.gnosis.stakeWiseV3.nedo]),
-  allow.gnosis.stakeWiseV3.nedo.deposit(undefined, c.avatar),
-  allow.gnosis.stakeWiseV3.nedo.updateState(),
-  allow.gnosis.stakeWiseV3.nedo.mintOsToken(c.avatar),
-  allow.gnosis.stakeWiseV3.nedo.burnOsToken(),
-  allow.gnosis.stakeWiseV3.nedo.enterExitQueue(undefined, c.avatar),
-  allow.gnosis.stakeWiseV3.nedo.claimExitedAssets(),
 ] satisfies PermissionList

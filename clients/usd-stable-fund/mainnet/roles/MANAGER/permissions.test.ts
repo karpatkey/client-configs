@@ -1,6 +1,5 @@
 import { parseUnits } from "ethers"
 import { applyPermissions, stealErc20 } from "@/test/helpers"
-
 import kit from "@/test/kit"
 import { contracts } from "@/contracts"
 import { USDC } from "@/addresses/eth"
@@ -31,12 +30,12 @@ describe("stable_fund", () => {
         kit.asMember.weth
           .attach(USDC)
           .approve(
-            contracts.mainnet.circleTokenMessenger,
+            contracts.mainnet.circleV1.tokenMessenger,
             parseUnits("1000", 6)
           )
       ).not.toRevert()
       await expect(
-        kit.asMember.circleTokenMessenger.depositForBurn(
+        kit.asMember.circleV1.tokenMessenger.depositForBurn(
           parseUnits("1000", 6),
           2,
           "0x" + stableFundParameters.avatar.slice(2).padStart(64, "0"),
@@ -51,8 +50,9 @@ describe("stable_fund", () => {
         stableFundParameters.avatar.slice(2) +
         "00000000000000000000000000000000000000000000000000000000004c4b40000000000000000000000000" +
         stableFundParameters.avatar.slice(2)
+      console.log("Message: ", message)
       await expect(
-        kit.asMember.circleMessageTransmitter.receiveMessage(
+        kit.asMember.circleV1.messageTransmitter.receiveMessage(
           message,
           "0xf0135945530c1c08835160fc6a2ece40b3f3dfd79b77bd92a313ad70b2ebc0b3010cdc93987535a52db56b2a5740e753031f9572a2b4865e6eb87b8fc1d1322f1c54611ed629fd3cceda39d958a3538f3d2f81384156bc4b037277ede1b0a1c2ca3a96a00e9f6f03bb6ddb71c7b9c5cf0a826264b033a3c83d0fda0ab7842a0b5b1b"
         )

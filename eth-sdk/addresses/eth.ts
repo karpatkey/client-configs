@@ -208,6 +208,10 @@ export const curve = {
   ankrCrv: "0xaA17A236F2bAdc98DDc0Cf999AbB47D47Fc0A6Cf",
 } as const
 
+export const maverickV2 = {
+  ghoStkGhoPool: "0x9F274D28FedCe05153F9C810b8070277EAF8C031",
+} as const
+
 export const morpho = {
   oracleWstEthUsdc: "0x48F7E36EB6B826B2dF4B2E630B62Cd25e89E40e2",
   oracleWbtcUsdc: "0xDddd770BADd886dF3864029e4B377B5F6a2B6b83",
