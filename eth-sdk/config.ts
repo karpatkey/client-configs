@@ -252,7 +252,7 @@ export const contracts = {
 
 export default defineConfig({
   rpc: {
-    mainnet: "https://rpc.ankr.com/eth",
+    mainnet: "https://ethereum-rpc.publicnode.com",
     gnosis: "https://rpc.gnosischain.com/",
     //gnosis: "https://rpc.ankr.com/gnosis"
     optimism: "https://optimism-rpc.publicnode.com",

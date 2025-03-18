@@ -8,7 +8,7 @@
     "clean": "rimraf build",
     "apply": "tsx ./scripts/apply.ts",
     "apply:export": "tsx ./scripts/applyExport.ts",
-    "anvil": "anvil --silent --fork-url ${FORK_RPC:-https://rpc.ankr.com/eth}",
+    "anvil": "anvil --silent --fork-url ${FORK_RPC:-https://ethereum-rpc.publicnode.com}",
     "test:watch-only": "jest --runInBand --watch",
     "test": "concurrently --raw --kill-others --passthrough-arguments --success first \"yarn anvil\" \"jest --runInBand {@}\" --",
     "test:watch": "concurrently --raw --kill-others --handle-input --passthrough-arguments \"yarn anvil\" \"jest --runInBand --watch {@}\" --",
