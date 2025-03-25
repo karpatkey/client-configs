@@ -14,14 +14,19 @@ export const balancerV2Withdraw = (
 ): PermissionSet => {
   return [
     // It doesn't matter the blockchain we use, as the Vault address remains the same
-    allow.mainnet.balancerV2.vault.exitPool(balancerPoolId, c.avatar, c.avatar, {
-      userData: c.abiEncodedMatches(
-        allowExitOneCoin
-          ? [c.pass] // Constraint if allowExitOneCoin = true
-          : [c.or(1, 2, 3)], // Constraint if allowExitOneCoin = false
-        ["uint256"]
-      ),
-    }),
+    allow.mainnet.balancerV2.vault.exitPool(
+      balancerPoolId,
+      c.avatar,
+      c.avatar,
+      {
+        userData: c.abiEncodedMatches(
+          allowExitOneCoin
+            ? [c.pass] // Constraint if allowExitOneCoin = true
+            : [c.or(1, 2, 3)], // Constraint if allowExitOneCoin = false
+          ["uint256"]
+        ),
+      }
+    ),
   ]
 }
 
@@ -62,14 +67,19 @@ export const balancerV2UnstakeWithdraw = async (
       targetAddress: gauge,
     },
     // It doesn't matter the blockchain we use, as the Vault address remains the same
-    allow.mainnet.balancerV2.vault.exitPool(balancerPoolId, c.avatar, c.avatar, {
-      userData: c.abiEncodedMatches(
-        allowExitOneCoin
-          ? [c.pass] // Constraint if allowExitOneCoin = true
-          : [c.or(1, 2, 3)], // Constraint if allowExitOneCoin = false
-        ["uint256"]
-      ),
-    }),
+    allow.mainnet.balancerV2.vault.exitPool(
+      balancerPoolId,
+      c.avatar,
+      c.avatar,
+      {
+        userData: c.abiEncodedMatches(
+          allowExitOneCoin
+            ? [c.pass] // Constraint if allowExitOneCoin = true
+            : [c.or(1, 2, 3)], // Constraint if allowExitOneCoin = false
+          ["uint256"]
+        ),
+      }
+    ),
   ]
 }
 
