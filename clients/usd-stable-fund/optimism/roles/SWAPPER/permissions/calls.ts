@@ -8,7 +8,11 @@ import { balancerV2Swap } from "@/exit_strategies/balancerV2"
 
 export default [
   // Balancer - [DAI, USDC, USDCe] <-> [DAI, USDC, USDCe]
-  balancerV2Swap(balancer.stableBeetsPid, [DAI, USDC, USDCe], [DAI, USDC, USDCe]),
+  balancerV2Swap(
+    balancer.stableBeetsPid,
+    [DAI, USDC, USDCe],
+    [DAI, USDC, USDCe]
+  ),
 
   // Curve - DAI <-> USDC.e
   ...allowErc20Approve([DAI, USDCe], [contracts.optimism.curve.x3CrvPool]),

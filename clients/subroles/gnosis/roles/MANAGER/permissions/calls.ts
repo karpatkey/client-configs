@@ -10,8 +10,5 @@ export default [
     undefined,
     { send: true }
   ),
-  allow.gnosis.spark.savingsXdaiAdapter.depositXDAI(
-    c.avatar,
-    { send: true }
-  ),
+  allow.gnosis.spark.savingsXdaiAdapter.depositXDAI(c.avatar, { send: true }),
 ] satisfies PermissionList

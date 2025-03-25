@@ -11,7 +11,11 @@ export default [
    * Swaps
    *********************************************/
   // Balancer - [DAI, USDC, USDCe] <-> [DAI, USDC, USDCe]
-  balancerV2Swap(balancer.stableBeetsPid, [DAI, USDC, USDCe], [DAI, USDC, USDCe]),
+  balancerV2Swap(
+    balancer.stableBeetsPid,
+    [DAI, USDC, USDCe],
+    [DAI, USDC, USDCe]
+  ),
 
   // Curve - DAI <-> USDC.e
   ...allowErc20Approve([DAI, USDCe], [contracts.optimism.curve.x3CrvPool]),
