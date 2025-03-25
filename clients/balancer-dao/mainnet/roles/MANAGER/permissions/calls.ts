@@ -137,7 +137,11 @@ export default (parameters: Parameters) =>
     balancerV2Swap(balancerV2.bStEthStablePid, [WETH, wstETH], [WETH, wstETH]),
 
     // Balancer - WETH <-> wstETH
-    balancerV2Swap(balancerV2.eclpWstEthWethPid, [WETH, wstETH], [WETH, wstETH]),
+    balancerV2Swap(
+      balancerV2.eclpWstEthWethPid,
+      [WETH, wstETH],
+      [WETH, wstETH]
+    ),
 
     // Balancer - rETH <-> WETH
     balancerV2Swap(balancerV2.bREthStablePid, [rETH, WETH], [rETH, WETH]),
