@@ -27,14 +27,14 @@ export default [
   allowAction.aave_v3.stake({ targets: ["GHO"] }),
 
   // Balancer v2 - wstETH/WETH
-  allowAction.balancer.deposit({ targets: ["wstETH-WETH-BPT"] }),
-  allowAction.balancer.stake({ targets: ["wstETH-WETH-BPT"] }),
+  allowAction.balancer_v2.deposit({ targets: ["wstETH-WETH-BPT"] }),
+  allowAction.balancer_v2.stake({ targets: ["wstETH-WETH-BPT"] }),
   // Balancer v2 - rETH/WETH
-  allowAction.balancer.deposit({ targets: ["B-rETH-STABLE"] }),
-  allowAction.balancer.stake({ targets: ["B-rETH-STABLE"] }),
+  allowAction.balancer_v2.deposit({ targets: ["B-rETH-STABLE"] }),
+  allowAction.balancer_v2.stake({ targets: ["B-rETH-STABLE"] }),
   // Balancer v2 - osETH/WETH
-  allowAction.balancer.deposit({ targets: ["osETH/wETH-BPT"] }),
-  allowAction.balancer.stake({ targets: ["osETH/wETH-BPT"] }),
+  allowAction.balancer_v2.deposit({ targets: ["osETH/wETH-BPT"] }),
+  allowAction.balancer_v2.stake({ targets: ["osETH/wETH-BPT"] }),
 
   // CowSwap - SAFE -> [DAI, ETH, stETH, USDC, WETH, wstETH]
   allowAction.cowswap.swap({

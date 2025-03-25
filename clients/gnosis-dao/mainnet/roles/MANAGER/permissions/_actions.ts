@@ -51,19 +51,19 @@ export default [
   allowAction.aura.stake({ targets: ["B-80BAL-20WETH", "BAL", "auraBAL"] }),
 
   // Balancer v2 - auraBAL
-  allowAction.balancer.deposit({ targets: ["B-auraBAL-STABLE"] }),
-  allowAction.balancer.stake({ targets: ["B-auraBAL-STABLE"] }),
+  allowAction.balancer_v2.deposit({ targets: ["B-auraBAL-STABLE"] }),
+  allowAction.balancer_v2.stake({ targets: ["B-auraBAL-STABLE"] }),
   // Balancer v2 - COW/GNO
-  allowAction.balancer.deposit({ targets: ["50COW-50GNO"] }),
-  allowAction.balancer.stake({ targets: ["50COW-50GNO"] }),
+  allowAction.balancer_v2.deposit({ targets: ["50COW-50GNO"] }),
+  allowAction.balancer_v2.stake({ targets: ["50COW-50GNO"] }),
   // Balancer v2 - COW/WETH
-  allowAction.balancer.deposit({ targets: ["50COW-50WETH"] }),
-  allowAction.balancer.stake({ targets: ["50COW-50WETH"] }),
+  allowAction.balancer_v2.deposit({ targets: ["50COW-50WETH"] }),
+  allowAction.balancer_v2.stake({ targets: ["50COW-50WETH"] }),
   // Balancer v2 - rETH/WETH
-  allowAction.balancer.deposit({ targets: ["B-rETH-STABLE"] }),
-  allowAction.balancer.stake({ targets: ["B-rETH-STABLE"] }),
+  allowAction.balancer_v2.deposit({ targets: ["B-rETH-STABLE"] }),
+  allowAction.balancer_v2.stake({ targets: ["B-rETH-STABLE"] }),
   // Balancer - Lock
-  allowAction.balancer.lock(),
+  allowAction.balancer_v2.lock(),
 
   // Convex - Lock
   allowAction.convex.lock(),

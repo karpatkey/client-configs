@@ -5,11 +5,11 @@ import { COMP, DAI, USDC, USDCe, balancer } from "@/addresses/arb1"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
-import { balancerSwap } from "@/exit_strategies/balancer"
+import { balancerV2Swap } from "@/exit_strategies/balancerV2"
 
 export default [
   // Balancer - [DAI, USDC, USDC.e] <-> [DAI, USDC, USDC.e]
-  balancerSwap(balancer.b4PoolPid, [DAI, USDC, USDCe], [DAI, USDC, USDCe]),
+  balancerV2Swap(balancer.b4PoolPid, [DAI, USDC, USDCe], [DAI, USDC, USDCe]),
 
   // CowSwap - [COMP, DAI, USDC, USDCe] -> [DAI, USDC, USDCe]
   allowAction.cowswap.swap({

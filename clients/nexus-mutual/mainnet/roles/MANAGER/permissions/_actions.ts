@@ -73,26 +73,26 @@ export default [
   allowAction.aura.deposit({ targets: ["182"] }),
 
   // Balancer v2 - wstETH/WETH
-  allowAction.balancer.deposit({ targets: ["wstETH-WETH-BPT"] }),
-  allowAction.balancer.stake({ targets: ["wstETH-WETH-BPT"] }),
+  allowAction.balancer_v2.deposit({ targets: ["wstETH-WETH-BPT"] }),
+  allowAction.balancer_v2.stake({ targets: ["wstETH-WETH-BPT"] }),
   // Balancer v2 - osETH/WETH
-  allowAction.balancer.deposit({ targets: ["osETH/wETH-BPT"] }),
-  allowAction.balancer.stake({ targets: ["osETH/wETH-BPT"] }),
+  allowAction.balancer_v2.deposit({ targets: ["osETH/wETH-BPT"] }),
+  allowAction.balancer_v2.stake({ targets: ["osETH/wETH-BPT"] }),
   // Balancer v2 - rETH/WETH
-  allowAction.balancer.deposit({ targets: ["B-rETH-STABLE"] }),
-  allowAction.balancer.stake({ targets: ["B-rETH-STABLE"] }),
+  allowAction.balancer_v2.deposit({ targets: ["B-rETH-STABLE"] }),
+  allowAction.balancer_v2.stake({ targets: ["B-rETH-STABLE"] }),
   // Balancer v2 - GHO/USDT/USDC
-  allowAction.balancer.deposit({ targets: ["GHO/USDT/USDC"] }),
-  allowAction.balancer.stake({ targets: ["GHO/USDT/USDC"] }),
+  allowAction.balancer_v2.deposit({ targets: ["GHO/USDT/USDC"] }),
+  allowAction.balancer_v2.stake({ targets: ["GHO/USDT/USDC"] }),
   // Balancer v2 - sDAI/3Pool
-  allowAction.balancer.deposit({ targets: ["sDAI/3Pool"] }),
-  allowAction.balancer.stake({ targets: ["sDAI/3Pool"] }),
+  allowAction.balancer_v2.deposit({ targets: ["sDAI/3Pool"] }),
+  allowAction.balancer_v2.stake({ targets: ["sDAI/3Pool"] }),
   // Balancer v2 - Gyroscope ECLP GHO/USDC 2
-  allowAction.balancer.deposit({ targets: ["ECLP-GHO-USDC-2"] }),
-  allowAction.balancer.stake({ targets: ["ECLP-GHO-USDC-2"] }),
+  allowAction.balancer_v2.deposit({ targets: ["ECLP-GHO-USDC-2"] }),
+  allowAction.balancer_v2.stake({ targets: ["ECLP-GHO-USDC-2"] }),
   // Balancer v2 - weETH/rETH
-  allowAction.balancer.deposit({ targets: ["weETH/rETH"] }),
-  allowAction.balancer.stake({ targets: ["weETH/rETH"] }),
+  allowAction.balancer_v2.deposit({ targets: ["weETH/rETH"] }),
+  allowAction.balancer_v2.stake({ targets: ["weETH/rETH"] }),
 
   // Convex - ETH/stETH - steCRV
   allowAction.convex.deposit({ targets: ["25"] }),

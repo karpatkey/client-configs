@@ -24,7 +24,7 @@ describe("stable_fund", () => {
       await stealErc20(
         USDC,
         parseUnits("1000", 6),
-        contracts.mainnet.balancer.vault
+        contracts.mainnet.balancerV2.vault
       )
       await expect(
         kit.asMember.weth

@@ -24,7 +24,7 @@ import { eAddress, zeroAddress } from "@/addresses"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
-import { balancerSwap } from "@/exit_strategies/balancer"
+import { balancerV2Swap } from "@/exit_strategies/balancerV2"
 import { Parameters } from "../../../parameters"
 
 export default (parameters: Parameters) =>
@@ -125,41 +125,45 @@ export default (parameters: Parameters) =>
      * SWAPS
      *********************************************/
     // Balancer - COMP -> WETH
-    balancerSwap(balancerV2.b50Comp50WethPid, [COMP], [WETH]),
+    balancerV2Swap(balancerV2.b50Comp50WethPid, [COMP], [WETH]),
 
     // Balancer - WETH -> DAI
-    balancerSwap(balancerV2.b60Weth40DaiPid, [WETH], [DAI]),
+    balancerV2Swap(balancerV2.b60Weth40DaiPid, [WETH], [DAI]),
 
     // Balancer - WETH -> USDC
-    balancerSwap(balancerV2.b50Usdc50WethPid, [WETH], [USDC]),
+    balancerV2Swap(balancerV2.b50Usdc50WethPid, [WETH], [USDC]),
 
     // Balancer - WETH <-> wstETH
-    balancerSwap(balancerV2.bStEthStablePid, [WETH, wstETH], [WETH, wstETH]),
+    balancerV2Swap(balancerV2.bStEthStablePid, [WETH, wstETH], [WETH, wstETH]),
 
     // Balancer - WETH <-> wstETH
-    balancerSwap(balancerV2.eclpWstEthWethPid, [WETH, wstETH], [WETH, wstETH]),
+    balancerV2Swap(
+      balancerV2.eclpWstEthWethPid,
+      [WETH, wstETH],
+      [WETH, wstETH]
+    ),
 
     // Balancer - rETH <-> WETH
-    balancerSwap(balancerV2.bREthStablePid, [rETH, WETH], [rETH, WETH]),
+    balancerV2Swap(balancerV2.bREthStablePid, [rETH, WETH], [rETH, WETH]),
 
     // Balancer - GYD <-> USDT
-    balancerSwap(balancerV2.eclpGydUsdtPid, [GYD, USDT], [GYD, USDT]),
+    balancerV2Swap(balancerV2.eclpGydUsdtPid, [GYD, USDT], [GYD, USDT]),
 
     // Balancer - GYD <-> sDAI
-    balancerSwap(balancerV2.eclpGydSdaiPid, [GYD, sDAI], [GYD, sDAI]),
+    balancerV2Swap(balancerV2.eclpGydSdaiPid, [GYD, sDAI], [GYD, sDAI]),
 
     // Balancer - GYD <-> sDAI
-    balancerSwap(balancerV2.eclpGydSdai2Pid, [GYD, sDAI], [GYD, sDAI]),
+    balancerV2Swap(balancerV2.eclpGydSdai2Pid, [GYD, sDAI], [GYD, sDAI]),
 
     // Balancer - GYD <-> USDC
-    balancerSwap(balancerV2.eclpGydUsdcPid, [GYD, USDC], [GYD, USDC]),
+    balancerV2Swap(balancerV2.eclpGydUsdcPid, [GYD, USDC], [GYD, USDC]),
 
     // Balancer - GHO <-> GYD
-    balancerSwap(balancerV2.eclpGhoGydPid, [GHO, GYD], [GHO, GYD]),
+    balancerV2Swap(balancerV2.eclpGhoGydPid, [GHO, GYD], [GHO, GYD]),
 
     // Balancer - GHO <-> [USDC, USDT]
-    balancerSwap(balancerV2.ghoUsdtUsdcPid, [GHO], [USDC, USDT]),
-    balancerSwap(balancerV2.ghoUsdtUsdcPid, [USDC, USDT], [GHO]),
+    balancerV2Swap(balancerV2.ghoUsdtUsdcPid, [GHO], [USDC, USDT]),
+    balancerV2Swap(balancerV2.ghoUsdtUsdcPid, [USDC, USDT], [GHO]),
 
     // Curve - ETH <-> stETH
     allowErc20Approve([stETH], [contracts.mainnet.curve.steCrvPool]),

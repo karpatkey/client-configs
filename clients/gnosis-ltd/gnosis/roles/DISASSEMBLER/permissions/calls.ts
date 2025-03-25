@@ -1,12 +1,12 @@
 import { allow } from "zodiac-roles-sdk/kit"
 import { c } from "zodiac-roles-sdk"
-import { aura, balancer, GNO } from "@/addresses/gno"
+import { aura, balancerV2, GNO } from "@/addresses/gno"
 import { Chain, PermissionList } from "@/types"
 import { auraWithdrawBalancer } from "@/exit_strategies/aura"
 import {
-  balancerUnstakeWithdraw,
-  balancerWithdraw,
-} from "@/exit_strategies/balancer"
+  balancerV2UnstakeWithdraw,
+  balancerV2Withdraw,
+} from "@/exit_strategies/balancerV2"
 
 export default [
   /*********************************************
@@ -18,13 +18,13 @@ export default [
   // Aura - wstETH/COW
   auraWithdrawBalancer(
     aura.aura50WstEth50CowRewarder,
-    balancer.b50WstEth50CowPid
+    balancerV2.b50WstEth50CowPid
   ),
 
   // Balancer v2 - GBPe/sDAI
-  balancerWithdraw(balancer.bGbpeSdaiPid, false),
+  balancerV2Withdraw(balancerV2.bGbpeSdaiPid, false),
   // Balancer v2 - wstETH/COW
-  balancerUnstakeWithdraw(Chain.gno, balancer.b50WstEth50CowGauge),
+  balancerV2UnstakeWithdraw(Chain.gno, balancerV2.b50WstEth50CowGauge),
 
   // Curve - EURe/x3CRV
   allow.gnosis.curve.crvEureUsdPool["remove_liquidity(uint256,uint256[2])"](),

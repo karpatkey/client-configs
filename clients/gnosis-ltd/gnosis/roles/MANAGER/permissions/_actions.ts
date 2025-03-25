@@ -9,11 +9,11 @@ export default [
   allowAction.aura.deposit({ targets: ["20"] }),
 
   // Balancer v2 - GBPe/sDAI
-  allowAction.balancer.deposit({ targets: ["GBPe/sDAI"] }),
-  allowAction.balancer.stake({ targets: ["GBPe/sDAI"] }),
+  allowAction.balancer_v2.deposit({ targets: ["GBPe/sDAI"] }),
+  allowAction.balancer_v2.stake({ targets: ["GBPe/sDAI"] }),
   // Balancer v2 - wstETH/COW
-  allowAction.balancer.deposit({ targets: ["B-50wstETH-50COW"] }),
-  allowAction.balancer.stake({ targets: ["B-50wstETH-50COW"] }),
+  allowAction.balancer_v2.deposit({ targets: ["B-50wstETH-50COW"] }),
+  allowAction.balancer_v2.stake({ targets: ["B-50wstETH-50COW"] }),
 
   // CowSwap - XDAI -> [EURe, USDC.e, USDT]
   allowAction.cowswap.swap({

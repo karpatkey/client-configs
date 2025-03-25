@@ -4,14 +4,18 @@ import { crvUSD, DAI, USDC, USDCe, balancer } from "@/addresses/oeth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
-import { balancerSwap } from "@/exit_strategies/balancer"
+import { balancerV2Swap } from "@/exit_strategies/balancerV2"
 
 export default [
   /*********************************************
    * Swaps
    *********************************************/
   // Balancer - [DAI, USDC, USDCe] <-> [DAI, USDC, USDCe]
-  balancerSwap(balancer.stableBeetsPid, [DAI, USDC, USDCe], [DAI, USDC, USDCe]),
+  balancerV2Swap(
+    balancer.stableBeetsPid,
+    [DAI, USDC, USDCe],
+    [DAI, USDC, USDCe]
+  ),
 
   // Curve - DAI <-> USDC.e
   ...allowErc20Approve([DAI, USDCe], [contracts.optimism.curve.x3CrvPool]),

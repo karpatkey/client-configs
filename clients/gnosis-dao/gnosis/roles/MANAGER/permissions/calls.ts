@@ -37,38 +37,38 @@ export default [
   // Balancer v2 - BCoW AMM WETH/GNO (Staking not available)
   ...allowErc20Approve(
     [GNO, WETH],
-    [contracts.gnosis.balancer.bCowAmm50Weth50Gno]
+    [contracts.gnosis.balancerV2.bCowAmm50Weth50Gno]
   ),
-  allow.gnosis.balancer.bCowAmm50Weth50Gno.joinPool(),
-  allow.gnosis.balancer.bCowAmm50Weth50Gno.exitPool(),
+  allow.gnosis.balancerV2.bCowAmm50Weth50Gno.joinPool(),
+  allow.gnosis.balancerV2.bCowAmm50Weth50Gno.exitPool(),
 
   // Balancer v2 - BCoW AMM wstETH/sDAI (Staking not available)
   ...allowErc20Approve(
     [sDAI, wstETH],
-    [contracts.gnosis.balancer.bCowAmm50wstEth50sDai]
+    [contracts.gnosis.balancerV2.bCowAmm50wstEth50sDai]
   ),
-  allow.gnosis.balancer.bCowAmm50wstEth50sDai.joinPool(),
-  allow.gnosis.balancer.bCowAmm50wstEth50sDai.exitPool(),
+  allow.gnosis.balancerV2.bCowAmm50wstEth50sDai.joinPool(),
+  allow.gnosis.balancerV2.bCowAmm50wstEth50sDai.exitPool(),
 
   // Balancer v2 - BCoW AMM GNO/OLAS (Staking not available)
   ...allowErc20Approve(
     [GNO, OLAS],
-    [contracts.gnosis.balancer.bCowAmm50Gno50Olas]
+    [contracts.gnosis.balancerV2.bCowAmm50Gno50Olas]
   ),
-  allow.gnosis.balancer.bCowAmm50Gno50Olas.joinPool(),
-  allow.gnosis.balancer.bCowAmm50Gno50Olas.exitPool(),
+  allow.gnosis.balancerV2.bCowAmm50Gno50Olas.joinPool(),
+  allow.gnosis.balancerV2.bCowAmm50Gno50Olas.exitPool(),
 
   // Balancer v2 - BCoW AMM GNO/COW (Staking not available)
   ...allowErc20Approve(
     [GNO, COW],
-    [contracts.gnosis.balancer.bCowAmm50Gno50Cow]
+    [contracts.gnosis.balancerV2.bCowAmm50Gno50Cow]
   ),
-  allow.gnosis.balancer.bCowAmm50Gno50Cow.joinPool(),
-  allow.gnosis.balancer.bCowAmm50Gno50Cow.exitPool(),
+  allow.gnosis.balancerV2.bCowAmm50Gno50Cow.joinPool(),
+  allow.gnosis.balancerV2.bCowAmm50Gno50Cow.exitPool(),
 
   // Balancer v2 - ECLP-bCSPX-sDAI Gauge
-  ...allowErc20Approve([GNO], [contracts.gnosis.balancer.eclpBcspxSdaiGauge]),
-  allow.gnosis.balancer.eclpBcspxSdaiGauge.set_reward_distributor(GNO),
+  ...allowErc20Approve([GNO], [contracts.gnosis.balancerV2.eclpBcspxSdaiGauge]),
+  allow.gnosis.balancerV2.eclpBcspxSdaiGauge.set_reward_distributor(GNO),
 
   // Curve - EURe/EURC.e
   ...allowErc20Approve([EURCe, EURe], [contracts.gnosis.curve.eureEurc]),

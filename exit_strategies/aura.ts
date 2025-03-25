@@ -26,7 +26,7 @@ export const auraWithdrawBalancer = (
       targetAddress: rewarder,
     },
     // It doesn't matter the blockchain we use, as the Vault address remains the same
-    allow.mainnet.balancer.vault.exitPool(balancerPoolId, c.avatar, c.avatar, {
+    allow.mainnet.balancerV2.vault.exitPool(balancerPoolId, c.avatar, c.avatar, {
       userData: c.abiEncodedMatches(
         allowExitOneCoin
           ? [c.pass] // Constraint if allowExitOneCoin = true
