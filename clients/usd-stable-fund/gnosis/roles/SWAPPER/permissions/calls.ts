@@ -1,19 +1,19 @@
 import { allow } from "zodiac-roles-sdk/kit"
-import { sDAI, USDC, USDCe, WXDAI, balancer } from "@/addresses/gno"
+import { sDAI, USDC, USDCe, WXDAI, balancerV2 } from "@/addresses/gno"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
-import { balancerSwap } from "@/exit_strategies/balancer"
+import { balancerV2Swap } from "@/exit_strategies/balancerV2"
 
 export default [
   // Balancer - sDAI <-> USDC
-  balancerSwap(balancer.sBal3Pid, [sDAI, USDC], [sDAI, USDC]),
+  balancerV2Swap(balancerV2.sBal3Pid, [sDAI, USDC], [sDAI, USDC]),
 
   // Balancer - sDAI <-> USDC.e
-  balancerSwap(balancer.sBAL3NewPid, [sDAI, USDCe], [sDAI, USDCe]),
+  balancerV2Swap(balancerV2.sBAL3NewPid, [sDAI, USDCe], [sDAI, USDCe]),
 
   // Balancer - USDC <-> WXDAI
-  balancerSwap(balancer.staBal3Pid, [USDC, WXDAI], [USDC, WXDAI]),
+  balancerV2Swap(balancerV2.staBal3Pid, [USDC, WXDAI], [USDC, WXDAI]),
 
   // Swap USDC.e -> USDC
   ...allowErc20Approve([USDCe], [contracts.gnosis.usdcTransmuter]),

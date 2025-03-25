@@ -8,13 +8,13 @@ import { contracts } from "@/contracts"
 // import { ethers } from "ethers"
 // import { providers } from "../providers"
 
-export const balancerWithdraw = (
+export const balancerV2Withdraw = (
   balancerPoolId: string,
   allowExitOneCoin: boolean = true
 ): PermissionSet => {
   return [
     // It doesn't matter the blockchain we use, as the Vault address remains the same
-    allow.mainnet.balancer.vault.exitPool(balancerPoolId, c.avatar, c.avatar, {
+    allow.mainnet.balancerV2.vault.exitPool(balancerPoolId, c.avatar, c.avatar, {
       userData: c.abiEncodedMatches(
         allowExitOneCoin
           ? [c.pass] // Constraint if allowExitOneCoin = true
@@ -25,22 +25,22 @@ export const balancerWithdraw = (
   ]
 }
 
-export const balancerUnstakeWithdraw = async (
+export const balancerV2UnstakeWithdraw = async (
   chain: Chain,
   gauge: Address,
   allowExitOneCoin: boolean = true
 ): Promise<PermissionSet> => {
   const sdk = sdks[chain]
 
-  const bpt = await sdk.balancer.gauge.attach(gauge).lp_token()
-  const balancerPoolId = await sdk.balancer.bpt.attach(bpt).getPoolId()
+  const bpt = await sdk.balancerV2.gauge.attach(gauge).lp_token()
+  const balancerPoolId = await sdk.balancerV2.bpt.attach(bpt).getPoolId()
 
   // Another way to do the same without the attach()
   // const provider = providers[chain]
 
   // const gaugeContract = new ethers.Contract(
   //   gauge,
-  //   sdk.balancer.gauge.interface.format(ethers.utils.FormatTypes.json),
+  //   sdk.balancerV2.gauge.interface.format(ethers.utils.FormatTypes.json),
   //   provider
   // )
 
@@ -48,7 +48,7 @@ export const balancerUnstakeWithdraw = async (
 
   // const bptContract = new ethers.Contract(
   //   bpt,
-  //   sdk.balancer.bpt.interface.format(ethers.utils.FormatTypes.json),
+  //   sdk.balancerV2.bpt.interface.format(ethers.utils.FormatTypes.json),
   //   provider
   // )
 
@@ -58,11 +58,11 @@ export const balancerUnstakeWithdraw = async (
     // It doesn't matter the blockchain we use, since we are overwriting
     // the address of the rewarder (abis are the same indistinctively of the blockchain)
     {
-      ...allow.mainnet.balancer.gauge["withdraw(uint256)"](),
+      ...allow.mainnet.balancerV2.gauge["withdraw(uint256)"](),
       targetAddress: gauge,
     },
     // It doesn't matter the blockchain we use, as the Vault address remains the same
-    allow.mainnet.balancer.vault.exitPool(balancerPoolId, c.avatar, c.avatar, {
+    allow.mainnet.balancerV2.vault.exitPool(balancerPoolId, c.avatar, c.avatar, {
       userData: c.abiEncodedMatches(
         allowExitOneCoin
           ? [c.pass] // Constraint if allowExitOneCoin = true
@@ -73,15 +73,15 @@ export const balancerUnstakeWithdraw = async (
   ]
 }
 
-export const balancerSwap = (
+export const balancerV2Swap = (
   balancerPoolId: string,
   assetsIn: Address[],
   assetsOut: Address[]
 ): PermissionSet => {
   return [
-    ...allowErc20Approve(assetsIn, [contracts.mainnet.balancer.vault]),
+    ...allowErc20Approve(assetsIn, [contracts.mainnet.balancerV2.vault]),
     // It doesn't matter the blockchain we use, as the Vault address remains the same
-    allow.mainnet.balancer.vault.swap(
+    allow.mainnet.balancerV2.vault.swap(
       {
         poolId: balancerPoolId,
         assetIn: c.or(...(assetsIn as [Address, Address, ...Address[]])),

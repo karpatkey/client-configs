@@ -11,9 +11,9 @@ import {
 } from "@/addresses/eth"
 import { auraWithdrawBalancer } from "@/exit_strategies/aura"
 import {
-  balancerUnstakeWithdraw,
-  balancerWithdraw,
-} from "@/exit_strategies/balancer"
+  balancerV2UnstakeWithdraw,
+  balancerV2Withdraw,
+} from "@/exit_strategies/balancerV2"
 import {
   lidoUnstakeStEth,
   lidoUnwrapAndUnstakeWstEth,
@@ -106,21 +106,21 @@ export default [
   allow.mainnet.autonolas.veOlas.withdraw(),
 
   // Balancer v2 - auraBAL / B-80BAL-20WETH
-  balancerUnstakeWithdraw(Chain.eth, balancerV2.bAuraBalStableGauge),
+  balancerV2UnstakeWithdraw(Chain.eth, balancerV2.bAuraBalStableGauge),
   // Balancer v2 - B-80BAL-20WETH
-  balancerWithdraw(balancerV2.b80Bal20WethPid),
+  balancerV2Withdraw(balancerV2.b80Bal20WethPid),
 
   // Balancer v2 - COW/GNO
-  balancerUnstakeWithdraw(Chain.eth, balancerV2.b50Cow50GnoGauge, false),
+  balancerV2UnstakeWithdraw(Chain.eth, balancerV2.b50Cow50GnoGauge, false),
 
   // Balancer v2 - COW/WETH
-  balancerUnstakeWithdraw(Chain.eth, balancerV2.b50Cow50WethGauge, false),
+  balancerV2UnstakeWithdraw(Chain.eth, balancerV2.b50Cow50WethGauge, false),
 
   // Balancer v2 - rETH/WETH
-  balancerUnstakeWithdraw(Chain.eth, balancerV2.bREthStableGauge),
+  balancerV2UnstakeWithdraw(Chain.eth, balancerV2.bREthStableGauge),
 
   // Balancer - Lock
-  allow.mainnet.balancer.veBal.withdraw(),
+  allow.mainnet.balancerV2.veBal.withdraw(),
 
   // Convex - Lock
   allow.mainnet.convex.vlCvx.processExpiredLocks(),

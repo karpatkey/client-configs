@@ -31,11 +31,11 @@ export default [
   allowAction.aura.deposit({ targets: ["179"] }),
 
   // Balancer v2 - rETH/WETH
-  allowAction.balancer.deposit({ targets: ["B-rETH-STABLE"] }),
-  allowAction.balancer.stake({ targets: ["B-rETH-STABLE"] }),
+  allowAction.balancer_v2.deposit({ targets: ["B-rETH-STABLE"] }),
+  allowAction.balancer_v2.stake({ targets: ["B-rETH-STABLE"] }),
   // Balancer v2 - osETH/WETH
-  allowAction.balancer.deposit({ targets: ["osETH/wETH-BPT"] }),
-  allowAction.balancer.stake({ targets: ["osETH/wETH-BPT"] }),
+  allowAction.balancer_v2.deposit({ targets: ["osETH/wETH-BPT"] }),
+  allowAction.balancer_v2.stake({ targets: ["osETH/wETH-BPT"] }),
 
   // Convex - ETHx/ETH - ethx-f
   allowAction.convex.deposit({ targets: ["232"] }),

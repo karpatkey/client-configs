@@ -52,8 +52,8 @@ export default [
   allowAction.aura.deposit({ targets: ["157"] }),
 
   // Balancer v2 - GHO/USDC/USDT
-  allowAction.balancer.deposit({ targets: ["GHO/USDT/USDC"] }),
-  allowAction.balancer.stake({ targets: ["GHO/USDT/USDC"] }),
+  allowAction.balancer_v2.deposit({ targets: ["GHO/USDT/USDC"] }),
+  allowAction.balancer_v2.stake({ targets: ["GHO/USDT/USDC"] }),
 
   // Convex - crvUSD/USDT
   allowAction.convex.deposit({ targets: ["179"] }),

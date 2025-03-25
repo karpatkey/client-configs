@@ -16,7 +16,7 @@ import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
 import { auraWithdrawBalancer } from "@/exit_strategies/aura"
-import { balancerSwap } from "@/exit_strategies/balancer"
+import { balancerV2Swap } from "@/exit_strategies/balancerV2"
 import {
   lidoUnstakeStEth,
   lidoUnwrapAndUnstakeWstEth,
@@ -111,10 +111,10 @@ export default [
    * SWAPS
    *********************************************/
   // Balancer - rETH <-> WETH
-  balancerSwap(balancerV2.bREthStablePid, [rETH, WETH], [rETH, WETH]),
+  balancerV2Swap(balancerV2.bREthStablePid, [rETH, WETH], [rETH, WETH]),
 
   // Balancer - WETH <-> wstETH
-  balancerSwap(balancerV2.bStEthStablePid, [WETH, wstETH], [wstETH, WETH]),
+  balancerV2Swap(balancerV2.bStEthStablePid, [WETH, wstETH], [wstETH, WETH]),
 
   // Curve - [DAI, USDC, USDT] <-> [DAI, USDC, USDT]
   ...allowErc20Approve([DAI, USDC, USDT], [contracts.mainnet.curve.x3CrvPool]),

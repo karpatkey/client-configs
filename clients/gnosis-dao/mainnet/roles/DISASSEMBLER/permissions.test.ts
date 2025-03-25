@@ -19,7 +19,7 @@ describe("GnosisDAO", () => {
   describe("Exit Balancer One Coin", () => {
     it("exitPool", async () => {
       await expect(
-        kit.asMember.balancer.vault.exitPool(
+        kit.asMember.balancerV2.vault.exitPool(
           balancerV2.b50Cow50GnoPid,
           avatar.address,
           avatar.address,

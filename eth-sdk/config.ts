@@ -16,8 +16,8 @@ export const contracts = {
     azuro: {
       stAzur: "0x67f3228fD58f5A26D93a5dd0c6989b69c95618eB",
     },
-    balancer: {
-      ...deFiKitContracts.mainnet.balancer,
+    balancerV2: {
+      ...deFiKitContracts.mainnet.balancerV2,
       bCow50Cow50Wsteth: "0x9bd702E05B9c97E4A4a3E47Df1e0fe7A0C26d2F1",
       bCow50Weth50Usdc: "0xf08D4dEa369C456d26a3168ff0024B904F2d8b91",
       bCow50Weth50UsdcGauge: "0xF9423B78D784D610A00955E733dBa0bf9bda7B06",
@@ -184,8 +184,8 @@ export const contracts = {
     azuro: {
       lpAzrXdai: "0x204e7371Ade792c5C006fb52711c50a7efC843ed",
     },
-    balancer: {
-      ...deFiKitContracts.gnosis.balancer,
+    balancerV2: {
+      ...deFiKitContracts.gnosis.balancerV2,
       bCowAmm50Weth50Gno: "0x079d2094e16210c42457438195042898a3CFF72d",
       bCowAmm50wstEth50sDai: "0x5089007DEC8E93f891dcB908c9E2Af8d9DEdb72E",
       bCowAmm50Gno50Olas: "0xD7f99B1CDa3EeCf6b6eAa8a61ed21d061E745400",

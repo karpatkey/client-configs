@@ -19,32 +19,32 @@ import {
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
-import { balancerSwap } from "@/exit_strategies/balancer"
+import { balancerV2Swap } from "@/exit_strategies/balancerV2"
 
 export default [
   // Balancer - wstETH -> WETH
-  balancerSwap(balancerV2.bStEthStablePid, [wstETH], [WETH]),
+  balancerV2Swap(balancerV2.bStEthStablePid, [wstETH], [WETH]),
 
   // Balancer - wstETH -> WETH
-  balancerSwap(balancerV2.eclpWstEthWethPid, [wstETH], [WETH]),
+  balancerV2Swap(balancerV2.eclpWstEthWethPid, [wstETH], [WETH]),
 
   // Balancer - rETH -> WETH
-  balancerSwap(balancerV2.bREthStablePid, [rETH], [WETH]),
+  balancerV2Swap(balancerV2.bREthStablePid, [rETH], [WETH]),
 
   // Balancer - GYD -> USDT
-  balancerSwap(balancerV2.eclpGydUsdtPid, [GYD], [USDT]),
+  balancerV2Swap(balancerV2.eclpGydUsdtPid, [GYD], [USDT]),
 
   // Balancer - GYD -> sDAI
-  balancerSwap(balancerV2.eclpGydSdaiPid, [GYD], [sDAI]),
+  balancerV2Swap(balancerV2.eclpGydSdaiPid, [GYD], [sDAI]),
 
   // Balancer - GYD -> sDAI
-  balancerSwap(balancerV2.eclpGydSdai2Pid, [GYD], [sDAI]),
+  balancerV2Swap(balancerV2.eclpGydSdai2Pid, [GYD], [sDAI]),
 
   // Balancer - GYD -> USDC
-  balancerSwap(balancerV2.eclpGydUsdcPid, [GYD], [USDC]),
+  balancerV2Swap(balancerV2.eclpGydUsdcPid, [GYD], [USDC]),
 
   // Balancer - GHO -> [USDC, USDT]
-  balancerSwap(balancerV2.ghoUsdtUsdcPid, [GHO], [USDC, USDT]),
+  balancerV2Swap(balancerV2.ghoUsdtUsdcPid, [GHO], [USDC, USDT]),
 
   // Curve - Swap stETH -> ETH
   allowErc20Approve([stETH], [contracts.mainnet.curve.steCrvPool]),

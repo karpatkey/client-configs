@@ -2,7 +2,7 @@ import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import {
   aura,
-  balancer,
+  balancerV2,
   EURe,
   GNO,
   USDC,
@@ -14,9 +14,9 @@ import {
 } from "@/addresses/gno"
 import { contracts } from "@/contracts"
 import {
-  balancerUnstakeWithdraw,
-  balancerWithdraw,
-} from "@/exit_strategies/balancer"
+  balancerV2UnstakeWithdraw,
+  balancerV2Withdraw,
+} from "@/exit_strategies/balancerV2"
 import { Chain, PermissionList } from "@/types"
 import { auraWithdrawBalancer } from "@/exit_strategies/aura"
 
@@ -46,13 +46,13 @@ export default [
   allow.gnosis.aaveV3.poolV3.withdraw(USDCe, undefined, c.avatar),
 
   // Aura - WETH/wstETH
-  auraWithdrawBalancer(aura.auraWethWstEthRewarder, balancer.wethWstEthPid),
+  auraWithdrawBalancer(aura.auraWethWstEthRewarder, balancerV2.wethWstEthPid),
   // Aura - EURe/sDAI
-  auraWithdrawBalancer(aura.auraEureSdaiRewarder, balancer.eureSdaiPid),
+  auraWithdrawBalancer(aura.auraEureSdaiRewarder, balancerV2.eureSdaiPid),
   // Aura - Gyroscope ECLP rETH/WETH
   auraWithdrawBalancer(
     aura.auraRethWethRewarder,
-    balancer.eclpRethWethPid,
+    balancerV2.eclpRethWethPid,
     false
   ),
 
@@ -60,43 +60,43 @@ export default [
   allow.gnosis.azuro.lpAzrXdai.withdrawLiquidity(),
 
   // Balancer v2 - wstETH/GNO
-  balancerUnstakeWithdraw(Chain.gno, balancer.b50wstEth50GnoGauge),
+  balancerV2UnstakeWithdraw(Chain.gno, balancerV2.b50wstEth50GnoGauge),
   // Balancer v2 - sDAI/wstETH
-  balancerUnstakeWithdraw(Chain.gno, balancer.b50Sdai50WstEthGauge),
+  balancerV2UnstakeWithdraw(Chain.gno, balancerV2.b50Sdai50WstEthGauge),
   // Balancer v2 - USDC.e/USDT/sDAI
-  balancerUnstakeWithdraw(Chain.gno, balancer.sBal3NewGauge),
+  balancerV2UnstakeWithdraw(Chain.gno, balancerV2.sBal3NewGauge),
   // Balancer v2 - WETH/wstETH
-  balancerUnstakeWithdraw(Chain.gno, balancer.bbWethWstEthGauge),
+  balancerV2UnstakeWithdraw(Chain.gno, balancerV2.bbWethWstEthGauge),
   // Balancer v2 - rETH/WETH
-  balancerUnstakeWithdraw(Chain.gno, balancer.eclpRethWethGauge, false),
+  balancerV2UnstakeWithdraw(Chain.gno, balancerV2.eclpRethWethGauge, false),
   // Balancer v2 - osGNO/GNO
-  balancerUnstakeWithdraw(Chain.gno, balancer.osGnoGnoGauge),
+  balancerV2UnstakeWithdraw(Chain.gno, balancerV2.osGnoGnoGauge),
   // Balancer v2 - WBTC/WETH
-  balancerWithdraw(balancer.b50Wbtc50WethPid, false),
+  balancerV2Withdraw(balancerV2.b50Wbtc50WethPid, false),
   // Balancer v2 - Gyroscope ECLP wstETH/WETH
-  balancerUnstakeWithdraw(Chain.gno, balancer.eclpWstEthWethGauge),
+  balancerV2UnstakeWithdraw(Chain.gno, balancerV2.eclpWstEthWethGauge),
   // Balancer v2 - wstETH/BAL/AURA
-  balancerUnstakeWithdraw(Chain.gno, balancer.b50WstEth25Bal25AuraGauge),
+  balancerV2UnstakeWithdraw(Chain.gno, balancerV2.b50WstEth25Bal25AuraGauge),
   // Balancer v2 - wstETH/COW
-  balancerUnstakeWithdraw(Chain.gno, balancer.b50WstEth50CowGauge, false),
+  balancerV2UnstakeWithdraw(Chain.gno, balancerV2.b50WstEth50CowGauge, false),
   // Balancer v2 - COW/GNO
-  balancerUnstakeWithdraw(Chain.gno, balancer.b50Cow50GnoGauge, false),
+  balancerV2UnstakeWithdraw(Chain.gno, balancerV2.b50Cow50GnoGauge, false),
   // Balancer v2 - stEUR/EURe
-  balancerUnstakeWithdraw(Chain.gno, balancer.stEurEureGauge),
+  balancerV2UnstakeWithdraw(Chain.gno, balancerV2.stEurEureGauge),
   // Balancer v2 - GIV/GNO
-  balancerWithdraw(balancer.b50Giv50GnoPid, false),
+  balancerV2Withdraw(balancerV2.b50Giv50GnoPid, false),
   // Balancer v2 - WXDAI/GNO
-  balancerWithdraw(balancer.wxdaiGnoPid, false),
+  balancerV2Withdraw(balancerV2.wxdaiGnoPid, false),
   // Balancer v2 - EURe/sDAI
-  balancerUnstakeWithdraw(Chain.gno, balancer.eureSdaiGauge),
+  balancerV2UnstakeWithdraw(Chain.gno, balancerV2.eureSdaiGauge),
   // Balancer v2 - BCoW AMM WETH/GNO (Staking not available)
-  allow.gnosis.balancer.bCowAmm50Weth50Gno.exitPool(),
+  allow.gnosis.balancerV2.bCowAmm50Weth50Gno.exitPool(),
   // Balancer v2 - BCoW AMM wstETH/sDAI (Staking not available)
-  allow.gnosis.balancer.bCowAmm50wstEth50sDai.exitPool(),
+  allow.gnosis.balancerV2.bCowAmm50wstEth50sDai.exitPool(),
   // Balancer v2 - BCoW AMM GNO/OLAS (Staking not available)
-  allow.gnosis.balancer.bCowAmm50Gno50Olas.exitPool(),
+  allow.gnosis.balancerV2.bCowAmm50Gno50Olas.exitPool(),
   // Balancer v2 - BCoW AMM GNO/COW (Staking not available)
-  allow.gnosis.balancer.bCowAmm50Gno50Cow.exitPool(),
+  allow.gnosis.balancerV2.bCowAmm50Gno50Cow.exitPool(),
 
   // Curve - EURe/EURC.e
   allow.gnosis.curve.eureEurc["remove_liquidity(uint256,uint256[])"](),

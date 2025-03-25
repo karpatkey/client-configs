@@ -32,7 +32,7 @@ import { zeroAddress } from "@/addresses"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
-import { balancerSwap } from "@/exit_strategies/balancer"
+import { balancerV2Swap } from "@/exit_strategies/balancerV2"
 
 export default [
   /*********************************************
@@ -85,10 +85,10 @@ export default [
   // Balancer v2 - BCoW AMM wNXM/WETH (Staking not available)
   ...allowErc20Approve(
     [wNXM, WETH],
-    [contracts.mainnet.balancer.bCow50Wnxm50Weth]
+    [contracts.mainnet.balancerV2.bCow50Wnxm50Weth]
   ),
-  allow.mainnet.balancer.bCow50Wnxm50Weth.joinPool(),
-  allow.mainnet.balancer.bCow50Wnxm50Weth.exitPool(),
+  allow.mainnet.balancerV2.bCow50Wnxm50Weth.joinPool(),
+  allow.mainnet.balancerV2.bCow50Wnxm50Weth.exitPool(),
 
   // // Balancer v3 - Aave Boosted USDT/GHO/USDC
   // ...allowErc20Approve([GHO, USDC, USDT], [contracts.mainnet.uniswap.permit2]),
@@ -281,7 +281,7 @@ export default [
    * Swaps
    *********************************************/
   // Balancer - osETH <-> WETH
-  balancerSwap(balancerV2.osEthWethPid, [osETH, WETH], [osETH, WETH]),
+  balancerV2Swap(balancerV2.osEthWethPid, [osETH, WETH], [osETH, WETH]),
 
   // Uniswap v3
   ...allowErc20Approve(

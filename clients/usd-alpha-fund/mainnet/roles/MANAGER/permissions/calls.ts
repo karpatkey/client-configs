@@ -25,7 +25,7 @@ import { DAI as DAI_opt, COMP as COMP_opt } from "@/addresses/oeth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
-import { balancerSwap } from "@/exit_strategies/balancer"
+import { balancerV2Swap } from "@/exit_strategies/balancerV2"
 import { zeroAddress } from "@/addresses"
 import { Parameters } from "../../../parameters"
 
@@ -80,15 +80,15 @@ export default (parameters: Parameters) =>
       [balancerV3.aaveGhoUsdtUsdcGauge]
     ),
     {
-      ...allow.mainnet.balancer.gauge["deposit(uint256)"](),
+      ...allow.mainnet.balancerV2.gauge["deposit(uint256)"](),
       targetAddress: balancerV3.aaveGhoUsdtUsdcGauge,
     },
     {
-      ...allow.mainnet.balancer.gauge["withdraw(uint256)"](),
+      ...allow.mainnet.balancerV2.gauge["withdraw(uint256)"](),
       targetAddress: balancerV3.aaveGhoUsdtUsdcGauge,
     },
     {
-      ...allow.mainnet.balancer.gauge["claim_rewards()"](),
+      ...allow.mainnet.balancerV2.gauge["claim_rewards()"](),
       targetAddress: balancerV3.aaveGhoUsdtUsdcGauge,
     },
 
@@ -337,10 +337,10 @@ export default (parameters: Parameters) =>
      * Swaps
      *********************************************/
     // Balancer - GYD <-> sDAI
-    balancerSwap(balancerV2.eclpGydSdai2Pid, [GYD, sDAI], [GYD, sDAI]),
+    balancerV2Swap(balancerV2.eclpGydSdai2Pid, [GYD, sDAI], [GYD, sDAI]),
 
     // Balancer - [GHO, USDC, USDT] <-> [GHO, USDC, USDT]
-    balancerSwap(
+    balancerV2Swap(
       balancerV2.ghoUsdtUsdcPid,
       [GHO, USDC, USDT],
       [GHO, USDC, USDT]

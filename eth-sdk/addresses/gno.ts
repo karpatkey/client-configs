@@ -52,7 +52,7 @@ export const aura = {
   aura50WstEth50CowRewarder: "0x85298595d4f6f8fa91f8658ba9c10f9a85b17f62",
 } as const
 
-export const balancer = {
+export const balancerV2 = {
   // pIds
   sBal3Pid:
     "0x7644fa5d0ea14fcf3e813fdf93ca9544f8567655000000000000000000000066",

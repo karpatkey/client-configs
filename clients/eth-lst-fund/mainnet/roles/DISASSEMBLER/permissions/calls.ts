@@ -6,7 +6,7 @@ import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
 import { convexWithdraw } from "@/exit_strategies/convex"
 import { auraWithdrawBalancer } from "@/exit_strategies/aura"
-import { balancerUnstakeWithdraw } from "@/exit_strategies/balancer"
+import { balancerV2UnstakeWithdraw } from "@/exit_strategies/balancerV2"
 import { Chain } from "@/types"
 
 export default [
@@ -19,9 +19,9 @@ export default [
   auraWithdrawBalancer(aura.auraosEthWethRewarder, balancerV2.osEthWethPid),
 
   // Balancer v2 - rETH/WETH
-  balancerUnstakeWithdraw(Chain.eth, balancerV2.bREthStableGauge),
+  balancerV2UnstakeWithdraw(Chain.eth, balancerV2.bREthStableGauge),
   // Balancer v2 - WETH/osETH
-  balancerUnstakeWithdraw(Chain.eth, balancerV2.osEthWethGauge),
+  balancerV2UnstakeWithdraw(Chain.eth, balancerV2.osEthWethGauge),
 
   // Convex - ETHx/ETH - ethx-f
   convexWithdraw(convex.cvxethxRewarder),

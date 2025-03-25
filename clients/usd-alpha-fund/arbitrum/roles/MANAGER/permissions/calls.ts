@@ -5,7 +5,7 @@ import { COMP as COMP_eth, DAI as DAI_eth } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
-import { balancerSwap } from "@/exit_strategies/balancer"
+import { balancerV2Swap } from "@/exit_strategies/balancerV2"
 
 export default [
   /*********************************************
@@ -31,7 +31,7 @@ export default [
    * Swaps
    *********************************************/
   // Balancer - [DAI, USDC, USDC.e] <-> [DAI, USDC, USDC.e]
-  balancerSwap(balancer.b4PoolPid, [DAI, USDC, USDCe], [DAI, USDC, USDCe]),
+  balancerV2Swap(balancer.b4PoolPid, [DAI, USDC, USDCe], [DAI, USDC, USDCe]),
 
   // Uniswap v3 - [DAI, USDC, USDC.e] <-> [DAI, USDC, USDC.e]
   ...allowErc20Approve(
