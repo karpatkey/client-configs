@@ -70,13 +70,13 @@ export default [
   allow.mainnet.curve.crvUsdtWbtcWethGauge["withdraw(uint256)"](),
 
   // Curve - Tricrypto GHO (GHO/WBTC/wstETH)
-  allow.mainnet.curve.tricryptoGhoPool[
+  allow.mainnet.curve.ghoBtcWstePool[
     "remove_liquidity(uint256,uint256[3],bool)"
   ](),
-  allow.mainnet.curve.tricryptoGhoPool[
+  allow.mainnet.curve.ghoBtcWstePool[
     "remove_liquidity_one_coin(uint256,uint256,uint256,bool)"
   ](),
-  allow.mainnet.curve.tricryptoGhoGauge["withdraw(uint256)"](),
+  allow.mainnet.curve.ghoBtcWsteGauge["withdraw(uint256)"](),
 
   // Enzyme - Diva stETH Vault
   // Withdraw stETH
