@@ -87,14 +87,12 @@ export default (parameters: Parameters) =>
       [GHO, cbBTC, WETH],
       [contracts.mainnet.curve.btcGhoEthPool]
     ),
-    allow.mainnet.curve.btcGhoEthPool[
-      "add_liquidity(uint256[3],uint256,bool)"
-    ](
+    allow.mainnet.curve.btcGhoEthPool["add_liquidity(uint256[3],uint256,bool)"](
       undefined,
       undefined,
       undefined,
       {
-        send: true
+        send: true,
       }
     ),
     allow.mainnet.curve.btcGhoEthPool[
