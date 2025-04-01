@@ -2,13 +2,13 @@ import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import {
   DAI,
+  eETH,
   GHO,
-  NOTE,
-  USDC,
   USDT,
   SAFE,
   stETH,
   WBTC,
+  weETH,
   WETH,
   wstETH,
   cbBTC,
@@ -18,6 +18,13 @@ import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
 import { Parameters } from "../../../parameters"
+import {
+  kfPaymentsMainnet,
+  kpkDaoPaymentsMainnet,
+  vcbGC,
+} from "../../addresses"
+import { withinAllowance } from "zodiac-roles-sdk/build/cjs/sdk/src/permissions/authoring/conditions"
+import { encodeBytes32String } from "defi-kit"
 
 export default (parameters: Parameters) =>
   [
@@ -29,14 +36,6 @@ export default (parameters: Parameters) =>
     allow.mainnet.weth.deposit({
       send: true,
     }),
-
-    // Compound v3 - Deposit USDC
-    ...allowErc20Approve([USDC], [contracts.mainnet.compoundV3.cUsdcV3]),
-    allow.mainnet.compoundV3.cUsdcV3.supply(USDC),
-    allow.mainnet.compoundV3.cUsdcV3.withdraw(USDC),
-
-    // Compound v3 - Claim rewards
-    allow.mainnet.compoundV3.cometRewards.claim(undefined, c.avatar),
 
     // Curve - USDT/WBTC/WETH
     ...allowErc20Approve(
@@ -186,6 +185,24 @@ export default (parameters: Parameters) =>
       [stETH]
     ),
 
+    // ether.fi - Liquid ETH - Deposit
+    ...allowErc20Approve(
+      [eETH, weETH, WETH],
+      [contracts.mainnet.etherfi.liquidEth]
+    ),
+    allow.mainnet.etherfi.tellerWithMultiAssetSupport.deposit(
+      c.or(eETH, weETH, WETH)
+    ),
+    // ether.fi - Liquid ETH - Withdraw
+    ...allowErc20Approve(
+      [contracts.mainnet.etherfi.liquidEth],
+      [contracts.mainnet.etherfi.atomicQueue]
+    ),
+    allow.mainnet.etherfi.atomicQueue.updateAtomicRequest(
+      contracts.mainnet.etherfi.liquidEth,
+      c.or(eETH, weETH)
+    ),
+
     // Merkl (Angle) - Claim
     allow.mainnet.merkl.angleDistributor.claim([parameters.avatar], [GHO]),
 
@@ -223,4 +240,38 @@ export default (parameters: Parameters) =>
     allow.mainnet.sky.dsrManager.join(c.avatar),
     allow.mainnet.sky.dsrManager.exit(c.avatar),
     allow.mainnet.sky.dsrManager.exitAll(c.avatar),
+
+    /*********************************************
+     * Bridge
+     *********************************************/
+    // NAV Calculator - bridgeStart - In the future, the bridged assets should be scoped appropriately.
+    allow.mainnet.navCalculator.bridgeStart(),
+
+    // Mainnet -> Gnosis
+    // DAI -> XDAI
+    ...allowErc20Approve([DAI], [contracts.mainnet.gnoXdaiBridge]),
+    allow.mainnet.gnoXdaiBridge.relayTokens(
+      vcbGC,
+      withinAllowance(encodeBytes32String("DAI_VCB-GC") as `0x${string}`),
+    ),
+
+    /*********************************************
+     * Transfers
+     *********************************************/
+    allow.mainnet.dai.transfer(
+      kpkDaoPaymentsMainnet,
+      withinAllowance(encodeBytes32String("DAI_KPK-PAYMENTS-ETH") as `0x${string}`),
+    ),
+
+    allow.mainnet.dai.transfer(
+      kpkDaoPaymentsMainnet,
+      withinAllowance(encodeBytes32String("DAI_KPK-PAYMENTS-ETH") as `0x${string}`),
+    ),
+
+    ({
+      targetAddress: kpkDaoPaymentsMainnet,
+      selector: "0x00000000",
+      send: true,
+      condition: c.etherWithinAllowance(encodeBytes32String("ETH_KPK-PAYMENTS-ETH") as `0x${string}`),
+    })
   ] satisfies PermissionList
