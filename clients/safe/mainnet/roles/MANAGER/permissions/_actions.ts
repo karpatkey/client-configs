@@ -49,6 +49,26 @@ export default [
   allowAction.balancer_v2.deposit({ targets: ["osETH/wETH-BPT"] }),
   allowAction.balancer_v2.stake({ targets: ["osETH/wETH-BPT"] }),
 
+  // Spark - Deposit USDS
+  allowAction.spark.deposit({ targets: ["USDS"] }),
+  // Spark - Deposit DAI
+  allowAction.spark.deposit({ targets: ["DAI"] }),
+  // Spark - Deposit USDC
+  allowAction.spark.deposit({ targets: ["USDC"] }),
+  // Spark - Deposit USDT
+  allowAction.spark.deposit({ targets: ["USDT"] }),
+  // Spark - Deposit ETH
+  allowAction.spark.deposit({ targets: ["ETH"] }),
+  // Spark - Deposit WETH
+  allowAction.spark.deposit({ targets: ["WETH"] }),
+  // Spark - Deposit SKY_USDS
+  allowAction.spark.deposit({ targets: ["SKY_USDS"] }),
+  // Spark - Deposit DSR_sDAI
+  allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
+
+  // To discuss //Sky - Deposit USDS
+  // allowAction.sky.deposit({ targets: ["USDS"], avatar: '0xd28b432f06cb64692379758b88b5fcdfc4f56922' }),
+
   // CowSwap - SAFE -> [DAI, ETH, stETH, USDC, WETH, wstETH]
   allowAction.cowswap.swap({
     sell: [SAFE],
