@@ -252,7 +252,7 @@ export default (parameters: Parameters) =>
     ...allowErc20Approve([DAI], [contracts.mainnet.gnoXdaiBridge]),
     allow.mainnet.gnoXdaiBridge.relayTokens(
       vcbGC,
-      withinAllowance(encodeBytes32String("DAI_VCB-GC") as `0x${string}`),
+      withinAllowance(encodeBytes32String("DAI_VCB-GC") as `0x${string}`)
     ),
 
     /*********************************************
@@ -260,18 +260,24 @@ export default (parameters: Parameters) =>
      *********************************************/
     allow.mainnet.dai.transfer(
       kpkDaoPaymentsMainnet,
-      withinAllowance(encodeBytes32String("DAI_KPK-PAYMENTS-ETH") as `0x${string}`),
+      withinAllowance(
+        encodeBytes32String("DAI_KPK-PAYMENTS-ETH") as `0x${string}`
+      )
     ),
 
     allow.mainnet.dai.transfer(
       kpkDaoPaymentsMainnet,
-      withinAllowance(encodeBytes32String("DAI_KPK-PAYMENTS-ETH") as `0x${string}`),
+      withinAllowance(
+        encodeBytes32String("DAI_KPK-PAYMENTS-ETH") as `0x${string}`
+      )
     ),
 
-    ({
+    {
       targetAddress: kpkDaoPaymentsMainnet,
       selector: "0x00000000",
       send: true,
-      condition: c.etherWithinAllowance(encodeBytes32String("ETH_KPK-PAYMENTS-ETH") as `0x${string}`),
-    })
+      condition: c.etherWithinAllowance(
+        encodeBytes32String("ETH_KPK-PAYMENTS-ETH") as `0x${string}`
+      ),
+    },
   ] satisfies PermissionList
