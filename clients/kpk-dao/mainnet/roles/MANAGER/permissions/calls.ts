@@ -15,7 +15,7 @@ import {
 } from "@/addresses/eth"
 import { zeroAddress, eAddress } from "@/addresses"
 import { contracts } from "@/contracts"
-import { allowErc20Approve } from "@/helpers"
+import { allowErc20Approve, allowEthTransfer } from "@/helpers"
 import { PermissionList } from "@/types"
 import { Parameters } from "../../../parameters"
 import {
@@ -23,7 +23,6 @@ import {
   kpkDaoPaymentsMainnet,
   vcbGC,
 } from "../../addresses"
-import { withinAllowance } from "zodiac-roles-sdk/build/cjs/sdk/src/permissions/authoring/conditions"
 import { encodeBytes32String } from "defi-kit"
 
 export default (parameters: Parameters) =>
@@ -252,7 +251,7 @@ export default (parameters: Parameters) =>
     ...allowErc20Approve([DAI], [contracts.mainnet.gnoXdaiBridge]),
     allow.mainnet.gnoXdaiBridge.relayTokens(
       vcbGC,
-      withinAllowance(encodeBytes32String("DAI_VCB-GC") as `0x${string}`),
+      c.withinAllowance(encodeBytes32String("DAI_VCB-GC") as `0x${string}`),
     ),
 
     /*********************************************
@@ -260,18 +259,13 @@ export default (parameters: Parameters) =>
      *********************************************/
     allow.mainnet.dai.transfer(
       kpkDaoPaymentsMainnet,
-      withinAllowance(encodeBytes32String("DAI_KPK-PAYMENTS-ETH") as `0x${string}`),
+      c.withinAllowance(encodeBytes32String("DAI_KPK-PAYMENTS-ETH") as `0x${string}`),
     ),
 
     allow.mainnet.dai.transfer(
       kpkDaoPaymentsMainnet,
-      withinAllowance(encodeBytes32String("DAI_KPK-PAYMENTS-ETH") as `0x${string}`),
+      c.withinAllowance(encodeBytes32String("DAI_KPK-PAYMENTS-ETH") as `0x${string}`),
     ),
 
-    ({
-      targetAddress: kpkDaoPaymentsMainnet,
-      selector: "0x00000000",
-      send: true,
-      condition: c.etherWithinAllowance(encodeBytes32String("ETH_KPK-PAYMENTS-ETH") as `0x${string}`),
-    })
+    allowEthTransfer(kpkDaoPaymentsMainnet, "ETH_KPK-PAYMENTS-ETH"),
   ] satisfies PermissionList
