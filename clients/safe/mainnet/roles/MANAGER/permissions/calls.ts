@@ -19,7 +19,7 @@ export default [
   allow.mainnet.aaveV3.poolCoreV3.withdraw(USDT, undefined, c.avatar),
   // Aave v3 - Withdraw WETH
   allow.mainnet.aaveV3.poolCoreV3.withdraw(WETH, undefined, c.avatar),
-  
+
   // Uniswap v2 - SAFE/WETH
   allowErc20Approve([SAFE], [contracts.mainnet.uniswapV2.router2]),
   allow.mainnet.uniswapV2.router2.addLiquidityETH(
