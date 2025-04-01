@@ -27,17 +27,17 @@ export default [
   allowAction.aave_v3.stake({ targets: ["GHO"] }),
 
   // Aave v3 Core Market - Deposit USDC
-  allowAction.aave_v3.deposit({ market: "Core", targets: ["USDC"]}),
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["USDC"] }),
   // Aave v3 Core Market - Deposit USDS
-  allowAction.aave_v3.deposit({ market: "Core", targets: ["USDS"]}),
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["USDS"] }),
   // Aave v3 Core Market - Deposit DAI
-  allowAction.aave_v3.deposit({ market: "Core", targets: ["DAI"]}),
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["DAI"] }),
   // Aave v3 Core Market - Deposit USDT
-  allowAction.aave_v3.deposit({ market: "Core", targets: ["USDT"]}),
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["USDT"] }),
   // Aave v3 Core Market - Deposit WETH
-  allowAction.aave_v3.deposit({ market: "Core", targets: ["WETH"]}),
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["WETH"] }),
   // Aave v3 Core Market - Deposit ETH
-  allowAction.aave_v3.deposit({ market: "Core", targets: ["ETH"]}),
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["ETH"] }),
 
   // Balancer v2 - wstETH/WETH
   allowAction.balancer_v2.deposit({ targets: ["wstETH-WETH-BPT"] }),
