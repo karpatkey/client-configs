@@ -3,5 +3,4 @@ import { allow } from "zodiac-roles-sdk/kit"
 import { contracts } from "@/contracts"
 import { PermissionList } from "@/types"
 
-export default [
-] satisfies PermissionList
+export default [] satisfies PermissionList
