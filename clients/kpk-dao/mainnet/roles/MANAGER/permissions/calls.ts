@@ -251,7 +251,7 @@ export default (parameters: Parameters) =>
     ...allowErc20Approve([DAI], [contracts.mainnet.gnoXdaiBridge]),
     allow.mainnet.gnoXdaiBridge.relayTokens(
       vcbGC,
-      c.withinAllowance(encodeBytes32String("DAI_VCB-GC") as `0x${string}`),
+      c.withinAllowance(encodeBytes32String("DAI_VCB-GC") as `0x${string}`)
     ),
 
     /*********************************************
@@ -259,12 +259,16 @@ export default (parameters: Parameters) =>
      *********************************************/
     allow.mainnet.dai.transfer(
       kpkDaoPaymentsMainnet,
-      c.withinAllowance(encodeBytes32String("DAI_KPK-PAYMENTS-ETH") as `0x${string}`),
+      c.withinAllowance(
+        encodeBytes32String("DAI_KPK-PAYMENTS-ETH") as `0x${string}`
+      )
     ),
 
     allow.mainnet.dai.transfer(
       kpkDaoPaymentsMainnet,
-      c.withinAllowance(encodeBytes32String("DAI_KPK-PAYMENTS-ETH") as `0x${string}`),
+      c.withinAllowance(
+        encodeBytes32String("DAI_KPK-PAYMENTS-ETH") as `0x${string}`
+      )
     ),
 
     allowEthTransfer(kpkDaoPaymentsMainnet, "ETH_KPK-PAYMENTS-ETH"),
