@@ -8,15 +8,22 @@ export const allowEthTransferWithAnyData = (to: Address): TargetPermission => ({
   send: true,
 })
 
-export const allowEthTransfer = (to: Address, allowance?: string): FunctionPermission => {
+export const allowEthTransfer = (
+  to: Address,
+  allowance?: string
+): FunctionPermission => {
   if (allowance === "") {
     throw new Error("Invalid allowance key")
   }
   return {
-
     targetAddress: to,
     selector: "0x00000000",
     send: true,
-    condition: allowance === undefined ? undefined : c.etherWithinAllowance(encodeBytes32String(allowance) as `0x${string}`),
+    condition:
+      allowance === undefined
+        ? undefined
+        : c.etherWithinAllowance(
+            encodeBytes32String(allowance) as `0x${string}`
+          ),
   }
 }
