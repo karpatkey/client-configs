@@ -1,27 +1,11 @@
 import { allow as allowAction } from "defi-kit/gno"
-import { CRV, USDC, USDT, sDAI, WETH, wstETH, WXDAI } from "@/addresses/gno"
-import { eAddress } from "@/addresses"
+import { sDAI, USDC, USDCe, USDT, WXDAI } from "@/addresses/gno"
 
 export default [
-  // CowSwap - [USDC, USDT, sDAI] -> [USDC, USDT, WETH, WXDAI, XDAI]
+  // CowSwap - [sDAI, USDC, USDCe, USDT, WXDAI, XDAI] <-> [sDAI, USDC, USDCe, USDT, WXDAI, XDAI]
   allowAction.cowswap.swap({
-    sell: [USDC, USDT, sDAI],
-    buy: [eAddress, USDC, USDT, WETH, WXDAI],
-  }),
-  // CowSwap - WXDAI -> [USDC, USDT, WETH]
-  allowAction.cowswap.swap({
-    sell: [WXDAI],
-    buy: [USDC, USDT, WETH],
-  }),
-  // CowSwap - wstETH -> WETH
-  allowAction.cowswap.swap({
-    sell: [wstETH],
-    buy: [WETH],
-  }),
-  // CowSwap - CRV -> [USDC, WXDAI, XDAI]
-  allowAction.cowswap.swap({
-    sell: [CRV],
-    buy: [eAddress, USDC, WXDAI],
+    sell: ["XDAI", sDAI, USDC, USDCe, USDT, WXDAI],
+    buy: ["XDAI", sDAI, USDC, USDCe, USDT, WXDAI],
   }),
 
   // StakeWise v3 - Genesis

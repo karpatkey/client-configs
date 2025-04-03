@@ -13,7 +13,7 @@ export const allowEthTransfer = (
   allowance?: string
 ): FunctionPermission => {
   if (allowance === "") {
-    throw new Error("Invalid allowance key")
+    throw new Error("Invalid allowance key: empty string")
   }
   return {
     targetAddress: to,
@@ -23,7 +23,7 @@ export const allowEthTransfer = (
       allowance === undefined
         ? undefined
         : c.etherWithinAllowance(
-            encodeBytes32String(allowance) as `0x${string}`
-          ),
+          encodeBytes32String(allowance) as `0x${string}`
+        ),
   }
 }
