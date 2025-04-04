@@ -34,9 +34,7 @@ export const allowErc20Transfer = (
           : c.or(...(recipients as [string, string, ...string[]])),
         allowance === undefined
           ? undefined
-          : c.withinAllowance(
-            encodeBytes32String(allowance) as `0x${string}`
-          ),
+          : c.withinAllowance(encodeBytes32String(allowance) as `0x${string}`),
       ],
       ["address", "uint256"]
     ),
