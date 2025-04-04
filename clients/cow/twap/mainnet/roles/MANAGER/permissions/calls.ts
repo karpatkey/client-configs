@@ -1,5 +1,9 @@
 import { COW, sDAI, sUSDS, USDC, WETH } from "@/addresses/eth"
-import { mainTreasury, legalDefenseFund, buyBack } from "../../../../../addresses"
+import {
+  mainTreasury,
+  legalDefenseFund,
+  buyBack,
+} from "../../../../../addresses"
 import { allowErc20Transfer } from "@/helpers"
 import { PermissionList } from "@/types"
 
