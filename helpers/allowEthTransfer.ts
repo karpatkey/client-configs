@@ -1,4 +1,4 @@
-import { c } from "zodiac-roles-sdk"
+import { c, Operator, ParameterType } from "zodiac-roles-sdk"
 import { FunctionPermission, TargetPermission } from "zodiac-roles-sdk"
 import { Address } from "@gnosis-guild/eth-sdk"
 import { encodeBytes32String } from "defi-kit"
@@ -22,14 +22,16 @@ export const allowEthTransfer = (
     condition:
       allowance === undefined
         ? undefined
-        : c.calldataMatches(
-            [
-              undefined,
-              c.etherWithinAllowance(
-                encodeBytes32String(allowance) as `0x${string}`
-              ),
+        : {
+            paramType: ParameterType.Calldata,
+            operator: Operator.Matches,
+            children: [
+              {
+                paramType: ParameterType.None,
+                operator: Operator.EtherWithinAllowance,
+                compValue: encodeBytes32String(allowance) as `0x${string}`,
+              },
             ],
-            ["uint256"]
-          ),
+          },
   }
 }
