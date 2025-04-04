@@ -22,8 +22,13 @@ export const allowEthTransfer = (
     condition:
       allowance === undefined
         ? undefined
-        : c.etherWithinAllowance(
-          encodeBytes32String(allowance) as `0x${string}`
-        ),
+        : c.calldataMatches(
+            [
+              c.etherWithinAllowance(
+                encodeBytes32String(allowance) as `0x${string}`
+              ),
+            ],
+            []
+          ),
   }
 }
