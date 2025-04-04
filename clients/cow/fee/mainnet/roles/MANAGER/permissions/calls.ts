@@ -1,8 +1,9 @@
 import { allow } from "zodiac-roles-sdk/kit"
-import { COW, DAI, sDAI, sUSDS, USDC, USDT, WETH } from "@/addresses/eth"
-import { legalDefenseFund, twapAvatar } from "../../../../addresses"
+import { WETH } from "@/addresses/eth"
+import { mainTreasury } from "../../../../../addresses"
 import { PermissionList } from "@/types"
 import { allowErc20Transfer } from "@/helpers"
+import { allowEthTransfer } from "@/helpers"
 
 export default [
   /*********************************************
@@ -17,9 +18,8 @@ export default [
   /*********************************************
    * Transfers
    *********************************************/
-  // Transfer sDAI, sUSDS,USDC to Legal Defense Fund
-  allowErc20Transfer([sDAI, sUSDS, USDC], [legalDefenseFund]),
-
-  // Transfer COW, USDC, WETH to TWAP Safe
-  allowErc20Transfer([COW, USDC, WETH], [twapAvatar]),
+  // Transfer ETH to Main Treasury
+  allowEthTransfer(mainTreasury),
+  // Transfer WETH to Main Treasury
+  allowErc20Transfer([WETH], [mainTreasury]),
 ] satisfies PermissionList
