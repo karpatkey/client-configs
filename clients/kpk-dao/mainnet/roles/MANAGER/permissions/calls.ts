@@ -266,6 +266,7 @@ export default (parameters: Parameters) =>
     allowErc20Transfer([DAI], [kpkDaoPaymentsMainnet], "DAI_KPK-PAYMENTS-ETH"),
 
     // Transfer 10 ETH per month to kpkDaoPaymentsMainnet
+    // allowErc20Transfer([WETH], [kpkDaoPaymentsMainnet], "ETH_KPK-PAYMENTS-ETH"),
     allowEthTransfer(kpkDaoPaymentsMainnet, "ETH_KPK-PAYMENTS-ETH"),
 
     // Transfer 200K per month to kfPaymentsMainnet
