@@ -51,13 +51,13 @@ export default [
 
   // TO discuss about comet targets
   // Compound v3 - Deposit USDC
-  allowAction.compound_v3.deposit({ targets: ["cUSDCv3"], tokens: ["USDC"]}),
+  allowAction.compound_v3.deposit({ targets: ["cUSDCv3"], tokens: ["USDC"] }),
   // Compound v3 - Deposit USDS
-  allowAction.compound_v3.deposit({ targets: ["cUSDSv3"], tokens: ["USDS"]}),
+  allowAction.compound_v3.deposit({ targets: ["cUSDSv3"], tokens: ["USDS"] }),
   // Compound v3 - Deposit USDT
-  allowAction.compound_v3.deposit({ targets: ["cUSDTv3"], tokens: ["USDT"]}),
+  allowAction.compound_v3.deposit({ targets: ["cUSDTv3"], tokens: ["USDT"] }),
   // Compound v3 - Deposit WETH
-  allowAction.compound_v3.deposit({ targets: ["cWETHv3"], tokens: ["WETH"]}),
+  allowAction.compound_v3.deposit({ targets: ["cWETHv3"], tokens: ["WETH"] }),
 
   // Spark - Deposit USDS
   allowAction.spark.deposit({ targets: ["USDS"] }),
