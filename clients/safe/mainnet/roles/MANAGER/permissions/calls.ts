@@ -1,15 +1,11 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { DAI, SAFE, uniswapV2, USDC, USDS, USDT, WETH } from "@/addresses/eth"
+import { SAFE, uniswapV2 } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
 
 export default [
-  /*********************************************
-   * Typed-presets permissions
-   *********************************************/
-
   // Uniswap v2 - SAFE/WETH
   allowErc20Approve([SAFE], [contracts.mainnet.uniswapV2.router2]),
   allow.mainnet.uniswapV2.router2.addLiquidityETH(

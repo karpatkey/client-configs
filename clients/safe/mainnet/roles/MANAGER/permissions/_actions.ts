@@ -13,31 +13,25 @@ import {
 } from "@/addresses/eth"
 
 export default [
-  /*********************************************
-   * DeFi-Kit permissions
-   *********************************************/
-  // Aura - wstETH/WETH
-  allowAction.aura.deposit({ targets: ["153"] }),
   // Aura - rETH/WETH
   allowAction.aura.deposit({ targets: ["109"] }),
+  // Aura - wstETH/WETH
+  allowAction.aura.deposit({ targets: ["153"] }),
   // Aura - osETH/WETH
   allowAction.aura.deposit({ targets: ["179"] }),
 
-  // Aave Safety Module - Stake GHO
-  allowAction.aave_v3.stake({ targets: ["GHO"] }),
-
+  // Aave v3 Core Market - Deposit DAI
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["DAI"] }),
+  // Aave v3 Core Market - Deposit ETH
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["ETH"] }),
   // Aave v3 Core Market - Deposit USDC
   allowAction.aave_v3.deposit({ market: "Core", targets: ["USDC"] }),
   // Aave v3 Core Market - Deposit USDS
   allowAction.aave_v3.deposit({ market: "Core", targets: ["USDS"] }),
-  // Aave v3 Core Market - Deposit DAI
-  allowAction.aave_v3.deposit({ market: "Core", targets: ["DAI"] }),
   // Aave v3 Core Market - Deposit USDT
   allowAction.aave_v3.deposit({ market: "Core", targets: ["USDT"] }),
   // Aave v3 Core Market - Deposit WETH
   allowAction.aave_v3.deposit({ market: "Core", targets: ["WETH"] }),
-  // Aave v3 Core Market - Deposit ETH
-  allowAction.aave_v3.deposit({ market: "Core", targets: ["ETH"] }),
 
   // Balancer v2 - wstETH/WETH
   allowAction.balancer_v2.deposit({ targets: ["wstETH-WETH-BPT"] }),
@@ -59,22 +53,22 @@ export default [
   // Compound v3 - Deposit WETH
   allowAction.compound_v3.deposit({ targets: ["cWETHv3"], tokens: ["WETH"] }),
 
-  // Spark - Deposit USDS
-  allowAction.spark.deposit({ targets: ["USDS"] }),
   // Spark - Deposit DAI
   allowAction.spark.deposit({ targets: ["DAI"] }),
-  // Spark - Deposit USDC
-  allowAction.spark.deposit({ targets: ["USDC"] }),
-  // Spark - Deposit USDT
-  allowAction.spark.deposit({ targets: ["USDT"] }),
   // Spark - Deposit ETH
   allowAction.spark.deposit({ targets: ["ETH"] }),
+  // Spark - Deposit USDC
+  allowAction.spark.deposit({ targets: ["USDC"] }),
+  // Spark - Deposit USDS
+  allowAction.spark.deposit({ targets: ["USDS"] }),
+  // Spark - Deposit USDT
+  allowAction.spark.deposit({ targets: ["USDT"] }),
   // Spark - Deposit WETH
   allowAction.spark.deposit({ targets: ["WETH"] }),
-  // Spark - Deposit SKY_USDS
-  allowAction.spark.deposit({ targets: ["SKY_USDS"] }),
   // Spark - Deposit DSR_sDAI
   allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
+  // Spark - Deposit SKY_USDS
+  allowAction.spark.deposit({ targets: ["SKY_USDS"] }),
 
   // To discuss //Sky - Deposit USDS
   // allowAction.sky.deposit({ targets: ["USDS"], avatar: '0xd28b432f06cb64692379758b88b5fcdfc4f56922' }),
