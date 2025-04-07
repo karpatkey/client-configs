@@ -41,11 +41,13 @@ export default (parameters: Parameters) =>
     // NAV Calculator - bridgeStart - In the future, the bridged assets should be scoped appropriately.
     allow.gnosis.navCalculator.bridgeStart(),
 
-    // Bridge - Gnosis -> Mainnet
-    // XDAI (Gnosis) -> DAI (Mainnet)
+    // Gnosis -> Mainnet
+    // XDAI (Gnosis) -> DAI (Mainnet) - Gnosis Bridge
     allow.gnosis.xdaiBridge2.relayTokens(c.avatar, {
       send: true,
     }),
+    // No claim is required for the DAI bridged from Mainnet via Gnosis Bridge.
+
     // XDAI (Gnosis) -> DAI (Mainnet) - HOP
     allow.gnosis.hopDaiWrapper.swapAndSend(
       1, // Mainnet
