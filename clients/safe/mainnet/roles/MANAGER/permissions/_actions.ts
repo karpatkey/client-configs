@@ -134,13 +134,28 @@ export default [
 
   // To discuss about specifying the fees on safe + weth
   // Uniswap v3 - SAFE + WETH - Current NFT Ids: 711659 and 774338
-  allowAction.uniswap_v3.deposit({ tokens: ["SAFE", "WETH"], fees: ["0.3%","1%"]}),
+  allowAction.uniswap_v3.deposit({
+    tokens: ["SAFE", "WETH"],
+    fees: ["0.3%", "1%"],
+  }),
   // Uniswap v3 - SAFE + USDC
-  allowAction.uniswap_v3.deposit({ tokens: ["SAFE", "USDC"], fees: ["0.3%","1%"]}),
+  allowAction.uniswap_v3.deposit({
+    tokens: ["SAFE", "USDC"],
+    fees: ["0.3%", "1%"],
+  }),
   // Uniswap v3 - SAFE + USDT
-  allowAction.uniswap_v3.deposit({ tokens: ["SAFE", "USDT"], fees: ["0.3%","1%"]}),
+  allowAction.uniswap_v3.deposit({
+    tokens: ["SAFE", "USDT"],
+    fees: ["0.3%", "1%"],
+  }),
   // Uniswap v3 - WETH + USDC
-  allowAction.uniswap_v3.deposit({ tokens: ["WETH", "USDC"], fees: ["0.05%","0.3%"]}),
+  allowAction.uniswap_v3.deposit({
+    tokens: ["WETH", "USDC"],
+    fees: ["0.05%", "0.3%"],
+  }),
   // Uniswap v3 - WETH + USDT
-  allowAction.uniswap_v3.deposit({ tokens: ["WETH", "USDT"], fees: ["0.05%","0.3%"]}),
+  allowAction.uniswap_v3.deposit({
+    tokens: ["WETH", "USDT"],
+    fees: ["0.05%", "0.3%"],
+  }),
 ]
