@@ -70,6 +70,18 @@ export default [
   // Compound v3 - Deposit WETH
   allowAction.compound_v3.deposit({ targets: ["cWETHv3"], tokens: ["WETH"] }),
 
+  // To discuss
+  // Convex - Deposit DAI-USDC-USDT
+  allowAction.convex.deposit({ targets: ["9"] }),
+  // Convex - Deposit ETH-stETH
+  allowAction.convex.deposit({ targets: ["177"] }),
+  // Convex - Deposit oETH-ETH
+  allowAction.convex.deposit({ targets: ["174"] }),
+  // Convex - Deposit weETH/WETH
+  allowAction.convex.deposit({ targets: ["355"] }),
+  // Convex - Deposit ETH+rETH
+  allowAction.convex.deposit({ targets: ["287"] }),
+
   // Spark - Deposit DAI
   allowAction.spark.deposit({ targets: ["DAI"] }),
   // Spark - Deposit ETH
