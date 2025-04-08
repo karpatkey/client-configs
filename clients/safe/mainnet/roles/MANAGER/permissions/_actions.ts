@@ -47,6 +47,18 @@ export default [
   // Balancer v2 - osETH/WETH
   allowAction.balancer_v2.deposit({ targets: ["osETH/wETH-BPT"] }),
   allowAction.balancer_v2.stake({ targets: ["osETH/wETH-BPT"] }),
+  // Balancer v2 - B-80GNO-20WETH
+  allowAction.balancer_v2.deposit({ targets: ["B-80GNO-20WETH"] }),
+  allowAction.balancer_v2.stake({ targets: ["B-80GNO-20WETH"] }),
+  // Balancer v2 - ETHx/wstETH
+  allowAction.balancer_v2.deposit({ targets: ["ETHx/wstETH"] }),
+  allowAction.balancer_v2.stake({ targets: ["ETHx/wstETH"] }),
+  // Balancer v2 - ezETH-WETH-BPT
+  allowAction.balancer_v2.deposit({ targets: ["ezETH-WETH-BPT"] }),
+  allowAction.balancer_v2.stake({ targets: ["ezETH-WETH-BPT"] }),
+  // Balancer v2 - B-stETH-STABLE
+  allowAction.balancer_v2.deposit({ targets: ["B-stETH-STABLE"] }),
+  allowAction.balancer_v2.stake({ targets: ["B-stETH-STABLE"] }),
 
   // TO discuss about comet targets
   // Compound v3 - Deposit USDC
