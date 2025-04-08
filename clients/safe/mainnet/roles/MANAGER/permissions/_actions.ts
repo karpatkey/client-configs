@@ -86,6 +86,8 @@ export default [
   allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
   // Spark - Deposit SKY_USDS
   allowAction.spark.deposit({ targets: ["SKY_USDS"] }),
+  // Spark - stake
+  allowAction.spark.stake(),
 
   // To discuss //Sky - Deposit USDS
   // allowAction.sky.deposit({ targets: ["USDS"], avatar: '0xd28b432f06cb64692379758b88b5fcdfc4f56922' }),
@@ -109,6 +111,9 @@ export default [
   // Lido
   allowAction.lido.deposit(),
 
+  // Rocket pool
+  allowAction.rocket_pool.deposit(),
+  
   // Uniswap v3 - SAFE + WETH - Current NFT Ids: 711659 and 774338
   allowAction.uniswap_v3.deposit({ tokens: ["SAFE", "WETH"] }),
 ]
