@@ -1,6 +1,22 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { DAI, ETHx, OETH, osETH, rETH, SAFE, stETH, USDC, USDT, WETH, wstETH, x3CRV, aura, curve, uniswapV2 } from "@/addresses/eth"
+import {
+  DAI,
+  ETHx,
+  OETH,
+  osETH,
+  rETH,
+  SAFE,
+  stETH,
+  USDC,
+  USDT,
+  WETH,
+  wstETH,
+  x3CRV,
+  aura,
+  curve,
+  uniswapV2,
+} from "@/addresses/eth"
 import { zeroAddress, eAddress } from "@/addresses"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
@@ -40,7 +56,9 @@ export default [
   allow.mainnet.balancerV2.bCow50Weth50UsdcGauge["deposit(uint256)"](),
   allow.mainnet.balancerV2.bCow50Weth50UsdcGauge["withdraw(uint256)"](),
   allow.mainnet.balancerV2.bCow50Weth50UsdcGauge["claim_rewards()"](),
-  allow.mainnet.balancerV2.minter.mint(contracts.mainnet.balancerV2.bCow50Weth50UsdcGauge),
+  allow.mainnet.balancerV2.minter.mint(
+    contracts.mainnet.balancerV2.bCow50Weth50UsdcGauge
+  ),
 
   // Balancer v2 - BCoW-50SAFE-50WETH (Staking not available)
   ...allowErc20Approve(
@@ -76,7 +94,9 @@ export default [
   allow.mainnet.balancerV3.aaveLidoWethWstEthGuage["deposit(uint256)"](),
   allow.mainnet.balancerV3.aaveLidoWethWstEthGuage["withdraw(uint256)"](),
   allow.mainnet.balancerV3.aaveLidoWethWstEthGuage["claim_rewards()"](),
-  allow.mainnet.balancerV2.minter.mint(contracts.mainnet.balancerV3.aaveLidoWethWstEthGuage),
+  allow.mainnet.balancerV2.minter.mint(
+    contracts.mainnet.balancerV3.aaveLidoWethWstEthGuage
+  ),
 
   // Balancer v3 - Aave Boosted WETH/ETHx
   ...allowErc20Approve([WETH, ETHx], [contracts.mainnet.uniswap.permit2]),
@@ -104,7 +124,9 @@ export default [
   allow.mainnet.balancerV3.ethxWaWethGauge["deposit(uint256)"](),
   allow.mainnet.balancerV3.ethxWaWethGauge["withdraw(uint256)"](),
   allow.mainnet.balancerV3.ethxWaWethGauge["claim_rewards()"](),
-  allow.mainnet.balancerV2.minter.mint(contracts.mainnet.balancerV3.ethxWaWethGauge),
+  allow.mainnet.balancerV2.minter.mint(
+    contracts.mainnet.balancerV3.ethxWaWethGauge
+  ),
 
   // Balancer v3 - Aave Boosted WETH/osETH
   ...allowErc20Approve([WETH, osETH], [contracts.mainnet.uniswap.permit2]),
@@ -132,7 +154,9 @@ export default [
   allow.mainnet.balancerV3.osEthWaWethGauge["deposit(uint256)"](),
   allow.mainnet.balancerV3.osEthWaWethGauge["withdraw(uint256)"](),
   allow.mainnet.balancerV3.osEthWaWethGauge["claim_rewards()"](),
-  allow.mainnet.balancerV2.minter.mint(contracts.mainnet.balancerV3.osEthWaWethGauge),
+  allow.mainnet.balancerV2.minter.mint(
+    contracts.mainnet.balancerV3.osEthWaWethGauge
+  ),
 
   // Compound v3 - Deposit ETH
   allow.mainnet.compoundV3.cWethV3.allow(
@@ -264,7 +288,10 @@ export default [
   allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.wethRethGauge),
 
   // Curve - Deposit and Stake using a special ZAP
-  ...allowErc20Approve([DAI, OETH, rETH, stETH, USDC, USDT, WETH], [contracts.mainnet.curve.stakeDepositZap]),
+  ...allowErc20Approve(
+    [DAI, OETH, rETH, stETH, USDC, USDT, WETH],
+    [contracts.mainnet.curve.stakeDepositZap]
+  ),
   allow.mainnet.curve.stakeDepositZap[
     "deposit_and_stake(address,address,address,uint256,address[],uint256[],uint256,bool,bool,address)"
   ](
@@ -273,24 +300,30 @@ export default [
       contracts.mainnet.curve.steCrvPool,
       contracts.mainnet.curve.oEthCrvPool,
       contracts.mainnet.curve.osEthRethPool,
-      contracts.mainnet.curve.wethRethPool,
+      contracts.mainnet.curve.wethRethPool
     ),
     c.or(
       x3CRV,
       curve.steCrv,
       contracts.mainnet.curve.oEthCrvPool,
       contracts.mainnet.curve.osEthRethPool,
-      contracts.mainnet.curve.wethRethPool,
+      contracts.mainnet.curve.wethRethPool
     ),
     c.or(
       contracts.mainnet.curve.x3CrvGauge,
       contracts.mainnet.curve.steCrvPoolGauge,
       contracts.mainnet.curve.oEthCrvGauge,
       contracts.mainnet.curve.osEthRethGauge,
-      contracts.mainnet.curve.wethRethGauge,
+      contracts.mainnet.curve.wethRethGauge
     ),
     c.or(2, 3),
-    c.or([DAI, USDC, USDT], [eAddress, stETH], [eAddress, OETH], [osETH, rETH], [WETH, rETH]),
+    c.or(
+      [DAI, USDC, USDT],
+      [eAddress, stETH],
+      [eAddress, OETH],
+      [osETH, rETH],
+      [WETH, rETH]
+    ),
     undefined,
     undefined,
     undefined,
@@ -320,10 +353,7 @@ export default [
       send: true,
     }
   ),
-  allowErc20Approve(
-    [uniswapV2.usdcEth],
-    [contracts.mainnet.uniswapV2.router2]
-  ),
+  allowErc20Approve([uniswapV2.usdcEth], [contracts.mainnet.uniswapV2.router2]),
   allow.mainnet.uniswapV2.router2.removeLiquidityETH(
     USDC,
     undefined,
@@ -345,10 +375,7 @@ export default [
       send: true,
     }
   ),
-  allowErc20Approve(
-    [uniswapV2.usdtEth],
-    [contracts.mainnet.uniswapV2.router2]
-  ),
+  allowErc20Approve([uniswapV2.usdtEth], [contracts.mainnet.uniswapV2.router2]),
   allow.mainnet.uniswapV2.router2.removeLiquidityETH(
     USDT,
     undefined,
