@@ -32,7 +32,6 @@ import {
 } from "@/addresses/eth"
 
 export default [
-  //To discuss why naming is changing
   // Aura - rETH/WETH
   allowAction.aura.deposit({ targets: ["109"] }),
   // Aura - wstETH/WETH
@@ -79,7 +78,6 @@ export default [
   allowAction.balancer_v2.deposit({ targets: ["B-stETH-STABLE"] }),
   allowAction.balancer_v2.stake({ targets: ["B-stETH-STABLE"] }),
 
-  // TO discuss about comet targets
   // Compound v3 - Deposit USDC
   allowAction.compound_v3.deposit({ targets: ["cUSDCv3"], tokens: ["USDC"] }),
   // Compound v3 - Deposit USDS
@@ -89,15 +87,13 @@ export default [
   // Compound v3 - Deposit WETH
   allowAction.compound_v3.deposit({ targets: ["cWETHv3"], tokens: ["WETH"] }),
 
-  // To discuss
   // Convex - Deposit DAI-USDC-USDT
   allowAction.convex.deposit({ targets: ["9"] }),
   // Convex - Deposit ETH-stETH
+  // Pending, they have asked for 25
   allowAction.convex.deposit({ targets: ["177"] }),
   // Convex - Deposit oETH-ETH
   allowAction.convex.deposit({ targets: ["174"] }),
-  // Convex - Deposit weETH/WETH
-  allowAction.convex.deposit({ targets: ["355"] }),
   // Convex - Deposit ETH+rETH
   allowAction.convex.deposit({ targets: ["287"] }),
 
@@ -120,28 +116,7 @@ export default [
   // Spark - stake
   allowAction.spark.stake(),
 
-  // To discuss //Sky - Deposit USDS
-  allowAction.sky.deposit({
-    targets: ["USDS"],
-    avatar: "0xd28b432f06cb64692379758b88b5fcdfc4f56922",
-  }),
-
-  // CowSwap - SAFE -> [DAI, ETH, stETH, USDC, WETH, wstETH]
-  allowAction.cowswap.swap({
-    sell: [SAFE],
-    buy: ["ETH", DAI, stETH, USDC, WETH, wstETH],
-  }),
-  // CowSwap - ETH -> [DAI, osETH, stETH, rETH, USDC, WETH, wstETH]
-  allowAction.cowswap.swap({
-    sell: ["ETH"],
-    buy: [DAI, osETH, stETH, rETH, USDC, WETH, wstETH],
-  }),
-  // CowSwap - [AURA, BAL] -> [ETH, USDC, WETH]
-  allowAction.cowswap.swap({
-    sell: [AURA, BAL],
-    buy: ["ETH", USDC, WETH],
-  }),
-  // Coswap - swaps
+  // CowSwap - swaps
   allowAction.cowswap.swap({
     sell: [
       AURA,
@@ -210,7 +185,6 @@ export default [
   //StakeWise v3
   allowAction.stakewise_v3.stake({ targets: ["Genesis"] }),
 
-  // To discuss about specifying the fees on safe + weth
   // Uniswap v3 - SAFE + WETH - Current NFT Ids: 711659 and 774338
   allowAction.uniswap_v3.deposit({
     tokens: ["SAFE", "WETH"],
