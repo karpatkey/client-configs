@@ -13,12 +13,17 @@ import {
 } from "@/addresses/eth"
 
 export default [
+  //To discuss why naming is changing
   // Aura - rETH/WETH
   allowAction.aura.deposit({ targets: ["109"] }),
   // Aura - wstETH/WETH
   allowAction.aura.deposit({ targets: ["153"] }),
   // Aura - osETH/WETH
   allowAction.aura.deposit({ targets: ["179"] }),
+  // Aura - auraB-80GNO-20WETH
+  allowAction.aura.deposit({ targets: ["116"] }),
+  // Aura - auraETHx/wstETH
+  allowAction.aura.deposit({ targets: ["207"] }),
 
   // Aave v3 Core Market - Deposit DAI
   allowAction.aave_v3.deposit({ market: "Core", targets: ["DAI"] }),
