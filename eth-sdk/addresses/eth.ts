@@ -260,5 +260,6 @@ export const pendle = {
 } as const
 
 export const uniswapV2 = {
-  lpSafeEth: "0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
+  usdcEth: "0xB4e16d0168e52d35CaCD2c6185b44281Ec28C9Dc",
+  usdtEth: "0x0d4a11d5EEaaC28EC3F61d100daF4d40471f1852",
 } as const

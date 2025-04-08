@@ -22,9 +22,16 @@ export const contracts = {
       bCow50Weth50Usdc: "0xf08D4dEa369C456d26a3168ff0024B904F2d8b91",
       bCow50Weth50UsdcGauge: "0xF9423B78D784D610A00955E733dBa0bf9bda7B06",
       bCow50Wnxm50Weth: "0x7c838b3Ed3C15a5d5032e809B8714f0aE5e9A821",
+      bCow50Safe50Weth: "0xbF8868b754A77E90Ea68ffC0b5B10A7c729457E1",
     },
     balancerV3: {
       compositeLiquidityRouter: "0x1CD776897ef4f647bf8241Ec69549e4A9cb1D608",
+      aaveLidoWethWstEth: "0xc4Ce391d82D164c166dF9c8336DDF84206b2F812",
+      aaveLidoWethWstEthGuage: "0x4B891340b51889f438a03DC0e8aAAFB0Bc89e7A6",
+      ethxWaWeth: "0x4AB7aB316D43345009B2140e0580B072eEc7DF16",
+      ethxWaWethGauge: "0x1f3A4C8115629C33A28bF2F97F22D31d256317F6",
+      osEthWaWeth: "0x57c23c58B1D8C3292c15BEcF07c62C5c52457A42",
+      osEthWaWethGauge: "0x70A1c01902DAb7a45dcA1098Ca76A8314dd8aDbA"
     },
     curve: {
       ...deFiKitContracts.mainnet.curve,
@@ -62,6 +69,8 @@ export const contracts = {
       ankrCrvGauge: "0x6d10ed2cF043E6fcf51A0e7b4C2Af3Fa06695707",
       btcGhoEthPool: "0x8a4f252812dFF2A8636E4F7EB249d8FC2E3bd77f",
       btcGhoEthGauge: "0x1E4B83f6bFE9dbeB6d5b92a5237E5c18a44176f4",
+      wethRethPool: "0x9EfE1A1Cbd6Ca51Ee8319AFc4573d253C3B732af",
+      wethRethGauge: "0xFB5B02863E2917AE1662598F7eBdE60AFEaFe84e",
     },
     enzyme: {
       depositWrapper2: "0x65BbAD6545B7ac9C30Fb0f07e64e25106Bf05eEc",
