@@ -121,7 +121,10 @@ export default [
   allowAction.spark.stake(),
 
   // To discuss //Sky - Deposit USDS
-  allowAction.sky.deposit({ targets: ["USDS"], avatar: '0xd28b432f06cb64692379758b88b5fcdfc4f56922' }),
+  allowAction.sky.deposit({
+    targets: ["USDS"],
+    avatar: "0xd28b432f06cb64692379758b88b5fcdfc4f56922",
+  }),
 
   // CowSwap - SAFE -> [DAI, ETH, stETH, USDC, WETH, wstETH]
   allowAction.cowswap.swap({
@@ -171,7 +174,7 @@ export default [
       WETH,
       wstETH,
       rETH,
-      RPL
+      RPL,
     ],
     buy: [
       DAI,
@@ -191,7 +194,7 @@ export default [
       USDT,
       WETH,
       wstETH,
-      rETH
+      rETH,
     ],
   }),
 
