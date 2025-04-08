@@ -113,7 +113,7 @@ export default [
 
   // Rocket pool
   allowAction.rocket_pool.deposit(),
-  
+
   // Uniswap v3 - SAFE + WETH - Current NFT Ids: 711659 and 774338
   allowAction.uniswap_v3.deposit({ tokens: ["SAFE", "WETH"] }),
 ]
