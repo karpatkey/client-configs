@@ -47,8 +47,8 @@ export default [
   allowAction.balancer_v2.deposit({ targets: ["50SAFE-50GNO"] }),
   allowAction.balancer_v2.stake({ targets: ["50SAFE-50GNO"] }),
   //Balancer v2 - 50WETH-50GNO
-  allowAction.balancer_v2.deposit({ targets: ["50WETH-50GNO"] }),
-  allowAction.balancer_v2.stake({ targets: ["50WETH-50GNO"] }),
+  allowAction.balancer_v2.deposit({ targets: ["0xB8bB1ce9C6E5401D66fE2126dB6E7387E1E24fFE"] }),
+  allowAction.balancer_v2.stake({ targets: ["0xB8bB1ce9C6E5401D66fE2126dB6E7387E1E24fFE"] }),
   //Balancer v2 - osGNO/GNO-BPT
   allowAction.balancer_v2.deposit({ targets: ["osGNO/GNO-BPT"] }),
   allowAction.balancer_v2.stake({ targets: ["osGNO/GNO-BPT"] }),
