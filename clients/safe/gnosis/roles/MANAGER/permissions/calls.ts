@@ -1,9 +1,5 @@
-
 import { allow } from "zodiac-roles-sdk/kit"
-import {
-  GNO,
-  SAFE,
-} from "@/addresses/gno"
+import { GNO, SAFE } from "@/addresses/gno"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
