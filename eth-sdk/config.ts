@@ -201,6 +201,7 @@ export const contracts = {
       bCowAmm50wstEth50sDai: "0x5089007DEC8E93f891dcB908c9E2Af8d9DEdb72E",
       bCowAmm50Gno50Olas: "0xD7f99B1CDa3EeCf6b6eAa8a61ed21d061E745400",
       bCowAmm50Gno50Cow: "0x71663f74490673706D7b8860B7D02b7c76160bAe",
+      bCow50Gno50Safe: "0xAD58D2Bc841Cb8e4f8717Cb21e3FB6c95DCBc286",
       eclpBcspxSdaiGauge: "0xbcF4969d4dc6Cb86Ce0B8a101d220b558F14739C",
     },
     curve: {
