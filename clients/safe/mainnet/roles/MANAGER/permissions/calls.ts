@@ -23,6 +23,12 @@ import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
 
 export default [
+  // Wrapping and unwrapping of ETH, WETH
+  allow.mainnet.weth.withdraw(),
+  allow.mainnet.weth.deposit({
+    send: true,
+  }),
+
   // Aura - Aave Lido Boosted WETH/wstETH
   ...allowErc20Approve(
     [contracts.mainnet.balancerV3.aaveLidoWethWstEth],
