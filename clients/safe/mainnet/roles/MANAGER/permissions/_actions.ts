@@ -116,7 +116,8 @@ export default [
   // Spark - stake
   allowAction.spark.stake(),
 
-  // CowSwap - swaps
+  // CowSwap - [AURA, BAL, COMP, COW, CRV, CVX, DAI, ETH, ETHx, GHO, GNO, LDO, OETH, OGN, osETH, rETH, RPL, SAFE, sDAI, SKY, SPK, stETH, sUSDS, SWISE, UNI, USDC, USDM, USDS, USDT, WETH, wstETH] ->
+  // [DAI, ETH, ETHx, GHO, GNO, OETH, osETH, rETH, SAFE, sDAI, stETH, sUSDS, USDC, USDM, USDS, USDT, WETH, wstETH]
   allowAction.cowswap.swap({
     sell: [
       AURA,
@@ -134,11 +135,13 @@ export default [
       OETH,
       OGN,
       osETH,
+      rETH,
+      RPL,
       SAFE,
+      sDAI,
       SKY,
       // SPK seems that is not deployed yet https://docs.spark.fi/governance/spk-token,
       stETH,
-      sDAI,
       sUSDS,
       SWISE,
       UNI,
@@ -148,8 +151,6 @@ export default [
       USDT,
       WETH,
       wstETH,
-      rETH,
-      RPL,
     ],
     buy: [
       DAI,
@@ -157,6 +158,7 @@ export default [
       ETHx,
       GHO,
       GNO,
+      rETH,
       OETH,
       osETH,
       SAFE,
@@ -169,7 +171,6 @@ export default [
       USDT,
       WETH,
       wstETH,
-      rETH,
     ],
   }),
 
@@ -179,10 +180,10 @@ export default [
   // Rocket pool
   allowAction.rocket_pool.deposit(),
 
-  //Stader
+  // Stader
   allowAction.stader.deposit(),
 
-  //StakeWise v3
+  // StakeWise v3
   allowAction.stakewise_v3.stake({ targets: ["Genesis"] }),
 
   // Uniswap v3 - SAFE + WETH - Current NFT Ids: 711659 and 774338

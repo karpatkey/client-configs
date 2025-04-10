@@ -9,6 +9,10 @@ export default [
   /*********************************************
    * Typed-presets permissions
    *********************************************/
+  // Wrapping and unwrapping of XDAI, WXDAI
+  allow.gnosis.wxdai.deposit({ send: true }),
+  allow.gnosis.wxdai.withdraw(),
+
   // Balancer v2 - BCoW 50GNO/50SAFE (Staking not available)
   ...allowErc20Approve(
     [GNO, SAFE],
@@ -16,10 +20,6 @@ export default [
   ),
   allow.gnosis.balancerV2.bCow50Gno50Safe.joinPool(),
   allow.gnosis.balancerV2.bCow50Gno50Safe.exitPool(),
-
-  // Wrapping and unwrapping of XDAI, WXDAI
-  allow.gnosis.wxdai.deposit({ send: true }),
-  allow.gnosis.wxdai.withdraw(),
 
   // Balancer v3 - Aave Lido Boosted WETH/wstETH
   ...allowErc20Approve([WETH, wstETH], [contracts.gnosis.arrakis.permit2]),
