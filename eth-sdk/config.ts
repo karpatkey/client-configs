@@ -27,7 +27,7 @@ export const contracts = {
     balancerV3: {
       compositeLiquidityRouter: "0x1CD776897ef4f647bf8241Ec69549e4A9cb1D608",
       aaveLidoWethWstEth: "0xc4Ce391d82D164c166dF9c8336DDF84206b2F812",
-      aaveLidoWethWstEthGuage: "0x4B891340b51889f438a03DC0e8aAAFB0Bc89e7A6",
+      aaveLidoWethWstEthGauge: "0x4B891340b51889f438a03DC0e8aAAFB0Bc89e7A6",
       ethxWaWeth: "0x4AB7aB316D43345009B2140e0580B072eEc7DF16",
       ethxWaWethGauge: "0x1f3A4C8115629C33A28bF2F97F22D31d256317F6",
       osEthWaWeth: "0x57c23c58B1D8C3292c15BEcF07c62C5c52457A42",
@@ -91,6 +91,9 @@ export const contracts = {
       weEth: "0xCd5fE23C85820F7B72D0926FC9b05b43E359b7ee",
       liquidityPool: "0x308861A430be4cce5502d0A12724771Fc6DaF216",
       withdrawRequestNft: "0x7d5706f6ef3F89B3951E23e557CDFBC3239D4E2c",
+    },
+    fluid: {
+      fAsset: "0x90551c1795392094FE6D29B758EcCD233cFAa260", // fWETH
     },
     gyroscope: {
       sGyd: "0xeA50f402653c41cAdbaFD1f788341dB7B7F37816",
@@ -182,6 +185,7 @@ export const contracts = {
       bribe: "0x19BBC3463Dd8d07f55438014b021Fb457EBD4595",
     },
     navCalculator: "0xF0125A04d74782e6d2aD6d298F0Bc786e301AAc1",
+    wethOmnibridgeRouter: "0xa6439Ca0FCbA1d0F80df0bE6A17220feD9c9038a",
   },
   gnosis: {
     ...deFiKitContracts.gnosis,
