@@ -210,7 +210,10 @@ export default (parameters: Parameters) =>
     ),
 
     // Curve - x3CRV - DAI/USDC/USDT
-    ...allowErc20Approve([DAI, USDC, USDT], [contracts.mainnet.curve.x3CrvPool]),
+    ...allowErc20Approve(
+      [DAI, USDC, USDT],
+      [contracts.mainnet.curve.x3CrvPool]
+    ),
     allow.mainnet.curve.x3CrvPool.add_liquidity(),
     allow.mainnet.curve.x3CrvPool.remove_liquidity(),
     allow.mainnet.curve.x3CrvPool.remove_liquidity_imbalance(),
@@ -274,7 +277,10 @@ export default (parameters: Parameters) =>
     allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.oEthCrvGauge),
 
     // Curve - osETH/rETH
-    ...allowErc20Approve([osETH, rETH], [contracts.mainnet.curve.osEthRethPool]),
+    ...allowErc20Approve(
+      [osETH, rETH],
+      [contracts.mainnet.curve.osEthRethPool]
+    ),
 
     allow.mainnet.curve.osEthRethPool["add_liquidity(uint256[],uint256)"](),
     allow.mainnet.curve.osEthRethPool["remove_liquidity(uint256,uint256[])"](),
@@ -360,10 +366,9 @@ export default (parameters: Parameters) =>
     ),
 
     // Fluid - ETH
-    allow.mainnet.fluid.fAsset["depositNative(address)"](
-      c.avatar,
-      { send: true }
-    ),
+    allow.mainnet.fluid.fAsset["depositNative(address)"](c.avatar, {
+      send: true,
+    }),
     allow.mainnet.fluid.fAsset["withdrawNative(uint256,address,address)"](
       undefined,
       c.avatar,
@@ -379,7 +384,7 @@ export default (parameters: Parameters) =>
     {
       ...allow.mainnet.fluid.fAsset["deposit(uint256,address)"](
         undefined,
-        c.avatar,
+        c.avatar
       ),
       targetAddress: fluid.fsUsds,
     },
@@ -387,7 +392,7 @@ export default (parameters: Parameters) =>
       ...allow.mainnet.fluid.fAsset["withdraw(uint256,address,address)"](
         undefined,
         c.avatar,
-        c.avatar,
+        c.avatar
       ),
       targetAddress: fluid.fsUsds,
     },
@@ -395,7 +400,7 @@ export default (parameters: Parameters) =>
       ...allow.mainnet.fluid.fAsset["redeem(uint256,address,address)"](
         undefined,
         c.avatar,
-        c.avatar,
+        c.avatar
       ),
       targetAddress: fluid.fsUsds,
     },
@@ -404,7 +409,7 @@ export default (parameters: Parameters) =>
     {
       ...allow.mainnet.fluid.fAsset["deposit(uint256,address)"](
         undefined,
-        c.avatar,
+        c.avatar
       ),
       targetAddress: fluid.fUsdc,
     },
@@ -412,7 +417,7 @@ export default (parameters: Parameters) =>
       ...allow.mainnet.fluid.fAsset["withdraw(uint256,address,address)"](
         undefined,
         c.avatar,
-        c.avatar,
+        c.avatar
       ),
       targetAddress: fluid.fUsdc,
     },
@@ -420,7 +425,7 @@ export default (parameters: Parameters) =>
       ...allow.mainnet.fluid.fAsset["redeem(uint256,address,address)"](
         undefined,
         c.avatar,
-        c.avatar,
+        c.avatar
       ),
       targetAddress: fluid.fUsdc,
     },
@@ -429,7 +434,7 @@ export default (parameters: Parameters) =>
     {
       ...allow.mainnet.fluid.fAsset["deposit(uint256,address)"](
         undefined,
-        c.avatar,
+        c.avatar
       ),
       targetAddress: fluid.fUsdt,
     },
@@ -437,7 +442,7 @@ export default (parameters: Parameters) =>
       ...allow.mainnet.fluid.fAsset["withdraw(uint256,address,address)"](
         undefined,
         c.avatar,
-        c.avatar,
+        c.avatar
       ),
       targetAddress: fluid.fUsdt,
     },
@@ -445,7 +450,7 @@ export default (parameters: Parameters) =>
       ...allow.mainnet.fluid.fAsset["redeem(uint256,address,address)"](
         undefined,
         c.avatar,
-        c.avatar,
+        c.avatar
       ),
       targetAddress: fluid.fUsdt,
     },
@@ -454,7 +459,7 @@ export default (parameters: Parameters) =>
     {
       ...allow.mainnet.fluid.fAsset["deposit(uint256,address)"](
         undefined,
-        c.avatar,
+        c.avatar
       ),
       targetAddress: fluid.fwstEth,
     },
@@ -462,7 +467,7 @@ export default (parameters: Parameters) =>
       ...allow.mainnet.fluid.fAsset["withdraw(uint256,address,address)"](
         undefined,
         c.avatar,
-        c.avatar,
+        c.avatar
       ),
       targetAddress: fluid.fwstEth,
     },
@@ -470,7 +475,7 @@ export default (parameters: Parameters) =>
       ...allow.mainnet.fluid.fAsset["redeem(uint256,address,address)"](
         undefined,
         c.avatar,
-        c.avatar,
+        c.avatar
       ),
       targetAddress: fluid.fwstEth,
     },
@@ -496,7 +501,10 @@ export default (parameters: Parameters) =>
         send: true,
       }
     ),
-    allowErc20Approve([uniswapV2.safeEth], [contracts.mainnet.uniswapV2.router2]),
+    allowErc20Approve(
+      [uniswapV2.safeEth],
+      [contracts.mainnet.uniswapV2.router2]
+    ),
     allow.mainnet.uniswapV2.router2.removeLiquidityETH(
       SAFE,
       undefined,
@@ -518,7 +526,10 @@ export default (parameters: Parameters) =>
         send: true,
       }
     ),
-    allowErc20Approve([uniswapV2.usdcEth], [contracts.mainnet.uniswapV2.router2]),
+    allowErc20Approve(
+      [uniswapV2.usdcEth],
+      [contracts.mainnet.uniswapV2.router2]
+    ),
     allow.mainnet.uniswapV2.router2.removeLiquidityETH(
       USDC,
       undefined,
@@ -540,7 +551,10 @@ export default (parameters: Parameters) =>
         send: true,
       }
     ),
-    allowErc20Approve([uniswapV2.usdtEth], [contracts.mainnet.uniswapV2.router2]),
+    allowErc20Approve(
+      [uniswapV2.usdtEth],
+      [contracts.mainnet.uniswapV2.router2]
+    ),
     allow.mainnet.uniswapV2.router2.removeLiquidityETH(
       USDT,
       undefined,
@@ -620,7 +634,7 @@ export default (parameters: Parameters) =>
         USDS,
         USDT,
         WETH,
-        wstETH,
+        wstETH
       ),
       tokenOut: c.or(
         DAI,
@@ -639,7 +653,7 @@ export default (parameters: Parameters) =>
         USDS,
         USDT,
         WETH,
-        wstETH,
+        wstETH
       ),
       recipient: c.avatar,
     }),
@@ -807,5 +821,5 @@ export default (parameters: Parameters) =>
     allow.mainnet.gnoOmnibridge["relayTokens(address,address,uint256)"](
       WETH,
       c.avatar
-    )
+    ),
   ] satisfies PermissionList
