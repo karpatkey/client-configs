@@ -208,6 +208,13 @@ export const contracts = {
       bCow50Gno50Safe: "0xAD58D2Bc841Cb8e4f8717Cb21e3FB6c95DCBc286",
       eclpBcspxSdaiGauge: "0xbcF4969d4dc6Cb86Ce0B8a101d220b558F14739C",
     },
+    balancerV3: {
+      compositeLiquidityRouter: "0x6eaD84Af26E997D27998Fc9f8614e8a19BB93938",
+      aaveLidoWethWstEth: "0x6e6bb18449fCF15B79EFa2CfA70ACF7593088029",
+      aaveLidoWethWstEthGauge: "0x0fcE2d8428baca96b14f5D3D03D260940E11a066",
+      aaveLido50WstEth50Gno: "0x272d6BE442E30D7c87390eDEb9B96f1E84cEcD8d",
+      aaveLido50WstEth50GnoGauge: "0xcBD87e4Dad6a99506484E9adEEC8FF84Ce7BD399",
+    },
     curve: {
       x3CrvPool: "0x7f90122BF0700F9E7e1F688fe926940E8839F353",
       crvEureUsdPool: "0x056C6C5e684CeC248635eD86033378Cc444459B0",
