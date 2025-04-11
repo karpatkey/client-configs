@@ -90,8 +90,7 @@ export default [
   // Convex - Deposit DAI-USDC-USDT
   allowAction.convex.deposit({ targets: ["9"] }),
   // Convex - Deposit ETH-stETH
-  // Pending, they have asked for 25
-  allowAction.convex.deposit({ targets: ["177"] }),
+  allowAction.convex.deposit({ targets: ["25"] }),
   // Convex - Deposit oETH-ETH
   allowAction.convex.deposit({ targets: ["174"] }),
   // Convex - Deposit ETH+rETH
