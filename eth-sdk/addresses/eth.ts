@@ -47,6 +47,7 @@ export const NODE = "0xDa007777D86AC6d989cC9f79A73261b3fC5e0DA0"
 export const NOTE = "0xCFEAead4947f0705A14ec42aC3D44129E1Ef3eD5"
 export const NXM = "0xd7c49CEE7E9188cCa6AD8FF264C1DA2e69D4Cf3B"
 export const OETH = "0x856c4Efb76C1D1AE02e20CEB03A2A6a08b0b8dC3"
+export const OGN = "0x8207c1FfC5B6804F6024322CcF34F29c3541Ae26"
 export const OLAS = "0x0001A500A6B18995B03f44bb040A5fFc28E45CB0"
 export const ONDO = "0xfAbA6f8e4a5E8Ab82F62fe7C39859FA577269BE3"
 export const osETH = "0xf1C9acDc66974dFB6dEcB12aA385b9cD01190E38"
@@ -208,6 +209,13 @@ export const curve = {
   ankrCrv: "0xaA17A236F2bAdc98DDc0Cf999AbB47D47Fc0A6Cf",
 } as const
 
+export const fluid = {
+  fsUsds: "0x2BBE31d63E6813E3AC858C04dae43FB2a72B0D11",
+  fUsdc: "0x9Fb7b4477576Fe5B32be4C1843aFB1e55F251B33",
+  fUsdt: "0x5C20B550819128074FD538Edf79791733ccEdd18",
+  fwstEth: "0x2411802D8BEA09be0aF8fD8D08314a63e706b29C",
+} as const
+
 export const maverickV2 = {
   ghoStkGhoPool: "0x9F274D28FedCe05153F9C810b8070277EAF8C031",
 } as const
@@ -259,5 +267,7 @@ export const pendle = {
 } as const
 
 export const uniswapV2 = {
-  lpSafeEth: "0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
+  safeEth: "0x2e7e978da0c53404a8cf66ed4ba2c7706c07b62a",
+  usdcEth: "0xB4e16d0168e52d35CaCD2c6185b44281Ec28C9Dc",
+  usdtEth: "0x0d4a11d5EEaaC28EC3F61d100daF4d40471f1852",
 } as const
