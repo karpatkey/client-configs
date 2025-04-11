@@ -22,8 +22,8 @@ export default [
   allow.gnosis.balancerV2.bCow50Gno50Safe.exitPool(),
 
   // Balancer v3 - Aave Lido Boosted WETH/wstETH
-  ...allowErc20Approve([WETH, wstETH], [contracts.gnosis.arrakis.permit2]),
-  allow.gnosis.arrakis.permit2.approve(
+  ...allowErc20Approve([WETH, wstETH], [contracts.gnosis.uniswap.permit2]),
+  allow.gnosis.uniswap.permit2.approve(
     c.or(WETH, wstETH),
     contracts.gnosis.balancerV3.compositeLiquidityRouter
   ),
@@ -52,8 +52,8 @@ export default [
   ),
 
   // Balancer v3 - Aave Lido Boosted 50waWstETH/50waGNO
-  ...allowErc20Approve([wstETH, GNO], [contracts.gnosis.arrakis.permit2]),
-  allow.gnosis.arrakis.permit2.approve(
+  ...allowErc20Approve([wstETH, GNO], [contracts.gnosis.uniswap.permit2]),
+  allow.gnosis.uniswap.permit2.approve(
     c.or(wstETH, GNO),
     contracts.gnosis.balancerV3.compositeLiquidityRouter
   ),

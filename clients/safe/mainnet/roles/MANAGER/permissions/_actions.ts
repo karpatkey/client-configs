@@ -182,10 +182,10 @@ export default [
   // Stader
   allowAction.stader.deposit(),
 
-  // StakeWise v3
+  // StakeWise v3 - Genesis
   allowAction.stakewise_v3.stake({ targets: ["Genesis"] }),
 
-  // Uniswap v3 - SAFE + WETH - Current NFT Ids: 711659 and 774338
+  // Uniswap v3 - SAFE + WETH
   allowAction.uniswap_v3.deposit({
     tokens: ["SAFE", "WETH"],
     fees: ["0.3%", "1%"],

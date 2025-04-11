@@ -31,7 +31,7 @@ export const contracts = {
       ethxWaWeth: "0x4AB7aB316D43345009B2140e0580B072eEc7DF16",
       ethxWaWethGauge: "0x1f3A4C8115629C33A28bF2F97F22D31d256317F6",
       osEthWaWeth: "0x57c23c58B1D8C3292c15BEcF07c62C5c52457A42",
-      osEthWaWethGauge: "0x70A1c01902DAb7a45dcA1098Ca76A8314dd8aDbA"
+      osEthWaWethGauge: "0x70A1c01902DAb7a45dcA1098Ca76A8314dd8aDbA",
     },
     curve: {
       ...deFiKitContracts.mainnet.curve,
@@ -189,13 +189,6 @@ export const contracts = {
   },
   gnosis: {
     ...deFiKitContracts.gnosis,
-    arrakis: {
-      permit2: "0x000000000022D473030F116dDEE9F6B43aC78BA3",
-      signMessageLib: "0xd53cd0aB83D845Ac265BE939c57F53AD838012c9",
-      router: "0x6aC8Bab8B775a03b8B72B2940251432442f61B94",
-      wethSdaiVault: "0x3889C8B1f064A1A576caB04D5767a00Bf2308bD4",
-      wethWstEthVault: "0x35c089E2451633DF9684564ccCfE745aA5f3B465",
-    },
     azuro: {
       lpAzrXdai: "0x204e7371Ade792c5C006fb52711c50a7efC843ed",
     },
@@ -240,6 +233,9 @@ export const contracts = {
       stakecat: "0xe0A342ED4e0F0dBe97C4810534CfCB6550EA017D",
       stakesaurus: "0x3CB4692177525dB38D983DA0445d4EB25C3826dE",
       seednode: "0x9eeB6be79899CfE45018866A2113c6b77fa96F35",
+    },
+    uniswap: {
+      permit2: "0x000000000022D473030F116dDEE9F6B43aC78BA3",
     },
     navCalculator: "0x4AbE155C97009e388E0493fe1516F636e0F3a390",
   },
