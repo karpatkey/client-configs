@@ -665,7 +665,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.navCalculator.bridgeStart(),
 
     // Mainnet -> Gnosis
-    // DAI -> XDAI
+    // DAI -> XDAI - Gnosis Bridge
     ...allowErc20Approve([DAI], [contracts.mainnet.gnoXdaiBridge]),
     allow.mainnet.gnoXdaiBridge.relayTokens(c.avatar, undefined),
     // Claim bridged XDAI from Gnosis
@@ -698,27 +698,27 @@ export default (parameters: Parameters) =>
       )
     ),
 
-    // ETH -> WETH
+    // ETH -> WETH - Gnosis Bridge
     allow.mainnet.wethOmnibridgeRouter["wrapAndRelayTokens(address)"](
       c.avatar,
       { send: true }
     ),
 
-    // GNO -> GNO
+    // GNO -> GNO - Gnosis Bridge
     allowErc20Approve([GNO], [contracts.mainnet.gnoOmnibridge]),
     allow.mainnet.gnoOmnibridge["relayTokens(address,address,uint256)"](
       GNO,
       c.avatar
     ),
 
-    // SAFE -> SAFE
+    // SAFE -> SAFE - Gnosis Bridge
     allowErc20Approve([SAFE], [contracts.mainnet.gnoOmnibridge]),
     allow.mainnet.gnoOmnibridge["relayTokens(address,address,uint256)"](
       SAFE,
       c.avatar
     ),
 
-    // USDC -> USDC.e
+    // USDC -> USDC.e - Gnosis Bridge
     allowErc20Approve([USDC], [contracts.mainnet.gnoOmnibridge]),
     allow.mainnet.gnoOmnibridge.relayTokensAndCall(
       USDC,
@@ -726,7 +726,7 @@ export default (parameters: Parameters) =>
       undefined,
       "0x" + parameters.avatar.slice(2).padStart(64, "0")
     ),
-    // Claim bridged USDC from Gnosis
+    // Claim bridged USDC from Gnosis - Gnosis Bridge
     allow.mainnet.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
       c.and(
         // messageId: 32 bytes
@@ -816,7 +816,7 @@ export default (parameters: Parameters) =>
       )
     ),
 
-    // WETH -> WETH
+    // WETH -> WETH - Gnosis Bridge
     allowErc20Approve([WETH], [contracts.mainnet.gnoOmnibridge]),
     allow.mainnet.gnoOmnibridge["relayTokens(address,address,uint256)"](
       WETH,
