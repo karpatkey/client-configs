@@ -116,7 +116,7 @@ export default (parameters: Parameters) =>
         undefined,
         parameters.avatar
       ),
-      targetAddress: SAFE
+      targetAddress: SAFE,
     },
 
     // USDC (Gnosis) -> USDC (Mainnet) - Gnosis Bridge
@@ -133,6 +133,6 @@ export default (parameters: Parameters) =>
         undefined,
         parameters.avatar
       ),
-      targetAddress: WETH
+      targetAddress: WETH,
     },
   ] satisfies PermissionList
