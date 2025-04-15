@@ -108,4 +108,31 @@ export default (parameters: Parameters) =>
       undefined,
       parameters.avatar
     ),
+
+    // SAFE (Gnosis) -> SAFE (Mainnet) - Gnosis Bridge
+    {
+      ...allow.gnosis.gno.transferAndCall(
+        contracts.gnosis.xdaiBridge,
+        undefined,
+        parameters.avatar
+      ),
+      targetAddress: SAFE
+    },
+
+    // USDC (Gnosis) -> USDC (Mainnet) - Gnosis Bridge
+    allow.gnosis.usdc.transferAndCall(
+      contracts.gnosis.xdaiBridge,
+      undefined,
+      parameters.avatar
+    ),
+
+    // WETH (Gnosis) -> WETH (Mainnet) - Gnosis Bridge
+    {
+      ...allow.gnosis.gno.transferAndCall(
+        contracts.gnosis.xdaiBridge,
+        undefined,
+        parameters.avatar
+      ),
+      targetAddress: WETH
+    },
   ] satisfies PermissionList
