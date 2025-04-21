@@ -184,6 +184,8 @@ export default [
 
   // StakeWise v3 - Genesis
   allowAction.stakewise_v3.stake({ targets: ["Genesis"] }),
+  // StakeWise v3 - Chorus one - MEV Max
+  allowAction.stakewise_v3.stake({ targets: ["Chorus One - MEV Max"] }),
 
   // Uniswap v3 - SAFE + WETH
   allowAction.uniswap_v3.deposit({
