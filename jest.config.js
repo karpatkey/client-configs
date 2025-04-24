@@ -5,7 +5,7 @@ const { compilerOptions } = require("./tsconfig")
 module.exports = {
   preset: "ts-jest",
   testEnvironment: "node",
-  testTimeout: 60000,
+  testTimeout: 25000,
   globalSetup: "./test/global-setup.ts",
   setupFilesAfterEnv: ["./test/setup-after-env.ts"],
   testRegex: "(/clients/.*\\.test)\\.ts$",
