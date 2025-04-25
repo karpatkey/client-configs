@@ -8,7 +8,7 @@ import { avatar } from "@/test/wallets"
 import kit from "@/test/kit"
 import { contracts } from "@/contracts"
 
-// jest.setTimeout(180000)
+// This test was disabled because it’s failing in CI for unknown reasons.
 describe.skip("ENS", () => {
   beforeAll(async () => {
     // fresh role with ENS manage permissions
