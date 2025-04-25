@@ -9,7 +9,7 @@ import kit from "@/test/kit"
 import { contracts } from "@/contracts"
 
 // jest.setTimeout(180000)
-const permissions = describe("ENS", () => {
+describe("ENS", () => {
   beforeAll(async () => {
     // fresh role with ENS manage permissions
     await applyPermissions({
