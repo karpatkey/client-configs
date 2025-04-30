@@ -1,5 +1,15 @@
 import { allow } from "zodiac-roles-sdk/kit"
-import { GNO, osGNO, rETH, SAFE, USDC, USDCe, WETH, wstETH, balancerV2 } from "@/addresses/gno"
+import {
+  GNO,
+  osGNO,
+  rETH,
+  SAFE,
+  USDC,
+  USDCe,
+  WETH,
+  wstETH,
+  balancerV2,
+} from "@/addresses/gno"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
@@ -94,7 +104,11 @@ export default (parameters: Parameters) =>
     // Balancer v2 - WETH <-> wstETH - bb-WETH-wstETH
     balancerV2Swap(balancerV2.wethWstEthPid, [WETH, wstETH], [WETH, wstETH]),
     // Balancer v2 - WETH <-> wstETH - ECLP-wstETH-WETH
-    balancerV2Swap(balancerV2.eclpWstEthWethPid, [WETH, wstETH], [WETH, wstETH]),
+    balancerV2Swap(
+      balancerV2.eclpWstEthWethPid,
+      [WETH, wstETH],
+      [WETH, wstETH]
+    ),
     // Balancer v2 - rETH <-> WETH - ECLP-rETH-WETH
     balancerV2Swap(balancerV2.eclpRethWethPid, [rETH, WETH], [rETH, WETH]),
     // Balancer v2 - GNO <-> SAFE - 50SAFE-50GNO
