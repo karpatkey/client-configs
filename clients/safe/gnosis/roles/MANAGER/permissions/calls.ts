@@ -1,10 +1,11 @@
 import { allow } from "zodiac-roles-sdk/kit"
-import { GNO, SAFE, USDC, USDCe, WETH, wstETH } from "@/addresses/gno"
+import { GNO, osGNO, rETH, SAFE, USDC, USDCe, WETH, wstETH, balancerV2 } from "@/addresses/gno"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
 import { c } from "zodiac-roles-sdk"
 import { Parameters } from "../../../parameters"
+import { balancerV2Swap } from "@/exit_strategies/balancerV2"
 
 export default (parameters: Parameters) =>
   [
@@ -89,6 +90,21 @@ export default (parameters: Parameters) =>
     // Swap USDC -> USDC.e
     ...allowErc20Approve([USDC], [contracts.gnosis.usdcTransmuter]),
     allow.gnosis.usdcTransmuter.deposit(),
+
+    // Balancer v2 - WETH <-> wstETH - bb-WETH-wstETH
+    balancerV2Swap(balancerV2.wethWstEthPid, [WETH, wstETH], [WETH, wstETH]),
+    // Balancer v2 - WETH <-> wstETH - ECLP-wstETH-WETH
+    balancerV2Swap(balancerV2.eclpWstEthWethPid, [WETH, wstETH], [WETH, wstETH]),
+    // Balancer v2 - rETH <-> WETH - ECLP-rETH-WETH
+    balancerV2Swap(balancerV2.eclpRethWethPid, [rETH, WETH], [rETH, WETH]),
+    // Balancer v2 - GNO <-> SAFE - 50SAFE-50GNO
+    balancerV2Swap(balancerV2.b50Safe50GnoPid, [GNO, SAFE], [GNO, SAFE]),
+    // Balancer v2 - GNO <-> WETH - 50WETH-50GNO
+    balancerV2Swap(balancerV2.b50Weth50GnoPid, [GNO, WETH], [GNO, WETH]),
+    // Balancer v2 - GNO <-> osGNO - osGNO/GNO-BPT
+    balancerV2Swap(balancerV2.osGnoGnoPid, [GNO, osGNO], [GNO, osGNO]),
+    // Balancer v2 - GNO <-> wstETH - B-50wstETH-50GNO
+    balancerV2Swap(balancerV2.b50WstEth50Gno, [GNO, wstETH], [GNO, wstETH]),
 
     /*********************************************
      * Bridge
