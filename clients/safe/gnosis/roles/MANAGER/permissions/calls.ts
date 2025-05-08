@@ -123,9 +123,6 @@ export default (parameters: Parameters) =>
     /*********************************************
      * Bridge
      *********************************************/
-    // NAV Calculator - bridgeStart - In the future, the bridged assets should be scoped appropriately.
-    allow.gnosis.navCalculator.bridgeStart(),
-
     // Gnosis -> Mainnet
     // XDAI (Gnosis) -> DAI (Mainnet) - Gnosis Bridge
     allow.gnosis.xdaiBridge2.relayTokens(c.avatar, {
