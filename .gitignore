@@ -6,3 +6,4 @@ export
 !.yarn/releases
 !.yarn/versions
 .idea/
+.vscode/
