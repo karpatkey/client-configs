@@ -22,9 +22,16 @@ export const contracts = {
       bCow50Weth50Usdc: "0xf08D4dEa369C456d26a3168ff0024B904F2d8b91",
       bCow50Weth50UsdcGauge: "0xF9423B78D784D610A00955E733dBa0bf9bda7B06",
       bCow50Wnxm50Weth: "0x7c838b3Ed3C15a5d5032e809B8714f0aE5e9A821",
+      bCow50Safe50Weth: "0xbF8868b754A77E90Ea68ffC0b5B10A7c729457E1",
     },
     balancerV3: {
       compositeLiquidityRouter: "0x1CD776897ef4f647bf8241Ec69549e4A9cb1D608",
+      aaveLidoWethWstEth: "0xc4Ce391d82D164c166dF9c8336DDF84206b2F812",
+      aaveLidoWethWstEthGauge: "0x4B891340b51889f438a03DC0e8aAAFB0Bc89e7A6",
+      ethxWaWeth: "0x4AB7aB316D43345009B2140e0580B072eEc7DF16",
+      ethxWaWethGauge: "0x1f3A4C8115629C33A28bF2F97F22D31d256317F6",
+      osEthWaWeth: "0x57c23c58B1D8C3292c15BEcF07c62C5c52457A42",
+      osEthWaWethGauge: "0x70A1c01902DAb7a45dcA1098Ca76A8314dd8aDbA",
     },
     curve: {
       ...deFiKitContracts.mainnet.curve,
@@ -62,6 +69,8 @@ export const contracts = {
       ankrCrvGauge: "0x6d10ed2cF043E6fcf51A0e7b4C2Af3Fa06695707",
       btcGhoEthPool: "0x8a4f252812dFF2A8636E4F7EB249d8FC2E3bd77f",
       btcGhoEthGauge: "0x1E4B83f6bFE9dbeB6d5b92a5237E5c18a44176f4",
+      wethRethPool: "0x9EfE1A1Cbd6Ca51Ee8319AFc4573d253C3B732af",
+      wethRethGauge: "0xFB5B02863E2917AE1662598F7eBdE60AFEaFe84e",
     },
     enzyme: {
       depositWrapper2: "0x65BbAD6545B7ac9C30Fb0f07e64e25106Bf05eEc",
@@ -82,6 +91,9 @@ export const contracts = {
       weEth: "0xCd5fE23C85820F7B72D0926FC9b05b43E359b7ee",
       liquidityPool: "0x308861A430be4cce5502d0A12724771Fc6DaF216",
       withdrawRequestNft: "0x7d5706f6ef3F89B3951E23e557CDFBC3239D4E2c",
+    },
+    fluid: {
+      fAsset: "0x90551c1795392094FE6D29B758EcCD233cFAa260", // fWETH
     },
     gyroscope: {
       sGyd: "0xeA50f402653c41cAdbaFD1f788341dB7B7F37816",
@@ -173,16 +185,10 @@ export const contracts = {
       bribe: "0x19BBC3463Dd8d07f55438014b021Fb457EBD4595",
     },
     navCalculator: "0xF0125A04d74782e6d2aD6d298F0Bc786e301AAc1",
+    wethOmnibridgeRouter: "0xa6439Ca0FCbA1d0F80df0bE6A17220feD9c9038a",
   },
   gnosis: {
     ...deFiKitContracts.gnosis,
-    arrakis: {
-      permit2: "0x000000000022D473030F116dDEE9F6B43aC78BA3",
-      signMessageLib: "0xd53cd0aB83D845Ac265BE939c57F53AD838012c9",
-      router: "0x6aC8Bab8B775a03b8B72B2940251432442f61B94",
-      wethSdaiVault: "0x3889C8B1f064A1A576caB04D5767a00Bf2308bD4",
-      wethWstEthVault: "0x35c089E2451633DF9684564ccCfE745aA5f3B465",
-    },
     azuro: {
       lpAzrXdai: "0x204e7371Ade792c5C006fb52711c50a7efC843ed",
     },
@@ -192,7 +198,15 @@ export const contracts = {
       bCowAmm50wstEth50sDai: "0x5089007DEC8E93f891dcB908c9E2Af8d9DEdb72E",
       bCowAmm50Gno50Olas: "0xD7f99B1CDa3EeCf6b6eAa8a61ed21d061E745400",
       bCowAmm50Gno50Cow: "0x71663f74490673706D7b8860B7D02b7c76160bAe",
+      bCow50Gno50Safe: "0xAD58D2Bc841Cb8e4f8717Cb21e3FB6c95DCBc286",
       eclpBcspxSdaiGauge: "0xbcF4969d4dc6Cb86Ce0B8a101d220b558F14739C",
+    },
+    balancerV3: {
+      compositeLiquidityRouter: "0x6eaD84Af26E997D27998Fc9f8614e8a19BB93938",
+      aaveLidoWethWstEth: "0x6e6bb18449fCF15B79EFa2CfA70ACF7593088029",
+      aaveLidoWethWstEthGauge: "0x0fcE2d8428baca96b14f5D3D03D260940E11a066",
+      aaveLido50WstEth50Gno: "0x272d6BE442E30D7c87390eDEb9B96f1E84cEcD8d",
+      aaveLido50WstEth50GnoGauge: "0xcBD87e4Dad6a99506484E9adEEC8FF84Ce7BD399",
     },
     curve: {
       x3CrvPool: "0x7f90122BF0700F9E7e1F688fe926940E8839F353",
@@ -219,6 +233,9 @@ export const contracts = {
       stakecat: "0xe0A342ED4e0F0dBe97C4810534CfCB6550EA017D",
       stakesaurus: "0x3CB4692177525dB38D983DA0445d4EB25C3826dE",
       seednode: "0x9eeB6be79899CfE45018866A2113c6b77fa96F35",
+    },
+    uniswap: {
+      permit2: "0x000000000022D473030F116dDEE9F6B43aC78BA3",
     },
     navCalculator: "0x4AbE155C97009e388E0493fe1516F636e0F3a390",
   },
