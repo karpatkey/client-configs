@@ -5,3 +5,5 @@ export
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
+.idea/
+.vscode/
