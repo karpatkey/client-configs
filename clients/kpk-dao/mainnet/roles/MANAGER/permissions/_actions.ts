@@ -56,7 +56,7 @@ export default [
   // Convex - GHO/cbBTC/WETH
   allowAction.convex.deposit({ targets: ["409"] }),
   // Convex - scvxCRV
-  allowAction.convex.stake({ targets: ["cvxCRV"]}),
+  allowAction.convex.stake({ targets: ["cvxCRV"] }),
 
   // CowSwap - [COMP, CRV, crvUSD, CVX, DAI, eETH, ETH, GHO, NOTE, RPL, rETH, sDAI, sUSDS, stETH, stkGHO, USDC, USDS, USDT, weETH, WETH, wstETH] ->
   // [DAI, eETH, ETH, GHO, rETH, sDAI, sUSDS, stETH, stkGHO, USDC, USDS, USDT, weETH, WETH, wstETH]

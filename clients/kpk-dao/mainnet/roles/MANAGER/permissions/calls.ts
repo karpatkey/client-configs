@@ -35,11 +35,7 @@ export default (parameters: Parameters) =>
     /*********************************************
      * Typed-presets permissions
      *********************************************/
-    allow.mainnet.aaveV3.poolCoreV3.withdraw(
-      GHO,
-      undefined,
-      c.avatar
-    ),
+    allow.mainnet.aaveV3.poolCoreV3.withdraw(GHO, undefined, c.avatar),
     allow.mainnet.aaveV3.aaveCollector.withdrawFromStream(),
 
     // Wrapping and unwrapping of ETH, WETH
@@ -219,9 +215,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.etherfi.liquidityPool["deposit()"](),
 
     // Lido
-    allow.mainnet.lido.vyperContract[
-      "claim(address,uint256)"
-      ](
+    allow.mainnet.lido.vyperContract["claim(address,uint256)"](
       c.avatar,
       undefined
     ),
