@@ -35,6 +35,13 @@ export default (parameters: Parameters) =>
     /*********************************************
      * Typed-presets permissions
      *********************************************/
+    allow.mainnet.aaveV3.poolCoreV3.withdraw(
+      GHO,
+      undefined,
+      c.avatar
+    ),
+    allow.mainnet.aaveV3.aaveCollector.withdrawFromStream(),
+
     // Wrapping and unwrapping of ETH, WETH
     allow.mainnet.weth.withdraw(),
     allow.mainnet.weth.deposit({
@@ -85,6 +92,8 @@ export default (parameters: Parameters) =>
     allow.mainnet.curve.ghoBtcWsteGauge["deposit(uint256)"](),
     allow.mainnet.curve.ghoBtcWsteGauge["withdraw(uint256)"](),
 
+    //Convex claimRewards
+    allow.mainnet.convex.claimZap.claimRewards(),
     // Curve - Tricrypto GHO (GHO/cbBTC/ETH)
     ...allowErc20Approve(
       [GHO, cbBTC, WETH],
@@ -206,7 +215,23 @@ export default (parameters: Parameters) =>
       contracts.mainnet.etherfi.liquidEth,
       c.or(eETH, weETH)
     ),
+    allow.mainnet.etherfi.depositAdapter.depositETHForWeETH(),
+    allow.mainnet.etherfi.liquidityPool["deposit()"](),
 
+    // Lido
+    allow.mainnet.lido.vyperContract[
+      "claim(address,uint256)"
+      ](
+      c.avatar,
+      undefined
+    ),
+
+    // Fluid deposit and withdraw wstETh
+    allow.mainnet.fluid.fwstEth["withdraw(uint256,address,address)"](
+      undefined,
+      c.avatar,
+      c.avatar
+    ),
     // Merkl (Angle) - Claim
     allow.mainnet.merkl.angleDistributor.claim([parameters.avatar], [GHO]),
 
