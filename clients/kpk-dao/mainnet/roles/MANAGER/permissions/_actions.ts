@@ -22,6 +22,7 @@ import {
   weETH,
   WETH,
   wstETH,
+  cvxCRV,
 } from "@/addresses/eth"
 
 export default [
@@ -67,6 +68,7 @@ export default [
       CRV,
       crvUSD,
       CVX,
+      cvxCRV,
       DAI,
       eETH,
       GHO,
