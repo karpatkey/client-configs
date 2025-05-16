@@ -22,6 +22,7 @@ import {
   weETH,
   WETH,
   wstETH,
+  cvxCRV,
 } from "@/addresses/eth"
 
 export default [
@@ -55,6 +56,8 @@ export default [
   allowAction.convex.deposit({ targets: ["297"] }),
   // Convex - GHO/cbBTC/WETH
   allowAction.convex.deposit({ targets: ["409"] }),
+  // Convex - scvxCRV
+  allowAction.convex.stake({ targets: ["cvxCRV"] }),
 
   // CowSwap - [COMP, CRV, crvUSD, CVX, DAI, eETH, ETH, GHO, NOTE, RPL, rETH, sDAI, sUSDS, stETH, stkGHO, USDC, USDS, USDT, weETH, WETH, wstETH] ->
   // [DAI, eETH, ETH, GHO, rETH, sDAI, sUSDS, stETH, stkGHO, USDC, USDS, USDT, weETH, WETH, wstETH]
@@ -65,6 +68,7 @@ export default [
       CRV,
       crvUSD,
       CVX,
+      cvxCRV,
       DAI,
       eETH,
       GHO,
