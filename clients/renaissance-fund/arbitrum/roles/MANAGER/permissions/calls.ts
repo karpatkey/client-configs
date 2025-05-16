@@ -10,6 +10,12 @@ export default [
   /*********************************************
    * Typed-presets permissions
    *********************************************/
+  // Wrapping and unwrapping of ETH, WETH
+  allow.arbitrumOne.weth.withdraw(),
+  allow.arbitrumOne.weth.deposit({
+    send: true,
+  }),
+
   // GMX
   // Create Long/Short Market/Limit Orders
   // Increase/Decrease Collateral on an open position

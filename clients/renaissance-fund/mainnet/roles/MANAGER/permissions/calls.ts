@@ -9,14 +9,20 @@ import {
   snapshotCowId,
   snapshotLidoId,
   snapshotSafeId,
-} from "../../../../gnosis/addresses"
-import { Parameters } from "../../../../gnosis/parameters"
+} from "../../../../mainnet/addresses"
+import { Parameters } from "../../../../mainnet/parameters"
 
 export default (parameters: Parameters) =>
   [
     /*********************************************
      * Typed-presets permissions
      *********************************************/
+    // Wrapping and unwrapping of ETH, WETH
+    allow.mainnet.weth.withdraw(),
+    allow.mainnet.weth.deposit({
+      send: true,
+    }),
+
     // Aave Merit rewards (https://apps.aavechan.com/merit)
     allow.mainnet.aaveV3.meritDistributor.claim([parameters.avatar]),
 
