@@ -1,5 +1,5 @@
 import { allow as allowAction } from "defi-kit/eth"
-import { AZUR, DAI, GRT, sDAI, USDC, USDT } from "@/addresses/eth"
+import { DAI, sDAI, USDC, USDT } from "@/addresses/eth"
 
 export default [
   /*********************************************

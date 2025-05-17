@@ -1,17 +1,26 @@
 import { allow } from "zodiac-roles-sdk/kit"
+import { c } from "zodiac-roles-sdk"
 import { contracts } from "@/contracts"
 import {
+  BRLA,
+  COW,
   EURe,
   hDAI,
+  SAFE,
+  sDAI,
   USDC,
   USDCe,
   USDT,
+  WETH,
+  wstETH,
   WXDAI,
   x3CRV,
+  balancerV3,
   curve,
 } from "@/addresses/gno"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
+import { gnosisLtdEth } from "../../../addresses"
 
 export default [
   /*********************************************
@@ -22,6 +31,25 @@ export default [
     send: true,
   }),
   allow.gnosis.wxdai["withdraw"](),
+
+  // Balancer v3 - sDAI/BRLA
+  ...allowErc20Approve([BRLA, sDAI], [contracts.gnosis.uniswap.permit2]),
+  allow.gnosis.uniswap.permit2.approve(
+    c.or(BRLA, sDAI),
+    contracts.gnosis.balancerV3.router
+  ),
+  allow.gnosis.balancerV3.router.addLiquidityProportional(balancerV3.brlaSdai),
+  allow.gnosis.balancerV3.router.addLiquidityUnbalanced(balancerV3.brlaSdai),
+  ...allowErc20Approve(
+    [balancerV3.brlaSdai],
+    [contracts.gnosis.balancerV3.router]
+  ),
+  allow.gnosis.balancerV3.router.removeLiquidityProportional(
+    balancerV3.brlaSdai
+  ),
+  allow.gnosis.balancerV3.router.removeLiquiditySingleTokenExactIn(
+    balancerV3.brlaSdai
+  ),
 
   // CowSwap - vCOW
   allow.gnosis.cowSwap.vCow.swapAll(),
@@ -64,4 +92,87 @@ export default [
   allow.gnosis.hop.daiRewards2.withdraw(),
   allow.gnosis.hop.daiRewards2.exit(),
   allow.gnosis.hop.daiRewards2.getReward(),
+
+  /*********************************************
+   * Swaps
+   *********************************************/
+  // Swap USDC.e -> USDC
+  ...allowErc20Approve([USDCe], [contracts.gnosis.usdcTransmuter]),
+  allow.gnosis.usdcTransmuter.withdraw(),
+  // Swap USDC -> USDC.e
+  ...allowErc20Approve([USDC], [contracts.gnosis.usdcTransmuter]),
+  allow.gnosis.usdcTransmuter.deposit(),
+
+  /*********************************************
+   * Bridge
+   *********************************************/
+  // Gnosis -> Mainnet
+  // COW - Gnosis Bridge
+  {
+    ...allow.gnosis.gno.transferAndCall(
+      contracts.gnosis.xdaiBridge,
+      undefined,
+      gnosisLtdEth
+    ),
+    targetAddress: COW,
+  },
+
+  // GNO - Gnosis Bridge
+  allow.gnosis.gno.transferAndCall(
+    contracts.gnosis.xdaiBridge,
+    undefined,
+    gnosisLtdEth
+  ),
+
+  // SAFE - Gnosis Bridge
+  {
+    ...allow.gnosis.gno.transferAndCall(
+      contracts.gnosis.xdaiBridge,
+      undefined,
+      gnosisLtdEth
+    ),
+    targetAddress: SAFE,
+  },
+
+  // USDC - Gnosis Bridge
+  allow.gnosis.usdc.transferAndCall(
+    contracts.gnosis.xdaiBridge,
+    undefined,
+    gnosisLtdEth
+  ),
+
+  // USDT - Gnosis Bridge
+  {
+    ...allow.gnosis.gno.transferAndCall(
+      contracts.gnosis.xdaiBridge,
+      undefined,
+      gnosisLtdEth
+    ),
+    targetAddress: USDT,
+  },
+
+  // WETH - Gnosis Bridge
+  {
+    ...allow.gnosis.gno.transferAndCall(
+      contracts.gnosis.xdaiBridge,
+      undefined,
+      gnosisLtdEth
+    ),
+    targetAddress: WETH,
+  },
+
+  // wstETH - Gnosis Bridge
+  {
+    ...allow.gnosis.gno.transferAndCall(
+      contracts.gnosis.xdaiBridge,
+      undefined,
+      gnosisLtdEth
+    ),
+    targetAddress: wstETH,
+  },
+
+  // XDAI -> DAI - Gnosis Bridge
+  allow.gnosis.xdaiBridge2.relayTokens(gnosisLtdEth, {
+    send: true,
+  }),
 ] satisfies PermissionList

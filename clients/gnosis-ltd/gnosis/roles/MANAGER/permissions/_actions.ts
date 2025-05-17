@@ -1,5 +1,5 @@
 import { allow as allowAction } from "defi-kit/gno"
-import { EURe, USDC, USDCe, USDT, WXDAI } from "@/addresses/gno"
+import { EURe, GBPe, sDAI, USDC, USDCe, USDT, WXDAI } from "@/addresses/gno"
 
 export default [
   /*********************************************
@@ -15,25 +15,25 @@ export default [
   allowAction.balancer_v2.deposit({ targets: ["B-50wstETH-50COW"] }),
   allowAction.balancer_v2.stake({ targets: ["B-50wstETH-50COW"] }),
 
-  // CowSwap - XDAI -> [EURe, USDC.e, USDT]
+  // CowSwap - XDAI -> [EURe, sDAI, USDC.e, USDT]
   allowAction.cowswap.swap({
     sell: ["XDAI"],
-    buy: [EURe, USDCe, USDT],
+    buy: [EURe, sDAI, USDCe, USDT],
   }),
-  // CowSwap - [EURe, USDC.e, USDT] -> XDAI
+  // CowSwap - [EURe, sDAI, USDC.e, USDT] -> XDAI
   allowAction.cowswap.swap({
-    sell: [EURe, USDCe, USDT],
+    sell: [EURe, sDAI, USDCe, USDT],
     buy: ["XDAI"],
   }),
 
-  // CowSwap - WXDAI -> [EURe, USDC.e, USDT]
+  // CowSwap - WXDAI -> [EURe, sDAI, USDC.e, USDT]
   allowAction.cowswap.swap({
     sell: [WXDAI],
-    buy: [EURe, USDCe, USDT],
+    buy: [EURe, sDAI, USDCe, USDT],
   }),
-  // CowSwap - [EURe, USDC.e, USDT] -> WXDAI
+  // CowSwap - [EURe, sDAI, USDC.e, USDT] -> WXDAI
   allowAction.cowswap.swap({
-    sell: [EURe, USDCe, USDT],
+    sell: [EURe, sDAI, USDCe, USDT],
     buy: [WXDAI],
   }),
 
@@ -61,6 +61,26 @@ export default [
     buy: [EURe, USDT],
   }),
 
+  // CowSwap - GBPe <-> sDAI
+  allowAction.cowswap.swap({
+    sell: [GBPe, sDAI],
+    buy: [GBPe, sDAI],
+  }),
+
+  // CowSwap - sDAI <-> USDC.e
+  allowAction.cowswap.swap({
+    sell: [sDAI, USDCe],
+    buy: [sDAI, USDCe],
+  }),
+
+  // CowSwap - sDAI <-> USDT
+  allowAction.cowswap.swap({
+    sell: [sDAI, USDT],
+    buy: [sDAI, USDT],
+  }),
+
   // Spark - Deposit GNO
   allowAction.spark.deposit({ targets: ["GNO"] }),
+  // Spark - Deposit DSR_sDAI
+  allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
 ]

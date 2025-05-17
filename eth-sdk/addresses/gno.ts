@@ -1,8 +1,11 @@
+import { Address } from "@gnosis-guild/eth-sdk"
+
 // Tokens
 export const AAVE = "0xDF613aF6B44a31299E48131e9347F034347E2F00"
 export const AGVE = "0x3a97704a1b25F08aa230ae53B352e2e72ef52843"
 export const AURA = "0x1509706a6c66CA549ff0cB464de88231DDBe213B"
 export const BAL = "0x7eF541E2a22058048904fE5744f9c7E4C57AF717"
+export const BRLA = "0xFECB3F7c54E2CAAE9dC6Ac9060A822D47E053760"
 export const BER = "0x05698e7346ea67cfb088f64ad8962b18137d17c0"
 export const COMP = "0xDf6FF92bfDC1e8bE45177DC1f4845d391D3ad8fD"
 export const COW = "0x177127622c4A00F3d409B75571e12cB3c8973d3c"
@@ -104,6 +107,11 @@ export const balancerV2 = {
   b50WstEth25Bal25AuraGauge: "0x64cee2356f959e78db36a4c23a28f0454447c3df",
   b50WstEth50CowGauge: "0xce18a3d0d928ab8883f355b5009d2de07d5c1d83",
 } as const
+
+export const balancerV3 = {
+  // BPTs
+  brlaSdai: "0x889aC9F5c87e6CA075777D5E417b3634D3F84135" as Address,
+}
 
 export const curve = {
   crvEureUsd: "0x0CA1C1eC4EBf3CC67a9f545fF90a3795b318cA4a",
