@@ -8,12 +8,13 @@ import { parameters as gnosisLtdParameters } from "../../../instances/main"
 
 describe("GnosisLTD", () => {
   beforeAll(async () => {
-    await applyPermissions({
-      allowedCalls,
-      allowedActions,
-    },
-    gnosisLtdParameters
-  )
+    await applyPermissions(
+      {
+        allowedCalls,
+        allowedActions,
+      },
+      gnosisLtdParameters
+    )
 
     // // acquire 1 WETH for avatar
     // await wrapEth(parseEther("1"));
