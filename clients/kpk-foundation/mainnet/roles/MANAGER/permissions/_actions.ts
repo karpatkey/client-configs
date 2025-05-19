@@ -1,7 +1,5 @@
 import { allow as allowAction } from "defi-kit/eth"
-import {
-  USDC,
-} from "@/addresses/eth"
+import { USDC } from "@/addresses/eth"
 
 export default [
   /*********************************************
