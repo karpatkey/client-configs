@@ -4,6 +4,7 @@ import {
   cbBTC,
   DAI,
   eETH,
+  fluid,
   GHO,
   SAFE,
   stETH,
@@ -247,12 +248,31 @@ export default (parameters: Parameters) =>
       undefined
     ),
 
-    // Fluid deposit and withdraw wstETh
-    allow.mainnet.fluid.fwstEth["withdraw(uint256,address,address)"](
-      undefined,
-      c.avatar,
-      c.avatar
-    ),
+    // Fluid - wstETH
+    allowErc20Approve([wstETH], [fluid.fwstEth]),
+    {
+      ...allow.mainnet.fluid.fAsset["deposit(uint256,address)"](
+        undefined,
+        c.avatar
+      ),
+      targetAddress: fluid.fwstEth,
+    },
+    {
+      ...allow.mainnet.fluid.fAsset["withdraw(uint256,address,address)"](
+        undefined,
+        c.avatar,
+        c.avatar
+      ),
+      targetAddress: fluid.fwstEth,
+    },
+    {
+      ...allow.mainnet.fluid.fAsset["redeem(uint256,address,address)"](
+        undefined,
+        c.avatar,
+        c.avatar
+      ),
+      targetAddress: fluid.fwstEth,
+    },
     // Merkl (Angle) - Claim
     allow.mainnet.merkl.angleDistributor.claim([parameters.avatar], [GHO]),
 
@@ -307,9 +327,35 @@ export default (parameters: Parameters) =>
     // Mainnet -> Gnosis
     // DAI (Mainnet) -> XDAI (Gnosis) - Gnosis Bridge
     ...allowErc20Approve([DAI], [contracts.mainnet.gnoXdaiBridge]),
-    allow.mainnet.gnoXdaiBridge.relayTokens(
-      kpkGC,
-      c.withinAllowance(encodeBytes32String("DAI_KPK-GC") as `0x${string}`)
+    allow.mainnet.gnoXdaiBridge.relayTokens(kpkGC),
+    // Claim bridged XDAI from Gnosis
+    allow.mainnet.gnoXdaiBridge.executeSignatures(
+      c.and(
+        // Avatar address
+        c.bitmask({
+          shift: 0,
+          mask: "0xffffffffffffffffffff",
+          value: parameters.avatar.slice(0, 22), // First 10 bytes of the avatar address
+        }),
+        c.bitmask({
+          shift: 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x" + parameters.avatar.slice(22, 42), // Last 10 bytes of the avatar address
+        }),
+        // skip 32 bytes corresponding to the amount
+        // skip 32 bytes corresponding to the txHash from Gnosis
+        // Recipient address: Gnosis Chain xDai Bridge
+        c.bitmask({
+          shift: 20 + 32 + 32,
+          mask: "0xffffffffffffffffffff",
+          value: contracts.mainnet.gnoXdaiBridge.slice(0, 22), // First 10 bytes of the avatar address
+        }),
+        c.bitmask({
+          shift: 20 + 32 + 32 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x" + contracts.mainnet.gnoXdaiBridge.slice(22, 42), // Last 10 bytes of the avatar address
+        })
+      )
     ),
 
     /*********************************************
