@@ -65,7 +65,7 @@ export default (parameters: Parameters) =>
     allow.arbitrumOne.arbitrumBridge.arbSys.withdrawEth(
       c.avatar, // Destination address
       {
-        send: true
+        send: true,
       }
     ),
 

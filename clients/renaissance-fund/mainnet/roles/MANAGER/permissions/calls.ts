@@ -303,7 +303,7 @@ export default (parameters: Parameters) =>
       undefined,
       "0x",
       {
-        send: true
+        send: true,
       }
     ),
     // Claim bridged ETH from Arbitrum
@@ -316,7 +316,7 @@ export default (parameters: Parameters) =>
       undefined,
       undefined,
       undefined,
-      "",
+      ""
     ),
 
     // ETH - Stargate
@@ -325,12 +325,12 @@ export default (parameters: Parameters) =>
         to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
         extraOptions: "0x",
         composeMsg: "0x",
-        oftCmd: "0x01"
+        oftCmd: "0x01",
       },
       undefined,
       c.avatar,
       {
-        send: true
+        send: true,
       }
     ),
 
