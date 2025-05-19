@@ -30,11 +30,11 @@ export default (parameters: Parameters) =>
     allow.mainnet.snapshot.delegation.setDelegate(snapshotCowId, kpkGovernance),
     allow.mainnet.snapshot.delegation.clearDelegate(snapshotCowId),
 
-    // Ethena - Stake ENA
-    ...allowErc20Approve([ENA], [contracts.mainnet.ethena.sEna]),
-    allow.mainnet.ethena.sEna.deposit(undefined, c.avatar),
-    allow.mainnet.ethena.sEna.cooldownShares(),
-    allow.mainnet.ethena.sEna.unstake(c.avatar),
+    // // Ethena - Stake ENA
+    // ...allowErc20Approve([ENA], [contracts.mainnet.ethena.sEna]),
+    // allow.mainnet.ethena.sEna.deposit(undefined, c.avatar),
+    // allow.mainnet.ethena.sEna.cooldownShares(),
+    // allow.mainnet.ethena.sEna.unstake(c.avatar),
 
     // Lido - Delegate/Undelgate LDO on Snapshot
     allow.mainnet.snapshot.delegation.setDelegate(
