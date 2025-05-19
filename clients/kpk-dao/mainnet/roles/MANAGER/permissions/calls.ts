@@ -26,6 +26,7 @@ import { Parameters } from "../../../parameters"
 import {
   kfPaymentsMainnet,
   kpkDaoPaymentsMainnet,
+  kpkGC,
   vcbGC,
 } from "../../../addresses"
 import { encodeBytes32String } from "defi-kit"
@@ -37,6 +38,24 @@ export default (parameters: Parameters) =>
      *********************************************/
     allow.mainnet.aaveV3.poolCoreV3.withdraw(GHO, undefined, c.avatar),
     allow.mainnet.aaveV3.aaveCollector.withdrawFromStream(),
+
+    //Aura claimRewards
+    allow.mainnet.aura.claimZapV3.claimRewards(
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      {
+        claimCvxCrv: false,
+        claimLockedCvx: false,
+        lockCvxCrv: false,
+        lockCrvDeposit: false,
+        useAllWalletFunds: false,
+        useCompounder: false,
+        lockCvx: false,
+      }
+    ),
 
     // Wrapping and unwrapping of ETH, WETH
     allow.mainnet.weth.withdraw(),
@@ -213,6 +232,23 @@ export default (parameters: Parameters) =>
     ),
     allow.mainnet.etherfi.depositAdapter.depositETHForWeETH(),
     allow.mainnet.etherfi.liquidityPool["deposit()"](),
+    //ether.fi - unstake [eETH, weETH] on weETH (EigenLayer Restaking)
+    ...allowErc20Approve(
+      [eETH],
+      [contracts.mainnet.etherfi.liquidityPool]
+    ),
+    allow.mainnet.etherfi.liquidityPool.requestWithdraw(
+      c.avatar,
+      undefined
+    ),
+    // ether.fi - wrap eEth
+    ...allowErc20Approve(
+      [eETH],
+      [contracts.mainnet.etherfi.weEth]
+    ),
+    allow.mainnet.etherfi.weEth.wrap(),
+    // ether.fi - Unwrap weETH
+    allow.mainnet.etherfi.weEth.unwrap(),
 
     // Lido
     allow.mainnet.lido.vyperContract["claim(address,uint256)"](
@@ -277,6 +313,13 @@ export default (parameters: Parameters) =>
       vcbGC,
       c.withinAllowance(encodeBytes32String("DAI_VCB-GC") as `0x${string}`)
     ),
+    // Mainnet -> Gnosis
+    // DAI (Mainnet) -> XDAI (Gnosis) - Gnosis Bridge
+    ...allowErc20Approve([DAI], [contracts.mainnet.gnoXdaiBridge]),
+    allow.mainnet.gnoXdaiBridge.relayTokens(
+      kpkGC,
+      c.withinAllowance(encodeBytes32String("DAI_KPK-GC") as `0x${string}`)
+    ),
 
     /*********************************************
      * Transfers
@@ -290,4 +333,10 @@ export default (parameters: Parameters) =>
 
     // Transfer 200K per month to kfPaymentsMainnet
     allowErc20Transfer([USDC], [kfPaymentsMainnet], "USDC_KPK-PAYMENTS-ETH"),
+    // Transfer 100K per month to kpkDaoPaymentsMainnet
+    allowErc20Transfer([USDC], [kpkDaoPaymentsMainnet], "USDC_KPK_DAO-PAYMENTS-ETH"),
+    // Transfer 100K per month to kpkDaoPaymentsMainnet
+    allowErc20Transfer([USDT], [kpkDaoPaymentsMainnet], "USDT_KPK_DAO-PAYMENTS-ETH"),
+    // Transfer 100K per month to kpkDaoPaymentsMainnet
+    allowErc20Transfer([GHO], [kpkDaoPaymentsMainnet], "GHO_KPK_DAO-PAYMENTS-ETH"),
   ] satisfies PermissionList
