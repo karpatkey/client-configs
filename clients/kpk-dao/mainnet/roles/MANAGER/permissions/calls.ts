@@ -233,19 +233,10 @@ export default (parameters: Parameters) =>
     allow.mainnet.etherfi.depositAdapter.depositETHForWeETH(),
     allow.mainnet.etherfi.liquidityPool["deposit()"](),
     //ether.fi - unstake [eETH, weETH] on weETH (EigenLayer Restaking)
-    ...allowErc20Approve(
-      [eETH],
-      [contracts.mainnet.etherfi.liquidityPool]
-    ),
-    allow.mainnet.etherfi.liquidityPool.requestWithdraw(
-      c.avatar,
-      undefined
-    ),
+    ...allowErc20Approve([eETH], [contracts.mainnet.etherfi.liquidityPool]),
+    allow.mainnet.etherfi.liquidityPool.requestWithdraw(c.avatar, undefined),
     // ether.fi - wrap eEth
-    ...allowErc20Approve(
-      [eETH],
-      [contracts.mainnet.etherfi.weEth]
-    ),
+    ...allowErc20Approve([eETH], [contracts.mainnet.etherfi.weEth]),
     allow.mainnet.etherfi.weEth.wrap(),
     // ether.fi - Unwrap weETH
     allow.mainnet.etherfi.weEth.unwrap(),
@@ -334,9 +325,21 @@ export default (parameters: Parameters) =>
     // Transfer 200K per month to kfPaymentsMainnet
     allowErc20Transfer([USDC], [kfPaymentsMainnet], "USDC_KPK-PAYMENTS-ETH"),
     // Transfer 100K per month to kpkDaoPaymentsMainnet
-    allowErc20Transfer([USDC], [kpkDaoPaymentsMainnet], "USDC_KPK_DAO-PAYMENTS-ETH"),
+    allowErc20Transfer(
+      [USDC],
+      [kpkDaoPaymentsMainnet],
+      "USDC_KPK_DAO-PAYMENTS-ETH"
+    ),
     // Transfer 100K per month to kpkDaoPaymentsMainnet
-    allowErc20Transfer([USDT], [kpkDaoPaymentsMainnet], "USDT_KPK_DAO-PAYMENTS-ETH"),
+    allowErc20Transfer(
+      [USDT],
+      [kpkDaoPaymentsMainnet],
+      "USDT_KPK_DAO-PAYMENTS-ETH"
+    ),
     // Transfer 100K per month to kpkDaoPaymentsMainnet
-    allowErc20Transfer([GHO], [kpkDaoPaymentsMainnet], "GHO_KPK_DAO-PAYMENTS-ETH"),
+    allowErc20Transfer(
+      [GHO],
+      [kpkDaoPaymentsMainnet],
+      "GHO_KPK_DAO-PAYMENTS-ETH"
+    ),
   ] satisfies PermissionList
