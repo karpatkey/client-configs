@@ -28,7 +28,9 @@ import {
   kfPaymentsMainnet,
   kpkDaoPaymentsMainnet,
   kpkGC,
+  vcbGC,
 } from "../../../addresses"
+import { encodeBytes32String } from "defi-kit"
 
 export default (parameters: Parameters) =>
   [
@@ -237,12 +239,6 @@ export default (parameters: Parameters) =>
     // Unwrap weETH
     allow.mainnet.etherfi.weEth.unwrap(),
 
-    // Lido - Lido's Token Rewards Plan (TRP) - Claim LDO
-    allow.mainnet.lido.vestingEscrow["claim(address,uint256)"](
-      c.avatar,
-      undefined
-    ),
-
     // Fluid - wstETH
     allowErc20Approve([wstETH], [fluid.fwstEth]),
     {
@@ -268,6 +264,12 @@ export default (parameters: Parameters) =>
       ),
       targetAddress: fluid.fwstEth,
     },
+
+    // Lido - Lido's Token Rewards Plan (TRP) - Claim LDO
+    allow.mainnet.lido.vestingEscrow["claim(address,uint256)"](
+      c.avatar,
+      undefined
+    ),
 
     // Merkl (Angle) - Claim
     allow.mainnet.merkl.angleDistributor.claim([parameters.avatar], [GHO]),
@@ -316,6 +318,10 @@ export default (parameters: Parameters) =>
     // Mainnet -> Gnosis
     // DAI -> XDAI - Gnosis Bridge
     ...allowErc20Approve([DAI], [contracts.mainnet.gnoXdaiBridge]),
+    allow.mainnet.gnoXdaiBridge.relayTokens(
+      vcbGC,
+      c.withinAllowance(encodeBytes32String("DAI_VCB-GC") as `0x${string}`)
+    ),
     allow.mainnet.gnoXdaiBridge.relayTokens(kpkGC),
     // Claim bridged XDAI from Gnosis
     allow.mainnet.gnoXdaiBridge.executeSignatures(
