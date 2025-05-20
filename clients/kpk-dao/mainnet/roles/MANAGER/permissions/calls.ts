@@ -365,21 +365,21 @@ export default (parameters: Parameters) =>
 
     // Transfer 200K per month to kfPaymentsMainnet
     allowErc20Transfer([USDC], [kfPaymentsMainnet], "USDC_KPK-PAYMENTS-ETH"),
-    
+
     // Transfer 100K per month to kpkDaoPaymentsMainnet
     allowErc20Transfer(
       [USDC],
       [kpkDaoPaymentsMainnet],
       "USDC_KPK_DAO-PAYMENTS-ETH"
     ),
-    
+
     // Transfer 100K per month to kpkDaoPaymentsMainnet
     allowErc20Transfer(
       [USDT],
       [kpkDaoPaymentsMainnet],
       "USDT_KPK_DAO-PAYMENTS-ETH"
     ),
-    
+
     // Transfer 100K per month to kpkDaoPaymentsMainnet
     allowErc20Transfer(
       [GHO],
