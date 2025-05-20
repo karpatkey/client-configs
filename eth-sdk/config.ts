@@ -6,7 +6,7 @@ export const contracts = {
     ...deFiKitContracts.mainnet,
     aaveV3: {
       ...deFiKitContracts.mainnet.aaveV3,
-      aaveCollector: "0x464C71f6c2F760DdA6093dCB91C24c39e5d6e18c",
+      aaveCollectorV2: "0x464C71f6c2F760DdA6093dCB91C24c39e5d6e18c",
     },
     acrossV2: {
       hubPoolV2: "0xc186fA914353c44b2E33eBE05f21846F1048bEda",
@@ -103,7 +103,6 @@ export const contracts = {
     },
     fluid: {
       fAsset: "0x90551c1795392094FE6D29B758EcCD233cFAa260", // fWETH
-      fwstEth: "0x2411802D8BEA09be0aF8fD8D08314a63e706b29C",
     },
     gyroscope: {
       sGyd: "0xeA50f402653c41cAdbaFD1f788341dB7B7F37816",
@@ -115,7 +114,7 @@ export const contracts = {
     },
     lido: {
       ...deFiKitContracts.mainnet.lido,
-      vyperContract:"0x2eF259761dc63C0F043e35901F132b1e7b1BcA68",
+      vestingEscrow:"0x2eF259761dc63C0F043e35901F132b1e7b1BcA68",
       aragonVoting: "0x2e59A20f205bB85a89C53f1936454680651E618e",
     },
     maverickV2: {

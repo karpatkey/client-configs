@@ -2,14 +2,11 @@ import { PermissionList } from "@/types"
 import { allow } from "zodiac-roles-sdk/kit"
 import { GNO, WXDAI } from "@/addresses/gno"
 import {
-  allowErc20Approve,
   allowErc20Transfer,
   allowEthTransfer,
 } from "@/helpers"
-import { kfPaymentsGC } from "../../../addresses"
-import { c } from "zodiac-roles-sdk"
-import { USDC } from "@/addresses/eth"
-import { kpkDaoPaymentsMainnet, vcbGC } from "../../../../mainnet/addresses"
+import { kpkEth, kfPaymentsGC } from "../../../addresses"
+import { vcbGC } from "../../../../mainnet/addresses"
 
 export default [
   /*********************************************
@@ -22,25 +19,22 @@ export default [
   /*********************************************
    * Bridge
    *********************************************/
-  // No claim is required for the DAI bridged from Mainnet via Gnosis Bridge.
   // Bridge - Gnosis -> Mainnet
-  // XDAI (Gnosis) -> DAI (Mainnet)
-  allow.gnosis.xdaiBridge2.relayTokens(c.avatar, {
+  // XDAI -> DAI - Gnosis Bridge
+  allow.gnosis.xdaiBridge2.relayTokens(kpkEth, {
     send: true,
   }),
+  // No claim is required for the DAI bridged from Mainnet via Gnosis Bridge.
 
   /*********************************************
    * Transfers
    *********************************************/
   // Transfer 200 GNO per month to kfPaymentsGC
   allowErc20Transfer([GNO], [kfPaymentsGC], "GNO_KF-PAYMENTS-GC"),
+  
   // Transfer 600K xDAI per month to vcbGC
   allowEthTransfer(vcbGC, "XDAI_VCBGC-GC"),
+  
   // Transfer 600K WXDAI per month to vcbGC
   allowErc20Transfer([WXDAI], [vcbGC], "XDAI_VCBGC-GC"),
-  allowErc20Transfer(
-    [USDC],
-    [kpkDaoPaymentsMainnet],
-    "USDC_KPK_DAO-PAYMENTS-ETH"
-  ),
 ] satisfies PermissionList

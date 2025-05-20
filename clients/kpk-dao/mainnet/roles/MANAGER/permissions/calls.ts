@@ -4,7 +4,6 @@ import {
   cbBTC,
   DAI,
   eETH,
-  fluid,
   GHO,
   SAFE,
   stETH,
@@ -14,6 +13,7 @@ import {
   weETH,
   WETH,
   wstETH,
+  fluid,
 } from "@/addresses/eth"
 import { zeroAddress, eAddress } from "@/addresses"
 import { contracts } from "@/contracts"
@@ -28,41 +28,26 @@ import {
   kfPaymentsMainnet,
   kpkDaoPaymentsMainnet,
   kpkGC,
-  vcbGC,
 } from "../../../addresses"
-import { encodeBytes32String } from "defi-kit"
 
 export default (parameters: Parameters) =>
   [
     /*********************************************
      * Typed-presets permissions
      *********************************************/
-    allow.mainnet.aaveV3.poolCoreV3.withdraw(GHO, undefined, c.avatar),
-    allow.mainnet.aaveV3.aaveCollector.withdrawFromStream(),
-
-    //Aura claimRewards
-    allow.mainnet.aura.claimZapV3.claimRewards(
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      {
-        claimCvxCrv: false,
-        claimLockedCvx: false,
-        lockCvxCrv: false,
-        lockCrvDeposit: false,
-        useAllWalletFunds: false,
-        useCompounder: false,
-        lockCvx: false,
-      }
-    ),
-
     // Wrapping and unwrapping of ETH, WETH
     allow.mainnet.weth.withdraw(),
     allow.mainnet.weth.deposit({
       send: true,
     }),
+
+    // Aave - ACI (Aave Chan Initiative) - Aave Stream Collector - Claim aEthLidoGHO
+    allow.mainnet.aaveV3.aaveCollectorV2.withdrawFromStream(),
+    // Aave v3 Prime Market - Withdraw GHO
+    allow.mainnet.aaveV3.poolPrimeV3.withdraw(GHO, undefined, c.avatar),
+
+    // Aura - Claim all rewards
+    allow.mainnet.aura.claimZapV3.claimRewards(),
 
     // Curve - USDT/WBTC/WETH
     ...allowErc20Approve(
@@ -108,8 +93,9 @@ export default (parameters: Parameters) =>
     allow.mainnet.curve.ghoBtcWsteGauge["deposit(uint256)"](),
     allow.mainnet.curve.ghoBtcWsteGauge["withdraw(uint256)"](),
 
-    //Convex claimRewards
+    // Convex - Claim all rewards
     allow.mainnet.convex.claimZap.claimRewards(),
+
     // Curve - Tricrypto GHO (GHO/cbBTC/ETH)
     ...allowErc20Approve(
       [GHO, cbBTC, WETH],
@@ -214,6 +200,7 @@ export default (parameters: Parameters) =>
       [stETH]
     ),
 
+    // ether.fi
     // ether.fi - Liquid ETH - Deposit
     ...allowErc20Approve(
       [eETH, weETH, WETH],
@@ -231,19 +218,27 @@ export default (parameters: Parameters) =>
       contracts.mainnet.etherfi.liquidEth,
       c.or(eETH, weETH)
     ),
-    allow.mainnet.etherfi.depositAdapter.depositETHForWeETH(),
-    allow.mainnet.etherfi.liquidityPool["deposit()"](),
-    //ether.fi - unstake [eETH, weETH] on weETH (EigenLayer Restaking)
+    // ether.fi - EigenLayer Restaking
+    // Stake ETH for eETH
+    allow.mainnet.etherfi.liquidityPool["deposit()"]({ send: true }),
+    // Request Withdrawal - A Withdraw Request NFT is issued
     ...allowErc20Approve([eETH], [contracts.mainnet.etherfi.liquidityPool]),
-    allow.mainnet.etherfi.liquidityPool.requestWithdraw(c.avatar, undefined),
-    // ether.fi - wrap eEth
+    allow.mainnet.etherfi.liquidityPool.requestWithdraw(c.avatar),
+    // Funds can be claimed once the request is finalized
+    allow.mainnet.etherfi.withdrawRequestNft.claimWithdraw(),
+    // Stake ETH for weETH
+    allow.mainnet.etherfi.depositAdapter.depositETHForWeETH(undefined, {
+      send: true,
+    }),
+    // ether.fi - Wrap/Unwrap
+    // Wrap eETH
     ...allowErc20Approve([eETH], [contracts.mainnet.etherfi.weEth]),
     allow.mainnet.etherfi.weEth.wrap(),
-    // ether.fi - Unwrap weETH
+    // Unwrap weETH
     allow.mainnet.etherfi.weEth.unwrap(),
 
-    // Lido
-    allow.mainnet.lido.vyperContract["claim(address,uint256)"](
+    // Lido - Lido's Token Rewards Plan (TRP) - Claim LDO
+    allow.mainnet.lido.vestingEscrow["claim(address,uint256)"](
       c.avatar,
       undefined
     ),
@@ -273,6 +268,7 @@ export default (parameters: Parameters) =>
       ),
       targetAddress: fluid.fwstEth,
     },
+
     // Merkl (Angle) - Claim
     allow.mainnet.merkl.angleDistributor.claim([parameters.avatar], [GHO]),
 
@@ -318,14 +314,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.navCalculator.bridgeStart(),
 
     // Mainnet -> Gnosis
-    // DAI (Mainnet) -> XDAI (Gnosis) - Gnosis Bridge - 600K per month
-    ...allowErc20Approve([DAI], [contracts.mainnet.gnoXdaiBridge]),
-    allow.mainnet.gnoXdaiBridge.relayTokens(
-      vcbGC,
-      c.withinAllowance(encodeBytes32String("DAI_VCB-GC") as `0x${string}`)
-    ),
-    // Mainnet -> Gnosis
-    // DAI (Mainnet) -> XDAI (Gnosis) - Gnosis Bridge
+    // DAI -> XDAI - Gnosis Bridge
     ...allowErc20Approve([DAI], [contracts.mainnet.gnoXdaiBridge]),
     allow.mainnet.gnoXdaiBridge.relayTokens(kpkGC),
     // Claim bridged XDAI from Gnosis
@@ -370,18 +359,21 @@ export default (parameters: Parameters) =>
 
     // Transfer 200K per month to kfPaymentsMainnet
     allowErc20Transfer([USDC], [kfPaymentsMainnet], "USDC_KPK-PAYMENTS-ETH"),
+    
     // Transfer 100K per month to kpkDaoPaymentsMainnet
     allowErc20Transfer(
       [USDC],
       [kpkDaoPaymentsMainnet],
       "USDC_KPK_DAO-PAYMENTS-ETH"
     ),
+    
     // Transfer 100K per month to kpkDaoPaymentsMainnet
     allowErc20Transfer(
       [USDT],
       [kpkDaoPaymentsMainnet],
       "USDT_KPK_DAO-PAYMENTS-ETH"
     ),
+    
     // Transfer 100K per month to kpkDaoPaymentsMainnet
     allowErc20Transfer(
       [GHO],
