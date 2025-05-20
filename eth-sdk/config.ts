@@ -114,7 +114,7 @@ export const contracts = {
     },
     lido: {
       ...deFiKitContracts.mainnet.lido,
-      vestingEscrow:"0x2eF259761dc63C0F043e35901F132b1e7b1BcA68",
+      vestingEscrow: "0x2eF259761dc63C0F043e35901F132b1e7b1BcA68",
       aragonVoting: "0x2e59A20f205bB85a89C53f1936454680651E618e",
     },
     maverickV2: {
