@@ -6,4 +6,3 @@ export const chainId = 100
 export const parameters: Parameters = {
   avatar: "0x458cd345b4c05e8df39d0a07220feb4ec19f5e6f",
 }
-
