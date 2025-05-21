@@ -15,6 +15,7 @@ export const contracts = {
     },
     azuro: {
       stAzur: "0x67f3228fD58f5A26D93a5dd0c6989b69c95618eB",
+      vesting: "0xDd180c6387468E1Cb3D4a592016E8Fe0ae8Cc35f",
     },
     balancerV2: {
       ...deFiKitContracts.mainnet.balancerV2,
@@ -203,6 +204,7 @@ export const contracts = {
     },
     balancerV3: {
       compositeLiquidityRouter: "0x6eaD84Af26E997D27998Fc9f8614e8a19BB93938",
+      router: "0x4eff2d77D9fFbAeFB4b141A3e494c085b3FF4Cb5",
       aaveLidoWethWstEth: "0x6e6bb18449fCF15B79EFa2CfA70ACF7593088029",
       aaveLidoWethWstEthGauge: "0x0fcE2d8428baca96b14f5D3D03D260940E11a066",
       aaveLido50WstEth50Gno: "0x272d6BE442E30D7c87390eDEb9B96f1E84cEcD8d",
