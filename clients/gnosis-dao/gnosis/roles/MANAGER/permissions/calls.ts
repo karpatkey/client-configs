@@ -6,9 +6,12 @@ import {
   EURe,
   GNO,
   OLAS,
+  SAFE,
   sDAI,
   USDC,
+  USDCe,
   USDT,
+  WBTC,
   WETH,
   wstETH,
   WXDAI,
@@ -16,8 +19,9 @@ import {
   curve,
 } from "@/addresses/gno"
 import { contracts } from "@/contracts"
-import { allowErc20Approve } from "@/helpers"
+import { allowErc20Approve, allowErc20Transfer } from "@/helpers"
 import { PermissionList } from "@/types"
+import { gnosisDaoEth, gpRewards } from "../../../addresses"
 
 export default [
   /*********************************************
@@ -136,4 +140,93 @@ export default [
   allow.gnosis.hyperdrive.wxdaiSdaiLp.removeLiquidity(undefined, undefined, {
     destination: c.avatar,
   }),
+
+  /*********************************************
+   * Swaps
+   *********************************************/
+  // Swap USDC.e -> USDC
+  ...allowErc20Approve([USDCe], [contracts.gnosis.usdcTransmuter]),
+  allow.gnosis.usdcTransmuter.withdraw(),
+  // Swap USDC -> USDC.e
+  ...allowErc20Approve([USDC], [contracts.gnosis.usdcTransmuter]),
+  allow.gnosis.usdcTransmuter.deposit(),
+
+  /*********************************************
+   * Bridge
+   *********************************************/
+  // Gnosis -> Mainnet
+  // GNO - Gnosis Bridge
+  allow.gnosis.gno.transferAndCall(
+    contracts.gnosis.xdaiBridge,
+    undefined,
+    gnosisDaoEth
+  ),
+
+  // SAFE - Gnosis Bridge
+  {
+    ...allow.gnosis.gno.transferAndCall(
+      contracts.gnosis.xdaiBridge,
+      undefined,
+      gnosisDaoEth
+    ),
+    targetAddress: SAFE,
+  },
+
+  // USDC - Gnosis Bridge
+  allow.gnosis.usdc.transferAndCall(
+    contracts.gnosis.xdaiBridge,
+    undefined,
+    gnosisDaoEth
+  ),
+
+  // USDT - Gnosis Bridge
+  {
+    ...allow.gnosis.gno.transferAndCall(
+      contracts.gnosis.xdaiBridge,
+      undefined,
+      gnosisDaoEth
+    ),
+    targetAddress: USDT,
+  },
+
+  // WBTC - Gnosis Bridge
+  {
+    ...allow.gnosis.gno.transferAndCall(
+      contracts.gnosis.xdaiBridge,
+      undefined,
+      gnosisDaoEth
+    ),
+    targetAddress: WBTC,
+  },
+
+  // WETH - Gnosis Bridge
+  {
+    ...allow.gnosis.gno.transferAndCall(
+      contracts.gnosis.xdaiBridge,
+      undefined,
+      gnosisDaoEth
+    ),
+    targetAddress: WETH,
+  },
+
+  // wstETH - Gnosis Bridge
+  {
+    ...allow.gnosis.gno.transferAndCall(
+      contracts.gnosis.xdaiBridge,
+      undefined,
+      gnosisDaoEth
+    ),
+    targetAddress: wstETH,
+  },
+
+  // XDAI -> DAI - Gnosis Bridge
+  allow.gnosis.xdaiBridge2.relayTokens(gnosisDaoEth, {
+    send: true,
+  }),
+
+  /*********************************************
+   * Transfers
+   *********************************************/
+  // Transfer up to 500 GNO every 24 hours to gpRewards
+  allowErc20Transfer([GNO], [gpRewards], "GNO_GP-REWARDS"),
 ] satisfies PermissionList
