@@ -29,7 +29,7 @@ export const contracts = {
       bCow50Safe50Weth: "0xbF8868b754A77E90Ea68ffC0b5B10A7c729457E1",
     },
     balancerV3: {
-      compositeLiquidityRouter: "0x1CD776897ef4f647bf8241Ec69549e4A9cb1D608",
+      compositeLiquidityRouter: "0xb21A277466e7dB6934556a1Ce12eb3F032815c8A",
       aaveLidoWethWstEth: "0xc4Ce391d82D164c166dF9c8336DDF84206b2F812",
       aaveLidoWethWstEthGauge: "0x4B891340b51889f438a03DC0e8aAAFB0Bc89e7A6",
       ethxWaWeth: "0x4AB7aB316D43345009B2140e0580B072eEc7DF16",
