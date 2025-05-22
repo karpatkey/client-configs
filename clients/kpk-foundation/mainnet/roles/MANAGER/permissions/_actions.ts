@@ -12,7 +12,7 @@ export default [
   // Spark - Deposit DAI,USDC
   allowAction.spark.deposit({ targets: ["DAI", "USDC"] }),
   // Compound v3 -Deposit USDC
-  allowAction.compound_v3.deposit({ targets: ["cUSDCv3"] })
+  allowAction.compound_v3.deposit({ targets: ["cUSDCv3"] }),
   // CowSwap - [USDC, USDT, DAI, sDAI, USDS, sUSDS] -> [USDC, USDT, DAI, sDAI, USDS, sUSDS, COMP]
   allowAction.cowswap.swap({
     sell: [USDC, USDT, DAI, sDAI, USDS, sUSDS],
