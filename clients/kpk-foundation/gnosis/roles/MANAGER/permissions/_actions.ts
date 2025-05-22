@@ -5,6 +5,8 @@ export default [
   /*********************************************
    * DeFi-Kit permissions
    *********************************************/
+  // Spark - Deposit DSR_sDAI
+  allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
   // CowSwap - [xDAI, WXDAI, USDC, USDC.e, sxDAI] -> [xDAI, WXDAI, USDC, USDC.e, sxDAI]
   allowAction.cowswap.swap({
     sell: ["XDAI", WXDAI, USDC, USDCe, sDAI],
