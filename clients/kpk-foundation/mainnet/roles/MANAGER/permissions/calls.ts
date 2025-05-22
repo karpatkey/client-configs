@@ -9,35 +9,6 @@ import { kpkFoundationGc, kpkFoundationPayments } from "../../../addresses"
 import { encodeBytes32String } from "defi-kit"
 
 export default [
-  // Sky - DSR (DAI Savings Rate)
-  // The DsrManager provides an easy to use smart contract that allows
-  // service providers to deposit/withdraw dai into the DSR contract pot,
-  // and activate/deactivate the Dai Savings Rate to start earning savings
-  // on a pool of dai in a single function call.
-  // https://docs.makerdao.com/smart-contract-modules/proxy-module/dsr-manager-detailed-documentation#contract-details
-  allowErc20Approve([DAI], [contracts.mainnet.sky.dsrManager]),
-  allow.mainnet.sky.dsrManager.join(c.avatar),
-  allow.mainnet.sky.dsrManager.exit(c.avatar),
-  allow.mainnet.sky.dsrManager.exitAll(c.avatar),
-  // Spark - Withdraw USDS from sUSDS
-  allow.mainnet.spark.sUsds["withdraw(uint256,address,address)"](
-    undefined,
-    c.avatar,
-    c.avatar
-  ),
-  // Spark - Withdraw DAI from sDAI
-  allow.mainnet.spark.sDai["withdraw(uint256,address,address)"](
-    undefined,
-    c.avatar,
-    c.avatar
-  ),
-  //TODO check this
-  // Spark - Withdraw USDC from sUSDC
-  allow.mainnet.spark.sUsdc["withdraw(uint256,address,address)"](
-    undefined,
-    c.avatar,
-    c.avatar
-  ),
   /*********************************************
    * Bridging
    *********************************************/

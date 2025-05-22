@@ -7,10 +7,10 @@ export default [
    *********************************************/
   // Aave v3 - Deposit USDC
   allowAction.aave_v3.deposit({ market: "Core", targets: ["USDC"] }),
-  // Spark - Deposit USDS,DAI,USDC
-  allowAction.spark.deposit({ targets: ["USDS", "DAI", "USDC"] }),
-  // Spark - Deposit DAI,USDC
-  allowAction.spark.deposit({ targets: ["DAI", "USDC"] }),
+  // Spark - Deposit SKY_USDS
+  allowAction.spark.deposit({ targets: ["SKY_USDS"] }),
+  // Spark - Deposit DSR_sDAI
+  allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
   // Compound v3 -Deposit USDC
   allowAction.compound_v3.deposit({ targets: ["cUSDCv3"] }),
   // CowSwap - [USDC, USDT, DAI, sDAI, USDS, sUSDS] -> [USDC, USDT, DAI, sDAI, USDS, sUSDS, COMP]
