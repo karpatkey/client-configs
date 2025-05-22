@@ -5,7 +5,7 @@ import { allowErc20Approve, allowErc20Transfer } from "@/helpers"
 import { DAI, USDC } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { kfPaymentsMainnet } from "../../../../../kpk-dao/mainnet/addresses"
-import { kpkFoundationPayments } from "../../../addresses"
+import { kpkFoundationGc, kpkFoundationPayments } from "../../../addresses"
 import { encodeBytes32String } from "defi-kit"
 import { parameters } from "../../../instances/main"
 
@@ -18,12 +18,11 @@ export default [
   // DAI -> XDAI - Gnosis Bridge
   ...allowErc20Approve([DAI], [contracts.mainnet.gnoXdaiBridge]),
   allow.mainnet.gnoXdaiBridge.relayTokens(
-    c.avatar,
+    kpkFoundationGc,
     c.withinAllowance(
       encodeBytes32String("DAI_KPK_FOUNDATION-GC") as `0x${string}`
     )
   ),
-  allow.mainnet.gnoXdaiBridge.relayTokens(kpkGC),
   // Claim bridged XDAI from Gnosis
   allow.mainnet.gnoXdaiBridge.executeSignatures(
     c.and(
