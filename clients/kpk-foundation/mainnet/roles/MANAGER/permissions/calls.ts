@@ -4,9 +4,7 @@ import { c } from "zodiac-roles-sdk"
 import { allowErc20Approve, allowErc20Transfer } from "@/helpers"
 import { DAI, USDC } from "@/addresses/eth"
 import { contracts } from "@/contracts"
-import {
-  kfPaymentsMainnet,
-} from "../../../../../kpk-dao/mainnet/addresses"
+import { kfPaymentsMainnet } from "../../../../../kpk-dao/mainnet/addresses"
 import { kpkFoundationPayments } from "../../../addresses"
 import { encodeBytes32String } from "defi-kit"
 import { parameters } from "../../../instances/main"
