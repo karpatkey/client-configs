@@ -13,5 +13,4 @@ export default [
 
   // Spark - Deposit DSR_sDAI
   allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
-  
 ]

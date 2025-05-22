@@ -7,11 +7,11 @@ export default [
    *********************************************/
   // Aave v3 - Deposit USDC
   allowAction.aave_v3.deposit({ market: "Core", targets: ["USDC"] }),
-  
+
   // Compound v3 - Deposit USDC
   allowAction.compound_v3.deposit({ targets: ["cUSDCv3"], tokens: ["USDC"] }),
-  
-  // TODO: Confirm whether COMP should be a buy or sell token. 
+
+  // TODO: Confirm whether COMP should be a buy or sell token.
   // I added it as a sell token, since that's the most common case
   // CowSwap - [COMP, DAI, sDAI, sUSDS, USDC, USDS, USDT] -> [DAI, sDAI, sUSDS, USDC, USDS, USDT]
   allowAction.cowswap.swap({
