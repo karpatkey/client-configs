@@ -6,9 +6,8 @@ import { DAI, USDC } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import {
   kfPaymentsMainnet,
-  kpkDaoPaymentsMainnet,
 } from "../../../../../kpk-dao/mainnet/addresses"
-import { kpkFoundationGc, kpkFoundationPayments } from "../../../addresses"
+import { kpkFoundationPayments } from "../../../addresses"
 import { encodeBytes32String } from "defi-kit"
 import { parameters } from "../../../instances/main"
 
