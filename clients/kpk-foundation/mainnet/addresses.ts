@@ -1,2 +1,3 @@
-export const kpkFoundationPayments = "0x13BBf278721F0F9D10d4e37e9CFCe3c58a3ED12B";
-export const kpkFoundationGc = "0x3710263f057A53F1A35189444A3893D0E688e6D3";
+export const kpkFoundationPayments =
+  "0x13BBf278721F0F9D10d4e37e9CFCe3c58a3ED12B"
+export const kpkFoundationGc = "0x3710263f057A53F1A35189444A3893D0E688e6D3"

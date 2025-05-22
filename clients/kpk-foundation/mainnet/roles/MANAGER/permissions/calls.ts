@@ -4,7 +4,10 @@ import { c } from "zodiac-roles-sdk"
 import { allowErc20Approve, allowErc20Transfer } from "@/helpers"
 import { DAI, sUSDS, USDC, USDS, USDT } from "@/addresses/eth"
 import { contracts } from "@/contracts"
-import { kfPaymentsMainnet, kpkDaoPaymentsMainnet } from "../../../../../kpk-dao/mainnet/addresses"
+import {
+  kfPaymentsMainnet,
+  kpkDaoPaymentsMainnet,
+} from "../../../../../kpk-dao/mainnet/addresses"
 import { kpkFoundationGc, kpkFoundationPayments } from "../../../addresses"
 import { encodeBytes32String } from "defi-kit"
 
@@ -18,7 +21,9 @@ export default [
   ...allowErc20Approve([DAI], [contracts.mainnet.gnoXdaiBridge]),
   allow.mainnet.gnoXdaiBridge.relayTokens(
     kpkFoundationGc,
-    c.withinAllowance(encodeBytes32String("DAI_KPK_FOUNDATION-GC") as `0x${string}`)
+    c.withinAllowance(
+      encodeBytes32String("DAI_KPK_FOUNDATION-GC") as `0x${string}`
+    )
   ),
   allow.mainnet.gnoXdaiBridge.relayTokens(kpkGC),
   // Claim bridged XDAI from Gnosis
