@@ -60,9 +60,6 @@ export default [
     recipient: parameters.avatar,
   }),
 
-  // Spark - SKY_USDS
-  allowAction.spark.deposit({ targets: ["SKY_USDS"] }),
-
   // CowSwap - [1INCH, AAVE, BAL, COW, CRV, DAI, DYDX, ETH, GHO, GNO, LDO, LINK, MKR, ONDO, PENDLE, PYTH, RPL, SAFE, SKY, sUSDS, stkAAVE, stkGHO, USDC, USDS, USDT, UNI, WETH] <->
   // [1INCH, AAVE, BAL, COW, CRV, DAI, DYDX, ETH, GHO, GNO, LDO, LINK, MKR, ONDO, PENDLE, PYTH, RPL, SAFE, SKY, sUSDS, stkAAVE, stkGHO, USDC, USDS, USDT, UNI, WETH]
   allowAction.cowswap.swap({
@@ -125,4 +122,7 @@ export default [
       WETH,
     ],
   }),
+
+  // Spark - SKY_USDS
+  allowAction.spark.deposit({ targets: ["SKY_USDS"] }),
 ]
