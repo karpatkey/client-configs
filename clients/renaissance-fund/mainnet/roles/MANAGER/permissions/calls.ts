@@ -316,7 +316,7 @@ export default (parameters: Parameters) =>
       undefined,
       undefined,
       undefined,
-      ""
+      "0x"
     ),
 
     // ETH - Stargate
