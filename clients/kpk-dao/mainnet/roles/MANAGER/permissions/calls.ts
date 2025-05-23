@@ -23,11 +23,7 @@ import {
 } from "@/helpers"
 import { PermissionList } from "@/types"
 import { Parameters } from "../../../parameters"
-import {
-  kfPaymentsEth,
-  kpkDaoPaymentsEth,
-  vcbGc,
-} from "../../../addresses"
+import { kfPaymentsEth, kpkDaoPaymentsEth, vcbGc } from "../../../addresses"
 import { encodeBytes32String } from "defi-kit"
 
 export default (parameters: Parameters) =>

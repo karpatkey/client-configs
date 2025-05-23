@@ -57,11 +57,7 @@ export default (parameters: Parameters) =>
      * Transfers
      *********************************************/
     // Transfer 100K USDC per month to kfPaymentsEth
-    allowErc20Transfer(
-      [USDC],
-      [kfPaymentsEth],
-      "USDC_KF-PAYMENTS-ETH"
-    ),
+    allowErc20Transfer([USDC], [kfPaymentsEth], "USDC_KF-PAYMENTS-ETH"),
 
     // Transfer 100K USDC per month to fundReapGeneralEth
     allowErc20Transfer(
