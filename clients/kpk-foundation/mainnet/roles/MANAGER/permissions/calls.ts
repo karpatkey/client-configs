@@ -4,12 +4,18 @@ import { c } from "zodiac-roles-sdk"
 import { allowErc20Approve, allowErc20Transfer } from "@/helpers"
 import { DAI, USDC } from "@/addresses/eth"
 import { contracts } from "@/contracts"
-import { kfPaymentsMainnet } from "../../../../../kpk-dao/mainnet/addresses"
-import { kpkFoundationGc, kpkFoundationPayments } from "../../../addresses"
+import { kfPaymentsEth } from "../../../../../kpk-dao/mainnet/addresses"
+import { kpkFoundationGc, fundReapGeneralEth } from "../../../addresses"
 import { Parameters } from "../../../parameters"
 
 export default (parameters: Parameters) =>
   [
+    // Wrapping and unwrapping of ETH, WETH
+    allow.mainnet.weth.withdraw(),
+    allow.mainnet.weth.deposit({
+      send: true,
+    }),
+
     /*********************************************
      * Bridging
      *********************************************/
@@ -50,11 +56,17 @@ export default (parameters: Parameters) =>
     /*********************************************
      * Transfers
      *********************************************/
-    // TODO: allowance amount?
-    // Transfer 100K USDC per month to kfPaymentsMainnet, kpkFoundationPayments
+    // Transfer 100K USDC per month to kfPaymentsEth
     allowErc20Transfer(
       [USDC],
-      [kfPaymentsMainnet, kpkFoundationPayments],
-      "USDC_KPK-FOUNDATION-PAYMENTS-ETH"
+      [kfPaymentsEth],
+      "USDC_KF-PAYMENTS-ETH"
+    ),
+
+    // Transfer 100K USDC per month to fundReapGeneralEth
+    allowErc20Transfer(
+      [USDC],
+      [fundReapGeneralEth],
+      "USDC_FUND-REAP-GENERAL-ETH"
     ),
   ] satisfies PermissionList
