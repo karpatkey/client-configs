@@ -7,7 +7,6 @@ import {
   CRV,
   DAI,
   DYDX,
-  ENA,
   GHO,
   GNO,
   LDO,
@@ -26,8 +25,10 @@ import {
   USDS,
   USDT,
   UNI,
+  WETH,
 } from "@/addresses/eth"
 import { kpkGovernance } from "../../../../mainnet/addresses"
+import { parameters } from "../../../instances/main"
 
 export default [
   // Aave Safety Module - Stake AAVE
@@ -47,13 +48,23 @@ export default [
     delegatee: kpkGovernance,
   }),
 
-  // Spark - SKY_USDS
-  allowAction.spark.deposit({ targets: ["SKY_USDS"] }),
+  // Circle v1 - Bridge USDC to Arbitrum
+  allowAction.circle_v1.bridge({
+    targets: ["Arbitrum"],
+    recipient: parameters.avatar,
+  }),
+  // Circle v1 - Receive USDC from Arbitrum
+  allowAction.circle_v1.receive({
+    targets: ["Arbitrum"],
+    sender: parameters.avatar,
+    recipient: parameters.avatar,
+  }),
 
-  // CowSwap - [1INCH, AAVE, BAL, COW, CRV, DAI, DYDX, ENA, GHO, GNO, LDO, LINK, MKR, ONDO, PENDLE, PYTH, RPL, SAFE, SKY, sUSDS, stkAAVE, stkGHO, USDC, USDS, USDT, UNI] <->
-  // [1INCH, AAVE, BAL, COW, CRV, DAI, DYDX, ENA, GHO, GNO, LDO, LINK, MKR, ONDO, PENDLE, PYTH, RPL, SAFE, SKY, sUSDS, stkAAVE, stkGHO, USDC, USDS, USDT, UNI]
+  // CowSwap - [1INCH, AAVE, BAL, COW, CRV, DAI, DYDX, ETH, GHO, GNO, LDO, LINK, MKR, ONDO, PENDLE, PYTH, RPL, SAFE, SKY, sUSDS, stkAAVE, stkGHO, USDC, USDS, USDT, UNI, WETH] <->
+  // [1INCH, AAVE, BAL, COW, CRV, DAI, DYDX, ETH, GHO, GNO, LDO, LINK, MKR, ONDO, PENDLE, PYTH, RPL, SAFE, SKY, sUSDS, stkAAVE, stkGHO, USDC, USDS, USDT, UNI, WETH]
   allowAction.cowswap.swap({
     sell: [
+      "ETH",
       _1INCH,
       AAVE,
       BAL,
@@ -61,7 +72,6 @@ export default [
       CRV,
       DAI,
       DYDX,
-      ENA,
       GHO,
       GNO,
       LDO,
@@ -80,8 +90,10 @@ export default [
       USDS,
       USDT,
       UNI,
+      WETH,
     ],
     buy: [
+      "ETH",
       _1INCH,
       AAVE,
       BAL,
@@ -89,7 +101,6 @@ export default [
       CRV,
       DAI,
       DYDX,
-      ENA,
       GHO,
       GNO,
       LDO,
@@ -108,6 +119,10 @@ export default [
       USDS,
       USDT,
       UNI,
+      WETH,
     ],
   }),
+
+  // Spark - SKY_USDS
+  allowAction.spark.deposit({ targets: ["SKY_USDS"] }),
 ]

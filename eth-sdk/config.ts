@@ -13,6 +13,10 @@ export const contracts = {
     autonolas: {
       veOlas: "0x7e01A500805f8A52Fad229b3015AD130A332B7b3",
     },
+    arbitrumBridge: {
+      delayedInbox: "0x4Dbd4fc535Ac27206064B68FfCf827b0A60BAB3f",
+      outbox4: "0x0B9857ae2D4A3DBe74ffE1d7DF045bb7F96E4840",
+    },
     azuro: {
       stAzur: "0x67f3228fD58f5A26D93a5dd0c6989b69c95618eB",
     },
@@ -165,6 +169,9 @@ export const contracts = {
       chrorusOneMevMax: "0xe6d8d8aC54461b1C5eD15740EEe322043F696C08",
       genesis: "0xAC0F906E433d58FA868F936E8A43230473652885",
     },
+    stargate: {
+      poolNative: "0x77b2043768d28E9C9aB44E1aBfC95944bcE57931",
+    },
     sushiSwap: {
       router: "0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F",
       routeProcessor3: "0x827179dD56d07A7eeA32e3873493835da2866976",
@@ -251,12 +258,18 @@ export const contracts = {
   },
   arbitrumOne: {
     ...deFiKitContracts.arbitrumOne,
+    arbitrumBridge: {
+      arbSys: "0x0000000000000000000000000000000000000064",
+    },
     gmx: {
       exchangeRouter: "0x5aC4e27341e4cCcb3e5FD62f9E62db2Adf43dd57",
     },
     gyroscope: {
       sGyd: "0xeA50f402653c41cAdbaFD1f788341dB7B7F37816",
       stSgyd: "0xb4C19C1b16881A6d1d781264f0f8C0237D8Be0C7",
+    },
+    stargate: {
+      poolNative: "0xA45B5130f36CDcA45667738e2a258AB09f4A5f7F",
     },
     navCalculator: "0x4AbE155C97009e388E0493fe1516F636e0F3a390",
   },
