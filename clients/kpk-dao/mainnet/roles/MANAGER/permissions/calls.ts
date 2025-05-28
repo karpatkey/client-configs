@@ -24,7 +24,12 @@ import {
 } from "@/helpers"
 import { PermissionList } from "@/types"
 import { Parameters } from "../../../parameters"
-import { kpkGc, kfPaymentsEth, kpkDaoPaymentsEth, vcbGc } from "../../../addresses"
+import {
+  kpkGc,
+  kfPaymentsEth,
+  kpkDaoPaymentsEth,
+  vcbGc,
+} from "../../../addresses"
 import { encodeBytes32String } from "defi-kit"
 
 export default (parameters: Parameters) =>
@@ -373,9 +378,5 @@ export default (parameters: Parameters) =>
     ),
 
     // Transfer 100K per month to kpkDaoPaymentsEth
-    allowErc20Transfer(
-      [GHO],
-      [kpkDaoPaymentsEth],
-      "GHO_KPK_DAO-PAYMENTS-ETH"
-    ),
+    allowErc20Transfer([GHO], [kpkDaoPaymentsEth], "GHO_KPK_DAO-PAYMENTS-ETH"),
   ] satisfies PermissionList
