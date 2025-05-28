@@ -4,6 +4,10 @@ import { contracts as deFiKitContracts } from "defi-kit"
 export const contracts = {
   mainnet: {
     ...deFiKitContracts.mainnet,
+    stargate: {
+      poolNative: "0x77b2043768d28E9C9aB44E1aBfC95944bcE57931",
+    },
+    gnoWethBridge: "0x88ad09518695c6c3712AC10a214bE5109a655671",
     acrossV2: {
       hubPoolV2: "0xc186fA914353c44b2E33eBE05f21846F1048bEda",
     },
@@ -251,6 +255,9 @@ export const contracts = {
   },
   arbitrumOne: {
     ...deFiKitContracts.arbitrumOne,
+    arbitrumBridge: {
+      arbSys: "0x0000000000000000000000000000000000000064",
+    },
     gmx: {
       exchangeRouter: "0x5aC4e27341e4cCcb3e5FD62f9E62db2Adf43dd57",
     },
@@ -262,6 +269,9 @@ export const contracts = {
   },
   base: {
     ...deFiKitContracts.base,
+    stargate: {
+      poolNative: "0xdc181Bd607330aeeBEF6ea62e03e5e1Fb4B6F7C7",
+    },
     sushiSwap: {
       routeProcessor4: "0x0389879e0156033202C44BF784ac18fC02edeE4f",
     },
