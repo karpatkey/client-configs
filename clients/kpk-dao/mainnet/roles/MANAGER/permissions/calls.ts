@@ -24,12 +24,7 @@ import {
 } from "@/helpers"
 import { PermissionList } from "@/types"
 import { Parameters } from "../../../parameters"
-import {
-  kfPaymentsMainnet,
-  kpkDaoPaymentsMainnet,
-  kpkGC,
-  vcbGC,
-} from "../../../addresses"
+import { kpkGc, kfPaymentsEth, kpkDaoPaymentsEth, vcbGc } from "../../../addresses"
 import { encodeBytes32String } from "defi-kit"
 
 export default (parameters: Parameters) =>
@@ -319,10 +314,10 @@ export default (parameters: Parameters) =>
     // DAI -> XDAI - Gnosis Bridge
     ...allowErc20Approve([DAI], [contracts.mainnet.gnoXdaiBridge]),
     allow.mainnet.gnoXdaiBridge.relayTokens(
-      vcbGC,
+      vcbGc,
       c.withinAllowance(encodeBytes32String("DAI_VCB-GC") as `0x${string}`)
     ),
-    allow.mainnet.gnoXdaiBridge.relayTokens(kpkGC),
+    allow.mainnet.gnoXdaiBridge.relayTokens(kpkGc),
     // Claim bridged XDAI from Gnosis
     allow.mainnet.gnoXdaiBridge.executeSignatures(
       c.and(
@@ -356,34 +351,34 @@ export default (parameters: Parameters) =>
     /*********************************************
      * Transfers
      *********************************************/
-    // Transfer 100K per month to kpkDaoPaymentsMainnet
-    allowErc20Transfer([DAI], [kpkDaoPaymentsMainnet], "DAI_KPK-PAYMENTS-ETH"),
+    // Transfer 100K per month to kpkDaoPaymentsEth
+    allowErc20Transfer([DAI], [kpkDaoPaymentsEth], "DAI_KPK-PAYMENTS-ETH"),
 
-    // Transfer 10 ETH per month to kpkDaoPaymentsMainnet
-    // allowErc20Transfer([WETH], [kpkDaoPaymentsMainnet], "ETH_KPK-PAYMENTS-ETH"),
-    allowEthTransfer(kpkDaoPaymentsMainnet, "ETH_KPK-PAYMENTS-ETH"),
+    // Transfer 10 ETH per month to kpkDaoPaymentsEth
+    // allowErc20Transfer([WETH], [kpkDaoPaymentsEth], "ETH_KPK-PAYMENTS-ETH"),
+    allowEthTransfer(kpkDaoPaymentsEth, "ETH_KPK-PAYMENTS-ETH"),
 
-    // Transfer 200K per month to kfPaymentsMainnet
-    allowErc20Transfer([USDC], [kfPaymentsMainnet], "USDC_KPK-PAYMENTS-ETH"),
+    // Transfer 200K per month to kfPaymentsEth
+    allowErc20Transfer([USDC], [kfPaymentsEth], "USDC_KPK-PAYMENTS-ETH"),
 
-    // Transfer 100K per month to kpkDaoPaymentsMainnet
+    // Transfer 100K per month to kpkDaoPaymentsEth
     allowErc20Transfer(
       [USDC],
-      [kpkDaoPaymentsMainnet],
+      [kpkDaoPaymentsEth],
       "USDC_KPK_DAO-PAYMENTS-ETH"
     ),
 
-    // Transfer 100K per month to kpkDaoPaymentsMainnet
+    // Transfer 100K per month to kpkDaoPaymentsEth
     allowErc20Transfer(
       [USDT],
-      [kpkDaoPaymentsMainnet],
+      [kpkDaoPaymentsEth],
       "USDT_KPK_DAO-PAYMENTS-ETH"
     ),
 
-    // Transfer 100K per month to kpkDaoPaymentsMainnet
+    // Transfer 100K per month to kpkDaoPaymentsEth
     allowErc20Transfer(
       [GHO],
-      [kpkDaoPaymentsMainnet],
+      [kpkDaoPaymentsEth],
       "GHO_KPK_DAO-PAYMENTS-ETH"
     ),
   ] satisfies PermissionList
