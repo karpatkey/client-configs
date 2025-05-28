@@ -9,14 +9,20 @@ import {
   snapshotCowId,
   snapshotLidoId,
   snapshotSafeId,
-} from "../../../../gnosis/addresses"
-import { Parameters } from "../../../../gnosis/parameters"
+} from "../../../../mainnet/addresses"
+import { Parameters } from "../../../../mainnet/parameters"
 
 export default (parameters: Parameters) =>
   [
     /*********************************************
      * Typed-presets permissions
      *********************************************/
+    // Wrapping and unwrapping of ETH, WETH
+    allow.mainnet.weth.withdraw(),
+    allow.mainnet.weth.deposit({
+      send: true,
+    }),
+
     // Aave Merit rewards (https://apps.aavechan.com/merit)
     allow.mainnet.aaveV3.meritDistributor.claim([parameters.avatar]),
 
@@ -24,11 +30,11 @@ export default (parameters: Parameters) =>
     allow.mainnet.snapshot.delegation.setDelegate(snapshotCowId, kpkGovernance),
     allow.mainnet.snapshot.delegation.clearDelegate(snapshotCowId),
 
-    // Ethena - Stake ENA
-    ...allowErc20Approve([ENA], [contracts.mainnet.ethena.sEna]),
-    allow.mainnet.ethena.sEna.deposit(undefined, c.avatar),
-    allow.mainnet.ethena.sEna.cooldownShares(),
-    allow.mainnet.ethena.sEna.unstake(c.avatar),
+    // // Ethena - Stake ENA
+    // ...allowErc20Approve([ENA], [contracts.mainnet.ethena.sEna]),
+    // allow.mainnet.ethena.sEna.deposit(undefined, c.avatar),
+    // allow.mainnet.ethena.sEna.cooldownShares(),
+    // allow.mainnet.ethena.sEna.unstake(c.avatar),
 
     // Lido - Delegate/Undelgate LDO on Snapshot
     allow.mainnet.snapshot.delegation.setDelegate(
@@ -58,7 +64,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.navCalculator.bridgeStart(),
 
     // Mainnet -> Gnosis
-    // DAI -> XDAI
+    // DAI -> XDAI - Gnosis Bridge
     ...allowErc20Approve([DAI], [contracts.mainnet.gnoXdaiBridge]),
     allow.mainnet.gnoXdaiBridge.relayTokens(c.avatar, undefined),
     // Claim bridged XDAI from Gnosis
@@ -91,7 +97,103 @@ export default (parameters: Parameters) =>
       )
     ),
 
-    // USDC (Mainnet) -> USDC.e (Gnosis)
+    // GNO - Gnosis Bridge
+    ...allowErc20Approve([GNO], [contracts.mainnet.gnoOmnibridge]),
+    allow.mainnet.gnoOmnibridge["relayTokens(address,address,uint256)"](
+      GNO,
+      c.avatar
+    ),
+    // Claim bridged GNO from Gnosis
+    allow.mainnet.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
+      c.and(
+        // messageId: 32 bytes
+        // First 4 bytes
+        c.bitmask({
+          shift: 0,
+          mask: "0xffffffff",
+          value: "0x00050000",
+        }),
+        // Next 10 bytes
+        c.bitmask({
+          shift: 4,
+          mask: "0xffffffffffffffffffff",
+          value: "0xa7823d6f1e31569f5186",
+        }),
+        // Next 10 bytes
+        c.bitmask({
+          shift: 4 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x1e345b30c6bebf70ebe7",
+        }),
+        // skip last 8 bytes (nonce)
+        // sender: 20 bytes
+        c.bitmask({
+          shift: 32,
+          mask: "0xffffffffffffffffffff",
+          value: contracts.gnosis.xdaiBridge.slice(0, 22), // First 10 bytes of the sender address (XDAI Bridge)
+        }),
+        c.bitmask({
+          shift: 32 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x" + contracts.gnosis.xdaiBridge.slice(22, 42), // Second 10 bytes of the sender address (XDAI Bridge)
+        }),
+        // executor: 20 bytes
+        c.bitmask({
+          shift: 32 + 20,
+          mask: "0xffffffffffffffffffff",
+          value: contracts.mainnet.gnoOmnibridge.slice(0, 22), // First 10 bytes of the executor address (Omnibridge)
+        }),
+        c.bitmask({
+          shift: 32 + 20 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x" + contracts.mainnet.gnoOmnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
+        }),
+        // gasLimit: 4 bytes
+        c.bitmask({
+          shift: 32 + 20 + 20,
+          mask: "0xffffffff",
+          value: "0x000927c0",
+        }),
+        // dataType + chainIds: 5 bytes
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4,
+          mask: "0xffffffffff",
+          value: "0x0101806401",
+        }),
+        // selector (handleNativeTokens): 4 bytes
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5,
+          mask: "0xffffffff",
+          value: "0x272255bb",
+        }),
+        // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
+        // Token address
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 12,
+          mask: "0xffffffffffffffffffff",
+          value: GNO.slice(0, 22), // First 10 bytes of the token address
+        }),
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 12 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x" + GNO.slice(22, 42), // Last 10 bytes of the token address
+        }),
+        // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
+        // Avatar address
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 32 + 12,
+          mask: "0xffffffffffffffffffff",
+          value: parameters.avatar.slice(0, 22), // First 10 bytes of the avatar address
+        }),
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 32 + 12 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x" + parameters.avatar.slice(22, 42), // Last 10 bytes of the avatar address
+        })
+      )
+    ),
+
+    // USDC -> USDC.e - Gnosis Bridge
     ...allowErc20Approve([USDC], [contracts.mainnet.gnoOmnibridge]),
     allow.mainnet.gnoOmnibridge.relayTokensAndCall(
       USDC,
@@ -189,105 +291,50 @@ export default (parameters: Parameters) =>
       )
     ),
 
-    // GNO (Mainnet) -> GNO (Gnosis)
-    ...allowErc20Approve([GNO], [contracts.mainnet.gnoOmnibridge]),
-    allow.mainnet.gnoOmnibridge["relayTokens(address,address,uint256)"](
-      GNO,
-      c.avatar
-    ),
-
-    // Claim bridged GNO from Gnosis
-    allow.mainnet.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
-      c.and(
-        // messageId: 32 bytes
-        // First 4 bytes
-        c.bitmask({
-          shift: 0,
-          mask: "0xffffffff",
-          value: "0x00050000",
-        }),
-        // Next 10 bytes
-        c.bitmask({
-          shift: 4,
-          mask: "0xffffffffffffffffffff",
-          value: "0xa7823d6f1e31569f5186",
-        }),
-        // Next 10 bytes
-        c.bitmask({
-          shift: 4 + 10,
-          mask: "0xffffffffffffffffffff",
-          value: "0x1e345b30c6bebf70ebe7",
-        }),
-        // skip last 8 bytes (nonce)
-        // sender: 20 bytes
-        c.bitmask({
-          shift: 32,
-          mask: "0xffffffffffffffffffff",
-          value: contracts.gnosis.xdaiBridge.slice(0, 22), // First 10 bytes of the sender address (XDAI Bridge)
-        }),
-        c.bitmask({
-          shift: 32 + 10,
-          mask: "0xffffffffffffffffffff",
-          value: "0x" + contracts.gnosis.xdaiBridge.slice(22, 42), // Second 10 bytes of the sender address (XDAI Bridge)
-        }),
-        // executor: 20 bytes
-        c.bitmask({
-          shift: 32 + 20,
-          mask: "0xffffffffffffffffffff",
-          value: contracts.mainnet.gnoOmnibridge.slice(0, 22), // First 10 bytes of the executor address (Omnibridge)
-        }),
-        c.bitmask({
-          shift: 32 + 20 + 10,
-          mask: "0xffffffffffffffffffff",
-          value: "0x" + contracts.mainnet.gnoOmnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
-        }),
-        // gasLimit: 4 bytes
-        c.bitmask({
-          shift: 32 + 20 + 20,
-          mask: "0xffffffff",
-          value: "0x000927c0",
-        }),
-        // dataType + chainIds: 5 bytes
-        c.bitmask({
-          shift: 32 + 20 + 20 + 4,
-          mask: "0xffffffffff",
-          value: "0x0101806401",
-        }),
-        // selector (handleNativeTokens): 4 bytes
-        c.bitmask({
-          shift: 32 + 20 + 20 + 4 + 5,
-          mask: "0xffffffff",
-          value: "0x272255bb",
-        }),
-        // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
-        // Token address
-        c.bitmask({
-          shift: 32 + 20 + 20 + 4 + 5 + 4 + 12,
-          mask: "0xffffffffffffffffffff",
-          value: GNO.slice(0, 22), // First 10 bytes of the token address
-        }),
-        c.bitmask({
-          shift: 32 + 20 + 20 + 4 + 5 + 4 + 12 + 10,
-          mask: "0xffffffffffffffffffff",
-          value: "0x" + GNO.slice(22, 42), // Last 10 bytes of the token address
-        }),
-        // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
-        // Avatar address
-        c.bitmask({
-          shift: 32 + 20 + 20 + 4 + 5 + 4 + 32 + 12,
-          mask: "0xffffffffffffffffffff",
-          value: parameters.avatar.slice(0, 22), // First 10 bytes of the avatar address
-        }),
-        c.bitmask({
-          shift: 32 + 20 + 20 + 4 + 5 + 4 + 32 + 12 + 10,
-          mask: "0xffffffffffffffffffff",
-          value: "0x" + parameters.avatar.slice(22, 42), // Last 10 bytes of the avatar address
-        })
-      )
-    ),
-
     // Mainnet -> Arbitrum
-    // USDC (Mainnet) -> USDC (Arbitrum) - HOP
+    // ETH - Arbitrum Bridge
+    allow.mainnet.arbitrumBridge.delayedInbox.createRetryableTicket(
+      c.avatar, // Destination address
+      undefined,
+      undefined,
+      c.avatar, // Origin address
+      c.avatar, // Destination address
+      undefined,
+      undefined,
+      "0x",
+      {
+        send: true,
+      }
+    ),
+    // Claim bridged ETH from Arbitrum
+    allow.mainnet.arbitrumBridge.outbox4.executeTransaction(
+      undefined,
+      undefined,
+      c.avatar, // Origin address
+      c.avatar, // Destination address
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      "0x"
+    ),
+
+    // ETH - Stargate
+    allow.mainnet.stargate.poolNative.send(
+      {
+        to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
+        extraOptions: "0x",
+        composeMsg: "0x",
+        oftCmd: "0x01",
+      },
+      undefined,
+      c.avatar,
+      {
+        send: true,
+      }
+    ),
+
+    // USDC - HOP
     ...allowErc20Approve([USDC], [contracts.mainnet.l1HopCctp]),
     allow.mainnet.l1HopCctp.send(
       42161, // Arbitrum
