@@ -51,6 +51,9 @@ export default (parameters: Parameters) =>
     // Aura - Claim all rewards
     allow.mainnet.aura.claimZapV3.claimRewards(),
 
+    // Convex - Claim all rewards
+    allow.mainnet.convex.claimZap.claimRewards(),
+
     // Curve - USDT/WBTC/WETH
     ...allowErc20Approve(
       [USDT, WBTC, WETH],
@@ -94,9 +97,6 @@ export default (parameters: Parameters) =>
     ),
     allow.mainnet.curve.ghoBtcWsteGauge["deposit(uint256)"](),
     allow.mainnet.curve.ghoBtcWsteGauge["withdraw(uint256)"](),
-
-    // Convex - Claim all rewards
-    allow.mainnet.convex.claimZap.claimRewards(),
 
     // Curve - Tricrypto GHO (GHO/cbBTC/ETH)
     ...allowErc20Approve(
