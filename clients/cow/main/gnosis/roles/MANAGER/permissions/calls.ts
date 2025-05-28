@@ -49,5 +49,4 @@ export default [
       send: true,
     }
   ),
-
 ] satisfies PermissionList
