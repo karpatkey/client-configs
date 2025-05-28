@@ -4,9 +4,6 @@ import { contracts as deFiKitContracts } from "defi-kit"
 export const contracts = {
   mainnet: {
     ...deFiKitContracts.mainnet,
-    stargate: {
-      poolNative: "0x77b2043768d28E9C9aB44E1aBfC95944bcE57931",
-    },
     gnoWethBridge: "0x88ad09518695c6c3712AC10a214bE5109a655671",
     acrossV2: {
       hubPoolV2: "0xc186fA914353c44b2E33eBE05f21846F1048bEda",
