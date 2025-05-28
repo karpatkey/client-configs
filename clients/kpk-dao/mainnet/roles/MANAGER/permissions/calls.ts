@@ -315,11 +315,13 @@ export default (parameters: Parameters) =>
     // Mainnet -> Gnosis
     // DAI -> XDAI - Gnosis Bridge
     ...allowErc20Approve([DAI], [contracts.mainnet.gnoXdaiBridge]),
+    // Bridge up tp 600K DAI to vcbGc per month
     allow.mainnet.gnoXdaiBridge.relayTokens(
       vcbGc,
       c.withinAllowance(encodeBytes32String("DAI_VCB-GC") as `0x${string}`)
     ),
-    allow.mainnet.gnoXdaiBridge.relayTokens(kpkGc),
+    // Bridge DAI to kpkGc without restriction
+    allow.mainnet.gnoXdaiBridge.relayTokens(kpkGc, c.gt(0)),
     // Claim bridged XDAI from Gnosis
     allow.mainnet.gnoXdaiBridge.executeSignatures(
       c.and(
