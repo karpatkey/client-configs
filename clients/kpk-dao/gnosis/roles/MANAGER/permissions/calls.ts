@@ -3,7 +3,7 @@ import { allow } from "zodiac-roles-sdk/kit"
 import { GNO, WXDAI } from "@/addresses/gno"
 import { allowErc20Transfer, allowEthTransfer } from "@/helpers"
 import { kpkEth, kfPaymentsGC } from "../../../addresses"
-import { vcbGC } from "../../../../mainnet/addresses"
+import { vcbGc } from "../../../../mainnet/addresses"
 
 export default [
   /*********************************************
@@ -30,8 +30,8 @@ export default [
   allowErc20Transfer([GNO], [kfPaymentsGC], "GNO_KF-PAYMENTS-GC"),
 
   // Transfer 600K xDAI per month to vcbGC
-  allowEthTransfer(vcbGC, "XDAI_VCBGC-GC"),
+  allowEthTransfer(vcbGc, "XDAI_VCBGC-GC"),
 
   // Transfer 600K WXDAI per month to vcbGC
-  allowErc20Transfer([WXDAI], [vcbGC], "XDAI_VCBGC-GC"),
+  allowErc20Transfer([WXDAI], [vcbGc], "XDAI_VCBGC-GC"),
 ] satisfies PermissionList
