@@ -1,5 +1,5 @@
 import { PermissionList } from "@/types"
-import { allow } from "zodiac-roles-sdk/build/cjs/sdk/src/entrypoints/kit"
+import { allow } from "zodiac-roles-sdk/kit"
 import { c } from "zodiac-roles-sdk"
 import { allowErc20Approve, allowErc20Transfer } from "@/helpers"
 import { DAI, USDC } from "@/addresses/eth"
