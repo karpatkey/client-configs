@@ -19,6 +19,8 @@ export default [
   // Aave Safety Module - Stake GHO
   allowAction.aave_v3.stake({ targets: ["GHO"] }),
 
+  // Aave v3 - Deposit ETHx
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["ETHx"] }),
   // Aave v3 - Deposit wstETH
   allowAction.aave_v3.deposit({ market: "Core", targets: ["wstETH"] }),
   // Aave v3 - Borrow DAI
