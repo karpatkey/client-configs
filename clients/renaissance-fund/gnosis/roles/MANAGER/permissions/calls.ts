@@ -31,23 +31,23 @@ export default (parameters: Parameters) =>
     // NAV Calculator - bridgeStart - In the future, the bridged assets should be scoped appropriately.
     allow.gnosis.navCalculator.bridgeStart(),
 
-    // Bridge - Gnosis -> Mainnet
-    // XDAI (Gnosis) -> DAI (Mainnet)
-    allow.gnosis.xdaiBridge2.relayTokens(c.avatar, {
-      send: true,
-    }),
+    // Gnosis -> Mainnet
+    // GNO - Gnosis Bridge
+    allow.gnosis.gno.transferAndCall(
+      contracts.gnosis.xdaiBridge,
+      undefined,
+      parameters.avatar
+    ),
 
-    // USDC (Gnosis) -> USDC (Mainnet)
+    // USDC - Gnosis Bridge
     allow.gnosis.usdc.transferAndCall(
       contracts.gnosis.xdaiBridge,
       undefined,
       parameters.avatar
     ),
 
-    // GNO (Gnosis) -> GNO (Mainnet)
-    allow.gnosis.gno.transferAndCall(
-      contracts.gnosis.xdaiBridge,
-      undefined,
-      parameters.avatar
-    ),
+    // XDAI -> DAI - Gnosis Bridge
+    allow.gnosis.xdaiBridge2.relayTokens(c.avatar, {
+      send: true,
+    }),
   ] satisfies PermissionList

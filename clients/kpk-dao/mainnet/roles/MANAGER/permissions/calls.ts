@@ -313,7 +313,7 @@ export default (parameters: Parameters) =>
      * Bridge
      *********************************************/
     // Mainnet -> Gnosis
-    // DAI -> XDAI - Gnosis Bridge
+    // DAI (Mainnet) -> XDAI (Gnosis) - Gnosis Bridge - 600K per month to vcbGc
     ...allowErc20Approve([DAI], [contracts.mainnet.gnoXdaiBridge]),
     // Bridge up tp 600K DAI to vcbGc per month
     allow.mainnet.gnoXdaiBridge.relayTokens(
