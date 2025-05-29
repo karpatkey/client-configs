@@ -93,6 +93,12 @@ export const wNXM = "0x0d438F3b5175Bebc262bF23753C1E53d03432bDE"
 export const wstETH = "0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0"
 export const x3CRV = "0x6c3F90f043a72FA612cbac8115EE7e52BDe6E490"
 
+// Bridges
+export const baseBridge = {
+  resolvedDelegateProxy: "0x866E82a600A1414e583f7F13623F1aC5d58b0Afa"
+}
+
+// Protocols
 export const aaveV3 = {
   aEthWeth: "0x4d5F47FA6A74757f35C14fD3a6Ef8E3C9BC514E8",
 } as const

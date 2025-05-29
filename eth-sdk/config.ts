@@ -202,6 +202,8 @@ export const contracts = {
     votium: {
       bribe: "0x19BBC3463Dd8d07f55438014b021Fb457EBD4595",
     },
+    baseBridge: "0x3154Cf16ccdb4C6d922629664174b904d80F2C35",
+    basePortal: "0x49048044D57e1C92A77f79988d21Fa8fAF74E97e",
     navCalculator: "0xF0125A04d74782e6d2aD6d298F0Bc786e301AAc1",
     wethOmnibridgeRouter: "0xa6439Ca0FCbA1d0F80df0bE6A17220feD9c9038a",
   },
@@ -253,6 +255,9 @@ export const contracts = {
       stakesaurus: "0x3CB4692177525dB38D983DA0445d4EB25C3826dE",
       seednode: "0x9eeB6be79899CfE45018866A2113c6b77fa96F35",
     },
+    stargate: {
+      poolNative: "0xe9aBA835f813ca05E50A6C0ce65D0D74390F7dE7",
+    },
     uniswap: {
       permit2: "0x000000000022D473030F116dDEE9F6B43aC78BA3",
     },
@@ -287,9 +292,13 @@ export const contracts = {
   },
   base: {
     ...deFiKitContracts.base,
+    stargate: {
+      poolNative: "0xdc181Bd607330aeeBEF6ea62e03e5e1Fb4B6F7C7",
+    },
     sushiSwap: {
       routeProcessor4: "0x0389879e0156033202C44BF784ac18fC02edeE4f",
     },
+    baseBridge: "0x4200000000000000000000000000000000000010",
     navCalculator: "0x4AbE155C97009e388E0493fe1516F636e0F3a390",
   },
 } as const
