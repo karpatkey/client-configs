@@ -5,15 +5,16 @@ import { GNO, sDAI, WETH, WXDAI } from "@/addresses/gno"
 import { mainTreasury } from "../../../../../addresses"
 
 export default [
-  /*********************************************
-   * Typed-presets permissions
-   *********************************************/
   // Wrapping and unwrapping of XDAI, WXDAI
   allow.gnosis.wxdai.deposit({ send: true }),
   allow.gnosis.wxdai.withdraw(),
+
   /*********************************************
    * Transfers
    *********************************************/
-  // Transfer GNO to Treasury safe
+  // Transfer XDAI to Main Treasury
+  allowEthTransfer(mainTreasury),
+
+  // Transfer [GNO, sDAI, WETH, WXDAI] to Main Treasury
   allowErc20Transfer([GNO, sDAI, WETH, WXDAI], [mainTreasury]),
 ] satisfies PermissionList

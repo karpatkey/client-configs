@@ -2,51 +2,56 @@ import { allow } from "zodiac-roles-sdk/kit"
 import { PermissionList } from "@/types"
 import { c } from "zodiac-roles-sdk"
 import { contracts } from "@/contracts"
-import { parameters } from "../../../instances/main"
 import { WETH } from "@/addresses/gno"
+import { allowErc20Approve } from "@/helpers"
+import { Parameters } from "../../../../../parameters"
 
-export default [
-  /*********************************************
-   * Typed-presets permissions
-   *********************************************/
-  // Wrapping and unwrapping of XDAI, WXDAI
-  allow.gnosis.wxdai.deposit({ send: true }),
-  allow.gnosis.wxdai.withdraw(),
-  /*********************************************
-   * Bridge
-   *********************************************/
-  // Bridge - Gnosis -> Mainnet
-  // XDAI (Gnosis) -> DAI (Mainnet)
-  allow.gnosis.xdaiBridge2.relayTokens(c.avatar, {
-    send: true,
-  }),
-  // GNO (Gnosis) -> GNO (Mainnet)
-  allow.gnosis.gno.transferAndCall(
-    contracts.gnosis.xdaiBridge,
-    undefined,
-    parameters.avatar
-  ),
-  // WETH (Gnosis) -> WETH (Mainnet) - Gnosis Bridge
-  {
-    ...allow.gnosis.gno.transferAndCall(
+export default (parameters: Parameters) =>
+  [
+    // Wrapping and unwrapping of XDAI, WXDAI
+    allow.gnosis.wxdai.deposit({ send: true }),
+    allow.gnosis.wxdai.withdraw(),
+
+    /*********************************************
+     * Bridge
+     *********************************************/
+    // Gnosis -> Mainnet
+    // GNO - Gmosis Bridge
+    allow.gnosis.gno.transferAndCall(
       contracts.gnosis.xdaiBridge,
       undefined,
       parameters.avatar
     ),
-    targetAddress: WETH,
-  },
-  // ETH - Stargate
-  allow.gnosis.stargate.poolNative.send(
+
+    // WETH - Gnosis Bridge
     {
-      to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-      extraOptions: "0x",
-      composeMsg: "0x",
-      oftCmd: "0x01",
+      ...allow.gnosis.gno.transferAndCall(
+        contracts.gnosis.xdaiBridge,
+        undefined,
+        parameters.avatar
+      ),
+      targetAddress: WETH,
     },
-    undefined,
-    c.avatar,
-    {
+
+    // WETH -> ETH - Stargate
+    allowErc20Approve([WETH], [contracts.gnosis.stargate.poolNative]),
+    allow.gnosis.stargate.poolNative.send(
+      {
+        dstEid: "30101", // Ethereum
+        to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
+        extraOptions: "0x",
+        composeMsg: "0x",
+        oftCmd: "0x",
+      },
+      undefined,
+      c.avatar,
+      {
+        send: true,
+      }
+    ),
+
+    // XDAI -> DAI - Gnosis Bridge
+    allow.gnosis.xdaiBridge2.relayTokens(c.avatar, {
       send: true,
-    }
-  ),
-] satisfies PermissionList
+    }),
+  ] satisfies PermissionList

@@ -5,19 +5,18 @@ import { WETH } from "@/addresses/arb1"
 import { mainTreasury } from "../../../../../addresses"
 
 export default [
-  /*********************************************
-   * Typed-presets permissions
-   *********************************************/
   // Wrapping and unwrapping of ETH, WETH
   allow.arbitrumOne.weth.withdraw(),
   allow.arbitrumOne.weth.deposit({
     send: true,
   }),
+
   /*********************************************
    * Transfers
    *********************************************/
   // Transfer ETH to Main Treasury
   allowEthTransfer(mainTreasury),
+
   // Transfer WETH to Main Treasury
   allowErc20Transfer([WETH], [mainTreasury]),
 ] satisfies PermissionList
