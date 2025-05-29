@@ -72,10 +72,11 @@ export default (parameters: Parameters) =>
     // ETH - Stargate
     allow.arbitrumOne.stargate.poolNative.send(
       {
+        dstEid: "30101", // Ethereum
         to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
         extraOptions: "0x",
         composeMsg: "0x",
-        oftCmd: "0x01",
+        oftCmd: "0x",
       },
       undefined,
       c.avatar,
