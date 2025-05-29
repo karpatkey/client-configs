@@ -14,22 +14,22 @@ export default [
   /*********************************************
    * DeFi-Kit permissions
    *********************************************/
-  // Aave v3 - Deposit XDAI
-  allowAction.aave_v3.deposit({ targets: ["XDAI"] }),
-  // Aave v3 - Deposit WXDAI
-  allowAction.aave_v3.deposit({ targets: ["WXDAI"] }),
-  // Aave v3 - Deposit wstETH
-  allowAction.aave_v3.deposit({ targets: ["wstETH"] }),
-  // Aave v3 - Deposit WETH
-  allowAction.aave_v3.deposit({ targets: ["WETH"] }),
-  // Aave v3 - Deposit USDC
-  allowAction.aave_v3.deposit({ targets: ["USDC"] }),
   // Aave v3 - Deposit EURe
   allowAction.aave_v3.deposit({ targets: ["EURe"] }),
   // Aave v3 - Deposit GNO
   allowAction.aave_v3.deposit({ targets: ["GNO"] }),
+  // Aave v3 - Deposit USDC
+  allowAction.aave_v3.deposit({ targets: ["USDC"] }),
   // Aave v3 - Deposit USDC.e
   allowAction.aave_v3.deposit({ targets: ["USDC.e"] }),
+  // Aave v3 - Deposit WETH
+  allowAction.aave_v3.deposit({ targets: ["WETH"] }),
+  // Aave v3 - Deposit wstETH
+  allowAction.aave_v3.deposit({ targets: ["wstETH"] }),
+  // Aave v3 - Deposit WXDAI
+  allowAction.aave_v3.deposit({ targets: ["WXDAI"] }),
+  // Aave v3 - Deposit XDAI
+  allowAction.aave_v3.deposit({ targets: ["XDAI"] }),
 
   // Aura - WETH/wstETH
   allowAction.aura.deposit({ targets: ["0"] }),
@@ -133,37 +133,41 @@ export default [
     buy: [EURe, USDT],
   }),
 
-  // Spark - DSR_sDAI
-  allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
-  // Spark - Deposit GNO
-  allowAction.spark.deposit({ targets: ["GNO"] }),
-  // Spark - Deposit XDAI
-  allowAction.spark.deposit({ targets: ["XDAI"] }),
-  // Spark - Deposit WXDAI
-  allowAction.spark.deposit({ targets: ["WXDAI"] }),
-  // Spark - Deposit WETH
-  allowAction.spark.deposit({ targets: ["WETH"] }),
-  // Spark - Deposit USDC.e
-  allowAction.spark.deposit({ targets: ["USDC.e"] }),
   // Spark - Deposit EURe
   allowAction.spark.deposit({ targets: ["EURe"] }),
-  // Spark - Deposit USDT
-  allowAction.spark.deposit({ targets: ["USDT"] }),
+  // Spark - Deposit GNO
+  allowAction.spark.deposit({ targets: ["GNO"] }),
   // Spark - Deposit USDC
   allowAction.spark.deposit({ targets: ["USDC"] }),
+  // Spark - Deposit USDC.e
+  allowAction.spark.deposit({ targets: ["USDC.e"] }),
+  // Spark - Deposit USDT
+  allowAction.spark.deposit({ targets: ["USDT"] }),
+  // Spark - Deposit WETH
+  allowAction.spark.deposit({ targets: ["WETH"] }),
+  // Spark - Deposit WXDAI
+  allowAction.spark.deposit({ targets: ["WXDAI"] }),
+  // Spark - Deposit XDAI
+  allowAction.spark.deposit({ targets: ["XDAI"] }),
+  // Spark - DSR_sDAI
+  allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
 
   // StakeWise v3 - Axol.io
   allowAction.stakewise_v3.stake({ targets: ["Axol.io"] }),
-  // StakeWise v3 - Stakecat
-  allowAction.stakewise_v3.stake({ targets: ["Stakecat"] }),
-  // StakeWise v3 - Stakesaurus SEA Home Nodes
-  allowAction.stakewise_v3.stake({ targets: ["Stakesaurus SEA Home Nodes"] }),
-  // StakeWise v3 - Serenita
-  allowAction.stakewise_v3.stake({ targets: ["Serenita"] }),
+  // StakeWise v3 - H2O Nodes
+  allowAction.stakewise_v3.stake({ targets: ["H2O Nodes"] }),
+  // StakeWise v3 - IP Stake
+  allowAction.stakewise_v3.stake({ targets: ["IP Stake"] }),
   // StakeWise v3 - Genesis
   allowAction.stakewise_v3.stake({ targets: ["Genesis Vault"] }),
   // StakeWise v3 - NEDO
   allowAction.stakewise_v3.stake({ targets: ["NEDO"] }),
+  // StakeWise v3 - Serenita
+  allowAction.stakewise_v3.stake({ targets: ["Serenita"] }),
+  // StakeWise v3 - Stakecat
+  allowAction.stakewise_v3.stake({ targets: ["Stakecat"] }),
+  // StakeWise v3 - Stakesaurus SEA Home Nodes
+  allowAction.stakewise_v3.stake({ targets: ["Stakesaurus SEA Home Nodes"] }),
 
   // Uniswap v3 / Oku Trade - wstETH + sDAI + GNO
   allowAction.uniswap_v3.deposit({ tokens: [wstETH, sDAI, GNO] }),

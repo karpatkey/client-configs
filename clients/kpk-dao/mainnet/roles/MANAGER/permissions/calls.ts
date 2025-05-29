@@ -13,6 +13,7 @@ import {
   weETH,
   WETH,
   wstETH,
+  fluid,
 } from "@/addresses/eth"
 import { zeroAddress, eAddress } from "@/addresses"
 import { contracts } from "@/contracts"
@@ -24,9 +25,10 @@ import {
 import { PermissionList } from "@/types"
 import { Parameters } from "../../../parameters"
 import {
-  kfPaymentsMainnet,
-  kpkDaoPaymentsMainnet,
-  vcbGC,
+  kpkGc,
+  kfPaymentsEth,
+  kpkDaoPaymentsEth,
+  vcbGc,
 } from "../../../addresses"
 import { encodeBytes32String } from "defi-kit"
 
@@ -40,6 +42,17 @@ export default (parameters: Parameters) =>
     allow.mainnet.weth.deposit({
       send: true,
     }),
+
+    // Aave - ACI (Aave Chan Initiative) - Aave Stream Collector - Claim aEthLidoGHO
+    allow.mainnet.aaveV3.aaveCollectorV2.withdrawFromStream(),
+    // Aave v3 Prime Market - Withdraw GHO
+    allow.mainnet.aaveV3.poolPrimeV3.withdraw(GHO, undefined, c.avatar),
+
+    // Aura - Claim all rewards
+    allow.mainnet.aura.claimZapV3.claimRewards(),
+
+    // Convex - Claim all rewards
+    allow.mainnet.convex.claimZap.claimRewards(),
 
     // Curve - USDT/WBTC/WETH
     ...allowErc20Approve(
@@ -189,6 +202,7 @@ export default (parameters: Parameters) =>
       [stETH]
     ),
 
+    // ether.fi
     // ether.fi - Liquid ETH - Deposit
     ...allowErc20Approve(
       [eETH, weETH, WETH],
@@ -205,6 +219,56 @@ export default (parameters: Parameters) =>
     allow.mainnet.etherfi.atomicQueue.updateAtomicRequest(
       contracts.mainnet.etherfi.liquidEth,
       c.or(eETH, weETH)
+    ),
+    // ether.fi - EigenLayer Restaking
+    // Stake ETH for eETH
+    allow.mainnet.etherfi.liquidityPool["deposit()"]({ send: true }),
+    // Request Withdrawal - A Withdraw Request NFT is issued
+    ...allowErc20Approve([eETH], [contracts.mainnet.etherfi.liquidityPool]),
+    allow.mainnet.etherfi.liquidityPool.requestWithdraw(c.avatar),
+    // Funds can be claimed once the request is finalized
+    allow.mainnet.etherfi.withdrawRequestNft.claimWithdraw(),
+    // Stake ETH for weETH
+    allow.mainnet.etherfi.depositAdapter.depositETHForWeETH(undefined, {
+      send: true,
+    }),
+    // ether.fi - Wrap/Unwrap
+    // Wrap eETH
+    ...allowErc20Approve([eETH], [contracts.mainnet.etherfi.weEth]),
+    allow.mainnet.etherfi.weEth.wrap(),
+    // Unwrap weETH
+    allow.mainnet.etherfi.weEth.unwrap(),
+
+    // Fluid - wstETH
+    allowErc20Approve([wstETH], [fluid.fwstEth]),
+    {
+      ...allow.mainnet.fluid.fAsset["deposit(uint256,address)"](
+        undefined,
+        c.avatar
+      ),
+      targetAddress: fluid.fwstEth,
+    },
+    {
+      ...allow.mainnet.fluid.fAsset["withdraw(uint256,address,address)"](
+        undefined,
+        c.avatar,
+        c.avatar
+      ),
+      targetAddress: fluid.fwstEth,
+    },
+    {
+      ...allow.mainnet.fluid.fAsset["redeem(uint256,address,address)"](
+        undefined,
+        c.avatar,
+        c.avatar
+      ),
+      targetAddress: fluid.fwstEth,
+    },
+
+    // Lido - Lido's Token Rewards Plan (TRP) - Claim LDO
+    allow.mainnet.lido.vestingEscrow["claim(address,uint256)"](
+      c.avatar,
+      undefined
     ),
 
     // Merkl (Angle) - Claim
@@ -248,27 +312,73 @@ export default (parameters: Parameters) =>
     /*********************************************
      * Bridge
      *********************************************/
-    // NAV Calculator - bridgeStart - In the future, the bridged assets should be scoped appropriately.
-    allow.mainnet.navCalculator.bridgeStart(),
-
     // Mainnet -> Gnosis
-    // DAI (Mainnet) -> XDAI (Gnosis) - Gnosis Bridge - 600K per month
+    // DAI (Mainnet) -> XDAI (Gnosis) - Gnosis Bridge - 600K per month to vcbGc
     ...allowErc20Approve([DAI], [contracts.mainnet.gnoXdaiBridge]),
+    // Bridge up tp 600K DAI to vcbGc per month
     allow.mainnet.gnoXdaiBridge.relayTokens(
-      vcbGC,
+      vcbGc,
       c.withinAllowance(encodeBytes32String("DAI_VCB-GC") as `0x${string}`)
+    ),
+    // Bridge DAI to kpkGc without restriction
+    allow.mainnet.gnoXdaiBridge.relayTokens(kpkGc, c.gt(0)),
+    // Claim bridged XDAI from Gnosis
+    allow.mainnet.gnoXdaiBridge.executeSignatures(
+      c.and(
+        // Avatar address
+        c.bitmask({
+          shift: 0,
+          mask: "0xffffffffffffffffffff",
+          value: parameters.avatar.slice(0, 22), // First 10 bytes of the avatar address
+        }),
+        c.bitmask({
+          shift: 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x" + parameters.avatar.slice(22, 42), // Last 10 bytes of the avatar address
+        }),
+        // skip 32 bytes corresponding to the amount
+        // skip 32 bytes corresponding to the txHash from Gnosis
+        // Recipient address: Gnosis Chain xDai Bridge
+        c.bitmask({
+          shift: 20 + 32 + 32,
+          mask: "0xffffffffffffffffffff",
+          value: contracts.mainnet.gnoXdaiBridge.slice(0, 22), // First 10 bytes of the avatar address
+        }),
+        c.bitmask({
+          shift: 20 + 32 + 32 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x" + contracts.mainnet.gnoXdaiBridge.slice(22, 42), // Last 10 bytes of the avatar address
+        })
+      )
     ),
 
     /*********************************************
      * Transfers
      *********************************************/
-    // Transfer 100K per month to kpkDaoPaymentsMainnet
-    allowErc20Transfer([DAI], [kpkDaoPaymentsMainnet], "DAI_KPK-PAYMENTS-ETH"),
+    // Transfer 100K per month to kpkDaoPaymentsEth
+    allowErc20Transfer([DAI], [kpkDaoPaymentsEth], "DAI_KPK-PAYMENTS-ETH"),
 
-    // Transfer 10 ETH per month to kpkDaoPaymentsMainnet
-    // allowErc20Transfer([WETH], [kpkDaoPaymentsMainnet], "ETH_KPK-PAYMENTS-ETH"),
-    allowEthTransfer(kpkDaoPaymentsMainnet, "ETH_KPK-PAYMENTS-ETH"),
+    // Transfer 10 ETH per month to kpkDaoPaymentsEth
+    // allowErc20Transfer([WETH], [kpkDaoPaymentsEth], "ETH_KPK-PAYMENTS-ETH"),
+    allowEthTransfer(kpkDaoPaymentsEth, "ETH_KPK-PAYMENTS-ETH"),
 
-    // Transfer 200K per month to kfPaymentsMainnet
-    allowErc20Transfer([USDC], [kfPaymentsMainnet], "USDC_KPK-PAYMENTS-ETH"),
+    // Transfer 200K per month to kfPaymentsEth
+    allowErc20Transfer([USDC], [kfPaymentsEth], "USDC_KPK-PAYMENTS-ETH"),
+
+    // Transfer 100K per month to kpkDaoPaymentsEth
+    allowErc20Transfer(
+      [USDC],
+      [kpkDaoPaymentsEth],
+      "USDC_KPK_DAO-PAYMENTS-ETH"
+    ),
+
+    // Transfer 100K per month to kpkDaoPaymentsEth
+    allowErc20Transfer(
+      [USDT],
+      [kpkDaoPaymentsEth],
+      "USDT_KPK_DAO-PAYMENTS-ETH"
+    ),
+
+    // Transfer 100K per month to kpkDaoPaymentsEth
+    allowErc20Transfer([GHO], [kpkDaoPaymentsEth], "GHO_KPK_DAO-PAYMENTS-ETH"),
   ] satisfies PermissionList
