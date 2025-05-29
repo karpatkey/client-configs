@@ -2,10 +2,11 @@ import { allow as allowAction } from "defi-kit/eth"
 import {
   auraBAL,
   BAL,
+  COMP,
   CRV,
   crvUSD,
-  COMP,
   CVX,
+  cvxCRV,
   DAI,
   eETH,
   GHO,
@@ -55,8 +56,10 @@ export default [
   allowAction.convex.deposit({ targets: ["297"] }),
   // Convex - GHO/cbBTC/WETH
   allowAction.convex.deposit({ targets: ["409"] }),
+  // Convex - Stake cvxCRV
+  allowAction.convex.stake({ targets: ["cvxCRV"] }),
 
-  // CowSwap - [COMP, CRV, crvUSD, CVX, DAI, eETH, ETH, GHO, NOTE, RPL, rETH, sDAI, sUSDS, stETH, stkGHO, USDC, USDS, USDT, weETH, WETH, wstETH] ->
+  // CowSwap - [COMP, CRV, crvUSD, CVX, cvxCRV, DAI, eETH, ETH, GHO, NOTE, RPL, rETH, sDAI, sUSDS, stETH, stkGHO, USDC, USDS, USDT, weETH, WETH, wstETH] ->
   // [DAI, eETH, ETH, GHO, rETH, sDAI, sUSDS, stETH, stkGHO, USDC, USDS, USDT, weETH, WETH, wstETH]
   allowAction.cowswap.swap({
     sell: [
@@ -65,6 +68,7 @@ export default [
       CRV,
       crvUSD,
       CVX,
+      cvxCRV,
       DAI,
       eETH,
       GHO,

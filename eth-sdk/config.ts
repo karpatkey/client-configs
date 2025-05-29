@@ -4,6 +4,10 @@ import { contracts as deFiKitContracts } from "defi-kit"
 export const contracts = {
   mainnet: {
     ...deFiKitContracts.mainnet,
+    aaveV3: {
+      ...deFiKitContracts.mainnet.aaveV3,
+      aaveCollectorV2: "0x464C71f6c2F760DdA6093dCB91C24c39e5d6e18c",
+    },
     acrossV2: {
       hubPoolV2: "0xc186fA914353c44b2E33eBE05f21846F1048bEda",
     },
@@ -37,6 +41,11 @@ export const contracts = {
       ethxWaWethGauge: "0x1f3A4C8115629C33A28bF2F97F22D31d256317F6",
       osEthWaWeth: "0x57c23c58B1D8C3292c15BEcF07c62C5c52457A42",
       osEthWaWethGauge: "0x70A1c01902DAb7a45dcA1098Ca76A8314dd8aDbA",
+    },
+    convex: {
+      ...deFiKitContracts.mainnet.convex,
+      claimZap: "0x3f29cB4111CbdA8081642DA1f75B3c12DECf2516",
+      cvxCrvStakingWrapper: "0xaa0C3f5F7DFD688C6E646F66CD2a6B66ACdbE434",
     },
     curve: {
       ...deFiKitContracts.mainnet.curve,
@@ -110,6 +119,7 @@ export const contracts = {
     },
     lido: {
       ...deFiKitContracts.mainnet.lido,
+      vestingEscrow: "0x2eF259761dc63C0F043e35901F132b1e7b1BcA68",
       aragonVoting: "0x2e59A20f205bB85a89C53f1936454680651E618e",
     },
     maverickV2: {
