@@ -16,14 +16,9 @@ export default (parameters: Parameters) =>
      *********************************************/
     // Base -> Mainnet
     // ETH - Base Bridge
-    allow.base.baseBridge.bridgeETHTo(
-      c.avatar,
-      undefined,
-      undefined,
-      {
-        send: true,
-      }
-    ),
+    allow.base.baseBridge.bridgeETHTo(c.avatar, undefined, undefined, {
+      send: true,
+    }),
 
     // ETH - Stargate
     allow.base.stargate.poolNative.send(

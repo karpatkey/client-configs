@@ -10,7 +10,7 @@ export default (parameters: Parameters) =>
     allow.arbitrumOne.weth.deposit({
       send: true,
     }),
-    
+
     /*********************************************
      * Bridge
      *********************************************/

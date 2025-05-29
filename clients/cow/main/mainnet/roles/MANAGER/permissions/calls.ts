@@ -1,6 +1,15 @@
 import { allow } from "zodiac-roles-sdk/kit"
-import { COW, DAI, GNO, sDAI, sUSDS, USDC, WETH, baseBridge } from "@/addresses/eth"
-import { baseBridge as baseBridgeBase} from "@/addresses/base"
+import {
+  COW,
+  DAI,
+  GNO,
+  sDAI,
+  sUSDS,
+  USDC,
+  WETH,
+  baseBridge,
+} from "@/addresses/eth"
+import { baseBridge as baseBridgeBase } from "@/addresses/base"
 import { legalDefenseFund, twapAvatar } from "../../../../../addresses"
 import { PermissionList } from "@/types"
 import { allowErc20Approve, allowErc20Transfer } from "@/helpers"
@@ -300,22 +309,15 @@ export default (parameters: Parameters) =>
 
     // Mainnet -> Base
     // ETH - Base Bridge
-    allow.mainnet.baseBridge.bridgeETHTo(
-      c.avatar,
-      undefined,
-      undefined,
-      {
-        send:true,
-      }
-    ),
+    allow.mainnet.baseBridge.bridgeETHTo(c.avatar, undefined, undefined, {
+      send: true,
+    }),
     // TODO: Claim bridged ETH from Base
-    allow.mainnet.basePortal.proveWithdrawalTransaction(
-      {
-        sender: baseBridgeBase.l2CrossDomainMessengerProxy,
-        target: baseBridge.resolvedDelegateProxy
-        // data: add proper scoping?
-      }
-    ),
+    allow.mainnet.basePortal.proveWithdrawalTransaction({
+      sender: baseBridgeBase.l2CrossDomainMessengerProxy,
+      target: baseBridge.resolvedDelegateProxy,
+      // data: add proper scoping?
+    }),
     // The claim is missing: finalizeWithdrawalTransactionExternalProof or finalizeWithdrawalTransaction
 
     // ETH - Stargate
