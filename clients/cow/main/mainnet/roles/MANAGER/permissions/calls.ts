@@ -316,7 +316,9 @@ export default (parameters: Parameters) =>
     allow.mainnet.basePortal.proveWithdrawalTransaction({
       sender: baseBridgeBase.l2CrossDomainMessengerProxy,
       target: baseBridge.resolvedDelegateProxy,
-      // data: add proper scoping?
+      // data: c.calldataMatches(
+      //   // allow.
+      // )
     }),
     // The claim is missing: finalizeWithdrawalTransactionExternalProof or finalizeWithdrawalTransaction
 
