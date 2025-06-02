@@ -145,6 +145,7 @@ export const contracts = {
       oEthZapper: "0x9858e47BCbBe6fBAC040519B02d7cd4B2C470C66",
       armOethWeth: "0x6bac785889A4127dB0e0CeFEE88E0a9F1Aaf3cC7",
       oEthVault: "0x39254033945AA2E4809Cc2977E7087BEE48bd7Ab",
+      oEth: "0x856c4Efb76C1D1AE02e20CEB03A2A6a08b0b8dC3",
     },
     pancakeSwap: {
       smartRouter: "0x13f4EA83D0bd40E75C8222255bc855a974568Dd4",

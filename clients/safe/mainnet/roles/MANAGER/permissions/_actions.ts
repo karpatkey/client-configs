@@ -24,7 +24,6 @@ import {
   SWISE,
   UNI,
   USDC,
-  USDM,
   USDS,
   USDT,
   WETH,
@@ -38,8 +37,6 @@ export default [
   allowAction.aura.deposit({ targets: ["153"] }),
   // Aura - osETH/WETH
   allowAction.aura.deposit({ targets: ["179"] }),
-  // Aura - auraB-80GNO-20WETH
-  allowAction.aura.deposit({ targets: ["116"] }),
   // Aura - auraETHx/wstETH
   allowAction.aura.deposit({ targets: ["207"] }),
 
@@ -115,8 +112,8 @@ export default [
   // Spark - stake
   allowAction.spark.stake(),
 
-  // CowSwap - [AURA, BAL, COMP, COW, CRV, CVX, DAI, ETH, ETHx, GHO, GNO, LDO, OETH, OGN, osETH, rETH, RPL, SAFE, sDAI, SKY, SPK, stETH, sUSDS, SWISE, UNI, USDC, USDM, USDS, USDT, WETH, wstETH] ->
-  // [DAI, ETH, ETHx, GHO, GNO, OETH, osETH, rETH, SAFE, sDAI, stETH, sUSDS, USDC, USDM, USDS, USDT, WETH, wstETH]
+  // CowSwap - [AURA, BAL, COMP, COW, CRV, CVX, DAI, ETH, ETHx, GHO, GNO, LDO, OETH, OGN, osETH, rETH, RPL, SAFE, sDAI, SKY, SPK, stETH, sUSDS, SWISE, UNI, USDC, USDS, USDT, WETH, wstETH] ->
+  // [DAI, ETH, ETHx, GHO, GNO, OETH, osETH, rETH, SAFE, sDAI, stETH, sUSDS, USDC, USDS, USDT, WETH, wstETH]
   allowAction.cowswap.swap({
     sell: [
       AURA,
@@ -145,7 +142,6 @@ export default [
       SWISE,
       UNI,
       USDC,
-      USDM,
       USDS,
       USDT,
       WETH,
@@ -165,7 +161,6 @@ export default [
       sDAI,
       sUSDS,
       USDC,
-      USDM,
       USDS,
       USDT,
       WETH,

@@ -219,7 +219,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.curve.x3CrvPool.remove_liquidity_imbalance(),
     allow.mainnet.curve.x3CrvPool.remove_liquidity_one_coin(),
     ...allowErc20Approve(
-      [contracts.mainnet.curve.x3CrvPool],
+      [x3CRV],
       [contracts.mainnet.curve.x3CrvGauge]
     ),
     allow.mainnet.curve.x3CrvGauge["deposit(uint256)"](),
@@ -322,7 +322,7 @@ export default (parameters: Parameters) =>
 
     // Curve - Deposit and Stake using a special ZAP
     ...allowErc20Approve(
-      [DAI, OETH, rETH, stETH, USDC, USDT, WETH],
+      [DAI, OETH, osETH, rETH, stETH, USDC, USDT, WETH],
       [contracts.mainnet.curve.stakeDepositZap]
     ),
     allow.mainnet.curve.stakeDepositZap[
@@ -482,6 +482,8 @@ export default (parameters: Parameters) =>
 
     // Origin - Mint OETH
     allow.mainnet.origin.oEthZapper.deposit({ send: true }),
+    // Opt into yield
+    allow.mainnet.origin.oEth.rebaseOptIn(),
     // Origin - Redeem via OETH Vault
     // OETH is burnt by the user so no approval is needed
     allow.mainnet.origin.oEthVault.requestWithdrawal(),
@@ -561,6 +563,13 @@ export default (parameters: Parameters) =>
       undefined,
       undefined,
       c.avatar
+    ),
+
+    // Uniswap v3
+    // Create new pools with the following tokens [SAFE, WETH]
+    allow.mainnet.uniswapV3.positionsNft.createAndInitializePoolIfNecessary(
+      c.or(SAFE, WETH),
+      c.or(SAFE, WETH),
     ),
 
     /*********************************************
