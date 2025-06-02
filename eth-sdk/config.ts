@@ -42,6 +42,11 @@ export const contracts = {
       osEthWaWeth: "0x57c23c58B1D8C3292c15BEcF07c62C5c52457A42",
       osEthWaWethGauge: "0x70A1c01902DAb7a45dcA1098Ca76A8314dd8aDbA",
     },
+    baseBridge: {
+      baseBridge: "0x3154Cf16ccdb4C6d922629664174b904d80F2C35",
+      basePortal: "0x49048044D57e1C92A77f79988d21Fa8fAF74E97e",
+      resolvedDelegateProxy: "0x866E82a600A1414e583f7F13623F1aC5d58b0Afa",
+    },
     convex: {
       ...deFiKitContracts.mainnet.convex,
       claimZap: "0x3f29cB4111CbdA8081642DA1f75B3c12DECf2516",
@@ -202,8 +207,6 @@ export const contracts = {
     votium: {
       bribe: "0x19BBC3463Dd8d07f55438014b021Fb457EBD4595",
     },
-    baseBridge: "0x3154Cf16ccdb4C6d922629664174b904d80F2C35",
-    basePortal: "0x49048044D57e1C92A77f79988d21Fa8fAF74E97e",
     navCalculator: "0xF0125A04d74782e6d2aD6d298F0Bc786e301AAc1",
     wethOmnibridgeRouter: "0xa6439Ca0FCbA1d0F80df0bE6A17220feD9c9038a",
   },

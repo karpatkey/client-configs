@@ -8,7 +8,8 @@ export const WETH = "0x4200000000000000000000000000000000000006"
 // Base Bridge
 // Bridges
 export const baseBridge = {
-  l2CrossDomainMessengerProxy: "0x4200000000000000000000000000000000000007"
+  l2CrossDomainMessengerProxy: "0x4200000000000000000000000000000000000007",
+  l2StandardBridgeProxy: "0x4200000000000000000000000000000000000010"
 }
 
 // Protocols

@@ -7,7 +7,6 @@ import {
   sUSDS,
   USDC,
   WETH,
-  baseBridge,
 } from "@/addresses/eth"
 import { baseBridge as baseBridgeBase } from "@/addresses/base"
 import { legalDefenseFund, twapAvatar } from "../../../../../addresses"
@@ -309,18 +308,30 @@ export default (parameters: Parameters) =>
 
     // Mainnet -> Base
     // ETH - Base Bridge
-    allow.mainnet.baseBridge.bridgeETHTo(c.avatar, undefined, undefined, {
+    allow.mainnet.baseBridge.baseBridge.bridgeETHTo(c.avatar, undefined, undefined, {
       send: true,
     }),
-    // TODO: Claim bridged ETH from Base
-    allow.mainnet.basePortal.proveWithdrawalTransaction({
+    // Claim bridged ETH from Base
+    allow.mainnet.baseBridge.basePortal.proveWithdrawalTransaction({
       sender: baseBridgeBase.l2CrossDomainMessengerProxy,
-      target: baseBridge.resolvedDelegateProxy,
-      // data: c.calldataMatches(
-      //   // allow.
-      // )
+      target: contracts.mainnet.baseBridge.resolvedDelegateProxy,
+      data: c.calldataMatches(
+        allow.mainnet.baseBridge.resolvedDelegateProxy.relayMessage(
+          undefined,
+          baseBridgeBase.l2StandardBridgeProxy,
+          contracts.mainnet.baseBridge.baseBridge,
+          undefined,
+          undefined,
+          c.calldataMatches(
+            allow.mainnet.baseBridge.baseBridge.finalizeBridgeETH(
+              c.avatar,
+              c.avatar,
+            )
+          )
+        )
+      )
     }),
-    // The claim is missing: finalizeWithdrawalTransactionExternalProof or finalizeWithdrawalTransaction
+    // TODO: The claim is missing: finalizeWithdrawalTransactionExternalProof or finalizeWithdrawalTransaction
 
     // ETH - Stargate
     allow.mainnet.stargate.poolNative.send(
