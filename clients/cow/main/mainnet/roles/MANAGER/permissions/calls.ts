@@ -1,13 +1,5 @@
 import { allow } from "zodiac-roles-sdk/kit"
-import {
-  COW,
-  DAI,
-  GNO,
-  sDAI,
-  sUSDS,
-  USDC,
-  WETH,
-} from "@/addresses/eth"
+import { COW, DAI, GNO, sDAI, sUSDS, USDC, WETH } from "@/addresses/eth"
 import { baseBridge as baseBridgeBase } from "@/addresses/base"
 import { legalDefenseFund, twapAvatar } from "../../../../../addresses"
 import { PermissionList } from "@/types"
@@ -308,9 +300,14 @@ export default (parameters: Parameters) =>
 
     // Mainnet -> Base
     // ETH - Base Bridge
-    allow.mainnet.baseBridge.baseBridge.bridgeETHTo(c.avatar, undefined, undefined, {
-      send: true,
-    }),
+    allow.mainnet.baseBridge.baseBridge.bridgeETHTo(
+      c.avatar,
+      undefined,
+      undefined,
+      {
+        send: true,
+      }
+    ),
     // Claim bridged ETH from Base
     allow.mainnet.baseBridge.basePortal.proveWithdrawalTransaction({
       sender: baseBridgeBase.l2CrossDomainMessengerProxy,
@@ -325,11 +322,11 @@ export default (parameters: Parameters) =>
           c.calldataMatches(
             allow.mainnet.baseBridge.baseBridge.finalizeBridgeETH(
               c.avatar,
-              c.avatar,
+              c.avatar
             )
           )
         )
-      )
+      ),
     }),
     // TODO: The claim is missing: finalizeWithdrawalTransactionExternalProof or finalizeWithdrawalTransaction
 
