@@ -154,10 +154,7 @@ export default [
   allow.mainnet.curve.x3CrvPool.remove_liquidity(),
   allow.mainnet.curve.x3CrvPool.remove_liquidity_imbalance(),
   allow.mainnet.curve.x3CrvPool.remove_liquidity_one_coin(),
-  ...allowErc20Approve(
-    [x3CRV],
-    [contracts.mainnet.curve.x3CrvGauge]
-  ),
+  ...allowErc20Approve([x3CRV], [contracts.mainnet.curve.x3CrvGauge]),
   allow.mainnet.curve.x3CrvGauge["deposit(uint256)"](),
   allow.mainnet.curve.x3CrvGauge.withdraw(),
   allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.x3CrvGauge),
