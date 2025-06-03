@@ -566,31 +566,31 @@ export default (parameters: Parameters) =>
     allow.mainnet.uniswapV3.positionsNft.createAndInitializePoolIfNecessary(
       c.or(SAFE, WETH),
       c.or(SAFE, WETH),
-      c.or(3000, 10000),
+      c.or(3000, 10000)
     ),
     // Uniswap v3 - SAFE + USDC - Fees [0.3%, 1%]
     allow.mainnet.uniswapV3.positionsNft.createAndInitializePoolIfNecessary(
       c.or(SAFE, USDC),
       c.or(SAFE, USDC),
-      c.or(3000, 10000),
+      c.or(3000, 10000)
     ),
     // Uniswap v3 - SAFE + USDT - Fees [0.3%, 1%]
     allow.mainnet.uniswapV3.positionsNft.createAndInitializePoolIfNecessary(
       c.or(SAFE, USDT),
       c.or(SAFE, USDT),
-      c.or(3000, 10000),
+      c.or(3000, 10000)
     ),
     // Uniswap v3 - WETH + USDC - Fees [0.05%, 0.3%]
     allow.mainnet.uniswapV3.positionsNft.createAndInitializePoolIfNecessary(
       c.or(WETH, USDC),
       c.or(WETH, USDC),
-      c.or(500, 3000),
+      c.or(500, 3000)
     ),
     // Uniswap v3 - WETH + USDT - Fees [0.05%, 0.3%]
     allow.mainnet.uniswapV3.positionsNft.createAndInitializePoolIfNecessary(
       c.or(WETH, USDT),
       c.or(WETH, USDT),
-      c.or(500, 3000),
+      c.or(500, 3000)
     ),
 
     /*********************************************
