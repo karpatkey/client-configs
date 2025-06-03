@@ -562,11 +562,35 @@ export default (parameters: Parameters) =>
       c.avatar
     ),
 
-    // Uniswap v3
-    // Create new pools with the following tokens [SAFE, WETH]
+    // Uniswap v3 - SAFE + WETH - Fees [0.3%, 1%]
     allow.mainnet.uniswapV3.positionsNft.createAndInitializePoolIfNecessary(
       c.or(SAFE, WETH),
-      c.or(SAFE, WETH)
+      c.or(SAFE, WETH),
+      c.or(3000, 10000),
+    ),
+    // Uniswap v3 - SAFE + USDC - Fees [0.3%, 1%]
+    allow.mainnet.uniswapV3.positionsNft.createAndInitializePoolIfNecessary(
+      c.or(SAFE, USDC),
+      c.or(SAFE, USDC),
+      c.or(3000, 10000),
+    ),
+    // Uniswap v3 - SAFE + USDT - Fees [0.3%, 1%]
+    allow.mainnet.uniswapV3.positionsNft.createAndInitializePoolIfNecessary(
+      c.or(SAFE, USDT),
+      c.or(SAFE, USDT),
+      c.or(3000, 10000),
+    ),
+    // Uniswap v3 - WETH + USDC - Fees [0.05%, 0.3%]
+    allow.mainnet.uniswapV3.positionsNft.createAndInitializePoolIfNecessary(
+      c.or(WETH, USDC),
+      c.or(WETH, USDC),
+      c.or(500, 3000),
+    ),
+    // Uniswap v3 - WETH + USDT - Fees [0.05%, 0.3%]
+    allow.mainnet.uniswapV3.positionsNft.createAndInitializePoolIfNecessary(
+      c.or(WETH, USDT),
+      c.or(WETH, USDT),
+      c.or(500, 3000),
     ),
 
     /*********************************************
@@ -707,7 +731,7 @@ export default (parameters: Parameters) =>
       { send: true }
     ),
 
-    // GNO -> GNO - Gnosis Bridge
+    // GNO - Gnosis Bridge
     allowErc20Approve([GNO], [contracts.mainnet.gnoOmnibridge]),
     allow.mainnet.gnoOmnibridge["relayTokens(address,address,uint256)"](
       GNO,
@@ -803,7 +827,7 @@ export default (parameters: Parameters) =>
       )
     ),
 
-    // SAFE -> SAFE - Gnosis Bridge
+    // SAFE - Gnosis Bridge
     allowErc20Approve([SAFE], [contracts.mainnet.gnoOmnibridge]),
     allow.mainnet.gnoOmnibridge["relayTokens(address,address,uint256)"](
       SAFE,
@@ -997,7 +1021,7 @@ export default (parameters: Parameters) =>
       )
     ),
 
-    // WETH -> WETH - Gnosis Bridge
+    // WETH - Gnosis Bridge
     allowErc20Approve([WETH], [contracts.mainnet.gnoOmnibridge]),
     allow.mainnet.gnoOmnibridge["relayTokens(address,address,uint256)"](
       WETH,

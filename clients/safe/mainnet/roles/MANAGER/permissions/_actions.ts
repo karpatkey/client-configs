@@ -182,27 +182,27 @@ export default [
   // StakeWise v3 - Chorus one - MEV Max
   allowAction.stakewise_v3.stake({ targets: ["Chorus One - MEV Max"] }),
 
-  // Uniswap v3 - SAFE + WETH
+  // Uniswap v3 - SAFE + WETH - Fees [0.3%, 1%]
   allowAction.uniswap_v3.deposit({
     tokens: ["SAFE", "WETH"],
     fees: ["0.3%", "1%"],
   }),
-  // Uniswap v3 - SAFE + USDC
+  // Uniswap v3 - SAFE + USDC - Fees [0.3%, 1%]
   allowAction.uniswap_v3.deposit({
     tokens: ["SAFE", "USDC"],
     fees: ["0.3%", "1%"],
   }),
-  // Uniswap v3 - SAFE + USDT
+  // Uniswap v3 - SAFE + USDT - Fees [0.3%, 1%]
   allowAction.uniswap_v3.deposit({
     tokens: ["SAFE", "USDT"],
     fees: ["0.3%", "1%"],
   }),
-  // Uniswap v3 - WETH + USDC
+  // Uniswap v3 - WETH + USDC - Fees [0.05%, 0.3%]
   allowAction.uniswap_v3.deposit({
     tokens: ["WETH", "USDC"],
     fees: ["0.05%", "0.3%"],
   }),
-  // Uniswap v3 - WETH + USDT
+  // Uniswap v3 - WETH + USDT - Fees [0.05%, 0.3%]
   allowAction.uniswap_v3.deposit({
     tokens: ["WETH", "USDT"],
     fees: ["0.05%", "0.3%"],
