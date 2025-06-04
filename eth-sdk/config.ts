@@ -141,6 +141,9 @@ export const contracts = {
     notionalV3: {
       nProxy: "0x6e7058c91F85E0F6db4fc9da2CA41241f5e4263f",
     },
+    oiv: {
+      shares: "0x192f8c16217d56684e89e0a20e96f4285dea6acf", // TODO: change
+    },
     origin: {
       oEthZapper: "0x9858e47BCbBe6fBAC040519B02d7cd4B2C470C66",
       armOethWeth: "0x6bac785889A4127dB0e0CeFEE88E0a9F1Aaf3cC7",
@@ -243,6 +246,9 @@ export const contracts = {
       wstEthLp: "0x2f840f1575EE77adAa43415Ac5953F7Db9F8C6ba",
       wxdaiSdaiLp: "0xEe9BFf933aDD313C4289E98dA80fEfbF9d5Cd9Ba",
     },
+    oiv: {
+      shares: "0x192f8c16217d56684e89e0a20e96f4285dea6acf", // TODO: change
+    },
     stakeWiseV3: {
       ...deFiKitContracts.gnosis.stakeWiseV3,
       genesis: "0x4b4406Ed8659D03423490D8b62a1639206dA0A7a",
@@ -266,6 +272,9 @@ export const contracts = {
       crvUsdUsdcePool: "0x05FA06D4Fb883F67f1cfEA0889edBff9e8358101",
       sUsd3CrvPool: "0x061b87122Ed14b9526A813209C8a59a633257bAb",
     },
+    oiv: {
+      shares: "0x192f8c16217d56684e89e0a20e96f4285dea6acf", // TODO: change
+    },
     navCalculator: "0x4AbE155C97009e388E0493fe1516F636e0F3a390",
   },
   arbitrumOne: {
@@ -274,11 +283,14 @@ export const contracts = {
       arbSys: "0x0000000000000000000000000000000000000064",
     },
     gmx: {
-      exchangeRouter: "0x5aC4e27341e4cCcb3e5FD62f9E62db2Adf43dd57",
+      exchangeRouter: "0x602b805EedddBbD9ddff44A7dcBD46cb07849685",
     },
     gyroscope: {
       sGyd: "0xeA50f402653c41cAdbaFD1f788341dB7B7F37816",
       stSgyd: "0xb4C19C1b16881A6d1d781264f0f8C0237D8Be0C7",
+    },
+    oiv: {
+      shares: "0x192f8c16217d56684e89e0a20e96f4285dea6acf", // TODO: change
     },
     stargate: {
       poolNative: "0xA45B5130f36CDcA45667738e2a258AB09f4A5f7F",
@@ -287,6 +299,9 @@ export const contracts = {
   },
   base: {
     ...deFiKitContracts.base,
+    oiv: {
+      shares: "0x192f8c16217d56684e89e0a20e96f4285dea6acf", // TODO: change
+    },
     sushiSwap: {
       routeProcessor4: "0x0389879e0156033202C44BF784ac18fC02edeE4f",
     },

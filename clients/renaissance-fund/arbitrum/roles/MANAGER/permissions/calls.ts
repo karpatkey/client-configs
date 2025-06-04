@@ -9,9 +9,6 @@ import { Parameters } from "../../../../arbitrum/parameters"
 
 export default (parameters: Parameters) =>
   [
-    /*********************************************
-     * Typed-presets permissions
-     *********************************************/
     // Wrapping and unwrapping of ETH, WETH
     allow.arbitrumOne.weth.withdraw(),
     allow.arbitrumOne.weth.deposit({
@@ -22,37 +19,56 @@ export default (parameters: Parameters) =>
     // Create Long/Short Market/Limit Orders
     // Increase/Decrease Collateral on an open position
     // Settle Funding Fees
-    ...allowErc20Approve([USDC], [gmx.router]),
+    ...allowErc20Approve([USDC], [...gmx.exchangeRouters]),
     // This is the only function within multicall that receives ETH
     // It's called in all cases
-    allow.arbitrumOne.gmx.exchangeRouter.sendWnt(gmx.orderVault, undefined, {
-      send: true,
-    }),
-    // It's only called when an order is created
-    allow.arbitrumOne.gmx.exchangeRouter.sendTokens(USDC, gmx.orderVault),
-    allow.arbitrumOne.gmx.exchangeRouter.createOrder({
-      addresses: {
-        receiver: c.avatar,
-        cancellationReceiver: zeroAddress,
-        callbackContract: zeroAddress,
-        uiFeeReceiver: gmx.uiFeeReceiver,
-        market: gmx.marketToken,
-        initialCollateralToken: USDC,
-        swapPath: [],
-      },
-      orderType: c.or(
-        2, // MarketIncrease
-        3, // LimitIncrease
-        4, // MarketDecrease
-        5 // LimitDecrease
+    ...gmx.exchangeRouters.map((exchangeRouter) => ({
+      ...allow.arbitrumOne.gmx.exchangeRouter.sendWnt(
+        gmx.orderVault,
+        undefined,
+        {
+          send: true,
+        }
       ),
-    }),
+      targetAddress: exchangeRouter,
+    })),
+    // It's only called when an order is created
+    ...gmx.exchangeRouters.map((exchangeRouter) => ({
+      ...allow.arbitrumOne.gmx.exchangeRouter.sendTokens(
+        USDC, 
+        gmx.orderVault
+      ),
+      targetAddress: exchangeRouter,
+    })),
+    ...gmx.exchangeRouters.map((exchangeRouter) => ({
+      ...allow.arbitrumOne.gmx.exchangeRouter.createOrder({
+        addresses: {
+          receiver: c.avatar,
+          cancellationReceiver: zeroAddress,
+          callbackContract: zeroAddress,
+          uiFeeReceiver: gmx.uiFeeReceiver,
+          market: gmx.marketToken,
+          initialCollateralToken: USDC,
+          swapPath: [],
+        },
+        orderType: c.or(
+          2, // MarketIncrease
+          3, // LimitIncrease
+          4, // MarketDecrease
+          5 // LimitDecrease
+        ),
+      }),
+      targetAddress: exchangeRouter,
+    })),
     // Claim Funding Fees
-    allow.arbitrumOne.gmx.exchangeRouter.claimFundingFees(
-      c.every(c.eq(gmx.marketToken)),
-      [WETH, USDC],
-      c.avatar
-    ),
+    ...gmx.exchangeRouters.map((exchangeRouter) => ({
+      ...allow.arbitrumOne.gmx.exchangeRouter.claimFundingFees(
+        c.every(c.eq(gmx.marketToken)),
+        [WETH, USDC],
+        c.avatar
+      ),
+      targetAddress: exchangeRouter,
+    })),
 
     /*********************************************
      * Bridge
