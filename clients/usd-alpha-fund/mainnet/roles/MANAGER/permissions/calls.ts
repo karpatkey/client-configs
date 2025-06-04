@@ -31,9 +31,6 @@ import { Parameters } from "../../../parameters"
 
 export default (parameters: Parameters) =>
   [
-    /*********************************************
-     * Typed-presets permissions
-     *********************************************/
     // Aura - Aave Boosted USDT/GHO/USDC
     ...allowErc20Approve(
       [balancerV3.aaveGhoUsdtUsdc],
