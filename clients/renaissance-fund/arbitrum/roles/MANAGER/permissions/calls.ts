@@ -34,10 +34,7 @@ export default (parameters: Parameters) =>
     })),
     // It's only called when an order is created
     ...gmx.exchangeRouters.map((exchangeRouter) => ({
-      ...allow.arbitrumOne.gmx.exchangeRouter.sendTokens(
-        USDC, 
-        gmx.orderVault
-      ),
+      ...allow.arbitrumOne.gmx.exchangeRouter.sendTokens(USDC, gmx.orderVault),
       targetAddress: exchangeRouter,
     })),
     ...gmx.exchangeRouters.map((exchangeRouter) => ({
