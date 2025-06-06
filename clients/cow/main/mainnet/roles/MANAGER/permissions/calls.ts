@@ -328,7 +328,27 @@ export default (parameters: Parameters) =>
         )
       ),
     }),
-    // TODO: The claim is missing: finalizeWithdrawalTransactionExternalProof or finalizeWithdrawalTransaction
+    allow.mainnet.baseBridge.basePortal.finalizeWithdrawalTransactionExternalProof(
+      {
+        sender: baseBridgeBase.l2CrossDomainMessengerProxy,
+        target: contracts.mainnet.baseBridge.resolvedDelegateProxy,
+        data: c.calldataMatches(
+          allow.mainnet.baseBridge.resolvedDelegateProxy.relayMessage(
+            undefined,
+            baseBridgeBase.l2StandardBridgeProxy,
+            contracts.mainnet.baseBridge.baseBridge,
+            undefined,
+            undefined,
+            c.calldataMatches(
+              allow.mainnet.baseBridge.baseBridge.finalizeBridgeETH(
+                c.avatar,
+                c.avatar
+              )
+            )
+          )
+        ),
+      }
+    ),
 
     // ETH - Stargate
     allow.mainnet.stargate.poolNative.send(
