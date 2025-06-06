@@ -1,18 +1,19 @@
 import { allow as allowAction } from "defi-kit/gno"
 import {
+  AURA,
   BAL,
   COW,
   GNO,
+  osGNO,
+  rETH,
+  SAFE,
   sDAI,
   USDC,
+  USDCe,
   USDT,
   WETH,
   wstETH,
-  osGNO,
-  USDCe,
   WXDAI,
-  AURA,
-  SAFE,
 } from "@/addresses/gno"
 
 export default [
@@ -76,8 +77,8 @@ export default [
   // StakeWise v3 - Stakecat
   allowAction.stakewise_v3.stake({ targets: ["Stakecat"] }),
 
-  // CowSwap -  [AURA, BAL, COW, GNO, LDO, osGNO, SAFE, sDAI, stETH, SWISE, USDC, USDC.e, USDT, WETH, wstETH, WXDAI, XDAI] ->
-  // [GNO, osGNO, SAFE, sDAI, stETH, USDC, USDC.e, USDT, WETH, wstETH, WXDAI, XDAI]
+  // CowSwap -  [AURA, BAL, COW, GNO, LDO, osGNO, rETH, SAFE, sDAI, stETH, SWISE, USDC, USDC.e, USDT, WETH, wstETH, WXDAI, XDAI] ->
+  // [GNO, osGNO, rETH, SAFE, sDAI, stETH, USDC, USDC.e, USDT, WETH, wstETH, WXDAI, XDAI]
   allowAction.cowswap.swap({
     sell: [
       AURA,
@@ -85,6 +86,7 @@ export default [
       COW,
       GNO,
       osGNO,
+      rETH,
       SAFE,
       sDAI,
       USDC,
@@ -98,6 +100,7 @@ export default [
     buy: [
       GNO,
       osGNO,
+      rETH,
       SAFE,
       sDAI,
       USDC,

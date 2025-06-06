@@ -124,19 +124,14 @@ export default (parameters: Parameters) =>
      * Bridge
      *********************************************/
     // Gnosis -> Mainnet
-    // XDAI (Gnosis) -> DAI (Mainnet) - Gnosis Bridge
-    allow.gnosis.xdaiBridge2.relayTokens(c.avatar, {
-      send: true,
-    }),
-
-    // GNO (Gnosis) -> GNO (Mainnet) - Gnosis Bridge
+    // GNO - Gnosis Bridge
     allow.gnosis.gno.transferAndCall(
       contracts.gnosis.xdaiBridge,
       undefined,
       parameters.avatar
     ),
 
-    // SAFE (Gnosis) -> SAFE (Mainnet) - Gnosis Bridge
+    // SAFE - Gnosis Bridge
     {
       ...allow.gnosis.gno.transferAndCall(
         contracts.gnosis.xdaiBridge,
@@ -146,14 +141,14 @@ export default (parameters: Parameters) =>
       targetAddress: SAFE,
     },
 
-    // USDC (Gnosis) -> USDC (Mainnet) - Gnosis Bridge
+    // USDC - Gnosis Bridge
     allow.gnosis.usdc.transferAndCall(
       contracts.gnosis.xdaiBridge,
       undefined,
       parameters.avatar
     ),
 
-    // WETH (Gnosis) -> WETH (Mainnet) - Gnosis Bridge
+    // WETH - Gnosis Bridge
     {
       ...allow.gnosis.gno.transferAndCall(
         contracts.gnosis.xdaiBridge,
@@ -162,4 +157,9 @@ export default (parameters: Parameters) =>
       ),
       targetAddress: WETH,
     },
+
+    // XDAI (Gnosis) -> DAI (Mainnet) - Gnosis Bridge
+    allow.gnosis.xdaiBridge2.relayTokens(c.avatar, {
+      send: true,
+    }),
   ] satisfies PermissionList
