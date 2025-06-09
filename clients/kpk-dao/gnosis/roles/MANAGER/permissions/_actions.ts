@@ -8,6 +8,9 @@ export default [
     buy: ["XDAI", sDAI, USDC, USDCe, USDT, WXDAI],
   }),
 
+  // Spark - DSR_sDAI
+  allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
+
   // StakeWise v3 - Genesis
   allowAction.stakewise_v3.stake({ targets: ["Genesis Vault"] }),
   // StakeWise v3 - NEDO

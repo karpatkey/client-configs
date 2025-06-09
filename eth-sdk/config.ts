@@ -42,6 +42,11 @@ export const contracts = {
       osEthWaWeth: "0x57c23c58B1D8C3292c15BEcF07c62C5c52457A42",
       osEthWaWethGauge: "0x70A1c01902DAb7a45dcA1098Ca76A8314dd8aDbA",
     },
+    baseBridge: {
+      baseBridge: "0x3154Cf16ccdb4C6d922629664174b904d80F2C35",
+      basePortal: "0x49048044D57e1C92A77f79988d21Fa8fAF74E97e",
+      resolvedDelegateProxy: "0x866E82a600A1414e583f7F13623F1aC5d58b0Afa",
+    },
     convex: {
       ...deFiKitContracts.mainnet.convex,
       claimZap: "0x3f29cB4111CbdA8081642DA1f75B3c12DECf2516",
@@ -148,6 +153,7 @@ export const contracts = {
       oEthZapper: "0x9858e47BCbBe6fBAC040519B02d7cd4B2C470C66",
       armOethWeth: "0x6bac785889A4127dB0e0CeFEE88E0a9F1Aaf3cC7",
       oEthVault: "0x39254033945AA2E4809Cc2977E7087BEE48bd7Ab",
+      oEth: "0x856c4Efb76C1D1AE02e20CEB03A2A6a08b0b8dC3",
     },
     pancakeSwap: {
       smartRouter: "0x13f4EA83D0bd40E75C8222255bc855a974568Dd4",
@@ -259,6 +265,9 @@ export const contracts = {
       stakesaurus: "0x3CB4692177525dB38D983DA0445d4EB25C3826dE",
       seednode: "0x9eeB6be79899CfE45018866A2113c6b77fa96F35",
     },
+    stargate: {
+      poolNative: "0xe9aBA835f813ca05E50A6C0ce65D0D74390F7dE7",
+    },
     uniswap: {
       permit2: "0x000000000022D473030F116dDEE9F6B43aC78BA3",
     },
@@ -302,9 +311,13 @@ export const contracts = {
     oiv: {
       shares: "0x192f8c16217d56684e89e0a20e96f4285dea6acf", // TODO: change
     },
+    stargate: {
+      poolNative: "0xdc181Bd607330aeeBEF6ea62e03e5e1Fb4B6F7C7",
+    },
     sushiSwap: {
       routeProcessor4: "0x0389879e0156033202C44BF784ac18fC02edeE4f",
     },
+    baseBridge: "0x4200000000000000000000000000000000000010",
     navCalculator: "0x4AbE155C97009e388E0493fe1516F636e0F3a390",
   },
 } as const

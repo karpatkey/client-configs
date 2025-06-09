@@ -218,10 +218,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.curve.x3CrvPool.remove_liquidity(),
     allow.mainnet.curve.x3CrvPool.remove_liquidity_imbalance(),
     allow.mainnet.curve.x3CrvPool.remove_liquidity_one_coin(),
-    ...allowErc20Approve(
-      [contracts.mainnet.curve.x3CrvPool],
-      [contracts.mainnet.curve.x3CrvGauge]
-    ),
+    ...allowErc20Approve([x3CRV], [contracts.mainnet.curve.x3CrvGauge]),
     allow.mainnet.curve.x3CrvGauge["deposit(uint256)"](),
     allow.mainnet.curve.x3CrvGauge.withdraw(),
     allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.x3CrvGauge),
@@ -322,7 +319,7 @@ export default (parameters: Parameters) =>
 
     // Curve - Deposit and Stake using a special ZAP
     ...allowErc20Approve(
-      [DAI, OETH, rETH, stETH, USDC, USDT, WETH],
+      [DAI, OETH, osETH, rETH, stETH, USDC, USDT, WETH],
       [contracts.mainnet.curve.stakeDepositZap]
     ),
     allow.mainnet.curve.stakeDepositZap[
@@ -482,6 +479,8 @@ export default (parameters: Parameters) =>
 
     // Origin - Mint OETH
     allow.mainnet.origin.oEthZapper.deposit({ send: true }),
+    // Opt into yield
+    allow.mainnet.origin.oEth.rebaseOptIn(),
     // Origin - Redeem via OETH Vault
     // OETH is burnt by the user so no approval is needed
     allow.mainnet.origin.oEthVault.requestWithdrawal(),
@@ -561,6 +560,37 @@ export default (parameters: Parameters) =>
       undefined,
       undefined,
       c.avatar
+    ),
+
+    // Uniswap v3 - SAFE + WETH - Fees [0.3%, 1%]
+    allow.mainnet.uniswapV3.positionsNft.createAndInitializePoolIfNecessary(
+      c.or(SAFE, WETH),
+      c.or(SAFE, WETH),
+      c.or(3000, 10000)
+    ),
+    // Uniswap v3 - SAFE + USDC - Fees [0.3%, 1%]
+    allow.mainnet.uniswapV3.positionsNft.createAndInitializePoolIfNecessary(
+      c.or(SAFE, USDC),
+      c.or(SAFE, USDC),
+      c.or(3000, 10000)
+    ),
+    // Uniswap v3 - SAFE + USDT - Fees [0.3%, 1%]
+    allow.mainnet.uniswapV3.positionsNft.createAndInitializePoolIfNecessary(
+      c.or(SAFE, USDT),
+      c.or(SAFE, USDT),
+      c.or(3000, 10000)
+    ),
+    // Uniswap v3 - WETH + USDC - Fees [0.05%, 0.3%]
+    allow.mainnet.uniswapV3.positionsNft.createAndInitializePoolIfNecessary(
+      c.or(WETH, USDC),
+      c.or(WETH, USDC),
+      c.or(500, 3000)
+    ),
+    // Uniswap v3 - WETH + USDT - Fees [0.05%, 0.3%]
+    allow.mainnet.uniswapV3.positionsNft.createAndInitializePoolIfNecessary(
+      c.or(WETH, USDT),
+      c.or(WETH, USDT),
+      c.or(500, 3000)
     ),
 
     /*********************************************
@@ -701,7 +731,7 @@ export default (parameters: Parameters) =>
       { send: true }
     ),
 
-    // GNO -> GNO - Gnosis Bridge
+    // GNO - Gnosis Bridge
     allowErc20Approve([GNO], [contracts.mainnet.gnoOmnibridge]),
     allow.mainnet.gnoOmnibridge["relayTokens(address,address,uint256)"](
       GNO,
@@ -797,7 +827,7 @@ export default (parameters: Parameters) =>
       )
     ),
 
-    // SAFE -> SAFE - Gnosis Bridge
+    // SAFE - Gnosis Bridge
     allowErc20Approve([SAFE], [contracts.mainnet.gnoOmnibridge]),
     allow.mainnet.gnoOmnibridge["relayTokens(address,address,uint256)"](
       SAFE,
@@ -991,7 +1021,7 @@ export default (parameters: Parameters) =>
       )
     ),
 
-    // WETH -> WETH - Gnosis Bridge
+    // WETH - Gnosis Bridge
     allowErc20Approve([WETH], [contracts.mainnet.gnoOmnibridge]),
     allow.mainnet.gnoOmnibridge["relayTokens(address,address,uint256)"](
       WETH,
