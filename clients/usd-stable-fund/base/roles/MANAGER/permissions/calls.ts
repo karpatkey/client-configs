@@ -6,9 +6,6 @@ import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
 
 export default [
-  /*********************************************
-   * Typed-presets permissions
-   *********************************************/
   // Morpho Blue - cbETH/USDC
   ...allowErc20Approve([USDC], [contracts.mainnet.morpho.morphoBlue]),
   allow.mainnet.morpho.morphoBlue.supply(

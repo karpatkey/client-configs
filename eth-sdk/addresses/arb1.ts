@@ -17,4 +17,8 @@ export const gmx = {
   uiFeeReceiver: "0xff00000000000000000000000000000000000001",
   marketToken: "0x70d95587d40A2caf56bd97485aB3Eec10Bee6336",
   orderVault: "0x31eF83a530Fde1B38EE9A18093A333D8Bbbc40D5",
+  exchangeRouters: [
+    "0x5aC4e27341e4cCcb3e5FD62f9E62db2Adf43dd57",
+    "0x602b805EedddBbD9ddff44A7dcBD46cb07849685",
+  ],
 } as const

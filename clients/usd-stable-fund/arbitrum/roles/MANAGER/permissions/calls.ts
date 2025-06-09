@@ -8,9 +8,6 @@ import { PermissionList } from "@/types"
 import { balancerV2Swap } from "@/exit_strategies/balancerV2"
 
 export default [
-  /*********************************************
-   * Typed-presets permissions
-   *********************************************/
   // Compound v3 - Deposit USDC
   ...allowErc20Approve([USDC], [contracts.arbitrumOne.compoundV3.cUsdcV3]),
   allow.arbitrumOne.compoundV3.cUsdcV3.supply(USDC),
