@@ -20,5 +20,5 @@ export const gmx = {
   exchangeRouters: [
     "0x5aC4e27341e4cCcb3e5FD62f9E62db2Adf43dd57",
     "0x602b805EedddBbD9ddff44A7dcBD46cb07849685",
-  ]
+  ],
 } as const
