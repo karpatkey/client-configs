@@ -25,7 +25,6 @@ import {
   SWISE,
   UNI,
   USDC,
-  USDM,
   USDS,
   USDT,
   WETH,
@@ -596,8 +595,8 @@ export default (parameters: Parameters) =>
     /*********************************************
      * SWAPS
      *********************************************/
-    // Uniswap v3 - [AURA, BAL, COMP, COW, CRV, CVX, DAI, ETHx, GHO, GNO, LDO, OETH, OGN, osETH, rETH, RPL, SAFE, sDAI, SKY, SPK, stETH, sUSDS, SWISE, UNI, USDC, USDM, USDS, USDT, WETH, wstETH] ->
-    // [DAI, ETHx, GHO, GNO, OETH, osETH, rETH, SAFE, sDAI, stETH, sUSDS, USDC, USDM, USDS, USDT, WETH, wstETH]
+    // Uniswap v3 - [AURA, BAL, COMP, COW, CRV, CVX, DAI, ETHx, GHO, GNO, LDO, OETH, OGN, osETH, rETH, RPL, SAFE, sDAI, SKY, SPK, stETH, sUSDS, SWISE, UNI, USDC, USDS, USDT, WETH, wstETH] ->
+    // [DAI, ETHx, GHO, GNO, OETH, osETH, rETH, SAFE, sDAI, stETH, sUSDS, USDC, USDS, USDT, WETH, wstETH]
     allowErc20Approve(
       [
         AURA,
@@ -625,7 +624,6 @@ export default (parameters: Parameters) =>
         SWISE,
         UNI,
         USDC,
-        USDM,
         USDS,
         USDT,
         WETH,
@@ -660,7 +658,6 @@ export default (parameters: Parameters) =>
         SWISE,
         UNI,
         USDC,
-        USDM,
         USDS,
         USDT,
         WETH,
@@ -679,7 +676,6 @@ export default (parameters: Parameters) =>
         sDAI,
         sUSDS,
         USDC,
-        USDM,
         USDS,
         USDT,
         WETH,
