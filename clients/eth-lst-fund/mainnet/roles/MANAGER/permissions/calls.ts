@@ -26,9 +26,6 @@ import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
 
 export default [
-  /*********************************************
-   * Typed-presets permissions
-   *********************************************/
   // Wrapping and unwrapping of ETH, WETH
   allow.mainnet.weth.withdraw(),
   allow.mainnet.weth.deposit({
