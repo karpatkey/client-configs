@@ -1,5 +1,5 @@
-import { allow as allowAction } from "defi-kit/arb1"
-import { GMX, PENDLE, USDC, WETH } from "@/addresses/arb1"
+import { allow as allowAction } from "defi-kit/base"
+import { MORPHO, USDC } from "@/addresses/base"
 import { parameters } from "../../../instances/main_prod"
 
 export default [
@@ -15,9 +15,9 @@ export default [
     recipient: parameters.avatar,
   }),
 
-  // CowSwap - [ETH, GMX, PENDLE, USDC, WETH] <-> [ETH, GMX, PENDLE, USDC, WETH]
+  // CowSwap - [MORPHO, USDC] <-> [MORPHO, USDC]
   allowAction.cowswap.swap({
-    sell: ["ETH", GMX, PENDLE, USDC, WETH],
-    buy: ["ETH", GMX, PENDLE, USDC, WETH],
+    sell: [MORPHO, USDC],
+    buy: [MORPHO, USDC],
   }),
 ]

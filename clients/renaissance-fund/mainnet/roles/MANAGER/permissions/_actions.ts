@@ -28,7 +28,7 @@ import {
   WETH,
 } from "@/addresses/eth"
 import { kpkGovernance } from "../../../../mainnet/addresses"
-import { parameters } from "../../../instances/main"
+import { parameters } from "../../../instances/main_prod"
 
 export default [
   // Aave Safety Module - Stake AAVE
@@ -56,6 +56,17 @@ export default [
   // Circle v1 - Receive USDC from Arbitrum
   allowAction.circle_v1.receive({
     targets: ["Arbitrum"],
+    sender: parameters.avatar,
+    recipient: parameters.avatar,
+  }),
+  // Circle v1 - Bridge USDC to Base
+  allowAction.circle_v1.bridge({
+    targets: ["Base"],
+    recipient: parameters.avatar,
+  }),
+  // Circle v1 - Receive USDC from Base
+  allowAction.circle_v1.receive({
+    targets: ["Base"],
     sender: parameters.avatar,
     recipient: parameters.avatar,
   }),
