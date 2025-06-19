@@ -6,9 +6,6 @@ import { allowErc20Transfer } from "@/helpers"
 import { allowEthTransfer } from "@/helpers"
 
 export default [
-  /*********************************************
-   * Typed-presets permissions
-   *********************************************/
   // Wrapping and unwrapping of ETH, WETH
   allow.mainnet.weth.withdraw(),
   allow.mainnet.weth.deposit({

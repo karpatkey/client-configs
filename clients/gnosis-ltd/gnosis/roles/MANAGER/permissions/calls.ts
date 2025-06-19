@@ -23,9 +23,6 @@ import { PermissionList } from "@/types"
 import { gnosisLtdEth } from "../../../addresses"
 
 export default [
-  /*********************************************
-   * Typed-presets permissions
-   *********************************************/
   // Wrapping and unwrapping of XDAI, WXDAI
   allow.gnosis.wxdai["deposit"]({
     send: true,

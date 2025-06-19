@@ -23,9 +23,6 @@ import { Parameters } from "../../../parameters"
 
 export default (parameters: Parameters) =>
   [
-    /*********************************************
-     * Typed-presets permissions
-     *********************************************/
     // Angle - wstETH-EUR-Vault
     ...allowErc20Approve(
       [wstETH, EURA],
