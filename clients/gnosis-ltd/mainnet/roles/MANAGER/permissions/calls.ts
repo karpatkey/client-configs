@@ -21,9 +21,6 @@ import { Parameters } from "../../../parameters"
 
 export default (parameters: Parameters) =>
   [
-    /*********************************************
-     * Typed-presets permissions
-     *********************************************/
     // Azuro - AZUR Staking and Unstaking
     allowErc20Approve([AZUR], [contracts.mainnet.azuro.stAzur]),
     allow.mainnet.azuro.stAzur.depositFor(c.avatar),

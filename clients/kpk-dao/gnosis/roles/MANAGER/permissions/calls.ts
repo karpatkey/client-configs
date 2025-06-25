@@ -6,9 +6,6 @@ import { kpkEth, kfPaymentsGC } from "../../../addresses"
 import { vcbGc } from "../../../../mainnet/addresses"
 
 export default [
-  /*********************************************
-   * Typed-presets permissions
-   *********************************************/
   // Wrapping and unwrapping of XDAI, WXDAI
   allow.gnosis.wxdai.deposit({ send: true }),
   allow.gnosis.wxdai.withdraw(),

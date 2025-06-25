@@ -3,7 +3,7 @@ import { avatar } from "@/test/wallets"
 import kit from "@/test/kit"
 import allowedCalls from "../permissions/calls"
 import allowedActions from "../permissions/_actions"
-import { parameters as renaissanceFundParameters } from "../../../instances/main"
+import { parameters as renaissanceFundParameters } from "../../../instances/main_prod"
 
 // This test was disabled because it’s failing in CI for unknown reasons.
 describe.skip("Renaissance Fund", () => {

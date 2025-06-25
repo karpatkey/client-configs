@@ -1,6 +1,6 @@
 import { allow as allowAction } from "defi-kit/arb1"
-import { GMX, USDC, WETH } from "@/addresses/arb1"
-import { parameters } from "../../../instances/main"
+import { GMX, PENDLE, USDC, WETH } from "@/addresses/arb1"
+import { parameters } from "../../../instances/main_prod"
 
 export default [
   // Circle v1 - Bridge USDC to Ethereum
@@ -15,9 +15,9 @@ export default [
     recipient: parameters.avatar,
   }),
 
-  // CowSwap - [ETH, GMX, USDC, WETH] <-> [ETH, GMX, USDC, WETH]
+  // CowSwap - [ETH, GMX, PENDLE, USDC, WETH] <-> [ETH, GMX, PENDLE, USDC, WETH]
   allowAction.cowswap.swap({
-    sell: ["ETH", GMX, USDC, WETH],
-    buy: ["ETH", GMX, USDC, WETH],
+    sell: ["ETH", GMX, PENDLE, USDC, WETH],
+    buy: ["ETH", GMX, PENDLE, USDC, WETH],
   }),
 ]

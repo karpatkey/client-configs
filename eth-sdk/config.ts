@@ -147,7 +147,7 @@ export const contracts = {
       nProxy: "0x6e7058c91F85E0F6db4fc9da2CA41241f5e4263f",
     },
     oiv: {
-      shares: "0x192f8c16217d56684e89e0a20e96f4285dea6acf", // TODO: change
+      shares: "0xE5049FaA645b9cFc126665f25ef97358E43B1395", // prod shares
     },
     origin: {
       oEthZapper: "0x9858e47BCbBe6fBAC040519B02d7cd4B2C470C66",
@@ -253,7 +253,7 @@ export const contracts = {
       wxdaiSdaiLp: "0xEe9BFf933aDD313C4289E98dA80fEfbF9d5Cd9Ba",
     },
     oiv: {
-      shares: "0x192f8c16217d56684e89e0a20e96f4285dea6acf", // TODO: change
+      shares: "0xE5049FaA645b9cFc126665f25ef97358E43B1395", // prod shares
     },
     stakeWiseV3: {
       ...deFiKitContracts.gnosis.stakeWiseV3,
@@ -282,7 +282,7 @@ export const contracts = {
       sUsd3CrvPool: "0x061b87122Ed14b9526A813209C8a59a633257bAb",
     },
     oiv: {
-      shares: "0x192f8c16217d56684e89e0a20e96f4285dea6acf", // TODO: change
+      shares: "0xE5049FaA645b9cFc126665f25ef97358E43B1395", // prod shares
     },
     navCalculator: "0x4AbE155C97009e388E0493fe1516F636e0F3a390",
   },
@@ -299,7 +299,7 @@ export const contracts = {
       stSgyd: "0xb4C19C1b16881A6d1d781264f0f8C0237D8Be0C7",
     },
     oiv: {
-      shares: "0x192f8c16217d56684e89e0a20e96f4285dea6acf", // TODO: change
+      shares: "0xE5049FaA645b9cFc126665f25ef97358E43B1395", // prod shares
     },
     stargate: {
       poolNative: "0xA45B5130f36CDcA45667738e2a258AB09f4A5f7F",
@@ -309,7 +309,7 @@ export const contracts = {
   base: {
     ...deFiKitContracts.base,
     oiv: {
-      shares: "0x192f8c16217d56684e89e0a20e96f4285dea6acf", // TODO: change
+      shares: "0xE5049FaA645b9cFc126665f25ef97358E43B1395", // prod shares
     },
     stargate: {
       poolNative: "0xdc181Bd607330aeeBEF6ea62e03e5e1Fb4B6F7C7",
