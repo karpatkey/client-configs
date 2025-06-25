@@ -1,15 +1,12 @@
 import { allow as allowAction } from "defi-kit/gno"
-import { GNO, osGNO, sDAI, USDC, USDCe, WXDAI } from "@/addresses/gno"
+import { GNO, osGNO, USDCe } from "@/addresses/gno"
 
 export default [
-  // CowSwap - [GNO, osGNO, sDAI, USDC, USDC.e, WXDAI, xDAI] <-> [GNO, osGNO, sDAI, USDC, USDC.e, WXDAI, xDAI]
+  // CowSwap - [GNO, osGNO, USDC.e] <-> [GNO, osGNO, USDC.e]
   allowAction.cowswap.swap({
-    sell: ["XDAI", GNO, osGNO, sDAI, USDC, USDCe, WXDAI],
-    buy: ["XDAI", GNO, osGNO, sDAI, USDC, USDCe, WXDAI],
+    sell: [GNO, osGNO, USDCe],
+    buy: [GNO, osGNO, USDCe],
   }),
-
-  // Spark - DSR_sDAI
-  allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
 
   // StakeWise v3 - Genesis
   allowAction.stakewise_v3.stake({ targets: ["Genesis Vault"] }),
