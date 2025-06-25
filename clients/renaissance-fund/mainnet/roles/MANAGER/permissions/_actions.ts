@@ -20,6 +20,8 @@ export default [
   allowAction.aave_v3.stake({ targets: ["AAVE"] }),
   // Aave v3 - Delegate AAVE to governance.karpatkey.eth
   allowAction.aave_v3.delegate({ targets: ["AAVE"], delegatee: kpkGovernance }),
+  // Aave v3 - Revoke AAVE delegation
+  allowAction.aave_v3.delegate({ targets: ["AAVE"], delegatee: parameters.avatar }),
 
   // Circle v1 - Bridge USDC to Arbitrum
   allowAction.circle_v1.bridge({
