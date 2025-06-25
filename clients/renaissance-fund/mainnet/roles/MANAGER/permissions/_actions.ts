@@ -47,33 +47,7 @@ export default [
   // CowSwap - [AAVE, BAL, CRV, ETH, GNO, LDO, LINK, PENDLE, SKY, USDC, UNI, WETH] <->
   // [AAVE, BAL, CRV, ETH, GNO, LDO, LINK, PENDLE, SKY, USDC, UNI, WETH]
   allowAction.cowswap.swap({
-    sell: [
-      "ETH",
-      AAVE,
-      BAL,
-      CRV,
-      GNO,
-      LDO,
-      LINK,
-      PENDLE,
-      SKY,
-      USDC,
-      UNI,
-      WETH,
-    ],
-    buy: [
-      "ETH",
-      AAVE,
-      BAL,
-      CRV,
-      GNO,
-      LDO,
-      LINK,
-      PENDLE,
-      SKY,
-      USDC,
-      UNI,
-      WETH,
-    ],
+    sell: ["ETH", AAVE, BAL, CRV, GNO, LDO, LINK, PENDLE, SKY, USDC, UNI, WETH],
+    buy: ["ETH", AAVE, BAL, CRV, GNO, LDO, LINK, PENDLE, SKY, USDC, UNI, WETH],
   }),
 ]
