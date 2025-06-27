@@ -6,11 +6,8 @@ import {
   ChainId,
   Clearance,
   Target,
-  applyAnnotations,
-  applyTargets,
-  fetchRole,
+  planApplyRole,
   posterAbi,
-  processPermissions,
   rolesAbi,
 } from "zodiac-roles-sdk"
 import {
@@ -47,37 +44,14 @@ async function main() {
 
   const encodedRoleKey = encodeBytes32String(roleKey)
 
-  const currentRole = await fetchRole({
-    address: instance.rolesMod,
-    chainId: instance.chainId,
-    roleKey: encodedRoleKey,
-  })
-  const currentTargets = (currentRole?.targets || []).filter(
-    (target) => !isEmptyFunctionScoped(target)
+  const calls = await planApplyRole(
+    {
+      key: encodedRoleKey,
+      targets,
+      annotations,
+    },
+    { chainId: instance.chainId, address: instance.rolesMod }
   )
-  const currentAnnotations = currentRole?.annotations || []
-
-  const calls = [
-    ...(
-      await applyTargets(encodedRoleKey, targets, {
-        chainId: instance.chainId,
-        address: instance.rolesMod,
-        mode: "replace",
-        currentTargets,
-        log: console.log,
-      })
-    ).map((data) => ({ to: instance.rolesMod, data })),
-
-    ...(
-      await applyAnnotations(encodedRoleKey, annotations, {
-        chainId: instance.chainId,
-        address: instance.rolesMod,
-        mode: "replace",
-        currentAnnotations,
-        log: console.log,
-      })
-    ).map((data) => ({ to: POSTER_ADDRESS, data })),
-  ]
 
   const txBuilderJson = exportToSafeTransactionBuilder(
     calls,
