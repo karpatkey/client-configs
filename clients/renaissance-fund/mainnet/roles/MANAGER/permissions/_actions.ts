@@ -8,6 +8,7 @@ import {
   LINK,
   PENDLE,
   SKY,
+  stkAAVE,
   USDC,
   UNI,
   WETH,
@@ -23,6 +24,16 @@ export default [
   // Aave v3 - Revoke AAVE delegation
   allowAction.aave_v3.delegate({
     targets: ["AAVE"],
+    delegatee: parameters.avatar,
+  }),
+  // Aave v3 - Delegate stkAAVE to governance.karpatkey.eth
+  allowAction.aave_v3.delegate({
+    targets: ["stkAAVE"],
+    delegatee: kpkGovernance,
+  }),
+  // Aave v3 - Revoke stkAAVE delegation
+  allowAction.aave_v3.delegate({
+    targets: ["stkAAVE"],
     delegatee: parameters.avatar,
   }),
 
@@ -49,10 +60,10 @@ export default [
     recipient: parameters.avatar,
   }),
 
-  // CowSwap - [AAVE, BAL, CRV, ETH, GNO, LDO, LINK, PENDLE, SKY, USDC, UNI, WETH] <->
-  // [AAVE, BAL, CRV, ETH, GNO, LDO, LINK, PENDLE, SKY, USDC, UNI, WETH]
+  // CowSwap - [AAVE, BAL, CRV, ETH, GNO, LDO, LINK, PENDLE, SKY, stkAAVE, USDC, UNI, WETH] <->
+  // [AAVE, BAL, CRV, ETH, GNO, LDO, LINK, PENDLE, SKY, stkAAVE, USDC, UNI, WETH]
   allowAction.cowswap.swap({
-    sell: ["ETH", AAVE, BAL, CRV, GNO, LDO, LINK, PENDLE, SKY, USDC, UNI, WETH],
-    buy: ["ETH", AAVE, BAL, CRV, GNO, LDO, LINK, PENDLE, SKY, USDC, UNI, WETH],
+    sell: ["ETH", AAVE, BAL, CRV, GNO, LDO, LINK, PENDLE, SKY, stkAAVE, USDC, UNI, WETH],
+    buy: ["ETH", AAVE, BAL, CRV, GNO, LDO, LINK, PENDLE, SKY, stkAAVE, USDC, UNI, WETH],
   }),
 ]
