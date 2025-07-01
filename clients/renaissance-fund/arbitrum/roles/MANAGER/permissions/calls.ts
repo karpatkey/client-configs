@@ -70,9 +70,6 @@ export default (parameters: Parameters) =>
     /*********************************************
      * Bridge
      *********************************************/
-    // NAV Calculator - bridgeStart - In the future, the bridged assets should be scoped appropriately.
-    allow.arbitrumOne.navCalculator.bridgeStart(),
-
     // Arbitrum -> Mainnet
     // ETH - Arbitrum Bridge
     allow.arbitrumOne.arbitrumBridge.arbSys.withdrawEth(

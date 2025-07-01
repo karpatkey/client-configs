@@ -29,9 +29,6 @@ import { Parameters } from "../../../parameters"
 
 export default (parameters: Parameters) =>
   [
-    /*********************************************
-     * Typed-presets permissions
-     *********************************************/
     // Wrapping and unwrapping of ETH, WETH
     allow.mainnet.weth.withdraw(),
     allow.mainnet.weth.deposit({

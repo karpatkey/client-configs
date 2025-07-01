@@ -1,51 +1,40 @@
 import { allow as allowAction } from "defi-kit/eth"
 import {
-  _1INCH,
   AAVE,
   BAL,
-  COW,
   CRV,
-  DAI,
-  DYDX,
-  GHO,
   GNO,
   LDO,
   LINK,
-  MKR,
-  ONDO,
   PENDLE,
-  PYTH,
-  RPL,
-  SAFE,
   SKY,
-  sUSDS,
   stkAAVE,
-  stkGHO,
   USDC,
-  USDS,
-  USDT,
   UNI,
   WETH,
 } from "@/addresses/eth"
 import { kpkGovernance } from "../../../../mainnet/addresses"
-import { parameters } from "../../../instances/main"
+import { parameters } from "../../../instances/main_prod"
 
 export default [
   // Aave Safety Module - Stake AAVE
   allowAction.aave_v3.stake({ targets: ["AAVE"] }),
-  // Aave Safety Module - Stake GHO
-  allowAction.aave_v3.stake({ targets: ["GHO"] }),
   // Aave v3 - Delegate AAVE to governance.karpatkey.eth
   allowAction.aave_v3.delegate({ targets: ["AAVE"], delegatee: kpkGovernance }),
+  // Aave v3 - Revoke AAVE delegation
+  allowAction.aave_v3.delegate({
+    targets: ["AAVE"],
+    delegatee: parameters.avatar,
+  }),
   // Aave v3 - Delegate stkAAVE to governance.karpatkey.eth
   allowAction.aave_v3.delegate({
     targets: ["stkAAVE"],
     delegatee: kpkGovernance,
   }),
-  // Aave v3 - Delegate aAAVE to governance.karpatkey.eth
+  // Aave v3 - Revoke stkAAVE delegation
   allowAction.aave_v3.delegate({
-    targets: ["aEthAAVE"],
-    delegatee: kpkGovernance,
+    targets: ["stkAAVE"],
+    delegatee: parameters.avatar,
   }),
 
   // Circle v1 - Bridge USDC to Arbitrum
@@ -59,70 +48,50 @@ export default [
     sender: parameters.avatar,
     recipient: parameters.avatar,
   }),
+  // Circle v1 - Bridge USDC to Base
+  allowAction.circle_v1.bridge({
+    targets: ["Base"],
+    recipient: parameters.avatar,
+  }),
+  // Circle v1 - Receive USDC from Base
+  allowAction.circle_v1.receive({
+    targets: ["Base"],
+    sender: parameters.avatar,
+    recipient: parameters.avatar,
+  }),
 
-  // CowSwap - [1INCH, AAVE, BAL, COW, CRV, DAI, DYDX, ETH, GHO, GNO, LDO, LINK, MKR, ONDO, PENDLE, PYTH, RPL, SAFE, SKY, sUSDS, stkAAVE, stkGHO, USDC, USDS, USDT, UNI, WETH] <->
-  // [1INCH, AAVE, BAL, COW, CRV, DAI, DYDX, ETH, GHO, GNO, LDO, LINK, MKR, ONDO, PENDLE, PYTH, RPL, SAFE, SKY, sUSDS, stkAAVE, stkGHO, USDC, USDS, USDT, UNI, WETH]
+  // CowSwap - [AAVE, BAL, CRV, ETH, GNO, LDO, LINK, PENDLE, SKY, stkAAVE, USDC, UNI, WETH] <->
+  // [AAVE, BAL, CRV, ETH, GNO, LDO, LINK, PENDLE, SKY, stkAAVE, USDC, UNI, WETH]
   allowAction.cowswap.swap({
     sell: [
       "ETH",
-      _1INCH,
       AAVE,
       BAL,
-      COW,
       CRV,
-      DAI,
-      DYDX,
-      GHO,
       GNO,
       LDO,
       LINK,
-      MKR,
-      ONDO,
       PENDLE,
-      PYTH,
-      RPL,
-      SAFE,
       SKY,
-      sUSDS,
       stkAAVE,
-      stkGHO,
       USDC,
-      USDS,
-      USDT,
       UNI,
       WETH,
     ],
     buy: [
       "ETH",
-      _1INCH,
       AAVE,
       BAL,
-      COW,
       CRV,
-      DAI,
-      DYDX,
-      GHO,
       GNO,
       LDO,
       LINK,
-      MKR,
-      ONDO,
       PENDLE,
-      PYTH,
-      RPL,
-      SAFE,
       SKY,
-      sUSDS,
       stkAAVE,
-      stkGHO,
       USDC,
-      USDS,
-      USDT,
       UNI,
       WETH,
     ],
   }),
-
-  // Spark - SKY_USDS
-  allowAction.spark.deposit({ targets: ["SKY_USDS"] }),
 ]

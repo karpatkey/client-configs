@@ -34,9 +34,6 @@ import { encodeBytes32String } from "defi-kit"
 
 export default (parameters: Parameters) =>
   [
-    /*********************************************
-     * Typed-presets permissions
-     *********************************************/
     // Wrapping and unwrapping of ETH, WETH
     allow.mainnet.weth.withdraw(),
     allow.mainnet.weth.deposit({
