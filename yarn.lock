@@ -447,6 +447,24 @@
     typechain "^8.0.0"
     zod "^3.11.5"
 
+"@gnosis-guild/eth-sdk@^0.3.9":
+  version "0.3.9"
+  resolved "https://registry.yarnpkg.com/@gnosis-guild/eth-sdk/-/eth-sdk-0.3.9.tgz#bdcdb413bf38480a9d01757cf37cdcc721374076"
+  integrity sha512-2ym0b2sWwFbHzCA01MYXAyej/LQVsjB/3hbRznrIEQSwrvF/B5HDtRcNtWwPOgedzUDd4iVkGocM5VtwGW7S0g==
+  dependencies:
+    "@gnosis-guild/typechain-ethers-v6" "^0.5.3"
+    chalk "^4.1.2"
+    commander "^8.3.0"
+    debug "^4.3.2"
+    fs-extra "^10.0.0"
+    glob "7.1.7"
+    got "^11.8.2"
+    lodash "^4.17.21"
+    mkdirp "^1.0.4"
+    ora "^5.4.1"
+    typechain "^8.0.0"
+    zod "^3.11.5"
+
 "@gnosis-guild/typechain-ethers-v6@^0.5.3":
   version "0.5.5"
   resolved "https://registry.yarnpkg.com/@gnosis-guild/typechain-ethers-v6/-/typechain-ethers-v6-0.5.5.tgz#5f42a8aa40ea53ac72ff68fee35276448a74b1b3"
@@ -1551,10 +1569,10 @@ defer-to-connect@^2.0.0:
   resolved "https://registry.yarnpkg.com/defer-to-connect/-/defer-to-connect-2.0.1.tgz#8016bdb4143e4632b77a3449c6236277de520587"
   integrity sha512-4tvttepXG1VaYGrRibk5EwJd1t4udunSOVMdLSAL6mId1ix438oPwPZMALY41FCijukO1L0twNcGsdzS7dHgDg==
 
-defi-kit@^2.16.0:
-  version "2.16.0"
-  resolved "https://registry.yarnpkg.com/defi-kit/-/defi-kit-2.16.0.tgz#79f8ed15930038bb6a8e1bbe4c21312013f7a57c"
-  integrity sha512-hroz6kQczkLioSAl55OAWk7Vu+LpvoRkWDBagSeBcMJQnfi3WUuhqsY63tzYuJOl2x9zM0zLGhjnCeRNIVcOOA==
+defi-kit@^2.17.0:
+  version "2.17.0"
+  resolved "https://registry.yarnpkg.com/defi-kit/-/defi-kit-2.17.0.tgz#32577ab9d0c7057318581cfc7d3e7fde416e1333"
+  integrity sha512-CFr03cV80ddOmKr80ulR5BEYjIp57OJhy74G2nJNAZbizAUtydoGvdYunj2YLZu6Oyjdw7XSaIx67eiaSdzyGg==
   dependencies:
     "@asteasolutions/zod-to-openapi" "^5.5.0"
     "@gnosis-guild/eth-sdk" "^0.3.7"
@@ -1562,7 +1580,7 @@ defi-kit@^2.16.0:
     "@gnosis-guild/zodiac" "^4.0.3"
     ethers "^6.13.4"
     zod "^3.22.2"
-    zodiac-roles-sdk "^2.21.1"
+    zodiac-roles-sdk "^3.0.1"
 
 delayed-stream@~1.0.0:
   version "1.0.0"
@@ -3372,16 +3390,7 @@ string-length@^4.0.1:
     char-regex "^1.0.2"
     strip-ansi "^6.0.0"
 
-"string-width-cjs@npm:string-width@^4.2.0":
-  version "4.2.3"
-  resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
-  integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
-  dependencies:
-    emoji-regex "^8.0.0"
-    is-fullwidth-code-point "^3.0.0"
-    strip-ansi "^6.0.1"
-
-string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
+"string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -3415,14 +3424,7 @@ string_decoder@^1.1.1:
   dependencies:
     safe-buffer "~5.2.0"
 
-"strip-ansi-cjs@npm:strip-ansi@^6.0.1":
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
-  integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
-  dependencies:
-    ansi-regex "^5.0.1"
-
-strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+"strip-ansi-cjs@npm:strip-ansi@^6.0.1", strip-ansi@^6.0.0, strip-ansi@^6.0.1:
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
   integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
@@ -3721,16 +3723,7 @@ wordwrapjs@^4.0.0:
     reduce-flatten "^2.0.0"
     typical "^5.2.0"
 
-"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0":
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
-  integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
-  dependencies:
-    ansi-styles "^4.0.0"
-    string-width "^4.1.0"
-    strip-ansi "^6.0.0"
-
-wrap-ansi@^7.0.0:
+"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0", wrap-ansi@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
   integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
@@ -3823,15 +3816,15 @@ zod@^3.11.5, zod@^3.22.2:
   resolved "https://registry.yarnpkg.com/zod/-/zod-3.24.3.tgz#1f40f750a05e477396da64438e0e1c0995dafd87"
   integrity sha512-HhY1oqzWCQWuUqvBFnsyrtZRhyPeR7SUGv+C4+MsisMuVfSPx8HpwWqH8tRahSlt6M3PiFAcoeFhZAqIXTxoSg==
 
-zodiac-roles-deployments@^2.5.0:
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/zodiac-roles-deployments/-/zodiac-roles-deployments-2.5.0.tgz#d58230aa32e6e9d5f57b1e9bb8e293377f8ea864"
-  integrity sha512-+Z9+qtdQbJvCCwLfeHzmACnZyo48fp2/lPPbiP5CGiO9WfbhfmOFv9Rt0LlQG+8e1PODdysg5DMNHK91MHG5wA==
+zodiac-roles-deployments@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/zodiac-roles-deployments/-/zodiac-roles-deployments-3.0.0.tgz#b46b7167b185d1f75dad2b25783c0861feac7273"
+  integrity sha512-Zs8BnTS84SDNEWj3V14pjJhVqdCfdfC84AVif1bv+MAK5tfSP99YR5/hSjDdKXF0GiwJWBCpJ89IrppemM/HHQ==
 
-zodiac-roles-sdk@^2.21.1, zodiac-roles-sdk@^2.22.1:
-  version "2.22.2"
-  resolved "https://registry.yarnpkg.com/zodiac-roles-sdk/-/zodiac-roles-sdk-2.22.2.tgz#cbc7d68fb60a538f8430f11d35d71f13dcacf01c"
-  integrity sha512-4GyMka+c4VaP1GmOopfmFwN0muxkRSZs/y6cqldt2eL6dB7wibGRm/Rhph7bY+OielnWKzVyMjSHi/hY1oscvg==
+zodiac-roles-sdk@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/zodiac-roles-sdk/-/zodiac-roles-sdk-3.0.1.tgz#34af03fb6b7d5a640c49d5aac8073b1d2b9f5634"
+  integrity sha512-4e4+ZyzQs7spLlx+XvzSyEknFfNNp2LPPjhGY4Fjq1ecOP1ftgUY2WilN5h0KCywjVpBzwA8K0/ECtKS7Z7aug==
   dependencies:
     ethers "^6.13.5"
-    zodiac-roles-deployments "^2.5.0"
+    zodiac-roles-deployments "^3.0.0"
