@@ -1,5 +1,5 @@
 import {
-  checkIntegrity,
+  targetIntegrity,
   Permission,
   PermissionSet,
   processPermissions,
@@ -57,7 +57,7 @@ export const compileApplyData = async ({
       instance.parameters
     )
   )
-  checkIntegrity(targets)
+  targetIntegrity(targets)
 
   const roleKeyPrefix = instance.roleKeyPrefix || ""
   const roleKey = roleKeyPrefix + roleArg

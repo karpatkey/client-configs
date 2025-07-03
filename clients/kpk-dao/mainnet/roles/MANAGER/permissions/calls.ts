@@ -318,7 +318,7 @@ export default (parameters: Parameters) =>
       c.withinAllowance(encodeBytes32String("DAI_VCB-GC") as `0x${string}`)
     ),
     // Bridge DAI to kpkGc without restriction
-    allow.mainnet.gnoXdaiBridge.relayTokens(kpkGc, c.gt(0)),
+    allow.mainnet.gnoXdaiBridge.relayTokens(kpkGc),
     // Claim bridged XDAI from Gnosis
     allow.mainnet.gnoXdaiBridge.executeSignatures(
       c.and(
