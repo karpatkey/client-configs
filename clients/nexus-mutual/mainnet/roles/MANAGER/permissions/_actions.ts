@@ -10,11 +10,13 @@ import {
   eETH,
   GHO,
   LDO,
+  MORPHO,
   osETH,
   rETH,
   RPL,
   sUSDS,
   stETH,
+  SPK,
   SWISE,
   USDC,
   USDS,
@@ -63,12 +65,6 @@ export default [
   allowAction.aura.deposit({ targets: ["179"] }),
   // Aura - rETH/WETH
   allowAction.aura.deposit({ targets: ["109"] }),
-  // Aura - GHO/USDT/USDC
-  allowAction.aura.deposit({ targets: ["157"] }),
-  // Aura - sDAI/3Pool
-  allowAction.aura.deposit({ targets: ["186"] }),
-  // Aura - Gyroscope ECLP GHO/USDC 2
-  allowAction.aura.deposit({ targets: ["195"] }),
   // Aura - weETH/rETH
   allowAction.aura.deposit({ targets: ["182"] }),
 
@@ -81,15 +77,6 @@ export default [
   // Balancer v2 - rETH/WETH
   allowAction.balancer_v2.deposit({ targets: ["B-rETH-STABLE"] }),
   allowAction.balancer_v2.stake({ targets: ["B-rETH-STABLE"] }),
-  // Balancer v2 - GHO/USDT/USDC
-  allowAction.balancer_v2.deposit({ targets: ["GHO/USDT/USDC"] }),
-  allowAction.balancer_v2.stake({ targets: ["GHO/USDT/USDC"] }),
-  // Balancer v2 - sDAI/3Pool
-  allowAction.balancer_v2.deposit({ targets: ["sDAI/3Pool"] }),
-  allowAction.balancer_v2.stake({ targets: ["sDAI/3Pool"] }),
-  // Balancer v2 - Gyroscope ECLP GHO/USDC 2
-  allowAction.balancer_v2.deposit({ targets: ["ECLP-GHO-USDC-2"] }),
-  allowAction.balancer_v2.stake({ targets: ["ECLP-GHO-USDC-2"] }),
   // Balancer v2 - weETH/rETH
   allowAction.balancer_v2.deposit({ targets: ["weETH/rETH"] }),
   allowAction.balancer_v2.stake({ targets: ["weETH/rETH"] }),
@@ -150,6 +137,12 @@ export default [
   allowAction.cowswap.swap({
     sell: [cbBTC],
     buy: [USDC, USDT, WETH, wstETH],
+  }),
+
+  // CowSwap - [MORPHO, SPK] -> [ETH, USDC, WETH]
+  allowAction.cowswap.swap({
+    sell: [MORPHO, SPK],
+    buy: ["ETH", USDC, WETH],
   }),
 
   // Lido
