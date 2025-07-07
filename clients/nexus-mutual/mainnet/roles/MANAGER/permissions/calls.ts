@@ -50,45 +50,36 @@ export default (parameters: Parameters) =>
 
     // Aave Umbrella Staking - GHO
     allowErc20Approve([GHO], [contracts.mainnet.aaveV3.unmbrellaBatchHelper]),
-    allow.mainnet.aaveV3.unmbrellaBatchHelper.deposit(
-      {
-        stakeToken: aaveV3.stkEthGHO,
-        edgeToken: GHO
-      }
-    ),
+    allow.mainnet.aaveV3.unmbrellaBatchHelper.deposit({
+      stakeToken: aaveV3.stkEthGHO,
+      edgeToken: GHO,
+    }),
     allowErc20Approve([GHO], [aaveV3.stkEthGHO]),
     {
-      ...allow.mainnet.aaveV3.stkwaEthToken.deposit(
-        undefined,
-        c.avatar
-      ),
-      targetAddress: aaveV3.stkEthGHO
+      ...allow.mainnet.aaveV3.stkwaEthToken.deposit(undefined, c.avatar),
+      targetAddress: aaveV3.stkEthGHO,
     },
     {
       ...allow.mainnet.aaveV3.stkwaEthToken.cooldown(),
-      targetAddress: aaveV3.stkEthGHO
+      targetAddress: aaveV3.stkEthGHO,
     },
-    allow.mainnet.aaveV3.unmbrellaBatchHelper.redeem(
-      {
-        stakeToken: aaveV3.stkEthGHO,
-        edgeToken: GHO
-      }
-    ),
+    allow.mainnet.aaveV3.unmbrellaBatchHelper.redeem({
+      stakeToken: aaveV3.stkEthGHO,
+      edgeToken: GHO,
+    }),
     {
       ...allow.mainnet.aaveV3.stkwaEthToken.redeem(
         undefined,
         c.avatar,
         c.avatar
       ),
-      targetAddress: aaveV3.stkEthGHO
+      targetAddress: aaveV3.stkEthGHO,
     },
 
     // Claim Umbrella Staking Rewards
-    allow.mainnet.aaveV3.umbrellaRewardsController["claimSelectedRewards(address,address[],address)"](
-      undefined,
-      undefined,
-      c.avatar
-    ),
+    allow.mainnet.aaveV3.umbrellaRewardsController[
+      "claimSelectedRewards(address,address[],address)"
+    ](undefined, undefined, c.avatar),
 
     // Aura - Aave Boosted USDT/GHO/USDC
     ...allowErc20Approve(
