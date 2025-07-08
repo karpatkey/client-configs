@@ -28,9 +28,6 @@ import {
 } from "@/addresses/eth"
 
 export default [
-  /*********************************************
-   * DeFi-Kit permissions
-   *********************************************/
   // Aave Safety Module - Stake GHO
   allowAction.aave_v3.stake({ targets: ["GHO"] }),
   // Aave v3 Core Market - Deposit DAI
