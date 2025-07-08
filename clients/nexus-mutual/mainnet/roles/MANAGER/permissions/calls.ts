@@ -76,6 +76,62 @@ export default (parameters: Parameters) =>
       targetAddress: aaveV3.stkEthGHO,
     },
 
+    // Aave Umbrella Staking - USDC
+    allowErc20Approve([USDC], [contracts.mainnet.aaveV3.unmbrellaBatchHelper]),
+    allow.mainnet.aaveV3.unmbrellaBatchHelper.deposit({
+      stakeToken: aaveV3.stkEthUSDC,
+      edgeToken: USDC,
+    }),
+    allowErc20Approve([USDC], [aaveV3.stkEthUSDC]),
+    {
+      ...allow.mainnet.aaveV3.stkwaEthToken.deposit(undefined, c.avatar),
+      targetAddress: aaveV3.stkEthUSDC,
+    },
+    {
+      ...allow.mainnet.aaveV3.stkwaEthToken.cooldown(),
+      targetAddress: aaveV3.stkEthUSDC,
+    },
+    allow.mainnet.aaveV3.unmbrellaBatchHelper.redeem({
+      stakeToken: aaveV3.stkEthUSDC,
+      edgeToken: USDC,
+    }),
+    {
+      ...allow.mainnet.aaveV3.stkwaEthToken.redeem(
+        undefined,
+        c.avatar,
+        c.avatar
+      ),
+      targetAddress: aaveV3.stkEthUSDC,
+    },
+
+    // Aave Umbrella Staking - USDT
+    allowErc20Approve([USDT], [contracts.mainnet.aaveV3.unmbrellaBatchHelper]),
+    allow.mainnet.aaveV3.unmbrellaBatchHelper.deposit({
+      stakeToken: aaveV3.stkEthUSDT,
+      edgeToken: USDT,
+    }),
+    allowErc20Approve([USDT], [aaveV3.stkEthUSDT]),
+    {
+      ...allow.mainnet.aaveV3.stkwaEthToken.deposit(undefined, c.avatar),
+      targetAddress: aaveV3.stkEthUSDT,
+    },
+    {
+      ...allow.mainnet.aaveV3.stkwaEthToken.cooldown(),
+      targetAddress: aaveV3.stkEthUSDT,
+    },
+    allow.mainnet.aaveV3.unmbrellaBatchHelper.redeem({
+      stakeToken: aaveV3.stkEthUSDT,
+      edgeToken: USDT,
+    }),
+    {
+      ...allow.mainnet.aaveV3.stkwaEthToken.redeem(
+        undefined,
+        c.avatar,
+        c.avatar
+      ),
+      targetAddress: aaveV3.stkEthUSDT,
+    },
+
     // Claim Umbrella Staking Rewards
     allow.mainnet.aaveV3.umbrellaRewardsController[
       "claimSelectedRewards(address,address[],address)"
