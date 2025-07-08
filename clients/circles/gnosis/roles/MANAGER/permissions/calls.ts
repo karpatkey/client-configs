@@ -1,4 +1,4 @@
-import { sDAI } from "@/addresses/eth"
+import { sDAI } from "@/addresses/gno"
 import { operationsCircles } from "../../../addresses"
 import { PermissionList } from "@/types"
 import { allowErc20Transfer } from "@/helpers"
