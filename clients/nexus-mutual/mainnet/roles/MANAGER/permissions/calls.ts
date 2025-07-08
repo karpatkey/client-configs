@@ -354,37 +354,15 @@ export default (parameters: Parameters) =>
 
     // Morpho - Gauntlet USDC Prime
     allowErc20Approve([USDC], [contracts.mainnet.morpho.gtUsdc]),
-    allow.mainnet.morpho.gtUsdc.deposit(
-      undefined,
-      c.avatar
-    ),
-    allow.mainnet.morpho.gtUsdc.withdraw(
-      undefined,
-      c.avatar,
-      c.avatar
-    ),
-    allow.mainnet.morpho.gtUsdc.redeem(
-      undefined,
-      c.avatar,
-      c.avatar
-    ),
+    allow.mainnet.morpho.gtUsdc.deposit(undefined, c.avatar),
+    allow.mainnet.morpho.gtUsdc.withdraw(undefined, c.avatar, c.avatar),
+    allow.mainnet.morpho.gtUsdc.redeem(undefined, c.avatar, c.avatar),
 
     // Morpho - Steakhouse USDC
     allowErc20Approve([USDC], [contracts.mainnet.morpho.steakUSDC]),
-    allow.mainnet.morpho.steakUSDC.deposit(
-      undefined,
-      c.avatar
-    ),
-    allow.mainnet.morpho.steakUSDC.withdraw(
-      undefined,
-      c.avatar,
-      c.avatar
-    ),
-    allow.mainnet.morpho.steakUSDC.redeem(
-      undefined,
-      c.avatar,
-      c.avatar
-    ),
+    allow.mainnet.morpho.steakUSDC.deposit(undefined, c.avatar),
+    allow.mainnet.morpho.steakUSDC.withdraw(undefined, c.avatar, c.avatar),
+    allow.mainnet.morpho.steakUSDC.redeem(undefined, c.avatar, c.avatar),
 
     // Morpho Claim Rewards (through Merkle)
     allow.mainnet.merkl.angleDistributor.claim([parameters.avatar]),
