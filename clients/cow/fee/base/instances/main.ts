@@ -1,7 +1,9 @@
 import { Parameters } from "../../../parameters"
 
-export const rolesMod = "0xdC62D46D61f2aE101aCE74A1d2eE2bA09D8BaFF7"
+export const rolesMod = "0x29AA023c60Fd8768813ac3b67FfDC466aCB69D0F"
 export const chainId = 8453
+
 export const parameters: Parameters = {
-  avatar: "0x3c4DBcCf8d80D3d92B0d82197aebf52574ED1F3B",
+  avatar: "0x22af3D38E50ddedeb7C47f36faB321eC3Bb72A76",
 }
+
