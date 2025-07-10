@@ -311,16 +311,17 @@ export default (parameters: Parameters) =>
      *********************************************/
     // Mainnet -> Gnosis
     // DAI (Mainnet) -> XDAI (Gnosis) - Gnosis Bridge - 600K per month to vcbGc
-    ...allowErc20Approve([DAI], [contracts.mainnet.gnoXdaiBridge]),
+    ...allowErc20Approve([DAI], [contracts.mainnet.xdaiUsdsBridge]),
     // Bridge up tp 600K DAI to vcbGc per month
-    allow.mainnet.gnoXdaiBridge.relayTokens(
+    allow.mainnet.xdaiUsdsBridge.relayTokens(
+      DAI,
       vcbGc,
       c.withinAllowance(encodeBytes32String("DAI_VCB-GC") as `0x${string}`)
     ),
     // Bridge DAI to kpkGc without restriction
-    allow.mainnet.gnoXdaiBridge.relayTokens(kpkGc),
+    allow.mainnet.xdaiUsdsBridge.relayTokens(DAI, kpkGc),
     // Claim bridged XDAI from Gnosis
-    allow.mainnet.gnoXdaiBridge.executeSignatures(
+    allow.mainnet.xdaiUsdsBridge.executeSignatures(
       c.and(
         // Avatar address
         c.bitmask({
@@ -334,17 +335,17 @@ export default (parameters: Parameters) =>
           value: "0x" + parameters.avatar.slice(22, 42), // Last 10 bytes of the avatar address
         }),
         // skip 32 bytes corresponding to the amount
-        // skip 32 bytes corresponding to the txHash from Gnosis
-        // Recipient address: Gnosis Chain xDai Bridge
+        // skip 32 bytes corresponding to the nonce
+        // Recipient address: xDai Bridge
         c.bitmask({
           shift: 20 + 32 + 32,
           mask: "0xffffffffffffffffffff",
-          value: contracts.mainnet.gnoXdaiBridge.slice(0, 22), // First 10 bytes of the avatar address
+          value: contracts.mainnet.gnoXdaiBridge.slice(0, 22), // First 10 bytes of the xDai Bridge
         }),
         c.bitmask({
           shift: 20 + 32 + 32 + 10,
           mask: "0xffffffffffffffffffff",
-          value: "0x" + contracts.mainnet.gnoXdaiBridge.slice(22, 42), // Last 10 bytes of the avatar address
+          value: "0x" + contracts.mainnet.gnoXdaiBridge.slice(22, 42), // Last 10 bytes of the xDai Bridge
         })
       )
     ),
