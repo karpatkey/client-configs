@@ -7,6 +7,9 @@ export const contracts = {
     aaveV3: {
       ...deFiKitContracts.mainnet.aaveV3,
       aaveCollectorV2: "0x464C71f6c2F760DdA6093dCB91C24c39e5d6e18c",
+      unmbrellaBatchHelper: "0xCe6Ced23118EDEb23054E06118a702797b13fc2F",
+      stkwaEthToken: "0xaAFD07D53A7365D3e9fb6F3a3B09EC19676B73Ce", // stkwaEthWETH
+      umbrellaRewardsController: "0x4655Ce3D625a63d30bA704087E52B4C31E38188B",
     },
     acrossV2: {
       hubPoolV2: "0xc186fA914353c44b2E33eBE05f21846F1048bEda",
@@ -133,6 +136,11 @@ export const contracts = {
     },
     merkl: {
       angleDistributor: "0x3Ef3D8bA38EBe18DB133cEc108f4D14CE00Dd9Ae",
+    },
+    morpho: {
+      ...deFiKitContracts.mainnet.morpho,
+      gtUsdc: "0xdd0f28e19C1780eb6396170735D45153D261490d",
+      steakUSDC: "0xBEEF01735c132Ada46AA9aA4c54623cAA92A64CB",
     },
     mStableV2: {
       stkMta: "0x8f2326316eC696F6d023E37A9931c2b2C177a3D7",
