@@ -7,4 +7,3 @@ export const roleKeyPrefix = "COW_MEV-"
 export const parameters: Parameters = {
   avatar: "0xC01318baB7ee1f5ba734172bF7718b5DC6Ec90E1",
 }
-
