@@ -204,6 +204,7 @@ export const convex = {
   cvxOethCrvRewarder: "0x24b65DC1cf053A8D96872c323d29e86ec43eB33A",
   cvxethxRewarder: "0x399e111c7209a741B06F8F86Ef0Fdd88fC198D20",
   cvxankrCrvRewarder: "0x8798b81b0261934aa850C8de8622472bfdc143F4",
+  cvxBtcGhoEthRewarder: "0x4d10e7FC03dE065Aef3dfbc0394CbEd1e4d36D6E",
 } as const
 
 export const cowSwap = {

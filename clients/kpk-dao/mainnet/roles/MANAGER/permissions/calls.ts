@@ -73,6 +73,8 @@ export default (parameters: Parameters) =>
     ),
     allow.mainnet.curve.crvUsdtWbtcWethGauge["deposit(uint256)"](),
     allow.mainnet.curve.crvUsdtWbtcWethGauge["withdraw(uint256)"](),
+    allow.mainnet.curve.crvUsdtWbtcWethGauge["claim_rewards()"](),
+    allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.crvUsdtWbtcWethGauge),
 
     // Curve - Tricrypto GHO (GHO/WBTC/wstETH)
     ...allowErc20Approve(
@@ -94,6 +96,8 @@ export default (parameters: Parameters) =>
     ),
     allow.mainnet.curve.ghoBtcWsteGauge["deposit(uint256)"](),
     allow.mainnet.curve.ghoBtcWsteGauge["withdraw(uint256)"](),
+    allow.mainnet.curve.ghoBtcWsteGauge["claim_rewards()"](),
+    allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.ghoBtcWsteGauge),
 
     // Curve - Tricrypto GHO (GHO/cbBTC/ETH)
     ...allowErc20Approve(
@@ -120,6 +124,8 @@ export default (parameters: Parameters) =>
     ),
     allow.mainnet.curve.btcGhoEthGauge["deposit(uint256)"](),
     allow.mainnet.curve.btcGhoEthGauge["withdraw(uint256)"](),
+    allow.mainnet.curve.btcGhoEthGauge["claim_rewards()"](),
+    allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.btcGhoEthGauge),
 
     // Curve - Deposit and Stake using a special ZAP
     ...allowErc20Approve(
