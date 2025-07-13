@@ -74,7 +74,9 @@ export default (parameters: Parameters) =>
     allow.mainnet.curve.crvUsdtWbtcWethGauge["deposit(uint256)"](),
     allow.mainnet.curve.crvUsdtWbtcWethGauge["withdraw(uint256)"](),
     allow.mainnet.curve.crvUsdtWbtcWethGauge["claim_rewards()"](),
-    allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.crvUsdtWbtcWethGauge),
+    allow.mainnet.curve.crvMinter.mint(
+      contracts.mainnet.curve.crvUsdtWbtcWethGauge
+    ),
 
     // Curve - Tricrypto GHO (GHO/WBTC/wstETH)
     ...allowErc20Approve(

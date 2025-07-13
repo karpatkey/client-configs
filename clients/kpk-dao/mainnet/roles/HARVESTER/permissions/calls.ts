@@ -51,7 +51,10 @@ export default [
   allow.mainnet.aura.claimZapV3.claimRewards(),
 
   // Compound v3 - cUSDCv3 - Claim rewards
-  allow.mainnet.compoundV3.cometRewards.claim(contracts.mainnet.compoundV3.cUsdcV3, c.avatar),
+  allow.mainnet.compoundV3.cometRewards.claim(
+    contracts.mainnet.compoundV3.cUsdcV3,
+    c.avatar
+  ),
 
   // Convex - USDT/WBTC/WETH rewards
   {
@@ -70,9 +73,10 @@ export default [
 
   // Curve - USDT/WBTC/WETH rewards
   allow.mainnet.curve.crvUsdtWbtcWethGauge["claim_rewards()"](),
-  allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.crvUsdtWbtcWethGauge),
+  allow.mainnet.curve.crvMinter.mint(
+    contracts.mainnet.curve.crvUsdtWbtcWethGauge
+  ),
   // Curve - Tricrypto GHO (GHO/cbBTC/ETH) rewards
   allow.mainnet.curve.btcGhoEthGauge["claim_rewards()"](),
   allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.btcGhoEthGauge),
-
 ] satisfies PermissionList

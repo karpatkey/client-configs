@@ -31,10 +31,7 @@ export default [
   allow.mainnet.aaveV2.stkGho.cooldown(),
 
   // Aura + Balancer - Unstake + Withdraw rETH/WETH
-  auraWithdrawBalancer(
-    aura.auraBrEthStableRewarder,
-    balancerV2.bREthStablePid
-  ),
+  auraWithdrawBalancer(aura.auraBrEthStableRewarder, balancerV2.bREthStablePid),
   // Aura + Balancer - Unstake + Withdraw wstETH/WETH
   auraWithdrawBalancer(
     aura.auraBstEthStableRewarder,
