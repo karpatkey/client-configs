@@ -113,6 +113,7 @@ export const contracts = {
       weEth: "0xCd5fE23C85820F7B72D0926FC9b05b43E359b7ee",
       liquidityPool: "0x308861A430be4cce5502d0A12724771Fc6DaF216",
       withdrawRequestNft: "0x7d5706f6ef3F89B3951E23e557CDFBC3239D4E2c",
+      kingDistributor: "0x6Db24Ee656843E3fE03eb8762a54D86186bA6B64",
     },
     fluid: {
       fAsset: "0x90551c1795392094FE6D29B758EcCD233cFAa260", // fWETH
@@ -127,7 +128,7 @@ export const contracts = {
     },
     lido: {
       ...deFiKitContracts.mainnet.lido,
-      vestingEscrow: "0x2eF259761dc63C0F043e35901F132b1e7b1BcA68",
+      vestingEscrow: "0x484FD04c598A095360DF89bF85AB34c37127AA39",
       aragonVoting: "0x2e59A20f205bB85a89C53f1936454680651E618e",
     },
     maverickV2: {

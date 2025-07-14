@@ -10,6 +10,7 @@ import {
   DAI,
   eETH,
   GHO,
+  KING,
   NOTE,
   RPL,
   rETH,
@@ -59,7 +60,7 @@ export default [
   // Convex - Stake cvxCRV
   allowAction.convex.stake({ targets: ["cvxCRV"] }),
 
-  // CowSwap - [COMP, CRV, crvUSD, CVX, cvxCRV, DAI, eETH, ETH, GHO, NOTE, RPL, rETH, sDAI, sUSDS, stETH, stkGHO, USDC, USDS, USDT, weETH, WETH, wstETH] ->
+  // CowSwap - [COMP, CRV, crvUSD, CVX, cvxCRV, DAI, eETH, ETH, GHO, KING, NOTE, RPL, rETH, sDAI, sUSDS, stETH, stkGHO, USDC, USDS, USDT, weETH, WETH, wstETH] ->
   // [DAI, eETH, ETH, GHO, rETH, sDAI, sUSDS, stETH, stkGHO, USDC, USDS, USDT, weETH, WETH, wstETH]
   allowAction.cowswap.swap({
     sell: [
@@ -72,6 +73,7 @@ export default [
       DAI,
       eETH,
       GHO,
+      KING,
       NOTE,
       RPL,
       rETH,

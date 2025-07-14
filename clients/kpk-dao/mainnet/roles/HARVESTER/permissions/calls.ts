@@ -1,22 +1,18 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import {
-  eETH,
-  GHO,
-  USDC,
-  weETH,
   aura,
-  balancerV2,
   convex,
-  fluid,
 } from "@/addresses/eth"
 import { contracts } from "@/contracts"
-import { allowErc20Approve } from "@/helpers"
+import {
+  lidoVestingEscrow,
+} from "../../../addresses"
+import { Parameters } from "../../../parameters"
 import { PermissionList } from "@/types"
-import { auraWithdrawBalancer } from "@/exit_strategies/aura"
-import { convexWithdraw } from "@/exit_strategies/convex"
 
-export default [
+export default (parameters: Parameters) =>
+  [
   // Aave Safety Module - Stake AAVE rewards
   allow.mainnet.aaveV2.stkAave.claimRewards(c.avatar),
   // Aave Safety Module - Stake GHO rewards
@@ -79,4 +75,20 @@ export default [
   // Curve - Tricrypto GHO (GHO/cbBTC/ETH) rewards
   allow.mainnet.curve.btcGhoEthGauge["claim_rewards()"](),
   allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.btcGhoEthGauge),
+
+  // ether.fi - Claim rewards
+  allow.mainnet.etherfi.kingDistributor.claim(
+    c.avatar
+  ),
+
+  // Lido - Lido's Token Rewards Plan (TRP) - Claim LDO
+  {
+    ...allow.mainnet.lido.vestingEscrow["claim(address,uint256)"](
+      c.avatar
+    ),
+    targetAddress: lidoVestingEscrow
+  },
+
+  // Merkl - ACI Merit Rewards
+  allow.mainnet.merkl.angleDistributor.claim([parameters.avatar]),
 ] satisfies PermissionList

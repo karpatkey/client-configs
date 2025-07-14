@@ -29,6 +29,7 @@ import {
   kfPaymentsEth,
   kpkDaoPaymentsEth,
   vcbGc,
+  lidoVestingEscrow,
 } from "../../../addresses"
 import { encodeBytes32String } from "defi-kit"
 
@@ -243,6 +244,10 @@ export default (parameters: Parameters) =>
     allow.mainnet.etherfi.weEth.wrap(),
     // Unwrap weETH
     allow.mainnet.etherfi.weEth.unwrap(),
+    // ether.fi - Claim rewards
+    allow.mainnet.etherfi.kingDistributor.claim(
+      c.avatar
+    ),
 
     // Fluid - wstETH
     allowErc20Approve([wstETH], [fluid.fwstEth]),
@@ -271,13 +276,15 @@ export default (parameters: Parameters) =>
     },
 
     // Lido - Lido's Token Rewards Plan (TRP) - Claim LDO
-    allow.mainnet.lido.vestingEscrow["claim(address,uint256)"](
-      c.avatar,
-      undefined
-    ),
+    {
+      ...allow.mainnet.lido.vestingEscrow["claim(address,uint256)"](
+        c.avatar
+      ),
+      targetAddress: lidoVestingEscrow
+    },
 
-    // Merkl (Angle) - Claim
-    allow.mainnet.merkl.angleDistributor.claim([parameters.avatar], [GHO]),
+    // Merkl - ACI Merit Rewards
+    allow.mainnet.merkl.angleDistributor.claim([parameters.avatar]),
 
     // pods - ETHphoria Vault
     // Deposit ETH
