@@ -245,9 +245,7 @@ export default (parameters: Parameters) =>
     // Unwrap weETH
     allow.mainnet.etherfi.weEth.unwrap(),
     // ether.fi - Claim rewards
-    allow.mainnet.etherfi.kingDistributor.claim(
-      c.avatar
-    ),
+    allow.mainnet.etherfi.kingDistributor.claim(c.avatar),
 
     // Fluid - wstETH
     allowErc20Approve([wstETH], [fluid.fwstEth]),
@@ -277,10 +275,8 @@ export default (parameters: Parameters) =>
 
     // Lido - Lido's Token Rewards Plan (TRP) - Claim LDO
     {
-      ...allow.mainnet.lido.vestingEscrow["claim(address,uint256)"](
-        c.avatar
-      ),
-      targetAddress: lidoVestingEscrow
+      ...allow.mainnet.lido.vestingEscrow["claim(address,uint256)"](c.avatar),
+      targetAddress: lidoVestingEscrow,
     },
 
     // Merkl - ACI Merit Rewards
