@@ -10,6 +10,8 @@ export default [
   allowErc20Approve([wstETH], [contracts.gnosis.curve.crvEureUsdGauge]),
   allow.gnosis.curve.crvEureUsdGauge.deposit_reward_token(
     wstETH,
-    c.withinAllowance(encodeBytes32String("curve_gauge_amount") as `0x${string}`)
-  )
+    c.withinAllowance(
+      encodeBytes32String("curve_gauge_amount") as `0x${string}`
+    )
+  ),
 ] satisfies PermissionList

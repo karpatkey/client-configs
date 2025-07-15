@@ -12,5 +12,9 @@ export default [
    * Transfers
    *********************************************/
   // Transfer up to 80k WXDAI to the Bridge Interest Receiver
-  allowErc20Transfer([WXDAI], [bridgeInterestReceiver], "ALLOWANCE-BridgeKeeper"),
+  allowErc20Transfer(
+    [WXDAI],
+    [bridgeInterestReceiver],
+    "ALLOWANCE-BridgeKeeper"
+  ),
 ] satisfies PermissionList
