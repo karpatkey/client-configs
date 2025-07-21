@@ -6,18 +6,18 @@ export default (parameters: Parameters) =>
   [
     {
       ...allow.mainnet.oiv.shares.processDepositRequests(),
-      targetAddress: parameters.shares
+      targetAddress: parameters.shares,
     },
     {
       ...allow.mainnet.oiv.shares.processRedeemRequests(),
-      targetAddress: parameters.shares
+      targetAddress: parameters.shares,
     },
     {
       ...allow.mainnet.oiv.navCalculator.bridgeStart(),
-      targetAddress: parameters.navCalculator
+      targetAddress: parameters.navCalculator,
     },
     {
       ...allow.mainnet.oiv.navCalculator.bridgeFinalize(),
-      targetAddress: parameters.navCalculator
+      targetAddress: parameters.navCalculator,
     },
   ] satisfies PermissionList
