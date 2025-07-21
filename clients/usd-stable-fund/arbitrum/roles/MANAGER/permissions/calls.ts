@@ -35,9 +35,6 @@ export default [
   /*********************************************
    * Bridge
    *********************************************/
-  // NAV Calculator - bridgeStart - In the future, the bridged assets should be scoped appropriately.
-  allow.arbitrumOne.navCalculator.bridgeStart(),
-
   // Arbitrum -> Mainnet
   // DAI (Arbitrum) -> DAI (Mainnet)
   ...allowErc20Approve([DAI], [contracts.arbitrumOne.gatewayRouter]),

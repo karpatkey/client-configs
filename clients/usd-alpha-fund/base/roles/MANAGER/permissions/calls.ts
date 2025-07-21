@@ -36,9 +36,6 @@ export default [
   /*********************************************
    * Bridge
    *********************************************/
-  // NAV Calculator - bridgeStart - In the future, the bridged assets should be scoped appropriately.
-  allow.base.navCalculator.bridgeStart(),
-
   // Base -> Mainnet
   // USDC (Base) -> USDC (Mainnet) - HOP
   ...allowErc20Approve([USDC], [contracts.base.l2HopCctp]),

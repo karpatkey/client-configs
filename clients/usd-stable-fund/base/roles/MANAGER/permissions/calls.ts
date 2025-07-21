@@ -32,10 +32,4 @@ export default [
     c.avatar,
     c.avatar
   ),
-
-  /*********************************************
-   * Bridge
-   *********************************************/
-  // NAV Calculator - bridgeStart - In the future, the bridged assets should be scoped appropriately.
-  allow.base.navCalculator.bridgeStart(),
 ] satisfies PermissionList
