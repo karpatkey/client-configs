@@ -1,10 +1,10 @@
 import { Parameters } from "../parameters"
 
-export const rolesMod = "0x7924d2b26c757a7296a95718608cFcCaD6acC9AE"
+export const rolesMod = "0xf89A032c3ce39773AAD5C33De61615913986BB2B"
 export const chainId = 1
 
 export const parameters: Parameters = {
-  avatar: "0xf53230ac1cED96DBE0E00f4091e7aeb1d564a303",
-  shares: "0x79533699184B65aBe4Ff940E2D83f04dab76D326",
-  navCalculator: "0xb31819cFcc7CC8977F69dD738Fc3a2E60d86a56D",
+  avatar: "0x7Fefc9fC77d532F374b0a3832E3C8d857698B178",
+  shares: "0x182d893Dac491957A6c32c88757E5ffFe576A1ac",
+  navCalculator: "0x75D6C68Abb38097379789A62C778aCC302Be10f9",
 }
