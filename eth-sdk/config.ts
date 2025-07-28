@@ -155,8 +155,8 @@ export const contracts = {
       nProxy: "0x6e7058c91F85E0F6db4fc9da2CA41241f5e4263f",
     },
     oiv: {
-      shares: "0xE5049FaA645b9cFc126665f25ef97358E43B1395", // prod shares implementation
-      navCalculator: "0x46bE2f7d0554c5C49689F77c6a621197dD6F4Cf4", // prod navCalculator implementation
+      shares: "0x673493C9d023CecDB026AB090853f9D2f2FFE764", // prod shares implementation
+      navCalculator: "0x7C90871c0bd3eb276712f9f783F30Bfaf215Be64", // prod navCalculator implementation
     },
     origin: {
       oEthZapper: "0x9858e47BCbBe6fBAC040519B02d7cd4B2C470C66",
@@ -261,8 +261,7 @@ export const contracts = {
       wxdaiSdaiLp: "0xEe9BFf933aDD313C4289E98dA80fEfbF9d5Cd9Ba",
     },
     oiv: {
-      shares: "0xE5049FaA645b9cFc126665f25ef97358E43B1395", // prod shares implementation
-      navCalculator: "0x46bE2f7d0554c5C49689F77c6a621197dD6F4Cf4", // prod navCalculator implementation
+      navCalculator: "0x7C90871c0bd3eb276712f9f783F30Bfaf215Be64", // prod navCalculator implementation
     },
     stakeWiseV3: {
       ...deFiKitContracts.gnosis.stakeWiseV3,
@@ -290,8 +289,7 @@ export const contracts = {
       sUsd3CrvPool: "0x061b87122Ed14b9526A813209C8a59a633257bAb",
     },
     oiv: {
-      shares: "0x7cA1f1185D6a5A0FCF9e7D1f2AB3848230E90000", // prod shares implementation
-      navCalculator: "0x46bE2f7d0554c5C49689F77c6a621197dD6F4Cf4", // prod navCalculator implementation
+      navCalculator: "0x7C90871c0bd3eb276712f9f783F30Bfaf215Be64", // prod navCalculator implementation
     },
   },
   arbitrumOne: {
@@ -307,8 +305,7 @@ export const contracts = {
       stSgyd: "0xb4C19C1b16881A6d1d781264f0f8C0237D8Be0C7",
     },
     oiv: {
-      shares: "0x7cA1f1185D6a5A0FCF9e7D1f2AB3848230E90000", // prod shares implementation
-      navCalculator: "0x46bE2f7d0554c5C49689F77c6a621197dD6F4Cf4", // prod navCalculator implementation
+      navCalculator: "0x7C90871c0bd3eb276712f9f783F30Bfaf215Be64", // prod navCalculator implementation
     },
     stargate: {
       poolNative: "0xA45B5130f36CDcA45667738e2a258AB09f4A5f7F",
@@ -317,8 +314,7 @@ export const contracts = {
   base: {
     ...deFiKitContracts.base,
     oiv: {
-      shares: "0x7cA1f1185D6a5A0FCF9e7D1f2AB3848230E90000", // prod shares implementation
-      navCalculator: "0x46bE2f7d0554c5C49689F77c6a621197dD6F4Cf4", // prod navCalculator implementation
+      navCalculator: "0x7C90871c0bd3eb276712f9f783F30Bfaf215Be64", // prod navCalculator implementation
     },
     stargate: {
       poolNative: "0xdc181Bd607330aeeBEF6ea62e03e5e1Fb4B6F7C7",
