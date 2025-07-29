@@ -1,6 +1,6 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { aura, convex } from "@/addresses/eth"
+import { aura, balancerV2, convex } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { lidoVestingEscrow } from "../../../addresses"
 import { Parameters } from "../../../parameters"
@@ -40,6 +40,25 @@ export default (parameters: Parameters) =>
     allow.mainnet.aura.vlAura["getReward(address)"](c.avatar),
     // Aura - Claim all rewards
     allow.mainnet.aura.claimZapV3.claimRewards(),
+
+    // Balancer v2 - rETH/WETH rewards
+    {
+      ...allow.mainnet.balancerV2.gauge["claim_rewards()"](),
+      targetAddress: balancerV2.bREthStableGauge,
+    },
+    {
+      ...allow.mainnet.balancerV2.minter.mint(balancerV2.bREthStableGauge),
+      targetAddress: contracts.mainnet.balancerV2.minter,
+    },
+    // Balancer v2 - wstETH/WETH rewards
+    {
+      ...allow.mainnet.balancerV2.gauge["claim_rewards()"](),
+      targetAddress: balancerV2.bStEthStableGauge,
+    },
+    {
+      ...allow.mainnet.balancerV2.minter.mint(balancerV2.bStEthStableGauge),
+      targetAddress: contracts.mainnet.balancerV2.minter,
+    },
 
     // Compound v3 - cUSDCv3 - Claim rewards
     allow.mainnet.compoundV3.cometRewards.claim(

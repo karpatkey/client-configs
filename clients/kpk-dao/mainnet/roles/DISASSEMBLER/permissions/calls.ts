@@ -32,11 +32,19 @@ export default [
 
   // Aura + Balancer - Unstake + Withdraw rETH/WETH
   auraWithdrawBalancer(aura.auraBrEthStableRewarder, balancerV2.bREthStablePid),
+  {
+    ...allow.mainnet.balancerV2.gauge["withdraw(uint256)"](),
+    targetAddress: balancerV2.bREthStableGauge,
+  },
   // Aura + Balancer - Unstake + Withdraw wstETH/WETH
   auraWithdrawBalancer(
     aura.auraBstEthStableRewarder,
     balancerV2.bStEthStablePid
   ),
+  {
+    ...allow.mainnet.balancerV2.gauge["withdraw(uint256)"](),
+    targetAddress: balancerV2.bStEthStableGauge,
+  },
   // Aura - Unlock
   allow.mainnet.aura.vlAura.processExpiredLocks(false),
   // Aura - Unstake
@@ -106,6 +114,13 @@ export default [
     ),
     targetAddress: fluid.fwstEth,
   },
+
+  // Lido
+  allow.mainnet.lido.wstEth.unwrap(),
+  allow.mainnet.lido.unstEth.requestWithdrawals(undefined, c.avatar),
+  allow.mainnet.lido.unstEth.requestWithdrawalsWstETH(undefined, c.avatar),
+  allow.mainnet.lido.unstEth.claimWithdrawal(),
+  allow.mainnet.lido.unstEth.claimWithdrawals(),
 
   // Spark - DSR_sDAI
   allow.mainnet.spark.sDai.redeem(undefined, c.avatar, c.avatar),
