@@ -1,54 +1,55 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import {
-  DAI,
-  rETH,
+  eETH,
+  GHO,
   USDC,
-  USDT,
-  stETH,
-  WETH,
-  wstETH,
+  weETH,
   aura,
   balancerV2,
   convex,
+  fluid,
 } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
 import { auraWithdrawBalancer } from "@/exit_strategies/aura"
-import { balancerV2Swap } from "@/exit_strategies/balancerV2"
-import {
-  lidoUnstakeStEth,
-  lidoUnwrapAndUnstakeWstEth,
-} from "@/exit_strategies/lido"
 import { convexWithdraw } from "@/exit_strategies/convex"
 
 export default [
-  /*********************************************
-   * Protocol permissions
-   *********************************************/
   // Unwrap ETH
   allow.mainnet.weth.withdraw(),
 
+  // Aave v3 Prime Market - Withdraw GHO
+  allow.mainnet.aaveV3.poolPrimeV3.withdraw(GHO, undefined, c.avatar),
+  // Aave v3 Core Market - Withdraw USDC
+  allow.mainnet.aaveV3.poolCoreV3.withdraw(USDC, undefined, c.avatar),
   // Aave Safety Module - Unstake AAVE and GHO
   allow.mainnet.aaveV2.stkAave.redeem(c.avatar),
   allow.mainnet.aaveV2.stkAave.cooldown(),
   allow.mainnet.aaveV2.stkGho.redeem(c.avatar),
   allow.mainnet.aaveV2.stkGho.cooldown(),
 
-  // Aura - wstETH/WETH
+  // Aura + Balancer - Unstake + Withdraw rETH/WETH
+  auraWithdrawBalancer(aura.auraBrEthStableRewarder, balancerV2.bREthStablePid),
+  {
+    ...allow.mainnet.balancerV2.gauge["withdraw(uint256)"](),
+    targetAddress: balancerV2.bREthStableGauge,
+  },
+  // Aura + Balancer - Unstake + Withdraw wstETH/WETH
   auraWithdrawBalancer(
     aura.auraBstEthStableRewarder,
     balancerV2.bStEthStablePid
   ),
-
-  // Aura - Lock
-  allow.mainnet.aura.vlAura.processExpiredLocks(),
-
-  // Aura - Stake
+  {
+    ...allow.mainnet.balancerV2.gauge["withdraw(uint256)"](),
+    targetAddress: balancerV2.bStEthStableGauge,
+  },
+  // Aura - Unlock
+  allow.mainnet.aura.vlAura.processExpiredLocks(false),
+  // Aura - Unstake
   allow.mainnet.aura.auraBalStakingRewarder.withdraw(),
   allow.mainnet.aura.stkauraBal.withdraw(undefined, c.avatar, c.avatar),
-
   allow.mainnet.aura.stkauraBal.redeem(undefined, c.avatar, c.avatar),
 
   // Compound v3 - Withdraw USDC
@@ -56,9 +57,10 @@ export default [
 
   // Convex - USDT/WBTC/WETH
   convexWithdraw(convex.cvxcrvUsdtWbtcWethRewarder),
-
-  // Convex - GHO/WBTC/wstETH
-  convexWithdraw(convex.cvxGhoBtcWstEthRewarder),
+  // Convex - GHO/cbBTC/WETH
+  convexWithdraw(convex.cvxBtcGhoEthRewarder),
+  // Convex - Unstake cvxCRV
+  allow.mainnet.convex.stkCvxCrv.withdraw(),
 
   // Curve - USDT/WBTC/WETH
   allow.mainnet.curve.crvUsdtWbtcWethPool[
@@ -68,74 +70,62 @@ export default [
     "remove_liquidity_one_coin(uint256,uint256,uint256,bool)"
   ](),
   allow.mainnet.curve.crvUsdtWbtcWethGauge["withdraw(uint256)"](),
-
-  // Curve - Tricrypto GHO (GHO/WBTC/wstETH)
-  allow.mainnet.curve.ghoBtcWstePool[
+  // Curve - Tricrypto GHO (GHO/cbBTC/WETH)
+  allow.mainnet.curve.btcGhoEthPool[
     "remove_liquidity(uint256,uint256[3],bool)"
   ](),
-  allow.mainnet.curve.ghoBtcWstePool[
+  allow.mainnet.curve.btcGhoEthPool[
     "remove_liquidity_one_coin(uint256,uint256,uint256,bool)"
   ](),
-  allow.mainnet.curve.ghoBtcWsteGauge["withdraw(uint256)"](),
+  allow.mainnet.curve.btcGhoEthGauge["withdraw(uint256)"](),
 
-  // Enzyme - Diva stETH Vault
-  // Withdraw stETH
-  allow.mainnet.enzyme.divaStEthVault.redeemSharesInKind(c.avatar),
-  allow.mainnet.enzyme.divaStEthVault.redeemSharesForSpecificAssets(
-    c.avatar,
-    undefined,
-    [stETH]
+  // ether.fi - Liquid ETH - Withdraw
+  ...allowErc20Approve(
+    [contracts.mainnet.etherfi.liquidEth],
+    [contracts.mainnet.etherfi.atomicQueue]
   ),
+  allow.mainnet.etherfi.atomicQueue.updateAtomicRequest(
+    contracts.mainnet.etherfi.liquidEth,
+    c.or(eETH, weETH)
+  ),
+  // ether.fi - EigenLayer Restaking
+  // Request Withdrawal - A Withdraw Request NFT is issued
+  ...allowErc20Approve([eETH], [contracts.mainnet.etherfi.liquidityPool]),
+  allow.mainnet.etherfi.liquidityPool.requestWithdraw(c.avatar),
+  // Funds can be claimed once the request is finalized
+  allow.mainnet.etherfi.withdrawRequestNft.claimWithdraw(),
+  // Unwrap weETH
+  allow.mainnet.etherfi.weEth.unwrap(),
+
+  // Fluid - Withdraw wstETH
+  {
+    ...allow.mainnet.fluid.fAsset["withdraw(uint256,address,address)"](
+      undefined,
+      c.avatar,
+      c.avatar
+    ),
+    targetAddress: fluid.fwstEth,
+  },
+  {
+    ...allow.mainnet.fluid.fAsset["redeem(uint256,address,address)"](
+      undefined,
+      c.avatar,
+      c.avatar
+    ),
+    targetAddress: fluid.fwstEth,
+  },
 
   // Lido
-  lidoUnstakeStEth(),
-  lidoUnwrapAndUnstakeWstEth(),
-
-  // pods - ETHphoria Vault
-  // Withdraw stETH
-  allow.mainnet.pods.ethoriaVault.redeem(undefined, c.avatar, c.avatar),
-
-  // Rocket Pool
-  allow.mainnet.rocketPool.rEth.burn(),
-  allow.mainnet.rocketPool.swapRouter.swapFrom(),
-
-  // Sky - DSR (DAI Savings Rate)
-  allow.mainnet.sky.dsrManager.exit(c.avatar),
-  allow.mainnet.sky.dsrManager.exitAll(c.avatar),
+  allow.mainnet.lido.wstEth.unwrap(),
+  allow.mainnet.lido.unstEth.requestWithdrawals(undefined, c.avatar),
+  allow.mainnet.lido.unstEth.requestWithdrawalsWstETH(undefined, c.avatar),
+  allow.mainnet.lido.unstEth.claimWithdrawal(),
+  allow.mainnet.lido.unstEth.claimWithdrawals(),
 
   // Spark - DSR_sDAI
   allow.mainnet.spark.sDai.redeem(undefined, c.avatar, c.avatar),
   allow.mainnet.spark.sDai.withdraw(undefined, c.avatar, c.avatar),
-
-  /*********************************************
-   * SWAPS
-   *********************************************/
-  // Balancer - rETH <-> WETH
-  balancerV2Swap(balancerV2.bREthStablePid, [rETH, WETH], [rETH, WETH]),
-
-  // Balancer - WETH <-> wstETH
-  balancerV2Swap(balancerV2.bStEthStablePid, [WETH, wstETH], [wstETH, WETH]),
-
-  // Curve - [DAI, USDC, USDT] <-> [DAI, USDC, USDT]
-  ...allowErc20Approve([DAI, USDC, USDT], [contracts.mainnet.curve.x3CrvPool]),
-  allow.mainnet.curve.x3CrvPool["exchange"](),
-
-  // Curve - ETH <-> stETH
-  ...allowErc20Approve([stETH], [contracts.mainnet.curve.steCrvPool]),
-  allow.mainnet.curve.steCrvPool["exchange"](),
-
-  // Curve - ETH <-> stETH
-  ...allowErc20Approve([stETH], [contracts.mainnet.curve.stEthNgfPool]),
-  allow.mainnet.curve.stEthNgfPool["exchange(int128,int128,uint256,uint256)"](),
-
-  // Uniswap V3 - [DAI, USDC, USDT, WETH, wstETH] <-> [DAI, USDC, USDT, WETH, wstETH]
-  ...allowErc20Approve(
-    [DAI, USDC, USDT, WETH, wstETH],
-    [contracts.mainnet.uniswapV3.router2]
-  ),
-  allow.mainnet.uniswapV3.router2.exactInputSingle({
-    tokenIn: c.or(DAI, USDC, USDT, WETH, wstETH),
-    tokenOut: c.or(DAI, USDC, USDT, WETH, wstETH),
-    recipient: c.avatar,
-  }),
+  // Spark - SKY_USDS
+  allow.mainnet.spark.sUsds.withdraw(undefined, c.avatar, c.avatar),
+  allow.mainnet.spark.sUsds.redeem(undefined, c.avatar, c.avatar),
 ] satisfies PermissionList
