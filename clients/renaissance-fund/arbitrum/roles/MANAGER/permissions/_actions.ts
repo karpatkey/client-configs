@@ -15,6 +15,18 @@ export default [
     recipient: parameters.avatar,
   }),
 
+  // Circle v2 - Bridge USDC to Ethereum
+  allowAction.circle_v2.bridge({
+    targets: ["Ethereum"],
+    recipient: parameters.avatar,
+  }),
+  // Circle v2 - Receive USDC from Ethereum
+  allowAction.circle_v2.receive({
+    targets: ["Ethereum"],
+    sender: parameters.avatar,
+    recipient: parameters.avatar,
+  }),
+
   // CowSwap - [ETH, GMX, PENDLE, USDC, WETH] <-> [ETH, GMX, PENDLE, USDC, WETH]
   allowAction.cowswap.swap({
     sell: ["ETH", GMX, PENDLE, USDC, WETH],

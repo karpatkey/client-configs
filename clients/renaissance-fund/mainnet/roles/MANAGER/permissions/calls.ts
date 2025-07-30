@@ -36,6 +36,14 @@ export default (parameters: Parameters) =>
      * Bridge
      *********************************************/
     // Mainnet -> Gnosis
+    // USDC -> USDC.e - Gnosis Bridge
+    ...allowErc20Approve([USDC], [contracts.mainnet.gnoOmnibridge]),
+    allow.mainnet.gnoOmnibridge.relayTokensAndCall(
+      USDC,
+      contracts.gnosis.usdcTransmuter,
+      undefined,
+      "0x" + parameters.avatar.slice(2).padStart(64, "0")
+    ),
     // Claim bridged USDC from Gnosis
     allow.mainnet.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
       c.and(
