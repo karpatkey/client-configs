@@ -9,5 +9,4 @@ export default [
   allowAction.aave_v3.deposit({ targets: ["USDC"] }),
   // Aave v3 Arbitrum Market - Deposit USDT
   allowAction.aave_v3.deposit({ targets: ["USD₮0"] }),
-
 ]
