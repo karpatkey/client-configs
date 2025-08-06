@@ -298,6 +298,18 @@ export const contracts = {
     arbitrumBridge: {
       arbSys: "0x0000000000000000000000000000000000000064",
     },
+    compoundV3:
+    {
+      comet: "0x2416101cFd4aD12cA2D5b3E58419073c7D78d857", // CometWithExtendedAssetList
+      cometRewards: "0x88730d254A2f7e6AC8388c3198aFd694bA9f7fae",
+    },
+    euler: {
+      eVault: "0x832fF4011A3164ea76ceA06A313EE0B6CD72ba96",
+    },
+    fluid: {
+      fAsset: "0x45Df0656F8aDf017590009d2f1898eeca4F0a205", // fWETH
+      merkleDistributor: "0x94312a608246Cecfce6811Db84B3Ef4B2619054E",
+    },
     gmx: {
       exchangeRouter: "0x602b805EedddBbD9ddff44A7dcBD46cb07849685",
     },
@@ -307,6 +319,9 @@ export const contracts = {
     },
     oiv: {
       navCalculator: "0x7C90871c0bd3eb276712f9f783F30Bfaf215Be64", // prod navCalculator implementation
+    },
+    spark: {
+      sUSDC: "0x940098b108fB7D0a7E374f6eDED7760787464609",
     },
     stargate: {
       poolNative: "0xA45B5130f36CDcA45667738e2a258AB09f4A5f7F",
