@@ -312,7 +312,7 @@ export default (parameters: Parameters) =>
       {
         dstEid: "30101", // Ethereum
         to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-        extraOptions: "0x0003", // https://arbiscan.io/address/0x174834a9DE4C2f0c13c7353e62C229E8D607c808#code#F9#L91
+        extraOptions: c.or("0x", "0x0003"), // https://arbiscan.io/address/0x174834a9DE4C2f0c13c7353e62C229E8D607c808#code#F9#L91
         composeMsg: "0x",
         oftCmd: "0x",
       },

@@ -22,7 +22,7 @@ export default (parameters: Parameters) =>
       {
         dstEid: "30110", // Arbitrum
         to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-        extraOptions: "0x",
+        extraOptions: c.or("0x", "0x0003"),
         composeMsg: "0x",
         oftCmd: "0x",
       },
