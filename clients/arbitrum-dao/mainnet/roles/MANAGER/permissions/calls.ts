@@ -13,7 +13,10 @@ export default (parameters: Parameters) =>
      *********************************************/
     // Mainnet -> Arbitrum
     // USDT - Arbitrum Bridge
-    ...allowErc20Approve([USDT], [contracts.mainnet.arbitrumBridge.usdtOftAdapter]),
+    ...allowErc20Approve(
+      [USDT],
+      [contracts.mainnet.arbitrumBridge.usdtOftAdapter]
+    ),
     // https://docs.layerzero.network/v2/developers/evm/oft/oft-patterns-extensions#sending-token
     allow.mainnet.arbitrumBridge.usdtOftAdapter.send(
       {
@@ -24,6 +27,6 @@ export default (parameters: Parameters) =>
         oftCmd: "0x",
       },
       undefined,
-      c.avatar,
-    ), 
+      c.avatar
+    ),
   ] satisfies PermissionList

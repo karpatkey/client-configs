@@ -1,10 +1,5 @@
 import { allow as allowAction } from "defi-kit/eth"
-import {
-  EUL,
-  FLUID,
-  USDC,
-  USDT
-} from "@/addresses/eth"
+import { EUL, FLUID, USDC, USDT } from "@/addresses/eth"
 import { parameters } from "../../../instances/main"
 
 export default [

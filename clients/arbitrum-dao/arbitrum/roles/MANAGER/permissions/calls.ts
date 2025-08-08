@@ -101,134 +101,82 @@ export default (parameters: Parameters) =>
     // Euler - sUSDC
     allowErc20Approve([sUSDC], [euler.esUsdc]),
     {
-      ...allow.arbitrumOne.euler.eVault.deposit(
-        undefined,
-        c.avatar
-      ),
-      targetAddress: euler.esUsdc
+      ...allow.arbitrumOne.euler.eVault.deposit(undefined, c.avatar),
+      targetAddress: euler.esUsdc,
     },
     {
-      ...allow.arbitrumOne.euler.eVault.withdraw(
-        undefined,
-        c.avatar,
-        c.avatar
-      ),
-      targetAddress: euler.esUsdc
+      ...allow.arbitrumOne.euler.eVault.withdraw(undefined, c.avatar, c.avatar),
+      targetAddress: euler.esUsdc,
     },
     {
-      ...allow.arbitrumOne.euler.eVault.redeem(
-        undefined,
-        c.avatar,
-        c.avatar
-      ),
-      targetAddress: euler.esUsdc
+      ...allow.arbitrumOne.euler.eVault.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: euler.esUsdc,
     },
 
     // Euler - sUSDS
     allowErc20Approve([sUSDS], [euler.esUsds]),
     {
-      ...allow.arbitrumOne.euler.eVault.deposit(
-        undefined,
-        c.avatar
-      ),
-      targetAddress: euler.esUsds
+      ...allow.arbitrumOne.euler.eVault.deposit(undefined, c.avatar),
+      targetAddress: euler.esUsds,
     },
     {
-      ...allow.arbitrumOne.euler.eVault.withdraw(
-        undefined,
-        c.avatar,
-        c.avatar
-      ),
-      targetAddress: euler.esUsds
+      ...allow.arbitrumOne.euler.eVault.withdraw(undefined, c.avatar, c.avatar),
+      targetAddress: euler.esUsds,
     },
     {
-      ...allow.arbitrumOne.euler.eVault.redeem(
-        undefined,
-        c.avatar,
-        c.avatar
-      ),
-      targetAddress: euler.esUsds
+      ...allow.arbitrumOne.euler.eVault.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: euler.esUsds,
     },
 
     // Euler - USDC
     allowErc20Approve([USDC], [euler.eUsdc]),
     {
-      ...allow.arbitrumOne.euler.eVault.deposit(
-        undefined,
-        c.avatar
-      ),
-      targetAddress: euler.eUsdc
+      ...allow.arbitrumOne.euler.eVault.deposit(undefined, c.avatar),
+      targetAddress: euler.eUsdc,
     },
     {
-      ...allow.arbitrumOne.euler.eVault.withdraw(
-        undefined,
-        c.avatar,
-        c.avatar
-      ),
-      targetAddress: euler.eUsdc
+      ...allow.arbitrumOne.euler.eVault.withdraw(undefined, c.avatar, c.avatar),
+      targetAddress: euler.eUsdc,
     },
     {
-      ...allow.arbitrumOne.euler.eVault.redeem(
-        undefined,
-        c.avatar,
-        c.avatar
-      ),
-      targetAddress: euler.eUsdc
+      ...allow.arbitrumOne.euler.eVault.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: euler.eUsdc,
     },
 
     // Euler - USDT
     allowErc20Approve([USDT], [euler.eUsdt]),
     {
-      ...allow.arbitrumOne.euler.eVault.deposit(
-        undefined,
-        c.avatar
-      ),
-      targetAddress: euler.eUsdt
+      ...allow.arbitrumOne.euler.eVault.deposit(undefined, c.avatar),
+      targetAddress: euler.eUsdt,
     },
     {
-      ...allow.arbitrumOne.euler.eVault.withdraw(
-        undefined,
-        c.avatar,
-        c.avatar
-      ),
-      targetAddress: euler.eUsdt
+      ...allow.arbitrumOne.euler.eVault.withdraw(undefined, c.avatar, c.avatar),
+      targetAddress: euler.eUsdt,
     },
     {
-      ...allow.arbitrumOne.euler.eVault.redeem(
-        undefined,
-        c.avatar,
-        c.avatar
-      ),
-      targetAddress: euler.eUsdt
+      ...allow.arbitrumOne.euler.eVault.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: euler.eUsdt,
     },
 
     // Euler - Claim rEUL
     // claimAll (0x24a76995) - This is the function used by the UI
-    allow.arbitrumOne.euler.claimAll["claimAll(address,address[],(address,uint256[],uint64,bytes32[])[])"](
-      c.avatar,
-    ),
+    allow.arbitrumOne.euler.claimAll[
+      "claimAll(address,address[],(address,uint256[],uint64,bytes32[])[])"
+    ](c.avatar),
     // claimAll (0x13e7e058) - Included for completeness; not used by the UI
-    allow.arbitrumOne.euler.claimAll["claimAll(address,address[])"](
-      c.avatar,
-    ),
+    allow.arbitrumOne.euler.claimAll["claimAll(address,address[])"](c.avatar),
     // claimAll (0xcb417671) - Included for completeness; not used by the UI
-    allow.arbitrumOne.euler.claimAll["claimAll(address,(address,uint256[],uint64,bytes32[])[])"](
-      c.avatar,
-    ),
+    allow.arbitrumOne.euler.claimAll[
+      "claimAll(address,(address,uint256[],uint64,bytes32[])[])"
+    ](c.avatar),
 
     // Euler - Unlock rEUL to EUL
     // This is the function used by the UI
-    allow.arbitrumOne.euler.rEul.withdrawToByLockTimestamp(
-      c.avatar,
-    ),
+    allow.arbitrumOne.euler.rEul.withdrawToByLockTimestamp(c.avatar),
     // Included for completeness; not used by the UI
-    allow.arbitrumOne.euler.rEul.withdrawToByLockTimestamps(
-      c.avatar,
-    ),
+    allow.arbitrumOne.euler.rEul.withdrawToByLockTimestamps(c.avatar),
     // Included for completeness; not used by the UI
-    allow.arbitrumOne.euler.rEul.withdrawTo(
-      c.avatar,
-    ),
+    allow.arbitrumOne.euler.rEul.withdrawTo(c.avatar),
 
     // Fluid - GHO
     allowErc20Approve([GHO], [fluid.fGho]),
@@ -369,7 +317,7 @@ export default (parameters: Parameters) =>
         oftCmd: "0x",
       },
       undefined,
-      c.avatar,
+      c.avatar
     ),
 
     // COMP - Arbitrum Bridge
@@ -377,5 +325,4 @@ export default (parameters: Parameters) =>
     allow.arbitrumOne.gatewayRouter[
       "outboundTransfer(address,address,uint256,bytes)"
     ](COMP_eth, c.avatar, undefined, "0x"),
-    
   ] satisfies PermissionList
