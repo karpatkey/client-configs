@@ -23,6 +23,7 @@ export const contracts = {
     arbitrumBridge: {
       delayedInbox: "0x4Dbd4fc535Ac27206064B68FfCf827b0A60BAB3f",
       outbox4: "0x0B9857ae2D4A3DBe74ffE1d7DF045bb7F96E4840",
+      usdtOftAdapter: "0x6C96dE32CEa08842dcc4058c14d3aaAD7Fa41dee", // OFT adapter used to bridge USDT via LayerZero
     },
     azuro: {
       stAzur: "0x67f3228fD58f5A26D93a5dd0c6989b69c95618eB",
@@ -300,11 +301,17 @@ export const contracts = {
     },
     compoundV3:
     {
+      ...deFiKitContracts.arbitrumOne.compoundV3,
       comet: "0x2416101cFd4aD12cA2D5b3E58419073c7D78d857", // CometWithExtendedAssetList
       cometRewards: "0x88730d254A2f7e6AC8388c3198aFd694bA9f7fae",
     },
     euler: {
       eVault: "0x832fF4011A3164ea76ceA06A313EE0B6CD72ba96",
+      vaultConnector: "0x6302ef0F34100CDDFb5489fbcB6eE1AA95CD1066",
+      termsOfUseSigner: "0x8259735562F02356CcEf2577c60A63391d6F48e4",
+      claimAll: "0x273d0d19eaC2861FCF6B21893AD6d71b018E25aB",
+      rEul: "0xFA31599a4928c2d57C0dd77DFCA5DA1E94E6D2D2",
+      oftAdapter: "0x174834a9DE4C2f0c13c7353e62C229E8D607c808", // OFT adapter used to bridge EUL via LayerZero
     },
     fluid: {
       fAsset: "0x45Df0656F8aDf017590009d2f1898eeca4F0a205", // fWETH
