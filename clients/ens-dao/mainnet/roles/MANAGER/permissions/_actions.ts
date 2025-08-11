@@ -40,6 +40,8 @@ export default [
   allowAction.aave_v3.deposit({ market: "Core", targets: ["DAI"] }),
   // Aave v3 Core Market - Deposit ETH
   allowAction.aave_v3.deposit({ market: "Core", targets: ["ETH"] }),
+  // Aave v3 Core Market - Deposit ETHx
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["ETHx"] }),
   // Aave v3 Core Market - Deposit osETH
   allowAction.aave_v3.deposit({ market: "Core", targets: ["osETH"] }),
   // Aave v3 Core Market - Deposit USDC
@@ -155,8 +157,16 @@ export default [
   allowAction.spark.stake(),
   // Spark - Deposit ETH
   allowAction.spark.deposit({ targets: ["ETH"] }),
+  // Spark - Deposit USDC
+  allowAction.spark.deposit({ targets: ["USDC"] }),
+  // Spark - Deposit USDS
+  allowAction.spark.deposit({ targets: ["USDS"] }),
+  // Spark - Deposit USDT
+  allowAction.spark.deposit({ targets: ["USDT"] }),
   // Spark - Deposit WETH
   allowAction.spark.deposit({ targets: ["WETH"] }),
+  // Spark - Deposit wstETH
+  allowAction.spark.deposit({ targets: ["wstETH"] }),
 
   // Stader
   allowAction.stader.deposit(),

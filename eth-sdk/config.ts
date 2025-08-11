@@ -1,5 +1,6 @@
 import { defineConfig } from "@gnosis-guild/eth-sdk"
 import { contracts as deFiKitContracts } from "defi-kit"
+import { main } from "../clients/aave/mainnet/instances"
 
 export const contracts = {
   mainnet: {
@@ -193,6 +194,10 @@ export const contracts = {
     },
     sommelier: {
       turboDivEth: "0x6c1edce139291Af5b84fB1e496c9747F83E876c9",
+    },
+    spark: {
+      ...deFiKitContracts.mainnet.spark,
+      sparkRewards: "0x7ac96180C4d6b2A328D3a19ac059D0E7Fc3C6d41",
     },
     stakeWiseV3: {
       ...deFiKitContracts.mainnet.stakeWiseV3,
