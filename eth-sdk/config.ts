@@ -299,8 +299,7 @@ export const contracts = {
     arbitrumBridge: {
       arbSys: "0x0000000000000000000000000000000000000064",
     },
-    compoundV3:
-    {
+    compoundV3: {
       ...deFiKitContracts.arbitrumOne.compoundV3,
       comet: "0x2416101cFd4aD12cA2D5b3E58419073c7D78d857", // CometWithExtendedAssetList
       cometRewards: "0x88730d254A2f7e6AC8388c3198aFd694bA9f7fae",
