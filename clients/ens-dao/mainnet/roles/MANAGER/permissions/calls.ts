@@ -243,10 +243,7 @@ export default [
   allow.mainnet.sky.dsrManager.exitAll(c.avatar),
 
   // Spark - Claim SPK Airdrop
-  allow.mainnet.spark.sparkRewards.claim(
-    undefined,
-    c.avatar
-  ),
+  allow.mainnet.spark.sparkRewards.claim(undefined, c.avatar),
 
   // StakeWise v3 - Genesis Vault
   allow.mainnet.stakeWiseV3.genesis.deposit(c.avatar, undefined, {
