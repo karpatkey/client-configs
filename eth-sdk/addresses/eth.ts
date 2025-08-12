@@ -118,6 +118,7 @@ export const aura = {
   auraosEthWethRewarder: "0x5F032f15B4e910252EDaDdB899f7201E89C8cD6b",
   auraAaveGhoUsdtUsdcRewarder: "0x8e89d41c563e6C3d9901ad75B75e2d8e140DEF04",
   auraAaveLidoWethWstEthRewarder: "0xCF370C3279452143f68e350b824714B49593a334",
+  auraOsETHWaWethRewarder: "0x994BE003de5FD6E41d37c6948f405EB0759149e6",
 } as const
 
 export const balancerV2 = {
