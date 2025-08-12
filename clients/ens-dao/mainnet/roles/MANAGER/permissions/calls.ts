@@ -299,19 +299,19 @@ export default [
       contracts.mainnet.curve.steCrvPool,
       contracts.mainnet.curve.stEthNgfPool,
       contracts.mainnet.curve.oEthCrvPool,
-      contracts.mainnet.curve.x3CrvPool,
+      contracts.mainnet.curve.x3CrvPool
     ),
     c.or(
       curve.steCrv,
       contracts.mainnet.curve.stEthNgfPool,
       contracts.mainnet.curve.oEthCrvPool,
-      x3CRV,
+      x3CRV
     ),
     c.or(
       contracts.mainnet.curve.steCrvPoolGauge,
       contracts.mainnet.curve.stEthNgfGauge,
       contracts.mainnet.curve.oEthCrvGauge,
-      contracts.mainnet.curve.x3CrvGauge,
+      contracts.mainnet.curve.x3CrvGauge
     ),
     c.or(2, 3),
     c.or([eAddress, stETH], [eAddress, OETH], [DAI, USDC, USDT]),
