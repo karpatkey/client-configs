@@ -328,6 +328,7 @@ export const contracts = {
     },
     spark: {
       sUSDC: "0x940098b108fB7D0a7E374f6eDED7760787464609",
+      psm3: "0x2B05F8e1cACC6974fD79A673a341Fe1f58d27266",
     },
     stargate: {
       poolNative: "0xA45B5130f36CDcA45667738e2a258AB09f4A5f7F",

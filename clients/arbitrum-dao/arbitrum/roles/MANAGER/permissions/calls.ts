@@ -301,6 +301,21 @@ export default (parameters: Parameters) =>
       c.avatar
     ),
 
+    // Spark - sUSDS
+    allowErc20Approve([USDC, sUSDS], [contracts.arbitrumOne.spark.psm3]),
+    // Deposit USDC / Withdraw all USDC
+    allow.arbitrumOne.spark.psm3.swapExactIn(
+      c.or(sUSDS, USDC),
+      c.or(sUSDS, USDC),
+      undefined,
+      undefined,
+      c.avatar
+    ),
+    allow.arbitrumOne.spark.psm3.swapExactOut(
+      sUSDS,
+      USDC
+    ),
+
     /*********************************************
      * Bridge
      *********************************************/
