@@ -14,11 +14,9 @@ import {
   osETH,
   rETH,
   RPL,
-  sDAI,
   stETH,
   SWISE,
   USDC,
-  USDM,
   USDT,
   WETH,
   wstETH,
@@ -289,28 +287,9 @@ export default [
     contracts.mainnet.curve.stakeDepositZap
   ),
 
-  // Curve - sDAI/USDM
-  ...allowErc20Approve([sDAI, USDM], [contracts.mainnet.curve.sDaiUsdmPool]),
-  allow.mainnet.curve.sDaiUsdmPool["add_liquidity(uint256[],uint256)"](),
-  allow.mainnet.curve.sDaiUsdmPool["remove_liquidity(uint256,uint256[])"](),
-  allow.mainnet.curve.sDaiUsdmPool[
-    "remove_liquidity_imbalance(uint256[],uint256)"
-  ](),
-  allow.mainnet.curve.sDaiUsdmPool[
-    "remove_liquidity_one_coin(uint256,int128,uint256)"
-  ](),
-  ...allowErc20Approve(
-    [contracts.mainnet.curve.sDaiUsdmPool],
-    [contracts.mainnet.curve.sDaiUsdmGauge]
-  ),
-  allow.mainnet.curve.sDaiUsdmGauge["deposit(uint256)"](),
-  allow.mainnet.curve.sDaiUsdmGauge["withdraw(uint256)"](),
-  allow.mainnet.curve.sDaiUsdmGauge["claim_rewards()"](),
-  allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.sDaiUsdmGauge),
-
   // Curve - Deposit and Stake using a special ZAP
   ...allowErc20Approve(
-    [DAI, OETH, sDAI, stETH, USDC, USDM, USDT],
+    [DAI, OETH, stETH, USDC, USDT],
     [contracts.mainnet.curve.stakeDepositZap]
   ),
   allow.mainnet.curve.stakeDepositZap[
@@ -321,24 +300,21 @@ export default [
       contracts.mainnet.curve.stEthNgfPool,
       contracts.mainnet.curve.oEthCrvPool,
       contracts.mainnet.curve.x3CrvPool,
-      contracts.mainnet.curve.sDaiUsdmPool
     ),
     c.or(
       curve.steCrv,
       contracts.mainnet.curve.stEthNgfPool,
       contracts.mainnet.curve.oEthCrvPool,
       x3CRV,
-      contracts.mainnet.curve.sDaiUsdmPool
     ),
     c.or(
       contracts.mainnet.curve.steCrvPoolGauge,
       contracts.mainnet.curve.stEthNgfGauge,
       contracts.mainnet.curve.oEthCrvGauge,
       contracts.mainnet.curve.x3CrvGauge,
-      contracts.mainnet.curve.sDaiUsdmGauge
     ),
     c.or(2, 3),
-    c.or([eAddress, stETH], [eAddress, OETH], [DAI, USDC, USDT], [sDAI, USDM]),
+    c.or([eAddress, stETH], [eAddress, OETH], [DAI, USDC, USDT]),
     undefined,
     undefined,
     undefined,
@@ -475,10 +451,6 @@ export default [
     }
   ),
 
-  // Curve - sDAI <-> USDM
-  allowErc20Approve([sDAI, USDM], [contracts.mainnet.curve.sDaiUsdmPool]),
-  allow.mainnet.curve.sDaiUsdmPool["exchange(int128,int128,uint256,uint256)"](),
-
   // PancakeSwap - ETHx <-> WETH
   ...allowErc20Approve(
     [ETHx, WETH],
@@ -556,15 +528,6 @@ export default [
     tokenOut: c.or(USDC, WETH),
     recipient: c.avatar,
     fee: c.or(500, 3000),
-  }),
-
-  // Uniswap v3 - [USDM <-> USDT], Fee: [0.05]
-  ...allowErc20Approve([USDM, USDT], [contracts.mainnet.uniswapV3.router2]),
-  allow.mainnet.uniswapV3.router2.exactInputSingle({
-    tokenIn: c.or(USDM, USDT),
-    tokenOut: c.or(USDM, USDT),
-    recipient: c.avatar,
-    fee: 500,
   }),
 
   // Uniswap v3 - [USDC <-> USDT], Fee: [0.01]
