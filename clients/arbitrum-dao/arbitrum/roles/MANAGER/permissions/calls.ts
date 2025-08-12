@@ -311,10 +311,7 @@ export default (parameters: Parameters) =>
       undefined,
       c.avatar
     ),
-    allow.arbitrumOne.spark.psm3.swapExactOut(
-      sUSDS,
-      USDC
-    ),
+    allow.arbitrumOne.spark.psm3.swapExactOut(sUSDS, USDC),
 
     /*********************************************
      * Bridge
