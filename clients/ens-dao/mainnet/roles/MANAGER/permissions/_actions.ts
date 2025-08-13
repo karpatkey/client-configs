@@ -67,6 +67,10 @@ export default [
   allowAction.convex.deposit({ targets: ["174"] }),
   // Convex - ETH/stETH - stETH-ng-f
   allowAction.convex.deposit({ targets: ["177"] }),
+  // Convex - ETH/ETHx - ethx-f
+  allowAction.convex.deposit({ targets: ["232"] }),
+  // Convex - osETH/rETH
+  allowAction.convex.deposit({ targets: ["268"] }),
 
   // CowSwap - [ankrETH, AURA, BAL, COMP, CRV, CVX, DAI, ETHx, LDO, osETH, rETH, RPL, stETH, SWISE, USDC, USDT, WETH, wstETH] ->
   // [DAI, rETH, USDC, USDT, stETH, WETH, wstETH]

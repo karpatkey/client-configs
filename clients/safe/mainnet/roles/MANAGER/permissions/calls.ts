@@ -277,7 +277,6 @@ export default (parameters: Parameters) =>
       [osETH, rETH],
       [contracts.mainnet.curve.osEthRethPool]
     ),
-
     allow.mainnet.curve.osEthRethPool["add_liquidity(uint256[],uint256)"](),
     allow.mainnet.curve.osEthRethPool["remove_liquidity(uint256,uint256[])"](),
     allow.mainnet.curve.osEthRethPool[

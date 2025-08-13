@@ -287,9 +287,66 @@ export default [
     contracts.mainnet.curve.stakeDepositZap
   ),
 
+  // Curve - ETHx/ETH - ethx-f
+  ...allowErc20Approve([ETHx], [contracts.mainnet.curve.ethxfPool]),
+  allow.mainnet.curve.ethxfPool["add_liquidity(uint256[2],uint256)"](),
+  allow.mainnet.curve.ethxfPool["remove_liquidity(uint256,uint256[2])"](),
+  allow.mainnet.curve.ethxfPool[
+    "remove_liquidity_imbalance(uint256[2],uint256)"
+  ](),
+  allow.mainnet.curve.ethxfPool[
+    "remove_liquidity_one_coin(uint256,int128,uint256)"
+  ](),
+  ...allowErc20Approve(
+    [contracts.mainnet.curve.ethxfPool],
+    [contracts.mainnet.curve.ethxfGauge]
+  ),
+  allow.mainnet.curve.ethxfGauge["deposit(uint256)"](),
+  allow.mainnet.curve.ethxfGauge["withdraw(uint256)"](),
+  allow.mainnet.curve.ethxfGauge["claim_rewards()"](),
+  allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.ethxfGauge),
+
+  // Curve - osETH/rETH
+  ...allowErc20Approve(
+    [osETH, rETH],
+    [contracts.mainnet.curve.osEthRethPool]
+  ),
+  allow.mainnet.curve.osEthRethPool["add_liquidity(uint256[],uint256)"](),
+  allow.mainnet.curve.osEthRethPool["remove_liquidity(uint256,uint256[])"](),
+  allow.mainnet.curve.osEthRethPool[
+    "remove_liquidity_one_coin(uint256,int128,uint256)"
+  ](),
+  allow.mainnet.curve.osEthRethPool[
+    "remove_liquidity_imbalance(uint256[],uint256)"
+  ](),
+  ...allowErc20Approve(
+    [contracts.mainnet.curve.osEthRethPool],
+    [contracts.mainnet.curve.osEthRethGauge]
+  ),
+  allow.mainnet.curve.osEthRethGauge["deposit(uint256)"](),
+  allow.mainnet.curve.osEthRethGauge["withdraw(uint256)"](),
+  allow.mainnet.curve.osEthRethGauge["withdraw(uint256,bool)"](),
+  allow.mainnet.curve.osEthRethGauge["claim_rewards()"](),
+  allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.osEthRethGauge),
+
+  // Curve - OETH/WETH
+  ...allowErc20Approve([OETH, WETH], [contracts.mainnet.curve.oEthWethPool]),
+  allow.mainnet.curve.oEthWethPool["add_liquidity(uint256[],uint256)"](),
+  allow.mainnet.curve.oEthWethPool["remove_liquidity(uint256,uint256[])"](),
+  allow.mainnet.curve.oEthWethPool["remove_liquidity_imbalance(uint256[],uint256)"](),
+  allow.mainnet.curve.oEthWethPool["remove_liquidity_one_coin(uint256,int128,uint256)"](),
+  ...allowErc20Approve(
+    [contracts.mainnet.curve.oEthWethPool],
+    [contracts.mainnet.curve.oEthWethGauge]
+  ),
+  allow.mainnet.curve.oEthWethGauge["deposit(uint256)"](),
+  allow.mainnet.curve.oEthWethGauge["withdraw(uint256)"](),
+  allow.mainnet.curve.oEthWethGauge["claim_rewards()"](),
+  allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.oEthWethGauge),
+
   // Curve - Deposit and Stake using a special ZAP
   ...allowErc20Approve(
-    [DAI, OETH, stETH, USDC, USDT],
+    [DAI, ETHx, OETH, osETH, rETH, stETH, USDC, USDT, WETH],
     [contracts.mainnet.curve.stakeDepositZap]
   ),
   allow.mainnet.curve.stakeDepositZap[
@@ -299,22 +356,38 @@ export default [
       contracts.mainnet.curve.steCrvPool,
       contracts.mainnet.curve.stEthNgfPool,
       contracts.mainnet.curve.oEthCrvPool,
-      contracts.mainnet.curve.x3CrvPool
+      contracts.mainnet.curve.x3CrvPool,
+      contracts.mainnet.curve.ethxfPool,
+      contracts.mainnet.curve.osEthRethPool,
+      contracts.mainnet.curve.oEthWethPool
     ),
     c.or(
       curve.steCrv,
       contracts.mainnet.curve.stEthNgfPool,
       contracts.mainnet.curve.oEthCrvPool,
-      x3CRV
+      x3CRV,
+      contracts.mainnet.curve.ethxfPool,
+      contracts.mainnet.curve.osEthRethPool,
+      contracts.mainnet.curve.oEthWethPool
     ),
     c.or(
       contracts.mainnet.curve.steCrvPoolGauge,
       contracts.mainnet.curve.stEthNgfGauge,
       contracts.mainnet.curve.oEthCrvGauge,
-      contracts.mainnet.curve.x3CrvGauge
+      contracts.mainnet.curve.x3CrvGauge,
+      contracts.mainnet.curve.ethxfGauge,
+      contracts.mainnet.curve.osEthRethGauge,
+      contracts.mainnet.curve.oEthWethGauge
     ),
     c.or(2, 3),
-    c.or([eAddress, stETH], [eAddress, OETH], [DAI, USDC, USDT]),
+    c.or(
+      [eAddress, stETH], 
+      [eAddress, OETH], 
+      [DAI, USDC, USDT], 
+      [eAddress, ETHx],
+      [osETH, rETH],
+      [OETH, WETH]
+    ),
     undefined,
     undefined,
     undefined,

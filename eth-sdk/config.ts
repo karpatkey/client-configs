@@ -94,6 +94,8 @@ export const contracts = {
       btcGhoEthGauge: "0x1E4B83f6bFE9dbeB6d5b92a5237E5c18a44176f4",
       wethRethPool: "0x9EfE1A1Cbd6Ca51Ee8319AFc4573d253C3B732af",
       wethRethGauge: "0xFB5B02863E2917AE1662598F7eBdE60AFEaFe84e",
+      oEthWethPool: "0xcc7d5785AD5755B6164e21495E07aDb0Ff11C2A8",
+      oEthWethGauge: "0x36cC1d791704445A5b6b9c36a667e511d4702F3f",
     },
     enzyme: {
       depositWrapper2: "0x65BbAD6545B7ac9C30Fb0f07e64e25106Bf05eEc",
