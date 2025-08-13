@@ -315,6 +315,7 @@ export const contracts = {
     fluid: {
       fAsset: "0x45Df0656F8aDf017590009d2f1898eeca4F0a205", // fWETH
       merkleDistributor: "0x94312a608246Cecfce6811Db84B3Ef4B2619054E",
+      fluidDexT1: "0x2886a01a0645390872a9eb99dAe1283664b0c524", // DEX_ID = 5, token0 = FLUID, token1 = ETH
     },
     gmx: {
       exchangeRouter: "0x602b805EedddBbD9ddff44A7dcBD46cb07849685",

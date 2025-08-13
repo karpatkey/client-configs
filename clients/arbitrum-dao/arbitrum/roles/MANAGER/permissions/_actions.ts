@@ -29,9 +29,9 @@ export default [
   // Aave v3 Arbitrum Market - Borrow USDT
   allowAction.aave_v3.borrow({ targets: ["USD₮0"] }),
 
-  // CowSwap - [DAI, EUL, GHO, FLUID, sUSDS, USDC, USDC.e, USDS, USDT] -> [DAI, GHO, sUSDS, USDC, USDC.e, USDS, USDT]
+  // CowSwap - [DAI, ETH, EUL, GHO, FLUID, sUSDS, USDC, USDC.e, USDS, USDT] -> [DAI, GHO, sUSDS, USDC, USDC.e, USDS, USDT]
   allowAction.cowswap.swap({
-    sell: [DAI, EUL, GHO, FLUID, sUSDS, USDC, USDCe, USDS, USDT],
+    sell: ["ETH", DAI, EUL, GHO, FLUID, sUSDS, USDC, USDCe, USDS, USDT],
     buy: [DAI, GHO, sUSDS, USDC, USDCe, USDS, USDT],
   }),
 ]

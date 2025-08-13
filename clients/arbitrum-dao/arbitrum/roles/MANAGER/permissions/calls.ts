@@ -2,6 +2,7 @@ import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import {
   COMP,
+  FLUID,
   GHO,
   sUSDC,
   sUSDS,
@@ -312,6 +313,18 @@ export default (parameters: Parameters) =>
       c.avatar
     ),
     allow.arbitrumOne.spark.psm3.swapExactOut(sUSDS, USDC),
+
+    /*********************************************
+     * Swaps
+     *********************************************/
+    // FluidDexT1 - FLUID -> ETH
+    allowErc20Approve([FLUID], [contracts.arbitrumOne.fluid.fluidDexT1]),
+    allow.arbitrumOne.fluid.fluidDexT1.swapIn(
+      true,
+      undefined,
+      undefined,
+      c.avatar
+    ),
 
     /*********************************************
      * Bridge
