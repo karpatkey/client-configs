@@ -1,7 +1,7 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import {
-    GHO,
+  GHO,
   USDC,
   USDT,
   WBTC,
@@ -133,7 +133,10 @@ export default (parameters: Parameters) =>
     ),
 
     // Morpho Blue - PT-USDe-25SEP2025/USDC
-    ...allowErc20Approve([pendle.ptUSDe25SEP2025, USDC], [contracts.mainnet.morpho.morphoBlue]),
+    ...allowErc20Approve(
+      [pendle.ptUSDe25SEP2025, USDC],
+      [contracts.mainnet.morpho.morphoBlue]
+    ),
     allow.mainnet.morpho.morphoBlue.supply(
       {
         loanToken: USDC,
@@ -160,7 +163,10 @@ export default (parameters: Parameters) =>
     ),
 
     // Morpho Blue - PT-USDe-25SEP2025/USDT
-    ...allowErc20Approve([pendle.ptUSDe25SEP2025, USDT], [contracts.mainnet.morpho.morphoBlue]),
+    ...allowErc20Approve(
+      [pendle.ptUSDe25SEP2025, USDT],
+      [contracts.mainnet.morpho.morphoBlue]
+    ),
     allow.mainnet.morpho.morphoBlue.supply(
       {
         loanToken: USDT,
@@ -249,7 +255,7 @@ export default (parameters: Parameters) =>
         })
       )
     ),
-    
+
     // USDC (Mainnet) -> USDC.e (Gnosis)
     ...allowErc20Approve([USDC], [contracts.mainnet.gnoOmnibridge]),
     allow.mainnet.gnoOmnibridge.relayTokensAndCall(
@@ -348,107 +354,107 @@ export default (parameters: Parameters) =>
       )
     ),
 
-// USDC - Stargate to Optimism
-allow.mainnet.stargate.poolUsdc.send(
-  {
-    dstEid: "30111", // Optimism chain ID
-    to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-    extraOptions: "0x",
-    composeMsg: "0x",
-    oftCmd: "0x",
-  },
-  undefined,
-  c.avatar,
-  {
-    send: true,
-  }
-),
+    // USDC - Stargate to Optimism
+    allow.mainnet.stargate.poolUsdc.send(
+      {
+        dstEid: "30111", // Optimism chain ID
+        to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
+        extraOptions: "0x",
+        composeMsg: "0x",
+        oftCmd: "0x",
+      },
+      undefined,
+      c.avatar,
+      {
+        send: true,
+      }
+    ),
 
-// USDC - Stargate to Arbitrum
-...allowErc20Approve([USDC], [contracts.mainnet.stargate.poolUsdc]),
-allow.mainnet.stargate.poolUsdc.send(
-  {
-    dstEid: "30110", // Arbitrum chain ID
-    to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-    extraOptions: "0x",
-    composeMsg: "0x",
-    oftCmd: "0x",
-  },
-  undefined,
-  c.avatar,
-  {
-    send: true,
-  }
-),
+    // USDC - Stargate to Arbitrum
+    ...allowErc20Approve([USDC], [contracts.mainnet.stargate.poolUsdc]),
+    allow.mainnet.stargate.poolUsdc.send(
+      {
+        dstEid: "30110", // Arbitrum chain ID
+        to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
+        extraOptions: "0x",
+        composeMsg: "0x",
+        oftCmd: "0x",
+      },
+      undefined,
+      c.avatar,
+      {
+        send: true,
+      }
+    ),
 
-// USDC - Stargate to Base
-allow.mainnet.stargate.poolUsdc.send(
-  {
-    dstEid: "30184", // Base chain ID
-    to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-    extraOptions: "0x",
-    composeMsg: "0x",
-    oftCmd: "0x",
-  },
-  undefined,
-  c.avatar,
-  {
-    send: true,
-  }
-),
+    // USDC - Stargate to Base
+    allow.mainnet.stargate.poolUsdc.send(
+      {
+        dstEid: "30184", // Base chain ID
+        to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
+        extraOptions: "0x",
+        composeMsg: "0x",
+        oftCmd: "0x",
+      },
+      undefined,
+      c.avatar,
+      {
+        send: true,
+      }
+    ),
 
-// USDC - Stargate to Gnosis Chain
-allow.mainnet.stargate.poolUsdc.send(
-  {
-    dstEid: "30100", // Gnosis Chain ID
-    to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-    extraOptions: "0x",
-    composeMsg: "0x",
-    oftCmd: "0x",
-  },
-  undefined,
-  c.avatar,
-  {
-    send: true,
-  }
-),
+    // USDC - Stargate to Gnosis Chain
+    allow.mainnet.stargate.poolUsdc.send(
+      {
+        dstEid: "30100", // Gnosis Chain ID
+        to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
+        extraOptions: "0x",
+        composeMsg: "0x",
+        oftCmd: "0x",
+      },
+      undefined,
+      c.avatar,
+      {
+        send: true,
+      }
+    ),
 
-// USDT - Stargate to Optimism
-...allowErc20Approve([USDT], [contracts.mainnet.stargate.poolUsdt]),
-{
-  ...allow.mainnet.stargate.poolUsdc.send(
+    // USDT - Stargate to Optimism
+    ...allowErc20Approve([USDT], [contracts.mainnet.stargate.poolUsdt]),
     {
-      dstEid: "30111", // Optimism chain ID
-      to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-      extraOptions: "0x",
-      composeMsg: "0x",
-      oftCmd: "0x",
+      ...allow.mainnet.stargate.poolUsdc.send(
+        {
+          dstEid: "30111", // Optimism chain ID
+          to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
+          extraOptions: "0x",
+          composeMsg: "0x",
+          oftCmd: "0x",
+        },
+        undefined,
+        c.avatar,
+        {
+          send: true,
+        }
+      ),
+      targetAddress: contracts.mainnet.stargate.poolUsdt,
     },
-    undefined,
-    c.avatar,
-    {
-      send: true,
-    }
-  ),
-  targetAddress: contracts.mainnet.stargate.poolUsdt,
-},
 
-// USDT - Stargate to Arbitrum
-{
-  ...allow.mainnet.stargate.poolUsdc.send(
+    // USDT - Stargate to Arbitrum
     {
-      dstEid: "30110", // Arbitrum chain ID
-      to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-      extraOptions: "0x",
-      composeMsg: "0x",
-      oftCmd: "0x",
+      ...allow.mainnet.stargate.poolUsdc.send(
+        {
+          dstEid: "30110", // Arbitrum chain ID
+          to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
+          extraOptions: "0x",
+          composeMsg: "0x",
+          oftCmd: "0x",
+        },
+        undefined,
+        c.avatar,
+        {
+          send: true,
+        }
+      ),
+      targetAddress: contracts.mainnet.stargate.poolUsdt,
     },
-    undefined,
-    c.avatar,
-    {
-      send: true,
-    }
-  ),
-  targetAddress: contracts.mainnet.stargate.poolUsdt,
-},
   ] satisfies PermissionList

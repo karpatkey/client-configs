@@ -7,33 +7,14 @@ import { PermissionList } from "@/types"
 import { parameters } from "../../../instances/main"
 
 export default [
-
   /*********************************************
    * Bridges
    *********************************************/
- // USDC - Stargate to Mainnet
-...allowErc20Approve([USDC], [contracts.mainnet.stargate.poolUsdc]),
-allow.mainnet.stargate.poolUsdc.send(
-  {
-    dstEid: "30101", // Mainnet ID
-    to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-    extraOptions: "0x",
-    composeMsg: "0x",
-    oftCmd: "0x",
-  },
-  undefined,
-  c.avatar,
-  {
-    send: true,
-  }
-),
-
-// USDT - Stargate to Mainnet
-...allowErc20Approve([USDT], [contracts.mainnet.stargate.poolUsdt]),
-{
-  ...allow.mainnet.stargate.poolUsdc.send(
+  // USDC - Stargate to Mainnet
+  ...allowErc20Approve([USDC], [contracts.mainnet.stargate.poolUsdc]),
+  allow.mainnet.stargate.poolUsdc.send(
     {
-      dstEid: "30111", // Optimism chain ID
+      dstEid: "30101", // Mainnet ID
       to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
       extraOptions: "0x",
       composeMsg: "0x",
@@ -45,6 +26,24 @@ allow.mainnet.stargate.poolUsdc.send(
       send: true,
     }
   ),
-  targetAddress: contracts.mainnet.stargate.poolUsdt,
-},
+
+  // USDT - Stargate to Mainnet
+  ...allowErc20Approve([USDT], [contracts.mainnet.stargate.poolUsdt]),
+  {
+    ...allow.mainnet.stargate.poolUsdc.send(
+      {
+        dstEid: "30111", // Optimism chain ID
+        to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
+        extraOptions: "0x",
+        composeMsg: "0x",
+        oftCmd: "0x",
+      },
+      undefined,
+      c.avatar,
+      {
+        send: true,
+      }
+    ),
+    targetAddress: contracts.mainnet.stargate.poolUsdt,
+  },
 ] satisfies PermissionList

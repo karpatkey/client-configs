@@ -1,19 +1,12 @@
 import { allow as allowAction } from "defi-kit/eth"
-import {
-  USDS,
-  stkGHO,
-  USDC,
-  USDT,
-  sUSDS,
-  GHO,
-} from "@/addresses/eth"
+import { USDS, stkGHO, USDC, USDT, sUSDS, GHO } from "@/addresses/eth"
 import { parameters } from "../../../instances/main"
 
 export default [
   /*********************************************
    * Protocols
-  *********************************************/
-  
+   *********************************************/
+
   // Aave v2 - Staking of GHO in Safety Module
   allowAction.aave_v2.stake({ targets: ["GHO"] }),
   // Aave v3 Core Market - Deposit USDC
@@ -30,7 +23,7 @@ export default [
 
   /*********************************************
    * Swaps
-  *********************************************/
+   *********************************************/
 
   // CowSwap - [USDC, USDS, USDT, sUSDS, GHO, stkGHO] <-> [USDC, USDS, USDT, sUSDS, GHO, stkGHO]
   allowAction.cowswap.swap({
@@ -40,8 +33,8 @@ export default [
 
   /*********************************************
    * Bridges
-  *********************************************/
-  
+   *********************************************/
+
   // Circle v2 - Bridge USDC to Arbitrum
   allowAction.circle_v2.bridge({
     targets: ["Arbitrum"],

@@ -5,7 +5,7 @@ import { parameters } from "../../../instances/main"
 export default [
   /*********************************************
    * Protocols
-  *********************************************/
+   *********************************************/
 
   // Aave v3 - Deposit USDC
   allowAction.aave_v3.deposit({ targets: ["USDC"] }),
@@ -14,7 +14,7 @@ export default [
 
   /*********************************************
    * Bridges
-  *********************************************/
+   *********************************************/
 
   // Circle v2 - Bridge USDC to Mainnet
   allowAction.circle_v2.bridge({
@@ -30,7 +30,7 @@ export default [
 
   /*********************************************
    * Swaps
-  *********************************************/
+   *********************************************/
 
   // CowSwap - [USDC, USDT] -> [USDC, USDT]
   allowAction.cowswap.swap({
@@ -38,4 +38,3 @@ export default [
     buy: [USDC, USDT],
   }),
 ]
-

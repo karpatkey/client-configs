@@ -9,7 +9,7 @@ import { parameters } from "../../../instances/main"
 export default [
   /*********************************************
    * Protocols
-  *********************************************/
+   *********************************************/
 
   // Morpho Blue - cbBTC/USDC
   ...allowErc20Approve([USDC], [contracts.mainnet.morpho.morphoBlue]),
@@ -38,32 +38,32 @@ export default [
     c.avatar
   ),
 
-    // Morpho Blue - cbETH/USDC
-    ...allowErc20Approve([USDC], [contracts.mainnet.morpho.morphoBlue]),
-    allow.mainnet.morpho.morphoBlue.supply(
-      {
-        loanToken: USDC,
-        collateralToken: cbETH,
-        oracle: morpho.oracleCbEthUsdc,
-        irm: morpho.adaptativeCurveIrm,
-      },
-      undefined,
-      undefined,
-      c.avatar,
-      "0x"
-    ),
-    allow.mainnet.morpho.morphoBlue.withdraw(
-      {
-        loanToken: USDC,
-        collateralToken: cbETH,
-        oracle: morpho.oracleCbEthUsdc,
-        irm: morpho.adaptativeCurveIrm,
-      },
-      undefined,
-      undefined,
-      c.avatar,
-      c.avatar
-    ),
+  // Morpho Blue - cbETH/USDC
+  ...allowErc20Approve([USDC], [contracts.mainnet.morpho.morphoBlue]),
+  allow.mainnet.morpho.morphoBlue.supply(
+    {
+      loanToken: USDC,
+      collateralToken: cbETH,
+      oracle: morpho.oracleCbEthUsdc,
+      irm: morpho.adaptativeCurveIrm,
+    },
+    undefined,
+    undefined,
+    c.avatar,
+    "0x"
+  ),
+  allow.mainnet.morpho.morphoBlue.withdraw(
+    {
+      loanToken: USDC,
+      collateralToken: cbETH,
+      oracle: morpho.oracleCbEthUsdc,
+      irm: morpho.adaptativeCurveIrm,
+    },
+    undefined,
+    undefined,
+    c.avatar,
+    c.avatar
+  ),
 
   /*********************************************
    * Bridges
@@ -83,6 +83,6 @@ export default [
     c.avatar,
     {
       send: true,
-    },
+    }
   ),
 ] satisfies PermissionList
