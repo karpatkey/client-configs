@@ -95,6 +95,7 @@ export const wM = "0x437cc33344a0B27A429f795ff6B469C72698B291"
 export const wNXM = "0x0d438F3b5175Bebc262bF23753C1E53d03432bDE"
 export const wstETH = "0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0"
 export const x3CRV = "0x6c3F90f043a72FA612cbac8115EE7e52BDe6E490"
+export const wstUSR = "0x6c8984bc7DBBeDAf4F6b2FD766f16eBB7d10AAb4"
 
 // Protocols
 export const aaveV3 = {
@@ -235,6 +236,11 @@ export const morpho = {
   oracleWbtcUsdc: "0xDddd770BADd886dF3864029e4B377B5F6a2B6b83",
   adaptativeCurveIrm: "0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC",
   oracleWbtcUsdt: "0x008bF4B1cDA0cc9f0e882E0697f036667652E1ef",
+  oracleSusdsUsdt: "0x0C426d174FC88B7A25d59945Ab2F7274Bf7B4C79",
+  oracleCbbtcUsdc: "0xA6D6950c9F177F1De7f7757FB33539e3Ec60182a",
+  oraclePTUsde25Sep2025Usdc: "0xe6aBD3B78Abbb1cc1Ee76c5c3689Aa9646481Fbb",
+  oraclePTUsde25Sep2025Usdt: "0xe6aBD3B78Abbb1cc1Ee76c5c3689Aa9646481Fbb",
+  oraclewstUSRUsdc: "0xDa850a72080024e17c1590fbf6ea7a826dB90760",
 } as const
 
 export const nexus = {
@@ -274,6 +280,7 @@ export const pendle = {
   pendleMarket28May2025: "0xB162B764044697cf03617C2EFbcB1f42e31E4766",
   ptSusde27Mar2025: "0xE00bd3Df25fb187d6ABBB620b3dfd19839947b81",
   ptSusde29May2025: "0xb7de5dFCb74d25c2f21841fbd6230355C50d9308",
+  ptUSDe25SEP2025: "0x4c9EDD5852cd905f086C759E8383e09bff1E68B3",
 } as const
 
 export const uniswapV2 = {

@@ -201,6 +201,8 @@ export const contracts = {
     },
     stargate: {
       poolNative: "0x77b2043768d28E9C9aB44E1aBfC95944bcE57931",
+      poolUsdc: "0xc026395860Db2d07ee33e05fE50ed7bD583189C7",
+      poolUsdt: "0x933597a323Eb81cAe705C5bC29985172fd5A3973",
     },
     sushiSwap: {
       router: "0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F",
@@ -276,6 +278,7 @@ export const contracts = {
     },
     stargate: {
       poolNative: "0xe9aBA835f813ca05E50A6C0ce65D0D74390F7dE7",
+      poolUsdc: "0xB1EeAD6959cb5bB9B20417d6689922523B2B86C3",
     },
     uniswap: {
       permit2: "0x000000000022D473030F116dDEE9F6B43aC78BA3",
@@ -291,6 +294,10 @@ export const contracts = {
     },
     oiv: {
       navCalculator: "0x7C90871c0bd3eb276712f9f783F30Bfaf215Be64", // prod navCalculator implementation
+    },
+    stargate: {
+      poolUsdc: "0xcE8CcA271Ebc0533920C83d39F417ED6A0abB7D0",
+      poolUsdt: "0x19cFCE47eD54a88614648DC3f19A5980097007dD",
     },
   },
   arbitrumOne: {
@@ -310,6 +317,8 @@ export const contracts = {
     },
     stargate: {
       poolNative: "0xA45B5130f36CDcA45667738e2a258AB09f4A5f7F",
+      poolUsdc: "0xe8CDF27AcD73a434D661C84887215F7598e7d0d3",
+      poolUsdt: "0xcE8CcA271Ebc0533920C83d39F417ED6A0abB7D0",
     },
   },
   base: {
@@ -319,11 +328,18 @@ export const contracts = {
     },
     stargate: {
       poolNative: "0xdc181Bd607330aeeBEF6ea62e03e5e1Fb4B6F7C7",
+      poolUsdc: "0x27a16dc786820B16E5c9028b75B99F6f604b5d26",
     },
     sushiSwap: {
       routeProcessor4: "0x0389879e0156033202C44BF784ac18fC02edeE4f",
     },
     baseBridge: "0x4200000000000000000000000000000000000010",
+    morpho: {
+      morphoBlue: "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+      oracleCbBtcUsdc: "0x663BECd10daE6C4A3Dcd89F1d76c1174199639B9",
+      oracleCbEthUsdc: "0xb40d93F44411D8C09aD17d7F88195eF9b05cCD96",
+      adaptativeCurveIrm: "0x46415998764C29aB2a25CbeA6254146D50D22687",
+    },
   },
 } as const
 
