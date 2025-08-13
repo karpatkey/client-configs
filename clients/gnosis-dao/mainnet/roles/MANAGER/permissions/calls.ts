@@ -9,6 +9,7 @@ import {
   SAFE,
   stETH,
   USDC,
+  USDS,
   USDT,
   WBTC,
   WETH,
@@ -16,9 +17,18 @@ import {
   balancerV2,
 } from "@/addresses/eth"
 import { contracts } from "@/contracts"
-import { allowErc20Approve } from "@/helpers"
+import {
+  allowErc20Approve,
+  allowEthTransfer,
+  allowErc20Transfer,
+} from "@/helpers"
 import { PermissionList } from "@/types"
-import { gnosisDaoGno } from "../../../addresses"
+import {
+  gnosisDaoEth,
+  gnosisDaoSec1Eth,
+  gnosisDaoSec2Eth,
+  gnosisDaoGno,
+} from "../../../addresses"
 import { Parameters } from "../../../parameters"
 
 export default (parameters: Parameters) =>
@@ -841,5 +851,19 @@ export default (parameters: Parameters) =>
           value: "0x" + parameters.avatar.slice(22, 42), // Last 10 bytes of the avatar address
         })
       )
+    ),
+
+    /*********************************************
+     * Transfers
+     *********************************************/
+    // Transfer ETH between Gnosis DAO Safes
+    allowEthTransfer(gnosisDaoEth),
+    allowEthTransfer(gnosisDaoSec1Eth),
+    allowEthTransfer(gnosisDaoSec2Eth),
+
+    // Transfer [DAI, stETH, USDC, USDS, USDT, WETH, wstETH] between Gnosis DAO Safes
+    allowErc20Transfer(
+      [DAI, stETH, USDC, USDS, USDT, WETH, wstETH],
+      [gnosisDaoEth, gnosisDaoSec1Eth, gnosisDaoSec2Eth]
     ),
   ] satisfies PermissionList
