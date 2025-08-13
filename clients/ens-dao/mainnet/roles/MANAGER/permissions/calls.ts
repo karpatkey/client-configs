@@ -307,10 +307,7 @@ export default [
   allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.ethxfGauge),
 
   // Curve - osETH/rETH
-  ...allowErc20Approve(
-    [osETH, rETH],
-    [contracts.mainnet.curve.osEthRethPool]
-  ),
+  ...allowErc20Approve([osETH, rETH], [contracts.mainnet.curve.osEthRethPool]),
   allow.mainnet.curve.osEthRethPool["add_liquidity(uint256[],uint256)"](),
   allow.mainnet.curve.osEthRethPool["remove_liquidity(uint256,uint256[])"](),
   allow.mainnet.curve.osEthRethPool[
@@ -333,8 +330,12 @@ export default [
   ...allowErc20Approve([OETH, WETH], [contracts.mainnet.curve.oEthWethPool]),
   allow.mainnet.curve.oEthWethPool["add_liquidity(uint256[],uint256)"](),
   allow.mainnet.curve.oEthWethPool["remove_liquidity(uint256,uint256[])"](),
-  allow.mainnet.curve.oEthWethPool["remove_liquidity_imbalance(uint256[],uint256)"](),
-  allow.mainnet.curve.oEthWethPool["remove_liquidity_one_coin(uint256,int128,uint256)"](),
+  allow.mainnet.curve.oEthWethPool[
+    "remove_liquidity_imbalance(uint256[],uint256)"
+  ](),
+  allow.mainnet.curve.oEthWethPool[
+    "remove_liquidity_one_coin(uint256,int128,uint256)"
+  ](),
   ...allowErc20Approve(
     [contracts.mainnet.curve.oEthWethPool],
     [contracts.mainnet.curve.oEthWethGauge]
@@ -381,9 +382,9 @@ export default [
     ),
     c.or(2, 3),
     c.or(
-      [eAddress, stETH], 
-      [eAddress, OETH], 
-      [DAI, USDC, USDT], 
+      [eAddress, stETH],
+      [eAddress, OETH],
+      [DAI, USDC, USDT],
       [eAddress, ETHx],
       [osETH, rETH],
       [OETH, WETH]
