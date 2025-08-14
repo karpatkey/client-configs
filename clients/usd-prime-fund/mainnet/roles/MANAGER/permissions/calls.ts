@@ -409,7 +409,7 @@ export default (parameters: Parameters) =>
     // USDC - Stargate to Gnosis Chain
     allow.mainnet.stargate.poolUsdc.send(
       {
-        dstEid: "30100", // Gnosis Chain ID
+        dstEid: "30145", // Gnosis Chain ID
         to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
         extraOptions: "0x",
         composeMsg: "0x",

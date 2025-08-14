@@ -29,10 +29,9 @@ export default [
 
   // USDT - Stargate to Mainnet
   ...allowErc20Approve([USDT], [contracts.mainnet.stargate.poolUsdt]),
-  {
-    ...allow.mainnet.stargate.poolUsdc.send(
+  allow.mainnet.stargate.poolUsdt.send(
       {
-        dstEid: "30111", // Optimism chain ID
+        dstEid: "30101", // Optimism chain ID
         to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
         extraOptions: "0x",
         composeMsg: "0x",
@@ -41,9 +40,7 @@ export default [
       undefined,
       c.avatar,
       {
-        send: true,
-      }
-    ),
-    targetAddress: contracts.mainnet.stargate.poolUsdt,
-  },
+      send: true,
+    }
+  ),
 ] satisfies PermissionList
