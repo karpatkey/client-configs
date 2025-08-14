@@ -51,8 +51,19 @@ export default (parameters: Parameters) =>
         [parameters.avatar],
         [parameters.avatar, parameters.avatar],
         [parameters.avatar, parameters.avatar, parameters.avatar],
-        [parameters.avatar, parameters.avatar, parameters.avatar, parameters.avatar],
-        [parameters.avatar, parameters.avatar, parameters.avatar, parameters.avatar, parameters.avatar]
+        [
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+        ],
+        [
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+        ]
       )
     ),
 
@@ -373,17 +384,26 @@ export default (parameters: Parameters) =>
     allow.mainnet.morpho.steakUSDC.redeem(undefined, c.avatar, c.avatar),
 
     // Morpho - Claim Rewards
-    allow.mainnet.morpho.universalRewardsDistributor.claim(
-      c.avatar,
-    ),
+    allow.mainnet.morpho.universalRewardsDistributor.claim(c.avatar),
     // Morpho Claim Rewards (through Merkle)
     allow.mainnet.merkl.angleDistributor.claim(
       c.or(
         [parameters.avatar],
         [parameters.avatar, parameters.avatar],
         [parameters.avatar, parameters.avatar, parameters.avatar],
-        [parameters.avatar, parameters.avatar, parameters.avatar, parameters.avatar],
-        [parameters.avatar, parameters.avatar, parameters.avatar, parameters.avatar, parameters.avatar]
+        [
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+        ],
+        [
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+        ]
       )
     ),
 

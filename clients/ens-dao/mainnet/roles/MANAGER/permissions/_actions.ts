@@ -167,7 +167,7 @@ export default [
     sell: ["ETH", USDC, USDS, USDT],
     buy: ["ETH", USDC, USDS, USDT],
     twap: true,
-    receiver: parameters.avatar
+    receiver: parameters.avatar,
   }),
 
   // Lido
