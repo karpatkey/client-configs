@@ -5,17 +5,17 @@ import { USDC, MORPHO } from "@/addresses/base"
 export default [
   /*********************************************
    * Protocols
-   *********************************************/
+  *********************************************/
 
   // Aave v3 - Deposit USDC
   allowAction.aave_v3.deposit({ targets: ["USDC"] }),
 
   /*********************************************
    * Bridges
-   *********************************************/
+  *********************************************/
 
   // Circle v2 - Bridge USDC to Mainnet
-  allowAction.circle_v2.bridge({
+    allowAction.circle_v2.bridge({
     targets: ["Ethereum"],
     recipient: parameters.avatar,
   }),
@@ -28,11 +28,11 @@ export default [
 
   /*********************************************
    * Swaps
-   *********************************************/
+  *********************************************/
 
   // CowSwap - [USDC, MORPHO] -> [USDC, MORPHO]
   allowAction.cowswap.swap({
-    sell: [USDC, MORPHO],
-    buy: [USDC, MORPHO],
+    sell: [MORPHO],
+    buy: [USDC],
   }),
 ]

@@ -26,6 +26,9 @@ export default (parameters: Parameters) =>
      * Protocols
      *********************************************/
 
+    // ACI - Claim Merit Rewards (through Merkle)
+    allow.mainnet.merkl.angleDistributor.claim([parameters.avatar]),
+ 
     // Morpho Blue - wstETH/USDC
     ...allowErc20Approve([USDC], [contracts.mainnet.morpho.morphoBlue]),
     allow.mainnet.morpho.morphoBlue.supply(
