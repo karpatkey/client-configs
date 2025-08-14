@@ -30,16 +30,16 @@ export default [
   // USDT - Stargate to Mainnet
   ...allowErc20Approve([USDT], [contracts.mainnet.stargate.poolUsdt]),
   allow.mainnet.stargate.poolUsdt.send(
-      {
-        dstEid: "30101", // Optimism chain ID
-        to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-        extraOptions: "0x",
-        composeMsg: "0x",
-        oftCmd: "0x",
-      },
-      undefined,
-      c.avatar,
-      {
+    {
+      dstEid: "30101", // Optimism chain ID
+      to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
+      extraOptions: "0x",
+      composeMsg: "0x",
+      oftCmd: "0x",
+    },
+    undefined,
+    c.avatar,
+    {
       send: true,
     }
   ),
