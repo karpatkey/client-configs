@@ -4,34 +4,42 @@ import {
   ankrETH,
   AURA,
   BAL,
+  cbBTC,
   COMP,
   CRV,
   CVX,
   DAI,
   ETHx,
   LDO,
+  MORPHO,
   OETH,
   osETH,
   rETH,
   RPL,
+  SPK,
   stETH,
   SWISE,
   USDC,
+  USDS,
   USDT,
+  WBTC,
   WETH,
   wstETH,
   x3CRV,
   aura,
   balancerV2,
   curve,
+  morpho,
 } from "@/addresses/eth"
 import { zeroAddress, eAddress } from "@/addresses"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
 import { balancerV2Swap } from "@/exit_strategies/balancerV2"
+import { Parameters } from "../../../parameters"
 
-export default [
+export default (parameters: Parameters) =>
+[
   // Wrapping and unwrapping of ETH, WETH
   allow.mainnet.weth.withdraw(),
   allow.mainnet.weth.deposit({
@@ -396,6 +404,129 @@ export default [
     { send: true }
   ),
 
+  // Morpho Blue - cbBTC/USDC Market
+  ...allowErc20Approve([USDC], [contracts.mainnet.morpho.morphoBlue]),
+  allow.mainnet.morpho.morphoBlue.supply(
+    {
+      loanToken: USDC,
+      collateralToken: cbBTC,
+      oracle: morpho.oracleCbBtcUsdc,
+      irm: morpho.adaptativeCurveIrm,
+    },
+    undefined,
+    undefined,
+    c.avatar,
+    "0x"
+  ),
+  allow.mainnet.morpho.morphoBlue.withdraw(
+    {
+      loanToken: USDC,
+      collateralToken: cbBTC,
+      oracle: morpho.oracleCbBtcUsdc,
+      irm: morpho.adaptativeCurveIrm,
+    },
+    undefined,
+    undefined,
+    c.avatar,
+    c.avatar
+  ),
+
+  // Morpho Blue - wstETH/WETH Market
+  ...allowErc20Approve([WETH], [contracts.mainnet.morpho.morphoBlue]),
+  allow.mainnet.morpho.morphoBlue.supply(
+    {
+      loanToken: WETH,
+      collateralToken: wstETH,
+      oracle: morpho.oracleWstEthWeth,
+      irm: morpho.adaptativeCurveIrm,
+    },
+    undefined,
+    undefined,
+    c.avatar,
+    "0x"
+  ),
+  allow.mainnet.morpho.morphoBlue.withdraw(
+    {
+      loanToken: WETH,
+      collateralToken: wstETH,
+      oracle: morpho.oracleWstEthWeth,
+      irm: morpho.adaptativeCurveIrm,
+    },
+    undefined,
+    undefined,
+    c.avatar,
+    c.avatar
+  ),
+
+  // Morpho Blue - WBTC/USDC Market
+  ...allowErc20Approve([USDC], [contracts.mainnet.morpho.morphoBlue]),
+  allow.mainnet.morpho.morphoBlue.supply(
+    {
+      loanToken: USDC,
+      collateralToken: WBTC,
+      oracle: morpho.oracleWbtcUsdc,
+      irm: morpho.adaptativeCurveIrm,
+    },
+    undefined,
+    undefined,
+    c.avatar,
+    "0x"
+  ),
+  allow.mainnet.morpho.morphoBlue.withdraw(
+    {
+      loanToken: USDC,
+      collateralToken: WBTC,
+      oracle: morpho.oracleWbtcUsdc,
+      irm: morpho.adaptativeCurveIrm,
+    },
+    undefined,
+    undefined,
+    c.avatar,
+    c.avatar
+  ),
+
+  // Morpho Blue - wstETH/USDC Market
+  ...allowErc20Approve([USDC], [contracts.mainnet.morpho.morphoBlue]),
+  allow.mainnet.morpho.morphoBlue.supply(
+    {
+      loanToken: USDC,
+      collateralToken: wstETH,
+      oracle: morpho.oracleWstEthUsdc,
+      irm: morpho.adaptativeCurveIrm,
+    },
+    undefined,
+    undefined,
+    c.avatar,
+    "0x"
+  ),
+  allow.mainnet.morpho.morphoBlue.withdraw(
+    {
+      loanToken: USDC,
+      collateralToken: wstETH,
+      oracle: morpho.oracleWstEthUsdc,
+      irm: morpho.adaptativeCurveIrm,
+    },
+    undefined,
+    undefined,
+    c.avatar,
+    c.avatar
+  ),
+
+  // Morpho - Claim Rewards
+  allow.mainnet.morpho.universalRewardsDistributor.claim(
+    c.avatar,
+  ),
+  // Morpho - Claim Rewards (through Merkle)
+  allow.mainnet.merkl.angleDistributor.claim(
+    c.or(
+      [parameters.avatar],
+      [parameters.avatar, parameters.avatar],
+      [parameters.avatar, parameters.avatar, parameters.avatar],
+      [parameters.avatar, parameters.avatar, parameters.avatar, parameters.avatar],
+      [parameters.avatar, parameters.avatar, parameters.avatar, parameters.avatar, parameters.avatar]
+    )
+  ),
+
   // Origin - Mint OETH
   allow.mainnet.origin.oEthZapper.deposit({ send: true }),
   // Opt into yield
@@ -535,8 +666,8 @@ export default [
     recipient: c.avatar,
   }),
 
-  // Uniswap v3 - [ankrETH, AURA, BAL, COMP, CRV, CVX, DAI, ETHx, LDO, osETH, rETH, RPL, stETH, SWISE, USDC, USDT, WETH, wstETH] ->
-  // [DAI, rETH, USDC, USDT, stETH, WETH, wstETH]
+  // Uniswap v3 - [ankrETH, AURA, BAL, COMP, CRV, CVX, DAI, ETHx, LDO, MORPHO, osETH, rETH, RPL, SPK, stETH, SWISE, USDC, USDT, WETH, wstETH] ->
+  // [DAI, rETH, USDC, USDS, USDT, stETH, WETH, wstETH]
   ...allowErc20Approve(
     [
       ankrETH,
@@ -548,9 +679,11 @@ export default [
       DAI,
       ETHx,
       LDO,
+      MORPHO,
       osETH,
       rETH,
       RPL,
+      SPK,
       stETH,
       SWISE,
       USDC,
@@ -571,9 +704,11 @@ export default [
       DAI,
       ETHx,
       LDO,
+      MORPHO,
       osETH,
       rETH,
       RPL,
+      SPK,
       stETH,
       SWISE,
       USDC,
@@ -581,7 +716,7 @@ export default [
       WETH,
       wstETH
     ),
-    tokenOut: c.or(DAI, rETH, USDC, USDT, stETH, WETH, wstETH),
+    tokenOut: c.or(DAI, rETH, USDC, USDS, USDT, stETH, WETH, wstETH),
     recipient: c.avatar,
   }),
 

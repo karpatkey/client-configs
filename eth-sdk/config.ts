@@ -145,6 +145,7 @@ export const contracts = {
       ...deFiKitContracts.mainnet.morpho,
       gtUsdc: "0xdd0f28e19C1780eb6396170735D45153D261490d",
       steakUSDC: "0xBEEF01735c132Ada46AA9aA4c54623cAA92A64CB",
+      universalRewardsDistributor: "0x330eefa8a787552DC5cAd3C3cA644844B1E61Ddb",
     },
     mStableV2: {
       stkMta: "0x8f2326316eC696F6d023E37A9931c2b2C177a3D7",

@@ -9,10 +9,12 @@ import {
   DAI,
   ETHx,
   LDO,
+  MORPHO,
   OETH,
   osETH,
   rETH,
   RPL,
+  SPK,
   sUSDS,
   stETH,
   SWISE,
@@ -22,6 +24,7 @@ import {
   WETH,
   wstETH,
 } from "@/addresses/eth"
+import { parameters } from "../../../instances/main"
 
 export default [
   // Ankr
@@ -145,6 +148,26 @@ export default [
       WETH,
       wstETH,
     ],
+  }),
+
+  // CowSwap - [SPK] -> [DAI, USDC, USDS, USDT]
+  allowAction.cowswap.swap({
+    sell: [SPK],
+    buy: [DAI, USDC, USDS, USDT],
+  }),
+
+  // CowSwap - [MORPHO] -> [DAI, ETH, USDC, USDS, USDT]
+  allowAction.cowswap.swap({
+    sell: [MORPHO],
+    buy: ["ETH", DAI, USDC, USDS, USDT],
+  }),
+
+  // CowSwap - TWAP - [ETH, USDC, USDS, USDT] <-> [ETH, USDC, USDS, USDT]
+  allowAction.cowswap.swap({
+    sell: ["ETH", USDC, USDS, USDT],
+    buy: ["ETH", USDC, USDS, USDT],
+    twap: true,
+    receiver: parameters.avatar
   }),
 
   // Lido

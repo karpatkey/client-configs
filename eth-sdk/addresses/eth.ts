@@ -234,6 +234,8 @@ export const maverickV2 = {
 export const morpho = {
   oracleWstEthUsdc: "0x48F7E36EB6B826B2dF4B2E630B62Cd25e89E40e2",
   oracleWbtcUsdc: "0xDddd770BADd886dF3864029e4B377B5F6a2B6b83",
+  oracleCbBtcUsdc: "0xA6D6950c9F177F1De7f7757FB33539e3Ec60182a",
+  oracleWstEthWeth: "0xbD60A6770b27E084E8617335ddE769241B0e71D8",
   adaptativeCurveIrm: "0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC",
   oracleWbtcUsdt: "0x008bF4B1cDA0cc9f0e882E0697f036667652E1ef",
 } as const

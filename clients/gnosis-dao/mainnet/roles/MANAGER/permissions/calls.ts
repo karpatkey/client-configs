@@ -109,7 +109,15 @@ export default (parameters: Parameters) =>
     // ),
 
     // Merkl (Angle) - Claim [GHO, SD, aEthLidoWETH]
-    allow.mainnet.merkl.angleDistributor.claim([parameters.avatar]),
+    allow.mainnet.merkl.angleDistributor.claim(
+      c.or(
+        [parameters.avatar],
+        [parameters.avatar, parameters.avatar],
+        [parameters.avatar, parameters.avatar, parameters.avatar],
+        [parameters.avatar, parameters.avatar, parameters.avatar, parameters.avatar],
+        [parameters.avatar, parameters.avatar, parameters.avatar, parameters.avatar, parameters.avatar]
+      )
+    ),
 
     // SAFE - Claim
     allow.mainnet.safe.ecosystemAirdrop.claimVestedTokens(undefined, c.avatar),

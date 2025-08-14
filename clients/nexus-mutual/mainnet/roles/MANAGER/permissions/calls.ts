@@ -46,7 +46,15 @@ export default (parameters: Parameters) =>
     }),
 
     // ACI - Claim Merit Rewards (through Merkle)
-    allow.mainnet.merkl.angleDistributor.claim([parameters.avatar]),
+    allow.mainnet.merkl.angleDistributor.claim(
+      c.or(
+        [parameters.avatar],
+        [parameters.avatar, parameters.avatar],
+        [parameters.avatar, parameters.avatar, parameters.avatar],
+        [parameters.avatar, parameters.avatar, parameters.avatar, parameters.avatar],
+        [parameters.avatar, parameters.avatar, parameters.avatar, parameters.avatar, parameters.avatar]
+      )
+    ),
 
     // Aave Umbrella Staking - GHO
     allowErc20Approve([GHO], [contracts.mainnet.aaveV3.unmbrellaBatchHelper]),
@@ -364,8 +372,20 @@ export default (parameters: Parameters) =>
     allow.mainnet.morpho.steakUSDC.withdraw(undefined, c.avatar, c.avatar),
     allow.mainnet.morpho.steakUSDC.redeem(undefined, c.avatar, c.avatar),
 
+    // Morpho - Claim Rewards
+    allow.mainnet.morpho.universalRewardsDistributor.claim(
+      c.avatar,
+    ),
     // Morpho Claim Rewards (through Merkle)
-    allow.mainnet.merkl.angleDistributor.claim([parameters.avatar]),
+    allow.mainnet.merkl.angleDistributor.claim(
+      c.or(
+        [parameters.avatar],
+        [parameters.avatar, parameters.avatar],
+        [parameters.avatar, parameters.avatar, parameters.avatar],
+        [parameters.avatar, parameters.avatar, parameters.avatar, parameters.avatar],
+        [parameters.avatar, parameters.avatar, parameters.avatar, parameters.avatar, parameters.avatar]
+      )
+    ),
 
     // Nexus Mutual
     // Deposit ETH in exchange for NXM; redeem NXM in exchange for ETH
