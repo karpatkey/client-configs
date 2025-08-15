@@ -19,9 +19,19 @@ import {
   curve,
 } from "@/addresses/gno"
 import { contracts } from "@/contracts"
-import { allowErc20Approve, allowErc20Transfer } from "@/helpers"
+import {
+  allowErc20Approve,
+  allowEthTransfer,
+  allowErc20Transfer,
+} from "@/helpers"
 import { PermissionList } from "@/types"
-import { gnosisDaoEth, gpRewards } from "../../../addresses"
+import {
+  gnosisDaoGno,
+  gnosisDaoSec1Gno,
+  gnosisDaoSec2Gno,
+  gnosisDaoEth,
+  gpRewards,
+} from "../../../addresses"
 
 export default [
   // Wrapping and unwrapping of XDAI, WXDAI
@@ -226,4 +236,15 @@ export default [
    *********************************************/
   // Transfer up to 500 GNO every 24 hours to gpRewards
   allowErc20Transfer([GNO], [gpRewards], "GNO_GP-REWARDS"),
+
+  // Transfer XDAI between Gnosis DAO Safes
+  allowEthTransfer(gnosisDaoGno),
+  allowEthTransfer(gnosisDaoSec1Gno),
+  allowEthTransfer(gnosisDaoSec2Gno),
+
+  // Transfer [EURe, GNO, sDAI, USDC.e, WETH, wstETH, WXDAI] between Gnosis DAO Safes
+  allowErc20Transfer(
+    [EURe, GNO, sDAI, USDCe, WETH, wstETH, WXDAI],
+    [gnosisDaoGno, gnosisDaoSec1Gno, gnosisDaoSec2Gno]
+  ),
 ] satisfies PermissionList

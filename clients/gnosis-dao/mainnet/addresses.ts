@@ -1,1 +1,4 @@
+export const gnosisDaoEth = "0x849D52316331967b6fF1198e5E32A0eB168D039d"
+export const gnosisDaoSec1Eth = "0xa5C629E04E563355c30885B62928fd6E03558548"
+export const gnosisDaoSec2Eth = "0x15a954001BB47890a4c46A7FE9f06F7c39fF3D68"
 export const gnosisDaoGno = "0x458cD345B4C05e8DF39d0A07220feb4Ec19F5e6f"
