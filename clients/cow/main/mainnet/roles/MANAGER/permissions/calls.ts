@@ -309,6 +309,7 @@ export default (parameters: Parameters) =>
       }
     ),
     // Claim bridged ETH from Base
+    // Test txn: https://etherscan.io/tx/0x1c1a3ae0983253305fe3253b167683c7abe4f6f3ee70bc3259946ccf2e9c8150
     allow.mainnet.baseBridge.basePortal.proveWithdrawalTransaction({
       sender: baseBridgeBase.l2CrossDomainMessengerProxy,
       target: contracts.mainnet.baseBridge.resolvedDelegateProxy,
@@ -320,6 +321,8 @@ export default (parameters: Parameters) =>
           undefined,
           undefined,
           c.calldataMatches(
+            // https://etherscan.io/address/0x0b09ba359a106c9ea3b181cbc5f394570c7d2a7a#code#F2#L239
+            // No need to scope _extraData since it’s only used in _emitETHBridgeFinalized
             allow.mainnet.baseBridge.baseBridge.finalizeBridgeETH(
               c.avatar,
               c.avatar
@@ -328,6 +331,7 @@ export default (parameters: Parameters) =>
         )
       ),
     }),
+    // Test txn: https://etherscan.io/tx/0x5123d4c0401ef5c96f1094233c0f8daa4a819f714edf7e941af8c8a12a730534
     allow.mainnet.baseBridge.basePortal.finalizeWithdrawalTransactionExternalProof(
       {
         sender: baseBridgeBase.l2CrossDomainMessengerProxy,
@@ -340,6 +344,8 @@ export default (parameters: Parameters) =>
             undefined,
             undefined,
             c.calldataMatches(
+              // https://etherscan.io/address/0x0b09ba359a106c9ea3b181cbc5f394570c7d2a7a#code#F2#L239
+              // No need to scope _extraData since it’s only used in _emitETHBridgeFinalized
               allow.mainnet.baseBridge.baseBridge.finalizeBridgeETH(
                 c.avatar,
                 c.avatar
