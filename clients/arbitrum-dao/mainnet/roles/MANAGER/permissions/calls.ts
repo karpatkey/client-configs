@@ -1,6 +1,6 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { USDT } from "@/addresses/eth"
+import { COMP, USDT } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
@@ -28,5 +28,31 @@ export default (parameters: Parameters) =>
       },
       undefined,
       c.avatar
+    ),
+    // Claim bridged COMP from Arbitrum
+    allow.mainnet.arbitrumBridge.outbox4.executeTransaction(
+      undefined,
+      undefined,
+      contracts.arbitrumOne.arbitrumBridge.l2Erc20Gateway, // Origin address
+      contracts.mainnet.arbitrumBridge.l1Erc20Gateway, // Destination address
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      c.calldataMatches(
+        allow.mainnet.arbitrumBridge.l1Erc20Gateway.finalizeInboundTransfer(
+          COMP,
+          c.avatar,
+          c.avatar,
+          undefined,
+          // https://etherscan.io/address/0xb4299a1f5f26ff6a98b7ba35572290c359fde900#code#F6#L116
+          // https://etherscan.io/address/0xb4299a1f5f26ff6a98b7ba35572290c359fde900#code#F15#L58
+          // The callHookData should be scoped to 0x to prevent any unwanted data from being included
+          c.abiEncodedMatches(
+            [undefined, "0x"],
+            ["uint256","bytes"]
+          )
+        )
+      )
     ),
   ] satisfies PermissionList

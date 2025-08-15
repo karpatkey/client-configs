@@ -24,6 +24,7 @@ export const contracts = {
       delayedInbox: "0x4Dbd4fc535Ac27206064B68FfCf827b0A60BAB3f",
       outbox4: "0x0B9857ae2D4A3DBe74ffE1d7DF045bb7F96E4840",
       usdtOftAdapter: "0x6C96dE32CEa08842dcc4058c14d3aaAD7Fa41dee", // OFT adapter used to bridge USDT via LayerZero
+      l1Erc20Gateway: "0xa3A7B6F88361F48403514059F1F16C8E78d60EeC",
     },
     azuro: {
       stAzur: "0x67f3228fD58f5A26D93a5dd0c6989b69c95618eB",
@@ -298,6 +299,7 @@ export const contracts = {
     ...deFiKitContracts.arbitrumOne,
     arbitrumBridge: {
       arbSys: "0x0000000000000000000000000000000000000064",
+      l2Erc20Gateway: "0x09e9222E96E7B4AE2a407B98d48e330053351EEe",
     },
     compoundV3: {
       ...deFiKitContracts.arbitrumOne.compoundV3,
