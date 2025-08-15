@@ -1,5 +1,6 @@
 import { defineConfig } from "@gnosis-guild/eth-sdk"
 import { contracts as deFiKitContracts } from "defi-kit"
+import { main } from "../clients/aave/mainnet/instances"
 
 export const contracts = {
   mainnet: {
@@ -93,6 +94,8 @@ export const contracts = {
       btcGhoEthGauge: "0x1E4B83f6bFE9dbeB6d5b92a5237E5c18a44176f4",
       wethRethPool: "0x9EfE1A1Cbd6Ca51Ee8319AFc4573d253C3B732af",
       wethRethGauge: "0xFB5B02863E2917AE1662598F7eBdE60AFEaFe84e",
+      oEthWethPool: "0xcc7d5785AD5755B6164e21495E07aDb0Ff11C2A8",
+      oEthWethGauge: "0x36cC1d791704445A5b6b9c36a667e511d4702F3f",
     },
     enzyme: {
       depositWrapper2: "0x65BbAD6545B7ac9C30Fb0f07e64e25106Bf05eEc",
@@ -142,6 +145,7 @@ export const contracts = {
       ...deFiKitContracts.mainnet.morpho,
       gtUsdc: "0xdd0f28e19C1780eb6396170735D45153D261490d",
       steakUSDC: "0xBEEF01735c132Ada46AA9aA4c54623cAA92A64CB",
+      universalRewardsDistributor: "0x330eefa8a787552DC5cAd3C3cA644844B1E61Ddb",
     },
     mStableV2: {
       stkMta: "0x8f2326316eC696F6d023E37A9931c2b2C177a3D7",
@@ -193,6 +197,10 @@ export const contracts = {
     },
     sommelier: {
       turboDivEth: "0x6c1edce139291Af5b84fB1e496c9747F83E876c9",
+    },
+    spark: {
+      ...deFiKitContracts.mainnet.spark,
+      sparkRewards: "0x7ac96180C4d6b2A328D3a19ac059D0E7Fc3C6d41",
     },
     stakeWiseV3: {
       ...deFiKitContracts.mainnet.stakeWiseV3,

@@ -100,5 +100,24 @@ export default (parameters: Parameters) =>
     },
 
     // Merkl - ACI Merit Rewards
-    allow.mainnet.merkl.angleDistributor.claim([parameters.avatar]),
+    allow.mainnet.merkl.angleDistributor.claim(
+      c.or(
+        [parameters.avatar],
+        [parameters.avatar, parameters.avatar],
+        [parameters.avatar, parameters.avatar, parameters.avatar],
+        [
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+        ],
+        [
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+        ]
+      )
+    ),
   ] satisfies PermissionList
