@@ -9,21 +9,22 @@ import {
   DAI,
   ETHx,
   LDO,
+  MORPHO,
   OETH,
   osETH,
   rETH,
   RPL,
-  sDAI,
+  SPK,
   sUSDS,
   stETH,
   SWISE,
   USDC,
-  USDM,
   USDS,
   USDT,
   WETH,
   wstETH,
 } from "@/addresses/eth"
+import { parameters } from "../../../instances/main"
 
 export default [
   // Ankr
@@ -40,6 +41,8 @@ export default [
   allowAction.aave_v3.deposit({ market: "Core", targets: ["DAI"] }),
   // Aave v3 Core Market - Deposit ETH
   allowAction.aave_v3.deposit({ market: "Core", targets: ["ETH"] }),
+  // Aave v3 Core Market - Deposit ETHx
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["ETHx"] }),
   // Aave v3 Core Market - Deposit osETH
   allowAction.aave_v3.deposit({ market: "Core", targets: ["osETH"] }),
   // Aave v3 Core Market - Deposit USDC
@@ -67,6 +70,10 @@ export default [
   allowAction.convex.deposit({ targets: ["174"] }),
   // Convex - ETH/stETH - stETH-ng-f
   allowAction.convex.deposit({ targets: ["177"] }),
+  // Convex - ETH/ETHx - ethx-f
+  allowAction.convex.deposit({ targets: ["232"] }),
+  // Convex - osETH/rETH
+  allowAction.convex.deposit({ targets: ["268"] }),
 
   // CowSwap - [ankrETH, AURA, BAL, COMP, CRV, CVX, DAI, ETHx, LDO, osETH, rETH, RPL, stETH, SWISE, USDC, USDT, WETH, wstETH] ->
   // [DAI, rETH, USDC, USDT, stETH, WETH, wstETH]
@@ -117,10 +124,10 @@ export default [
       WETH,
       wstETH,
     ],
-    buy: [OETH, sUSDS, USDM, USDS, USDT],
+    buy: [OETH, sUSDS, USDS, USDT],
   }),
   allowAction.cowswap.swap({
-    sell: [OETH, sUSDS, USDM, USDS, USDT],
+    sell: [OETH, sUSDS, USDS, USDT],
     buy: [
       ankrETH,
       AURA,
@@ -143,6 +150,26 @@ export default [
     ],
   }),
 
+  // CowSwap - [SPK] -> [DAI, USDC, USDS, USDT]
+  allowAction.cowswap.swap({
+    sell: [SPK],
+    buy: [DAI, USDC, USDS, USDT],
+  }),
+
+  // CowSwap - [MORPHO] -> [DAI, ETH, USDC, USDS, USDT]
+  allowAction.cowswap.swap({
+    sell: [MORPHO],
+    buy: ["ETH", DAI, USDC, USDS, USDT],
+  }),
+
+  // CowSwap - TWAP - [ETH, USDC, USDS, USDT] <-> [ETH, USDC, USDS, USDT]
+  allowAction.cowswap.swap({
+    sell: ["ETH", USDC, USDS, USDT],
+    buy: ["ETH", USDC, USDS, USDT],
+    twap: true,
+    receiver: parameters.avatar,
+  }),
+
   // Lido
   allowAction.lido.deposit(),
 
@@ -155,8 +182,16 @@ export default [
   allowAction.spark.stake(),
   // Spark - Deposit ETH
   allowAction.spark.deposit({ targets: ["ETH"] }),
+  // Spark - Deposit USDC
+  allowAction.spark.deposit({ targets: ["USDC"] }),
+  // Spark - Deposit USDS
+  allowAction.spark.deposit({ targets: ["USDS"] }),
+  // Spark - Deposit USDT
+  allowAction.spark.deposit({ targets: ["USDT"] }),
   // Spark - Deposit WETH
   allowAction.spark.deposit({ targets: ["WETH"] }),
+  // Spark - Deposit wstETH
+  allowAction.spark.deposit({ targets: ["wstETH"] }),
 
   // Stader
   allowAction.stader.deposit(),

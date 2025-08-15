@@ -118,7 +118,7 @@ export default (parameters: Parameters) =>
     //   maverickV2.ghoStkGhoPool,
     // ),
 
-    // Merkl (Angle) - Claim [GHO, SD, aEthLidoWETH]
+    // Merkl - ACI Merit Rewards
     allow.mainnet.merkl.angleDistributor.claim(
       c.or(
         [parameters.avatar],
