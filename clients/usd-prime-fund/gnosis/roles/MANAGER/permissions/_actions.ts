@@ -12,7 +12,7 @@ export default [
   // Aave v3 - Deposit WXDAI
   allowAction.aave_v3.deposit({ targets: ["WXDAI"] }),
 
-  // CowSwap - [XDAI, sDAI, USDCe, WXDAI] -> [XDAI, sDAI, USDCe, WXDAI]
+  // CowSwap - [XDAI, sDAI, USDCe, WXDAI] <-> [XDAI, sDAI, USDCe, WXDAI]
   allowAction.cowswap.swap({
     sell: ["XDAI", sDAI, USDCe, WXDAI],
     buy: ["XDAI", sDAI, USDCe, WXDAI],

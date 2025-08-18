@@ -32,7 +32,7 @@ export default [
    * Swaps
    *********************************************/
 
-  // CowSwap - [USDC, USDT] -> [USDC, USDT]
+  // CowSwap - [USDC, USDT] <-> [USDC, USDT]
   allowAction.cowswap.swap({
     sell: [USDC, USDT],
     buy: [USDC, USDT],

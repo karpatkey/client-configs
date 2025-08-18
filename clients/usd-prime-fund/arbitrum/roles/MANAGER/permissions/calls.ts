@@ -31,7 +31,7 @@ export default [
   ...allowErc20Approve([USDT], [contracts.mainnet.stargate.poolUsdt]),
   allow.mainnet.stargate.poolUsdt.send(
     {
-      dstEid: "30101", // Optimism chain ID
+      dstEid: "30101", // Mainnet chain ID
       to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
       extraOptions: "0x",
       composeMsg: "0x",
