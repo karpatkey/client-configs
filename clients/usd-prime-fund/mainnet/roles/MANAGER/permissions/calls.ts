@@ -1,23 +1,21 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import {
+  cbBTC,
   GHO,
+  morpho,
+  pendle,
+  sUSDS,
   USDC,
+  USDS,
   USDT,
   WBTC,
   wstETH,
-  morpho,
-  USDS,
-  sUSDS,
-  cbBTC,
-  pendle,
   wstUSR,
 } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
-import { balancerV2Swap } from "@/exit_strategies/balancerV2"
-import { zeroAddress } from "@/addresses"
 import { Parameters } from "../../../parameters"
 
 export default (parameters: Parameters) =>
@@ -26,8 +24,10 @@ export default (parameters: Parameters) =>
      * Protocols
      *********************************************/
 
-    // ACI - Claim Merit Rewards (through Merkle)
-    allow.mainnet.merkl.angleDistributor.claim([parameters.avatar]),
+    // ACI - Claim Merit Rewards through Merkle (max 2 tokens: USDS and stkGHO)
+    allow.mainnet.merkl.angleDistributor.claim(
+      c.or([parameters.avatar], [parameters.avatar, parameters.avatar])
+    ),
 
     // Morpho Blue - wstETH/USDC
     ...allowErc20Approve([USDC], [contracts.mainnet.morpho.morphoBlue]),
@@ -240,7 +240,7 @@ export default (parameters: Parameters) =>
      * Bridges
      *********************************************/
     // Mainnet -> Gnosis
-    // DAI -> XDAI
+    // USDS -> XDAI
     ...allowErc20Approve([USDS], [contracts.mainnet.xdaiUsdsBridge]),
     allow.mainnet.xdaiUsdsBridge.relayTokens(USDS, c.avatar),
     // Claim bridged XDAI from Gnosis
