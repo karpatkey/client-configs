@@ -1,5 +1,5 @@
 import { allow as allowAction } from "defi-kit/eth"
-import { EUL, FLUID, USDC, USDT } from "@/addresses/eth"
+import { COMP, EUL, FLUID, USDC, USDT } from "@/addresses/eth"
 import { parameters } from "../../../instances/main"
 
 export default [
@@ -15,9 +15,9 @@ export default [
     recipient: parameters.avatar,
   }),
 
-  // CowSwap - [EUL, FLUID] -> [USDC, USDT]
+  // CowSwap - [COMP, EUL, FLUID] -> [USDC, USDT]
   allowAction.cowswap.swap({
-    sell: [EUL, FLUID],
+    sell: [COMP, EUL, FLUID],
     buy: [USDC, USDT],
   }),
 ]
