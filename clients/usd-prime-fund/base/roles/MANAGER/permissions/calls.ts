@@ -31,7 +31,7 @@ export default [
       loanToken: USDC,
       collateralToken: cbBTC,
       oracle: morpho.oracleCbBtcUsdc,
-      irm: morpho.adaptativeCurveIrm, 
+      irm: morpho.adaptativeCurveIrm,
       lltv: "860000000000000000",
     },
     undefined,
