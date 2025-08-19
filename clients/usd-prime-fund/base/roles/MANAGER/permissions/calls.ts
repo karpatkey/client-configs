@@ -41,7 +41,6 @@ export default [
   ),
 
   // Morpho Blue - cbETH/USDC
-  ...allowErc20Approve([USDC], [contracts.mainnet.morpho.morphoBlue]),
   allow.mainnet.morpho.morphoBlue.supply(
     {
       loanToken: USDC,

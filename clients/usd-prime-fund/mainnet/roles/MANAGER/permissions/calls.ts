@@ -113,9 +113,56 @@ export default (parameters: Parameters) =>
       c.avatar,
       c.avatar
     ),
+    allow.mainnet.morpho.morphoBlue.supplyCollateral(
+      {
+        loanToken: USDT,
+        collateralToken: sUSDS,
+        oracle: morpho.oracleSusdsUsdt,
+        irm: morpho.adaptativeCurveIrm,
+        lltv: "965000000000000000",
+      },
+      undefined,
+      c.avatar,
+    ),
+    allow.mainnet.morpho.morphoBlue.withdrawCollateral(
+      {
+        loanToken: USDT,
+        collateralToken: sUSDS,
+        oracle: morpho.oracleSusdsUsdt,
+        irm: morpho.adaptativeCurveIrm,
+        lltv: "965000000000000000",
+      },
+      undefined,
+      c.avatar,
+      c.avatar,
+    ),
+    allow.mainnet.morpho.morphoBlue.borrow(
+      {
+        loanToken: USDT,
+        collateralToken: sUSDS,
+        oracle: morpho.oracleSusdsUsdt,
+        irm: morpho.adaptativeCurveIrm,
+        lltv: "965000000000000000",
+      },
+      undefined,
+      undefined,
+      c.avatar,
+      c.avatar,
+    ),
+    allow.mainnet.morpho.morphoBlue.repay(
+      {
+        loanToken: USDT,
+        collateralToken: sUSDS,
+        oracle: morpho.oracleSusdsUsdt,
+        irm: morpho.adaptativeCurveIrm,
+        lltv: "965000000000000000",
+      },
+      undefined,
+      undefined,
+      c.avatar,
+    ),
 
     // Morpho Blue - cbBTC/USDC
-    ...allowErc20Approve([cbBTC, USDC], [contracts.mainnet.morpho.morphoBlue]),
     allow.mainnet.morpho.morphoBlue.supply(
       {
         loanToken: USDC,
@@ -144,10 +191,6 @@ export default (parameters: Parameters) =>
     ),
 
     // Morpho Blue - PT-USDe-25SEP2025/USDC
-    ...allowErc20Approve(
-      [pendle.ptUSDe25SEP2025, USDC],
-      [contracts.mainnet.morpho.morphoBlue]
-    ),
     allow.mainnet.morpho.morphoBlue.supply(
       {
         loanToken: USDC,
@@ -176,10 +219,6 @@ export default (parameters: Parameters) =>
     ),
 
     // Morpho Blue - PT-USDe-25SEP2025/USDT
-    ...allowErc20Approve(
-      [pendle.ptUSDe25SEP2025, USDT],
-      [contracts.mainnet.morpho.morphoBlue]
-    ),
     allow.mainnet.morpho.morphoBlue.supply(
       {
         loanToken: USDT,
@@ -208,7 +247,6 @@ export default (parameters: Parameters) =>
     ),
 
     // Morpho Blue - wstUSR/USDC
-    ...allowErc20Approve([wstUSR, USDC], [contracts.mainnet.morpho.morphoBlue]),
     allow.mainnet.morpho.morphoBlue.supply(
       {
         loanToken: USDC,
