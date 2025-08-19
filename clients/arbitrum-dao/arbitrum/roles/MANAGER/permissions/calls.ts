@@ -3,7 +3,6 @@ import { allow } from "zodiac-roles-sdk/kit"
 import {
   COMP,
   FLUID,
-  GHO,
   sUSDC,
   sUSDS,
   USDC,
@@ -11,7 +10,6 @@ import {
   USDT,
   compoundV3,
   euler,
-  fluid,
 } from "@/addresses/arb1"
 import { COMP as COMP_eth } from "@/addresses/eth"
 import { contracts } from "@/contracts"
@@ -56,48 +54,6 @@ export default (parameters: Parameters) =>
 
     // Compound v3 - Claim COMP rewards
     allow.arbitrumOne.compoundV3.cometRewards.claim(undefined, c.avatar),
-
-    // // Euler - Vault Connector - batch
-    // allow.arbitrumOne.euler.vaultConnector.batch(
-    //   c.every(
-    //     {
-    //       targetContract: c.or(
-    //         contracts.arbitrumOne.euler.termsOfUseSigner,
-    //         euler.esUsdc,
-    //         euler.esUsds,
-    //         euler.eUsdc,
-    //         euler.eUsdt
-    //       ),
-    //       onBehalfOfAccount: c.avatar,
-    //       value: 0,
-    //       data: c.or(
-    //         c.calldataMatches(
-    //           allow.arbitrumOne.euler.termsOfUseSigner.signTermsOfUse()
-    //         ),
-    //         c.calldataMatches(
-    //           allow.arbitrumOne.euler.eVault.deposit(
-    //             undefined,
-    //             c.avatar
-    //           )
-    //         ),
-    //         c.calldataMatches(
-    //           allow.arbitrumOne.euler.eVault.withdraw(
-    //             undefined,
-    //             c.avatar,
-    //             c.avatar
-    //           )
-    //         ),
-    //         c.calldataMatches(
-    //           allow.arbitrumOne.euler.eVault.redeem(
-    //             undefined,
-    //             c.avatar,
-    //             c.avatar
-    //           )
-    //         )
-    //       )
-    //     }
-    //   )
-    // ),
 
     // Euler - sUSDC
     allowErc20Approve([sUSDC], [euler.esUsdc]),
@@ -178,113 +134,6 @@ export default (parameters: Parameters) =>
     allow.arbitrumOne.euler.rEul.withdrawToByLockTimestamps(c.avatar),
     // Included for completeness; not used by the UI
     allow.arbitrumOne.euler.rEul.withdrawTo(c.avatar),
-
-    // Fluid - GHO
-    allowErc20Approve([GHO], [fluid.fGho]),
-    {
-      ...allow.arbitrumOne.fluid.fAsset["deposit(uint256,address)"](
-        undefined,
-        c.avatar
-      ),
-      targetAddress: fluid.fGho,
-    },
-    {
-      ...allow.arbitrumOne.fluid.fAsset["withdraw(uint256,address,address)"](
-        undefined,
-        c.avatar,
-        c.avatar
-      ),
-      targetAddress: fluid.fGho,
-    },
-    {
-      ...allow.arbitrumOne.fluid.fAsset["redeem(uint256,address,address)"](
-        undefined,
-        c.avatar,
-        c.avatar
-      ),
-      targetAddress: fluid.fGho,
-    },
-
-    // Fluid - sUSDS
-    allowErc20Approve([sUSDS], [fluid.fsUsds]),
-    {
-      ...allow.arbitrumOne.fluid.fAsset["deposit(uint256,address)"](
-        undefined,
-        c.avatar
-      ),
-      targetAddress: fluid.fsUsds,
-    },
-    {
-      ...allow.arbitrumOne.fluid.fAsset["withdraw(uint256,address,address)"](
-        undefined,
-        c.avatar,
-        c.avatar
-      ),
-      targetAddress: fluid.fsUsds,
-    },
-    {
-      ...allow.arbitrumOne.fluid.fAsset["redeem(uint256,address,address)"](
-        undefined,
-        c.avatar,
-        c.avatar
-      ),
-      targetAddress: fluid.fsUsds,
-    },
-
-    // Fluid - USDC
-    allowErc20Approve([USDC], [fluid.fUsdc]),
-    {
-      ...allow.arbitrumOne.fluid.fAsset["deposit(uint256,address)"](
-        undefined,
-        c.avatar
-      ),
-      targetAddress: fluid.fUsdc,
-    },
-    {
-      ...allow.arbitrumOne.fluid.fAsset["withdraw(uint256,address,address)"](
-        undefined,
-        c.avatar,
-        c.avatar
-      ),
-      targetAddress: fluid.fUsdc,
-    },
-    {
-      ...allow.arbitrumOne.fluid.fAsset["redeem(uint256,address,address)"](
-        undefined,
-        c.avatar,
-        c.avatar
-      ),
-      targetAddress: fluid.fUsdc,
-    },
-
-    // Fluid - USDT
-    allowErc20Approve([USDT], [fluid.fUsdt]),
-    {
-      ...allow.arbitrumOne.fluid.fAsset["deposit(uint256,address)"](
-        undefined,
-        c.avatar
-      ),
-      targetAddress: fluid.fUsdt,
-    },
-    {
-      ...allow.arbitrumOne.fluid.fAsset["withdraw(uint256,address,address)"](
-        undefined,
-        c.avatar,
-        c.avatar
-      ),
-      targetAddress: fluid.fUsdt,
-    },
-    {
-      ...allow.arbitrumOne.fluid.fAsset["redeem(uint256,address,address)"](
-        undefined,
-        c.avatar,
-        c.avatar
-      ),
-      targetAddress: fluid.fUsdt,
-    },
-
-    // Fluid - Claim FLUID rewards
-    allow.arbitrumOne.fluid.merkleDistributor.claim(c.avatar),
 
     // Spark - sUSDC
     allowErc20Approve([USDC], [sUSDC]),

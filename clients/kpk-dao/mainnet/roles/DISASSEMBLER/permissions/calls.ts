@@ -99,7 +99,7 @@ export default [
 
   // Fluid - Withdraw wstETH
   {
-    ...allow.mainnet.fluid.fAsset["withdraw(uint256,address,address)"](
+    ...allow.mainnet.fluid.fWeth["withdraw(uint256,address,address)"](
       undefined,
       c.avatar,
       c.avatar
@@ -107,7 +107,7 @@ export default [
     targetAddress: fluid.fwstEth,
   },
   {
-    ...allow.mainnet.fluid.fAsset["redeem(uint256,address,address)"](
+    ...allow.mainnet.fluid.fWeth["redeem(uint256,address,address)"](
       undefined,
       c.avatar,
       c.avatar

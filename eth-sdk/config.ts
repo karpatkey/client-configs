@@ -120,9 +120,6 @@ export const contracts = {
       withdrawRequestNft: "0x7d5706f6ef3F89B3951E23e557CDFBC3239D4E2c",
       kingDistributor: "0x6Db24Ee656843E3fE03eb8762a54D86186bA6B64",
     },
-    fluid: {
-      fAsset: "0x90551c1795392094FE6D29B758EcCD233cFAa260", // fWETH
-    },
     gyroscope: {
       sGyd: "0xeA50f402653c41cAdbaFD1f788341dB7B7F37816",
     },
@@ -330,8 +327,7 @@ export const contracts = {
       oftAdapter: "0x174834a9DE4C2f0c13c7353e62C229E8D607c808", // OFT adapter used to bridge EUL via LayerZero
     },
     fluid: {
-      fAsset: "0x45Df0656F8aDf017590009d2f1898eeca4F0a205", // fWETH
-      merkleDistributor: "0x94312a608246Cecfce6811Db84B3Ef4B2619054E",
+      ...deFiKitContracts.arbitrumOne.fluid,
       fluidDexT1: "0x2886a01a0645390872a9eb99dAe1283664b0c524", // DEX_ID = 5, token0 = FLUID, token1 = ETH
     },
     gmx: {

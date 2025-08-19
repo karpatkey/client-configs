@@ -13,7 +13,6 @@ import {
   weETH,
   WETH,
   wstETH,
-  fluid,
 } from "@/addresses/eth"
 import { zeroAddress, eAddress } from "@/addresses"
 import { contracts } from "@/contracts"
@@ -246,32 +245,6 @@ export default (parameters: Parameters) =>
     allow.mainnet.etherfi.weEth.unwrap(),
     // ether.fi - Claim rewards
     allow.mainnet.etherfi.kingDistributor.claim(c.avatar),
-
-    // Fluid - wstETH
-    allowErc20Approve([wstETH], [fluid.fwstEth]),
-    {
-      ...allow.mainnet.fluid.fAsset["deposit(uint256,address)"](
-        undefined,
-        c.avatar
-      ),
-      targetAddress: fluid.fwstEth,
-    },
-    {
-      ...allow.mainnet.fluid.fAsset["withdraw(uint256,address,address)"](
-        undefined,
-        c.avatar,
-        c.avatar
-      ),
-      targetAddress: fluid.fwstEth,
-    },
-    {
-      ...allow.mainnet.fluid.fAsset["redeem(uint256,address,address)"](
-        undefined,
-        c.avatar,
-        c.avatar
-      ),
-      targetAddress: fluid.fwstEth,
-    },
 
     // Lido - Lido's Token Rewards Plan (TRP) - Claim LDO
     {

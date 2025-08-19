@@ -1,4 +1,4 @@
-import { allow as allowAction } from "defi-kit/eth"
+import { allow, allow as allowAction } from "defi-kit/eth"
 import { COMP, EUL, FLUID, USDC, USDT } from "@/addresses/eth"
 import { parameters } from "../../../instances/main"
 
@@ -20,4 +20,13 @@ export default [
     sell: [COMP, EUL, FLUID],
     buy: [USDC, USDT],
   }),
+
+  // Fluid - Deposit GHO
+  allowAction.fluid.deposit({ targets: ["GHO"] }),
+  // Fluid - Deposit sUSDS
+  allowAction.fluid.deposit({ targets: ["sUSDS"] }),
+  // Fluid - Deposit USDC
+  allowAction.fluid.deposit({ targets: ["USDC"] }),
+  // Fluid - Deposit USDT
+  allowAction.fluid.deposit({ targets: ["USDT"] }),
 ]

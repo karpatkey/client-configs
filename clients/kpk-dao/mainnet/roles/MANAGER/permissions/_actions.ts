@@ -112,6 +112,9 @@ export default [
     buy: [auraBAL],
   }),
 
+  // Fluid - Deposit wstETH
+  allowAction.fluid.deposit({ targets: ["wstETH"] }),
+
   // Lido
   allowAction.lido.deposit(),
 

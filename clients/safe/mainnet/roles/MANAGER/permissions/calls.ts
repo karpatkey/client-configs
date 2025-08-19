@@ -32,7 +32,6 @@ import {
   x3CRV,
   aura,
   curve,
-  fluid,
   uniswapV2,
 } from "@/addresses/eth"
 import { zeroAddress, eAddress } from "@/addresses"
@@ -359,121 +358,6 @@ export default (parameters: Parameters) =>
       zeroAddress,
       { send: true }
     ),
-
-    // Fluid - ETH
-    allow.mainnet.fluid.fAsset["depositNative(address)"](c.avatar, {
-      send: true,
-    }),
-    allow.mainnet.fluid.fAsset["withdrawNative(uint256,address,address)"](
-      undefined,
-      c.avatar,
-      c.avatar
-    ),
-    allow.mainnet.fluid.fAsset["redeemNative(uint256,address,address)"](
-      undefined,
-      c.avatar,
-      c.avatar
-    ),
-    // Fluid - sUSDS
-    allowErc20Approve([sUSDS], [fluid.fsUsds]),
-    {
-      ...allow.mainnet.fluid.fAsset["deposit(uint256,address)"](
-        undefined,
-        c.avatar
-      ),
-      targetAddress: fluid.fsUsds,
-    },
-    {
-      ...allow.mainnet.fluid.fAsset["withdraw(uint256,address,address)"](
-        undefined,
-        c.avatar,
-        c.avatar
-      ),
-      targetAddress: fluid.fsUsds,
-    },
-    {
-      ...allow.mainnet.fluid.fAsset["redeem(uint256,address,address)"](
-        undefined,
-        c.avatar,
-        c.avatar
-      ),
-      targetAddress: fluid.fsUsds,
-    },
-    // Fluid - USDC
-    allowErc20Approve([USDC], [fluid.fUsdc]),
-    {
-      ...allow.mainnet.fluid.fAsset["deposit(uint256,address)"](
-        undefined,
-        c.avatar
-      ),
-      targetAddress: fluid.fUsdc,
-    },
-    {
-      ...allow.mainnet.fluid.fAsset["withdraw(uint256,address,address)"](
-        undefined,
-        c.avatar,
-        c.avatar
-      ),
-      targetAddress: fluid.fUsdc,
-    },
-    {
-      ...allow.mainnet.fluid.fAsset["redeem(uint256,address,address)"](
-        undefined,
-        c.avatar,
-        c.avatar
-      ),
-      targetAddress: fluid.fUsdc,
-    },
-    // Fluid - USDT
-    allowErc20Approve([USDT], [fluid.fUsdt]),
-    {
-      ...allow.mainnet.fluid.fAsset["deposit(uint256,address)"](
-        undefined,
-        c.avatar
-      ),
-      targetAddress: fluid.fUsdt,
-    },
-    {
-      ...allow.mainnet.fluid.fAsset["withdraw(uint256,address,address)"](
-        undefined,
-        c.avatar,
-        c.avatar
-      ),
-      targetAddress: fluid.fUsdt,
-    },
-    {
-      ...allow.mainnet.fluid.fAsset["redeem(uint256,address,address)"](
-        undefined,
-        c.avatar,
-        c.avatar
-      ),
-      targetAddress: fluid.fUsdt,
-    },
-    // Fluid - wstETH
-    allowErc20Approve([wstETH], [fluid.fwstEth]),
-    {
-      ...allow.mainnet.fluid.fAsset["deposit(uint256,address)"](
-        undefined,
-        c.avatar
-      ),
-      targetAddress: fluid.fwstEth,
-    },
-    {
-      ...allow.mainnet.fluid.fAsset["withdraw(uint256,address,address)"](
-        undefined,
-        c.avatar,
-        c.avatar
-      ),
-      targetAddress: fluid.fwstEth,
-    },
-    {
-      ...allow.mainnet.fluid.fAsset["redeem(uint256,address,address)"](
-        undefined,
-        c.avatar,
-        c.avatar
-      ),
-      targetAddress: fluid.fwstEth,
-    },
 
     // Origin - Mint OETH
     allow.mainnet.origin.oEthZapper.deposit({ send: true }),
