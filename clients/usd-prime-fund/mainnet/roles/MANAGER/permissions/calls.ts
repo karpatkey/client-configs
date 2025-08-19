@@ -122,7 +122,7 @@ export default (parameters: Parameters) =>
         lltv: "965000000000000000",
       },
       undefined,
-      c.avatar,
+      c.avatar
     ),
     allow.mainnet.morpho.morphoBlue.withdrawCollateral(
       {
@@ -134,7 +134,7 @@ export default (parameters: Parameters) =>
       },
       undefined,
       c.avatar,
-      c.avatar,
+      c.avatar
     ),
     allow.mainnet.morpho.morphoBlue.borrow(
       {
@@ -147,7 +147,7 @@ export default (parameters: Parameters) =>
       undefined,
       undefined,
       c.avatar,
-      c.avatar,
+      c.avatar
     ),
     allow.mainnet.morpho.morphoBlue.repay(
       {
@@ -159,7 +159,7 @@ export default (parameters: Parameters) =>
       },
       undefined,
       undefined,
-      c.avatar,
+      c.avatar
     ),
 
     // Morpho Blue - cbBTC/USDC
