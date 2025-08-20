@@ -1,6 +1,5 @@
 import { defineConfig } from "@gnosis-guild/eth-sdk"
 import { contracts as deFiKitContracts } from "defi-kit"
-import { main } from "../clients/aave/mainnet/instances"
 
 export const contracts = {
   mainnet: {
@@ -20,12 +19,6 @@ export const contracts = {
     },
     autonolas: {
       veOlas: "0x7e01A500805f8A52Fad229b3015AD130A332B7b3",
-    },
-    arbitrumBridge: {
-      delayedInbox: "0x4Dbd4fc535Ac27206064B68FfCf827b0A60BAB3f",
-      outbox4: "0x0B9857ae2D4A3DBe74ffE1d7DF045bb7F96E4840",
-      usdtOftAdapter: "0x6C96dE32CEa08842dcc4058c14d3aaAD7Fa41dee", // OFT adapter used to bridge USDT via LayerZero
-      l1Erc20Gateway: "0xa3A7B6F88361F48403514059F1F16C8E78d60EeC",
     },
     azuro: {
       stAzur: "0x67f3228fD58f5A26D93a5dd0c6989b69c95618eB",
@@ -119,9 +112,6 @@ export const contracts = {
       liquidityPool: "0x308861A430be4cce5502d0A12724771Fc6DaF216",
       withdrawRequestNft: "0x7d5706f6ef3F89B3951E23e557CDFBC3239D4E2c",
       kingDistributor: "0x6Db24Ee656843E3fE03eb8762a54D86186bA6B64",
-    },
-    fluid: {
-      fAsset: "0x90551c1795392094FE6D29B758EcCD233cFAa260", // fWETH
     },
     gyroscope: {
       sGyd: "0xeA50f402653c41cAdbaFD1f788341dB7B7F37816",
@@ -233,7 +223,6 @@ export const contracts = {
     votium: {
       bribe: "0x19BBC3463Dd8d07f55438014b021Fb457EBD4595",
     },
-    wethOmnibridgeRouter: "0xa6439Ca0FCbA1d0F80df0bE6A17220feD9c9038a",
   },
   gnosis: {
     ...deFiKitContracts.gnosis,
@@ -263,11 +252,6 @@ export const contracts = {
       crvEureUsdGauge: "0xd91770E868c7471a9585d1819143063A40c54D00",
       crvEureUsdZap: "0xE3FFF29d4DC930EBb787FeCd49Ee5963DADf60b6",
       eureEurc: "0x845C8bc94610807fCbaB5dd2bc7aC9DAbaFf3c55",
-    },
-    hop: {
-      daiLiquidityPool: "0x24afDcA4653042C6D08fb1A754b2535dAcF6Eb24",
-      lpDai: "0x5300648b1cFaa951bbC1d56a4457083D92CFa33F",
-      daiRewards2: "0xBF7a02d963b23D84313F07a04ad663409CEE5A92",
     },
     hyperdrive: {
       wstEthLp: "0x2f840f1575EE77adAa43415Ac5953F7Db9F8C6ba",
@@ -312,10 +296,6 @@ export const contracts = {
   },
   arbitrumOne: {
     ...deFiKitContracts.arbitrumOne,
-    arbitrumBridge: {
-      arbSys: "0x0000000000000000000000000000000000000064",
-      l2Erc20Gateway: "0x09e9222E96E7B4AE2a407B98d48e330053351EEe",
-    },
     compoundV3: {
       ...deFiKitContracts.arbitrumOne.compoundV3,
       comet: "0x2416101cFd4aD12cA2D5b3E58419073c7D78d857", // CometWithExtendedAssetList
@@ -330,8 +310,7 @@ export const contracts = {
       oftAdapter: "0x174834a9DE4C2f0c13c7353e62C229E8D607c808", // OFT adapter used to bridge EUL via LayerZero
     },
     fluid: {
-      fAsset: "0x45Df0656F8aDf017590009d2f1898eeca4F0a205", // fWETH
-      merkleDistributor: "0x94312a608246Cecfce6811Db84B3Ef4B2619054E",
+      ...deFiKitContracts.arbitrumOne.fluid,
       fluidDexT1: "0x2886a01a0645390872a9eb99dAe1283664b0c524", // DEX_ID = 5, token0 = FLUID, token1 = ETH
     },
     gmx: {

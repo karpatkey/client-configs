@@ -96,8 +96,8 @@ export default (parameters: Parameters) =>
     ),
 
     // USDC - HOP
-    ...allowErc20Approve([USDC], [contracts.arbitrumOne.l2HopCctp]),
-    allow.arbitrumOne.l2HopCctp.send(
+    ...allowErc20Approve([USDC], [contracts.arbitrumOne.hop.l2HopCctp]),
+    allow.arbitrumOne.hop.l2HopCctp.send(
       1, // Mainnet
       c.avatar
     ),

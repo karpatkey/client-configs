@@ -15,7 +15,7 @@ export default [
    *********************************************/
   // Bridge - Gnosis -> Mainnet
   // XDAI -> DAI - Gnosis Bridge
-  allow.gnosis.xdaiBridge2.relayTokens(kpkEth, {
+  allow.gnosis.gnosisBridge.xdaiBridge2.relayTokens(kpkEth, {
     send: true,
   }),
   // No claim is required for the DAI bridged from Mainnet via Gnosis Bridge.

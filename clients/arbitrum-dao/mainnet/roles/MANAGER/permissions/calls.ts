@@ -22,12 +22,15 @@ export default (parameters: Parameters) =>
       {
         dstEid: "30110", // Arbitrum
         to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-        extraOptions: c.or("0x", "0x0003"),
+        extraOptions: "0x",
         composeMsg: "0x",
         oftCmd: "0x",
       },
       undefined,
-      c.avatar
+      c.avatar,
+      {
+        send: true,
+      }
     ),
     // Claim bridged COMP from Arbitrum
     allow.mainnet.arbitrumBridge.outbox4.executeTransaction(

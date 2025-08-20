@@ -168,6 +168,17 @@ export default [
     ],
   }),
 
+  // Fluid - Deposit ETH
+  allowAction.fluid.deposit({ targets: ["ETH"] }),
+  // Fluid - Deposit sUSDS
+  allowAction.fluid.deposit({ targets: ["sUSDS"] }),
+  // Fluid - Deposit USDC
+  allowAction.fluid.deposit({ targets: ["USDC"] }),
+  // Fluid - Deposit USDT
+  allowAction.fluid.deposit({ targets: ["USDT"] }),
+  // Fluid - Deposit wstETH
+  allowAction.fluid.deposit({ targets: ["wstETH"] }),
+
   // Lido
   allowAction.lido.deposit(),
 

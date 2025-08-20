@@ -14,6 +14,7 @@ export default [
       collateralToken: cbETH,
       oracle: morpho.oracleCbEthUsdc,
       irm: morpho.adaptativeCurveIrm,
+      lltv: "860000000000000000",
     },
     undefined,
     undefined,
@@ -26,6 +27,7 @@ export default [
       collateralToken: cbETH,
       oracle: morpho.oracleCbEthUsdc,
       irm: morpho.adaptativeCurveIrm,
+      lltv: "860000000000000000",
     },
     undefined,
     undefined,
@@ -37,9 +39,9 @@ export default [
    * Bridge
    *********************************************/
   // Base -> Mainnet
-  // USDC (Base) -> USDC (Mainnet) - HOP
-  ...allowErc20Approve([USDC], [contracts.base.l2HopCctp]),
-  allow.base.l2HopCctp.send(
+  // USDC - HOP
+  ...allowErc20Approve([USDC], [contracts.base.hop.l2HopCctp]),
+  allow.base.hop.l2HopCctp.send(
     1, // Mainnet
     c.avatar
   ),

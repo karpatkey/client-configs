@@ -16,6 +16,7 @@ export default [
       collateralToken: wstETH,
       oracle: morpho.oracleWstEthUsdc,
       irm: morpho.adaptativeCurveIrm,
+      lltv: "860000000000000000",
     },
     undefined,
     undefined,

@@ -1,4 +1,4 @@
-import { allow as allowAction } from "defi-kit/eth"
+import { allow, allow as allowAction } from "defi-kit/eth"
 import { COMP, EUL, FLUID, USDC, USDT } from "@/addresses/eth"
 import { parameters } from "../../../instances/main"
 

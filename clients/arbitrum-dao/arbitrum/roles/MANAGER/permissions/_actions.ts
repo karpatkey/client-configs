@@ -34,4 +34,13 @@ export default [
     sell: ["ETH", DAI, EUL, GHO, FLUID, sUSDS, USDC, USDCe, USDS, USDT],
     buy: [DAI, GHO, sUSDS, USDC, USDCe, USDS, USDT],
   }),
+
+  // Fluid - Deposit GHO
+  allowAction.fluid.deposit({ targets: ["GHO"] }),
+  // Fluid - Deposit sUSDS
+  allowAction.fluid.deposit({ targets: ["sUSDS"] }),
+  // Fluid - Deposit USDC
+  allowAction.fluid.deposit({ targets: ["USDC"] }),
+  // Fluid - Deposit USDT
+  allowAction.fluid.deposit({ targets: ["USDT"] }),
 ]

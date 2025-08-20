@@ -11,8 +11,11 @@ export default (parameters: Parameters) =>
      * Swaps
      *********************************************/
     // Swap USDC.e -> USDC
-    ...allowErc20Approve([USDCe], [contracts.gnosis.usdcTransmuter]),
-    allow.gnosis.usdcTransmuter.withdraw(),
+    ...allowErc20Approve(
+      [USDCe],
+      [contracts.gnosis.gnosisBridge.usdcTransmuter]
+    ),
+    allow.gnosis.gnosisBridge.usdcTransmuter.withdraw(),
 
     /*********************************************
      * Bridge
@@ -20,7 +23,7 @@ export default (parameters: Parameters) =>
     // Gnosis -> Mainnet
     // USDC - Gnosis Bridge
     allow.gnosis.usdc.transferAndCall(
-      contracts.gnosis.xdaiBridge,
+      contracts.gnosis.gnosisBridge.xdaiBridge,
       undefined,
       parameters.avatar
     ),
