@@ -295,7 +295,10 @@ export default (parameters: Parameters) =>
      *********************************************/
     // Mainnet -> Gnosis
     // DAI (Mainnet) -> XDAI (Gnosis) - Gnosis Bridge - 600K per month to vcbGc
-    ...allowErc20Approve([DAI], [contracts.mainnet.gnosisBridge.xdaiUsdsBridge]),
+    ...allowErc20Approve(
+      [DAI],
+      [contracts.mainnet.gnosisBridge.xdaiUsdsBridge]
+    ),
     // Bridge up tp 600K DAI to vcbGc per month
     allow.mainnet.gnosisBridge.xdaiUsdsBridge.relayTokens(
       DAI,
@@ -329,7 +332,8 @@ export default (parameters: Parameters) =>
         c.bitmask({
           shift: 20 + 32 + 32 + 10,
           mask: "0xffffffffffffffffffff",
-          value: "0x" + contracts.mainnet.gnosisBridge.gnoXdaiBridge.slice(22, 42), // Last 10 bytes of the xDai Bridge
+          value:
+            "0x" + contracts.mainnet.gnosisBridge.gnoXdaiBridge.slice(22, 42), // Last 10 bytes of the xDai Bridge
         })
       )
     ),

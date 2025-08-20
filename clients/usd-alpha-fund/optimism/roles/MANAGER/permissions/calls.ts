@@ -62,7 +62,10 @@ export default [
    *********************************************/
   // Optimism -> Mainnet
   // DAI - Superbridge
-  ...allowErc20Approve([DAI], [contracts.optimism.optimismBridge.daiTokenBridge]),
+  ...allowErc20Approve(
+    [DAI],
+    [contracts.optimism.optimismBridge.daiTokenBridge]
+  ),
   allow.optimism.optimismBridge.daiTokenBridge.withdraw(
     DAI,
     undefined,

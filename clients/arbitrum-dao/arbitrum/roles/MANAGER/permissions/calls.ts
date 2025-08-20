@@ -198,7 +198,10 @@ export default (parameters: Parameters) =>
     ),
 
     // COMP - Arbitrum Bridge
-    ...allowErc20Approve([COMP], [contracts.arbitrumOne.arbitrumBridge.gatewayRouter]),
+    ...allowErc20Approve(
+      [COMP],
+      [contracts.arbitrumOne.arbitrumBridge.gatewayRouter]
+    ),
     allow.arbitrumOne.arbitrumBridge.gatewayRouter[
       "outboundTransfer(address,address,uint256,bytes)"
     ](COMP_eth, c.avatar, undefined, "0x"),

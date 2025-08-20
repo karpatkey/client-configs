@@ -241,7 +241,10 @@ export default (parameters: Parameters) =>
      *********************************************/
     // Mainnet -> Gnosis
     // USDS -> XDAI - Gnosis Bridge
-    ...allowErc20Approve([USDS], [contracts.mainnet.gnosisBridge.xdaiUsdsBridge]),
+    ...allowErc20Approve(
+      [USDS],
+      [contracts.mainnet.gnosisBridge.xdaiUsdsBridge]
+    ),
     allow.mainnet.gnosisBridge.xdaiUsdsBridge.relayTokens(USDS, c.avatar),
     // Claim bridged XDAI from Gnosis
     allow.mainnet.gnosisBridge.xdaiUsdsBridge.executeSignatures(
@@ -268,13 +271,17 @@ export default (parameters: Parameters) =>
         c.bitmask({
           shift: 20 + 32 + 32 + 10,
           mask: "0xffffffffffffffffffff",
-          value: "0x" + contracts.mainnet.gnosisBridge.gnoXdaiBridge.slice(22, 42), // Last 10 bytes of the xDai Bridge
+          value:
+            "0x" + contracts.mainnet.gnosisBridge.gnoXdaiBridge.slice(22, 42), // Last 10 bytes of the xDai Bridge
         })
       )
     ),
 
     // USDC -> USDC.e - Gnosis Bridge
-    ...allowErc20Approve([USDC], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
+    ...allowErc20Approve(
+      [USDC],
+      [contracts.mainnet.gnosisBridge.gnoOmnibridge]
+    ),
     allow.mainnet.gnosisBridge.gnoOmnibridge.relayTokensAndCall(
       USDC,
       contracts.gnosis.gnosisBridge.usdcTransmuter,
@@ -324,7 +331,8 @@ export default (parameters: Parameters) =>
         c.bitmask({
           shift: 32 + 20 + 10,
           mask: "0xffffffffffffffffffff",
-          value: "0x" + contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
+          value:
+            "0x" + contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
         }),
         // gasLimit: 4 bytes
         c.bitmask({
@@ -404,7 +412,7 @@ export default (parameters: Parameters) =>
         send: true,
       }
     ),
-    
+
     // USDT - Stargate to Arbitrum
     {
       ...allow.mainnet.stargate.poolUsdc.send(

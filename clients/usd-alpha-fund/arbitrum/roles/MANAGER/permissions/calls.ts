@@ -46,7 +46,10 @@ export default [
    *********************************************/
   // Arbitrum -> Mainnet
   // DAI - Arbitrum Bridge
-  ...allowErc20Approve([DAI], [contracts.arbitrumOne.arbitrumBridge.gatewayRouter]),
+  ...allowErc20Approve(
+    [DAI],
+    [contracts.arbitrumOne.arbitrumBridge.gatewayRouter]
+  ),
   allow.arbitrumOne.arbitrumBridge.gatewayRouter[
     "outboundTransfer(address,address,uint256,bytes)"
   ](DAI_eth, c.avatar, undefined, "0x"),
@@ -58,7 +61,10 @@ export default [
   ),
 
   // COMP - Arbitrum Bridge
-  ...allowErc20Approve([COMP], [contracts.arbitrumOne.arbitrumBridge.gatewayRouter]),
+  ...allowErc20Approve(
+    [COMP],
+    [contracts.arbitrumOne.arbitrumBridge.gatewayRouter]
+  ),
   allow.arbitrumOne.arbitrumBridge.gatewayRouter[
     "outboundTransfer(address,address,uint256,bytes)"
   ](COMP_eth, c.avatar, undefined, "0x"),

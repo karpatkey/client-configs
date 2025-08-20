@@ -160,7 +160,10 @@ export default (parameters: Parameters) =>
      * Bridge
      *********************************************/
     // DAI -> XDAI - Gnosis Bridge
-    ...allowErc20Approve([DAI], [contracts.mainnet.gnosisBridge.xdaiUsdsBridge]),
+    ...allowErc20Approve(
+      [DAI],
+      [contracts.mainnet.gnosisBridge.xdaiUsdsBridge]
+    ),
     allow.mainnet.gnosisBridge.xdaiUsdsBridge.relayTokens(DAI, gnosisDaoGno),
     // Claim bridged XDAI from Gnosis
     allow.mainnet.gnosisBridge.xdaiUsdsBridge.executeSignatures(
@@ -187,23 +190,22 @@ export default (parameters: Parameters) =>
         c.bitmask({
           shift: 20 + 32 + 32 + 10,
           mask: "0xffffffffffffffffffff",
-          value: "0x" + contracts.mainnet.gnosisBridge.gnoXdaiBridge.slice(22, 42), // Last 10 bytes of the xDai Bridge
+          value:
+            "0x" + contracts.mainnet.gnosisBridge.gnoXdaiBridge.slice(22, 42), // Last 10 bytes of the xDai Bridge
         })
       )
     ),
 
     // ETH -> WETH - Gnosis Bridge
-    allow.mainnet.gnosisBridge.wethOmnibridgeRouter["wrapAndRelayTokens(address)"](
-      gnosisDaoGno,
-      { send: true }
-    ),
+    allow.mainnet.gnosisBridge.wethOmnibridgeRouter[
+      "wrapAndRelayTokens(address)"
+    ](gnosisDaoGno, { send: true }),
 
     // GNO - Gnosis Bridge
     allowErc20Approve([GNO], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
-    allow.mainnet.gnosisBridge.gnoOmnibridge["relayTokens(address,address,uint256)"](
-      GNO,
-      gnosisDaoGno
-    ),
+    allow.mainnet.gnosisBridge.gnoOmnibridge[
+      "relayTokens(address,address,uint256)"
+    ](GNO, gnosisDaoGno),
     // Claim bridged GNO from Gnosis
     allow.mainnet.gnosisBridge.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
       c.and(
@@ -247,7 +249,8 @@ export default (parameters: Parameters) =>
         c.bitmask({
           shift: 32 + 20 + 10,
           mask: "0xffffffffffffffffffff",
-          value: "0x" + contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
+          value:
+            "0x" + contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
         }),
         // gasLimit: 4 bytes
         c.bitmask({
@@ -296,10 +299,9 @@ export default (parameters: Parameters) =>
 
     // SAFE - Gnosis Bridge
     allowErc20Approve([SAFE], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
-    allow.mainnet.gnosisBridge.gnoOmnibridge["relayTokens(address,address,uint256)"](
-      SAFE,
-      gnosisDaoGno
-    ),
+    allow.mainnet.gnosisBridge.gnoOmnibridge[
+      "relayTokens(address,address,uint256)"
+    ](SAFE, gnosisDaoGno),
     // Claim bridged SAFE from Gnosis
     allow.mainnet.gnosisBridge.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
       c.and(
@@ -343,7 +345,8 @@ export default (parameters: Parameters) =>
         c.bitmask({
           shift: 32 + 20 + 10,
           mask: "0xffffffffffffffffffff",
-          value: "0x" + contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
+          value:
+            "0x" + contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
         }),
         // gasLimit: 4 bytes
         c.bitmask({
@@ -391,7 +394,10 @@ export default (parameters: Parameters) =>
     ),
 
     // USDC -> USDC.e - Gnosis Bridge
-    ...allowErc20Approve([USDC], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
+    ...allowErc20Approve(
+      [USDC],
+      [contracts.mainnet.gnosisBridge.gnoOmnibridge]
+    ),
     allow.mainnet.gnosisBridge.gnoOmnibridge.relayTokensAndCall(
       USDC,
       contracts.gnosis.gnosisBridge.usdcTransmuter,
@@ -441,7 +447,8 @@ export default (parameters: Parameters) =>
         c.bitmask({
           shift: 32 + 20 + 10,
           mask: "0xffffffffffffffffffff",
-          value: "0x" + contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
+          value:
+            "0x" + contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
         }),
         // gasLimit: 4 bytes
         c.bitmask({
@@ -490,10 +497,9 @@ export default (parameters: Parameters) =>
 
     // USDT - Gnosis Bridge
     allowErc20Approve([USDT], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
-    allow.mainnet.gnosisBridge.gnoOmnibridge["relayTokens(address,address,uint256)"](
-      USDT,
-      gnosisDaoGno
-    ),
+    allow.mainnet.gnosisBridge.gnoOmnibridge[
+      "relayTokens(address,address,uint256)"
+    ](USDT, gnosisDaoGno),
     // Claim bridged USDT from Gnosis - Gnosis Bridge
     allow.mainnet.gnosisBridge.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
       c.and(
@@ -537,7 +543,8 @@ export default (parameters: Parameters) =>
         c.bitmask({
           shift: 32 + 20 + 10,
           mask: "0xffffffffffffffffffff",
-          value: "0x" + contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
+          value:
+            "0x" + contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
         }),
         // gasLimit: 4 bytes
         c.bitmask({
@@ -586,10 +593,9 @@ export default (parameters: Parameters) =>
 
     // WBTC - Gnosis Bridge
     allowErc20Approve([WBTC], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
-    allow.mainnet.gnosisBridge.gnoOmnibridge["relayTokens(address,address,uint256)"](
-      WBTC,
-      gnosisDaoGno
-    ),
+    allow.mainnet.gnosisBridge.gnoOmnibridge[
+      "relayTokens(address,address,uint256)"
+    ](WBTC, gnosisDaoGno),
     // Claim bridged WBTC from Gnosis
     allow.mainnet.gnosisBridge.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
       c.and(
@@ -633,7 +639,8 @@ export default (parameters: Parameters) =>
         c.bitmask({
           shift: 32 + 20 + 10,
           mask: "0xffffffffffffffffffff",
-          value: "0x" + contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
+          value:
+            "0x" + contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
         }),
         // gasLimit: 4 bytes
         c.bitmask({
@@ -682,10 +689,9 @@ export default (parameters: Parameters) =>
 
     // WETH - Gnosis Bridge
     allowErc20Approve([WETH], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
-    allow.mainnet.gnosisBridge.gnoOmnibridge["relayTokens(address,address,uint256)"](
-      WETH,
-      gnosisDaoGno
-    ),
+    allow.mainnet.gnosisBridge.gnoOmnibridge[
+      "relayTokens(address,address,uint256)"
+    ](WETH, gnosisDaoGno),
     // Claim bridged WETH from Gnosis - Gnosis Bridge
     allow.mainnet.gnosisBridge.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
       c.and(
@@ -729,7 +735,8 @@ export default (parameters: Parameters) =>
         c.bitmask({
           shift: 32 + 20 + 10,
           mask: "0xffffffffffffffffffff",
-          value: "0x" + contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
+          value:
+            "0x" + contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
         }),
         // gasLimit: 4 bytes
         c.bitmask({
@@ -778,10 +785,9 @@ export default (parameters: Parameters) =>
 
     // wstETH - Gnosis Bridge
     allowErc20Approve([wstETH], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
-    allow.mainnet.gnosisBridge.gnoOmnibridge["relayTokens(address,address,uint256)"](
-      wstETH,
-      gnosisDaoGno
-    ),
+    allow.mainnet.gnosisBridge.gnoOmnibridge[
+      "relayTokens(address,address,uint256)"
+    ](wstETH, gnosisDaoGno),
     // Claim bridged wstETH from Gnosis - Gnosis Bridge
     allow.mainnet.gnosisBridge.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
       c.and(
@@ -825,7 +831,8 @@ export default (parameters: Parameters) =>
         c.bitmask({
           shift: 32 + 20 + 10,
           mask: "0xffffffffffffffffffff",
-          value: "0x" + contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
+          value:
+            "0x" + contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
         }),
         // gasLimit: 4 bytes
         c.bitmask({
