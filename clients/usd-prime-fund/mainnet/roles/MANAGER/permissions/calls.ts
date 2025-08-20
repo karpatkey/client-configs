@@ -240,11 +240,11 @@ export default (parameters: Parameters) =>
      * Bridges
      *********************************************/
     // Mainnet -> Gnosis
-    // USDS -> XDAI
-    ...allowErc20Approve([USDS], [contracts.mainnet.xdaiUsdsBridge]),
-    allow.mainnet.xdaiUsdsBridge.relayTokens(USDS, c.avatar),
+    // USDS -> XDAI - Gnosis Bridge
+    ...allowErc20Approve([USDS], [contracts.mainnet.gnosisBridge.xdaiUsdsBridge]),
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.relayTokens(USDS, c.avatar),
     // Claim bridged XDAI from Gnosis
-    allow.mainnet.xdaiUsdsBridge.executeSignatures(
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.executeSignatures(
       c.and(
         // Avatar address
         c.bitmask({
@@ -263,26 +263,26 @@ export default (parameters: Parameters) =>
         c.bitmask({
           shift: 20 + 32 + 32,
           mask: "0xffffffffffffffffffff",
-          value: contracts.mainnet.gnoXdaiBridge.slice(0, 22), // First 10 bytes of the xDai Bridge
+          value: contracts.mainnet.gnosisBridge.gnoXdaiBridge.slice(0, 22), // First 10 bytes of the xDai Bridge
         }),
         c.bitmask({
           shift: 20 + 32 + 32 + 10,
           mask: "0xffffffffffffffffffff",
-          value: "0x" + contracts.mainnet.gnoXdaiBridge.slice(22, 42), // Last 10 bytes of the xDai Bridge
+          value: "0x" + contracts.mainnet.gnosisBridge.gnoXdaiBridge.slice(22, 42), // Last 10 bytes of the xDai Bridge
         })
       )
     ),
 
-    // USDC (Mainnet) -> USDC.e (Gnosis)
-    ...allowErc20Approve([USDC], [contracts.mainnet.gnoOmnibridge]),
-    allow.mainnet.gnoOmnibridge.relayTokensAndCall(
+    // USDC -> USDC.e - Gnosis Bridge
+    ...allowErc20Approve([USDC], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
+    allow.mainnet.gnosisBridge.gnoOmnibridge.relayTokensAndCall(
       USDC,
-      contracts.gnosis.usdcTransmuter,
+      contracts.gnosis.gnosisBridge.usdcTransmuter,
       undefined,
       "0x" + parameters.avatar.slice(2).padStart(64, "0")
     ),
     // Claim bridged USDC from Gnosis
-    allow.mainnet.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
+    allow.mainnet.gnosisBridge.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
       c.and(
         // messageId: 32 bytes
         // First 4 bytes
@@ -308,23 +308,23 @@ export default (parameters: Parameters) =>
         c.bitmask({
           shift: 32,
           mask: "0xffffffffffffffffffff",
-          value: contracts.gnosis.xdaiBridge.slice(0, 22), // First 10 bytes of the sender address (XDAI Bridge)
+          value: contracts.gnosis.gnosisBridge.xdaiBridge.slice(0, 22), // First 10 bytes of the sender address (XDAI Bridge)
         }),
         c.bitmask({
           shift: 32 + 10,
           mask: "0xffffffffffffffffffff",
-          value: "0x" + contracts.gnosis.xdaiBridge.slice(22, 42), // Second 10 bytes of the sender address (XDAI Bridge)
+          value: "0x" + contracts.gnosis.gnosisBridge.xdaiBridge.slice(22, 42), // Second 10 bytes of the sender address (XDAI Bridge)
         }),
         // executor: 20 bytes
         c.bitmask({
           shift: 32 + 20,
           mask: "0xffffffffffffffffffff",
-          value: contracts.mainnet.gnoOmnibridge.slice(0, 22), // First 10 bytes of the executor address (Omnibridge)
+          value: contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(0, 22), // First 10 bytes of the executor address (Omnibridge)
         }),
         c.bitmask({
           shift: 32 + 20 + 10,
           mask: "0xffffffffffffffffffff",
-          value: "0x" + contracts.mainnet.gnoOmnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
+          value: "0x" + contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
         }),
         // gasLimit: 4 bytes
         c.bitmask({
@@ -371,10 +371,10 @@ export default (parameters: Parameters) =>
       )
     ),
 
-    // USDC - Stargate to Optimism
+    // USDC - Stargate to Gnosis Chain
     allow.mainnet.stargate.poolUsdc.send(
       {
-        dstEid: "30111", // Optimism chain ID
+        dstEid: "30145", // Gnosis Chain ID
         to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
         extraOptions: "0x",
         composeMsg: "0x",
@@ -387,6 +387,7 @@ export default (parameters: Parameters) =>
       }
     ),
 
+    // Mainnet -> Arbitrum
     // USDC - Stargate to Arbitrum
     ...allowErc20Approve([USDC], [contracts.mainnet.stargate.poolUsdc]),
     allow.mainnet.stargate.poolUsdc.send(
@@ -403,7 +404,27 @@ export default (parameters: Parameters) =>
         send: true,
       }
     ),
+    
+    // USDT - Stargate to Arbitrum
+    {
+      ...allow.mainnet.stargate.poolUsdc.send(
+        {
+          dstEid: "30110", // Arbitrum chain ID
+          to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
+          extraOptions: "0x",
+          composeMsg: "0x",
+          oftCmd: "0x",
+        },
+        undefined,
+        c.avatar,
+        {
+          send: true,
+        }
+      ),
+      targetAddress: contracts.mainnet.stargate.poolUsdt,
+    },
 
+    // Mainnet -> Base
     // USDC - Stargate to Base
     allow.mainnet.stargate.poolUsdc.send(
       {
@@ -420,10 +441,11 @@ export default (parameters: Parameters) =>
       }
     ),
 
-    // USDC - Stargate to Gnosis Chain
+    // Mainnet -> Optimism
+    // USDC - Stargate to Optimism
     allow.mainnet.stargate.poolUsdc.send(
       {
-        dstEid: "30145", // Gnosis Chain ID
+        dstEid: "30111", // Optimism chain ID
         to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
         extraOptions: "0x",
         composeMsg: "0x",
@@ -442,25 +464,6 @@ export default (parameters: Parameters) =>
       ...allow.mainnet.stargate.poolUsdc.send(
         {
           dstEid: "30111", // Optimism chain ID
-          to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-          extraOptions: "0x",
-          composeMsg: "0x",
-          oftCmd: "0x",
-        },
-        undefined,
-        c.avatar,
-        {
-          send: true,
-        }
-      ),
-      targetAddress: contracts.mainnet.stargate.poolUsdt,
-    },
-
-    // USDT - Stargate to Arbitrum
-    {
-      ...allow.mainnet.stargate.poolUsdc.send(
-        {
-          dstEid: "30110", // Arbitrum chain ID
           to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
           extraOptions: "0x",
           composeMsg: "0x",

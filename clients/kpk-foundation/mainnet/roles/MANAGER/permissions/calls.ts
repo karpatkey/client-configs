@@ -21,10 +21,10 @@ export default (parameters: Parameters) =>
      *********************************************/
     // Mainnet -> Gnosis
     // DAI -> XDAI - Gnosis Bridge
-    ...allowErc20Approve([DAI], [contracts.mainnet.xdaiUsdsBridge]),
-    allow.mainnet.xdaiUsdsBridge.relayTokens(DAI, kpkFoundationGc),
+    ...allowErc20Approve([DAI], [contracts.mainnet.gnosisBridge.xdaiUsdsBridge]),
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.relayTokens(DAI, kpkFoundationGc),
     // Claim bridged XDAI from Gnosis
-    allow.mainnet.xdaiUsdsBridge.executeSignatures(
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.executeSignatures(
       c.and(
         // Avatar address
         c.bitmask({
@@ -43,12 +43,12 @@ export default (parameters: Parameters) =>
         c.bitmask({
           shift: 20 + 32 + 32,
           mask: "0xffffffffffffffffffff",
-          value: contracts.mainnet.gnoXdaiBridge.slice(0, 22), // First 10 bytes of the xDai Bridge
+          value: contracts.mainnet.gnosisBridge.gnoXdaiBridge.slice(0, 22), // First 10 bytes of the xDai Bridge
         }),
         c.bitmask({
           shift: 20 + 32 + 32 + 10,
           mask: "0xffffffffffffffffffff",
-          value: "0x" + contracts.mainnet.gnoXdaiBridge.slice(22, 42), // Last 10 bytes of the xDai Bridge
+          value: "0x" + contracts.mainnet.gnosisBridge.gnoXdaiBridge.slice(22, 42), // Last 10 bytes of the xDai Bridge
         })
       )
     ),

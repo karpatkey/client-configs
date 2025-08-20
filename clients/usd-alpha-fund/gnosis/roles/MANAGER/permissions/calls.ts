@@ -26,31 +26,31 @@ export default (parameters: Parameters) =>
     balancerV2Swap(balancerV2.staBal3Pid, [USDC, WXDAI], [USDC, WXDAI]),
 
     // Swap USDC.e -> USDC
-    ...allowErc20Approve([USDCe], [contracts.gnosis.usdcTransmuter]),
-    allow.gnosis.usdcTransmuter.withdraw(),
+    ...allowErc20Approve([USDCe], [contracts.gnosis.gnosisBridge.usdcTransmuter]),
+    allow.gnosis.gnosisBridge.usdcTransmuter.withdraw(),
     // Swap USDC -> USDC.e
-    ...allowErc20Approve([USDC], [contracts.gnosis.usdcTransmuter]),
-    allow.gnosis.usdcTransmuter.deposit(),
+    ...allowErc20Approve([USDC], [contracts.gnosis.gnosisBridge.usdcTransmuter]),
+    allow.gnosis.gnosisBridge.usdcTransmuter.deposit(),
 
     /*********************************************
      * Bridge
      *********************************************/
     // Gnosis -> Mainnet
-    // XDAI (Gnosis) -> DAI (Mainnet) - Gnosis Bridge
-    allow.gnosis.xdaiBridge2.relayTokens(c.avatar, {
+    // XDAI -> DAI - Gnosis Bridge
+    allow.gnosis.gnosisBridge.xdaiBridge2.relayTokens(c.avatar, {
       send: true,
     }),
     // No claim is required for the DAI bridged from Mainnet via Gnosis Bridge.
 
-    // XDAI (Gnosis) -> DAI (Mainnet) - HOP
-    allow.gnosis.hopDaiWrapper.swapAndSend(
+    // XDAI -> DAI - HOP
+    allow.gnosis.hop.hopDaiWrapper.swapAndSend(
       1, // Mainnet
       c.avatar
     ),
 
-    // USDC (Gnosis) -> USDC (Mainnet)
+    // USDC - Gnosis Bridge
     allow.gnosis.usdc.transferAndCall(
-      contracts.gnosis.xdaiBridge,
+      contracts.gnosis.gnosisBridge.xdaiBridge,
       undefined,
       parameters.avatar // TODO this should use c.avatar
     ),

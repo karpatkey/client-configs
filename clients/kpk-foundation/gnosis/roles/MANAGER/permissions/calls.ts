@@ -12,7 +12,7 @@ export default [
 
   // Gnosis -> Mainnet
   // XDAI -> DAI - Gnosis Bridge
-  allow.gnosis.xdaiBridge2.relayTokens(kpkFoundationEth, {
+  allow.gnosis.gnosisBridge.xdaiBridge2.relayTokens(kpkFoundationEth, {
     send: true,
   }),
 ] satisfies PermissionList

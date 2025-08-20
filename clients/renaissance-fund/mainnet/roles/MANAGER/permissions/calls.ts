@@ -37,15 +37,15 @@ export default (parameters: Parameters) =>
      *********************************************/
     // Mainnet -> Gnosis
     // USDC -> USDC.e - Gnosis Bridge
-    ...allowErc20Approve([USDC], [contracts.mainnet.gnoOmnibridge]),
-    allow.mainnet.gnoOmnibridge.relayTokensAndCall(
+    ...allowErc20Approve([USDC], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
+    allow.mainnet.gnosisBridge.gnoOmnibridge.relayTokensAndCall(
       USDC,
-      contracts.gnosis.usdcTransmuter,
+      contracts.gnosis.gnosisBridge.usdcTransmuter,
       undefined,
       "0x" + parameters.avatar.slice(2).padStart(64, "0")
     ),
     // Claim bridged USDC from Gnosis
-    allow.mainnet.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
+    allow.mainnet.gnosisBridge.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
       c.and(
         // messageId: 32 bytes
         // First 4 bytes
@@ -71,23 +71,23 @@ export default (parameters: Parameters) =>
         c.bitmask({
           shift: 32,
           mask: "0xffffffffffffffffffff",
-          value: contracts.gnosis.xdaiBridge.slice(0, 22), // First 10 bytes of the sender address (XDAI Bridge)
+          value: contracts.gnosis.gnosisBridge.xdaiBridge.slice(0, 22), // First 10 bytes of the sender address (XDAI Bridge)
         }),
         c.bitmask({
           shift: 32 + 10,
           mask: "0xffffffffffffffffffff",
-          value: "0x" + contracts.gnosis.xdaiBridge.slice(22, 42), // Second 10 bytes of the sender address (XDAI Bridge)
+          value: "0x" + contracts.gnosis.gnosisBridge.xdaiBridge.slice(22, 42), // Second 10 bytes of the sender address (XDAI Bridge)
         }),
         // executor: 20 bytes
         c.bitmask({
           shift: 32 + 20,
           mask: "0xffffffffffffffffffff",
-          value: contracts.mainnet.gnoOmnibridge.slice(0, 22), // First 10 bytes of the executor address (Omnibridge)
+          value: contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(0, 22), // First 10 bytes of the executor address (Omnibridge)
         }),
         c.bitmask({
           shift: 32 + 20 + 10,
           mask: "0xffffffffffffffffffff",
-          value: "0x" + contracts.mainnet.gnoOmnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
+          value: "0x" + contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
         }),
         // gasLimit: 4 bytes
         c.bitmask({
@@ -179,8 +179,8 @@ export default (parameters: Parameters) =>
     ),
 
     // USDC - HOP
-    ...allowErc20Approve([USDC], [contracts.mainnet.l1HopCctp]),
-    allow.mainnet.l1HopCctp.send(
+    ...allowErc20Approve([USDC], [contracts.mainnet.hop.l1HopCctp]),
+    allow.mainnet.hop.l1HopCctp.send(
       42161, // Arbitrum
       c.avatar
     ),

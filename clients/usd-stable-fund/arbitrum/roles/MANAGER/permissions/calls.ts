@@ -36,21 +36,21 @@ export default [
    * Bridge
    *********************************************/
   // Arbitrum -> Mainnet
-  // DAI (Arbitrum) -> DAI (Mainnet)
-  ...allowErc20Approve([DAI], [contracts.arbitrumOne.gatewayRouter]),
-  allow.arbitrumOne.gatewayRouter[
+  // DAI - Arbitrum Bridge
+  ...allowErc20Approve([DAI], [contracts.arbitrumOne.arbitrumBridge.gatewayRouter]),
+  allow.arbitrumOne.arbitrumBridge.gatewayRouter[
     "outboundTransfer(address,address,uint256,bytes)"
   ](DAI_eth, c.avatar, undefined, "0x"),
-  // DAI (Arbitrum) -> DAI (Mainnet) - HOP
-  ...allowErc20Approve([DAI], [contracts.arbitrumOne.hopDaiWrapper]),
-  allow.arbitrumOne.hopDaiWrapper.swapAndSend(
+  // DAI - HOP
+  ...allowErc20Approve([DAI], [contracts.arbitrumOne.hop.hopDaiWrapper]),
+  allow.arbitrumOne.hop.hopDaiWrapper.swapAndSend(
     1, // Mainnet
     c.avatar
   ),
 
-  // COMP (Arbitrum) -> COMP (Mainnet)
-  ...allowErc20Approve([COMP], [contracts.arbitrumOne.gatewayRouter]),
-  allow.arbitrumOne.gatewayRouter[
+  // COMP - Arbitrum Bridge
+  ...allowErc20Approve([COMP], [contracts.arbitrumOne.arbitrumBridge.gatewayRouter]),
+  allow.arbitrumOne.arbitrumBridge.gatewayRouter[
     "outboundTransfer(address,address,uint256,bytes)"
   ](COMP_eth, c.avatar, undefined, "0x"),
 ] satisfies PermissionList
