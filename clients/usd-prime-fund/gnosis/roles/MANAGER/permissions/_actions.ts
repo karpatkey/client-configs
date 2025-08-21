@@ -1,7 +1,8 @@
 import { allow as allowAction } from "defi-kit/gno"
 import { sDAI, USDCe, WXDAI } from "@/addresses/gno"
+import { Parameters } from "../../../parameters"
 
-export default [
+export default (parameters: Parameters) => [
   /*********************************************
    * DeFi-Kit permissions
    *********************************************/

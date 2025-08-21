@@ -8,7 +8,7 @@ import type { Instance, PermissionList } from "@/types"
 
 export const preprocessPermissions = async <P extends { [key: string]: any }>(
   permissions: {
-    allowedActions: PermissionList
+    allowedActions: PermissionList | ((parameters: P) => PermissionList)
     allowedCalls: PermissionList | ((parameters: P) => PermissionList)
   },
   parameters?: P
@@ -21,7 +21,14 @@ export const preprocessPermissions = async <P extends { [key: string]: any }>(
     callPermissions = permissions.allowedCalls
   }
 
-  return await Promise.all([...permissions.allowedActions, ...callPermissions])
+  let actionPermissions: PermissionList
+  if (typeof permissions.allowedActions === "function") {
+    actionPermissions = permissions.allowedActions(parameters || ({} as any))
+  } else {
+    actionPermissions = permissions.allowedActions
+  }
+
+  return await Promise.all([...actionPermissions, ...callPermissions])
 }
 
 export const compileApplyData = async ({

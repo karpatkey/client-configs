@@ -4,9 +4,9 @@ import { USDC, cbETH, cbBTC, morpho } from "@/addresses/base"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
-import { parameters } from "../../../instances/main"
+import { Parameters } from "../../../parameters"
 
-export default [
+export default (parameters: Parameters) => [
   /*********************************************
    * Protocols
    *********************************************/

@@ -1,8 +1,8 @@
 import { allow as allowAction } from "defi-kit/base"
-import { parameters } from "../../../instances/main"
 import { USDC, MORPHO } from "@/addresses/base"
+import { Parameters } from "../../../parameters"
 
-export default [
+export default (parameters: Parameters) => [
   /*********************************************
    * Protocols
    *********************************************/

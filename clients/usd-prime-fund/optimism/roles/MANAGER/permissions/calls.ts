@@ -4,9 +4,9 @@ import { crvUSD, DAI, USDC, USDCe, balancer, USDT } from "@/addresses/oeth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
-import { parameters } from "../../../instances/main"
+import { Parameters } from "../../../parameters"
 
-export default [
+export default (parameters: Parameters) => [
   /*********************************************
    * Bridges
    *********************************************/
