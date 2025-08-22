@@ -27,7 +27,6 @@ import {
   balancerV2,
   balancerV3,
   curve,
-  fluid,
   nexus,
 } from "@/addresses/eth"
 import { zeroAddress } from "@/addresses"
@@ -319,57 +318,6 @@ export default (parameters: Parameters) =>
     allow.mainnet.etherfi.weEth.wrap(),
     // Unwrap weETH
     allow.mainnet.etherfi.weEth.unwrap(),
-
-    // Fluid - USDC
-    allowErc20Approve([USDC], [fluid.fUsdc]),
-    {
-      ...allow.mainnet.fluid.fAsset["deposit(uint256,address)"](
-        undefined,
-        c.avatar
-      ),
-      targetAddress: fluid.fUsdc,
-    },
-    {
-      ...allow.mainnet.fluid.fAsset["withdraw(uint256,address,address)"](
-        undefined,
-        c.avatar,
-        c.avatar
-      ),
-      targetAddress: fluid.fUsdc,
-    },
-    {
-      ...allow.mainnet.fluid.fAsset["redeem(uint256,address,address)"](
-        undefined,
-        c.avatar,
-        c.avatar
-      ),
-      targetAddress: fluid.fUsdc,
-    },
-    // Fluid - USDT
-    allowErc20Approve([USDT], [fluid.fUsdt]),
-    {
-      ...allow.mainnet.fluid.fAsset["deposit(uint256,address)"](
-        undefined,
-        c.avatar
-      ),
-      targetAddress: fluid.fUsdt,
-    },
-    {
-      ...allow.mainnet.fluid.fAsset["withdraw(uint256,address,address)"](
-        undefined,
-        c.avatar,
-        c.avatar
-      ),
-      targetAddress: fluid.fUsdt,
-    },
-    {
-      ...allow.mainnet.fluid.fAsset["redeem(uint256,address,address)"](
-        undefined,
-        c.avatar,
-        c.avatar
-      ),
-      targetAddress: fluid.fUsdt,
-    },
 
     // Morpho - Gauntlet USDC Prime
     allowErc20Approve([USDC], [contracts.mainnet.morpho.gtUsdc]),

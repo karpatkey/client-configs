@@ -95,11 +95,17 @@ export default (parameters: Parameters) =>
      * Swaps
      *********************************************/
     // Swap USDC.e -> USDC
-    ...allowErc20Approve([USDCe], [contracts.gnosis.usdcTransmuter]),
-    allow.gnosis.usdcTransmuter.withdraw(),
+    ...allowErc20Approve(
+      [USDCe],
+      [contracts.gnosis.gnosisBridge.usdcTransmuter]
+    ),
+    allow.gnosis.gnosisBridge.usdcTransmuter.withdraw(),
     // Swap USDC -> USDC.e
-    ...allowErc20Approve([USDC], [contracts.gnosis.usdcTransmuter]),
-    allow.gnosis.usdcTransmuter.deposit(),
+    ...allowErc20Approve(
+      [USDC],
+      [contracts.gnosis.gnosisBridge.usdcTransmuter]
+    ),
+    allow.gnosis.gnosisBridge.usdcTransmuter.deposit(),
 
     // Balancer v2 - WETH <-> wstETH - bb-WETH-wstETH
     balancerV2Swap(balancerV2.wethWstEthPid, [WETH, wstETH], [WETH, wstETH]),
@@ -126,7 +132,7 @@ export default (parameters: Parameters) =>
     // Gnosis -> Mainnet
     // GNO - Gnosis Bridge
     allow.gnosis.gno.transferAndCall(
-      contracts.gnosis.xdaiBridge,
+      contracts.gnosis.gnosisBridge.xdaiBridge,
       undefined,
       parameters.avatar
     ),
@@ -134,7 +140,7 @@ export default (parameters: Parameters) =>
     // SAFE - Gnosis Bridge
     {
       ...allow.gnosis.gno.transferAndCall(
-        contracts.gnosis.xdaiBridge,
+        contracts.gnosis.gnosisBridge.xdaiBridge,
         undefined,
         parameters.avatar
       ),
@@ -143,7 +149,7 @@ export default (parameters: Parameters) =>
 
     // USDC - Gnosis Bridge
     allow.gnosis.usdc.transferAndCall(
-      contracts.gnosis.xdaiBridge,
+      contracts.gnosis.gnosisBridge.xdaiBridge,
       undefined,
       parameters.avatar
     ),
@@ -151,7 +157,7 @@ export default (parameters: Parameters) =>
     // WETH - Gnosis Bridge
     {
       ...allow.gnosis.gno.transferAndCall(
-        contracts.gnosis.xdaiBridge,
+        contracts.gnosis.gnosisBridge.xdaiBridge,
         undefined,
         parameters.avatar
       ),
@@ -159,7 +165,7 @@ export default (parameters: Parameters) =>
     },
 
     // XDAI (Gnosis) -> DAI (Mainnet) - Gnosis Bridge
-    allow.gnosis.xdaiBridge2.relayTokens(c.avatar, {
+    allow.gnosis.gnosisBridge.xdaiBridge2.relayTokens(c.avatar, {
       send: true,
     }),
   ] satisfies PermissionList

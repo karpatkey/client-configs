@@ -142,6 +142,11 @@ export default [
     buy: ["ETH", USDC, WETH],
   }),
 
+  // Fluid - Deposit USDC
+  allowAction.fluid.deposit({ targets: ["USDC"] }),
+  // Fluid - Deposit USDT
+  allowAction.fluid.deposit({ targets: ["USDT"] }),
+
   // Lido
   allowAction.lido.deposit(),
 

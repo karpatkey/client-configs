@@ -94,11 +94,11 @@ export default [
    * Swaps
    *********************************************/
   // Swap USDC.e -> USDC
-  ...allowErc20Approve([USDCe], [contracts.gnosis.usdcTransmuter]),
-  allow.gnosis.usdcTransmuter.withdraw(),
+  ...allowErc20Approve([USDCe], [contracts.gnosis.gnosisBridge.usdcTransmuter]),
+  allow.gnosis.gnosisBridge.usdcTransmuter.withdraw(),
   // Swap USDC -> USDC.e
-  ...allowErc20Approve([USDC], [contracts.gnosis.usdcTransmuter]),
-  allow.gnosis.usdcTransmuter.deposit(),
+  ...allowErc20Approve([USDC], [contracts.gnosis.gnosisBridge.usdcTransmuter]),
+  allow.gnosis.gnosisBridge.usdcTransmuter.deposit(),
 
   /*********************************************
    * Bridge
@@ -107,7 +107,7 @@ export default [
   // COW - Gnosis Bridge
   {
     ...allow.gnosis.gno.transferAndCall(
-      contracts.gnosis.xdaiBridge,
+      contracts.gnosis.gnosisBridge.xdaiBridge,
       undefined,
       gnosisLtdEth
     ),
@@ -116,7 +116,7 @@ export default [
 
   // GNO - Gnosis Bridge
   allow.gnosis.gno.transferAndCall(
-    contracts.gnosis.xdaiBridge,
+    contracts.gnosis.gnosisBridge.xdaiBridge,
     undefined,
     gnosisLtdEth
   ),
@@ -124,7 +124,7 @@ export default [
   // SAFE - Gnosis Bridge
   {
     ...allow.gnosis.gno.transferAndCall(
-      contracts.gnosis.xdaiBridge,
+      contracts.gnosis.gnosisBridge.xdaiBridge,
       undefined,
       gnosisLtdEth
     ),
@@ -133,7 +133,7 @@ export default [
 
   // USDC - Gnosis Bridge
   allow.gnosis.usdc.transferAndCall(
-    contracts.gnosis.xdaiBridge,
+    contracts.gnosis.gnosisBridge.xdaiBridge,
     undefined,
     gnosisLtdEth
   ),
@@ -141,7 +141,7 @@ export default [
   // USDT - Gnosis Bridge
   {
     ...allow.gnosis.gno.transferAndCall(
-      contracts.gnosis.xdaiBridge,
+      contracts.gnosis.gnosisBridge.xdaiBridge,
       undefined,
       gnosisLtdEth
     ),
@@ -151,7 +151,7 @@ export default [
   // WETH - Gnosis Bridge
   {
     ...allow.gnosis.gno.transferAndCall(
-      contracts.gnosis.xdaiBridge,
+      contracts.gnosis.gnosisBridge.xdaiBridge,
       undefined,
       gnosisLtdEth
     ),
@@ -161,7 +161,7 @@ export default [
   // wstETH - Gnosis Bridge
   {
     ...allow.gnosis.gno.transferAndCall(
-      contracts.gnosis.xdaiBridge,
+      contracts.gnosis.gnosisBridge.xdaiBridge,
       undefined,
       gnosisLtdEth
     ),
@@ -169,7 +169,7 @@ export default [
   },
 
   // XDAI -> DAI - Gnosis Bridge
-  allow.gnosis.xdaiBridge2.relayTokens(gnosisLtdEth, {
+  allow.gnosis.gnosisBridge.xdaiBridge2.relayTokens(gnosisLtdEth, {
     send: true,
   }),
 ] satisfies PermissionList

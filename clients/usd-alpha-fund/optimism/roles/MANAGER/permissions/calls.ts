@@ -61,20 +61,34 @@ export default [
    * Bridge
    *********************************************/
   // Optimism -> Mainnet
-  // DAI (Optimism) -> DAI (Mainnet)
-  ...allowErc20Approve([DAI], [contracts.optimism.daiTokenBridge]),
-  allow.optimism.daiTokenBridge.withdraw(DAI),
-  allow.optimism.daiTokenBridge.withdrawTo(DAI, c.avatar),
-  // DAI (Optimism) -> DAI (Mainnet) - HOP
-  ...allowErc20Approve([DAI], [contracts.optimism.hopDaiWrapper]),
-  allow.optimism.hopDaiWrapper.swapAndSend(
+  // DAI - Superbridge
+  ...allowErc20Approve(
+    [DAI],
+    [contracts.optimism.optimismBridge.daiTokenBridge]
+  ),
+  allow.optimism.optimismBridge.daiTokenBridge.withdraw(
+    DAI,
+    undefined,
+    undefined,
+    "0x"
+  ),
+  allow.optimism.optimismBridge.daiTokenBridge.withdrawTo(
+    DAI,
+    c.avatar,
+    undefined,
+    undefined,
+    c.or("0x", "0x7375706572627269646765")
+  ),
+  // DAI - HOP
+  ...allowErc20Approve([DAI], [contracts.optimism.hop.hopDaiWrapper]),
+  allow.optimism.hop.hopDaiWrapper.swapAndSend(
     1, // Mainnet
     c.avatar
   ),
 
-  // USDC (Optimism) -> USDC (Mainnet) - HOP
-  ...allowErc20Approve([USDC], [contracts.optimism.l2HopCctp]),
-  allow.optimism.l2HopCctp.send(
+  // USDC - HOP
+  ...allowErc20Approve([USDC], [contracts.optimism.hop.l2HopCctp]),
+  allow.optimism.hop.l2HopCctp.send(
     1, // Mainnet
     c.avatar
   ),

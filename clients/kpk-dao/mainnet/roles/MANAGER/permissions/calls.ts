@@ -13,7 +13,6 @@ import {
   weETH,
   WETH,
   wstETH,
-  fluid,
 } from "@/addresses/eth"
 import { zeroAddress, eAddress } from "@/addresses"
 import { contracts } from "@/contracts"
@@ -247,32 +246,6 @@ export default (parameters: Parameters) =>
     // ether.fi - Claim rewards
     allow.mainnet.etherfi.kingDistributor.claim(c.avatar),
 
-    // Fluid - wstETH
-    allowErc20Approve([wstETH], [fluid.fwstEth]),
-    {
-      ...allow.mainnet.fluid.fAsset["deposit(uint256,address)"](
-        undefined,
-        c.avatar
-      ),
-      targetAddress: fluid.fwstEth,
-    },
-    {
-      ...allow.mainnet.fluid.fAsset["withdraw(uint256,address,address)"](
-        undefined,
-        c.avatar,
-        c.avatar
-      ),
-      targetAddress: fluid.fwstEth,
-    },
-    {
-      ...allow.mainnet.fluid.fAsset["redeem(uint256,address,address)"](
-        undefined,
-        c.avatar,
-        c.avatar
-      ),
-      targetAddress: fluid.fwstEth,
-    },
-
     // Lido - Lido's Token Rewards Plan (TRP) - Claim LDO
     {
       ...allow.mainnet.lido.vestingEscrow["claim(address,uint256)"](c.avatar),
@@ -322,17 +295,20 @@ export default (parameters: Parameters) =>
      *********************************************/
     // Mainnet -> Gnosis
     // DAI (Mainnet) -> XDAI (Gnosis) - Gnosis Bridge - 600K per month to vcbGc
-    ...allowErc20Approve([DAI], [contracts.mainnet.xdaiUsdsBridge]),
+    ...allowErc20Approve(
+      [DAI],
+      [contracts.mainnet.gnosisBridge.xdaiUsdsBridge]
+    ),
     // Bridge up tp 600K DAI to vcbGc per month
-    allow.mainnet.xdaiUsdsBridge.relayTokens(
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.relayTokens(
       DAI,
       vcbGc,
       c.withinAllowance(encodeBytes32String("DAI_VCB-GC") as `0x${string}`)
     ),
     // Bridge DAI to kpkGc without restriction
-    allow.mainnet.xdaiUsdsBridge.relayTokens(DAI, kpkGc),
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.relayTokens(DAI, kpkGc),
     // Claim bridged XDAI from Gnosis
-    allow.mainnet.xdaiUsdsBridge.executeSignatures(
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.executeSignatures(
       c.and(
         // Avatar address
         c.bitmask({
@@ -351,12 +327,13 @@ export default (parameters: Parameters) =>
         c.bitmask({
           shift: 20 + 32 + 32,
           mask: "0xffffffffffffffffffff",
-          value: contracts.mainnet.gnoXdaiBridge.slice(0, 22), // First 10 bytes of the xDai Bridge
+          value: contracts.mainnet.gnosisBridge.gnoXdaiBridge.slice(0, 22), // First 10 bytes of the xDai Bridge
         }),
         c.bitmask({
           shift: 20 + 32 + 32 + 10,
           mask: "0xffffffffffffffffffff",
-          value: "0x" + contracts.mainnet.gnoXdaiBridge.slice(22, 42), // Last 10 bytes of the xDai Bridge
+          value:
+            "0x" + contracts.mainnet.gnosisBridge.gnoXdaiBridge.slice(22, 42), // Last 10 bytes of the xDai Bridge
         })
       )
     ),

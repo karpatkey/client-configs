@@ -11,13 +11,13 @@ export default (parameters: Parameters) =>
      *********************************************/
     // Bridge - Gnosis -> Mainnet
     // XDAI (Gnosis) -> DAI (Mainnet)
-    allow.gnosis.xdaiBridge2.relayTokens(c.avatar, {
+    allow.gnosis.gnosisBridge.xdaiBridge2.relayTokens(c.avatar, {
       send: true,
     }),
 
     // GNO (Gnosis) -> GNO (Mainnet)
     allow.gnosis.gno.transferAndCall(
-      contracts.gnosis.xdaiBridge,
+      contracts.gnosis.gnosisBridge.xdaiBridge,
       undefined,
       parameters.avatar
     ),
