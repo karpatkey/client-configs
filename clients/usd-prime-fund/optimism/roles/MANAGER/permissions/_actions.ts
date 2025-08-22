@@ -1,7 +1,7 @@
 import { allow as allowAction } from "defi-kit/oeth"
-import { parameters } from "../../../instances/main"
+import { Parameters } from "../../../parameters"
 
-export default [
+export default (parameters: Parameters) => [
   /*********************************************
    * Protocols
    *********************************************/

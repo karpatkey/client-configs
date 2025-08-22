@@ -1,8 +1,8 @@
 import { allow as allowAction } from "defi-kit/eth"
 import { USDS, stkGHO, USDC, USDT, sUSDS, GHO } from "@/addresses/eth"
-import { parameters } from "../../../instances/main"
+import { Parameters } from "../../../parameters"
 
-export default [
+export default (parameters: Parameters) => [
   /*********************************************
    * Protocols
    *********************************************/
