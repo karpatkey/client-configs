@@ -24,9 +24,9 @@ import {
   WETH,
   wstETH,
 } from "@/addresses/eth"
-import { parameters } from "../../../instances/main"
+import { Parameters } from "../../../parameters"
 
-export default [
+export default (parameters: Parameters) => [
   // Ankr
   allowAction.ankr.deposit(),
 
@@ -63,6 +63,13 @@ export default [
   // Balancer v2 - WETH/osETH
   allowAction.balancer_v2.deposit({ targets: ["osETH/wETH-BPT"] }),
   allowAction.balancer_v2.stake({ targets: ["osETH/wETH-BPT"] }),
+
+  // Compound v3 - Deposit USDC
+  allowAction.compound_v3.deposit({ targets: ["cUSDCv3"], tokens: ["USDC"] }),
+  // Compound v3 - Deposit USDS
+  allowAction.compound_v3.deposit({ targets: ["cUSDSv3"], tokens: ["USDS"] }),
+  // Compound v3 - Deposit USDT
+  allowAction.compound_v3.deposit({ targets: ["cUSDTv3"], tokens: ["USDT"] }),
 
   // Convex - ETH/stETH - steCRV
   allowAction.convex.deposit({ targets: ["25"] }),
