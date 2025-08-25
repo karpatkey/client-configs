@@ -1,8 +1,8 @@
 import { allow as allowAction } from "defi-kit/arb1"
 import { COMP, DAI, USDC, USDCe } from "@/addresses/arb1"
-import { parameters } from "../../../instances/main"
+import { Parameters } from "../../../parameters"
 
-export default [
+export default (parameters: Parameters) => [
   // Aave v3 - Deposit DAI
   allowAction.aave_v3.deposit({ targets: ["DAI"] }),
   // Aave v3 - Deposit GHO

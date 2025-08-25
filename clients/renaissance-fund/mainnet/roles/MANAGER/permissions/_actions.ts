@@ -14,9 +14,9 @@ import {
   WETH,
 } from "@/addresses/eth"
 import { kpkGovernance } from "../../../../mainnet/addresses"
-import { parameters } from "../../../instances/main_prod"
+import { Parameters } from "../../../parameters"
 
-export default [
+export default (parameters: Parameters) => [
   // Aave Safety Module - Stake AAVE
   allowAction.aave_v3.stake({ targets: ["AAVE"] }),
   // Aave v3 - Delegate AAVE to governance.karpatkey.eth
