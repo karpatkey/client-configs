@@ -1,7 +1,7 @@
 import { allow as allowAction } from "defi-kit/base"
-import { parameters } from "../../../instances/main"
+import { Parameters } from "../../../parameters"
 
-export default [
+export default (parameters: Parameters) => [
   // Aave v3 - Deposit USDC
   allowAction.aave_v3.deposit({ targets: ["USDC"] }),
 

@@ -1,8 +1,8 @@
 import { allow as allowAction } from "defi-kit/base"
 import { MORPHO, USDC } from "@/addresses/base"
-import { parameters } from "../../../instances/main_prod"
+import { Parameters } from "../../../parameters"
 
-export default [
+export default (parameters: Parameters) => [
   // Circle v1 - Bridge USDC to Ethereum
   allowAction.circle_v1.bridge({
     targets: ["Ethereum"],

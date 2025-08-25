@@ -1,8 +1,8 @@
 import { allow as allowAction } from "defi-kit/eth"
 import { COMP, DAI, sDAI, USDC } from "@/addresses/eth"
-import { parameters } from "../../../instances/main"
+import { Parameters } from "../../../parameters"
 
-export default [
+export default (parameters: Parameters) => [
   // Aave v3 Core Market - Deposit DAI
   allowAction.aave_v3.deposit({ market: "Core", targets: ["DAI"] }),
   // Aave v3 Core Market - Deposit sDAI
