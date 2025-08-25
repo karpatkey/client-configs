@@ -109,7 +109,7 @@ export default (parameters: Parameters) => [
   }),
 
   // CowSwap - [ankrETH, AURA, BAL, COMP, CRV, CVX, DAI, ETHx, LDO, osETH, rETH, RPL, stETH, SWISE, USDC, USDT, WETH, wstETH] <->
-  // [OETH, sUSDS, USDM, USDS, USDT]
+  // [OETH, sUSDS, USDS, USDT]
   allowAction.cowswap.swap({
     sell: [
       ankrETH,
