@@ -198,19 +198,6 @@ export default (parameters: Parameters) =>
       { send: true }
     ),
 
-    // Compound v3 - Deposit USDC
-    ...allowErc20Approve([USDC], [contracts.mainnet.compoundV3.cUsdcV3]),
-    allow.mainnet.compoundV3.cUsdcV3.supply(USDC),
-    allow.mainnet.compoundV3.cUsdcV3.withdraw(USDC),
-
-    // Compound v3 - Deposit USDT
-    ...allowErc20Approve([USDT], [contracts.mainnet.compoundV3.cUsdtV3]),
-    allow.mainnet.compoundV3.cUsdtV3.supply(USDT),
-    allow.mainnet.compoundV3.cUsdtV3.withdraw(USDT),
-
-    // Compound v3 - Claim rewards
-    allow.mainnet.compoundV3.cometRewards.claim(undefined, c.avatar),
-
     // Curve - ETH/stETH - steCRV
     ...allowErc20Approve([stETH], [contracts.mainnet.curve.steCrvPool]),
     allow.mainnet.curve.steCrvPool.add_liquidity(undefined, undefined, {
@@ -300,7 +287,13 @@ export default (parameters: Parameters) =>
 
     // Curve - ETHx/ETH - ethx-f
     ...allowErc20Approve([ETHx], [contracts.mainnet.curve.ethxfPool]),
-    allow.mainnet.curve.ethxfPool["add_liquidity(uint256[2],uint256)"](),
+    allow.mainnet.curve.ethxfPool["add_liquidity(uint256[2],uint256)"](
+      undefined,
+      undefined,
+      {
+        send: true,
+      }
+    ),
     allow.mainnet.curve.ethxfPool["remove_liquidity(uint256,uint256[2])"](),
     allow.mainnet.curve.ethxfPool[
       "remove_liquidity_imbalance(uint256[2],uint256)"

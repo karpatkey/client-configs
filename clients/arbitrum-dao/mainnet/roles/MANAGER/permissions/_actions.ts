@@ -1,8 +1,8 @@
-import { allow, allow as allowAction } from "defi-kit/eth"
+import { allow as allowAction } from "defi-kit/eth"
 import { COMP, EUL, FLUID, USDC, USDT } from "@/addresses/eth"
-import { parameters } from "../../../instances/main"
+import { Parameters } from "../../../parameters"
 
-export default [
+export default (parameters: Parameters) => [
   // Circle v2 - Bridge USDC to Arbitrum
   allowAction.circle_v2.bridge({
     targets: ["Arbitrum"],

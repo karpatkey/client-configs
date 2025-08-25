@@ -1,8 +1,8 @@
 import { allow as allowAction } from "defi-kit/arb1"
 import { GMX, PENDLE, USDC, WETH } from "@/addresses/arb1"
-import { parameters } from "../../../instances/main_prod"
+import { Parameters } from "../../../parameters"
 
-export default [
+export default (parameters: Parameters) => [
   // Circle v1 - Bridge USDC to Ethereum
   allowAction.circle_v1.bridge({
     targets: ["Ethereum"],

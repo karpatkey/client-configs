@@ -13,30 +13,36 @@ export default (parameters: Parameters) =>
     allow.gnosis.wxdai.withdraw(),
 
     // Swap USDC.e -> USDC
-    ...allowErc20Approve([USDCe], [contracts.gnosis.usdcTransmuter]),
-    allow.gnosis.usdcTransmuter.withdraw(),
+    ...allowErc20Approve(
+      [USDCe],
+      [contracts.gnosis.gnosisBridge.usdcTransmuter]
+    ),
+    allow.gnosis.gnosisBridge.usdcTransmuter.withdraw(),
     // Swap USDC -> USDC.e
-    ...allowErc20Approve([USDC], [contracts.gnosis.usdcTransmuter]),
-    allow.gnosis.usdcTransmuter.deposit(),
+    ...allowErc20Approve(
+      [USDC],
+      [contracts.gnosis.gnosisBridge.usdcTransmuter]
+    ),
+    allow.gnosis.gnosisBridge.usdcTransmuter.deposit(),
 
     /*********************************************
      * Bridges
      *********************************************/
-    // XDAI (Gnosis) -> USDS (Mainnet) - Gnosis Bridge
-    allow.gnosis.xdaiBridge2.relayTokens(c.avatar, {
+    // XDAI -> USDS - Gnosis Bridge
+    allow.gnosis.gnosisBridge.xdaiBridge2.relayTokens(c.avatar, {
       send: true,
     }),
     // No claim is required for the DAI bridged from Mainnet via Gnosis Bridge.
 
-    // USDC (Gnosis) -> USDC (Mainnet)
+    // USDC - Gnosis Bridge
     allow.gnosis.usdc.transferAndCall(
-      contracts.gnosis.xdaiBridge,
+      contracts.gnosis.gnosisBridge.xdaiBridge,
       undefined,
       parameters.avatar
     ),
     // No claim is required for the USDC bridged from Mainnet via Gnosis Bridge.
 
-    // USDC.e (Gnosis) -> USDC (Mainnet) - stargate
+    // USDC.e -> USDC - Stargate
     ...allowErc20Approve([USDCe], [contracts.gnosis.stargate.poolUsdc]),
     allow.gnosis.stargate.poolUsdc.send(
       {

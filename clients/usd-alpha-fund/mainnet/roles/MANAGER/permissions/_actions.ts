@@ -21,9 +21,9 @@ import {
   USDT,
   wM,
 } from "@/addresses/eth"
-import { parameters } from "../../../instances/main"
+import { Parameters } from "../../../parameters"
 
-export default [
+export default (parameters: Parameters) => [
   // Aave v2 - Staking of GHO in Safety Module
   allowAction.aave_v2.stake({ targets: ["GHO"] }),
 

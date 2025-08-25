@@ -17,7 +17,7 @@ import { preprocessPermissions } from "../helpers/apply"
 
 export const applyPermissions = async (
   permissions: {
-    allowedActions: PermissionList
+    allowedActions: PermissionList | ((parameters: any) => PermissionList)
     allowedCalls: PermissionList | ((parameters: any) => PermissionList)
   },
   parameters?: any
