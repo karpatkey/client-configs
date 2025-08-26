@@ -18,6 +18,7 @@ import {
   RPL,
   SPK,
   stETH,
+  sUSDS,
   SWISE,
   USDC,
   USDS,
@@ -690,8 +691,9 @@ export default (parameters: Parameters) =>
       recipient: c.avatar,
     }),
 
-    // Uniswap v3 - [ankrETH, AURA, BAL, COMP, CRV, CVX, DAI, ETHx, LDO, MORPHO, osETH, rETH, RPL, SPK, stETH, SWISE, USDC, USDT, WETH, wstETH] ->
-    // [DAI, rETH, USDC, USDS, USDT, stETH, WETH, wstETH]
+    // Uniswap v3
+    // [ankrETH, AURA, BAL, COMP, CRV, CVX, DAI, ETHx, LDO, MORPHO, OETH, osETH, rETH, RPL, SPK, stETH, sUSDS, SWISE, USDC, USDS, USDT, WETH, wstETH] ->
+    // [ankrETH, DAI, ETHx, OETH, osETH, rETH, stETH, sUSDS, USDC, USDS, USDT, WETH, wstETH]
     ...allowErc20Approve(
       [
         ankrETH,
@@ -704,13 +706,16 @@ export default (parameters: Parameters) =>
         ETHx,
         LDO,
         MORPHO,
+        OETH,
         osETH,
         rETH,
         RPL,
         SPK,
         stETH,
+        sUSDS,
         SWISE,
         USDC,
+        USDS,
         USDT,
         WETH,
         wstETH,
@@ -729,18 +734,21 @@ export default (parameters: Parameters) =>
         ETHx,
         LDO,
         MORPHO,
+        OETH,
         osETH,
         rETH,
         RPL,
         SPK,
         stETH,
+        sUSDS,
         SWISE,
         USDC,
+        USDS,
         USDT,
         WETH,
-        wstETH
+        wstETH,
       ),
-      tokenOut: c.or(DAI, rETH, USDC, USDS, USDT, stETH, WETH, wstETH),
+      tokenOut: c.or(ankrETH, DAI, ETHx, OETH, osETH, rETH, stETH, sUSDS, USDC, USDS, USDT, WETH, wstETH),
       recipient: c.avatar,
     }),
 

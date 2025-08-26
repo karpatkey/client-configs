@@ -82,10 +82,12 @@ export default (parameters: Parameters) => [
   // Convex - osETH/rETH
   allowAction.convex.deposit({ targets: ["268"] }),
 
-  // CowSwap - [ankrETH, AURA, BAL, COMP, CRV, CVX, DAI, ETHx, LDO, osETH, rETH, RPL, stETH, SWISE, USDC, USDT, WETH, wstETH] ->
-  // [DAI, rETH, USDC, USDT, stETH, WETH, wstETH]
+  // CowSwap
+  // [ankrETH, AURA, BAL, COMP, CRV, CVX, DAI, ETH, ETHx, LDO, MORPHO, OETH, osETH, rETH, RPL, SPK, stETH, sUSDS, SWISE, USDC, USDS, USDT, WETH, wstETH] ->
+  // [ankrETH, DAI, ETHx, OETH, osETH, rETH, stETH, sUSDS, USDC, USDS, USDT, WETH, wstETH]
   allowAction.cowswap.swap({
     sell: [
+      "ETH",
       ankrETH,
       AURA,
       BAL,
@@ -95,78 +97,36 @@ export default (parameters: Parameters) => [
       DAI,
       ETHx,
       LDO,
+      MORPHO,
+      OETH,
       osETH,
       rETH,
       RPL,
+      SPK,
       stETH,
+      sUSDS,
       SWISE,
       USDC,
+      USDS,
       USDT,
       WETH,
       wstETH,
     ],
-    buy: [DAI, rETH, USDC, USDT, stETH, WETH, wstETH],
-  }),
-
-  // CowSwap - [ankrETH, AURA, BAL, COMP, CRV, CVX, DAI, ETHx, LDO, osETH, rETH, RPL, stETH, SWISE, USDC, USDT, WETH, wstETH] <->
-  // [OETH, sUSDS, USDS, USDT]
-  allowAction.cowswap.swap({
-    sell: [
-      ankrETH,
-      AURA,
-      BAL,
-      COMP,
-      CRV,
-      CVX,
-      DAI,
-      ETHx,
-      LDO,
-      osETH,
-      rETH,
-      RPL,
-      stETH,
-      SWISE,
-      USDC,
-      USDT,
-      WETH,
-      wstETH,
-    ],
-    buy: [OETH, sUSDS, USDS, USDT],
-  }),
-  allowAction.cowswap.swap({
-    sell: [OETH, sUSDS, USDS, USDT],
     buy: [
       ankrETH,
-      AURA,
-      BAL,
-      COMP,
-      CRV,
-      CVX,
       DAI,
       ETHx,
-      LDO,
+      OETH,
       osETH,
       rETH,
-      RPL,
       stETH,
-      SWISE,
+      sUSDS,
       USDC,
+      USDS,
       USDT,
       WETH,
       wstETH,
     ],
-  }),
-
-  // CowSwap - [SPK] -> [DAI, USDC, USDS, USDT]
-  allowAction.cowswap.swap({
-    sell: [SPK],
-    buy: [DAI, USDC, USDS, USDT],
-  }),
-
-  // CowSwap - [MORPHO] -> [DAI, ETH, USDC, USDS, USDT]
-  allowAction.cowswap.swap({
-    sell: [MORPHO],
-    buy: ["ETH", DAI, USDC, USDS, USDT],
   }),
 
   // CowSwap - TWAP - [ETH, USDC, USDS, USDT] <-> [ETH, USDC, USDS, USDT]
