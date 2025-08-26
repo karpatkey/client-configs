@@ -746,9 +746,23 @@ export default (parameters: Parameters) =>
         USDS,
         USDT,
         WETH,
-        wstETH,
+        wstETH
       ),
-      tokenOut: c.or(ankrETH, DAI, ETHx, OETH, osETH, rETH, stETH, sUSDS, USDC, USDS, USDT, WETH, wstETH),
+      tokenOut: c.or(
+        ankrETH,
+        DAI,
+        ETHx,
+        OETH,
+        osETH,
+        rETH,
+        stETH,
+        sUSDS,
+        USDC,
+        USDS,
+        USDT,
+        WETH,
+        wstETH
+      ),
       recipient: c.avatar,
     }),
 
