@@ -84,7 +84,7 @@ export default (parameters: Parameters) => [
 
   // CowSwap
   // [ankrETH, AURA, BAL, COMP, CRV, CVX, DAI, ETH, ETHx, LDO, MORPHO, OETH, osETH, rETH, RPL, SPK, stETH, sUSDS, SWISE, USDC, USDS, USDT, WETH, wstETH] ->
-  // [ankrETH, DAI, ETHx, OETH, osETH, rETH, stETH, sUSDS, USDC, USDS, USDT, WETH, wstETH]
+  // [ankrETH, DAI, ETH, ETHx, OETH, osETH, rETH, stETH, sUSDS, USDC, USDS, USDT, WETH, wstETH]
   allowAction.cowswap.swap({
     sell: [
       "ETH",
@@ -113,6 +113,7 @@ export default (parameters: Parameters) => [
       wstETH,
     ],
     buy: [
+      "ETH",
       ankrETH,
       DAI,
       ETHx,
