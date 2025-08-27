@@ -112,54 +112,6 @@ export default (parameters: Parameters) =>
       c.avatar,
       c.avatar
     ),
-    allow.mainnet.morpho.morphoBlue.supplyCollateral(
-      {
-        loanToken: USDT,
-        collateralToken: sUSDS,
-        oracle: morpho.oracleSusdsUsdt,
-        irm: morpho.adaptativeCurveIrm,
-        lltv: "965000000000000000",
-      },
-      undefined,
-      c.avatar
-    ),
-    allow.mainnet.morpho.morphoBlue.withdrawCollateral(
-      {
-        loanToken: USDT,
-        collateralToken: sUSDS,
-        oracle: morpho.oracleSusdsUsdt,
-        irm: morpho.adaptativeCurveIrm,
-        lltv: "965000000000000000",
-      },
-      undefined,
-      c.avatar,
-      c.avatar
-    ),
-    allow.mainnet.morpho.morphoBlue.borrow(
-      {
-        loanToken: USDT,
-        collateralToken: sUSDS,
-        oracle: morpho.oracleSusdsUsdt,
-        irm: morpho.adaptativeCurveIrm,
-        lltv: "965000000000000000",
-      },
-      undefined,
-      undefined,
-      c.avatar,
-      c.avatar
-    ),
-    allow.mainnet.morpho.morphoBlue.repay(
-      {
-        loanToken: USDT,
-        collateralToken: sUSDS,
-        oracle: morpho.oracleSusdsUsdt,
-        irm: morpho.adaptativeCurveIrm,
-        lltv: "965000000000000000",
-      },
-      undefined,
-      undefined,
-      c.avatar
-    ),
 
     // Morpho Blue - cbBTC/USDC
     allow.mainnet.morpho.morphoBlue.supply(
