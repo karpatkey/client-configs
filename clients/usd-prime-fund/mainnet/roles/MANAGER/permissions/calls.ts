@@ -56,6 +56,7 @@ export default (parameters: Parameters) =>
       c.avatar,
       c.avatar
     ),
+
     // Morpho Blue - WBTC/USDC
     // USDC approval already included
     allow.mainnet.morpho.morphoBlue.supply(
@@ -84,6 +85,7 @@ export default (parameters: Parameters) =>
       c.avatar,
       c.avatar
     ),
+
     // Morpho Blue - sUSDS/USDT
     ...allowErc20Approve([sUSDS, USDT], [contracts.mainnet.morpho.morphoBlue]),
     allow.mainnet.morpho.morphoBlue.supply(
