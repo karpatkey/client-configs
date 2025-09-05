@@ -2,11 +2,13 @@ import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import {
   COMP,
+  EUL,
   FLUID,
   sUSDC,
   sUSDS,
   USDC,
   USDCe,
+  USDS,
   USDT,
   compoundV3,
   euler,
@@ -129,6 +131,18 @@ export default (parameters: Parameters) =>
 
     // Euler - Unlock rEUL to EUL
     // This is the function used by the UI
+    allow.arbitrumOne.euler.vaultConnector.batch(
+      c.matches([
+        {
+          targetContract: contracts.arbitrumOne.euler.rEul,
+          onBehalfOfAccount: c.avatar,
+          data: c.calldataMatches(
+            allow.arbitrumOne.euler.rEul.withdrawToByLockTimestamp(c.avatar)
+          ),
+        },
+      ])
+    ),
+    // Included for completeness
     allow.arbitrumOne.euler.rEul.withdrawToByLockTimestamp(c.avatar),
     // Included for completeness; not used by the UI
     allow.arbitrumOne.euler.rEul.withdrawToByLockTimestamps(c.avatar),
@@ -152,16 +166,17 @@ export default (parameters: Parameters) =>
     ),
 
     // Spark - sUSDS
-    allowErc20Approve([USDC, sUSDS], [contracts.arbitrumOne.spark.psm3]),
-    // Deposit USDC / Withdraw all USDC
+    allowErc20Approve([USDC, USDS, sUSDS], [contracts.arbitrumOne.spark.psm3]),
+    // Deposit USDC or USDS / Withdraw all USDC or USDS
     allow.arbitrumOne.spark.psm3.swapExactIn(
-      c.or(sUSDS, USDC),
-      c.or(sUSDS, USDC),
+      c.or(sUSDS, USDC, USDS),
+      c.or(sUSDS, USDC, USDS),
       undefined,
       undefined,
       c.avatar
     ),
-    allow.arbitrumOne.spark.psm3.swapExactOut(sUSDS, USDC),
+    // Withdraw a specific amount of USDC or USDS
+    allow.arbitrumOne.spark.psm3.swapExactOut(sUSDS, c.or(USDC, USDS)),
 
     /*********************************************
      * Swaps
@@ -182,6 +197,7 @@ export default (parameters: Parameters) =>
     // EUL - Stargate
     // https://docs.layerzero.network/v2/developers/evm/oft/oft-patterns-extensions#sending-token
     // https://docs.stargate.finance/developers/protocol-docs/transfer
+    allowErc20Approve([EUL], [contracts.arbitrumOne.euler.oftAdapter]),
     allow.arbitrumOne.euler.oftAdapter.send(
       {
         dstEid: "30101", // Ethereum
@@ -198,7 +214,7 @@ export default (parameters: Parameters) =>
     ),
 
     // COMP - Arbitrum Bridge
-    ...allowErc20Approve(
+    allowErc20Approve(
       [COMP],
       [contracts.arbitrumOne.arbitrumBridge.gatewayRouter]
     ),
