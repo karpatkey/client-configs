@@ -21,11 +21,9 @@ import {
   wstETH,
 } from "@/addresses/eth"
 import { kpkGovernance } from "../../../addresses"
+import { Parameters } from "../../../parameters"
 
-export default [
-  /*********************************************
-   * DeFi-Kit permissions
-   *********************************************/
+export default (parameters: Parameters) => [
   // Aave Safety Module - Stake AAVE and GHO
   allowAction.aave_v3.stake({ targets: ["AAVE", "GHO"] }),
 
@@ -51,6 +49,13 @@ export default [
   allowAction.aave_v3.delegate({
     targets: ["AAVE", "stkAAVE"],
     delegatee: kpkGovernance,
+  }),
+
+  // Circle v2 - Receive USDC from Arbitrum
+  allowAction.circle_v2.receive({
+    targets: ["Arbitrum"],
+    sender: parameters.avatar,
+    recipient: parameters.avatar,
   }),
 
   // Convex - ETH/OETH
