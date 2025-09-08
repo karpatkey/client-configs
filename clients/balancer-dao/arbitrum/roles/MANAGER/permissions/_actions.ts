@@ -10,8 +10,8 @@ export default (parameters: Parameters) => [
   }),
 
   // CowSwap - USDC -> USDC.e
-    allowAction.cowswap.swap({
-      sell: [USDCe],
-      buy: [USDC],
-    }),
+  allowAction.cowswap.swap({
+    sell: [USDCe],
+    buy: [USDC],
+  }),
 ]
