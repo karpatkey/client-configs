@@ -110,10 +110,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.origin.oEthVault.claimWithdrawals(),
 
     // Sablier - Withdraw FJO
-    allow.mainnet.sablier.v2LockUpDyn.withdraw(
-      undefined,
-      c.avatar
-    ),
+    allow.mainnet.sablier.v2LockUpDyn.withdraw(undefined, c.avatar),
 
     // Silo v2 - Withdraw BAL
     allow.mainnet.siloV2.router.execute(
@@ -122,7 +119,7 @@ export default (parameters: Parameters) =>
           actionType: 1, // Withdraw - https://etherscan.io/address/0x8658047e48cc09161f4152c79155dac1d710ff0a#code#F1#L27
           silo: siloV2.balSilo,
           asset: BAL,
-        }
+        },
       ])
     ),
 
