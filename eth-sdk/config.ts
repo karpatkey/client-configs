@@ -174,6 +174,9 @@ export const contracts = {
     resolv: {
       stUsr: "0x6c8984bc7DBBeDAf4F6b2FD766f16eBB7d10AAb4",
     },
+    sablier: {
+      v2LockUpDyn: "0x7CC7e125d83A581ff438608490Cc0f7bDff79127",
+    },
     safe: {
       singleton: "0xd9Db270c1B5E3Bd161E8c8503c55cEABeE709552", // GnosisSafe Implementation
       tokenLock: "0x0a7CB434f96f65972D46A5c1A64a9654dC9959b2",

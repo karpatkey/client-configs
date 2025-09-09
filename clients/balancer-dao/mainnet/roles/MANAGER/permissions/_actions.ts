@@ -3,8 +3,11 @@ import {
   AAVE,
   COMP,
   DAI,
+  FJO,
   GHO,
+  GTC,
   GYD,
+  MTA,
   OETH,
   rETH,
   sDAI,
@@ -114,6 +117,13 @@ export default (parameters: Parameters) => [
   allowAction.cowswap.swap({
     sell: [OETH],
     buy: ["ETH", rETH, stETH, WETH, wstETH],
+    feeAmountBp: 200,
+  }),
+
+  // CowSwap - [FJO, GTC, MTA] -> USDC
+  allowAction.cowswap.swap({
+    sell: [FJO, GTC, MTA],
+    buy: [USDC],
     feeAmountBp: 200,
   }),
 
