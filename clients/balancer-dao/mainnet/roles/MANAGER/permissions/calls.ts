@@ -2,6 +2,7 @@ import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import {
   AAVE,
+  BAL,
   COMP,
   DAI,
   GHO,
@@ -19,6 +20,7 @@ import {
   WETH,
   wstETH,
   balancerV2,
+  siloV2,
 } from "@/addresses/eth"
 import { eAddress, zeroAddress } from "@/addresses"
 import { contracts } from "@/contracts"
@@ -35,8 +37,8 @@ export default (parameters: Parameters) =>
       send: true,
     }),
 
-    // Aave Merit rewards (https://apps.aavechan.com/merit)
-    allow.mainnet.aaveV3.meritDistributor.claim([parameters.avatar]),
+    // ACI - Aave Merit rewards (https://apps.aavechan.com/merit) through Merkl
+    allow.mainnet.merkl.angleDistributor.claim([parameters.avatar]),
 
     // Compound v3 - Deposit USDC
     allowErc20Approve([USDC], [contracts.mainnet.compoundV3.cUsdcV3]),
@@ -106,6 +108,20 @@ export default (parameters: Parameters) =>
     allow.mainnet.origin.oEthVault.requestWithdrawal(),
     allow.mainnet.origin.oEthVault.claimWithdrawal(),
     allow.mainnet.origin.oEthVault.claimWithdrawals(),
+
+    // Sablier - Withdraw FJO
+    allow.mainnet.sablier.v2LockUpDyn.withdraw(undefined, c.avatar),
+
+    // Silo v2 - Withdraw BAL
+    allow.mainnet.siloV2.router.execute(
+      c.matches([
+        {
+          actionType: 1, // Withdraw - https://etherscan.io/address/0x8658047e48cc09161f4152c79155dac1d710ff0a#code#F1#L27
+          silo: siloV2.balSilo,
+          asset: BAL,
+        },
+      ])
+    ),
 
     // Sky - DSR (DAI Savings Rate)
     // The DsrManager provides an easy to use smart contract that allows

@@ -15,8 +15,8 @@ export default (parameters: Parameters) =>
       send: true,
     }),
 
-    // Aave Merit rewards (https://apps.aavechan.com/merit)
-    allow.mainnet.aaveV3.meritDistributor.claim([parameters.avatar]),
+    // ACI - Aave Merit rewards (https://apps.aavechan.com/merit) through Merkl
+    allow.mainnet.merkl.angleDistributor.claim([parameters.avatar]),
 
     // Lido - Delegate/Undelgate LDO on Snapshot
     allow.mainnet.snapshot.delegation.setDelegate(
