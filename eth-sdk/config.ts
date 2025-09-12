@@ -135,8 +135,7 @@ export const contracts = {
     },
     morpho: {
       ...deFiKitContracts.mainnet.morpho,
-      gtUsdc: "0xdd0f28e19C1780eb6396170735D45153D261490d",
-      steakUSDC: "0xBEEF01735c132Ada46AA9aA4c54623cAA92A64CB",
+      vault: "0xdd0f28e19C1780eb6396170735D45153D261490d", // gtUSDC
       universalRewardsDistributor: "0x330eefa8a787552DC5cAd3C3cA644844B1E61Ddb",
     },
     mStableV2: {
