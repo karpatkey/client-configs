@@ -46,45 +46,46 @@ export default [
   // Balancer - Lock
   allowAction.balancer_v2.lock(),
 
-  // CowSwap - DAI <-> USDT
-  allowAction.cowswap.swap({
-    sell: [DAI, USDT],
-    buy: [DAI, USDT],
-  }),
   // CowSwap - DAI <-> USDC
   allowAction.cowswap.swap({
     sell: [DAI, USDC],
     buy: [DAI, USDC],
   }),
-  // CowSwap - USDC <-> USDT
+  // CowSwap - DAI <-> USDT
   allowAction.cowswap.swap({
-    sell: [USDC, USDT],
-    buy: [USDC, USDT],
-  }),
-  // CowSwap - wstETH -> stETH
-  allowAction.cowswap.swap({
-    sell: [wstETH],
-    buy: [stETH],
-  }),
-  // CowSwap - osETH <-> WETH
-  allowAction.cowswap.swap({
-    sell: [osETH, WETH],
-    buy: [osETH, WETH],
-  }),
-  // CowSwap - rETH <-> WETH
-  allowAction.cowswap.swap({
-    sell: [rETH, WETH],
-    buy: [rETH, WETH],
+    sell: [DAI, USDT],
+    buy: [DAI, USDT],
   }),
   // CowSwap - GHO <-> USDC
   allowAction.cowswap.swap({
     sell: [GHO, USDC],
     buy: [GHO, USDC],
   }),
+  // CowSwap - USDC <-> USDT
+  allowAction.cowswap.swap({
+    sell: [USDC, USDT],
+    buy: [USDC, USDT],
+  }),
+
   // CowSwap - ETH <-> ETHx
   allowAction.cowswap.swap({
     sell: ["ETH", ETHx],
     buy: ["ETH", ETHx],
+  }), 
+  // CowSwap - WETH <-> osETH
+  allowAction.cowswap.swap({
+    sell: [WETH, osETH],
+    buy: [WETH, osETH],
+  }),
+  // CowSwap - WETH <-> rETH
+  allowAction.cowswap.swap({
+    sell: [WETH, rETH],
+    buy: [WETH, rETH],
+  }),
+  // CowSwap - wstETH -> stETH
+  allowAction.cowswap.swap({
+    sell: [wstETH],
+    buy: [stETH],
   }),
 
   // Lido
