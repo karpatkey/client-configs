@@ -2,7 +2,9 @@ import { allow as allowAction } from "defi-kit/eth"
 import {
   DAI,
   ETHx,
+  ezETH,
   GHO,
+  OETH,
   osETH,
   rETH,
   RLUSD,
@@ -122,6 +124,16 @@ export default [
     sell: ["ETH", ETHx, WETH],
     buy: ["ETH", ETHx, WETH],
   }),
+  // CowSwap - WETH <-> ezETH
+  allowAction.cowswap.swap({
+    sell: [WETH, ezETH],
+    buy: [WETH, ezETH],
+  }),
+  // CowSwap - WETH <-> OETH
+  allowAction.cowswap.swap({
+    sell: [WETH, OETH],
+    buy: [WETH, OETH],
+  }),
   // CowSwap - WETH <-> osETH
   allowAction.cowswap.swap({
     sell: [WETH, osETH],
@@ -147,10 +159,40 @@ export default [
     sell: [WETH, wstETH],
     buy: [WETH, wstETH],
   }),
-  // CowSwap - wstETH -> stETH
+  // CowSwap - wstETH <-> ETHx
   allowAction.cowswap.swap({
-    sell: [wstETH],
-    buy: [stETH],
+    sell: [wstETH, ETHx],
+    buy: [wstETH, ETHx],
+  }),
+  // CowSwap - wstETH <-> ezETH
+  allowAction.cowswap.swap({
+    sell: [wstETH, ezETH],
+    buy: [wstETH, ezETH],
+  }),
+  // CowSwap - wstETH <-> OETH
+  allowAction.cowswap.swap({
+    sell: [wstETH, OETH],
+    buy: [wstETH, OETH],
+  }),
+  // CowSwap - wstETH <-> osETH
+  allowAction.cowswap.swap({
+    sell: [wstETH, osETH],
+    buy: [wstETH, osETH],
+  }),
+  // CowSwap - wstETH <-> rsETH
+  allowAction.cowswap.swap({
+    sell: [wstETH, rsETH],
+    buy: [wstETH, rsETH],
+  }),
+  // CowSwap - wstETH <-> stETH
+  allowAction.cowswap.swap({
+    sell: [wstETH, stETH],
+    buy: [wstETH, stETH],
+  }),
+  // CowSwap - wstETH <-> weETH
+  allowAction.cowswap.swap({
+    sell: [wstETH, weETH],
+    buy: [wstETH, weETH],
   }),
   
   // Fluid - Deposit GHO
