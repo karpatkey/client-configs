@@ -194,7 +194,7 @@ export default [
     sell: [wstETH, weETH],
     buy: [wstETH, weETH],
   }),
-  
+
   // Fluid - Deposit GHO
   allowAction.fluid.deposit({ targets: ["GHO"] }),
   // Fluid - Deposit sUSDS
