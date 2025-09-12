@@ -35,7 +35,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.weth.deposit({
       send: true,
     }),
-    
+
     // Merkl - ACI Merit Rewards
     allow.mainnet.merkl.angleDistributor.claim(
       c.or(
@@ -62,120 +62,120 @@ export default (parameters: Parameters) =>
     allowErc20Approve([WETH], [morpho.gtWeth]),
     {
       ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
-      targetAddress: morpho.gtWeth
+      targetAddress: morpho.gtWeth,
     },
     {
       ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.gtWeth
+      targetAddress: morpho.gtWeth,
     },
     {
       ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.gtWeth
+      targetAddress: morpho.gtWeth,
     },
 
     // Morpho - MEV Capital wETH Vault
     allowErc20Approve([WETH], [morpho.mcWeth]),
     {
       ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
-      targetAddress: morpho.mcWeth
+      targetAddress: morpho.mcWeth,
     },
     {
       ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.mcWeth
+      targetAddress: morpho.mcWeth,
     },
     {
       ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.mcWeth
+      targetAddress: morpho.mcWeth,
     },
 
     // Morpho - Re7 WETH Vault
     allowErc20Approve([WETH], [morpho.re7Weth]),
     {
       ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
-      targetAddress: morpho.re7Weth
+      targetAddress: morpho.re7Weth,
     },
     {
       ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.re7Weth
+      targetAddress: morpho.re7Weth,
     },
     {
       ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.re7Weth
+      targetAddress: morpho.re7Weth,
     },
 
     // Morpho - Steakhouse ETH Vault
     allowErc20Approve([WETH], [morpho.steakEth]),
     {
       ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
-      targetAddress: morpho.steakEth
+      targetAddress: morpho.steakEth,
     },
     {
       ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.steakEth
+      targetAddress: morpho.steakEth,
     },
     {
       ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.steakEth
+      targetAddress: morpho.steakEth,
     },
 
     // Morpho - Vault Bridge WETH Vault
     allowErc20Approve([WETH], [morpho.vbgtWeth]),
     {
       ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
-      targetAddress: morpho.vbgtWeth
+      targetAddress: morpho.vbgtWeth,
     },
     {
       ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.vbgtWeth
+      targetAddress: morpho.vbgtWeth,
     },
     {
       ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.vbgtWeth
+      targetAddress: morpho.vbgtWeth,
     },
 
     // Morpho - MEV Capital USDC Vault
     allowErc20Approve([USDC], [morpho.usualUsdc]),
     {
       ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
-      targetAddress: morpho.usualUsdc
+      targetAddress: morpho.usualUsdc,
     },
     {
       ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.usualUsdc
+      targetAddress: morpho.usualUsdc,
     },
     {
       ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.usualUsdc
+      targetAddress: morpho.usualUsdc,
     },
 
     // Morpho - Smokehouse USDC Vault
     allowErc20Approve([USDC], [morpho.bbqUsdc]),
     {
       ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
-      targetAddress: morpho.bbqUsdc
+      targetAddress: morpho.bbqUsdc,
     },
     {
       ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.bbqUsdc
+      targetAddress: morpho.bbqUsdc,
     },
     {
       ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.bbqUsdc
+      targetAddress: morpho.bbqUsdc,
     },
 
     // Morpho - Steakhouse USDC Vault
     allowErc20Approve([USDC], [morpho.steakUsdc]),
     {
       ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
-      targetAddress: morpho.steakUsdc
+      targetAddress: morpho.steakUsdc,
     },
     {
       ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.steakUsdc
+      targetAddress: morpho.steakUsdc,
     },
     {
       ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.steakUsdc
+      targetAddress: morpho.steakUsdc,
     },
 
     // Morpho - Claim Rewards

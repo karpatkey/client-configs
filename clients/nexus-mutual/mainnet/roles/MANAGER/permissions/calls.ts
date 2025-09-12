@@ -324,30 +324,30 @@ export default (parameters: Parameters) =>
     allowErc20Approve([USDC], [morpho.gtUsdc]),
     {
       ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
-      targetAddress: morpho.gtUsdc
+      targetAddress: morpho.gtUsdc,
     },
     {
       ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.gtUsdc
+      targetAddress: morpho.gtUsdc,
     },
     {
       ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.gtUsdc
+      targetAddress: morpho.gtUsdc,
     },
 
     // Morpho - Steakhouse USDC Vault
     allowErc20Approve([USDC], [morpho.steakUsdc]),
     {
       ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
-      targetAddress: morpho.steakUsdc
+      targetAddress: morpho.steakUsdc,
     },
     {
       ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.steakUsdc
+      targetAddress: morpho.steakUsdc,
     },
     {
       ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.steakUsdc
+      targetAddress: morpho.steakUsdc,
     },
 
     // Morpho - Claim Rewards

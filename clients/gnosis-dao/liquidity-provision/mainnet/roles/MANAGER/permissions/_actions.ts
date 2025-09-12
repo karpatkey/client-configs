@@ -71,7 +71,7 @@ export default [
   allowAction.cowswap.swap({
     sell: ["ETH", ETHx],
     buy: ["ETH", ETHx],
-  }), 
+  }),
   // CowSwap - WETH <-> osETH
   allowAction.cowswap.swap({
     sell: [WETH, osETH],
