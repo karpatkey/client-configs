@@ -4,11 +4,14 @@ import {
   ETHx,
   ezETH,
   GHO,
+  KING,
+  MORPHO,
   OETH,
   osETH,
   rETH,
   RLUSD,
   rsETH,
+  SD,
   stETH,
   USDC,
   USDe,
@@ -108,6 +111,11 @@ export default [
     buy: [USDC, USR],
   }),
 
+  // CowSwap - [KING, MORPHO, SD] -> [USDC]
+  allowAction.cowswap.swap({
+    sell: [KING, MORPHO, SD],
+    buy: [USDC],
+  }),
   // CowSwap - USDC <-> WETH
   allowAction.cowswap.swap({
     sell: [USDC, WETH],

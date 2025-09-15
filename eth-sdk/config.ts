@@ -46,6 +46,9 @@ export const contracts = {
       basePortal: "0x49048044D57e1C92A77f79988d21Fa8fAF74E97e",
       resolvedDelegateProxy: "0x866E82a600A1414e583f7F13623F1aC5d58b0Afa",
     },
+    chainlink: {
+      router: "0x80226fc0Ee2b096224EeAc085Bb9a8cba1146f7D",
+    },
     convex: {
       ...deFiKitContracts.mainnet.convex,
       claimZap: "0x3f29cB4111CbdA8081642DA1f75B3c12DECf2516",
@@ -120,6 +123,10 @@ export const contracts = {
       stEthCdo: "0x34dCd573C5dE4672C8248cd12A99f875Ca112Ad8",
       wstEthAaGauge: "0x675eC042325535F6e176638Dd2d4994F645502B9",
       distributorProxy: "0x074306bc6a6fc1bd02b425dd41d742adf36ca9c6",
+    },
+    kelp: {
+      lrtDepositPool: "0x036676389e48133B63a802f8635AD39E752D375D",
+      lrtWithdrawalManager: "0x62De59c08eB5dAE4b7E6F7a8cAd3006d6965ec16",
     },
     lido: {
       ...deFiKitContracts.mainnet.lido,
