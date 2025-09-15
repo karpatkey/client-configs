@@ -295,18 +295,20 @@ export default (parameters: Parameters) =>
     // GHO - Chainlink - transporter.io
     allowErc20Approve([GHO], [contracts.mainnet.chainlink.router]),
     allow.mainnet.chainlink.router.ccipSend(
-      465200170687744372, // https://docs.chain.link/ccip/directory/mainnet/chain/xdai-mainnet
+      "465200170687744372", // https://docs.chain.link/ccip/directory/mainnet/chain/xdai-mainnet
       {
         receiver: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
         data: "0x",
         // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#evmtokenamount
-        tokenAmounts: c.abiEncodedMatches(
-          [GHO, undefined],
-          ["address", "uint256"]
-        ),
+        tokenAmounts: c.matches([
+          {
+            token: GHO, 
+            amount: undefined
+          }
+        ]),
         feeToken: zeroAddress,
         // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#generic_extra_args_v2_tag
-        //https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#genericextraargsv2
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#genericextraargsv2
         extraArgs:
           "0x181dcf1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001",
       },
