@@ -302,9 +302,9 @@ export default (parameters: Parameters) =>
         // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#evmtokenamount
         tokenAmounts: c.matches([
           {
-            token: GHO, 
-            amount: undefined
-          }
+            token: GHO,
+            amount: undefined,
+          },
         ]),
         feeToken: zeroAddress,
         // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#generic_extra_args_v2_tag
