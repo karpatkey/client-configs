@@ -86,23 +86,17 @@ export default (parameters: Parameters) =>
     ),
 
     // Kelp - Stake/Unstake ETH, ETHx and stETH
-    allow.mainnet.kelp.lrtDepositPool.depositETH(
-      undefined,
-      undefined,
-      {
-        send: true,
-      }
-    ),
+    allow.mainnet.kelp.lrtDepositPool.depositETH(undefined, undefined, {
+      send: true,
+    }),
     allowErc20Approve([ETHx, stETH], [contracts.mainnet.kelp.lrtDepositPool]),
-    allow.mainnet.kelp.lrtDepositPool.depositAsset(
-      c.or(ETHx, stETH),
-    ),
+    allow.mainnet.kelp.lrtDepositPool.depositAsset(c.or(ETHx, stETH)),
     allowErc20Approve([rsETH], [contracts.mainnet.kelp.lrtDepositPool]),
     allow.mainnet.kelp.lrtWithdrawalManager.initiateWithdrawal(
-      c.or(eAddress, ETHx, stETH),
+      c.or(eAddress, ETHx, stETH)
     ),
     allow.mainnet.kelp.lrtWithdrawalManager.completeWithdrawal(
-      c.or(eAddress, ETHx, stETH),
+      c.or(eAddress, ETHx, stETH)
     ),
 
     // Morpho - Gauntlet WETH Prime Vault
@@ -258,7 +252,10 @@ export default (parameters: Parameters) =>
       [contracts.mainnet.gnosisBridge.xdaiUsdsBridge]
     ),
     // Destinations: gnosisDaoIaGno and gnosisDaoLmGno
-    allow.mainnet.gnosisBridge.xdaiUsdsBridge.relayTokens(DAI, c.or(gnosisDaoIaGno, gnosisDaoLmGno)),
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.relayTokens(
+      DAI,
+      c.or(gnosisDaoIaGno, gnosisDaoLmGno)
+    ),
     // Claim bridged XDAI from Gnosis
     allow.mainnet.gnosisBridge.xdaiUsdsBridge.executeSignatures(
       c.and(
@@ -303,11 +300,15 @@ export default (parameters: Parameters) =>
         receiver: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
         data: "0x",
         // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#evmtokenamount
-        tokenAmounts: c.abiEncodedMatches([GHO, undefined], ["address", "uint256"]),
+        tokenAmounts: c.abiEncodedMatches(
+          [GHO, undefined],
+          ["address", "uint256"]
+        ),
         feeToken: zeroAddress,
         // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#generic_extra_args_v2_tag
         //https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#genericextraargsv2
-        extraArgs: "0x181dcf1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001"
+        extraArgs:
+          "0x181dcf1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001",
       },
       {
         send: true,
@@ -516,7 +517,10 @@ export default (parameters: Parameters) =>
       USDC,
       contracts.gnosis.gnosisBridge.usdcTransmuter,
       undefined,
-      c.or("0x" + gnosisDaoIaGno.slice(2).padStart(64, "0"), "0x" + gnosisDaoLmGno.slice(2).padStart(64, "0")),
+      c.or(
+        "0x" + gnosisDaoIaGno.slice(2).padStart(64, "0"),
+        "0x" + gnosisDaoLmGno.slice(2).padStart(64, "0")
+      )
     ),
     // Claim bridged USDC from Gnosis
     allow.mainnet.gnosisBridge.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
