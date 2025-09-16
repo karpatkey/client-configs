@@ -31,15 +31,15 @@ export default [
   allow.mainnet.aaveV3.poolCoreV3.withdraw(wstETH, undefined, c.avatar),
 
   // Aave v3 - Repay GHO
-  ...allowErc20Approve([GHO], [contracts.mainnet.aaveV3.poolCoreV3]),
+  allowErc20Approve([GHO], [contracts.mainnet.aaveV3.poolCoreV3]),
   allow.mainnet.aaveV3.poolCoreV3.repay(GHO, undefined, undefined, c.avatar),
 
   // Aave v3 - Repay USDC
-  ...allowErc20Approve([USDC], [contracts.mainnet.aaveV3.poolCoreV3]),
+  allowErc20Approve([USDC], [contracts.mainnet.aaveV3.poolCoreV3]),
   allow.mainnet.aaveV3.poolCoreV3.repay(USDC, undefined, undefined, c.avatar),
 
   // Aave v3 - Repay WBTC
-  ...allowErc20Approve([WBTC], [contracts.mainnet.aaveV3.poolCoreV3]),
+  allowErc20Approve([WBTC], [contracts.mainnet.aaveV3.poolCoreV3]),
   allow.mainnet.aaveV3.poolCoreV3.repay(WBTC, undefined, undefined, c.avatar),
 
   // Ankr

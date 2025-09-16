@@ -7,7 +7,7 @@ export const contracts = {
     aaveV3: {
       ...deFiKitContracts.mainnet.aaveV3,
       aaveCollectorV2: "0x464C71f6c2F760DdA6093dCB91C24c39e5d6e18c",
-      unmbrellaBatchHelper: "0xCe6Ced23118EDEb23054E06118a702797b13fc2F",
+      umbrellaBatchHelper: "0xCe6Ced23118EDEb23054E06118a702797b13fc2F",
       stkwaEthToken: "0xaAFD07D53A7365D3e9fb6F3a3B09EC19676B73Ce", // stkwaEthWETH
       umbrellaRewardsController: "0x4655Ce3D625a63d30bA704087E52B4C31E38188B",
     },
@@ -40,6 +40,8 @@ export const contracts = {
       ethxWaWethGauge: "0x1f3A4C8115629C33A28bF2F97F22D31d256317F6",
       osEthWaWeth: "0x57c23c58B1D8C3292c15BEcF07c62C5c52457A42",
       osEthWaWethGauge: "0x70A1c01902DAb7a45dcA1098Ca76A8314dd8aDbA",
+      surgeFluidWstEthWeth: "0x6b31a94029fd7840d780191B6D63Fa0D269bd883",
+      surgeFluidWstEthWethGauge: "0x1CCE9d493224A19FcB5f7fBade8478630141CB54",
     },
     baseBridge: {
       baseBridge: "0x3154Cf16ccdb4C6d922629664174b904d80F2C35",

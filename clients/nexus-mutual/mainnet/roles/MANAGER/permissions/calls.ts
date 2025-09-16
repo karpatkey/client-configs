@@ -68,8 +68,8 @@ export default (parameters: Parameters) =>
     ),
 
     // Aave Umbrella Staking - GHO
-    allowErc20Approve([GHO], [contracts.mainnet.aaveV3.unmbrellaBatchHelper]),
-    allow.mainnet.aaveV3.unmbrellaBatchHelper.deposit({
+    allowErc20Approve([GHO], [contracts.mainnet.aaveV3.umbrellaBatchHelper]),
+    allow.mainnet.aaveV3.umbrellaBatchHelper.deposit({
       stakeToken: aaveV3.stkEthGHO,
       edgeToken: GHO,
     }),
@@ -82,7 +82,7 @@ export default (parameters: Parameters) =>
       ...allow.mainnet.aaveV3.stkwaEthToken.cooldown(),
       targetAddress: aaveV3.stkEthGHO,
     },
-    allow.mainnet.aaveV3.unmbrellaBatchHelper.redeem({
+    allow.mainnet.aaveV3.umbrellaBatchHelper.redeem({
       stakeToken: aaveV3.stkEthGHO,
       edgeToken: GHO,
     }),
@@ -96,8 +96,8 @@ export default (parameters: Parameters) =>
     },
 
     // Aave Umbrella Staking - USDC
-    allowErc20Approve([USDC], [contracts.mainnet.aaveV3.unmbrellaBatchHelper]),
-    allow.mainnet.aaveV3.unmbrellaBatchHelper.deposit({
+    allowErc20Approve([USDC], [contracts.mainnet.aaveV3.umbrellaBatchHelper]),
+    allow.mainnet.aaveV3.umbrellaBatchHelper.deposit({
       stakeToken: aaveV3.stkEthUSDC,
       edgeToken: USDC,
     }),
@@ -110,7 +110,7 @@ export default (parameters: Parameters) =>
       ...allow.mainnet.aaveV3.stkwaEthToken.cooldown(),
       targetAddress: aaveV3.stkEthUSDC,
     },
-    allow.mainnet.aaveV3.unmbrellaBatchHelper.redeem({
+    allow.mainnet.aaveV3.umbrellaBatchHelper.redeem({
       stakeToken: aaveV3.stkEthUSDC,
       edgeToken: USDC,
     }),
@@ -124,8 +124,8 @@ export default (parameters: Parameters) =>
     },
 
     // Aave Umbrella Staking - USDT
-    allowErc20Approve([USDT], [contracts.mainnet.aaveV3.unmbrellaBatchHelper]),
-    allow.mainnet.aaveV3.unmbrellaBatchHelper.deposit({
+    allowErc20Approve([USDT], [contracts.mainnet.aaveV3.umbrellaBatchHelper]),
+    allow.mainnet.aaveV3.umbrellaBatchHelper.deposit({
       stakeToken: aaveV3.stkEthUSDT,
       edgeToken: USDT,
     }),
@@ -138,7 +138,7 @@ export default (parameters: Parameters) =>
       ...allow.mainnet.aaveV3.stkwaEthToken.cooldown(),
       targetAddress: aaveV3.stkEthUSDT,
     },
-    allow.mainnet.aaveV3.unmbrellaBatchHelper.redeem({
+    allow.mainnet.aaveV3.umbrellaBatchHelper.redeem({
       stakeToken: aaveV3.stkEthUSDT,
       edgeToken: USDT,
     }),

@@ -41,12 +41,12 @@ export default [
   allow.gnosis.wxdai["withdraw"](),
 
   // Azuro - XDAI LP
-  ...allowErc20Approve([WXDAI], [contracts.gnosis.azuro.lpAzrXdai]),
+  allowErc20Approve([WXDAI], [contracts.gnosis.azuro.lpAzrXdai]),
   allow.gnosis.azuro.lpAzrXdai.addLiquidity(),
   allow.gnosis.azuro.lpAzrXdai.withdrawLiquidity(),
 
   // Balancer v2 - BCoW AMM WETH/GNO (Staking not available)
-  ...allowErc20Approve(
+  allowErc20Approve(
     [GNO, WETH],
     [contracts.gnosis.balancerV2.bCowAmm50Weth50Gno]
   ),
@@ -54,7 +54,7 @@ export default [
   allow.gnosis.balancerV2.bCowAmm50Weth50Gno.exitPool(),
 
   // Balancer v2 - BCoW AMM wstETH/sDAI (Staking not available)
-  ...allowErc20Approve(
+  allowErc20Approve(
     [sDAI, wstETH],
     [contracts.gnosis.balancerV2.bCowAmm50wstEth50sDai]
   ),
@@ -62,7 +62,7 @@ export default [
   allow.gnosis.balancerV2.bCowAmm50wstEth50sDai.exitPool(),
 
   // Balancer v2 - BCoW AMM GNO/OLAS (Staking not available)
-  ...allowErc20Approve(
+  allowErc20Approve(
     [GNO, OLAS],
     [contracts.gnosis.balancerV2.bCowAmm50Gno50Olas]
   ),
@@ -70,7 +70,7 @@ export default [
   allow.gnosis.balancerV2.bCowAmm50Gno50Olas.exitPool(),
 
   // Balancer v2 - BCoW AMM GNO/COW (Staking not available)
-  ...allowErc20Approve(
+  allowErc20Approve(
     [GNO, COW],
     [contracts.gnosis.balancerV2.bCowAmm50Gno50Cow]
   ),
@@ -78,11 +78,11 @@ export default [
   allow.gnosis.balancerV2.bCowAmm50Gno50Cow.exitPool(),
 
   // Balancer v2 - ECLP-bCSPX-sDAI Gauge
-  ...allowErc20Approve([GNO], [contracts.gnosis.balancerV2.eclpBcspxSdaiGauge]),
+  allowErc20Approve([GNO], [contracts.gnosis.balancerV2.eclpBcspxSdaiGauge]),
   allow.gnosis.balancerV2.eclpBcspxSdaiGauge.set_reward_distributor(GNO),
 
   // Curve - EURe/EURC.e
-  ...allowErc20Approve([EURCe, EURe], [contracts.gnosis.curve.eureEurc]),
+  allowErc20Approve([EURCe, EURe], [contracts.gnosis.curve.eureEurc]),
   allow.gnosis.curve.eureEurc["add_liquidity(uint256[],uint256)"](),
   allow.gnosis.curve.eureEurc["remove_liquidity(uint256,uint256[])"](),
   allow.gnosis.curve.eureEurc[
@@ -93,13 +93,13 @@ export default [
   ](),
 
   // Curve - EURe/x3CRV
-  ...allowErc20Approve([EURe, x3CRV], [contracts.gnosis.curve.crvEureUsdPool]),
+  allowErc20Approve([EURe, x3CRV], [contracts.gnosis.curve.crvEureUsdPool]),
   allow.gnosis.curve.crvEureUsdPool["add_liquidity(uint256[2],uint256)"](),
   allow.gnosis.curve.crvEureUsdPool["remove_liquidity(uint256,uint256[2])"](),
   allow.gnosis.curve.crvEureUsdPool[
     "remove_liquidity_one_coin(uint256,uint256,uint256)"
   ](),
-  ...allowErc20Approve(
+  allowErc20Approve(
     [EURe, USDC, USDT, WXDAI],
     [contracts.gnosis.curve.crvEureUsdZap]
   ),
@@ -108,7 +108,7 @@ export default [
   allow.gnosis.curve.crvEureUsdZap[
     "remove_liquidity_one_coin(uint256,uint256,uint256)"
   ](),
-  ...allowErc20Approve(
+  allowErc20Approve(
     [curve.crvEureUsd],
     [contracts.gnosis.curve.crvEureUsdGauge]
   ),
@@ -117,7 +117,7 @@ export default [
   allow.gnosis.curve.crvEureUsdGauge["claim_rewards()"](),
 
   // Hyperdrive - wstETH
-  ...allowErc20Approve([wstETH], [contracts.gnosis.hyperdrive.wstEthLp]),
+  allowErc20Approve([wstETH], [contracts.gnosis.hyperdrive.wstEthLp]),
   allow.gnosis.hyperdrive.wstEthLp.addLiquidity(
     undefined,
     undefined,
@@ -131,7 +131,7 @@ export default [
     destination: c.avatar,
   }),
   // Hyperdrive - WXDAI/sDAI
-  ...allowErc20Approve(
+  allowErc20Approve(
     [WXDAI, sDAI],
     [contracts.gnosis.hyperdrive.wxdaiSdaiLp]
   ),
@@ -152,10 +152,10 @@ export default [
    * Swaps
    *********************************************/
   // Swap USDC.e -> USDC
-  ...allowErc20Approve([USDCe], [contracts.gnosis.gnosisBridge.usdcTransmuter]),
+  allowErc20Approve([USDCe], [contracts.gnosis.gnosisBridge.usdcTransmuter]),
   allow.gnosis.gnosisBridge.usdcTransmuter.withdraw(),
   // Swap USDC -> USDC.e
-  ...allowErc20Approve([USDC], [contracts.gnosis.gnosisBridge.usdcTransmuter]),
+  allowErc20Approve([USDC], [contracts.gnosis.gnosisBridge.usdcTransmuter]),
   allow.gnosis.gnosisBridge.usdcTransmuter.deposit(),
 
   /*********************************************

@@ -37,7 +37,7 @@ export default (parameters: Parameters) =>
     }),
 
     // Autonolas - OLAS Lock
-    ...allowErc20Approve([OLAS], [contracts.mainnet.autonolas.veOlas]),
+    allowErc20Approve([OLAS], [contracts.mainnet.autonolas.veOlas]),
     allow.mainnet.autonolas.veOlas.createLock(),
     allow.mainnet.autonolas.veOlas.increaseAmount(),
     allow.mainnet.autonolas.veOlas.increaseUnlockTime(),
@@ -71,14 +71,14 @@ export default (parameters: Parameters) =>
     allow.mainnet.safe.userAirdrop.claimVestedTokens(undefined, c.avatar),
     allow.mainnet.safe.userAirdropSep5.claimVestedTokens(undefined, c.avatar),
     // SAFE - Lock
-    ...allowErc20Approve([SAFE], [contracts.mainnet.safe.tokenLock]),
+    allowErc20Approve([SAFE], [contracts.mainnet.safe.tokenLock]),
     allow.mainnet.safe.tokenLock.lock(),
 
     /*********************************************
      * Bridge
      *********************************************/
     // DAI -> XDAI - Gnosis Bridge
-    ...allowErc20Approve(
+    allowErc20Approve(
       [DAI],
       [contracts.mainnet.gnosisBridge.xdaiUsdsBridge]
     ),
@@ -312,7 +312,7 @@ export default (parameters: Parameters) =>
     ),
 
     // USDC -> USDC.e - Gnosis Bridge
-    ...allowErc20Approve(
+    allowErc20Approve(
       [USDC],
       [contracts.mainnet.gnosisBridge.gnoOmnibridge]
     ),

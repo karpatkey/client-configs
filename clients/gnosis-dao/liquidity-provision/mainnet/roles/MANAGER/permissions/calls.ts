@@ -1,9 +1,14 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
+import { eAddress } from "@/addresses"
 import {
   DAI,
+  eETH,
   ETHx,
+  GHO,
   GNO,
+  osETH,
+  rsETH,
   SAFE,
   stETH,
   USDC,
@@ -12,6 +17,7 @@ import {
   WBTC,
   WETH,
   wstETH,
+  aaveV3,
 } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import {
@@ -30,9 +36,188 @@ import { Parameters } from "../../../../../parameters"
 
 export default (parameters: Parameters) =>
   [
+    // Aave Umbrella Staking - GHO
+    allowErc20Approve([GHO], [contracts.mainnet.aaveV3.umbrellaBatchHelper]),
+    allow.mainnet.aaveV3.umbrellaBatchHelper.deposit({
+      stakeToken: aaveV3.stkEthGHO,
+      edgeToken: GHO,
+    }),
+    allowErc20Approve([GHO], [aaveV3.stkEthGHO]),
+    {
+      ...allow.mainnet.aaveV3.stkwaEthToken.deposit(undefined, c.avatar),
+      targetAddress: aaveV3.stkEthGHO,
+    },
+    {
+      ...allow.mainnet.aaveV3.stkwaEthToken.cooldown(),
+      targetAddress: aaveV3.stkEthGHO,
+    },
+    allow.mainnet.aaveV3.umbrellaBatchHelper.redeem({
+      stakeToken: aaveV3.stkEthGHO,
+      edgeToken: GHO,
+    }),
+    {
+      ...allow.mainnet.aaveV3.stkwaEthToken.redeem(
+        undefined,
+        c.avatar,
+        c.avatar
+      ),
+      targetAddress: aaveV3.stkEthGHO,
+    },
+
+    // Aave Umbrella Staking - USDC
+    allowErc20Approve([USDC], [contracts.mainnet.aaveV3.umbrellaBatchHelper]),
+    allow.mainnet.aaveV3.umbrellaBatchHelper.deposit({
+      stakeToken: aaveV3.stkEthUSDC,
+      edgeToken: USDC,
+    }),
+    allowErc20Approve([USDC], [aaveV3.stkEthUSDC]),
+    {
+      ...allow.mainnet.aaveV3.stkwaEthToken.deposit(undefined, c.avatar),
+      targetAddress: aaveV3.stkEthUSDC,
+    },
+    {
+      ...allow.mainnet.aaveV3.stkwaEthToken.cooldown(),
+      targetAddress: aaveV3.stkEthUSDC,
+    },
+    allow.mainnet.aaveV3.umbrellaBatchHelper.redeem({
+      stakeToken: aaveV3.stkEthUSDC,
+      edgeToken: USDC,
+    }),
+    {
+      ...allow.mainnet.aaveV3.stkwaEthToken.redeem(
+        undefined,
+        c.avatar,
+        c.avatar
+      ),
+      targetAddress: aaveV3.stkEthUSDC,
+    },
+
+    // Aave Umbrella Staking - WETH
+    allowErc20Approve([WETH], [contracts.mainnet.aaveV3.umbrellaBatchHelper]),
+    allow.mainnet.aaveV3.umbrellaBatchHelper.deposit({
+      stakeToken: aaveV3.stkEthWETH,
+      edgeToken: WETH,
+    }),
+    allowErc20Approve([WETH], [aaveV3.stkEthWETH]),
+    {
+      ...allow.mainnet.aaveV3.stkwaEthToken.deposit(undefined, c.avatar),
+      targetAddress: aaveV3.stkEthWETH,
+    },
+    {
+      ...allow.mainnet.aaveV3.stkwaEthToken.cooldown(),
+      targetAddress: aaveV3.stkEthWETH,
+    },
+    allow.mainnet.aaveV3.umbrellaBatchHelper.redeem({
+      stakeToken: aaveV3.stkEthWETH,
+      edgeToken: WETH,
+    }),
+    {
+      ...allow.mainnet.aaveV3.stkwaEthToken.redeem(
+        undefined,
+        c.avatar,
+        c.avatar
+      ),
+      targetAddress: aaveV3.stkEthWETH,
+    },
+
+    // Claim Umbrella Staking Rewards
+    allow.mainnet.aaveV3.umbrellaRewardsController[
+      "claimSelectedRewards(address,address[],address)"
+    ](undefined, undefined, c.avatar),
+
+    // Balancer v3 - Aave Lido Boosted WETH/wstETH
+    allowErc20Approve([WETH, wstETH], [contracts.mainnet.uniswap.permit2]),
+    allow.mainnet.uniswap.permit2.approve(
+      c.or(WETH, wstETH),
+      contracts.mainnet.balancerV3.compositeLiquidityRouter
+    ),
+    allow.mainnet.balancerV3.compositeLiquidityRouter.addLiquidityProportionalToERC4626Pool(
+      contracts.mainnet.balancerV3.aaveLidoWethWstEth
+    ),
+    allow.mainnet.balancerV3.compositeLiquidityRouter.addLiquidityUnbalancedToERC4626Pool(
+      contracts.mainnet.balancerV3.aaveLidoWethWstEth
+    ),
+    allowErc20Approve(
+      [contracts.mainnet.balancerV3.aaveLidoWethWstEth],
+      [contracts.mainnet.balancerV3.compositeLiquidityRouter]
+    ),
+    allow.mainnet.balancerV3.compositeLiquidityRouter.removeLiquidityProportionalFromERC4626Pool(
+      contracts.mainnet.balancerV3.aaveLidoWethWstEth
+    ),
+    allowErc20Approve(
+      [contracts.mainnet.balancerV3.aaveLidoWethWstEth],
+      [contracts.mainnet.balancerV3.aaveLidoWethWstEthGauge]
+    ),
+    allow.mainnet.balancerV3.aaveLidoWethWstEthGauge["deposit(uint256)"](),
+    allow.mainnet.balancerV3.aaveLidoWethWstEthGauge["withdraw(uint256)"](),
+    allow.mainnet.balancerV3.aaveLidoWethWstEthGauge["claim_rewards()"](),
+    allow.mainnet.balancerV2.minter.mint(
+      contracts.mainnet.balancerV3.aaveLidoWethWstEthGauge
+    ),
+
+    // Balancer v3 - Aave Boosted WETH/osETH
+    allowErc20Approve([WETH, osETH], [contracts.mainnet.uniswap.permit2]),
+    allow.mainnet.uniswap.permit2.approve(
+      c.or(WETH, osETH),
+      contracts.mainnet.balancerV3.compositeLiquidityRouter
+    ),
+    allow.mainnet.balancerV3.compositeLiquidityRouter.addLiquidityProportionalToERC4626Pool(
+      contracts.mainnet.balancerV3.osEthWaWeth
+    ),
+    allow.mainnet.balancerV3.compositeLiquidityRouter.addLiquidityUnbalancedToERC4626Pool(
+      contracts.mainnet.balancerV3.osEthWaWeth
+    ),
+    allowErc20Approve(
+      [contracts.mainnet.balancerV3.osEthWaWeth],
+      [contracts.mainnet.balancerV3.compositeLiquidityRouter]
+    ),
+    allow.mainnet.balancerV3.compositeLiquidityRouter.removeLiquidityProportionalFromERC4626Pool(
+      contracts.mainnet.balancerV3.osEthWaWeth
+    ),
+    allowErc20Approve(
+      [contracts.mainnet.balancerV3.osEthWaWeth],
+      [contracts.mainnet.balancerV3.osEthWaWethGauge]
+    ),
+    allow.mainnet.balancerV3.osEthWaWethGauge["deposit(uint256)"](),
+    allow.mainnet.balancerV3.osEthWaWethGauge["withdraw(uint256)"](),
+    allow.mainnet.balancerV3.osEthWaWethGauge["claim_rewards()"](),
+    allow.mainnet.balancerV2.minter.mint(
+      contracts.mainnet.balancerV3.osEthWaWethGauge
+    ),
+
+    // Balancer v3 - Surge Fluid Boosted wstETH/WETH
+    allowErc20Approve([WETH, wstETH], [contracts.mainnet.uniswap.permit2]),
+    allow.mainnet.uniswap.permit2.approve(
+      c.or(WETH, wstETH),
+      contracts.mainnet.balancerV3.compositeLiquidityRouter
+    ),
+    allow.mainnet.balancerV3.compositeLiquidityRouter.addLiquidityProportionalToERC4626Pool(
+      contracts.mainnet.balancerV3.surgeFluidWstEthWeth
+    ),
+    allow.mainnet.balancerV3.compositeLiquidityRouter.addLiquidityUnbalancedToERC4626Pool(
+      contracts.mainnet.balancerV3.surgeFluidWstEthWeth
+    ),
+    allowErc20Approve(
+      [contracts.mainnet.balancerV3.surgeFluidWstEthWeth],
+      [contracts.mainnet.balancerV3.compositeLiquidityRouter]
+    ),
+    allow.mainnet.balancerV3.compositeLiquidityRouter.removeLiquidityProportionalFromERC4626Pool(
+      contracts.mainnet.balancerV3.surgeFluidWstEthWeth
+    ),
+    allowErc20Approve(
+      [contracts.mainnet.balancerV3.surgeFluidWstEthWeth],
+      [contracts.mainnet.balancerV3.surgeFluidWstEthWethGauge]
+    ),
+    allow.mainnet.balancerV3.surgeFluidWstEthWethGauge["deposit(uint256)"](),
+    allow.mainnet.balancerV3.surgeFluidWstEthWethGauge["withdraw(uint256)"](),
+    allow.mainnet.balancerV3.surgeFluidWstEthWethGauge["claim_rewards()"](),
+    allow.mainnet.balancerV2.minter.mint(
+      contracts.mainnet.balancerV3.surgeFluidWstEthWethGauge
+    ),
+
     // Enzyme - ETHx Hyperloop Vault
     // Deposit ETHx
-    ...allowErc20Approve(
+    allowErc20Approve(
       [ETHx],
       [contracts.mainnet.enzyme.ethxHyperloopVaultComptrollerProxy]
     ),
@@ -43,6 +228,41 @@ export default (parameters: Parameters) =>
       undefined,
       [],
       []
+    ),
+
+    // ether.fi - EigenLayer Restaking
+    // Stake ETH for eETH
+    allow.mainnet.etherfi.liquidityPool["deposit()"]({ send: true }),
+    // Request Withdrawal - A Withdraw Request NFT is issued
+    allowErc20Approve([eETH], [contracts.mainnet.etherfi.liquidityPool]),
+    allow.mainnet.etherfi.liquidityPool.requestWithdraw(c.avatar),
+    // Funds can be claimed once the request is finalized
+    allow.mainnet.etherfi.withdrawRequestNft.claimWithdraw(),
+    // Stake ETH for weETH
+    allow.mainnet.etherfi.depositAdapter.depositETHForWeETH(undefined, {
+      send: true,
+    }),
+    // ether.fi - Wrap/Unwrap
+    // Wrap eETH
+    allowErc20Approve([eETH], [contracts.mainnet.etherfi.weEth]),
+    allow.mainnet.etherfi.weEth.wrap(),
+    // Unwrap weETH
+    allow.mainnet.etherfi.weEth.unwrap(),
+    // ether.fi - Claim rewards
+    allow.mainnet.etherfi.kingDistributor.claim(c.avatar),
+
+    // Kelp - Stake/Unstake ETH, ETHx and stETH
+    allow.mainnet.kelp.lrtDepositPool.depositETH(undefined, undefined, {
+      send: true,
+    }),
+    allowErc20Approve([ETHx, stETH], [contracts.mainnet.kelp.lrtDepositPool]),
+    allow.mainnet.kelp.lrtDepositPool.depositAsset(c.or(ETHx, stETH)),
+    allowErc20Approve([rsETH], [contracts.mainnet.kelp.lrtDepositPool]),
+    allow.mainnet.kelp.lrtWithdrawalManager.initiateWithdrawal(
+      c.or(eAddress, ETHx, stETH)
+    ),
+    allow.mainnet.kelp.lrtWithdrawalManager.completeWithdrawal(
+      c.or(eAddress, ETHx, stETH)
     ),
 
     // Merkl - ACI Merit Rewards
@@ -67,11 +287,32 @@ export default (parameters: Parameters) =>
       )
     ),
 
+    // Origin - Mint OETH via Vault
+    allow.mainnet.origin.oEthZapper.deposit({ send: true }),
+    // Origin - Redeem via OETH Vault
+    // OETH is burnt by the user so no approval is needed
+    allow.mainnet.origin.oEthVault.requestWithdrawal(),
+    allow.mainnet.origin.oEthVault.claimWithdrawal(),
+    allow.mainnet.origin.oEthVault.claimWithdrawals(),
+    // Opt into yield
+    allow.mainnet.origin.oEth.rebaseOptIn(),
+
+    // Uniswap v3 - ETHx + wstETH
+    allow.mainnet.uniswapV3.positionsNft.createAndInitializePoolIfNecessary(
+      c.or(ETHx, wstETH),
+      c.or(ETHx, wstETH),
+    ),
+    // Uniswap v3 - rsETH + wstETH
+    allow.mainnet.uniswapV3.positionsNft.createAndInitializePoolIfNecessary(
+      c.or(rsETH, wstETH),
+      c.or(rsETH, wstETH),
+    ),
+
     /*********************************************
      * Bridge
      *********************************************/
     // DAI -> XDAI - Gnosis Bridge
-    ...allowErc20Approve(
+    allowErc20Approve(
       [DAI],
       [contracts.mainnet.gnosisBridge.xdaiUsdsBridge]
     ),
@@ -305,7 +546,7 @@ export default (parameters: Parameters) =>
     ),
 
     // USDC -> USDC.e - Gnosis Bridge
-    ...allowErc20Approve(
+    allowErc20Approve(
       [USDC],
       [contracts.mainnet.gnosisBridge.gnoOmnibridge]
     ),

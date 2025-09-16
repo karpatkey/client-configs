@@ -46,7 +46,7 @@ export default (parameters: Parameters) =>
     // Stake ETH for eETH
     allow.mainnet.etherfi.liquidityPool["deposit()"]({ send: true }),
     // Request Withdrawal - A Withdraw Request NFT is issued
-    ...allowErc20Approve([eETH], [contracts.mainnet.etherfi.liquidityPool]),
+    allowErc20Approve([eETH], [contracts.mainnet.etherfi.liquidityPool]),
     allow.mainnet.etherfi.liquidityPool.requestWithdraw(c.avatar),
     // Funds can be claimed once the request is finalized
     allow.mainnet.etherfi.withdrawRequestNft.claimWithdraw(),
@@ -56,12 +56,26 @@ export default (parameters: Parameters) =>
     }),
     // ether.fi - Wrap/Unwrap
     // Wrap eETH
-    ...allowErc20Approve([eETH], [contracts.mainnet.etherfi.weEth]),
+    allowErc20Approve([eETH], [contracts.mainnet.etherfi.weEth]),
     allow.mainnet.etherfi.weEth.wrap(),
     // Unwrap weETH
     allow.mainnet.etherfi.weEth.unwrap(),
     // ether.fi - Claim rewards
     allow.mainnet.etherfi.kingDistributor.claim(c.avatar),
+
+    // Kelp - Stake/Unstake ETH, ETHx and stETH
+    allow.mainnet.kelp.lrtDepositPool.depositETH(undefined, undefined, {
+      send: true,
+    }),
+    allowErc20Approve([ETHx, stETH], [contracts.mainnet.kelp.lrtDepositPool]),
+    allow.mainnet.kelp.lrtDepositPool.depositAsset(c.or(ETHx, stETH)),
+    allowErc20Approve([rsETH], [contracts.mainnet.kelp.lrtDepositPool]),
+    allow.mainnet.kelp.lrtWithdrawalManager.initiateWithdrawal(
+      c.or(eAddress, ETHx, stETH)
+    ),
+    allow.mainnet.kelp.lrtWithdrawalManager.completeWithdrawal(
+      c.or(eAddress, ETHx, stETH)
+    ),
 
     // Merkl - ACI Merit Rewards
     allow.mainnet.merkl.angleDistributor.claim(
@@ -83,20 +97,6 @@ export default (parameters: Parameters) =>
           parameters.avatar,
         ]
       )
-    ),
-
-    // Kelp - Stake/Unstake ETH, ETHx and stETH
-    allow.mainnet.kelp.lrtDepositPool.depositETH(undefined, undefined, {
-      send: true,
-    }),
-    allowErc20Approve([ETHx, stETH], [contracts.mainnet.kelp.lrtDepositPool]),
-    allow.mainnet.kelp.lrtDepositPool.depositAsset(c.or(ETHx, stETH)),
-    allowErc20Approve([rsETH], [contracts.mainnet.kelp.lrtDepositPool]),
-    allow.mainnet.kelp.lrtWithdrawalManager.initiateWithdrawal(
-      c.or(eAddress, ETHx, stETH)
-    ),
-    allow.mainnet.kelp.lrtWithdrawalManager.completeWithdrawal(
-      c.or(eAddress, ETHx, stETH)
     ),
 
     // Morpho - Gauntlet WETH Prime Vault
@@ -247,7 +247,7 @@ export default (parameters: Parameters) =>
      * Bridge
      *********************************************/
     // DAI -> XDAI - Gnosis Bridge
-    ...allowErc20Approve(
+    allowErc20Approve(
       [DAI],
       [contracts.mainnet.gnosisBridge.xdaiUsdsBridge]
     ),
@@ -510,7 +510,7 @@ export default (parameters: Parameters) =>
     ),
 
     // USDC -> USDC.e - Gnosis Bridge
-    ...allowErc20Approve(
+    allowErc20Approve(
       [USDC],
       [contracts.mainnet.gnosisBridge.gnoOmnibridge]
     ),
