@@ -78,10 +78,7 @@ export default (parameters: Parameters) =>
      * Bridge
      *********************************************/
     // DAI -> XDAI - Gnosis Bridge
-    allowErc20Approve(
-      [DAI],
-      [contracts.mainnet.gnosisBridge.xdaiUsdsBridge]
-    ),
+    allowErc20Approve([DAI], [contracts.mainnet.gnosisBridge.xdaiUsdsBridge]),
     allow.mainnet.gnosisBridge.xdaiUsdsBridge.relayTokens(DAI, gnosisDaoIaGno),
     // Claim bridged XDAI from Gnosis
     allow.mainnet.gnosisBridge.xdaiUsdsBridge.executeSignatures(
@@ -312,10 +309,7 @@ export default (parameters: Parameters) =>
     ),
 
     // USDC -> USDC.e - Gnosis Bridge
-    allowErc20Approve(
-      [USDC],
-      [contracts.mainnet.gnosisBridge.gnoOmnibridge]
-    ),
+    allowErc20Approve([USDC], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
     allow.mainnet.gnosisBridge.gnoOmnibridge.relayTokensAndCall(
       USDC,
       contracts.gnosis.gnosisBridge.usdcTransmuter,

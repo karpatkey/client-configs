@@ -131,10 +131,7 @@ export default [
     destination: c.avatar,
   }),
   // Hyperdrive - WXDAI/sDAI
-  allowErc20Approve(
-    [WXDAI, sDAI],
-    [contracts.gnosis.hyperdrive.wxdaiSdaiLp]
-  ),
+  allowErc20Approve([WXDAI, sDAI], [contracts.gnosis.hyperdrive.wxdaiSdaiLp]),
   allow.gnosis.hyperdrive.wxdaiSdaiLp.addLiquidity(
     undefined,
     undefined,

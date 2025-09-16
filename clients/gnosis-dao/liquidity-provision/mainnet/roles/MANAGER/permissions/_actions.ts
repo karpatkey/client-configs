@@ -217,10 +217,10 @@ export default [
 
   // Uniswap v3 - ETHx + wstETH
   allowAction.uniswap_v3.deposit({
-    tokens: ["ETHx", "wstETH"]
+    tokens: ["ETHx", "wstETH"],
   }),
   // Uniswap v3 - rsETH + wstETH
   allowAction.uniswap_v3.deposit({
-    tokens: ["rsETH", "wstETH"]
-  })
+    tokens: ["rsETH", "wstETH"],
+  }),
 ]
