@@ -81,19 +81,13 @@ export default [
   ),
 
   // ether.fi - Liquid ETH Yield Vault - Deposit
-  ...allowErc20Approve(
-    [eETH, weETH, WETH],
-    [liquidETH]
-  ),
+  ...allowErc20Approve([eETH, weETH, WETH], [liquidETH]),
   allow.mainnet.etherfi.liquidEthYieldVaultTeller.deposit(
     c.or(eETH, weETH, WETH)
   ),
   // ether.fi - Liquid ETH Yield Vault - Withdraw
   // https://help.ether.fi/en/articles/284654-how-to-withdraw-from-liquid-vaults
-  ...allowErc20Approve(
-    [liquidETH],
-    [contracts.mainnet.etherfi.atomicQueue]
-  ),
+  ...allowErc20Approve([liquidETH], [contracts.mainnet.etherfi.atomicQueue]),
   allow.mainnet.etherfi.atomicQueue.updateAtomicRequest(
     liquidETH,
     c.or(eETH, weETH)

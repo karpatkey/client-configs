@@ -267,37 +267,25 @@ export default (parameters: Parameters) =>
     // ether.fi - Claim rewards
     allow.mainnet.etherfi.kingDistributor.claim(c.avatar),
     // ether.fi - Liquid ETH Yield Vault - Deposit
-    allowErc20Approve(
-      [eETH, weETH, WETH],
-      [liquidETH]
-    ),
+    allowErc20Approve([eETH, weETH, WETH], [liquidETH]),
     allow.mainnet.etherfi.liquidEthYieldVaultTeller.deposit(
       c.or(eETH, weETH, WETH)
     ),
     // ether.fi - Liquid ETH Yield Vault - Withdraw
     // https://help.ether.fi/en/articles/284654-how-to-withdraw-from-liquid-vaults
-    allowErc20Approve(
-      [liquidETH],
-      [contracts.mainnet.etherfi.atomicQueue]
-    ),
+    allowErc20Approve([liquidETH], [contracts.mainnet.etherfi.atomicQueue]),
     allow.mainnet.etherfi.atomicQueue.updateAtomicRequest(
       liquidETH,
       c.or(eETH, weETH)
     ),
     // ether.fi - Market-Neutral USD Vault - Deposit
-    allowErc20Approve(
-      [DAI, USDC, USDT],
-      [liquidUSD]
-    ),
+    allowErc20Approve([DAI, USDC, USDT], [liquidUSD]),
     allow.mainnet.etherfi.marketNeutralUsdVaultTeller.deposit(
       c.or(DAI, USDC, USDT)
     ),
     // ether.fi - Market-Neutral USD Vault - Withdraw
     // https://help.ether.fi/en/articles/284654-how-to-withdraw-from-liquid-vaults
-    allowErc20Approve(
-      [liquidUSD],
-      [contracts.mainnet.etherfi.atomicQueue]
-    ),
+    allowErc20Approve([liquidUSD], [contracts.mainnet.etherfi.atomicQueue]),
     allow.mainnet.etherfi.atomicQueue.updateAtomicRequest(
       liquidUSD,
       c.or(DAI, USDC, USDT)
@@ -417,7 +405,10 @@ export default (parameters: Parameters) =>
     allow.mainnet.chainlink.router.ccipSend(
       "465200170687744372", // https://docs.chain.link/ccip/directory/mainnet/chain/xdai-mainnet
       {
-        receiver: c.or("0x" + gnosisDaoLmGno.slice(2).padStart(64, "0"), "0x" + gnosisDaoLpGno.slice(2).padStart(64, "0")),
+        receiver: c.or(
+          "0x" + gnosisDaoLmGno.slice(2).padStart(64, "0"),
+          "0x" + gnosisDaoLpGno.slice(2).padStart(64, "0")
+        ),
         data: "0x",
         // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#evmtokenamount
         tokenAmounts: c.matches([
@@ -639,7 +630,7 @@ export default (parameters: Parameters) =>
       c.or(
         "0x" + gnosisDaoIaGno.slice(2).padStart(64, "0"),
         "0x" + gnosisDaoLmGno.slice(2).padStart(64, "0"),
-        "0x" + gnosisDaoLpGno.slice(2).padStart(64, "0"),
+        "0x" + gnosisDaoLpGno.slice(2).padStart(64, "0")
       )
     ),
     // Claim bridged USDC from Gnosis

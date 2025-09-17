@@ -295,7 +295,10 @@ export default (parameters: Parameters) =>
     allow.mainnet.chainlink.router.ccipSend(
       "465200170687744372", // https://docs.chain.link/ccip/directory/mainnet/chain/xdai-mainnet
       {
-        receiver: c.or("0x" + gnosisDaoLmGno.slice(2).padStart(64, "0"), "0x" + gnosisDaoLpGno.slice(2).padStart(64, "0")),
+        receiver: c.or(
+          "0x" + gnosisDaoLmGno.slice(2).padStart(64, "0"),
+          "0x" + gnosisDaoLpGno.slice(2).padStart(64, "0")
+        ),
         data: "0x",
         // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#evmtokenamount
         tokenAmounts: c.matches([
@@ -517,7 +520,7 @@ export default (parameters: Parameters) =>
       c.or(
         "0x" + gnosisDaoIaGno.slice(2).padStart(64, "0"),
         "0x" + gnosisDaoLmGno.slice(2).padStart(64, "0"),
-        "0x" + gnosisDaoLpGno.slice(2).padStart(64, "0"),
+        "0x" + gnosisDaoLpGno.slice(2).padStart(64, "0")
       )
     ),
     // Claim bridged USDC from Gnosis
