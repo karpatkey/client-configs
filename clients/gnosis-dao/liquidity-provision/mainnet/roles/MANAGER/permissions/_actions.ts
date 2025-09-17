@@ -5,10 +5,12 @@ import {
   ETHx,
   ezETH,
   GHO,
+  KERNEL,
   KING,
   MORPHO,
   OETH,
   osETH,
+  RESOLV,
   rETH,
   RLUSD,
   rsETH,
@@ -103,9 +105,9 @@ export default [
     buy: [USDC, USR],
   }),
 
-  // CowSwap - [BAL, KING, MORPHO, SD, SWISE] -> [USDC]
+  // CowSwap - [BAL, KERNEL, KING, MORPHO, RESOLV, SD, SWISE] -> [USDC]
   allowAction.cowswap.swap({
-    sell: [BAL, KING, MORPHO, SD, SWISE],
+    sell: [BAL, KERNEL, KING, MORPHO, RESOLV, SD, SWISE],
     buy: [USDC],
   }),
   // CowSwap - USDC <-> WETH
