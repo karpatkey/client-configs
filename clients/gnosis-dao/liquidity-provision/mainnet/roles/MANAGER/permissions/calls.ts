@@ -1,20 +1,27 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { eAddress } from "@/addresses"
+import { eAddress, zeroAddress } from "@/addresses"
 import {
   DAI,
   eETH,
   ETHx,
   GHO,
   GNO,
+  liquidETH,
+  liquidUSD,
   osETH,
   rsETH,
   SAFE,
   stETH,
+  stUSR,
+  sUSDe,
   USDC,
+  USDe,
   USDS,
   USDT,
+  USR,
   WBTC,
+  weETH,
   WETH,
   wstETH,
   aaveV3,
@@ -31,6 +38,8 @@ import {
   gnosisDaoLpEth,
   gnosisDaoLmEth,
   gnosisDaoIaGno,
+  gnosisDaoLmGno,
+  gnosisDaoLpGno,
 } from "../../../../../addresses"
 import { Parameters } from "../../../../../parameters"
 
@@ -230,6 +239,13 @@ export default (parameters: Parameters) =>
       []
     ),
 
+    // Ethena - Stake USDe
+    allowErc20Approve([USDe], [sUSDe]),
+    allow.mainnet.ethena.sUsde.deposit(undefined, c.avatar),
+    // Ethena - Unstake USDe
+    allow.mainnet.ethena.sUsde.cooldownShares(),
+    allow.mainnet.ethena.sUsde.unstake(c.avatar),
+
     // ether.fi - EigenLayer Restaking
     // Stake ETH for eETH
     allow.mainnet.etherfi.liquidityPool["deposit()"]({ send: true }),
@@ -250,6 +266,42 @@ export default (parameters: Parameters) =>
     allow.mainnet.etherfi.weEth.unwrap(),
     // ether.fi - Claim rewards
     allow.mainnet.etherfi.kingDistributor.claim(c.avatar),
+    // ether.fi - Liquid ETH Yield Vault - Deposit
+    allowErc20Approve(
+      [eETH, weETH, WETH],
+      [liquidETH]
+    ),
+    allow.mainnet.etherfi.liquidEthYieldVaultTeller.deposit(
+      c.or(eETH, weETH, WETH)
+    ),
+    // ether.fi - Liquid ETH Yield Vault - Withdraw
+    // https://help.ether.fi/en/articles/284654-how-to-withdraw-from-liquid-vaults
+    allowErc20Approve(
+      [liquidETH],
+      [contracts.mainnet.etherfi.atomicQueue]
+    ),
+    allow.mainnet.etherfi.atomicQueue.updateAtomicRequest(
+      liquidETH,
+      c.or(eETH, weETH)
+    ),
+    // ether.fi - Market-Neutral USD Vault - Deposit
+    allowErc20Approve(
+      [DAI, USDC, USDT],
+      [liquidUSD]
+    ),
+    allow.mainnet.etherfi.marketNeutralUsdVaultTeller.deposit(
+      c.or(DAI, USDC, USDT)
+    ),
+    // ether.fi - Market-Neutral USD Vault - Withdraw
+    // https://help.ether.fi/en/articles/284654-how-to-withdraw-from-liquid-vaults
+    allowErc20Approve(
+      [liquidUSD],
+      [contracts.mainnet.etherfi.atomicQueue]
+    ),
+    allow.mainnet.etherfi.atomicQueue.updateAtomicRequest(
+      liquidUSD,
+      c.or(DAI, USDC, USDT)
+    ),
 
     // Kelp - Stake/Unstake ETH, ETHx and stETH
     allow.mainnet.kelp.lrtDepositPool.depositETH(undefined, undefined, {
@@ -297,6 +349,12 @@ export default (parameters: Parameters) =>
     // Opt into yield
     allow.mainnet.origin.oEth.rebaseOptIn(),
 
+    // Resolv - USR Staking/Unstaking
+    allowErc20Approve([USR], [contracts.mainnet.resolv.wstUsr]),
+    allow.mainnet.resolv.wstUsr["deposit(uint256)"](),
+    allowErc20Approve([stUSR], [contracts.mainnet.resolv.wstUsr]),
+    allow.mainnet.resolv.wstUsr["redeem(uint256)"](),
+
     // Uniswap v3 - ETHx + wstETH
     allow.mainnet.uniswapV3.positionsNft.createAndInitializePoolIfNecessary(
       c.or(ETHx, wstETH),
@@ -313,7 +371,11 @@ export default (parameters: Parameters) =>
      *********************************************/
     // DAI -> XDAI - Gnosis Bridge
     allowErc20Approve([DAI], [contracts.mainnet.gnosisBridge.xdaiUsdsBridge]),
-    allow.mainnet.gnosisBridge.xdaiUsdsBridge.relayTokens(DAI, gnosisDaoIaGno),
+    // Destinations: gnosisDaoIaGno, gnosisDaoLmGno and gnosisDaoLpGno
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.relayTokens(
+      DAI,
+      c.or(gnosisDaoIaGno, gnosisDaoLmGno, gnosisDaoLpGno)
+    ),
     // Claim bridged XDAI from Gnosis
     allow.mainnet.gnosisBridge.xdaiUsdsBridge.executeSignatures(
       c.and(
@@ -349,6 +411,31 @@ export default (parameters: Parameters) =>
     allow.mainnet.gnosisBridge.wethOmnibridgeRouter[
       "wrapAndRelayTokens(address)"
     ](gnosisDaoIaGno, { send: true }),
+
+    // GHO - Chainlink - transporter.io
+    allowErc20Approve([GHO], [contracts.mainnet.chainlink.router]),
+    allow.mainnet.chainlink.router.ccipSend(
+      "465200170687744372", // https://docs.chain.link/ccip/directory/mainnet/chain/xdai-mainnet
+      {
+        receiver: c.or("0x" + gnosisDaoLmGno.slice(2).padStart(64, "0"), "0x" + gnosisDaoLpGno.slice(2).padStart(64, "0")),
+        data: "0x",
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#evmtokenamount
+        tokenAmounts: c.matches([
+          {
+            token: GHO,
+            amount: undefined,
+          },
+        ]),
+        feeToken: zeroAddress,
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#generic_extra_args_v2_tag
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#genericextraargsv2
+        extraArgs:
+          "0x181dcf1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001",
+      },
+      {
+        send: true,
+      }
+    ),
 
     // GNO - Gnosis Bridge
     allowErc20Approve([GNO], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
@@ -544,11 +631,16 @@ export default (parameters: Parameters) =>
 
     // USDC -> USDC.e - Gnosis Bridge
     allowErc20Approve([USDC], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
+    // Destinations: gnosisDaoIaGno, gnosisDaoLmGno, gnosisDaoLpGno
     allow.mainnet.gnosisBridge.gnoOmnibridge.relayTokensAndCall(
       USDC,
       contracts.gnosis.gnosisBridge.usdcTransmuter,
       undefined,
-      "0x" + gnosisDaoIaGno.slice(2).padStart(64, "0")
+      c.or(
+        "0x" + gnosisDaoIaGno.slice(2).padStart(64, "0"),
+        "0x" + gnosisDaoLmGno.slice(2).padStart(64, "0"),
+        "0x" + gnosisDaoLpGno.slice(2).padStart(64, "0"),
+      )
     ),
     // Claim bridged USDC from Gnosis
     allow.mainnet.gnosisBridge.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
@@ -835,9 +927,10 @@ export default (parameters: Parameters) =>
 
     // WETH - Gnosis Bridge
     allowErc20Approve([WETH], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
+    // Destinations: gnosisDaoIaGno, gnosisDaoLmGno, gnosisDaoLpGno
     allow.mainnet.gnosisBridge.gnoOmnibridge[
       "relayTokens(address,address,uint256)"
-    ](WETH, gnosisDaoIaGno),
+    ](WETH, c.or(gnosisDaoIaGno, gnosisDaoLmGno, gnosisDaoLpGno)),
     // Claim bridged WETH from Gnosis - Gnosis Bridge
     allow.mainnet.gnosisBridge.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
       c.and(
@@ -931,9 +1024,10 @@ export default (parameters: Parameters) =>
 
     // wstETH - Gnosis Bridge
     allowErc20Approve([wstETH], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
+    // Destinations: gnosisDaoIaGno, gnosisDaoLmGno and gnosisDaoLpGno
     allow.mainnet.gnosisBridge.gnoOmnibridge[
       "relayTokens(address,address,uint256)"
-    ](wstETH, gnosisDaoIaGno),
+    ](wstETH, c.or(gnosisDaoIaGno, gnosisDaoLmGno, gnosisDaoLpGno)),
     // Claim bridged wstETH from Gnosis - Gnosis Bridge
     allow.mainnet.gnosisBridge.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
       c.and(

@@ -5,6 +5,7 @@ import {
   DAI,
   eETH,
   GHO,
+  liquidETH,
   SAFE,
   stETH,
   USDC,
@@ -208,21 +209,22 @@ export default (parameters: Parameters) =>
     ),
 
     // ether.fi
-    // ether.fi - Liquid ETH - Deposit
+    // ether.fi - Liquid ETH Yield Vault - Deposit
     ...allowErc20Approve(
       [eETH, weETH, WETH],
-      [contracts.mainnet.etherfi.liquidEth]
+      [liquidETH]
     ),
-    allow.mainnet.etherfi.tellerWithMultiAssetSupport.deposit(
+    allow.mainnet.etherfi.liquidEthYieldVaultTeller.deposit(
       c.or(eETH, weETH, WETH)
     ),
-    // ether.fi - Liquid ETH - Withdraw
+    // ether.fi - Liquid ETH Yield Vault - Withdraw
+    // https://help.ether.fi/en/articles/284654-how-to-withdraw-from-liquid-vaults
     ...allowErc20Approve(
-      [contracts.mainnet.etherfi.liquidEth],
+      [liquidETH],
       [contracts.mainnet.etherfi.atomicQueue]
     ),
     allow.mainnet.etherfi.atomicQueue.updateAtomicRequest(
-      contracts.mainnet.etherfi.liquidEth,
+      liquidETH,
       c.or(eETH, weETH)
     ),
     // ether.fi - EigenLayer Restaking

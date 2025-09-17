@@ -1,6 +1,6 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { eETH, weETH, aura, balancerV2, convex } from "@/addresses/eth"
+import { eETH, liquidETH, weETH, aura, balancerV2, convex } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
@@ -43,13 +43,14 @@ export default [
   allow.mainnet.curve.ankrCrvPool.remove_liquidity_one_coin(),
   allow.mainnet.curve.ankrCrvGauge.withdraw(),
 
-  // ether.fi - Liquid ETH
+  // ether.fi - Liquid ETH Yield Vault
+  // https://help.ether.fi/en/articles/284654-how-to-withdraw-from-liquid-vaults
   ...allowErc20Approve(
-    [contracts.mainnet.etherfi.liquidEth],
+    [liquidETH],
     [contracts.mainnet.etherfi.atomicQueue]
   ),
   allow.mainnet.etherfi.atomicQueue.updateAtomicRequest(
-    contracts.mainnet.etherfi.liquidEth,
+    liquidETH,
     c.or(eETH, weETH)
   ),
 

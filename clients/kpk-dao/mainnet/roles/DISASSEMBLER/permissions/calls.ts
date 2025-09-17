@@ -3,6 +3,7 @@ import { allow } from "zodiac-roles-sdk/kit"
 import {
   eETH,
   GHO,
+  liquidETH,
   USDC,
   weETH,
   aura,
@@ -79,13 +80,14 @@ export default [
   ](),
   allow.mainnet.curve.btcGhoEthGauge["withdraw(uint256)"](),
 
-  // ether.fi - Liquid ETH - Withdraw
+  // ether.fi - Liquid ETH Yield Vault - Withdraw
+  // https://help.ether.fi/en/articles/284654-how-to-withdraw-from-liquid-vaults
   ...allowErc20Approve(
-    [contracts.mainnet.etherfi.liquidEth],
+    [liquidETH],
     [contracts.mainnet.etherfi.atomicQueue]
   ),
   allow.mainnet.etherfi.atomicQueue.updateAtomicRequest(
-    contracts.mainnet.etherfi.liquidEth,
+    liquidETH,
     c.or(eETH, weETH)
   ),
   // ether.fi - EigenLayer Restaking

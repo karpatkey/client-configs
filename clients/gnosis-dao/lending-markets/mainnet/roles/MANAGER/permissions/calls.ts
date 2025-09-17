@@ -31,6 +31,7 @@ import {
   gnosisDaoLmEth,
   gnosisDaoIaGno,
   gnosisDaoLmGno,
+  gnosisDaoLpGno,
 } from "../../../../../addresses"
 import { Parameters } from "../../../../../parameters"
 
@@ -248,10 +249,10 @@ export default (parameters: Parameters) =>
      *********************************************/
     // DAI -> XDAI - Gnosis Bridge
     allowErc20Approve([DAI], [contracts.mainnet.gnosisBridge.xdaiUsdsBridge]),
-    // Destinations: gnosisDaoIaGno and gnosisDaoLmGno
+    // Destinations: gnosisDaoIaGno, gnosisDaoLmGno and gnosisDaoLpGno
     allow.mainnet.gnosisBridge.xdaiUsdsBridge.relayTokens(
       DAI,
-      c.or(gnosisDaoIaGno, gnosisDaoLmGno)
+      c.or(gnosisDaoIaGno, gnosisDaoLmGno, gnosisDaoLpGno)
     ),
     // Claim bridged XDAI from Gnosis
     allow.mainnet.gnosisBridge.xdaiUsdsBridge.executeSignatures(
@@ -294,7 +295,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.chainlink.router.ccipSend(
       "465200170687744372", // https://docs.chain.link/ccip/directory/mainnet/chain/xdai-mainnet
       {
-        receiver: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
+        receiver: c.or("0x" + gnosisDaoLmGno.slice(2).padStart(64, "0"), "0x" + gnosisDaoLpGno.slice(2).padStart(64, "0")),
         data: "0x",
         // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#evmtokenamount
         tokenAmounts: c.matches([
@@ -508,14 +509,15 @@ export default (parameters: Parameters) =>
 
     // USDC -> USDC.e - Gnosis Bridge
     allowErc20Approve([USDC], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
-    // Destinations: gnosisDaoIaGno and gnosisDaoLmGno
+    // Destinations: gnosisDaoIaGno, gnosisDaoLmGno, gnosisDaoLpGno
     allow.mainnet.gnosisBridge.gnoOmnibridge.relayTokensAndCall(
       USDC,
       contracts.gnosis.gnosisBridge.usdcTransmuter,
       undefined,
       c.or(
         "0x" + gnosisDaoIaGno.slice(2).padStart(64, "0"),
-        "0x" + gnosisDaoLmGno.slice(2).padStart(64, "0")
+        "0x" + gnosisDaoLmGno.slice(2).padStart(64, "0"),
+        "0x" + gnosisDaoLpGno.slice(2).padStart(64, "0"),
       )
     ),
     // Claim bridged USDC from Gnosis
@@ -803,10 +805,10 @@ export default (parameters: Parameters) =>
 
     // WETH - Gnosis Bridge
     allowErc20Approve([WETH], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
-    // Destinations: gnosisDaoIaGno and gnosisDaoLmGno
+    // Destinations: gnosisDaoIaGno, gnosisDaoLmGno, gnosisDaoLpGno
     allow.mainnet.gnosisBridge.gnoOmnibridge[
       "relayTokens(address,address,uint256)"
-    ](WETH, c.or(gnosisDaoIaGno, gnosisDaoLmGno)),
+    ](WETH, c.or(gnosisDaoIaGno, gnosisDaoLmGno, gnosisDaoLpGno)),
     // Claim bridged WETH from Gnosis - Gnosis Bridge
     allow.mainnet.gnosisBridge.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
       c.and(
@@ -900,10 +902,10 @@ export default (parameters: Parameters) =>
 
     // wstETH - Gnosis Bridge
     allowErc20Approve([wstETH], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
-    // Destinations: gnosisDaoIaGno and gnosisDaoLmGno
+    // Destinations: gnosisDaoIaGno, gnosisDaoLmGno and gnosisDaoLpGno
     allow.mainnet.gnosisBridge.gnoOmnibridge[
       "relayTokens(address,address,uint256)"
-    ](wstETH, c.or(gnosisDaoIaGno, gnosisDaoLmGno)),
+    ](wstETH, c.or(gnosisDaoIaGno, gnosisDaoLmGno, gnosisDaoLpGno)),
     // Claim bridged wstETH from Gnosis - Gnosis Bridge
     allow.mainnet.gnosisBridge.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
       c.and(

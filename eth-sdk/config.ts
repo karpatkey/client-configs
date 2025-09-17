@@ -108,11 +108,10 @@ export const contracts = {
       sEna: "0x8bE3460A480c80728a8C4D7a5D5303c85ba7B3b9",
     },
     etherfi: {
-      liquidEth: "0xf0bb20865277aBd641a307eCe5Ee04E79073416C",
-      tellerWithMultiAssetSupport: "0x5c135e8eC99557b412b9B4492510dCfBD36066F5",
+      liquidEthYieldVaultTeller: "0x9AA79C84b79816ab920bBcE20f8f74557B514734",
+      marketNeutralUsdVaultTeller: "0x4DE413a26fC24c3FC27Cc983be70aA9c5C299387",
       atomicQueue: "0xD45884B592E316eB816199615A95C182F75dea07",
       depositAdapter: "0xcfC6d9Bd7411962Bfe7145451A7EF71A24b6A7A2",
-      eEth: "0x35fA164735182de50811E8e2E824cFb9B6118ac2",
       weEth: "0xCd5fE23C85820F7B72D0926FC9b05b43E359b7ee",
       liquidityPool: "0x308861A430be4cce5502d0A12724771Fc6DaF216",
       withdrawRequestNft: "0x7d5706f6ef3F89B3951E23e557CDFBC3239D4E2c",
@@ -129,6 +128,7 @@ export const contracts = {
     kelp: {
       lrtDepositPool: "0x036676389e48133B63a802f8635AD39E752D375D",
       lrtWithdrawalManager: "0x62De59c08eB5dAE4b7E6F7a8cAd3006d6965ec16",
+      hgEthAdapter: "0xB185D98056419029daE7120EcBeFa0DbC12c283A",
     },
     lido: {
       ...deFiKitContracts.mainnet.lido,
@@ -180,7 +180,7 @@ export const contracts = {
       ethoriaVault: "0x5FE4B38520e856921978715C8579D2D7a4d2274F",
     },
     resolv: {
-      stUsr: "0x6c8984bc7DBBeDAf4F6b2FD766f16eBB7d10AAb4",
+      wstUsr: "0x1202F5C7b4B9E47a1A484E8B270be34dbbC75055",
     },
     sablier: {
       v2LockUpDyn: "0x7CC7e125d83A581ff438608490Cc0f7bDff79127",

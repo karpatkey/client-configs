@@ -2,22 +2,11 @@ import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import {
   ankrETH,
-  AURA,
-  BAL,
-  cbETH,
-  CRV,
-  CVX,
   eETH,
-  ETHFI,
   ETHx,
-  osETH,
-  rETH,
-  RPL,
-  stETH,
-  SWISE,
+  liquidETH,
   weETH,
   WETH,
-  wstETH,
   curve,
 } from "@/addresses/eth"
 import { zeroAddress, eAddress } from "@/addresses"
@@ -91,21 +80,22 @@ export default [
     { send: true }
   ),
 
-  // ether.fi - Liquid ETH - Deposit
+  // ether.fi - Liquid ETH Yield Vault - Deposit
   ...allowErc20Approve(
     [eETH, weETH, WETH],
-    [contracts.mainnet.etherfi.liquidEth]
+    [liquidETH]
   ),
-  allow.mainnet.etherfi.tellerWithMultiAssetSupport.deposit(
+  allow.mainnet.etherfi.liquidEthYieldVaultTeller.deposit(
     c.or(eETH, weETH, WETH)
   ),
-  // ether.fi - Liquid ETH - Withdraw
+  // ether.fi - Liquid ETH Yield Vault - Withdraw
+  // https://help.ether.fi/en/articles/284654-how-to-withdraw-from-liquid-vaults
   ...allowErc20Approve(
-    [contracts.mainnet.etherfi.liquidEth],
+    [liquidETH],
     [contracts.mainnet.etherfi.atomicQueue]
   ),
   allow.mainnet.etherfi.atomicQueue.updateAtomicRequest(
-    contracts.mainnet.etherfi.liquidEth,
+    liquidETH,
     c.or(eETH, weETH)
   ),
 ] satisfies PermissionList
