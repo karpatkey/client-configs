@@ -49,7 +49,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.compoundV3.cometRewards.claim(undefined, c.avatar),
 
     // Curve - ETH/OETH
-    ...allowErc20Approve([OETH], [contracts.mainnet.curve.oEthCrvPool]),
+    allowErc20Approve([OETH], [contracts.mainnet.curve.oEthCrvPool]),
     allow.mainnet.curve.oEthCrvPool["add_liquidity(uint256[2],uint256)"](
       undefined,
       undefined,
@@ -64,7 +64,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.curve.oEthCrvPool[
       "remove_liquidity_one_coin(uint256,int128,uint256)"
     ](),
-    ...allowErc20Approve(
+    allowErc20Approve(
       [contracts.mainnet.curve.oEthCrvPool],
       [contracts.mainnet.curve.oEthCrvGauge]
     ),
@@ -74,7 +74,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.oEthCrvGauge),
 
     // Curve - Deposit and Stake using a special ZAP
-    ...allowErc20Approve([OETH], [contracts.mainnet.curve.stakeDepositZap]),
+    allowErc20Approve([OETH], [contracts.mainnet.curve.stakeDepositZap]),
     allow.mainnet.curve.stakeDepositZap[
       "deposit_and_stake(address,address,address,uint256,address[],uint256[],uint256,bool,bool,address)"
     ](
@@ -92,7 +92,7 @@ export default (parameters: Parameters) =>
     ),
 
     // Gyroscope - Staking/Unstaking GYD
-    ...allowErc20Approve([GYD], [contracts.mainnet.gyroscope.sGyd]),
+    allowErc20Approve([GYD], [contracts.mainnet.gyroscope.sGyd]),
     allow.mainnet.gyroscope.sGyd.deposit(undefined, c.avatar),
     allow.mainnet.gyroscope.sGyd.redeem(undefined, c.avatar, c.avatar),
 
@@ -244,7 +244,7 @@ export default (parameters: Parameters) =>
      * Bridge
      *********************************************/
     // DAI (Mainnet) -> XDAI (Gnosis)
-    ...allowErc20Approve(
+    allowErc20Approve(
       [DAI],
       [contracts.mainnet.gnosisBridge.xdaiUsdsBridge]
     ),
@@ -281,7 +281,7 @@ export default (parameters: Parameters) =>
     ),
 
     // GNO (Mainnet) -> GNO (Gnosis)
-    ...allowErc20Approve([GNO], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
+    allowErc20Approve([GNO], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
     allow.mainnet.gnosisBridge.gnoOmnibridge[
       "relayTokens(address,address,uint256)"
     ](GNO, c.avatar),

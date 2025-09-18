@@ -47,7 +47,7 @@ export default [
   // Aave v3 Core Market - Withdraw wstETH
   allow.mainnet.aaveV3.poolCoreV3.withdraw(wstETH, undefined, c.avatar),
   // Aave v3 - Repay GHO
-  ...allowErc20Approve([GHO], [contracts.mainnet.aaveV3.poolCoreV3]),
+  allowErc20Approve([GHO], [contracts.mainnet.aaveV3.poolCoreV3]),
   allow.mainnet.aaveV3.poolCoreV3.repay(GHO, undefined, undefined, c.avatar),
 
   // Compound v3 - Withdraw USDC
@@ -96,7 +96,7 @@ export default [
   allow.mainnet.spark.sDai.redeem(undefined, c.avatar, c.avatar),
   allow.mainnet.spark.sDai.withdraw(undefined, c.avatar, c.avatar),
   // Spark - SKY_USDS
-  ...allowErc20Approve([USDS], [contracts.mainnet.spark.migrationActions]),
+  allowErc20Approve([USDS], [contracts.mainnet.spark.migrationActions]),
   allow.mainnet.spark.migrationActions.downgradeUSDSToDAI(c.avatar),
   allow.mainnet.spark.sUsds.redeem(undefined, c.avatar, c.avatar),
   allow.mainnet.spark.sUsds.withdraw(undefined, c.avatar, c.avatar),

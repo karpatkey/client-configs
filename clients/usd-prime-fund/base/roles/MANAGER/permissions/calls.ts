@@ -13,7 +13,7 @@ export default (parameters: Parameters) =>
      *********************************************/
 
     // Morpho Blue - cbBTC/USDC
-    ...allowErc20Approve([USDC], [contracts.mainnet.morpho.morphoBlue]),
+    allowErc20Approve([USDC], [contracts.mainnet.morpho.morphoBlue]),
     allow.mainnet.morpho.morphoBlue.supply(
       {
         loanToken: USDC,
@@ -74,7 +74,7 @@ export default (parameters: Parameters) =>
      *********************************************/
 
     // USDC (Base) -> USDC (Mainnet) - stargate
-    ...allowErc20Approve([USDC], [contracts.base.stargate.poolUsdc]),
+    allowErc20Approve([USDC], [contracts.base.stargate.poolUsdc]),
     allow.base.stargate.poolUsdc.send(
       {
         dstEid: "30101", // Mainnet chain ID

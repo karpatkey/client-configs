@@ -7,7 +7,7 @@ import { PermissionList } from "@/types"
 
 export default [
   // Morpho Blue - cbETH/USDC
-  ...allowErc20Approve([USDC], [contracts.mainnet.morpho.morphoBlue]),
+  allowErc20Approve([USDC], [contracts.mainnet.morpho.morphoBlue]),
   allow.mainnet.morpho.morphoBlue.supply(
     {
       loanToken: USDC,
@@ -40,7 +40,7 @@ export default [
    *********************************************/
   // Base -> Mainnet
   // USDC - HOP
-  ...allowErc20Approve([USDC], [contracts.base.hop.l2HopCctp]),
+  allowErc20Approve([USDC], [contracts.base.hop.l2HopCctp]),
   allow.base.hop.l2HopCctp.send(
     1, // Mainnet
     c.avatar

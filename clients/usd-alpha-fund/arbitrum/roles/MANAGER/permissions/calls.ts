@@ -9,7 +9,7 @@ import { balancerV2Swap } from "@/exit_strategies/balancerV2"
 
 export default [
   // Compound v3 - Deposit USDC
-  ...allowErc20Approve([USDC], [contracts.arbitrumOne.compoundV3.cUsdcV3]),
+  allowErc20Approve([USDC], [contracts.arbitrumOne.compoundV3.cUsdcV3]),
   allow.arbitrumOne.compoundV3.cUsdcV3.supply(USDC),
   allow.arbitrumOne.compoundV3.cUsdcV3.withdraw(USDC),
   // Compound v3 - Claim rewards
@@ -31,7 +31,7 @@ export default [
   balancerV2Swap(balancer.b4PoolPid, [DAI, USDC, USDCe], [DAI, USDC, USDCe]),
 
   // Uniswap v3 - [DAI, USDC, USDC.e] <-> [DAI, USDC, USDC.e]
-  ...allowErc20Approve(
+  allowErc20Approve(
     [DAI, USDC, USDCe],
     [contracts.mainnet.uniswapV3.router2]
   ),
@@ -46,7 +46,7 @@ export default [
    *********************************************/
   // Arbitrum -> Mainnet
   // DAI - Arbitrum Bridge
-  ...allowErc20Approve(
+  allowErc20Approve(
     [DAI],
     [contracts.arbitrumOne.arbitrumBridge.gatewayRouter]
   ),
@@ -54,14 +54,14 @@ export default [
     "outboundTransfer(address,address,uint256,bytes)"
   ](DAI_eth, c.avatar, undefined, "0x"),
   // DAI - HOP
-  ...allowErc20Approve([DAI], [contracts.arbitrumOne.hop.hopDaiWrapper]),
+  allowErc20Approve([DAI], [contracts.arbitrumOne.hop.hopDaiWrapper]),
   allow.arbitrumOne.hop.hopDaiWrapper.swapAndSend(
     1, // Mainnet
     c.avatar
   ),
 
   // COMP - Arbitrum Bridge
-  ...allowErc20Approve(
+  allowErc20Approve(
     [COMP],
     [contracts.arbitrumOne.arbitrumBridge.gatewayRouter]
   ),
@@ -70,7 +70,7 @@ export default [
   ](COMP_eth, c.avatar, undefined, "0x"),
 
   // USDC (Arbitrum) -> USDC (Mainnet) - HOP
-  ...allowErc20Approve([USDC], [contracts.arbitrumOne.hop.l2HopCctp]),
+  allowErc20Approve([USDC], [contracts.arbitrumOne.hop.l2HopCctp]),
   allow.arbitrumOne.hop.l2HopCctp.send(
     1, // Mainnet
     c.avatar

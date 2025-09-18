@@ -15,14 +15,14 @@ export default [
   ),
 
   // Curve - DAI <-> USDC.e
-  ...allowErc20Approve([DAI, USDCe], [contracts.optimism.curve.x3CrvPool]),
+  allowErc20Approve([DAI, USDCe], [contracts.optimism.curve.x3CrvPool]),
   allow.optimism.curve.x3CrvPool["exchange(int128,int128,uint256,uint256)"](
     c.or(0, 1), // 0 = DAI, 1 = USDC.e
     c.or(0, 1)
   ),
 
   // Curve - crvUSDC <-> USDC
-  ...allowErc20Approve(
+  allowErc20Approve(
     [crvUSD, USDC],
     [contracts.optimism.curve.crvUsdUsdcPool]
   ),
@@ -34,7 +34,7 @@ export default [
   ),
 
   // Curve - crvUSDC <-> USDC.e
-  ...allowErc20Approve(
+  allowErc20Approve(
     [crvUSD, USDCe],
     [contracts.optimism.curve.crvUsdUsdcePool]
   ),
@@ -46,7 +46,7 @@ export default [
   ),
 
   // Curve - DAI <-> USDC.e
-  ...allowErc20Approve([DAI, USDCe], [contracts.optimism.curve.sUsd3CrvPool]),
+  allowErc20Approve([DAI, USDCe], [contracts.optimism.curve.sUsd3CrvPool]),
   allow.optimism.curve.sUsd3CrvPool[
     "exchange_underlying(int128,int128,uint256,uint256)"
   ](

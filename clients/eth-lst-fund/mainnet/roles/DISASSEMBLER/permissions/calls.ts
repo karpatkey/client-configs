@@ -52,7 +52,7 @@ export default [
 
   // ether.fi - Liquid ETH Yield Vault
   // https://help.ether.fi/en/articles/284654-how-to-withdraw-from-liquid-vaults
-  ...allowErc20Approve([liquidETH], [contracts.mainnet.etherfi.atomicQueue]),
+  allowErc20Approve([liquidETH], [contracts.mainnet.etherfi.atomicQueue]),
   allow.mainnet.etherfi.atomicQueue.updateAtomicRequest(
     liquidETH,
     c.or(eETH, weETH)

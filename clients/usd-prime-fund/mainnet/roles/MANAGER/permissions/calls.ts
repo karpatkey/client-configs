@@ -29,7 +29,7 @@ export default (parameters: Parameters) =>
     ),
 
     // Morpho Blue - wstETH/USDC
-    ...allowErc20Approve([USDC], [contracts.mainnet.morpho.morphoBlue]),
+    allowErc20Approve([USDC], [contracts.mainnet.morpho.morphoBlue]),
     allow.mainnet.morpho.morphoBlue.supply(
       {
         loanToken: USDC,
@@ -87,7 +87,7 @@ export default (parameters: Parameters) =>
     ),
 
     // Morpho Blue - sUSDS/USDT
-    ...allowErc20Approve([sUSDS, USDT], [contracts.mainnet.morpho.morphoBlue]),
+    allowErc20Approve([sUSDS, USDT], [contracts.mainnet.morpho.morphoBlue]),
     allow.mainnet.morpho.morphoBlue.supply(
       {
         loanToken: USDT,
@@ -280,7 +280,7 @@ export default (parameters: Parameters) =>
      *********************************************/
     // Mainnet -> Gnosis
     // USDS -> XDAI - Gnosis Bridge
-    ...allowErc20Approve(
+    allowErc20Approve(
       [USDS],
       [contracts.mainnet.gnosisBridge.xdaiUsdsBridge]
     ),
@@ -317,7 +317,7 @@ export default (parameters: Parameters) =>
     ),
 
     // USDC -> USDC.e - Gnosis Bridge
-    ...allowErc20Approve(
+    allowErc20Approve(
       [USDC],
       [contracts.mainnet.gnosisBridge.gnoOmnibridge]
     ),
@@ -436,7 +436,7 @@ export default (parameters: Parameters) =>
 
     // Mainnet -> Arbitrum
     // USDC - Stargate
-    ...allowErc20Approve([USDC], [contracts.mainnet.stargate.poolUsdc]),
+    allowErc20Approve([USDC], [contracts.mainnet.stargate.poolUsdc]),
     allow.mainnet.stargate.poolUsdc.send(
       {
         dstEid: "30110", // Arbitrum chain ID
@@ -506,7 +506,7 @@ export default (parameters: Parameters) =>
     ),
 
     // USDT - Stargate
-    ...allowErc20Approve([USDT], [contracts.mainnet.stargate.poolUsdt]),
+    allowErc20Approve([USDT], [contracts.mainnet.stargate.poolUsdt]),
     {
       ...allow.mainnet.stargate.poolUsdc.send(
         {

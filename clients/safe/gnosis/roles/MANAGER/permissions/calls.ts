@@ -24,7 +24,7 @@ export default (parameters: Parameters) =>
     allow.gnosis.wxdai.withdraw(),
 
     // Balancer v2 - BCoW 50GNO/50SAFE (Staking not available)
-    ...allowErc20Approve(
+    allowErc20Approve(
       [GNO, SAFE],
       [contracts.gnosis.balancerV2.bCow50Gno50Safe]
     ),
@@ -32,7 +32,7 @@ export default (parameters: Parameters) =>
     allow.gnosis.balancerV2.bCow50Gno50Safe.exitPool(),
 
     // Balancer v3 - Aave Lido Boosted WETH/wstETH
-    ...allowErc20Approve([WETH, wstETH], [contracts.gnosis.uniswap.permit2]),
+    allowErc20Approve([WETH, wstETH], [contracts.gnosis.uniswap.permit2]),
     allow.gnosis.uniswap.permit2.approve(
       c.or(WETH, wstETH),
       contracts.gnosis.balancerV3.compositeLiquidityRouter
@@ -43,14 +43,14 @@ export default (parameters: Parameters) =>
     allow.gnosis.balancerV3.compositeLiquidityRouter.addLiquidityProportionalToERC4626Pool(
       contracts.gnosis.balancerV3.aaveLidoWethWstEth
     ),
-    ...allowErc20Approve(
+    allowErc20Approve(
       [contracts.gnosis.balancerV3.aaveLidoWethWstEth],
       [contracts.gnosis.balancerV3.compositeLiquidityRouter]
     ),
     allow.gnosis.balancerV3.compositeLiquidityRouter.removeLiquidityProportionalFromERC4626Pool(
       contracts.gnosis.balancerV3.aaveLidoWethWstEth
     ),
-    ...allowErc20Approve(
+    allowErc20Approve(
       [contracts.gnosis.balancerV3.aaveLidoWethWstEth],
       [contracts.gnosis.balancerV3.aaveLidoWethWstEthGauge]
     ),
@@ -62,7 +62,7 @@ export default (parameters: Parameters) =>
     ),
 
     // Balancer v3 - Aave Lido Boosted 50waWstETH/50waGNO
-    ...allowErc20Approve([wstETH, GNO], [contracts.gnosis.uniswap.permit2]),
+    allowErc20Approve([wstETH, GNO], [contracts.gnosis.uniswap.permit2]),
     allow.gnosis.uniswap.permit2.approve(
       c.or(wstETH, GNO),
       contracts.gnosis.balancerV3.compositeLiquidityRouter
@@ -73,14 +73,14 @@ export default (parameters: Parameters) =>
     allow.gnosis.balancerV3.compositeLiquidityRouter.addLiquidityProportionalToERC4626Pool(
       contracts.gnosis.balancerV3.aaveLido50WstEth50Gno
     ),
-    ...allowErc20Approve(
+    allowErc20Approve(
       [contracts.gnosis.balancerV3.aaveLido50WstEth50Gno],
       [contracts.gnosis.balancerV3.compositeLiquidityRouter]
     ),
     allow.gnosis.balancerV3.compositeLiquidityRouter.removeLiquidityProportionalFromERC4626Pool(
       contracts.gnosis.balancerV3.aaveLido50WstEth50Gno
     ),
-    ...allowErc20Approve(
+    allowErc20Approve(
       [contracts.gnosis.balancerV3.aaveLido50WstEth50Gno],
       [contracts.gnosis.balancerV3.aaveLido50WstEth50GnoGauge]
     ),
@@ -95,13 +95,13 @@ export default (parameters: Parameters) =>
      * Swaps
      *********************************************/
     // Swap USDC.e -> USDC
-    ...allowErc20Approve(
+    allowErc20Approve(
       [USDCe],
       [contracts.gnosis.gnosisBridge.usdcTransmuter]
     ),
     allow.gnosis.gnosisBridge.usdcTransmuter.withdraw(),
     // Swap USDC -> USDC.e
-    ...allowErc20Approve(
+    allowErc20Approve(
       [USDC],
       [contracts.gnosis.gnosisBridge.usdcTransmuter]
     ),

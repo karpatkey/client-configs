@@ -19,7 +19,7 @@ export default (parameters: Parameters) =>
     // Create Long/Short Market/Limit Orders
     // Increase/Decrease Collateral on an open position
     // Settle Funding Fees
-    ...allowErc20Approve([USDC], [...gmx.exchangeRouters]),
+    allowErc20Approve([USDC], [...gmx.exchangeRouters]),
     // This is the only function within multicall that receives ETH
     // It's called in all cases
     ...gmx.exchangeRouters.map((exchangeRouter) => ({
@@ -96,7 +96,7 @@ export default (parameters: Parameters) =>
     ),
 
     // USDC - HOP
-    ...allowErc20Approve([USDC], [contracts.arbitrumOne.hop.l2HopCctp]),
+    allowErc20Approve([USDC], [contracts.arbitrumOne.hop.l2HopCctp]),
     allow.arbitrumOne.hop.l2HopCctp.send(
       1, // Mainnet
       c.avatar

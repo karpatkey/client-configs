@@ -37,7 +37,7 @@ export default (parameters: Parameters) =>
      *********************************************/
     // Mainnet -> Gnosis
     // USDC -> USDC.e - Gnosis Bridge
-    ...allowErc20Approve(
+    allowErc20Approve(
       [USDC],
       [contracts.mainnet.gnosisBridge.gnoOmnibridge]
     ),
@@ -183,7 +183,7 @@ export default (parameters: Parameters) =>
     ),
 
     // USDC - HOP
-    ...allowErc20Approve([USDC], [contracts.mainnet.hop.l1HopCctp]),
+    allowErc20Approve([USDC], [contracts.mainnet.hop.l1HopCctp]),
     allow.mainnet.hop.l1HopCctp.send(
       42161, // Arbitrum
       c.avatar

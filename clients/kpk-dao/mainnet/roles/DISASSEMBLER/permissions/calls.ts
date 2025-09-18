@@ -82,14 +82,14 @@ export default [
 
   // ether.fi - Liquid ETH Yield Vault - Withdraw
   // https://help.ether.fi/en/articles/284654-how-to-withdraw-from-liquid-vaults
-  ...allowErc20Approve([liquidETH], [contracts.mainnet.etherfi.atomicQueue]),
+  allowErc20Approve([liquidETH], [contracts.mainnet.etherfi.atomicQueue]),
   allow.mainnet.etherfi.atomicQueue.updateAtomicRequest(
     liquidETH,
     c.or(eETH, weETH)
   ),
   // ether.fi - EigenLayer Restaking
   // Request Withdrawal - A Withdraw Request NFT is issued
-  ...allowErc20Approve([eETH], [contracts.mainnet.etherfi.liquidityPool]),
+  allowErc20Approve([eETH], [contracts.mainnet.etherfi.liquidityPool]),
   allow.mainnet.etherfi.liquidityPool.requestWithdraw(c.avatar),
   // Funds can be claimed once the request is finalized
   allow.mainnet.etherfi.withdrawRequestNft.claimWithdraw(),

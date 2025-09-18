@@ -18,7 +18,7 @@ export default [
   }),
 
   // Uniswap v3 - [DAI, USDC, USDC.e] <-> [DAI, USDC, USDC.e]
-  ...allowErc20Approve(
+  allowErc20Approve(
     [DAI, USDC, USDCe],
     [contracts.mainnet.uniswapV3.router2]
   ),

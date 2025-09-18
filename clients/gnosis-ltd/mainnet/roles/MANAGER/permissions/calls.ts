@@ -172,7 +172,7 @@ export default (parameters: Parameters) =>
     ),
 
     // DAI -> XDAI - Gnosis Bridge
-    ...allowErc20Approve(
+    allowErc20Approve(
       [DAI],
       [contracts.mainnet.gnosisBridge.xdaiUsdsBridge]
     ),
@@ -406,7 +406,7 @@ export default (parameters: Parameters) =>
     ),
 
     // USDC -> USDC.e - Gnosis Bridge
-    ...allowErc20Approve(
+    allowErc20Approve(
       [USDC],
       [contracts.mainnet.gnosisBridge.gnoOmnibridge]
     ),

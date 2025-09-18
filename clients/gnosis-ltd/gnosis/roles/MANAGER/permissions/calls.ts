@@ -30,14 +30,14 @@ export default [
   allow.gnosis.wxdai["withdraw"](),
 
   // Balancer v3 - sDAI/BRLA
-  ...allowErc20Approve([BRLA, sDAI], [contracts.gnosis.uniswap.permit2]),
+  allowErc20Approve([BRLA, sDAI], [contracts.gnosis.uniswap.permit2]),
   allow.gnosis.uniswap.permit2.approve(
     c.or(BRLA, sDAI),
     contracts.gnosis.balancerV3.router
   ),
   allow.gnosis.balancerV3.router.addLiquidityProportional(balancerV3.brlaSdai),
   allow.gnosis.balancerV3.router.addLiquidityUnbalanced(balancerV3.brlaSdai),
-  ...allowErc20Approve(
+  allowErc20Approve(
     [balancerV3.brlaSdai],
     [contracts.gnosis.balancerV3.router]
   ),
@@ -52,13 +52,13 @@ export default [
   allow.gnosis.cowSwap.vCow.swapAll(),
 
   // Curve - EURe/x3CRV
-  ...allowErc20Approve([EURe, x3CRV], [contracts.gnosis.curve.crvEureUsdPool]),
+  allowErc20Approve([EURe, x3CRV], [contracts.gnosis.curve.crvEureUsdPool]),
   allow.gnosis.curve.crvEureUsdPool["add_liquidity(uint256[2],uint256)"](),
   allow.gnosis.curve.crvEureUsdPool["remove_liquidity(uint256,uint256[2])"](),
   allow.gnosis.curve.crvEureUsdPool[
     "remove_liquidity_one_coin(uint256,uint256,uint256)"
   ](),
-  ...allowErc20Approve(
+  allowErc20Approve(
     [EURe, USDC, USDT, WXDAI],
     [contracts.gnosis.curve.crvEureUsdZap]
   ),
@@ -67,7 +67,7 @@ export default [
   allow.gnosis.curve.crvEureUsdZap[
     "remove_liquidity_one_coin(uint256,uint256,uint256)"
   ](),
-  ...allowErc20Approve(
+  allowErc20Approve(
     [curve.crvEureUsd],
     [contracts.gnosis.curve.crvEureUsdGauge]
   ),
@@ -76,12 +76,12 @@ export default [
   allow.gnosis.curve.crvEureUsdGauge["claim_rewards()"](),
 
   // HOP - WXDAI/hDAI Pool
-  ...allowErc20Approve([hDAI, WXDAI], [contracts.gnosis.hop.daiLiquidityPool]),
+  allowErc20Approve([hDAI, WXDAI], [contracts.gnosis.hop.daiLiquidityPool]),
   allow.gnosis.hop.daiLiquidityPool.addLiquidity(),
   allow.gnosis.hop.daiLiquidityPool.removeLiquidity(),
   allow.gnosis.hop.daiLiquidityPool.removeLiquidityImbalance(),
   allow.gnosis.hop.daiLiquidityPool.removeLiquidityOneToken(),
-  ...allowErc20Approve(
+  allowErc20Approve(
     [contracts.gnosis.hop.lpDai],
     [contracts.gnosis.hop.daiRewards2]
   ),
@@ -94,10 +94,10 @@ export default [
    * Swaps
    *********************************************/
   // Swap USDC.e -> USDC
-  ...allowErc20Approve([USDCe], [contracts.gnosis.gnosisBridge.usdcTransmuter]),
+  allowErc20Approve([USDCe], [contracts.gnosis.gnosisBridge.usdcTransmuter]),
   allow.gnosis.gnosisBridge.usdcTransmuter.withdraw(),
   // Swap USDC -> USDC.e
-  ...allowErc20Approve([USDC], [contracts.gnosis.gnosisBridge.usdcTransmuter]),
+  allowErc20Approve([USDC], [contracts.gnosis.gnosisBridge.usdcTransmuter]),
   allow.gnosis.gnosisBridge.usdcTransmuter.deposit(),
 
   /*********************************************

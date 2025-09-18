@@ -13,13 +13,13 @@ export default (parameters: Parameters) =>
     allow.gnosis.wxdai.withdraw(),
 
     // Swap USDC.e -> USDC
-    ...allowErc20Approve(
+    allowErc20Approve(
       [USDCe],
       [contracts.gnosis.gnosisBridge.usdcTransmuter]
     ),
     allow.gnosis.gnosisBridge.usdcTransmuter.withdraw(),
     // Swap USDC -> USDC.e
-    ...allowErc20Approve(
+    allowErc20Approve(
       [USDC],
       [contracts.gnosis.gnosisBridge.usdcTransmuter]
     ),
@@ -43,7 +43,7 @@ export default (parameters: Parameters) =>
     // No claim is required for the USDC bridged from Mainnet via Gnosis Bridge.
 
     // USDC.e -> USDC - Stargate
-    ...allowErc20Approve([USDCe], [contracts.gnosis.stargate.poolUsdc]),
+    allowErc20Approve([USDCe], [contracts.gnosis.stargate.poolUsdc]),
     allow.gnosis.stargate.poolUsdc.send(
       {
         dstEid: "30101", // Mainnet chain ID

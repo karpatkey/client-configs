@@ -7,7 +7,7 @@ import { PermissionList } from "@/types"
 
 export default [
   // Curve - DAI <-> USDC
-  ...allowErc20Approve([DAI, USDC], [contracts.mainnet.curve.x3CrvPool]),
+  allowErc20Approve([DAI, USDC], [contracts.mainnet.curve.x3CrvPool]),
   allow.mainnet.curve.x3CrvPool.exchange(
     c.or(0, 1), // 0 = DAI, 1 = USDC
     c.or(0, 1)

@@ -157,7 +157,7 @@ export default (parameters: Parameters) =>
     ](undefined, undefined, c.avatar),
 
     // Aura - Aave Boosted USDT/GHO/USDC
-    ...allowErc20Approve(
+    allowErc20Approve(
       [balancerV3.aaveGhoUsdtUsdc],
       [contracts.mainnet.aura.booster]
     ),
@@ -176,7 +176,7 @@ export default (parameters: Parameters) =>
     },
 
     // Balancer v2 - BCoW AMM wNXM/WETH (Staking not available)
-    ...allowErc20Approve(
+    allowErc20Approve(
       [wNXM, WETH],
       [contracts.mainnet.balancerV2.bCow50Wnxm50Weth]
     ),
@@ -184,7 +184,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.balancerV2.bCow50Wnxm50Weth.exitPool(),
 
     // Balancer v3 - Aave Boosted USDT/GHO/USDC
-    ...allowErc20Approve(
+    allowErc20Approve(
       [GHO, USDC, USDT],
       [contracts.mainnet.uniswap.permit2]
     ),
@@ -198,14 +198,14 @@ export default (parameters: Parameters) =>
     allow.mainnet.balancerV3.compositeLiquidityRouter.addLiquidityUnbalancedToERC4626Pool(
       balancerV3.aaveGhoUsdtUsdc
     ),
-    ...allowErc20Approve(
+    allowErc20Approve(
       [balancerV3.aaveGhoUsdtUsdc],
       [contracts.mainnet.balancerV3.compositeLiquidityRouter]
     ),
     allow.mainnet.balancerV3.compositeLiquidityRouter.removeLiquidityProportionalFromERC4626Pool(
       balancerV3.aaveGhoUsdtUsdc
     ),
-    ...allowErc20Approve(
+    allowErc20Approve(
       [balancerV3.aaveGhoUsdtUsdc],
       [balancerV3.aaveGhoUsdtUsdcGauge]
     ),
@@ -247,12 +247,12 @@ export default (parameters: Parameters) =>
     ),
 
     // Compound v3 - Deposit USDC
-    ...allowErc20Approve([USDC], [contracts.mainnet.compoundV3.cUsdcV3]),
+    allowErc20Approve([USDC], [contracts.mainnet.compoundV3.cUsdcV3]),
     allow.mainnet.compoundV3.cUsdcV3.supply(USDC),
     allow.mainnet.compoundV3.cUsdcV3.withdraw(USDC),
 
     // Compound v3 - Deposit USDT
-    ...allowErc20Approve([USDT], [contracts.mainnet.compoundV3.cUsdtV3]),
+    allowErc20Approve([USDT], [contracts.mainnet.compoundV3.cUsdtV3]),
     allow.mainnet.compoundV3.cUsdtV3.supply(USDT),
     allow.mainnet.compoundV3.cUsdtV3.withdraw(USDT),
 
@@ -260,14 +260,14 @@ export default (parameters: Parameters) =>
     allow.mainnet.compoundV3.cometRewards.claim(undefined, c.avatar),
 
     // Curve - ETH/stETH - steCRV
-    ...allowErc20Approve([stETH], [contracts.mainnet.curve.steCrvPool]),
+    allowErc20Approve([stETH], [contracts.mainnet.curve.steCrvPool]),
     allow.mainnet.curve.steCrvPool.add_liquidity(undefined, undefined, {
       send: true,
     }),
     allow.mainnet.curve.steCrvPool.remove_liquidity(),
     allow.mainnet.curve.steCrvPool.remove_liquidity_one_coin(),
     allow.mainnet.curve.steCrvPool.remove_liquidity_imbalance(),
-    ...allowErc20Approve(
+    allowErc20Approve(
       [curve.steCrv],
       [contracts.mainnet.curve.steCrvPoolGauge]
     ),
@@ -281,8 +281,8 @@ export default (parameters: Parameters) =>
     ),
 
     // Curve - osETH/rETH
-    ...allowErc20Approve([osETH], [contracts.mainnet.curve.osEthRethPool]),
-    ...allowErc20Approve([rETH], [contracts.mainnet.curve.osEthRethPool]),
+    allowErc20Approve([osETH], [contracts.mainnet.curve.osEthRethPool]),
+    allowErc20Approve([rETH], [contracts.mainnet.curve.osEthRethPool]),
 
     allow.mainnet.curve.osEthRethPool["add_liquidity(uint256[],uint256)"](),
     allow.mainnet.curve.osEthRethPool["remove_liquidity(uint256,uint256[])"](),
@@ -292,7 +292,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.curve.osEthRethPool[
       "remove_liquidity_imbalance(uint256[],uint256)"
     ](),
-    ...allowErc20Approve(
+    allowErc20Approve(
       [contracts.mainnet.curve.osEthRethPool],
       [contracts.mainnet.curve.osEthRethGauge]
     ),
@@ -306,7 +306,7 @@ export default (parameters: Parameters) =>
     // Stake ETH for eETH
     allow.mainnet.etherfi.liquidityPool["deposit()"]({ send: true }),
     // Request Withdrawal - A Withdraw Request NFT is issued
-    ...allowErc20Approve([eETH], [contracts.mainnet.etherfi.liquidityPool]),
+    allowErc20Approve([eETH], [contracts.mainnet.etherfi.liquidityPool]),
     allow.mainnet.etherfi.liquidityPool.requestWithdraw(c.avatar),
     // Funds can be claimed once the request is finalized
     allow.mainnet.etherfi.withdrawRequestNft.claimWithdraw(),
@@ -315,7 +315,7 @@ export default (parameters: Parameters) =>
       send: true,
     }),
     // Wrap eETH
-    ...allowErc20Approve([eETH], [contracts.mainnet.etherfi.weEth]),
+    allowErc20Approve([eETH], [contracts.mainnet.etherfi.weEth]),
     allow.mainnet.etherfi.weEth.wrap(),
     // Unwrap weETH
     allow.mainnet.etherfi.weEth.unwrap(),
@@ -379,7 +379,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.nexus.ramm.swap(undefined, undefined, undefined, {
       send: true,
     }),
-    ...allowErc20Approve([NXM], [contracts.mainnet.nexus.wNxm]),
+    allowErc20Approve([NXM], [contracts.mainnet.nexus.wNxm]),
     // Wrap NXM
     allow.mainnet.nexus.wNxm.wrap(),
     // Unwrap WNXM
@@ -388,7 +388,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.nexus.tokenController.withdrawNXM(),
     // Approval of NXM with the TokenController as spender was already included
     // TokenController manages the approvals for all pools
-    ...allowErc20Approve([NXM], [contracts.mainnet.nexus.tokenController]),
+    allowErc20Approve([NXM], [contracts.mainnet.nexus.tokenController]),
     // Allows users to deposit NXM into the pool, creating stake and rewards shares in return
     // Supports deposits to specific tranches and allows reusing the same nft for deposits in multiple tranches to an existing deposit
     ...nexus.pools.map((pool) => ({
@@ -418,7 +418,7 @@ export default (parameters: Parameters) =>
     // and activate/deactivate the Dai Savings Rate to start earning savings
     // on a pool of dai in a single function call.
     // https://docs.makerdao.com/smart-contract-modules/proxy-module/dsr-manager-detailed-documentation#contract-details
-    ...allowErc20Approve([DAI], [contracts.mainnet.sky.dsrManager]),
+    allowErc20Approve([DAI], [contracts.mainnet.sky.dsrManager]),
     allow.mainnet.sky.dsrManager.join(c.avatar),
     allow.mainnet.sky.dsrManager.exit(c.avatar),
     allow.mainnet.sky.dsrManager.exitAll(c.avatar),
@@ -430,7 +430,7 @@ export default (parameters: Parameters) =>
     balancerV2Swap(balancerV2.osEthWethPid, [osETH, WETH], [osETH, WETH]),
 
     // Uniswap v3
-    ...allowErc20Approve(
+    allowErc20Approve(
       [
         AAVE,
         AURA,

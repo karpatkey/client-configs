@@ -26,13 +26,13 @@ export default (parameters: Parameters) =>
     balancerV2Swap(balancerV2.staBal3Pid, [USDC, WXDAI], [USDC, WXDAI]),
 
     // Swap USDC.e -> USDC
-    ...allowErc20Approve(
+    allowErc20Approve(
       [USDCe],
       [contracts.gnosis.gnosisBridge.usdcTransmuter]
     ),
     allow.gnosis.gnosisBridge.usdcTransmuter.withdraw(),
     // Swap USDC -> USDC.e
-    ...allowErc20Approve(
+    allowErc20Approve(
       [USDC],
       [contracts.gnosis.gnosisBridge.usdcTransmuter]
     ),

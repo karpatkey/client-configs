@@ -12,7 +12,7 @@ export default (parameters: Parameters) =>
      * Bridges
      *********************************************/
     // USDC - Stargate to Mainnet
-    ...allowErc20Approve([USDC], [contracts.mainnet.stargate.poolUsdc]),
+    allowErc20Approve([USDC], [contracts.mainnet.stargate.poolUsdc]),
     allow.mainnet.stargate.poolUsdc.send(
       {
         dstEid: "30101", // Mainnet ID
@@ -29,7 +29,7 @@ export default (parameters: Parameters) =>
     ),
 
     // USDT - Stargate to Mainnet
-    ...allowErc20Approve([USDT], [contracts.mainnet.stargate.poolUsdt]),
+    allowErc20Approve([USDT], [contracts.mainnet.stargate.poolUsdt]),
     allow.mainnet.stargate.poolUsdt.send(
       {
         dstEid: "30101", // Mainnet chain ID

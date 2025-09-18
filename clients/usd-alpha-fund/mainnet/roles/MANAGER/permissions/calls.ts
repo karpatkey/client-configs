@@ -32,7 +32,7 @@ import { Parameters } from "../../../parameters"
 export default (parameters: Parameters) =>
   [
     // Aura - Aave Boosted USDT/GHO/USDC
-    ...allowErc20Approve(
+    allowErc20Approve(
       [balancerV3.aaveGhoUsdtUsdc],
       [contracts.mainnet.aura.booster]
     ),
@@ -51,7 +51,7 @@ export default (parameters: Parameters) =>
     },
 
     // Balancer v3 - Aave Boosted USDT/GHO/USDC
-    ...allowErc20Approve(
+    allowErc20Approve(
       [GHO, USDC, USDT],
       [contracts.mainnet.uniswap.permit2]
     ),
@@ -65,14 +65,14 @@ export default (parameters: Parameters) =>
     allow.mainnet.balancerV3.compositeLiquidityRouter.addLiquidityUnbalancedToERC4626Pool(
       balancerV3.aaveGhoUsdtUsdc
     ),
-    ...allowErc20Approve(
+    allowErc20Approve(
       [balancerV3.aaveGhoUsdtUsdc],
       [contracts.mainnet.balancerV3.compositeLiquidityRouter]
     ),
     allow.mainnet.balancerV3.compositeLiquidityRouter.removeLiquidityProportionalFromERC4626Pool(
       balancerV3.aaveGhoUsdtUsdc
     ),
-    ...allowErc20Approve(
+    allowErc20Approve(
       [balancerV3.aaveGhoUsdtUsdc],
       [balancerV3.aaveGhoUsdtUsdcGauge]
     ),
@@ -90,14 +90,14 @@ export default (parameters: Parameters) =>
     },
 
     // Compound v3 - Deposit USDC
-    ...allowErc20Approve([USDC], [contracts.mainnet.compoundV3.cUsdcV3]),
+    allowErc20Approve([USDC], [contracts.mainnet.compoundV3.cUsdcV3]),
     allow.mainnet.compoundV3.cUsdcV3.supply(USDC),
     allow.mainnet.compoundV3.cUsdcV3.withdraw(USDC),
     // Compound v3 - Claim rewards
     allow.mainnet.compoundV3.cometRewards.claim(undefined, c.avatar),
 
     // Curve - crvUSD/USDT
-    ...allowErc20Approve(
+    allowErc20Approve(
       [crvUSD, USDT],
       [contracts.mainnet.curve.crvUsdUsdtPool]
     ),
@@ -111,7 +111,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.curve.crvUsdUsdtPool[
       "remove_liquidity_one_coin(uint256,int128,uint256)"
     ](),
-    ...allowErc20Approve(
+    allowErc20Approve(
       [contracts.mainnet.curve.crvUsdUsdtPool],
       [contracts.mainnet.curve.crvUsdUsdtGauge]
     ),
@@ -121,7 +121,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.crvUsdUsdtGauge),
 
     // Curve - crvUSD/USDC
-    ...allowErc20Approve(
+    allowErc20Approve(
       [crvUSD, USDC],
       [contracts.mainnet.curve.crvUsdUsdcPool]
     ),
@@ -135,7 +135,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.curve.crvUsdUsdcPool[
       "remove_liquidity_one_coin(uint256,int128,uint256)"
     ](),
-    ...allowErc20Approve(
+    allowErc20Approve(
       [contracts.mainnet.curve.crvUsdUsdcPool],
       [contracts.mainnet.curve.crvUsdUsdcGauge]
     ),
@@ -145,7 +145,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.crvUsdUsdcGauge),
 
     // Curve - Deposit and Stake using a special ZAP
-    ...allowErc20Approve(
+    allowErc20Approve(
       [crvUSD, USDC, USDT],
       [contracts.mainnet.curve.stakeDepositZap]
     ),
@@ -174,14 +174,14 @@ export default (parameters: Parameters) =>
     ),
 
     // Ethena - Stake USDe
-    ...allowErc20Approve([USDe], [sUSDe]),
+    allowErc20Approve([USDe], [sUSDe]),
     allow.mainnet.ethena.sUsde.deposit(undefined, c.avatar),
     // Ethena - Unstake USDe
     allow.mainnet.ethena.sUsde.cooldownShares(),
     allow.mainnet.ethena.sUsde.unstake(c.avatar),
 
     // Morpho Blue - wstETH/USDC
-    ...allowErc20Approve([USDC], [contracts.mainnet.morpho.morphoBlue]),
+    allowErc20Approve([USDC], [contracts.mainnet.morpho.morphoBlue]),
     allow.mainnet.morpho.morphoBlue.supply(
       {
         loanToken: USDC,
@@ -237,7 +237,7 @@ export default (parameters: Parameters) =>
       c.avatar
     ),
     // Morpho Blue - WBTC/USDT
-    ...allowErc20Approve([USDT], [contracts.mainnet.morpho.morphoBlue]),
+    allowErc20Approve([USDT], [contracts.mainnet.morpho.morphoBlue]),
     allow.mainnet.morpho.morphoBlue.supply(
       {
         loanToken: USDT,
@@ -266,7 +266,7 @@ export default (parameters: Parameters) =>
     ),
 
     // Notional v3 - USDC
-    ...allowErc20Approve([USDT], [contracts.mainnet.notionalV3.nProxy]),
+    allowErc20Approve([USDT], [contracts.mainnet.notionalV3.nProxy]),
     allow.mainnet.notionalV3.nProxy.batchBalanceAction(
       c.avatar,
       c.every({
@@ -282,7 +282,7 @@ export default (parameters: Parameters) =>
       })
     ),
     // Notional v3 - USDT
-    ...allowErc20Approve([USDT], [contracts.mainnet.notionalV3.nProxy]),
+    allowErc20Approve([USDT], [contracts.mainnet.notionalV3.nProxy]),
     allow.mainnet.notionalV3.nProxy.batchBalanceAction(
       c.avatar,
       c.every({
@@ -300,7 +300,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.notionalV3.nProxy.nTokenClaimIncentives(),
 
     // Pendle - USDe/sUSDe <-> PT-sUSDE-DDMMMYYYY
-    ...allowErc20Approve([USDe, sUSDe], [contracts.mainnet.pendle.routerV4]),
+    allowErc20Approve([USDe, sUSDe], [contracts.mainnet.pendle.routerV4]),
     allow.mainnet.pendle.routerV4.swapExactTokenForPt(
       c.avatar,
       c.or(pendle.pendleMarket26Mar2025, pendle.pendleMarket28May2025),
@@ -311,7 +311,7 @@ export default (parameters: Parameters) =>
         tokenMintSy: c.or(USDe, sUSDe),
       }
     ),
-    ...allowErc20Approve(
+    allowErc20Approve(
       [pendle.ptSusde27Mar2025, pendle.ptSusde29May2025],
       [contracts.mainnet.pendle.routerV4]
     ),
@@ -331,7 +331,7 @@ export default (parameters: Parameters) =>
     // and activate/deactivate the Dai Savings Rate to start earning savings
     // on a pool of dai in a single function call.
     // https://docs.makerdao.com/smart-contract-modules/proxy-module/dsr-manager-detailed-documentation#contract-details
-    ...allowErc20Approve([DAI], [contracts.mainnet.sky.dsrManager]),
+    allowErc20Approve([DAI], [contracts.mainnet.sky.dsrManager]),
     allow.mainnet.sky.dsrManager.join(c.avatar),
     allow.mainnet.sky.dsrManager.exit(c.avatar),
     allow.mainnet.sky.dsrManager.exitAll(c.avatar),
@@ -350,7 +350,7 @@ export default (parameters: Parameters) =>
     ),
 
     // Curve - [DAI, USDC, USDT] <-> [DAI, USDC, USDT]
-    ...allowErc20Approve(
+    allowErc20Approve(
       [DAI, USDC, USDT],
       [contracts.mainnet.curve.x3CrvPool]
     ),
@@ -406,7 +406,7 @@ export default (parameters: Parameters) =>
      *********************************************/
     // Mainnet -> Gnosis
     // DAI -> XDAI - Gnosis Bridge
-    ...allowErc20Approve(
+    allowErc20Approve(
       [DAI],
       [contracts.mainnet.gnosisBridge.xdaiUsdsBridge]
     ),
@@ -442,7 +442,7 @@ export default (parameters: Parameters) =>
       )
     ),
     // DAI - HOP
-    ...allowErc20Approve([DAI], [contracts.mainnet.hop.hopDaiBridge]),
+    allowErc20Approve([DAI], [contracts.mainnet.hop.hopDaiBridge]),
     allow.mainnet.hop.hopDaiBridge.sendToL2(
       100, // Gnosis
       c.avatar,
@@ -453,7 +453,7 @@ export default (parameters: Parameters) =>
     ),
 
     // USDC -> USDC.e - Gnosis Bridge
-    ...allowErc20Approve(
+    allowErc20Approve(
       [USDC],
       [contracts.mainnet.gnosisBridge.gnoOmnibridge]
     ),
@@ -557,7 +557,7 @@ export default (parameters: Parameters) =>
 
     // Mainnet -> Optimism
     // DAI - Superbridge
-    ...allowErc20Approve(
+    allowErc20Approve(
       [DAI],
       [contracts.mainnet.optimismBridge.optDaiBridge]
     ),
@@ -577,7 +577,7 @@ export default (parameters: Parameters) =>
       c.or("0x", "0x7375706572627269646765")
     ),
     // DAI - HOP
-    ...allowErc20Approve([DAI], [contracts.mainnet.hop.hopDaiBridge]),
+    allowErc20Approve([DAI], [contracts.mainnet.hop.hopDaiBridge]),
     allow.mainnet.hop.hopDaiBridge.sendToL2(
       10, // Optimism
       c.avatar,
@@ -588,7 +588,7 @@ export default (parameters: Parameters) =>
     ),
 
     // COMP - Superbridge
-    ...allowErc20Approve([COMP], [contracts.mainnet.optimismBridge.optGateway]),
+    allowErc20Approve([COMP], [contracts.mainnet.optimismBridge.optGateway]),
     allow.mainnet.optimismBridge.optGateway.depositERC20(
       COMP,
       COMP_opt,
@@ -606,7 +606,7 @@ export default (parameters: Parameters) =>
     ),
 
     // USDC - HOP
-    ...allowErc20Approve([USDC], [contracts.mainnet.hop.l1HopCctp]),
+    allowErc20Approve([USDC], [contracts.mainnet.hop.l1HopCctp]),
     allow.mainnet.hop.l1HopCctp.send(
       10, // Optimism
       c.avatar
@@ -614,7 +614,7 @@ export default (parameters: Parameters) =>
 
     // Mainnet -> Arbitrum
     // DAI - Arbitrum Bridge
-    ...allowErc20Approve(
+    allowErc20Approve(
       [DAI],
       [contracts.mainnet.arbitrumBridge.arbDaiGateway]
     ),
@@ -632,7 +632,7 @@ export default (parameters: Parameters) =>
       }
     ),
     // DAI - HOP
-    ...allowErc20Approve([DAI], [contracts.mainnet.hop.hopDaiBridge]),
+    allowErc20Approve([DAI], [contracts.mainnet.hop.hopDaiBridge]),
     allow.mainnet.hop.hopDaiBridge.sendToL2(
       42161, // Arbitrum
       c.avatar,
@@ -643,7 +643,7 @@ export default (parameters: Parameters) =>
     ),
 
     // COMP - Arbitrum Bridge
-    ...allowErc20Approve(
+    allowErc20Approve(
       [COMP],
       [contracts.mainnet.arbitrumBridge.arbErc20Gateway]
     ),
@@ -661,7 +661,7 @@ export default (parameters: Parameters) =>
     ),
 
     // USDC - HOP
-    ...allowErc20Approve([USDC], [contracts.mainnet.hop.l1HopCctp]),
+    allowErc20Approve([USDC], [contracts.mainnet.hop.l1HopCctp]),
     allow.mainnet.hop.l1HopCctp.send(
       42161, // Arbitrum
       c.avatar
@@ -669,7 +669,7 @@ export default (parameters: Parameters) =>
 
     // Mainnet -> Base
     // USDC - HOP
-    ...allowErc20Approve([USDC], [contracts.mainnet.hop.l1HopCctp]),
+    allowErc20Approve([USDC], [contracts.mainnet.hop.l1HopCctp]),
     allow.mainnet.hop.l1HopCctp.send(
       8453, // Base
       c.avatar

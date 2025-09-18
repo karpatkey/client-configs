@@ -12,7 +12,7 @@ export default (parameters: Parameters) =>
      * Bridges
      *********************************************/
     // USDC (Optimism) -> USDC (Mainnet) - stargate
-    ...allowErc20Approve([USDC], [contracts.optimism.stargate.poolUsdc]),
+    allowErc20Approve([USDC], [contracts.optimism.stargate.poolUsdc]),
     allow.optimism.stargate.poolUsdc.send(
       {
         dstEid: "30101", // Mainnet chain ID
@@ -29,7 +29,7 @@ export default (parameters: Parameters) =>
     ),
 
     // USDT (Optimism) -> USDT (Mainnet) - stargate
-    ...allowErc20Approve([USDT], [contracts.optimism.stargate.poolUsdt]),
+    allowErc20Approve([USDT], [contracts.optimism.stargate.poolUsdt]),
     allow.optimism.stargate.poolUsdt.send(
       {
         dstEid: "30101", // Mainnet chain ID

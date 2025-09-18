@@ -5,7 +5,7 @@ import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
 
 export default [
-  ...allowErc20Approve(
+  allowErc20Approve(
     [contracts.gnosis.aaveV3.aGnoWXDAI],
     [contracts.gnosis.aaveV3.wrappedTokenGatewayV3]
   ),
@@ -16,7 +16,7 @@ export default [
     { send: true }
   ),
 
-  ...allowErc20Approve(
+  allowErc20Approve(
     [contracts.gnosis.spark.sDai],
     [contracts.gnosis.spark.savingsXdaiAdapter]
   ),

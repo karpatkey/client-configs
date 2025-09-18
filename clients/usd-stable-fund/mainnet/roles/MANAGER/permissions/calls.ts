@@ -10,14 +10,14 @@ import { Parameters } from "../../../parameters"
 export default (parameters: Parameters) =>
   [
     // Compound v3 - Deposit USDC
-    ...allowErc20Approve([USDC], [contracts.mainnet.compoundV3.cUsdcV3]),
+    allowErc20Approve([USDC], [contracts.mainnet.compoundV3.cUsdcV3]),
     allow.mainnet.compoundV3.cUsdcV3.supply(USDC),
     allow.mainnet.compoundV3.cUsdcV3.withdraw(USDC),
     // Compound v3 - Claim rewards
     allow.mainnet.compoundV3.cometRewards.claim(undefined, c.avatar),
 
     // Morpho Blue - wstETH/USDC
-    ...allowErc20Approve([USDC], [contracts.mainnet.morpho.morphoBlue]),
+    allowErc20Approve([USDC], [contracts.mainnet.morpho.morphoBlue]),
     allow.mainnet.morpho.morphoBlue.supply(
       {
         loanToken: USDC,
@@ -79,7 +79,7 @@ export default (parameters: Parameters) =>
     // and activate/deactivate the Dai Savings Rate to start earning savings
     // on a pool of dai in a single function call.
     // https://docs.makerdao.com/smart-contract-modules/proxy-module/dsr-manager-detailed-documentation#contract-details
-    ...allowErc20Approve([DAI], [contracts.mainnet.sky.dsrManager]),
+    allowErc20Approve([DAI], [contracts.mainnet.sky.dsrManager]),
     allow.mainnet.sky.dsrManager.join(c.avatar),
     allow.mainnet.sky.dsrManager.exit(c.avatar),
     allow.mainnet.sky.dsrManager.exitAll(c.avatar),
@@ -88,7 +88,7 @@ export default (parameters: Parameters) =>
      * Swaps
      *********************************************/
     // Curve - DAI <-> USDC
-    ...allowErc20Approve([DAI, USDC], [contracts.mainnet.curve.x3CrvPool]),
+    allowErc20Approve([DAI, USDC], [contracts.mainnet.curve.x3CrvPool]),
     allow.mainnet.curve.x3CrvPool.exchange(
       c.or(0, 1), // 0 = DAI, 1 = USDC
       c.or(0, 1)
@@ -99,7 +99,7 @@ export default (parameters: Parameters) =>
      *********************************************/
     // Mainnet -> Gnosis
     // DAI -> XDAI - Gnosis Bridge
-    ...allowErc20Approve(
+    allowErc20Approve(
       [DAI],
       [contracts.mainnet.gnosisBridge.xdaiUsdsBridge]
     ),
@@ -135,7 +135,7 @@ export default (parameters: Parameters) =>
       )
     ),
     // DAI - HOP
-    ...allowErc20Approve([DAI], [contracts.mainnet.hop.hopDaiBridge]),
+    allowErc20Approve([DAI], [contracts.mainnet.hop.hopDaiBridge]),
     allow.mainnet.hop.hopDaiBridge.sendToL2(
       100, // Gnosis
       c.avatar,
@@ -146,7 +146,7 @@ export default (parameters: Parameters) =>
     ),
 
     // // COMP (Mainnet) -> COMP (Gnosis)
-    // ...allowErc20Approve([COMP], [contracts.mainnet.gnoOmnibridge]),
+    // allowErc20Approve([COMP], [contracts.mainnet.gnoOmnibridge]),
     // allow.mainnet.gnoOmnibridge["relayTokens(address,address,uint256)"](
     //   COMP,
     //   c.avatar
@@ -242,7 +242,7 @@ export default (parameters: Parameters) =>
     // ),
 
     // USDC -> USDC.e - Gnosis Bridge
-    ...allowErc20Approve(
+    allowErc20Approve(
       [USDC],
       [contracts.mainnet.gnosisBridge.gnoOmnibridge]
     ),
@@ -346,7 +346,7 @@ export default (parameters: Parameters) =>
 
     // Mainnet -> Optimism
     // DAI - Superbridge
-    ...allowErc20Approve(
+    allowErc20Approve(
       [DAI],
       [contracts.mainnet.optimismBridge.optDaiBridge]
     ),
@@ -366,7 +366,7 @@ export default (parameters: Parameters) =>
       c.or("0x", "0x7375706572627269646765")
     ),
     // DAI - HOP
-    ...allowErc20Approve([DAI], [contracts.mainnet.hop.hopDaiBridge]),
+    allowErc20Approve([DAI], [contracts.mainnet.hop.hopDaiBridge]),
     allow.mainnet.hop.hopDaiBridge.sendToL2(
       10, // Optimism
       c.avatar,
@@ -377,7 +377,7 @@ export default (parameters: Parameters) =>
     ),
 
     // COMP - Superbridge
-    ...allowErc20Approve([COMP], [contracts.mainnet.optimismBridge.optGateway]),
+    allowErc20Approve([COMP], [contracts.mainnet.optimismBridge.optGateway]),
     allow.mainnet.optimismBridge.optGateway.depositERC20(
       COMP,
       COMP_opt,
@@ -395,7 +395,7 @@ export default (parameters: Parameters) =>
     ),
 
     // USDC - HOP
-    ...allowErc20Approve([USDC], [contracts.mainnet.hop.l1HopCctp]),
+    allowErc20Approve([USDC], [contracts.mainnet.hop.l1HopCctp]),
     allow.mainnet.hop.l1HopCctp.send(
       10, // Optimism
       c.avatar
@@ -403,7 +403,7 @@ export default (parameters: Parameters) =>
 
     // Mainnet -> Arbitrum
     // DAI - Arbitrum Bridge
-    ...allowErc20Approve(
+    allowErc20Approve(
       [DAI],
       [contracts.mainnet.arbitrumBridge.arbDaiGateway]
     ),
@@ -421,7 +421,7 @@ export default (parameters: Parameters) =>
       }
     ),
     // DAI - HOP
-    ...allowErc20Approve([DAI], [contracts.mainnet.hop.hopDaiBridge]),
+    allowErc20Approve([DAI], [contracts.mainnet.hop.hopDaiBridge]),
     allow.mainnet.hop.hopDaiBridge.sendToL2(
       42161, // Arbitrum
       c.avatar,
@@ -432,7 +432,7 @@ export default (parameters: Parameters) =>
     ),
 
     // COMP - Arbitrum Bridge
-    ...allowErc20Approve(
+    allowErc20Approve(
       [COMP],
       [contracts.mainnet.arbitrumBridge.arbErc20Gateway]
     ),
@@ -443,7 +443,7 @@ export default (parameters: Parameters) =>
 
     // Mainnet -> Base
     // USDC - HOP
-    ...allowErc20Approve([USDC], [contracts.mainnet.hop.l1HopCctp]),
+    allowErc20Approve([USDC], [contracts.mainnet.hop.l1HopCctp]),
     allow.mainnet.hop.l1HopCctp.send(
       8453, // Base
       c.avatar

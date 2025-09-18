@@ -13,10 +13,10 @@ export default [
   // Aave v3 - Withdraw USDC
   allow.mainnet.aaveV3.poolCoreV3.withdraw(USDC, undefined, c.avatar),
   // Aave v3 - Repay DAI
-  ...allowErc20Approve([DAI], [contracts.mainnet.aaveV3.poolCoreV3]),
+  allowErc20Approve([DAI], [contracts.mainnet.aaveV3.poolCoreV3]),
   allow.mainnet.aaveV3.poolCoreV3.repay(DAI, undefined, undefined, c.avatar),
   // Aave v3 - Repay USDC
-  ...allowErc20Approve([USDC], [contracts.mainnet.aaveV3.poolCoreV3]),
+  allowErc20Approve([USDC], [contracts.mainnet.aaveV3.poolCoreV3]),
   allow.mainnet.aaveV3.poolCoreV3.repay(USDC, undefined, undefined, c.avatar),
 
   // Compound v3 - Withdraw USDC
@@ -61,9 +61,9 @@ export default [
   // Spark - Withdraw sDAI
   allow.mainnet.spark.poolV3.withdraw(sDAI, undefined, c.avatar),
   // Spark - Repay DAI
-  ...allowErc20Approve([DAI], [contracts.mainnet.spark.poolV3]),
+  allowErc20Approve([DAI], [contracts.mainnet.spark.poolV3]),
   allow.mainnet.spark.poolV3.repay(DAI, undefined, undefined, c.avatar),
   // Spark - Repay USDC
-  ...allowErc20Approve([USDC], [contracts.mainnet.spark.poolV3]),
+  allowErc20Approve([USDC], [contracts.mainnet.spark.poolV3]),
   allow.mainnet.spark.poolV3.repay(USDC, undefined, undefined, c.avatar),
 ] satisfies PermissionList

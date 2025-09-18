@@ -13,7 +13,7 @@ export default (parameters: Parameters) =>
      *********************************************/
     // Mainnet -> Arbitrum
     // USDT - Arbitrum Bridge
-    ...allowErc20Approve(
+    allowErc20Approve(
       [USDT],
       [contracts.mainnet.arbitrumBridge.usdtOftAdapter]
     ),

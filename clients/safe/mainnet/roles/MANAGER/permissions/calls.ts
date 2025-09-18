@@ -49,7 +49,7 @@ export default (parameters: Parameters) =>
     }),
 
     // Aura - Aave Lido Boosted WETH/wstETH
-    ...allowErc20Approve(
+    allowErc20Approve(
       [contracts.mainnet.balancerV3.aaveLidoWethWstEth],
       [contracts.mainnet.aura.booster]
     ),
@@ -68,13 +68,13 @@ export default (parameters: Parameters) =>
     },
 
     // Balancer v2 - BCoW-50WETH-50USDC
-    ...allowErc20Approve(
+    allowErc20Approve(
       [USDC, WETH],
       [contracts.mainnet.balancerV2.bCow50Weth50Usdc]
     ),
     allow.mainnet.balancerV2.bCow50Weth50Usdc.joinPool(),
     allow.mainnet.balancerV2.bCow50Weth50Usdc.exitPool(),
-    ...allowErc20Approve(
+    allowErc20Approve(
       [contracts.mainnet.balancerV2.bCow50Weth50Usdc],
       [contracts.mainnet.balancerV2.bCow50Weth50UsdcGauge]
     ),
@@ -86,7 +86,7 @@ export default (parameters: Parameters) =>
     ),
 
     // Balancer v2 - BCoW-50SAFE-50WETH (Staking not available)
-    ...allowErc20Approve(
+    allowErc20Approve(
       [SAFE, WETH],
       [contracts.mainnet.balancerV2.bCow50Safe50Weth]
     ),
@@ -94,7 +94,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.balancerV2.bCow50Safe50Weth.exitPool(),
 
     // Balancer v3 - Aave Lido Boosted WETH/wstETH
-    ...allowErc20Approve([WETH, wstETH], [contracts.mainnet.uniswap.permit2]),
+    allowErc20Approve([WETH, wstETH], [contracts.mainnet.uniswap.permit2]),
     allow.mainnet.uniswap.permit2.approve(
       c.or(WETH, wstETH),
       contracts.mainnet.balancerV3.compositeLiquidityRouter
@@ -105,14 +105,14 @@ export default (parameters: Parameters) =>
     allow.mainnet.balancerV3.compositeLiquidityRouter.addLiquidityUnbalancedToERC4626Pool(
       contracts.mainnet.balancerV3.aaveLidoWethWstEth
     ),
-    ...allowErc20Approve(
+    allowErc20Approve(
       [contracts.mainnet.balancerV3.aaveLidoWethWstEth],
       [contracts.mainnet.balancerV3.compositeLiquidityRouter]
     ),
     allow.mainnet.balancerV3.compositeLiquidityRouter.removeLiquidityProportionalFromERC4626Pool(
       contracts.mainnet.balancerV3.aaveLidoWethWstEth
     ),
-    ...allowErc20Approve(
+    allowErc20Approve(
       [contracts.mainnet.balancerV3.aaveLidoWethWstEth],
       [contracts.mainnet.balancerV3.aaveLidoWethWstEthGauge]
     ),
@@ -124,7 +124,7 @@ export default (parameters: Parameters) =>
     ),
 
     // Balancer v3 - Aave Boosted WETH/ETHx
-    ...allowErc20Approve([WETH, ETHx], [contracts.mainnet.uniswap.permit2]),
+    allowErc20Approve([WETH, ETHx], [contracts.mainnet.uniswap.permit2]),
     allow.mainnet.uniswap.permit2.approve(
       c.or(WETH, ETHx),
       contracts.mainnet.balancerV3.compositeLiquidityRouter
@@ -135,14 +135,14 @@ export default (parameters: Parameters) =>
     allow.mainnet.balancerV3.compositeLiquidityRouter.addLiquidityUnbalancedToERC4626Pool(
       contracts.mainnet.balancerV3.ethxWaWeth
     ),
-    ...allowErc20Approve(
+    allowErc20Approve(
       [contracts.mainnet.balancerV3.ethxWaWeth],
       [contracts.mainnet.balancerV3.compositeLiquidityRouter]
     ),
     allow.mainnet.balancerV3.compositeLiquidityRouter.removeLiquidityProportionalFromERC4626Pool(
       contracts.mainnet.balancerV3.ethxWaWeth
     ),
-    ...allowErc20Approve(
+    allowErc20Approve(
       [contracts.mainnet.balancerV3.ethxWaWeth],
       [contracts.mainnet.balancerV3.ethxWaWethGauge]
     ),
@@ -154,7 +154,7 @@ export default (parameters: Parameters) =>
     ),
 
     // Balancer v3 - Aave Boosted WETH/osETH
-    ...allowErc20Approve([WETH, osETH], [contracts.mainnet.uniswap.permit2]),
+    allowErc20Approve([WETH, osETH], [contracts.mainnet.uniswap.permit2]),
     allow.mainnet.uniswap.permit2.approve(
       c.or(WETH, osETH),
       contracts.mainnet.balancerV3.compositeLiquidityRouter
@@ -165,14 +165,14 @@ export default (parameters: Parameters) =>
     allow.mainnet.balancerV3.compositeLiquidityRouter.addLiquidityUnbalancedToERC4626Pool(
       contracts.mainnet.balancerV3.osEthWaWeth
     ),
-    ...allowErc20Approve(
+    allowErc20Approve(
       [contracts.mainnet.balancerV3.osEthWaWeth],
       [contracts.mainnet.balancerV3.compositeLiquidityRouter]
     ),
     allow.mainnet.balancerV3.compositeLiquidityRouter.removeLiquidityProportionalFromERC4626Pool(
       contracts.mainnet.balancerV3.osEthWaWeth
     ),
-    ...allowErc20Approve(
+    allowErc20Approve(
       [contracts.mainnet.balancerV3.osEthWaWeth],
       [contracts.mainnet.balancerV3.osEthWaWethGauge]
     ),
@@ -208,7 +208,7 @@ export default (parameters: Parameters) =>
     ),
 
     // Curve - x3CRV - DAI/USDC/USDT
-    ...allowErc20Approve(
+    allowErc20Approve(
       [DAI, USDC, USDT],
       [contracts.mainnet.curve.x3CrvPool]
     ),
@@ -216,7 +216,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.curve.x3CrvPool.remove_liquidity(),
     allow.mainnet.curve.x3CrvPool.remove_liquidity_imbalance(),
     allow.mainnet.curve.x3CrvPool.remove_liquidity_one_coin(),
-    ...allowErc20Approve([x3CRV], [contracts.mainnet.curve.x3CrvGauge]),
+    allowErc20Approve([x3CRV], [contracts.mainnet.curve.x3CrvGauge]),
     allow.mainnet.curve.x3CrvGauge["deposit(uint256)"](),
     allow.mainnet.curve.x3CrvGauge.withdraw(),
     allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.x3CrvGauge),
@@ -226,14 +226,14 @@ export default (parameters: Parameters) =>
     ),
 
     // Curve - ETH/stETH - steCRV
-    ...allowErc20Approve([stETH], [contracts.mainnet.curve.steCrvPool]),
+    allowErc20Approve([stETH], [contracts.mainnet.curve.steCrvPool]),
     allow.mainnet.curve.steCrvPool.add_liquidity(undefined, undefined, {
       send: true,
     }),
     allow.mainnet.curve.steCrvPool.remove_liquidity(),
     allow.mainnet.curve.steCrvPool.remove_liquidity_one_coin(),
     allow.mainnet.curve.steCrvPool.remove_liquidity_imbalance(),
-    ...allowErc20Approve(
+    allowErc20Approve(
       [curve.steCrv],
       [contracts.mainnet.curve.steCrvPoolGauge]
     ),
@@ -247,7 +247,7 @@ export default (parameters: Parameters) =>
     ),
 
     // Curve - ETH/OETH
-    ...allowErc20Approve([OETH], [contracts.mainnet.curve.oEthCrvPool]),
+    allowErc20Approve([OETH], [contracts.mainnet.curve.oEthCrvPool]),
     allow.mainnet.curve.oEthCrvPool["add_liquidity(uint256[2],uint256)"](
       undefined,
       undefined,
@@ -262,7 +262,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.curve.oEthCrvPool[
       "remove_liquidity_one_coin(uint256,int128,uint256)"
     ](),
-    ...allowErc20Approve(
+    allowErc20Approve(
       [contracts.mainnet.curve.oEthCrvPool],
       [contracts.mainnet.curve.oEthCrvGauge]
     ),
@@ -272,7 +272,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.oEthCrvGauge),
 
     // Curve - osETH/rETH
-    ...allowErc20Approve(
+    allowErc20Approve(
       [osETH, rETH],
       [contracts.mainnet.curve.osEthRethPool]
     ),
@@ -284,7 +284,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.curve.osEthRethPool[
       "remove_liquidity_imbalance(uint256[],uint256)"
     ](),
-    ...allowErc20Approve(
+    allowErc20Approve(
       [contracts.mainnet.curve.osEthRethPool],
       [contracts.mainnet.curve.osEthRethGauge]
     ),
@@ -295,7 +295,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.osEthRethGauge),
 
     // Curve - WETH/rETH
-    ...allowErc20Approve([WETH, rETH], [contracts.mainnet.curve.wethRethPool]),
+    allowErc20Approve([WETH, rETH], [contracts.mainnet.curve.wethRethPool]),
     allow.mainnet.curve.wethRethPool["add_liquidity(uint256[],uint256)"](),
     allow.mainnet.curve.wethRethPool["remove_liquidity(uint256,uint256[])"](),
     allow.mainnet.curve.wethRethPool[
@@ -304,7 +304,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.curve.wethRethPool[
       "remove_liquidity_imbalance(uint256[],uint256)"
     ](),
-    ...allowErc20Approve(
+    allowErc20Approve(
       [contracts.mainnet.curve.wethRethPool],
       [contracts.mainnet.curve.wethRethGauge]
     ),
@@ -315,7 +315,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.wethRethGauge),
 
     // Curve - Deposit and Stake using a special ZAP
-    ...allowErc20Approve(
+    allowErc20Approve(
       [DAI, OETH, osETH, rETH, stETH, USDC, USDT, WETH],
       [contracts.mainnet.curve.stakeDepositZap]
     ),
@@ -572,7 +572,7 @@ export default (parameters: Parameters) =>
      *********************************************/
     // Mainnet -> Gnosis
     // DAI -> XDAI - Gnosis Bridge
-    ...allowErc20Approve(
+    allowErc20Approve(
       [DAI],
       [contracts.mainnet.gnosisBridge.xdaiUsdsBridge]
     ),

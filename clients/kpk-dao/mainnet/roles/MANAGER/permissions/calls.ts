@@ -53,7 +53,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.convex.claimZap.claimRewards(),
 
     // Curve - USDT/WBTC/WETH
-    ...allowErc20Approve(
+    allowErc20Approve(
       [USDT, WBTC, WETH],
       [contracts.mainnet.curve.crvUsdtWbtcWethPool]
     ),
@@ -68,7 +68,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.curve.crvUsdtWbtcWethPool[
       "remove_liquidity_one_coin(uint256,uint256,uint256,bool)"
     ](),
-    ...allowErc20Approve(
+    allowErc20Approve(
       [contracts.mainnet.curve.crvUsdtWbtcWethPool],
       [contracts.mainnet.curve.crvUsdtWbtcWethGauge]
     ),
@@ -80,7 +80,7 @@ export default (parameters: Parameters) =>
     ),
 
     // Curve - Tricrypto GHO (GHO/WBTC/wstETH)
-    ...allowErc20Approve(
+    allowErc20Approve(
       [GHO, WBTC, wstETH],
       [contracts.mainnet.curve.ghoBtcWstePool]
     ),
@@ -93,7 +93,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.curve.ghoBtcWstePool[
       "remove_liquidity_one_coin(uint256,uint256,uint256,bool)"
     ](),
-    ...allowErc20Approve(
+    allowErc20Approve(
       [contracts.mainnet.curve.ghoBtcWstePool],
       [contracts.mainnet.curve.ghoBtcWsteGauge]
     ),
@@ -103,7 +103,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.ghoBtcWsteGauge),
 
     // Curve - Tricrypto GHO (GHO/cbBTC/ETH)
-    ...allowErc20Approve(
+    allowErc20Approve(
       [GHO, cbBTC, WETH],
       [contracts.mainnet.curve.btcGhoEthPool]
     ),
@@ -121,7 +121,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.curve.btcGhoEthPool[
       "remove_liquidity_one_coin(uint256,uint256,uint256,bool)"
     ](),
-    ...allowErc20Approve(
+    allowErc20Approve(
       [contracts.mainnet.curve.btcGhoEthPool],
       [contracts.mainnet.curve.btcGhoEthGauge]
     ),
@@ -131,15 +131,15 @@ export default (parameters: Parameters) =>
     allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.btcGhoEthGauge),
 
     // Curve - Deposit and Stake using a special ZAP
-    ...allowErc20Approve(
+    allowErc20Approve(
       [cbBTC, GHO, WETH],
       [contracts.mainnet.curve.stakeDepositZap]
     ),
-    ...allowErc20Approve(
+    allowErc20Approve(
       [GHO, WBTC, wstETH],
       [contracts.mainnet.curve.stakeDepositZap]
     ),
-    ...allowErc20Approve(
+    allowErc20Approve(
       [USDT, WBTC, WETH],
       [contracts.mainnet.curve.stakeDepositZap]
     ),
@@ -193,7 +193,7 @@ export default (parameters: Parameters) =>
     //   }
     // ),
     // Deposit stETH
-    ...allowErc20Approve([stETH], [contracts.mainnet.enzyme.divaStEthVault]),
+    allowErc20Approve([stETH], [contracts.mainnet.enzyme.divaStEthVault]),
     allow.mainnet.enzyme.divaStEthVault.buyShares(),
     // Withdraw stETH
     allow.mainnet.enzyme.divaStEthVault.redeemSharesInKind(
@@ -210,13 +210,13 @@ export default (parameters: Parameters) =>
 
     // ether.fi
     // ether.fi - Liquid ETH Yield Vault - Deposit
-    ...allowErc20Approve([eETH, weETH, WETH], [liquidETH]),
+    allowErc20Approve([eETH, weETH, WETH], [liquidETH]),
     allow.mainnet.etherfi.liquidEthYieldVaultTeller.deposit(
       c.or(eETH, weETH, WETH)
     ),
     // ether.fi - Liquid ETH Yield Vault - Withdraw
     // https://help.ether.fi/en/articles/284654-how-to-withdraw-from-liquid-vaults
-    ...allowErc20Approve([liquidETH], [contracts.mainnet.etherfi.atomicQueue]),
+    allowErc20Approve([liquidETH], [contracts.mainnet.etherfi.atomicQueue]),
     allow.mainnet.etherfi.atomicQueue.updateAtomicRequest(
       liquidETH,
       c.or(eETH, weETH)
@@ -225,7 +225,7 @@ export default (parameters: Parameters) =>
     // Stake ETH for eETH
     allow.mainnet.etherfi.liquidityPool["deposit()"]({ send: true }),
     // Request Withdrawal - A Withdraw Request NFT is issued
-    ...allowErc20Approve([eETH], [contracts.mainnet.etherfi.liquidityPool]),
+    allowErc20Approve([eETH], [contracts.mainnet.etherfi.liquidityPool]),
     allow.mainnet.etherfi.liquidityPool.requestWithdraw(c.avatar),
     // Funds can be claimed once the request is finalized
     allow.mainnet.etherfi.withdrawRequestNft.claimWithdraw(),
@@ -235,7 +235,7 @@ export default (parameters: Parameters) =>
     }),
     // ether.fi - Wrap/Unwrap
     // Wrap eETH
-    ...allowErc20Approve([eETH], [contracts.mainnet.etherfi.weEth]),
+    allowErc20Approve([eETH], [contracts.mainnet.etherfi.weEth]),
     allow.mainnet.etherfi.weEth.wrap(),
     // Unwrap weETH
     allow.mainnet.etherfi.weEth.unwrap(),
@@ -262,7 +262,7 @@ export default (parameters: Parameters) =>
       }
     ),
     // Deposit stETH
-    ...allowErc20Approve([stETH], [contracts.mainnet.pods.ethoriaVault]),
+    allowErc20Approve([stETH], [contracts.mainnet.pods.ethoriaVault]),
     allow.mainnet.pods.ethoriaVault.deposit(undefined, c.avatar),
     // Withdraw stETH
     allow.mainnet.pods.ethoriaVault.redeem(undefined, c.avatar, c.avatar),
@@ -272,7 +272,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.safe.userAirdrop.claimVestedTokens(undefined, c.avatar),
     allow.mainnet.safe.userAirdropSep5.claimVestedTokens(undefined, c.avatar),
     // SAFE - Lock
-    ...allowErc20Approve([SAFE], [contracts.mainnet.safe.tokenLock]),
+    allowErc20Approve([SAFE], [contracts.mainnet.safe.tokenLock]),
     allow.mainnet.safe.tokenLock.lock(),
 
     // Sky - DSR (DAI Savings Rate)
@@ -281,7 +281,7 @@ export default (parameters: Parameters) =>
     // and activate/deactivate the Dai Savings Rate to start earning savings
     // on a pool of dai in a single function call.
     // https://docs.makerdao.com/smart-contract-modules/proxy-module/dsr-manager-detailed-documentation#contract-details
-    ...allowErc20Approve([DAI], [contracts.mainnet.sky.dsrManager]),
+    allowErc20Approve([DAI], [contracts.mainnet.sky.dsrManager]),
     allow.mainnet.sky.dsrManager.join(c.avatar),
     allow.mainnet.sky.dsrManager.exit(c.avatar),
     allow.mainnet.sky.dsrManager.exitAll(c.avatar),
@@ -291,7 +291,7 @@ export default (parameters: Parameters) =>
      *********************************************/
     // Mainnet -> Gnosis
     // DAI (Mainnet) -> XDAI (Gnosis) - Gnosis Bridge - 600K per month to vcbGc
-    ...allowErc20Approve(
+    allowErc20Approve(
       [DAI],
       [contracts.mainnet.gnosisBridge.xdaiUsdsBridge]
     ),
