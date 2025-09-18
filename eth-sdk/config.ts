@@ -7,7 +7,7 @@ export const contracts = {
     aaveV3: {
       ...deFiKitContracts.mainnet.aaveV3,
       aaveCollectorV2: "0x464C71f6c2F760DdA6093dCB91C24c39e5d6e18c",
-      unmbrellaBatchHelper: "0xCe6Ced23118EDEb23054E06118a702797b13fc2F",
+      umbrellaBatchHelper: "0xCe6Ced23118EDEb23054E06118a702797b13fc2F",
       stkwaEthToken: "0xaAFD07D53A7365D3e9fb6F3a3B09EC19676B73Ce", // stkwaEthWETH
       umbrellaRewardsController: "0x4655Ce3D625a63d30bA704087E52B4C31E38188B",
     },
@@ -40,11 +40,16 @@ export const contracts = {
       ethxWaWethGauge: "0x1f3A4C8115629C33A28bF2F97F22D31d256317F6",
       osEthWaWeth: "0x57c23c58B1D8C3292c15BEcF07c62C5c52457A42",
       osEthWaWethGauge: "0x70A1c01902DAb7a45dcA1098Ca76A8314dd8aDbA",
+      surgeFluidWstEthWeth: "0x6b31a94029fd7840d780191B6D63Fa0D269bd883",
+      surgeFluidWstEthWethGauge: "0x1CCE9d493224A19FcB5f7fBade8478630141CB54",
     },
     baseBridge: {
       baseBridge: "0x3154Cf16ccdb4C6d922629664174b904d80F2C35",
       basePortal: "0x49048044D57e1C92A77f79988d21Fa8fAF74E97e",
       resolvedDelegateProxy: "0x866E82a600A1414e583f7F13623F1aC5d58b0Afa",
+    },
+    chainlink: {
+      router: "0x80226fc0Ee2b096224EeAc085Bb9a8cba1146f7D",
     },
     convex: {
       ...deFiKitContracts.mainnet.convex,
@@ -103,11 +108,10 @@ export const contracts = {
       sEna: "0x8bE3460A480c80728a8C4D7a5D5303c85ba7B3b9",
     },
     etherfi: {
-      liquidEth: "0xf0bb20865277aBd641a307eCe5Ee04E79073416C",
-      tellerWithMultiAssetSupport: "0x5c135e8eC99557b412b9B4492510dCfBD36066F5",
+      liquidEthYieldVaultTeller: "0x9AA79C84b79816ab920bBcE20f8f74557B514734",
+      marketNeutralUsdVaultTeller: "0x4DE413a26fC24c3FC27Cc983be70aA9c5C299387",
       atomicQueue: "0xD45884B592E316eB816199615A95C182F75dea07",
       depositAdapter: "0xcfC6d9Bd7411962Bfe7145451A7EF71A24b6A7A2",
-      eEth: "0x35fA164735182de50811E8e2E824cFb9B6118ac2",
       weEth: "0xCd5fE23C85820F7B72D0926FC9b05b43E359b7ee",
       liquidityPool: "0x308861A430be4cce5502d0A12724771Fc6DaF216",
       withdrawRequestNft: "0x7d5706f6ef3F89B3951E23e557CDFBC3239D4E2c",
@@ -120,6 +124,11 @@ export const contracts = {
       stEthCdo: "0x34dCd573C5dE4672C8248cd12A99f875Ca112Ad8",
       wstEthAaGauge: "0x675eC042325535F6e176638Dd2d4994F645502B9",
       distributorProxy: "0x074306bc6a6fc1bd02b425dd41d742adf36ca9c6",
+    },
+    kelp: {
+      lrtDepositPool: "0x036676389e48133B63a802f8635AD39E752D375D",
+      lrtWithdrawalManager: "0x62De59c08eB5dAE4b7E6F7a8cAd3006d6965ec16",
+      hgEthAdapter: "0xB185D98056419029daE7120EcBeFa0DbC12c283A",
     },
     lido: {
       ...deFiKitContracts.mainnet.lido,
@@ -135,8 +144,7 @@ export const contracts = {
     },
     morpho: {
       ...deFiKitContracts.mainnet.morpho,
-      gtUsdc: "0xdd0f28e19C1780eb6396170735D45153D261490d",
-      steakUSDC: "0xBEEF01735c132Ada46AA9aA4c54623cAA92A64CB",
+      vault: "0xdd0f28e19C1780eb6396170735D45153D261490d", // gtUSDC
       universalRewardsDistributor: "0x330eefa8a787552DC5cAd3C3cA644844B1E61Ddb",
     },
     mStableV2: {
@@ -172,7 +180,7 @@ export const contracts = {
       ethoriaVault: "0x5FE4B38520e856921978715C8579D2D7a4d2274F",
     },
     resolv: {
-      stUsr: "0x6c8984bc7DBBeDAf4F6b2FD766f16eBB7d10AAb4",
+      wstUsr: "0x1202F5C7b4B9E47a1A484E8B270be34dbbC75055",
     },
     sablier: {
       v2LockUpDyn: "0x7CC7e125d83A581ff438608490Cc0f7bDff79127",
