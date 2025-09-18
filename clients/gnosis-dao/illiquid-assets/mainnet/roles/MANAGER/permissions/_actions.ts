@@ -2,12 +2,20 @@ import { allow as allowAction } from "defi-kit/eth"
 import {
   DAI,
   ETHx,
+  ezETH,
   GHO,
+  OETH,
   osETH,
   rETH,
+  RLUSD,
+  rsETH,
   stETH,
   USDC,
+  USDe,
+  USDS,
   USDT,
+  USR,
+  weETH,
   WETH,
   wstETH,
 } from "@/addresses/eth"
@@ -56,46 +64,40 @@ export default [
   // Balancer - Lock
   allowAction.balancer_v2.lock(),
 
-  // CowSwap - DAI <-> USDC
+  // CowSwap - [DAI, GHO, RLUSD, USDe, USDC, USDS, USDT, USR] <-> [DAI, GHO, RLUSD, USDe, USDC, USDS, USDT, USR]
   allowAction.cowswap.swap({
-    sell: [DAI, USDC],
-    buy: [DAI, USDC],
-  }),
-  // CowSwap - DAI <-> USDT
-  allowAction.cowswap.swap({
-    sell: [DAI, USDT],
-    buy: [DAI, USDT],
-  }),
-  // CowSwap - GHO <-> USDC
-  allowAction.cowswap.swap({
-    sell: [GHO, USDC],
-    buy: [GHO, USDC],
-  }),
-  // CowSwap - USDC <-> USDT
-  allowAction.cowswap.swap({
-    sell: [USDC, USDT],
-    buy: [USDC, USDT],
+    sell: [DAI, GHO, RLUSD, USDe, USDC, USDS, USDT, USR],
+    buy: [DAI, GHO, RLUSD, USDe, USDC, USDS, USDT, USR],
   }),
 
-  // CowSwap - ETH <-> ETHx
+  // CowSwap - [ETH, ETHx, ezETH, OETH, osETH, rETH, rsETH, stETH, weETH, WETH, wstETH] <-> [ETH, ETHx, ezETH, OETH, osETH, rETH, rsETH, stETH, weETH, WETH, wstETH]
   allowAction.cowswap.swap({
-    sell: ["ETH", ETHx],
-    buy: ["ETH", ETHx],
-  }),
-  // CowSwap - WETH <-> osETH
-  allowAction.cowswap.swap({
-    sell: [WETH, osETH],
-    buy: [WETH, osETH],
-  }),
-  // CowSwap - WETH <-> rETH
-  allowAction.cowswap.swap({
-    sell: [WETH, rETH],
-    buy: [WETH, rETH],
-  }),
-  // CowSwap - wstETH -> stETH
-  allowAction.cowswap.swap({
-    sell: [wstETH],
-    buy: [stETH],
+    sell: [
+      "ETH",
+      ETHx,
+      ezETH,
+      OETH,
+      osETH,
+      rETH,
+      rsETH,
+      stETH,
+      weETH,
+      WETH,
+      wstETH,
+    ],
+    buy: [
+      "ETH",
+      ETHx,
+      ezETH,
+      OETH,
+      osETH,
+      rETH,
+      rsETH,
+      stETH,
+      weETH,
+      WETH,
+      wstETH,
+    ],
   }),
 
   // Lido
