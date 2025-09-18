@@ -31,10 +31,7 @@ export default [
   balancerV2Swap(balancer.b4PoolPid, [DAI, USDC, USDCe], [DAI, USDC, USDCe]),
 
   // Uniswap v3 - [DAI, USDC, USDC.e] <-> [DAI, USDC, USDC.e]
-  allowErc20Approve(
-    [DAI, USDC, USDCe],
-    [contracts.mainnet.uniswapV3.router2]
-  ),
+  allowErc20Approve([DAI, USDC, USDCe], [contracts.mainnet.uniswapV3.router2]),
   allow.mainnet.uniswapV3.router2.exactInputSingle({
     tokenIn: c.or(DAI, USDC, USDCe),
     tokenOut: c.or(DAI, USDC, USDCe),

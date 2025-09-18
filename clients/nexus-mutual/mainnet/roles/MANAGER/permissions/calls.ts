@@ -184,10 +184,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.balancerV2.bCow50Wnxm50Weth.exitPool(),
 
     // Balancer v3 - Aave Boosted USDT/GHO/USDC
-    allowErc20Approve(
-      [GHO, USDC, USDT],
-      [contracts.mainnet.uniswap.permit2]
-    ),
+    allowErc20Approve([GHO, USDC, USDT], [contracts.mainnet.uniswap.permit2]),
     allow.mainnet.uniswap.permit2.approve(
       c.or(GHO, USDC, USDT),
       contracts.mainnet.balancerV3.compositeLiquidityRouter

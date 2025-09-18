@@ -22,10 +22,7 @@ export default [
   ),
 
   // Curve - crvUSDC <-> USDC
-  allowErc20Approve(
-    [crvUSD, USDC],
-    [contracts.optimism.curve.crvUsdUsdcPool]
-  ),
+  allowErc20Approve([crvUSD, USDC], [contracts.optimism.curve.crvUsdUsdcPool]),
   allow.optimism.curve.crvUsdUsdcPool[
     "exchange(int128,int128,uint256,uint256)"
   ](

@@ -37,10 +37,7 @@ export default (parameters: Parameters) =>
      *********************************************/
     // Mainnet -> Gnosis
     // USDC -> USDC.e - Gnosis Bridge
-    allowErc20Approve(
-      [USDC],
-      [contracts.mainnet.gnosisBridge.gnoOmnibridge]
-    ),
+    allowErc20Approve([USDC], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
     allow.mainnet.gnosisBridge.gnoOmnibridge.relayTokensAndCall(
       USDC,
       contracts.gnosis.gnosisBridge.usdcTransmuter,

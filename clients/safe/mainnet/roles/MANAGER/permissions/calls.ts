@@ -208,10 +208,7 @@ export default (parameters: Parameters) =>
     ),
 
     // Curve - x3CRV - DAI/USDC/USDT
-    allowErc20Approve(
-      [DAI, USDC, USDT],
-      [contracts.mainnet.curve.x3CrvPool]
-    ),
+    allowErc20Approve([DAI, USDC, USDT], [contracts.mainnet.curve.x3CrvPool]),
     allow.mainnet.curve.x3CrvPool.add_liquidity(),
     allow.mainnet.curve.x3CrvPool.remove_liquidity(),
     allow.mainnet.curve.x3CrvPool.remove_liquidity_imbalance(),
@@ -272,10 +269,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.oEthCrvGauge),
 
     // Curve - osETH/rETH
-    allowErc20Approve(
-      [osETH, rETH],
-      [contracts.mainnet.curve.osEthRethPool]
-    ),
+    allowErc20Approve([osETH, rETH], [contracts.mainnet.curve.osEthRethPool]),
     allow.mainnet.curve.osEthRethPool["add_liquidity(uint256[],uint256)"](),
     allow.mainnet.curve.osEthRethPool["remove_liquidity(uint256,uint256[])"](),
     allow.mainnet.curve.osEthRethPool[
@@ -572,10 +566,7 @@ export default (parameters: Parameters) =>
      *********************************************/
     // Mainnet -> Gnosis
     // DAI -> XDAI - Gnosis Bridge
-    allowErc20Approve(
-      [DAI],
-      [contracts.mainnet.gnosisBridge.xdaiUsdsBridge]
-    ),
+    allowErc20Approve([DAI], [contracts.mainnet.gnosisBridge.xdaiUsdsBridge]),
     allow.mainnet.gnosisBridge.xdaiUsdsBridge.relayTokens(DAI, c.avatar),
     // Claim bridged XDAI from Gnosis
     allow.mainnet.gnosisBridge.xdaiUsdsBridge.executeSignatures(

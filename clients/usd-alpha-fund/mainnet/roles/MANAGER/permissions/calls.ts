@@ -51,10 +51,7 @@ export default (parameters: Parameters) =>
     },
 
     // Balancer v3 - Aave Boosted USDT/GHO/USDC
-    allowErc20Approve(
-      [GHO, USDC, USDT],
-      [contracts.mainnet.uniswap.permit2]
-    ),
+    allowErc20Approve([GHO, USDC, USDT], [contracts.mainnet.uniswap.permit2]),
     allow.mainnet.uniswap.permit2.approve(
       c.or(GHO, USDC, USDT),
       contracts.mainnet.balancerV3.compositeLiquidityRouter
@@ -97,10 +94,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.compoundV3.cometRewards.claim(undefined, c.avatar),
 
     // Curve - crvUSD/USDT
-    allowErc20Approve(
-      [crvUSD, USDT],
-      [contracts.mainnet.curve.crvUsdUsdtPool]
-    ),
+    allowErc20Approve([crvUSD, USDT], [contracts.mainnet.curve.crvUsdUsdtPool]),
     allow.mainnet.curve.crvUsdUsdtPool["add_liquidity(uint256[2],uint256)"](),
     allow.mainnet.curve.crvUsdUsdtPool[
       "remove_liquidity(uint256,uint256[2])"
@@ -121,10 +115,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.crvUsdUsdtGauge),
 
     // Curve - crvUSD/USDC
-    allowErc20Approve(
-      [crvUSD, USDC],
-      [contracts.mainnet.curve.crvUsdUsdcPool]
-    ),
+    allowErc20Approve([crvUSD, USDC], [contracts.mainnet.curve.crvUsdUsdcPool]),
     allow.mainnet.curve.crvUsdUsdcPool["add_liquidity(uint256[2],uint256)"](),
     allow.mainnet.curve.crvUsdUsdcPool[
       "remove_liquidity(uint256,uint256[2])"
@@ -350,10 +341,7 @@ export default (parameters: Parameters) =>
     ),
 
     // Curve - [DAI, USDC, USDT] <-> [DAI, USDC, USDT]
-    allowErc20Approve(
-      [DAI, USDC, USDT],
-      [contracts.mainnet.curve.x3CrvPool]
-    ),
+    allowErc20Approve([DAI, USDC, USDT], [contracts.mainnet.curve.x3CrvPool]),
     allow.mainnet.curve.x3CrvPool.exchange(),
 
     // Curve - sDAI <-> USDM
@@ -406,10 +394,7 @@ export default (parameters: Parameters) =>
      *********************************************/
     // Mainnet -> Gnosis
     // DAI -> XDAI - Gnosis Bridge
-    allowErc20Approve(
-      [DAI],
-      [contracts.mainnet.gnosisBridge.xdaiUsdsBridge]
-    ),
+    allowErc20Approve([DAI], [contracts.mainnet.gnosisBridge.xdaiUsdsBridge]),
     allow.mainnet.gnosisBridge.xdaiUsdsBridge.relayTokens(DAI, c.avatar),
     // Claim bridged XDAI from Gnosis
     allow.mainnet.gnosisBridge.xdaiUsdsBridge.executeSignatures(
@@ -453,10 +438,7 @@ export default (parameters: Parameters) =>
     ),
 
     // USDC -> USDC.e - Gnosis Bridge
-    allowErc20Approve(
-      [USDC],
-      [contracts.mainnet.gnosisBridge.gnoOmnibridge]
-    ),
+    allowErc20Approve([USDC], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
     allow.mainnet.gnosisBridge.gnoOmnibridge.relayTokensAndCall(
       USDC,
       contracts.gnosis.gnosisBridge.usdcTransmuter,
@@ -557,10 +539,7 @@ export default (parameters: Parameters) =>
 
     // Mainnet -> Optimism
     // DAI - Superbridge
-    allowErc20Approve(
-      [DAI],
-      [contracts.mainnet.optimismBridge.optDaiBridge]
-    ),
+    allowErc20Approve([DAI], [contracts.mainnet.optimismBridge.optDaiBridge]),
     allow.mainnet.optimismBridge.optDaiBridge.depositERC20(
       DAI,
       DAI_opt,
@@ -614,10 +593,7 @@ export default (parameters: Parameters) =>
 
     // Mainnet -> Arbitrum
     // DAI - Arbitrum Bridge
-    allowErc20Approve(
-      [DAI],
-      [contracts.mainnet.arbitrumBridge.arbDaiGateway]
-    ),
+    allowErc20Approve([DAI], [contracts.mainnet.arbitrumBridge.arbDaiGateway]),
     // arbL1GatewayRouter->getGateway(_token) -> contracts.mainnet.arbDaiGateway
     // https://etherscan.io/address/0xD3B5b60020504bc3489D6949d545893982BA3011#code#F1#L160
     allow.mainnet.arbitrumBridge.arbL1GatewayRouter.outboundTransfer(

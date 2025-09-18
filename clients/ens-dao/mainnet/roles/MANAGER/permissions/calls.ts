@@ -269,10 +269,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.oEthCrvGauge),
 
     // Curve - x3CRV - DAI/USDC/USDT
-    allowErc20Approve(
-      [DAI, USDC, USDT],
-      [contracts.mainnet.curve.x3CrvPool]
-    ),
+    allowErc20Approve([DAI, USDC, USDT], [contracts.mainnet.curve.x3CrvPool]),
     allow.mainnet.curve.x3CrvPool.add_liquidity(),
     allow.mainnet.curve.x3CrvPool.remove_liquidity(),
     allow.mainnet.curve.x3CrvPool.remove_liquidity_imbalance(),
@@ -312,10 +309,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.ethxfGauge),
 
     // Curve - osETH/rETH
-    allowErc20Approve(
-      [osETH, rETH],
-      [contracts.mainnet.curve.osEthRethPool]
-    ),
+    allowErc20Approve([osETH, rETH], [contracts.mainnet.curve.osEthRethPool]),
     allow.mainnet.curve.osEthRethPool["add_liquidity(uint256[],uint256)"](),
     allow.mainnet.curve.osEthRethPool["remove_liquidity(uint256,uint256[])"](),
     allow.mainnet.curve.osEthRethPool[
@@ -643,10 +637,7 @@ export default (parameters: Parameters) =>
     ),
 
     // Curve - [DAI, USDC, USDT] <-> [DAI, USDC, USDT]
-    allowErc20Approve(
-      [DAI, USDC, USDT],
-      [contracts.mainnet.curve.x3CrvPool]
-    ),
+    allowErc20Approve([DAI, USDC, USDT], [contracts.mainnet.curve.x3CrvPool]),
     allow.mainnet.curve.x3CrvPool.exchange(),
 
     // Curve - CVX -> ETH

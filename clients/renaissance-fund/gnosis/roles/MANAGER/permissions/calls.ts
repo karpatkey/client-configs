@@ -11,10 +11,7 @@ export default (parameters: Parameters) =>
      * Swaps
      *********************************************/
     // Swap USDC.e -> USDC
-    allowErc20Approve(
-      [USDCe],
-      [contracts.gnosis.gnosisBridge.usdcTransmuter]
-    ),
+    allowErc20Approve([USDCe], [contracts.gnosis.gnosisBridge.usdcTransmuter]),
     allow.gnosis.gnosisBridge.usdcTransmuter.withdraw(),
 
     /*********************************************

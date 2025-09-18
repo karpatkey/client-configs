@@ -21,10 +21,7 @@ export default (parameters: Parameters) =>
      *********************************************/
     // Mainnet -> Gnosis
     // DAI -> XDAI - Gnosis Bridge
-    allowErc20Approve(
-      [DAI],
-      [contracts.mainnet.gnosisBridge.xdaiUsdsBridge]
-    ),
+    allowErc20Approve([DAI], [contracts.mainnet.gnosisBridge.xdaiUsdsBridge]),
     allow.mainnet.gnosisBridge.xdaiUsdsBridge.relayTokens(DAI, kpkFoundationGc),
     // Claim bridged XDAI from Gnosis
     allow.mainnet.gnosisBridge.xdaiUsdsBridge.executeSignatures(

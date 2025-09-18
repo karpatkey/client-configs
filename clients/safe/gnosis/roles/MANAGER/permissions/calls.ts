@@ -95,16 +95,10 @@ export default (parameters: Parameters) =>
      * Swaps
      *********************************************/
     // Swap USDC.e -> USDC
-    allowErc20Approve(
-      [USDCe],
-      [contracts.gnosis.gnosisBridge.usdcTransmuter]
-    ),
+    allowErc20Approve([USDCe], [contracts.gnosis.gnosisBridge.usdcTransmuter]),
     allow.gnosis.gnosisBridge.usdcTransmuter.withdraw(),
     // Swap USDC -> USDC.e
-    allowErc20Approve(
-      [USDC],
-      [contracts.gnosis.gnosisBridge.usdcTransmuter]
-    ),
+    allowErc20Approve([USDC], [contracts.gnosis.gnosisBridge.usdcTransmuter]),
     allow.gnosis.gnosisBridge.usdcTransmuter.deposit(),
 
     // Balancer v2 - WETH <-> wstETH - bb-WETH-wstETH

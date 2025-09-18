@@ -25,10 +25,7 @@ export default [
   ),
 
   // Curve - crvUSDC <-> USDC
-  allowErc20Approve(
-    [crvUSD, USDC],
-    [contracts.optimism.curve.crvUsdUsdcPool]
-  ),
+  allowErc20Approve([crvUSD, USDC], [contracts.optimism.curve.crvUsdUsdcPool]),
   allow.optimism.curve.crvUsdUsdcPool[
     "exchange(int128,int128,uint256,uint256)"
   ](
@@ -62,10 +59,7 @@ export default [
    *********************************************/
   // Optimism -> Mainnet
   // DAI - Superbridge
-  allowErc20Approve(
-    [DAI],
-    [contracts.optimism.optimismBridge.daiTokenBridge]
-  ),
+  allowErc20Approve([DAI], [contracts.optimism.optimismBridge.daiTokenBridge]),
   allow.optimism.optimismBridge.daiTokenBridge.withdraw(
     DAI,
     undefined,
