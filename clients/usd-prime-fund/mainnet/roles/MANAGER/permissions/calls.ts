@@ -3,7 +3,7 @@ import { allow } from "zodiac-roles-sdk/kit"
 import { zeroAddress } from "@/addresses"
 import {
   cbBTC,
-  GHO, 
+  GHO,
   sUSDS,
   USDC,
   USDS,
@@ -357,8 +357,8 @@ export default (parameters: Parameters) =>
         // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#genericextraargsv2
         extraArgs: c.or(
           "0x",
-          "0x181dcf1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001",
-        )
+          "0x181dcf1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001"
+        ),
       },
       {
         send: true,

@@ -1,6 +1,14 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { cbBTC, cbETH, GHO, USDC, aura, balancerV3, morpho } from "@/addresses/base"
+import {
+  cbBTC,
+  cbETH,
+  GHO,
+  USDC,
+  aura,
+  balancerV3,
+  morpho,
+} from "@/addresses/base"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
@@ -13,10 +21,7 @@ export default (parameters: Parameters) =>
      *********************************************/
 
     // Aura - Aave Boosted GHO/USDC
-    allowErc20Approve(
-      [balancerV3.aaveUsdcGho],
-      [contracts.base.aura.booster]
-    ),
+    allowErc20Approve([balancerV3.aaveUsdcGho], [contracts.base.aura.booster]),
     allow.base.aura.booster.deposit("19"),
     {
       ...allow.base.aura.rewarder.withdrawAndUnwrap(),
@@ -51,10 +56,7 @@ export default (parameters: Parameters) =>
     allow.base.balancerV3.compositeLiquidityRouter.removeLiquidityProportionalFromERC4626Pool(
       balancerV3.aaveUsdcGho
     ),
-    allowErc20Approve(
-      [balancerV3.aaveUsdcGho],
-      [balancerV3.aaveUsdcGhoGauge]
-    ),
+    allowErc20Approve([balancerV3.aaveUsdcGho], [balancerV3.aaveUsdcGhoGauge]),
     {
       ...allow.base.balancerV2.gauge["deposit(uint256)"](),
       targetAddress: balancerV3.aaveUsdcGhoGauge,
