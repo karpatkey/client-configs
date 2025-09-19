@@ -1,4 +1,6 @@
 // Tokens
+export const AURA = "0x1509706a6c66CA549ff0cB464de88231DDBe213B"
+export const BAL = "0x040d1EdC9569d4Bab2D15287Dc5A4F10F56a56B8"
 export const DAI = "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1"
 export const COMP = "0x354A6dA3fcde098F8389cad84b0182725c6C91dE"
 export const EUL = "0x462cD9E0247b2e63831c3189aE738E5E9a5a4b64"
@@ -14,9 +16,21 @@ export const USDS = "0x6491c05A82219b8D1479057361ff1654749b876b"
 export const USDT = "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9"
 export const WETH = "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1"
 
-export const balancer = {
+export const aura = {
+  auraAaveGhoUsdtUsdcRewarder: "0x627305fF273640e0468D3c5DFE4FC2Adb1D013e8",
+} as const
+export const balancerV2 = {
+  // pIds
   b4PoolPid:
     "0x423a1323c871abc9d89eb06855bf5347048fc4a5000000000000000000000496",
+} as const
+
+export const balancerV3 = {
+  // BPTs
+  aaveGhoUsdtUsdc: "0x19B001e6Bc2d89154c18e2216eec5C8c6047b6d8",
+
+  // Gauges
+  aaveGhoUsdtUsdcGauge: "0x915475b32983b7EB1235c1b6752149b454f81ad8",
 } as const
 
 export const compoundV3 = {

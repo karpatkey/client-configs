@@ -1,16 +1,22 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
+import { zeroAddress } from "@/addresses"
 import {
   cbBTC,
-  morpho,
-  pendle,
+  GHO,
+  sUSDe,
   sUSDS,
   USDC,
+  USDe,
   USDS,
   USDT,
   WBTC,
   wstETH,
   wstUSR,
+  aura,
+  balancerV3,
+  morpho,
+  pendle,
 } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
@@ -23,10 +29,76 @@ export default (parameters: Parameters) =>
      * Protocols
      *********************************************/
 
-    // ACI - Claim Merit Rewards through Merkle (max 2 tokens: USDS and stkGHO)
+    // ACI - Claim Merit Rewards through Merkle (max 3 tokens: MORPHO, stkGHO and USDS)
     allow.mainnet.merkl.angleDistributor.claim(
-      c.or([parameters.avatar], [parameters.avatar, parameters.avatar])
+      c.or(
+        [parameters.avatar],
+        [parameters.avatar, parameters.avatar],
+        [parameters.avatar, parameters.avatar, parameters.avatar]
+      )
     ),
+
+    // Aura - Aave Boosted USDT/GHO/USDC
+    allowErc20Approve(
+      [balancerV3.aaveGhoUsdtUsdc],
+      [contracts.mainnet.aura.booster]
+    ),
+    allow.mainnet.aura.booster.deposit("246"),
+    {
+      ...allow.mainnet.aura.rewarder.withdrawAndUnwrap(),
+      targetAddress: aura.auraAaveGhoUsdtUsdcRewarder,
+    },
+    {
+      ...allow.mainnet.aura.rewarder["getReward()"](),
+      targetAddress: aura.auraAaveGhoUsdtUsdcRewarder,
+    },
+    {
+      ...allow.mainnet.aura.rewarder["getReward(address,bool)"](c.avatar),
+      targetAddress: aura.auraAaveGhoUsdtUsdcRewarder,
+    },
+
+    // Balancer v3 - Aave Boosted USDT/GHO/USDC
+    allowErc20Approve([GHO, USDC, USDT], [contracts.mainnet.uniswap.permit2]),
+    allow.mainnet.uniswap.permit2.approve(
+      c.or(GHO, USDC, USDT),
+      contracts.mainnet.balancerV3.compositeLiquidityRouter
+    ),
+    allow.mainnet.balancerV3.compositeLiquidityRouter.addLiquidityProportionalToERC4626Pool(
+      balancerV3.aaveGhoUsdtUsdc
+    ),
+    allow.mainnet.balancerV3.compositeLiquidityRouter.addLiquidityUnbalancedToERC4626Pool(
+      balancerV3.aaveGhoUsdtUsdc
+    ),
+    allowErc20Approve(
+      [balancerV3.aaveGhoUsdtUsdc],
+      [contracts.mainnet.balancerV3.compositeLiquidityRouter]
+    ),
+    allow.mainnet.balancerV3.compositeLiquidityRouter.removeLiquidityProportionalFromERC4626Pool(
+      balancerV3.aaveGhoUsdtUsdc
+    ),
+    allowErc20Approve(
+      [balancerV3.aaveGhoUsdtUsdc],
+      [balancerV3.aaveGhoUsdtUsdcGauge]
+    ),
+    {
+      ...allow.mainnet.balancerV2.gauge["deposit(uint256)"](),
+      targetAddress: balancerV3.aaveGhoUsdtUsdcGauge,
+    },
+    {
+      ...allow.mainnet.balancerV2.gauge["withdraw(uint256)"](),
+      targetAddress: balancerV3.aaveGhoUsdtUsdcGauge,
+    },
+    {
+      ...allow.mainnet.balancerV2.gauge["claim_rewards()"](),
+      targetAddress: balancerV3.aaveGhoUsdtUsdcGauge,
+    },
+
+    // Ethena - Stake USDe
+    allowErc20Approve([USDe], [sUSDe]),
+    allow.mainnet.ethena.sUsde.deposit(undefined, c.avatar),
+    // Ethena - Unstake USDe
+    allow.mainnet.ethena.sUsde.cooldownShares(),
+    allow.mainnet.ethena.sUsde.unstake(c.avatar),
 
     // Morpho Blue - wstETH/USDC
     allowErc20Approve([USDC], [contracts.mainnet.morpho.morphoBlue]),
@@ -275,10 +347,40 @@ export default (parameters: Parameters) =>
       c.avatar
     ),
 
+    // Morpho - Claim Rewards
+    allow.mainnet.morpho.universalRewardsDistributor.claim(c.avatar),
+
     /*********************************************
      * Bridges
      *********************************************/
     // Mainnet -> Gnosis
+    // GHO - Chainlink - transporter.io
+    allowErc20Approve([GHO], [contracts.mainnet.chainlink.router]),
+    allow.mainnet.chainlink.router.ccipSend(
+      "465200170687744372", // https://docs.chain.link/ccip/directory/mainnet/chain/xdai-mainnet
+      {
+        receiver: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
+        data: "0x",
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#evmtokenamount
+        tokenAmounts: c.matches([
+          {
+            token: GHO,
+            amount: undefined,
+          },
+        ]),
+        feeToken: zeroAddress,
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#generic_extra_args_v2_tag
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#genericextraargsv2
+        extraArgs: c.or(
+          "0x",
+          "0x181dcf1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001"
+        ),
+      },
+      {
+        send: true,
+      }
+    ),
+
     // USDS -> XDAI - Gnosis Bridge
     allowErc20Approve([USDS], [contracts.mainnet.gnosisBridge.xdaiUsdsBridge]),
     allow.mainnet.gnosisBridge.xdaiUsdsBridge.relayTokens(USDS, c.avatar),
@@ -429,6 +531,33 @@ export default (parameters: Parameters) =>
     ),
 
     // Mainnet -> Arbitrum
+    // GHO - Chainlink - transporter.io
+    allowErc20Approve([GHO], [contracts.mainnet.chainlink.router]),
+    allow.mainnet.chainlink.router.ccipSend(
+      "4949039107694359620", // https://docs.chain.link/ccip/directory/mainnet/chain/ethereum-mainnet-arbitrum-1
+      {
+        receiver: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
+        data: "0x",
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#evmtokenamount
+        tokenAmounts: c.matches([
+          {
+            token: GHO,
+            amount: undefined,
+          },
+        ]),
+        feeToken: zeroAddress,
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#generic_extra_args_v2_tag
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#genericextraargsv2
+        extraArgs: c.or(
+          "0x",
+          "0x181dcf1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001"
+        ),
+      },
+      {
+        send: true,
+      }
+    ),
+
     // USDC - Stargate
     allowErc20Approve([USDC], [contracts.mainnet.stargate.poolUsdc]),
     allow.mainnet.stargate.poolUsdc.send(
@@ -466,6 +595,33 @@ export default (parameters: Parameters) =>
     },
 
     // Mainnet -> Base
+    // GHO - Chainlink - transporter.io
+    allowErc20Approve([GHO], [contracts.mainnet.chainlink.router]),
+    allow.mainnet.chainlink.router.ccipSend(
+      "15971525489660198786", // https://docs.chain.link/ccip/directory/mainnet/chain/ethereum-mainnet-base-1
+      {
+        receiver: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
+        data: "0x",
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#evmtokenamount
+        tokenAmounts: c.matches([
+          {
+            token: GHO,
+            amount: undefined,
+          },
+        ]),
+        feeToken: zeroAddress,
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#generic_extra_args_v2_tag
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#genericextraargsv2
+        extraArgs: c.or(
+          "0x",
+          "0x181dcf1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001"
+        ),
+      },
+      {
+        send: true,
+      }
+    ),
+
     // USDC - Stargate
     allow.mainnet.stargate.poolUsdc.send(
       {
@@ -483,6 +639,22 @@ export default (parameters: Parameters) =>
     ),
 
     // Mainnet -> Optimism
+    // USDC - Stargate
+    allow.mainnet.stargate.poolUsdc.send(
+      {
+        dstEid: "30184", // Base chain ID
+        to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
+        extraOptions: "0x",
+        composeMsg: "0x",
+        oftCmd: "0x",
+      },
+      undefined,
+      c.avatar,
+      {
+        send: true,
+      }
+    ),
+
     // USDC - Stargate
     allow.mainnet.stargate.poolUsdc.send(
       {

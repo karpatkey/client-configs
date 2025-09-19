@@ -1,5 +1,5 @@
 import { allow as allowAction } from "defi-kit/arb1"
-import { USDC, USDT } from "@/addresses/arb1"
+import { AURA, BAL, GHO, USDC, USDT } from "@/addresses/arb1"
 import { Parameters } from "../../../parameters"
 
 export default (parameters: Parameters) => [
@@ -11,6 +11,8 @@ export default (parameters: Parameters) => [
   allowAction.aave_v3.deposit({ targets: ["USDC"] }),
   // Aave v3 - Deposit USDT
   allowAction.aave_v3.deposit({ targets: ["USD₮0"] }),
+  // Aave v3 - Borrow GHO
+  allowAction.aave_v3.borrow({ targets: ["GHO"] }),
 
   /*********************************************
    * Bridges
@@ -32,9 +34,9 @@ export default (parameters: Parameters) => [
    * Swaps
    *********************************************/
 
-  // CowSwap - [USDC, USDT] <-> [USDC, USDT]
+  // CowSwap - [AURA, BAL, GHO, USDC, USDT] <-> [USDC, USDT]
   allowAction.cowswap.swap({
-    sell: [USDC, USDT],
-    buy: [USDC, USDT],
+    sell: [AURA, BAL, GHO, USDC, USDT],
+    buy: [GHO, USDC, USDT],
   }),
 ]
