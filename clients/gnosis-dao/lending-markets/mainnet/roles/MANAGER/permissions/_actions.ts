@@ -3,6 +3,7 @@ import {
   DAI,
   ETHx,
   ezETH,
+  GEAR,
   GHO,
   KING,
   MORPHO,
@@ -76,9 +77,9 @@ export default [
     buy: [DAI, GHO, RLUSD, USDe, USDC, USDS, USDT, USR],
   }),
 
-  // CowSwap - [KING, MORPHO, SD] -> [USDC]
+  // CowSwap - [GEAR, KING, MORPHO, SD] -> [USDC]
   allowAction.cowswap.swap({
-    sell: [KING, MORPHO, SD],
+    sell: [GEAR, KING, MORPHO, SD],
     buy: [USDC],
   }),
 
