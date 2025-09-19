@@ -310,8 +310,10 @@ export default (parameters: Parameters) =>
         feeToken: zeroAddress,
         // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#generic_extra_args_v2_tag
         // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#genericextraargsv2
-        extraArgs:
+        extraArgs: c.or(
+          "0x",
           "0x181dcf1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001",
+        )
       },
       {
         send: true,
