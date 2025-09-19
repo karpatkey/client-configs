@@ -4,8 +4,10 @@ import { zeroAddress } from "@/addresses"
 import {
   cbBTC,
   GHO,
+  sUSDe,
   sUSDS,
   USDC,
+  USDe,
   USDS,
   USDT,
   WBTC,
@@ -27,9 +29,13 @@ export default (parameters: Parameters) =>
      * Protocols
      *********************************************/
 
-    // ACI - Claim Merit Rewards through Merkle (max 2 tokens: USDS and stkGHO)
+    // ACI - Claim Merit Rewards through Merkle (max 3 tokens: MORPHO, stkGHO and USDS)
     allow.mainnet.merkl.angleDistributor.claim(
-      c.or([parameters.avatar], [parameters.avatar, parameters.avatar])
+      c.or(
+        [parameters.avatar], 
+        [parameters.avatar, parameters.avatar],
+        [parameters.avatar, parameters.avatar, parameters.avatar],
+      )
     ),
 
     // Aura - Aave Boosted USDT/GHO/USDC
@@ -86,6 +92,13 @@ export default (parameters: Parameters) =>
       ...allow.mainnet.balancerV2.gauge["claim_rewards()"](),
       targetAddress: balancerV3.aaveGhoUsdtUsdcGauge,
     },
+
+    // Ethena - Stake USDe
+    allowErc20Approve([USDe], [sUSDe]),
+    allow.mainnet.ethena.sUsde.deposit(undefined, c.avatar),
+    // Ethena - Unstake USDe
+    allow.mainnet.ethena.sUsde.cooldownShares(),
+    allow.mainnet.ethena.sUsde.unstake(c.avatar),
 
     // Morpho Blue - wstETH/USDC
     allowErc20Approve([USDC], [contracts.mainnet.morpho.morphoBlue]),
@@ -334,6 +347,9 @@ export default (parameters: Parameters) =>
       c.avatar
     ),
 
+    // Morpho - Claim Rewards
+    allow.mainnet.morpho.universalRewardsDistributor.claim(c.avatar),
+
     /*********************************************
      * Bridges
      *********************************************/
@@ -515,6 +531,33 @@ export default (parameters: Parameters) =>
     ),
 
     // Mainnet -> Arbitrum
+    // GHO - Chainlink - transporter.io
+    allowErc20Approve([GHO], [contracts.mainnet.chainlink.router]),
+    allow.mainnet.chainlink.router.ccipSend(
+      "4949039107694359620", // https://docs.chain.link/ccip/directory/mainnet/chain/ethereum-mainnet-arbitrum-1
+      {
+        receiver: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
+        data: "0x",
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#evmtokenamount
+        tokenAmounts: c.matches([
+          {
+            token: GHO,
+            amount: undefined,
+          },
+        ]),
+        feeToken: zeroAddress,
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#generic_extra_args_v2_tag
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#genericextraargsv2
+        extraArgs: c.or(
+          "0x",
+          "0x181dcf1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001"
+        ),
+      },
+      {
+        send: true,
+      }
+    ),
+
     // USDC - Stargate
     allowErc20Approve([USDC], [contracts.mainnet.stargate.poolUsdc]),
     allow.mainnet.stargate.poolUsdc.send(
@@ -552,6 +595,33 @@ export default (parameters: Parameters) =>
     },
 
     // Mainnet -> Base
+    // GHO - Chainlink - transporter.io
+    allowErc20Approve([GHO], [contracts.mainnet.chainlink.router]),
+    allow.mainnet.chainlink.router.ccipSend(
+      "15971525489660198786", // https://docs.chain.link/ccip/directory/mainnet/chain/ethereum-mainnet-base-1
+      {
+        receiver: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
+        data: "0x",
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#evmtokenamount
+        tokenAmounts: c.matches([
+          {
+            token: GHO,
+            amount: undefined,
+          },
+        ]),
+        feeToken: zeroAddress,
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#generic_extra_args_v2_tag
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#genericextraargsv2
+        extraArgs: c.or(
+          "0x",
+          "0x181dcf1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001"
+        ),
+      },
+      {
+        send: true,
+      }
+    ),
+
     // USDC - Stargate
     allow.mainnet.stargate.poolUsdc.send(
       {
@@ -569,6 +639,22 @@ export default (parameters: Parameters) =>
     ),
 
     // Mainnet -> Optimism
+    // USDC - Stargate
+    allow.mainnet.stargate.poolUsdc.send(
+      {
+        dstEid: "30184", // Base chain ID
+        to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
+        extraOptions: "0x",
+        composeMsg: "0x",
+        oftCmd: "0x",
+      },
+      undefined,
+      c.avatar,
+      {
+        send: true,
+      }
+    ),
+
     // USDC - Stargate
     allow.mainnet.stargate.poolUsdc.send(
       {

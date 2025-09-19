@@ -1,5 +1,6 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
+import { zeroAddress } from "@/addresses"
 import { GHO, USDC, USDT, aura, balancerV3 } from "@/addresses/arb1"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
@@ -67,6 +68,34 @@ export default (parameters: Parameters) =>
     /*********************************************
      * Bridges
      *********************************************/
+    // Arbitrum -> Mainnet
+    // GHO - Chainlink - transporter.io
+    allowErc20Approve([GHO], [contracts.arbitrumOne.chainlink.router]),
+    allow.arbitrumOne.chainlink.router.ccipSend(
+      "5009297550715157269", // https://docs.chain.link/ccip/directory/mainnet/chain/mainnet
+      {
+        receiver: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
+        data: "0x",
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#evmtokenamount
+        tokenAmounts: c.matches([
+          {
+            token: GHO,
+            amount: undefined,
+          },
+        ]),
+        feeToken: zeroAddress,
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#generic_extra_args_v2_tag
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#genericextraargsv2
+        extraArgs: c.or(
+          "0x",
+          "0x181dcf1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001"
+        ),
+      },
+      {
+        send: true,
+      }
+    ),
+
     // USDC - Stargate to Mainnet
     allowErc20Approve([USDC], [contracts.arbitrumOne.stargate.poolUsdc]),
     allow.arbitrumOne.stargate.poolUsdc.send(
@@ -96,6 +125,62 @@ export default (parameters: Parameters) =>
       },
       undefined,
       c.avatar,
+      {
+        send: true,
+      }
+    ),
+
+    // Arbitrum -> Gnosis Chain
+    // GHO - Chainlink - transporter.io
+    allowErc20Approve([GHO], [contracts.arbitrumOne.chainlink.router]),
+    allow.arbitrumOne.chainlink.router.ccipSend(
+      "465200170687744372", // https://docs.chain.link/ccip/directory/mainnet/chain/xdai-mainnet
+      {
+        receiver: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
+        data: "0x",
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#evmtokenamount
+        tokenAmounts: c.matches([
+          {
+            token: GHO,
+            amount: undefined,
+          },
+        ]),
+        feeToken: zeroAddress,
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#generic_extra_args_v2_tag
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#genericextraargsv2
+        extraArgs: c.or(
+          "0x",
+          "0x181dcf1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001"
+        ),
+      },
+      {
+        send: true,
+      }
+    ),
+
+    // Arbitrum -> Base
+    // GHO - Chainlink - transporter.io
+    allowErc20Approve([GHO], [contracts.arbitrumOne.chainlink.router]),
+    allow.arbitrumOne.chainlink.router.ccipSend(
+      "15971525489660198786", // https://docs.chain.link/ccip/directory/mainnet/chain/ethereum-mainnet-base-1
+      {
+        receiver: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
+        data: "0x",
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#evmtokenamount
+        tokenAmounts: c.matches([
+          {
+            token: GHO,
+            amount: undefined,
+          },
+        ]),
+        feeToken: zeroAddress,
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#generic_extra_args_v2_tag
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#genericextraargsv2
+        extraArgs: c.or(
+          "0x",
+          "0x181dcf1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001"
+        ),
+      },
       {
         send: true,
       }

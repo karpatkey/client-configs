@@ -1,5 +1,19 @@
 import { allow as allowAction } from "defi-kit/eth"
-import { USDS, stkGHO, USDC, USDT, sUSDS, DAI, GHO } from "@/addresses/eth"
+import {
+  AURA,
+  BAL,
+  DAI,
+  GHO,
+  MORPHO,
+  SPK,
+  sUSDe,
+  sUSDS,
+  stkGHO,
+  USDC,
+  USDe,
+  USDS,
+  USDT,
+} from "@/addresses/eth"
 import { Parameters } from "../../../parameters"
 
 export default (parameters: Parameters) => [
@@ -29,10 +43,24 @@ export default (parameters: Parameters) => [
    * Swaps
    *********************************************/
 
-  // CowSwap - [USDC, USDS, USDT, sUSDS, GHO, stkGHO] <-> [USDC, USDS, USDT, sUSDS, GHO, stkGHO]
+  // CowSwap - [AURA, BAL, DAI, GHO, MORPHO, SPK, sUSDe, sUSDS, stkGHO, USDC, USDe, USDS, USDT] <-> [GHO, sUSDe, sUSDS, stkGHO, USDC, USDe, USDS, USDT]
   allowAction.cowswap.swap({
-    sell: [USDC, USDS, DAI, USDT, sUSDS, GHO, stkGHO],
-    buy: [USDC, USDS, USDT, sUSDS, GHO, stkGHO],
+    sell: [
+      AURA,
+      BAL,
+      DAI,
+      GHO,
+      MORPHO,
+      SPK,
+      sUSDe,
+      sUSDS,
+      stkGHO,
+      USDC,
+      USDe,
+      USDS,
+      USDT,
+    ],
+    buy: [GHO, sUSDe, sUSDS, stkGHO, USDC, USDe, USDS, USDT],
   }),
 
   /*********************************************

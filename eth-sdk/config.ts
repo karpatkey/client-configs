@@ -257,6 +257,9 @@ export const contracts = {
       aaveLido50WstEth50Gno: "0x272d6BE442E30D7c87390eDEb9B96f1E84cEcD8d",
       aaveLido50WstEth50GnoGauge: "0xcBD87e4Dad6a99506484E9adEEC8FF84Ce7BD399",
     },
+    chainlink: {
+      router: "0x4aAD6071085df840abD9Baf1697d5D5992bDadce",
+    },
     curve: {
       x3CrvPool: "0x7f90122BF0700F9E7e1F688fe926940E8839F353",
       crvEureUsdPool: "0x056C6C5e684CeC248635eD86033378Cc444459B0",
@@ -310,6 +313,9 @@ export const contracts = {
     balancerV3: {
       compositeLiquidityRouter: "0xC1A64500E035D9159C8826E982dFb802003227f0",
     },
+    chainlink: {
+      router: "0x141fa059441E0ca23ce184B6A78bafD2A517DdE8",
+    },
     compoundV3: {
       ...deFiKitContracts.arbitrumOne.compoundV3,
       comet: "0x2416101cFd4aD12cA2D5b3E58419073c7D78d857", // CometWithExtendedAssetList
@@ -352,6 +358,12 @@ export const contracts = {
     balancerV3: {
       compositeLiquidityRouter: "0x9dA18982a33FD0c7051B19F0d7C76F2d5E7e017c",
     },
+    chainlink: {
+      router: "0x881e3A65B4d4a04dD529061dd0071cf975F58bCD",
+    },
+    merkl: {
+      angleDistributor: "0x3Ef3D8bA38EBe18DB133cEc108f4D14CE00Dd9Ae",
+    },
     oiv: {
       navCalculator: "0x7C90871c0bd3eb276712f9f783F30Bfaf215Be64", // prod navCalculator implementation
     },
@@ -365,9 +377,7 @@ export const contracts = {
     baseBridge: "0x4200000000000000000000000000000000000010",
     morpho: {
       morphoBlue: "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
-      oracleCbBtcUsdc: "0x663BECd10daE6C4A3Dcd89F1d76c1174199639B9",
-      oracleCbEthUsdc: "0xb40d93F44411D8C09aD17d7F88195eF9b05cCD96",
-      adaptativeCurveIrm: "0x46415998764C29aB2a25CbeA6254146D50D22687",
+      universalRewardsDistributor: "0x5400dBb270c956E8985184335A1C62AcA6Ce1333",
     },
   },
 } as const
