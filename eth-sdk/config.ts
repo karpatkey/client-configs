@@ -307,6 +307,9 @@ export const contracts = {
   },
   arbitrumOne: {
     ...deFiKitContracts.arbitrumOne,
+    balancerV3: {
+      compositeLiquidityRouter: "0xC1A64500E035D9159C8826E982dFb802003227f0",
+    },
     compoundV3: {
       ...deFiKitContracts.arbitrumOne.compoundV3,
       comet: "0x2416101cFd4aD12cA2D5b3E58419073c7D78d857", // CometWithExtendedAssetList
@@ -346,6 +349,9 @@ export const contracts = {
   },
   base: {
     ...deFiKitContracts.base,
+    balancerV3: {
+      compositeLiquidityRouter: "0x9dA18982a33FD0c7051B19F0d7C76F2d5E7e017c",
+    },
     oiv: {
       navCalculator: "0x7C90871c0bd3eb276712f9f783F30Bfaf215Be64", // prod navCalculator implementation
     },

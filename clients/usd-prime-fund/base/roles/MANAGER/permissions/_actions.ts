@@ -9,6 +9,8 @@ export default (parameters: Parameters) => [
 
   // Aave v3 - Deposit USDC
   allowAction.aave_v3.deposit({ targets: ["USDC"] }),
+  // Aave v3 - Borrow GHO
+  allowAction.aave_v3.borrow({ targets: ["GHO"] }),
 
   /*********************************************
    * Bridges

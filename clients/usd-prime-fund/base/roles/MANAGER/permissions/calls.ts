@@ -1,6 +1,6 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { USDC, cbETH, cbBTC, morpho } from "@/addresses/base"
+import { cbBTC, cbETH, GHO, USDC, aura, balancerV3, morpho } from "@/addresses/base"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
@@ -11,6 +11,62 @@ export default (parameters: Parameters) =>
     /*********************************************
      * Protocols
      *********************************************/
+
+    // Aura - Aave Boosted GHO/USDC
+    allowErc20Approve(
+      [balancerV3.aaveUsdcGho],
+      [contracts.base.aura.booster]
+    ),
+    allow.base.aura.booster.deposit("19"),
+    {
+      ...allow.base.aura.rewarder.withdrawAndUnwrap(),
+      targetAddress: aura.auraAaveUsdcGhoRewarder,
+    },
+    {
+      ...allow.base.aura.rewarder["getReward()"](),
+      targetAddress: aura.auraAaveUsdcGhoRewarder,
+    },
+    {
+      ...allow.base.aura.rewarder["getReward(address,bool)"](c.avatar),
+      targetAddress: aura.auraAaveUsdcGhoRewarder,
+    },
+
+    // Balancer v3 - Aave Boosted GHO/USDC
+    // permit2 is the same contract address across chains, so using contracts.mainnet.uniswap.permit2 is valid
+    allowErc20Approve([GHO, USDC], [contracts.mainnet.uniswap.permit2]),
+    allow.mainnet.uniswap.permit2.approve(
+      c.or(GHO, USDC),
+      contracts.base.balancerV3.compositeLiquidityRouter
+    ),
+    allow.base.balancerV3.compositeLiquidityRouter.addLiquidityProportionalToERC4626Pool(
+      balancerV3.aaveUsdcGho
+    ),
+    allow.base.balancerV3.compositeLiquidityRouter.addLiquidityUnbalancedToERC4626Pool(
+      balancerV3.aaveUsdcGho
+    ),
+    allowErc20Approve(
+      [balancerV3.aaveUsdcGho],
+      [contracts.base.balancerV3.compositeLiquidityRouter]
+    ),
+    allow.base.balancerV3.compositeLiquidityRouter.removeLiquidityProportionalFromERC4626Pool(
+      balancerV3.aaveUsdcGho
+    ),
+    allowErc20Approve(
+      [balancerV3.aaveUsdcGho],
+      [balancerV3.aaveUsdcGhoGauge]
+    ),
+    {
+      ...allow.base.balancerV2.gauge["deposit(uint256)"](),
+      targetAddress: balancerV3.aaveUsdcGhoGauge,
+    },
+    {
+      ...allow.base.balancerV2.gauge["withdraw(uint256)"](),
+      targetAddress: balancerV3.aaveUsdcGhoGauge,
+    },
+    {
+      ...allow.base.balancerV2.gauge["claim_rewards()"](),
+      targetAddress: balancerV3.aaveUsdcGhoGauge,
+    },
 
     // Morpho Blue - cbBTC/USDC
     allowErc20Approve([USDC], [contracts.mainnet.morpho.morphoBlue]),
@@ -72,8 +128,7 @@ export default (parameters: Parameters) =>
     /*********************************************
      * Bridges
      *********************************************/
-
-    // USDC (Base) -> USDC (Mainnet) - stargate
+    // USDC - Stargate to Mainnet
     allowErc20Approve([USDC], [contracts.base.stargate.poolUsdc]),
     allow.base.stargate.poolUsdc.send(
       {

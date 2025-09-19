@@ -1,9 +1,9 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
+import { zeroAddress } from "@/addresses"
 import {
   cbBTC,
-  morpho,
-  pendle,
+  GHO, 
   sUSDS,
   USDC,
   USDS,
@@ -11,6 +11,10 @@ import {
   WBTC,
   wstETH,
   wstUSR,
+  aura,
+  balancerV3,
+  morpho,
+  pendle,
 } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
@@ -27,6 +31,61 @@ export default (parameters: Parameters) =>
     allow.mainnet.merkl.angleDistributor.claim(
       c.or([parameters.avatar], [parameters.avatar, parameters.avatar])
     ),
+
+    // Aura - Aave Boosted USDT/GHO/USDC
+    allowErc20Approve(
+      [balancerV3.aaveGhoUsdtUsdc],
+      [contracts.mainnet.aura.booster]
+    ),
+    allow.mainnet.aura.booster.deposit("246"),
+    {
+      ...allow.mainnet.aura.rewarder.withdrawAndUnwrap(),
+      targetAddress: aura.auraAaveGhoUsdtUsdcRewarder,
+    },
+    {
+      ...allow.mainnet.aura.rewarder["getReward()"](),
+      targetAddress: aura.auraAaveGhoUsdtUsdcRewarder,
+    },
+    {
+      ...allow.mainnet.aura.rewarder["getReward(address,bool)"](c.avatar),
+      targetAddress: aura.auraAaveGhoUsdtUsdcRewarder,
+    },
+
+    // Balancer v3 - Aave Boosted USDT/GHO/USDC
+    allowErc20Approve([GHO, USDC, USDT], [contracts.mainnet.uniswap.permit2]),
+    allow.mainnet.uniswap.permit2.approve(
+      c.or(GHO, USDC, USDT),
+      contracts.mainnet.balancerV3.compositeLiquidityRouter
+    ),
+    allow.mainnet.balancerV3.compositeLiquidityRouter.addLiquidityProportionalToERC4626Pool(
+      balancerV3.aaveGhoUsdtUsdc
+    ),
+    allow.mainnet.balancerV3.compositeLiquidityRouter.addLiquidityUnbalancedToERC4626Pool(
+      balancerV3.aaveGhoUsdtUsdc
+    ),
+    allowErc20Approve(
+      [balancerV3.aaveGhoUsdtUsdc],
+      [contracts.mainnet.balancerV3.compositeLiquidityRouter]
+    ),
+    allow.mainnet.balancerV3.compositeLiquidityRouter.removeLiquidityProportionalFromERC4626Pool(
+      balancerV3.aaveGhoUsdtUsdc
+    ),
+    allowErc20Approve(
+      [balancerV3.aaveGhoUsdtUsdc],
+      [balancerV3.aaveGhoUsdtUsdcGauge]
+    ),
+    {
+      ...allow.mainnet.balancerV2.gauge["deposit(uint256)"](),
+      targetAddress: balancerV3.aaveGhoUsdtUsdcGauge,
+    },
+    {
+      ...allow.mainnet.balancerV2.gauge["withdraw(uint256)"](),
+      targetAddress: balancerV3.aaveGhoUsdtUsdcGauge,
+    },
+    {
+      ...allow.mainnet.balancerV2.gauge["claim_rewards()"](),
+      targetAddress: balancerV3.aaveGhoUsdtUsdcGauge,
+    },
 
     // Morpho Blue - wstETH/USDC
     allowErc20Approve([USDC], [contracts.mainnet.morpho.morphoBlue]),
@@ -279,6 +338,33 @@ export default (parameters: Parameters) =>
      * Bridges
      *********************************************/
     // Mainnet -> Gnosis
+    // GHO - Chainlink - transporter.io
+    allowErc20Approve([GHO], [contracts.mainnet.chainlink.router]),
+    allow.mainnet.chainlink.router.ccipSend(
+      "465200170687744372", // https://docs.chain.link/ccip/directory/mainnet/chain/xdai-mainnet
+      {
+        receiver: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
+        data: "0x",
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#evmtokenamount
+        tokenAmounts: c.matches([
+          {
+            token: GHO,
+            amount: undefined,
+          },
+        ]),
+        feeToken: zeroAddress,
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#generic_extra_args_v2_tag
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#genericextraargsv2
+        extraArgs: c.or(
+          "0x",
+          "0x181dcf1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001",
+        )
+      },
+      {
+        send: true,
+      }
+    ),
+
     // USDS -> XDAI - Gnosis Bridge
     allowErc20Approve([USDS], [contracts.mainnet.gnosisBridge.xdaiUsdsBridge]),
     allow.mainnet.gnosisBridge.xdaiUsdsBridge.relayTokens(USDS, c.avatar),

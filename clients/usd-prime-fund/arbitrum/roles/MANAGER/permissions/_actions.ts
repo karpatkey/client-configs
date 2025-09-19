@@ -11,6 +11,8 @@ export default (parameters: Parameters) => [
   allowAction.aave_v3.deposit({ targets: ["USDC"] }),
   // Aave v3 - Deposit USDT
   allowAction.aave_v3.deposit({ targets: ["USD₮0"] }),
+  // Aave v3 - Borrow GHO
+  allowAction.aave_v3.borrow({ targets: ["GHO"] }),
 
   /*********************************************
    * Bridges

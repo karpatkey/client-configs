@@ -12,6 +12,8 @@ export default (parameters: Parameters) => [
   allowAction.aave_v3.deposit({ targets: ["USDC.e"] }),
   // Aave v3 - Deposit WXDAI
   allowAction.aave_v3.deposit({ targets: ["WXDAI"] }),
+  // Aave v3 - Borrow GHO
+  allowAction.aave_v3.borrow({ targets: ["GHO"] }),
 
   // CowSwap - [XDAI, sDAI, USDCe, WXDAI] <-> [XDAI, sDAI, USDCe, WXDAI]
   allowAction.cowswap.swap({
