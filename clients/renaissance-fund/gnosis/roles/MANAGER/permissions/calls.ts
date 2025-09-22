@@ -14,7 +14,7 @@ export default (parameters: Parameters) =>
       kpkGovernance
     ),
     allow.mainnet.snapshot.delegation.clearDelegate(snapshotGnosisId),
-    
+
     /*********************************************
      * Swaps
      *********************************************/
