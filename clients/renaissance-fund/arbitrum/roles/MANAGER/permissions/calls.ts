@@ -5,7 +5,7 @@ import { zeroAddress } from "@/addresses"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
-import { Parameters } from "../../../../arbitrum/parameters"
+import { Parameters } from "../../../parameters"
 
 export default (parameters: Parameters) =>
   [
