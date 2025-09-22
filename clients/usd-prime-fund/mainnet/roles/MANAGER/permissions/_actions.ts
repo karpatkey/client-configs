@@ -38,6 +38,14 @@ export default (parameters: Parameters) => [
 
   // Spark - Deposit USDS to get sUSDS
   allowAction.spark.deposit({ targets: ["SKY_USDS"] }),
+  // Spark - Deposit sUSDS
+  allowAction.spark.deposit({ targets: ["sUSDS"] }),
+  // Spark - Deposit USDC
+  allowAction.spark.deposit({ targets: ["USDC"] }),
+  // Spark - Deposit USDT
+  allowAction.spark.deposit({ targets: ["USDT"] }),
+  // Spark - Borrow USDC
+  allowAction.spark.borrow({ targets: ["USDC"] }),
 
   /*********************************************
    * Swaps

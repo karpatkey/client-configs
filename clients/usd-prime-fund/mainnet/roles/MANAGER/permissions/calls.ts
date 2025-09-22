@@ -267,7 +267,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.morpho.morphoBlue.supply(
       {
         loanToken: USDC,
-        collateralToken: pendle.ptUSDe25SEP2025,
+        collateralToken: pendle.ptUsde25Sep2025,
         oracle: morpho.oraclePTUsde25Sep2025Usdc,
         irm: morpho.adaptativeCurveIrm,
         lltv: "915000000000000000",
@@ -280,7 +280,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.morpho.morphoBlue.withdraw(
       {
         loanToken: USDC,
-        collateralToken: pendle.ptUSDe25SEP2025,
+        collateralToken: pendle.ptUsde25Sep2025,
         oracle: morpho.oraclePTUsde25Sep2025Usdc,
         irm: morpho.adaptativeCurveIrm,
         lltv: "915000000000000000",
@@ -295,7 +295,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.morpho.morphoBlue.supply(
       {
         loanToken: USDT,
-        collateralToken: pendle.ptUSDe25SEP2025,
+        collateralToken: pendle.ptUsde25Sep2025,
         oracle: morpho.oraclePTUsde25Sep2025Usdt,
         irm: morpho.adaptativeCurveIrm,
         lltv: "915000000000000000",
@@ -308,7 +308,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.morpho.morphoBlue.withdraw(
       {
         loanToken: USDT,
-        collateralToken: pendle.ptUSDe25SEP2025,
+        collateralToken: pendle.ptUsde25Sep2025,
         oracle: morpho.oraclePTUsde25Sep2025Usdt,
         irm: morpho.adaptativeCurveIrm,
         lltv: "915000000000000000",
@@ -349,6 +349,69 @@ export default (parameters: Parameters) =>
 
     // Morpho - Claim Rewards
     allow.mainnet.morpho.universalRewardsDistributor.claim(c.avatar),
+
+    // Pendle - USDe <-> PT-USDE-DDMMMYYYY / sUSDe <-> PT-sUSDE-DDMMMYYYY
+    allowErc20Approve([USDe, sUSDe], [contracts.mainnet.pendle.routerV4]),
+    allow.mainnet.pendle.routerV4.swapExactTokenForPt(
+      c.avatar,
+      c.or(
+        pendle.marketUsde25Sep2025,
+        pendle.marketUsde27Nov2025,
+        pendle.marketSusde25Sep2025,
+        pendle.marketSusde27Nov2025
+      ),
+      undefined,
+      undefined,
+      {
+        tokenIn: c.or(USDe, sUSDe),
+        tokenMintSy: c.or(USDe, sUSDe),
+        pendleSwap: zeroAddress,
+        swapData: {
+          swapType: 0, // NONE: https://etherscan.io/address/0xd8d200d9a713a1c71cf1e7f694b14e5f1d948b15#code#F32#L18
+          extRouter: zeroAddress,
+          extCalldata: "0x",
+        },
+      },
+      {
+        limitRouter: zeroAddress,
+        normalFills: [],
+        flashFills: [],
+      }
+    ),
+    allowErc20Approve(
+      [
+        pendle.ptUsde25Sep2025,
+        pendle.ptUsde27Nov2025,
+        pendle.ptSusde25Sep2025,
+        pendle.ptSusde27Nov2025,
+      ],
+      [contracts.mainnet.pendle.routerV4]
+    ),
+    allow.mainnet.pendle.routerV4.swapExactPtForToken(
+      c.avatar,
+      c.or(
+        pendle.marketUsde25Sep2025,
+        pendle.marketUsde27Nov2025,
+        pendle.marketSusde25Sep2025,
+        pendle.marketSusde27Nov2025
+      ),
+      undefined,
+      {
+        tokenOut: c.or(USDe, sUSDe),
+        tokenRedeemSy: c.or(USDe, sUSDe),
+        pendleSwap: zeroAddress,
+        swapData: {
+          swapType: 0, // NONE: https://etherscan.io/address/0xd8d200d9a713a1c71cf1e7f694b14e5f1d948b15#code#F32#L18
+          extRouter: zeroAddress,
+          extCalldata: "0x",
+        },
+      },
+      {
+        limitRouter: zeroAddress,
+        normalFills: [],
+        flashFills: [],
+      }
+    ),
 
     /*********************************************
      * Bridges
