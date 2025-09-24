@@ -9,6 +9,7 @@ import {
   GNO,
   GYD,
   OETH,
+  POL,
   rETH,
   sDAI,
   stETH,
@@ -20,6 +21,7 @@ import {
   WETH,
   wstETH,
   balancerV2,
+  polygon,
   siloV2,
 } from "@/addresses/eth"
 import { eAddress, zeroAddress } from "@/addresses"
@@ -27,6 +29,7 @@ import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
 import { balancerV2Swap } from "@/exit_strategies/balancerV2"
+import { danko } from "../../../addresses"
 import { Parameters } from "../../../parameters"
 
 export default (parameters: Parameters) =>
@@ -108,6 +111,27 @@ export default (parameters: Parameters) =>
     allow.mainnet.origin.oEthVault.requestWithdrawal(),
     allow.mainnet.origin.oEthVault.claimWithdrawal(),
     allow.mainnet.origin.oEthVault.claimWithdrawals(),
+
+    // Polygon - POL Staking
+    allowErc20Approve([POL], [polygon.posStakingContract]),
+    allow.mainnet.polygon.validatorShare.buyVoucherPOL(),
+    // Delegate to Danko - https://governance.polygon.technology/community-members/0x122AFb4667C5f80e45721a42C7c81e9140C62FA4/
+    // Undelegation is also supported
+    allow.mainnet.polygon.delegateRegistry.setDelegation(
+      "polygongovernancehub.eth",
+      c.every(
+        c.matches(
+          {
+            delegate: c.or(
+              "0x" + parameters.avatar.slice(2).padStart(64, "0"),
+              "0x" + danko.slice(2).padStart(64, "0")),
+          }
+        )
+      )
+    ),
+    allow.mainnet.polygon.delegateRegistry.clearDelegation(
+      "polygongovernancehub.eth",
+    ),
 
     // Sablier - Withdraw FJO
     allow.mainnet.sablier.v2LockUpDyn.withdraw(undefined, c.avatar),

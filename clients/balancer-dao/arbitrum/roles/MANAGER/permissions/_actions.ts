@@ -9,7 +9,7 @@ export default (parameters: Parameters) => [
     recipient: parameters.avatar,
   }),
 
-  // CowSwap - USDC -> USDC.e
+  // CowSwap - USDC.e -> USDC
   allowAction.cowswap.swap({
     sell: [USDCe],
     buy: [USDC],
