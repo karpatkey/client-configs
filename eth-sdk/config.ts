@@ -181,8 +181,8 @@ export const contracts = {
     },
     polygon: {
       // P2P Validator - https://staking.polygon.technology/validators/162
-      validatorShare: "0x15C2b3AdcA66E26B6F230b4023f52a285b7f9995", 
-      // This contract was deployed by Gnosis Guild (not Polygon). 
+      validatorShare: "0x15C2b3AdcA66E26B6F230b4023f52a285b7f9995",
+      // This contract was deployed by Gnosis Guild (not Polygon).
       // It is included here solely for convenience.
       delegateRegistry: "0xb83EEf820AeC27E443D23cdCd6F383aBFa419ff9",
     },
