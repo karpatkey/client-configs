@@ -120,17 +120,16 @@ export default (parameters: Parameters) =>
     allow.mainnet.polygon.delegateRegistry.setDelegation(
       "polygongovernancehub.eth",
       c.every(
-        c.matches(
-          {
-            delegate: c.or(
-              "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-              "0x" + danko.slice(2).padStart(64, "0")),
-          }
-        )
+        c.matches({
+          delegate: c.or(
+            "0x" + parameters.avatar.slice(2).padStart(64, "0"),
+            "0x" + danko.slice(2).padStart(64, "0")
+          ),
+        })
       )
     ),
     allow.mainnet.polygon.delegateRegistry.clearDelegation(
-      "polygongovernancehub.eth",
+      "polygongovernancehub.eth"
     ),
 
     // Sablier - Withdraw FJO
