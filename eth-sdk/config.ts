@@ -180,7 +180,8 @@ export const contracts = {
       ethoriaVault: "0x5FE4B38520e856921978715C8579D2D7a4d2274F",
     },
     polygon: {
-      validatorShare: "0x503B36441618e61135adE1Fa6Aa8e5345DA7Ce75",
+      // P2P Validator - https://staking.polygon.technology/validators/162
+      validatorShare: "0x15C2b3AdcA66E26B6F230b4023f52a285b7f9995", 
       // This contract was deployed by Gnosis Guild (not Polygon). 
       // It is included here solely for convenience.
       delegateRegistry: "0xb83EEf820AeC27E443D23cdCd6F383aBFa419ff9",
