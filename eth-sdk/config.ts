@@ -179,6 +179,13 @@ export const contracts = {
       ethAdapter: "0x4AAD0755eFd63F4e9B7Fac19Bd426db4a0d9b5E8",
       ethoriaVault: "0x5FE4B38520e856921978715C8579D2D7a4d2274F",
     },
+    polygon: {
+      // P2P Validator - https://staking.polygon.technology/validators/162
+      validatorShare: "0x15C2b3AdcA66E26B6F230b4023f52a285b7f9995",
+      // This contract was deployed by Gnosis Guild (not Polygon).
+      // It is included here solely for convenience.
+      delegateRegistry: "0xb83EEf820AeC27E443D23cdCd6F383aBFa419ff9",
+    },
     resolv: {
       wstUsr: "0x1202F5C7b4B9E47a1A484E8B270be34dbbC75055",
     },
