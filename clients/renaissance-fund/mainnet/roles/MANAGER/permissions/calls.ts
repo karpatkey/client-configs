@@ -4,8 +4,8 @@ import { USDC } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
-import { kpkGovernance, snapshotLidoId } from "../../../../mainnet/addresses"
-import { Parameters } from "../../../../mainnet/parameters"
+import { kpkGovernance, snapshotLidoId } from "../../../../addresses"
+import { Parameters } from "../../../parameters"
 
 export default (parameters: Parameters) =>
   [

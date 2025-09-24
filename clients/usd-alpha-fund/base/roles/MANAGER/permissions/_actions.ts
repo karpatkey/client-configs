@@ -1,9 +1,28 @@
 import { allow as allowAction } from "defi-kit/base"
+import { AURA, BAL, GHO, MORPHO, USDC } from "@/addresses/base"
 import { Parameters } from "../../../parameters"
 
 export default (parameters: Parameters) => [
+  /*********************************************
+   * Protocols
+   *********************************************/
+
   // Aave v3 - Deposit USDC
   allowAction.aave_v3.deposit({ targets: ["USDC"] }),
+
+  /*********************************************
+   * Swaps
+   *********************************************/
+
+  // CowSwap - [AURA, BAL, MORPHO] <-> [GHO, USDC]
+  allowAction.cowswap.swap({
+    sell: [AURA, BAL, MORPHO],
+    buy: [GHO, USDC],
+  }),
+
+  /*********************************************
+   * Bridges
+   *********************************************/
 
   // Circle v1 - Bridge USDC to Arbitrum
   allowAction.circle_v1.bridge({

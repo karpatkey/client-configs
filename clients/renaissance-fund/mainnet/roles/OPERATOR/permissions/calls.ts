@@ -1,6 +1,6 @@
 import { allow } from "zodiac-roles-sdk/kit"
 import { PermissionList } from "@/types"
-import { Parameters } from "../../../../mainnet/parameters"
+import { Parameters } from "../../../parameters"
 
 export default (parameters: Parameters) =>
   [

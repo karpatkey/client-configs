@@ -3,10 +3,18 @@ import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { USDCe } from "@/addresses/gno"
 import { PermissionList } from "@/types"
+import { kpkGovernance, snapshotGnosisId } from "../../../../addresses"
 import { Parameters } from "../../../parameters"
 
 export default (parameters: Parameters) =>
   [
+    // Gnosis - Delegate/Undelgate GNO on Snapshot
+    allow.mainnet.snapshot.delegation.setDelegate(
+      snapshotGnosisId,
+      kpkGovernance
+    ),
+    allow.mainnet.snapshot.delegation.clearDelegate(snapshotGnosisId),
+
     /*********************************************
      * Swaps
      *********************************************/

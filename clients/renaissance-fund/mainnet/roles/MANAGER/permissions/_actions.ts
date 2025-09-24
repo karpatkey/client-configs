@@ -13,7 +13,7 @@ import {
   UNI,
   WETH,
 } from "@/addresses/eth"
-import { kpkGovernance } from "../../../../mainnet/addresses"
+import { kpkGovernance } from "../../../../addresses"
 import { Parameters } from "../../../parameters"
 
 export default (parameters: Parameters) => [

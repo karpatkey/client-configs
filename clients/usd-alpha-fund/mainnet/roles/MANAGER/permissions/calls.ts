@@ -290,32 +290,6 @@ export default (parameters: Parameters) =>
     ),
     allow.mainnet.notionalV3.nProxy.nTokenClaimIncentives(),
 
-    // Pendle - USDe/sUSDe <-> PT-sUSDE-DDMMMYYYY
-    allowErc20Approve([USDe, sUSDe], [contracts.mainnet.pendle.routerV4]),
-    allow.mainnet.pendle.routerV4.swapExactTokenForPt(
-      c.avatar,
-      c.or(pendle.pendleMarket26Mar2025, pendle.pendleMarket28May2025),
-      undefined,
-      undefined,
-      {
-        tokenIn: c.or(USDe, sUSDe),
-        tokenMintSy: c.or(USDe, sUSDe),
-      }
-    ),
-    allowErc20Approve(
-      [pendle.ptSusde27Mar2025, pendle.ptSusde29May2025],
-      [contracts.mainnet.pendle.routerV4]
-    ),
-    allow.mainnet.pendle.routerV4.swapExactPtForToken(
-      c.avatar,
-      c.or(pendle.pendleMarket26Mar2025, pendle.pendleMarket28May2025),
-      undefined,
-      {
-        tokenOut: c.or(USDe, sUSDe),
-        tokenRedeemSy: c.or(USDe, sUSDe),
-      }
-    ),
-
     // Sky - DSR (DAI Savings Rate)
     // The DsrManager provides an easy to use smart contract that allows
     // service providers to deposit/withdraw dai into the DSR contract pot,

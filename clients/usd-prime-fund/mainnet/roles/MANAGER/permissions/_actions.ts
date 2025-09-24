@@ -1,5 +1,19 @@
 import { allow as allowAction } from "defi-kit/eth"
-import { USDS, stkGHO, USDC, USDT, sUSDS, DAI, GHO } from "@/addresses/eth"
+import {
+  AURA,
+  BAL,
+  DAI,
+  GHO,
+  MORPHO,
+  SPK,
+  sUSDe,
+  sUSDS,
+  stkGHO,
+  USDC,
+  USDe,
+  USDS,
+  USDT,
+} from "@/addresses/eth"
 import { Parameters } from "../../../parameters"
 
 export default (parameters: Parameters) => [
@@ -7,10 +21,14 @@ export default (parameters: Parameters) => [
    * Protocols
    *********************************************/
 
-  // Aave v2 - Staking of GHO in Safety Module
+  // Aave Safety Module - Stake GHO
   allowAction.aave_v2.stake({ targets: ["GHO"] }),
+  // Aave v3 Core Market - Deposit sUSDe
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["sUSDe"] }),
   // Aave v3 Core Market - Deposit USDC
   allowAction.aave_v3.deposit({ market: "Core", targets: ["USDC"] }),
+  // Aave v3 Core Market - Deposit USDe
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["USDe"] }),
   // Aave v3 Core Market - Deposit USDS
   allowAction.aave_v3.deposit({ market: "Core", targets: ["USDS"] }),
   // Aave v3 Core Market - Deposit USDT
@@ -20,15 +38,37 @@ export default (parameters: Parameters) => [
 
   // Spark - Deposit USDS to get sUSDS
   allowAction.spark.deposit({ targets: ["SKY_USDS"] }),
+  // Spark - Deposit sUSDS
+  allowAction.spark.deposit({ targets: ["sUSDS"] }),
+  // Spark - Deposit USDC
+  allowAction.spark.deposit({ targets: ["USDC"] }),
+  // Spark - Deposit USDT
+  allowAction.spark.deposit({ targets: ["USDT"] }),
+  // Spark - Borrow USDC
+  allowAction.spark.borrow({ targets: ["USDC"] }),
 
   /*********************************************
    * Swaps
    *********************************************/
 
-  // CowSwap - [USDC, USDS, USDT, sUSDS, GHO, stkGHO] <-> [USDC, USDS, USDT, sUSDS, GHO, stkGHO]
+  // CowSwap - [AURA, BAL, DAI, GHO, MORPHO, SPK, sUSDe, sUSDS, stkGHO, USDC, USDe, USDS, USDT] <-> [GHO, sUSDe, sUSDS, stkGHO, USDC, USDe, USDS, USDT]
   allowAction.cowswap.swap({
-    sell: [USDC, USDS, DAI, USDT, sUSDS, GHO, stkGHO],
-    buy: [USDC, USDS, USDT, sUSDS, GHO, stkGHO],
+    sell: [
+      AURA,
+      BAL,
+      DAI,
+      GHO,
+      MORPHO,
+      SPK,
+      sUSDe,
+      sUSDS,
+      stkGHO,
+      USDC,
+      USDe,
+      USDS,
+      USDT,
+    ],
+    buy: [GHO, sUSDe, sUSDS, stkGHO, USDC, USDe, USDS, USDT],
   }),
 
   /*********************************************
