@@ -16,6 +16,7 @@ import {
   WBTC,
   WETH,
   wstETH,
+  gearbox,
   morpho,
 } from "@/addresses/eth"
 import { contracts } from "@/contracts"
@@ -77,6 +78,110 @@ export default (parameters: Parameters) =>
     allow.mainnet.kelp.lrtWithdrawalManager.completeWithdrawal(
       c.or(eAddress, ETHx, stETH)
     ),
+
+    // Gearbox - ETH v3 - Curator: cp0x
+    allowErc20Approve([WETH], [gearbox.dWethV3Cp0x]),
+    {
+      ...allow.mainnet.gearbox.poolV3.deposit(
+        undefined,
+        c.avatar,
+      ),
+      targetAddress: gearbox.dWethV3Cp0x,
+    },
+    // This is the function called by the UI
+    {
+      ...allow.mainnet.gearbox.poolV3.depositWithReferral(
+        undefined,
+        c.avatar,
+      ),
+      targetAddress: gearbox.dWethV3Cp0x,
+    },
+    {
+      ...allow.mainnet.gearbox.poolV3.redeem(
+        undefined,
+        c.avatar,
+        c.avatar,
+      ),
+      targetAddress: gearbox.dWethV3Cp0x,
+    },
+
+    // Gearbox - wstETH v3 - Curator: cp0x
+    allowErc20Approve([wstETH], [gearbox.dcp0xLrt]),
+    {
+      ...allow.mainnet.gearbox.poolV3.deposit(
+        undefined,
+        c.avatar,
+      ),
+      targetAddress: gearbox.dcp0xLrt
+    },
+    // This is the function called by the UI
+    {
+      ...allow.mainnet.gearbox.poolV3.depositWithReferral(
+        undefined,
+        c.avatar,
+      ),
+      targetAddress: gearbox.dcp0xLrt,
+    },
+    {
+      ...allow.mainnet.gearbox.poolV3.redeem(
+        undefined,
+        c.avatar,
+        c.avatar,
+      ),
+      targetAddress: gearbox.dcp0xLrt,
+    },
+
+    // Gearbox - ETH v3 - Curator: kpk
+    allowErc20Approve([WETH], [gearbox.kpkWeth]),
+    {
+      ...allow.mainnet.gearbox.poolV3.deposit(
+        undefined,
+        c.avatar,
+      ),
+      targetAddress: gearbox.kpkWeth,
+    },
+    // This is the function called by the UI
+    {
+      ...allow.mainnet.gearbox.poolV3.depositWithReferral(
+        undefined,
+        c.avatar,
+      ),
+      targetAddress: gearbox.kpkWeth,
+    },
+    {
+      ...allow.mainnet.gearbox.poolV3.redeem(
+        undefined,
+        c.avatar,
+        c.avatar,
+      ),
+      targetAddress: gearbox.kpkWeth,
+    },
+
+    // Gearbox - wstETH v3 - Curator: kpk
+    allowErc20Approve([wstETH], [gearbox.kpkWstEth]),
+    {
+      ...allow.mainnet.gearbox.poolV3.deposit(
+        undefined,
+        c.avatar,
+      ),
+      targetAddress: gearbox.kpkWstEth,
+    },
+    // This is the function called by the UI
+    {
+      ...allow.mainnet.gearbox.poolV3.depositWithReferral(
+        undefined,
+        c.avatar,
+      ),
+      targetAddress: gearbox.kpkWstEth,
+    },
+    {
+      ...allow.mainnet.gearbox.poolV3.redeem(
+        undefined,
+        c.avatar,
+        c.avatar,
+      ),
+      targetAddress: gearbox.kpkWstEth,
+    },
 
     // Merkl - ACI Merit Rewards
     allow.mainnet.merkl.angleDistributor.claim(

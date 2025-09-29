@@ -353,6 +353,29 @@ export default (parameters: Parameters) =>
       c.or(rsETH, wstETH),
       c.or(rsETH, wstETH)
     ),
+    // Uniswap v3 - WBTC + WETH
+    allow.mainnet.uniswapV3.positionsNft.createAndInitializePoolIfNecessary(
+      c.or(WBTC, WETH),
+      c.or(WBTC, WETH)
+    ),
+
+    // Upshift - Resolv USR Yield Maxi Vault
+    allowErc20Approve([USR], [contracts.mainnet.upshift.maxiUsr]),
+    allow.mainnet.upshift.maxiUsr.deposit(
+      undefined,
+      c.avatar,
+    ),
+    allow.mainnet.upshift.maxiUsr.instantRedeem(
+      undefined,
+      c.avatar,
+      c.avatar,
+    ),
+    allow.mainnet.upshift.maxiUsr.requestRedeem(
+      undefined,
+      c.avatar,
+      c.avatar,
+    ),
+    allow.mainnet.upshift.maxiUsr.processAllClaimsByDate(),
 
     /*********************************************
      * Bridge

@@ -243,6 +243,13 @@ export const fluid = {
   fwstEth: "0x2411802D8BEA09be0aF8fD8D08314a63e706b29C",
 } as const
 
+export const gearbox = {
+  dWethV3Cp0x: "0xf00B548f1b69cB5EE559d891E03A196FB5101d4A", // Underlying token: WETH - Curator: cp0x
+  dcp0xLrt: "0x72CCB97cbdC40f8fb7FFA42Ed93AE74923547200", // Underlying token: wstETH - Curator: cp0x
+  kpkWeth: "0x9396DCbf78fc526bb003665337C5E73b699571EF", // Underlying token: WETH - Curator: kpk
+  kpkWstEth: "0xA9d17f6D3285208280a1Fd9B94479c62e0AABa64", // Underlying token: wstETH - Curator: kpk
+} as const
+
 export const maverickV2 = {
   ghoStkGhoPool: "0x9F274D28FedCe05153F9C810b8070277EAF8C031",
 } as const
