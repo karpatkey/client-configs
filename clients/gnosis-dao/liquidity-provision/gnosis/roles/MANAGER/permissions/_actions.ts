@@ -31,10 +31,22 @@ export default [
   allowAction.balancer_v2.stake({ targets: ["B-50sDAI-50wstETH"] }),
 
   // CowSwap - [EURe, GHO, GNO, sDAI, USDC, USDCe, USDT, WETH, wstETH, WXDAI, XDAI] <-> [EURe, GHO, GNO, sDAI, USDC, USDCe, USDT, WETH, wstETH, WXDAI, XDAI]
-    allowAction.cowswap.swap({
-      sell: ["XDAI", EURe, GHO, GNO, sDAI, USDC, USDCe, USDT, WETH, wstETH, WXDAI],
-      buy:  ["XDAI", EURe, GHO, GNO, sDAI, USDC, USDCe, USDT, WETH, wstETH, WXDAI],
-    }),
+  allowAction.cowswap.swap({
+    sell: [
+      "XDAI",
+      EURe,
+      GHO,
+      GNO,
+      sDAI,
+      USDC,
+      USDCe,
+      USDT,
+      WETH,
+      wstETH,
+      WXDAI,
+    ],
+    buy: ["XDAI", EURe, GHO, GNO, sDAI, USDC, USDCe, USDT, WETH, wstETH, WXDAI],
+  }),
 
   // Spark - DSR_sDAI
   allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),

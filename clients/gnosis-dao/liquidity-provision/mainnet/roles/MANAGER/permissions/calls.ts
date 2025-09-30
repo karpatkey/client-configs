@@ -160,19 +160,17 @@ export default (parameters: Parameters) =>
     ),
     {
       ...allow.mainnet.balancerV2.gauge["deposit(uint256)"](),
-      targetAddress: balancerV3.aaveLidoWethWstEthGauge
+      targetAddress: balancerV3.aaveLidoWethWstEthGauge,
     },
     {
       ...allow.mainnet.balancerV2.gauge["withdraw(uint256)"](),
-      targetAddress: balancerV3.aaveLidoWethWstEthGauge
+      targetAddress: balancerV3.aaveLidoWethWstEthGauge,
     },
     {
       ...allow.mainnet.balancerV2.gauge["claim_rewards()"](),
-      targetAddress: balancerV3.aaveLidoWethWstEthGauge
+      targetAddress: balancerV3.aaveLidoWethWstEthGauge,
     },
-    allow.mainnet.balancerV2.minter.mint(
-      balancerV3.aaveLidoWethWstEthGauge
-    ),
+    allow.mainnet.balancerV2.minter.mint(balancerV3.aaveLidoWethWstEthGauge),
 
     // Balancer v3 - Aave Boosted WETH/osETH
     allowErc20Approve([WETH, osETH], [contracts.mainnet.uniswap.permit2]),
@@ -193,25 +191,20 @@ export default (parameters: Parameters) =>
     allow.mainnet.balancerV3.compositeLiquidityRouter.removeLiquidityProportionalFromERC4626Pool(
       balancerV3.osEthWaWeth
     ),
-    allowErc20Approve(
-      [balancerV3.osEthWaWeth],
-      [balancerV3.osEthWaWethGauge]
-    ),
+    allowErc20Approve([balancerV3.osEthWaWeth], [balancerV3.osEthWaWethGauge]),
     {
       ...allow.mainnet.balancerV2.gauge["deposit(uint256)"](),
-      targetAddress: balancerV3.osEthWaWethGauge
+      targetAddress: balancerV3.osEthWaWethGauge,
     },
     {
       ...allow.mainnet.balancerV2.gauge["withdraw(uint256)"](),
-      targetAddress: balancerV3.osEthWaWethGauge
+      targetAddress: balancerV3.osEthWaWethGauge,
     },
     {
       ...allow.mainnet.balancerV2.gauge["claim_rewards()"](),
-      targetAddress: balancerV3.osEthWaWethGauge
+      targetAddress: balancerV3.osEthWaWethGauge,
     },
-    allow.mainnet.balancerV2.minter.mint(
-      balancerV3.osEthWaWethGauge
-    ),
+    allow.mainnet.balancerV2.minter.mint(balancerV3.osEthWaWethGauge),
 
     // Balancer v3 - Surge Fluid Boosted wstETH/WETH
     allowErc20Approve([WETH, wstETH], [contracts.mainnet.uniswap.permit2]),
@@ -238,19 +231,17 @@ export default (parameters: Parameters) =>
     ),
     {
       ...allow.mainnet.balancerV2.gauge["deposit(uint256)"](),
-      targetAddress: balancerV3.surgeFluidWstEthWethGauge
+      targetAddress: balancerV3.surgeFluidWstEthWethGauge,
     },
     {
       ...allow.mainnet.balancerV2.gauge["withdraw(uint256)"](),
-      targetAddress: balancerV3.surgeFluidWstEthWethGauge
+      targetAddress: balancerV3.surgeFluidWstEthWethGauge,
     },
     {
       ...allow.mainnet.balancerV2.gauge["claim_rewards()"](),
-      targetAddress: balancerV3.surgeFluidWstEthWethGauge
+      targetAddress: balancerV3.surgeFluidWstEthWethGauge,
     },
-    allow.mainnet.balancerV2.minter.mint(
-      balancerV3.surgeFluidWstEthWethGauge
-    ),
+    allow.mainnet.balancerV2.minter.mint(balancerV3.surgeFluidWstEthWethGauge),
 
     // Enzyme - ETHx Hyperloop Vault
     // Deposit ETHx

@@ -32,8 +32,20 @@ export default [
 
   // CowSwap - [EURe, GHO, GNO, sDAI, USDC, USDCe, USDT, WETH, wstETH, WXDAI, XDAI] <-> [EURe, GHO, GNO, sDAI, USDC, USDCe, USDT, WETH, wstETH, WXDAI, XDAI]
   allowAction.cowswap.swap({
-    sell: ["XDAI", EURe, GHO, GNO, sDAI, USDC, USDCe, USDT, WETH, wstETH, WXDAI],
-    buy:  ["XDAI", EURe, GHO, GNO, sDAI, USDC, USDCe, USDT, WETH, wstETH, WXDAI],
+    sell: [
+      "XDAI",
+      EURe,
+      GHO,
+      GNO,
+      sDAI,
+      USDC,
+      USDCe,
+      USDT,
+      WETH,
+      wstETH,
+      WXDAI,
+    ],
+    buy: ["XDAI", EURe, GHO, GNO, sDAI, USDC, USDCe, USDT, WETH, wstETH, WXDAI],
   }),
 
   // Spark - Deposit EURe

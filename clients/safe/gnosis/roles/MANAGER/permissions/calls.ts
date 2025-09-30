@@ -57,19 +57,17 @@ export default (parameters: Parameters) =>
     ),
     {
       ...allow.gnosis.balancerV2.gauge["deposit(uint256)"](),
-      targetAddress: balancerV3.aaveLidoWethWstEthGauge
+      targetAddress: balancerV3.aaveLidoWethWstEthGauge,
     },
     {
       ...allow.gnosis.balancerV2.gauge["withdraw(uint256)"](),
-      targetAddress: balancerV3.aaveLidoWethWstEthGauge
+      targetAddress: balancerV3.aaveLidoWethWstEthGauge,
     },
     {
       ...allow.gnosis.balancerV2.gauge["claim_rewards()"](),
-      targetAddress: balancerV3.aaveLidoWethWstEthGauge
+      targetAddress: balancerV3.aaveLidoWethWstEthGauge,
     },
-    allow.gnosis.balancerV2.minter.mint(
-      balancerV3.aaveLidoWethWstEth
-    ),
+    allow.gnosis.balancerV2.minter.mint(balancerV3.aaveLidoWethWstEth),
 
     // Balancer v3 - Aave Lido Boosted 50waWstETH/50waGNO
     allowErc20Approve([wstETH, GNO], [contracts.gnosis.uniswap.permit2]),
@@ -96,19 +94,17 @@ export default (parameters: Parameters) =>
     ),
     {
       ...allow.gnosis.balancerV2.gauge["deposit(uint256)"](),
-      targetAddress: balancerV3.aaveLido50WstEth50GnoGauge
+      targetAddress: balancerV3.aaveLido50WstEth50GnoGauge,
     },
     {
       ...allow.gnosis.balancerV2.gauge["withdraw(uint256)"](),
-      targetAddress: balancerV3.aaveLido50WstEth50GnoGauge
+      targetAddress: balancerV3.aaveLido50WstEth50GnoGauge,
     },
     {
       ...allow.gnosis.balancerV2.gauge["claim_rewards()"](),
-      targetAddress: balancerV3.aaveLido50WstEth50GnoGauge
+      targetAddress: balancerV3.aaveLido50WstEth50GnoGauge,
     },
-    allow.gnosis.balancerV2.minter.mint(
-      balancerV3.aaveLido50WstEth50Gno
-    ),
+    allow.gnosis.balancerV2.minter.mint(balancerV3.aaveLido50WstEth50Gno),
 
     /*********************************************
      * Swaps

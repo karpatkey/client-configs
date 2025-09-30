@@ -1,12 +1,5 @@
 import { allow as allowAction } from "defi-kit/gno"
-import {
-  EURe,
-  sDAI,
-  USDC,
-  USDCe,
-  USDT,
-  WXDAI,
-} from "@/addresses/gno"
+import { EURe, sDAI, USDC, USDCe, USDT, WXDAI } from "@/addresses/gno"
 
 export default [
   // Aura - WETH/wstETH
@@ -68,7 +61,7 @@ export default [
   // CowSwap - [EURe, sDAI, USDC, USDCe, USDT, WXDAI, XDAI] <-> [EURe, sDAI, USDC, USDCe, USDT, WXDAI, XDAI]
   allowAction.cowswap.swap({
     sell: ["XDAI", EURe, sDAI, USDC, USDCe, USDT, WXDAI],
-    buy:  ["XDAI", EURe, sDAI, USDC, USDCe, USDT, WXDAI],
+    buy: ["XDAI", EURe, sDAI, USDC, USDCe, USDT, WXDAI],
   }),
 
   // Spark - DSR_sDAI

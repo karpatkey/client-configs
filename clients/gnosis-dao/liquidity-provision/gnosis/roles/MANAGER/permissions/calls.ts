@@ -83,19 +83,17 @@ export default [
   ),
   {
     ...allow.gnosis.balancerV2.gauge["deposit(uint256)"](),
-    targetAddress: balancerV3.aaveLidoWethWstEthGauge
+    targetAddress: balancerV3.aaveLidoWethWstEthGauge,
   },
   {
     ...allow.gnosis.balancerV2.gauge["withdraw(uint256)"](),
-    targetAddress: balancerV3.aaveLidoWethWstEthGauge
+    targetAddress: balancerV3.aaveLidoWethWstEthGauge,
   },
   {
     ...allow.gnosis.balancerV2.gauge["claim_rewards()"](),
-    targetAddress: balancerV3.aaveLidoWethWstEthGauge
+    targetAddress: balancerV3.aaveLidoWethWstEthGauge,
   },
-  allow.gnosis.balancerV2.minter.mint(
-    balancerV3.aaveLidoWethWstEth
-  ),
+  allow.gnosis.balancerV2.minter.mint(balancerV3.aaveLidoWethWstEth),
 
   // Balancer v3 - reCLAMM wstETH/GNO
   allowErc20Approve([GNO, wstETH], [contracts.gnosis.uniswap.permit2]),
