@@ -111,8 +111,17 @@ export const balancerV2 = {
 
 export const balancerV3 = {
   // BPTs
-  brlaSdai: "0x889aC9F5c87e6CA075777D5E417b3634D3F84135" as Address,
-}
+  brlaSdai: "0x889aC9F5c87e6CA075777D5E417b3634D3F84135",
+  aaveLidoWethWstEth: "0x6e6bb18449fCF15B79EFa2CfA70ACF7593088029",
+  aaveLido50WstEth50Gno: "0x272d6BE442E30D7c87390eDEb9B96f1E84cEcD8d",
+  aaveUsdceGho: "0xC2C6A23461FfFC71068a7Cb207336D68c91Fb8bD",
+  reClammWstEthGno: "0xa50085fF1dfa173378e7D26a76117d68D5ebA539",
+  reClammGnoUsdce: "0x70B3b56773aCE43fE86EE1d80CBe03176Cbe4C09", 
+  
+  // Gauges
+  aaveLidoWethWstEthGauge: "0x0fcE2d8428baca96b14f5D3D03D260940E11a066",
+  aaveLido50WstEth50GnoGauge: "0xcBD87e4Dad6a99506484E9adEEC8FF84Ce7BD399",
+} as const
 
 export const curve = {
   crvEureUsd: "0x0CA1C1eC4EBf3CC67a9f545fF90a3795b318cA4a",

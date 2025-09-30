@@ -149,6 +149,7 @@ export const balancerV2 = {
   b50Cow50GnoGauge: "0x57AB3b673878C3fEaB7f8FF434C40Ab004408c4c",
   b50Cow50WethGauge: "0x7C777eEA1dC264e71E567Fcc9B6DdaA9064Eff51",
   osEthWethGauge: "0xc592c33e51A764B94DB0702D8BAf4035eD577aED",
+  bCow50Weth50UsdcGauge: "0xF9423B78D784D610A00955E733dBa0bf9bda7B06",
 
   // pIds
   bStEthStablePid:
@@ -201,10 +202,16 @@ export const balancerV3 = {
   // BPTs
   aaveGhoUsdtUsdc: "0x85B2b559bC2D21104C4DEFdd6EFcA8A20343361D",
   aaveLidoWethWstEth: "0xc4Ce391d82D164c166dF9c8336DDF84206b2F812",
+  ethxWaWeth: "0x4AB7aB316D43345009B2140e0580B072eEc7DF16",
+  osEthWaWeth: "0x57c23c58B1D8C3292c15BEcF07c62C5c52457A42",
+  surgeFluidWstEthWeth: "0x6b31a94029fd7840d780191B6D63Fa0D269bd883",
 
   // Gauges
   aaveGhoUsdtUsdcGauge: "0x9fdD52eFEb601E4Bc78b89C6490505B8aC637E9f",
   aaveLidoWethWstEthGauge: "0x4B891340b51889f438a03DC0e8aAAFB0Bc89e7A6",
+  ethxWaWethGauge: "0x1f3A4C8115629C33A28bF2F97F22D31d256317F6",
+  osEthWaWethGauge: "0x70A1c01902DAb7a45dcA1098Ca76A8314dd8aDbA",
+  surgeFluidWstEthWethGauge: "0x1CCE9d493224A19FcB5f7fBade8478630141CB54",
 } as const
 
 export const convex = {

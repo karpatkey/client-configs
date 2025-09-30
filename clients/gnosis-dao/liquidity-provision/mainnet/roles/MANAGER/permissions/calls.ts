@@ -25,6 +25,7 @@ import {
   WETH,
   wstETH,
   aaveV3,
+  balancerV3,
 } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import {
@@ -141,27 +142,36 @@ export default (parameters: Parameters) =>
       contracts.mainnet.balancerV3.compositeLiquidityRouter
     ),
     allow.mainnet.balancerV3.compositeLiquidityRouter.addLiquidityProportionalToERC4626Pool(
-      contracts.mainnet.balancerV3.aaveLidoWethWstEth
+      balancerV3.aaveLidoWethWstEth
     ),
     allow.mainnet.balancerV3.compositeLiquidityRouter.addLiquidityUnbalancedToERC4626Pool(
-      contracts.mainnet.balancerV3.aaveLidoWethWstEth
+      balancerV3.aaveLidoWethWstEth
     ),
     allowErc20Approve(
-      [contracts.mainnet.balancerV3.aaveLidoWethWstEth],
+      [balancerV3.aaveLidoWethWstEth],
       [contracts.mainnet.balancerV3.compositeLiquidityRouter]
     ),
     allow.mainnet.balancerV3.compositeLiquidityRouter.removeLiquidityProportionalFromERC4626Pool(
-      contracts.mainnet.balancerV3.aaveLidoWethWstEth
+      balancerV3.aaveLidoWethWstEth
     ),
     allowErc20Approve(
-      [contracts.mainnet.balancerV3.aaveLidoWethWstEth],
-      [contracts.mainnet.balancerV3.aaveLidoWethWstEthGauge]
+      [balancerV3.aaveLidoWethWstEth],
+      [balancerV3.aaveLidoWethWstEthGauge]
     ),
-    allow.mainnet.balancerV3.aaveLidoWethWstEthGauge["deposit(uint256)"](),
-    allow.mainnet.balancerV3.aaveLidoWethWstEthGauge["withdraw(uint256)"](),
-    allow.mainnet.balancerV3.aaveLidoWethWstEthGauge["claim_rewards()"](),
+    {
+      ...allow.mainnet.balancerV2.gauge["deposit(uint256)"](),
+      targetAddress: balancerV3.aaveLidoWethWstEthGauge
+    },
+    {
+      ...allow.mainnet.balancerV2.gauge["withdraw(uint256)"](),
+      targetAddress: balancerV3.aaveLidoWethWstEthGauge
+    },
+    {
+      ...allow.mainnet.balancerV2.gauge["claim_rewards()"](),
+      targetAddress: balancerV3.aaveLidoWethWstEthGauge
+    },
     allow.mainnet.balancerV2.minter.mint(
-      contracts.mainnet.balancerV3.aaveLidoWethWstEthGauge
+      balancerV3.aaveLidoWethWstEthGauge
     ),
 
     // Balancer v3 - Aave Boosted WETH/osETH
@@ -171,27 +181,36 @@ export default (parameters: Parameters) =>
       contracts.mainnet.balancerV3.compositeLiquidityRouter
     ),
     allow.mainnet.balancerV3.compositeLiquidityRouter.addLiquidityProportionalToERC4626Pool(
-      contracts.mainnet.balancerV3.osEthWaWeth
+      balancerV3.osEthWaWeth
     ),
     allow.mainnet.balancerV3.compositeLiquidityRouter.addLiquidityUnbalancedToERC4626Pool(
-      contracts.mainnet.balancerV3.osEthWaWeth
+      balancerV3.osEthWaWeth
     ),
     allowErc20Approve(
-      [contracts.mainnet.balancerV3.osEthWaWeth],
+      [balancerV3.osEthWaWeth],
       [contracts.mainnet.balancerV3.compositeLiquidityRouter]
     ),
     allow.mainnet.balancerV3.compositeLiquidityRouter.removeLiquidityProportionalFromERC4626Pool(
-      contracts.mainnet.balancerV3.osEthWaWeth
+      balancerV3.osEthWaWeth
     ),
     allowErc20Approve(
-      [contracts.mainnet.balancerV3.osEthWaWeth],
-      [contracts.mainnet.balancerV3.osEthWaWethGauge]
+      [balancerV3.osEthWaWeth],
+      [balancerV3.osEthWaWethGauge]
     ),
-    allow.mainnet.balancerV3.osEthWaWethGauge["deposit(uint256)"](),
-    allow.mainnet.balancerV3.osEthWaWethGauge["withdraw(uint256)"](),
-    allow.mainnet.balancerV3.osEthWaWethGauge["claim_rewards()"](),
+    {
+      ...allow.mainnet.balancerV2.gauge["deposit(uint256)"](),
+      targetAddress: balancerV3.osEthWaWethGauge
+    },
+    {
+      ...allow.mainnet.balancerV2.gauge["withdraw(uint256)"](),
+      targetAddress: balancerV3.osEthWaWethGauge
+    },
+    {
+      ...allow.mainnet.balancerV2.gauge["claim_rewards()"](),
+      targetAddress: balancerV3.osEthWaWethGauge
+    },
     allow.mainnet.balancerV2.minter.mint(
-      contracts.mainnet.balancerV3.osEthWaWethGauge
+      balancerV3.osEthWaWethGauge
     ),
 
     // Balancer v3 - Surge Fluid Boosted wstETH/WETH
@@ -201,27 +220,36 @@ export default (parameters: Parameters) =>
       contracts.mainnet.balancerV3.compositeLiquidityRouter
     ),
     allow.mainnet.balancerV3.compositeLiquidityRouter.addLiquidityProportionalToERC4626Pool(
-      contracts.mainnet.balancerV3.surgeFluidWstEthWeth
+      balancerV3.surgeFluidWstEthWeth
     ),
     allow.mainnet.balancerV3.compositeLiquidityRouter.addLiquidityUnbalancedToERC4626Pool(
-      contracts.mainnet.balancerV3.surgeFluidWstEthWeth
+      balancerV3.surgeFluidWstEthWeth
     ),
     allowErc20Approve(
-      [contracts.mainnet.balancerV3.surgeFluidWstEthWeth],
+      [balancerV3.surgeFluidWstEthWeth],
       [contracts.mainnet.balancerV3.compositeLiquidityRouter]
     ),
     allow.mainnet.balancerV3.compositeLiquidityRouter.removeLiquidityProportionalFromERC4626Pool(
-      contracts.mainnet.balancerV3.surgeFluidWstEthWeth
+      balancerV3.surgeFluidWstEthWeth
     ),
     allowErc20Approve(
-      [contracts.mainnet.balancerV3.surgeFluidWstEthWeth],
-      [contracts.mainnet.balancerV3.surgeFluidWstEthWethGauge]
+      [balancerV3.surgeFluidWstEthWeth],
+      [balancerV3.surgeFluidWstEthWethGauge]
     ),
-    allow.mainnet.balancerV3.surgeFluidWstEthWethGauge["deposit(uint256)"](),
-    allow.mainnet.balancerV3.surgeFluidWstEthWethGauge["withdraw(uint256)"](),
-    allow.mainnet.balancerV3.surgeFluidWstEthWethGauge["claim_rewards()"](),
+    {
+      ...allow.mainnet.balancerV2.gauge["deposit(uint256)"](),
+      targetAddress: balancerV3.surgeFluidWstEthWethGauge
+    },
+    {
+      ...allow.mainnet.balancerV2.gauge["withdraw(uint256)"](),
+      targetAddress: balancerV3.surgeFluidWstEthWethGauge
+    },
+    {
+      ...allow.mainnet.balancerV2.gauge["claim_rewards()"](),
+      targetAddress: balancerV3.surgeFluidWstEthWethGauge
+    },
     allow.mainnet.balancerV2.minter.mint(
-      contracts.mainnet.balancerV3.surgeFluidWstEthWethGauge
+      balancerV3.surgeFluidWstEthWethGauge
     ),
 
     // Enzyme - ETHx Hyperloop Vault

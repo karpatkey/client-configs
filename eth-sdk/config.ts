@@ -28,20 +28,11 @@ export const contracts = {
       ...deFiKitContracts.mainnet.balancerV2,
       bCow50Cow50Wsteth: "0x9bd702E05B9c97E4A4a3E47Df1e0fe7A0C26d2F1",
       bCow50Weth50Usdc: "0xf08D4dEa369C456d26a3168ff0024B904F2d8b91",
-      bCow50Weth50UsdcGauge: "0xF9423B78D784D610A00955E733dBa0bf9bda7B06",
       bCow50Wnxm50Weth: "0x7c838b3Ed3C15a5d5032e809B8714f0aE5e9A821",
       bCow50Safe50Weth: "0xbF8868b754A77E90Ea68ffC0b5B10A7c729457E1",
     },
     balancerV3: {
       compositeLiquidityRouter: "0xb21A277466e7dB6934556a1Ce12eb3F032815c8A",
-      aaveLidoWethWstEth: "0xc4Ce391d82D164c166dF9c8336DDF84206b2F812",
-      aaveLidoWethWstEthGauge: "0x4B891340b51889f438a03DC0e8aAAFB0Bc89e7A6",
-      ethxWaWeth: "0x4AB7aB316D43345009B2140e0580B072eEc7DF16",
-      ethxWaWethGauge: "0x1f3A4C8115629C33A28bF2F97F22D31d256317F6",
-      osEthWaWeth: "0x57c23c58B1D8C3292c15BEcF07c62C5c52457A42",
-      osEthWaWethGauge: "0x70A1c01902DAb7a45dcA1098Ca76A8314dd8aDbA",
-      surgeFluidWstEthWeth: "0x6b31a94029fd7840d780191B6D63Fa0D269bd883",
-      surgeFluidWstEthWethGauge: "0x1CCE9d493224A19FcB5f7fBade8478630141CB54",
     },
     baseBridge: {
       baseBridge: "0x3154Cf16ccdb4C6d922629664174b904d80F2C35",
@@ -265,10 +256,6 @@ export const contracts = {
     balancerV3: {
       compositeLiquidityRouter: "0x6eaD84Af26E997D27998Fc9f8614e8a19BB93938",
       router: "0x4eff2d77D9fFbAeFB4b141A3e494c085b3FF4Cb5",
-      aaveLidoWethWstEth: "0x6e6bb18449fCF15B79EFa2CfA70ACF7593088029",
-      aaveLidoWethWstEthGauge: "0x0fcE2d8428baca96b14f5D3D03D260940E11a066",
-      aaveLido50WstEth50Gno: "0x272d6BE442E30D7c87390eDEb9B96f1E84cEcD8d",
-      aaveLido50WstEth50GnoGauge: "0xcBD87e4Dad6a99506484E9adEEC8FF84Ce7BD399",
     },
     chainlink: {
       router: "0x4aAD6071085df840abD9Baf1697d5D5992bDadce",
