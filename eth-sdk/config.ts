@@ -274,6 +274,10 @@ export const contracts = {
     oiv: {
       navCalculator: "0x7C90871c0bd3eb276712f9f783F30Bfaf215Be64", // prod navCalculator implementation
     },
+    pooltogether: {
+      przWxdai: "0xBB7E99abCCCE01589Ad464Ff698aD139b0705d90",
+      prizePoolTwabRewards: "0x0D51a33975024E8aFc55fde9F6b070c10AA71Dd9",
+    },
     stakeWiseV3: {
       ...deFiKitContracts.gnosis.stakeWiseV3,
       genesis: "0x4b4406Ed8659D03423490D8b62a1639206dA0A7a",

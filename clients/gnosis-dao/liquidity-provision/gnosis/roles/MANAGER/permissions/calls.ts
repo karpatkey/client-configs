@@ -10,11 +10,13 @@ import {
   sDAI,
   USDC,
   USDCe,
+  USDCE,
   USDT,
   WBTC,
   WETH,
   wstETH,
   WXDAI,
+  ZCHF,
   balancerV3,
 } from "@/addresses/gno"
 import { contracts } from "@/contracts"
@@ -30,6 +32,8 @@ import {
   gnosisDaoLpGno,
   gnosisDaoIaEth,
   gpRewardsGno,
+  aveniaGno,
+  dfwLtdGno,
 } from "../../../../../addresses"
 
 export default [
@@ -38,6 +42,26 @@ export default [
     send: true,
   }),
   allow.gnosis.wxdai["withdraw"](),
+
+  // Balancer v3 - Aave Lido Boosted USDC.e/GHO
+  allowErc20Approve([GHO, USDCe], [contracts.gnosis.uniswap.permit2]),
+  allow.gnosis.uniswap.permit2.approve(
+    c.or(GHO, USDCe),
+    contracts.gnosis.balancerV3.compositeLiquidityRouter
+  ),
+  allow.gnosis.balancerV3.compositeLiquidityRouter.addLiquidityUnbalancedToERC4626Pool(
+    balancerV3.aaveLidoWethWstEth
+  ),
+  allow.gnosis.balancerV3.compositeLiquidityRouter.addLiquidityProportionalToERC4626Pool(
+    balancerV3.aaveLidoWethWstEth
+  ),
+  allowErc20Approve(
+    [balancerV3.aaveLidoWethWstEth],
+    [contracts.gnosis.balancerV3.compositeLiquidityRouter]
+  ),
+  allow.gnosis.balancerV3.compositeLiquidityRouter.removeLiquidityProportionalFromERC4626Pool(
+    balancerV3.aaveLidoWethWstEth
+  ),
 
   // Balancer v3 - sDAI/BRLA
   allowErc20Approve([BRLA, sDAI], [contracts.gnosis.uniswap.permit2]),
@@ -118,26 +142,6 @@ export default [
     balancerV3.reClammWstEthGno
   ),
 
-  // Balancer v3 - Aave Lido Boosted USDC.e/GHO
-  allowErc20Approve([GHO, USDCe], [contracts.gnosis.uniswap.permit2]),
-  allow.gnosis.uniswap.permit2.approve(
-    c.or(GHO, USDCe),
-    contracts.gnosis.balancerV3.compositeLiquidityRouter
-  ),
-  allow.gnosis.balancerV3.compositeLiquidityRouter.addLiquidityUnbalancedToERC4626Pool(
-    balancerV3.aaveLidoWethWstEth
-  ),
-  allow.gnosis.balancerV3.compositeLiquidityRouter.addLiquidityProportionalToERC4626Pool(
-    balancerV3.aaveLidoWethWstEth
-  ),
-  allowErc20Approve(
-    [balancerV3.aaveLidoWethWstEth],
-    [contracts.gnosis.balancerV3.compositeLiquidityRouter]
-  ),
-  allow.gnosis.balancerV3.compositeLiquidityRouter.removeLiquidityProportionalFromERC4626Pool(
-    balancerV3.aaveLidoWethWstEth
-  ),
-
   // Balancer v3 - reCLAMM GNO/USDC.e
   allowErc20Approve([GNO, USDCe], [contracts.gnosis.uniswap.permit2]),
   allow.gnosis.uniswap.permit2.approve(
@@ -171,6 +175,89 @@ export default [
   allow.gnosis.curve.eureEurc[
     "remove_liquidity_one_coin(uint256,int128,uint256)"
   ](),
+
+  // Pooltogether - Prize WXDAI / DAI Savings Rate
+  allowErc20Approve([WXDAI], [contracts.gnosis.pooltogether.przWxdai]),
+  allow.gnosis.pooltogether.przWxdai.deposit(
+    undefined,
+    c.avatar
+  ),
+  // This is the function used by the UI
+  allow.gnosis.pooltogether.przWxdai["withdraw(uint256,address,address,uint256)"](
+    undefined,
+    c.avatar,
+    c.avatar
+  ),
+  allow.gnosis.pooltogether.przWxdai["withdraw(uint256,address,address)"](
+    undefined,
+    c.avatar,
+    c.avatar
+  ),
+  allow.gnosis.pooltogether.przWxdai["redeem(uint256,address,address,uint256)"](
+    undefined,
+    c.avatar,
+    c.avatar
+  ),
+  allow.gnosis.pooltogether.przWxdai["redeem(uint256,address,address)"](
+    undefined,
+    c.avatar,
+    c.avatar
+  ),
+  allow.gnosis.pooltogether.prizePoolTwabRewards.claimRewards(
+    contracts.gnosis.pooltogether.przWxdai,
+    c.avatar
+  ),
+  
+  // Uniswap v3 / Oku Trade - EURe + sDAI
+  allow.gnosis.uniswapV3.positionsNft.createAndInitializePoolIfNecessary(
+    c.or(EURe, sDAI),
+    c.or(EURe, sDAI)
+  ),
+  // Uniswap v3 / Oku Trade - EURe + ZCHF
+  allow.gnosis.uniswapV3.positionsNft.createAndInitializePoolIfNecessary(
+    c.or(EURe, ZCHF),
+    c.or(EURe, ZCHF)
+  ),
+  // Uniswap v3 / Oku Trade - USDC.e + EURe
+  allow.gnosis.uniswapV3.positionsNft.createAndInitializePoolIfNecessary(
+    c.or(USDCe, EURe),
+    c.or(USDCe, EURe)
+  ),
+  // Uniswap v3 / Oku Trade - USDC.e + GHO
+  allow.gnosis.uniswapV3.positionsNft.createAndInitializePoolIfNecessary(
+    c.or(USDCe, GHO),
+    c.or(USDCe, GHO)
+  ),
+  // Uniswap v3 / Oku Trade - USDC.e + sDAI
+  allow.gnosis.uniswapV3.positionsNft.createAndInitializePoolIfNecessary(
+    c.or(USDCe, sDAI),
+    c.or(USDCe, sDAI)
+  ),
+  // Uniswap v3 / Oku Trade - USDC.e + USDC.e (Lucid Labs)
+  allow.gnosis.uniswapV3.positionsNft.createAndInitializePoolIfNecessary(
+    c.or(USDCe, USDCE),
+    c.or(USDCe, USDCE)
+  ),
+  // Uniswap v3 / Oku Trade - USDC.e + WXDAI
+  allow.gnosis.uniswapV3.positionsNft.createAndInitializePoolIfNecessary(
+    c.or(USDCe, WXDAI),
+    c.or(USDCe, WXDAI)
+  ),
+  // Uniswap v3 / Oku Trade - wstETH + GNO
+  allow.gnosis.uniswapV3.positionsNft.createAndInitializePoolIfNecessary(
+    c.or(wstETH, GNO),
+    c.or(wstETH, GNO)
+  ),
+  // Uniswap v3 / Oku Trade - wstETH + sDAI
+  allow.gnosis.uniswapV3.positionsNft.createAndInitializePoolIfNecessary(
+    c.or(wstETH, sDAI),
+    c.or(wstETH, sDAI)
+  ),
+  // Uniswap v3 / Oku Trade - wstETH + WETH
+  allow.gnosis.uniswapV3.positionsNft.createAndInitializePoolIfNecessary(
+    c.or(wstETH, WETH),
+    c.or(wstETH, WETH)
+  ),
 
   /*********************************************
    * Swaps
@@ -266,9 +353,15 @@ export default [
   allowEthTransfer(gnosisDaoLmGno),
   allowEthTransfer(gnosisDaoLpGno),
 
+  // Transfer XDAI to DAO Funded Wallet gLTD
+  allowEthTransfer(dfwLtdGno),
+
   // Transfer [EURe, GNO, sDAI, USDC.e, WETH, wstETH, WXDAI] between Gnosis DAO Safes
   allowErc20Transfer(
     [EURe, GNO, sDAI, USDCe, WETH, wstETH, WXDAI],
     [gnosisDaoIaGno, gnosisDaoLmGno, gnosisDaoLpGno]
   ),
+
+  // Transfer BRLA to BRLA Receiver (Avenia)
+  allowErc20Transfer([BRLA], [aveniaGno]),
 ] satisfies PermissionList
