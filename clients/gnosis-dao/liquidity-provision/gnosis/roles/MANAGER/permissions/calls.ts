@@ -178,16 +178,11 @@ export default [
 
   // Pooltogether - Prize WXDAI / DAI Savings Rate
   allowErc20Approve([WXDAI], [contracts.gnosis.pooltogether.przWxdai]),
-  allow.gnosis.pooltogether.przWxdai.deposit(
-    undefined,
-    c.avatar
-  ),
+  allow.gnosis.pooltogether.przWxdai.deposit(undefined, c.avatar),
   // This is the function used by the UI
-  allow.gnosis.pooltogether.przWxdai["withdraw(uint256,address,address,uint256)"](
-    undefined,
-    c.avatar,
-    c.avatar
-  ),
+  allow.gnosis.pooltogether.przWxdai[
+    "withdraw(uint256,address,address,uint256)"
+  ](undefined, c.avatar, c.avatar),
   allow.gnosis.pooltogether.przWxdai["withdraw(uint256,address,address)"](
     undefined,
     c.avatar,
@@ -207,7 +202,7 @@ export default [
     contracts.gnosis.pooltogether.przWxdai,
     c.avatar
   ),
-  
+
   // Uniswap v3 / Oku Trade - EURe + sDAI
   allow.gnosis.uniswapV3.positionsNft.createAndInitializePoolIfNecessary(
     c.or(EURe, sDAI),
