@@ -22,6 +22,7 @@ import {
   USDS,
   USDT,
   USR,
+  WBTC,
   weETH,
   WETH,
   wstETH,
@@ -117,6 +118,12 @@ export default [
     ],
   }),
 
+  // CowSwap - WBTC <-> WETH
+  allowAction.cowswap.swap({
+    sell: [WBTC, WETH],
+    buy: [WBTC, WETH],
+  }),
+
   // Lido
   allowAction.lido.deposit(),
 
@@ -144,5 +151,9 @@ export default [
   // Uniswap v3 - rsETH + wstETH
   allowAction.uniswap_v3.deposit({
     tokens: ["rsETH", "wstETH"],
+  }),
+  // Uniswap v3 - WBTC + WETH
+  allowAction.uniswap_v3.deposit({
+    tokens: ["WBTC", "WETH"],
   }),
 ]

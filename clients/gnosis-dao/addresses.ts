@@ -8,3 +8,5 @@ export const gnosisDaoLpGno = "0x509Ad7278A2F6530Bc24590C83E93fAF8fd46E99"
 export const gpRewardsGno = "0xCdF50be9061086e2eCfE6e4a1BF9164d43568EEC"
 export const bridgeInterestReceiverGno =
   "0x670daeaF0F1a5e336090504C68179670B5059088"
+export const aveniaGno = "0xC37fA90a03D1c27AD5d89af9dd7347af410cF81C" // BRLA Receiver (Avenia)
+export const dfwLtdGno = "0x5BE8aB1c28ee22Cdf9B136FEDa7D8f20876Bfc0F" // DAO Funded Wallet gLTD

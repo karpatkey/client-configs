@@ -3,6 +3,7 @@ import {
   DAI,
   ETHx,
   ezETH,
+  FLUID,
   GEAR,
   GHO,
   KING,
@@ -19,6 +20,7 @@ import {
   USDS,
   USDT,
   USR,
+  WBTC,
   weETH,
   WETH,
   wstETH,
@@ -77,9 +79,9 @@ export default [
     buy: [DAI, GHO, RLUSD, USDe, USDC, USDS, USDT, USR],
   }),
 
-  // CowSwap - [GEAR, KING, MORPHO, SD] -> [USDC]
+  // CowSwap - [FLUID, GEAR, KING, MORPHO, SD] -> [USDC]
   allowAction.cowswap.swap({
-    sell: [GEAR, KING, MORPHO, SD],
+    sell: [FLUID, GEAR, KING, MORPHO, SD],
     buy: [USDC],
   }),
 
@@ -122,6 +124,12 @@ export default [
       WETH,
       wstETH,
     ],
+  }),
+
+  // CowSwap - WBTC <-> WETH
+  allowAction.cowswap.swap({
+    sell: [WBTC, WETH],
+    buy: [WBTC, WETH],
   }),
 
   // Fluid - Deposit GHO

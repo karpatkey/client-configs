@@ -9,6 +9,7 @@ import {
   WETH,
   wstETH,
   balancerV2,
+  balancerV3,
 } from "@/addresses/gno"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
@@ -38,28 +39,35 @@ export default (parameters: Parameters) =>
       contracts.gnosis.balancerV3.compositeLiquidityRouter
     ),
     allow.gnosis.balancerV3.compositeLiquidityRouter.addLiquidityUnbalancedToERC4626Pool(
-      contracts.gnosis.balancerV3.aaveLidoWethWstEth
+      balancerV3.aaveLidoWethWstEth
     ),
     allow.gnosis.balancerV3.compositeLiquidityRouter.addLiquidityProportionalToERC4626Pool(
-      contracts.gnosis.balancerV3.aaveLidoWethWstEth
+      balancerV3.aaveLidoWethWstEth
     ),
     allowErc20Approve(
-      [contracts.gnosis.balancerV3.aaveLidoWethWstEth],
+      [balancerV3.aaveLidoWethWstEth],
       [contracts.gnosis.balancerV3.compositeLiquidityRouter]
     ),
     allow.gnosis.balancerV3.compositeLiquidityRouter.removeLiquidityProportionalFromERC4626Pool(
-      contracts.gnosis.balancerV3.aaveLidoWethWstEth
+      balancerV3.aaveLidoWethWstEth
     ),
     allowErc20Approve(
-      [contracts.gnosis.balancerV3.aaveLidoWethWstEth],
-      [contracts.gnosis.balancerV3.aaveLidoWethWstEthGauge]
+      [balancerV3.aaveLidoWethWstEth],
+      [balancerV3.aaveLidoWethWstEthGauge]
     ),
-    allow.gnosis.balancerV3.aaveLidoWethWstEthGauge["deposit(uint256)"](),
-    allow.gnosis.balancerV3.aaveLidoWethWstEthGauge["withdraw(uint256)"](),
-    allow.gnosis.balancerV3.aaveLidoWethWstEthGauge["claim_rewards()"](),
-    allow.gnosis.balancerV2.minter.mint(
-      contracts.gnosis.balancerV3.aaveLidoWethWstEth
-    ),
+    {
+      ...allow.gnosis.balancerV2.gauge["deposit(uint256)"](),
+      targetAddress: balancerV3.aaveLidoWethWstEthGauge,
+    },
+    {
+      ...allow.gnosis.balancerV2.gauge["withdraw(uint256)"](),
+      targetAddress: balancerV3.aaveLidoWethWstEthGauge,
+    },
+    {
+      ...allow.gnosis.balancerV2.gauge["claim_rewards()"](),
+      targetAddress: balancerV3.aaveLidoWethWstEthGauge,
+    },
+    allow.gnosis.balancerV2.minter.mint(balancerV3.aaveLidoWethWstEth),
 
     // Balancer v3 - Aave Lido Boosted 50waWstETH/50waGNO
     allowErc20Approve([wstETH, GNO], [contracts.gnosis.uniswap.permit2]),
@@ -68,28 +76,35 @@ export default (parameters: Parameters) =>
       contracts.gnosis.balancerV3.compositeLiquidityRouter
     ),
     allow.gnosis.balancerV3.compositeLiquidityRouter.addLiquidityUnbalancedToERC4626Pool(
-      contracts.gnosis.balancerV3.aaveLido50WstEth50Gno
+      balancerV3.aaveLido50WstEth50Gno
     ),
     allow.gnosis.balancerV3.compositeLiquidityRouter.addLiquidityProportionalToERC4626Pool(
-      contracts.gnosis.balancerV3.aaveLido50WstEth50Gno
+      balancerV3.aaveLido50WstEth50Gno
     ),
     allowErc20Approve(
-      [contracts.gnosis.balancerV3.aaveLido50WstEth50Gno],
+      [balancerV3.aaveLido50WstEth50Gno],
       [contracts.gnosis.balancerV3.compositeLiquidityRouter]
     ),
     allow.gnosis.balancerV3.compositeLiquidityRouter.removeLiquidityProportionalFromERC4626Pool(
-      contracts.gnosis.balancerV3.aaveLido50WstEth50Gno
+      balancerV3.aaveLido50WstEth50Gno
     ),
     allowErc20Approve(
-      [contracts.gnosis.balancerV3.aaveLido50WstEth50Gno],
-      [contracts.gnosis.balancerV3.aaveLido50WstEth50GnoGauge]
+      [balancerV3.aaveLido50WstEth50Gno],
+      [balancerV3.aaveLido50WstEth50GnoGauge]
     ),
-    allow.gnosis.balancerV3.aaveLido50WstEth50GnoGauge["deposit(uint256)"](),
-    allow.gnosis.balancerV3.aaveLido50WstEth50GnoGauge["withdraw(uint256)"](),
-    allow.gnosis.balancerV3.aaveLido50WstEth50GnoGauge["claim_rewards()"](),
-    allow.gnosis.balancerV2.minter.mint(
-      contracts.gnosis.balancerV3.aaveLido50WstEth50Gno
-    ),
+    {
+      ...allow.gnosis.balancerV2.gauge["deposit(uint256)"](),
+      targetAddress: balancerV3.aaveLido50WstEth50GnoGauge,
+    },
+    {
+      ...allow.gnosis.balancerV2.gauge["withdraw(uint256)"](),
+      targetAddress: balancerV3.aaveLido50WstEth50GnoGauge,
+    },
+    {
+      ...allow.gnosis.balancerV2.gauge["claim_rewards()"](),
+      targetAddress: balancerV3.aaveLido50WstEth50GnoGauge,
+    },
+    allow.gnosis.balancerV2.minter.mint(balancerV3.aaveLido50WstEth50Gno),
 
     /*********************************************
      * Swaps

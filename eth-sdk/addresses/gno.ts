@@ -1,5 +1,3 @@
-import { Address } from "@gnosis-guild/eth-sdk"
-
 // Tokens
 export const AAVE = "0xDF613aF6B44a31299E48131e9347F034347E2F00"
 export const AGVE = "0x3a97704a1b25F08aa230ae53B352e2e72ef52843"
@@ -42,7 +40,8 @@ export const SWPR = "0x532801ED6f82FFfD2DAB70A19fC2d7B2772C4f4b"
 export const SYMM = "0xC45b3C1c24d5F54E7a2cF288ac668c74Dd507a84"
 export const UNCX = "0x0116e28B43A358162B96f70B4De14C98A4465f25"
 export const USDC = "0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83"
-export const USDCe = "0x2a22f9c3b484c3629090feed35f17ff8f88f76f0"
+export const USDCe = "0x2a22f9c3b484c3629090FeED35F17Ff8F88f76F0"
+export const USDCE = "0xCD2f64112ec04e21cC56F7bf2294A6A37790305e"
 export const USDP = "0xFe7ed09C4956f7cdb54eC4ffCB9818Db2D7025b8"
 export const USDT = "0x4ECaBa5870353805a9F068101A40E0f32ed605C6"
 export const WATER = "0x4291F029B9e7acb02D49428458cf6fceAC545f81"
@@ -51,6 +50,7 @@ export const WETH = "0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1"
 export const wstETH = "0x6C76971f98945AE98dD7d4DFcA8711ebea946eA6"
 export const WXDAI = "0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d"
 export const x3CRV = "0x1337BedC9D22ecbe766dF105c9623922A27963EC"
+export const ZCHF = "0xD4dD9e2F021BB459D5A5f6c24C12fE09c5D45553"
 
 export const aura = {
   auraWethWstEthRewarder: "0x026d163c28cc7dbf57d6ed57f14208ee412ca526",
@@ -111,8 +111,17 @@ export const balancerV2 = {
 
 export const balancerV3 = {
   // BPTs
-  brlaSdai: "0x889aC9F5c87e6CA075777D5E417b3634D3F84135" as Address,
-}
+  brlaSdai: "0x889aC9F5c87e6CA075777D5E417b3634D3F84135",
+  aaveLidoWethWstEth: "0x6e6bb18449fCF15B79EFa2CfA70ACF7593088029",
+  aaveLido50WstEth50Gno: "0x272d6BE442E30D7c87390eDEb9B96f1E84cEcD8d",
+  aaveUsdceGho: "0xC2C6A23461FfFC71068a7Cb207336D68c91Fb8bD",
+  reClammWstEthGno: "0xa50085fF1dfa173378e7D26a76117d68D5ebA539",
+  reClammGnoUsdce: "0x70B3b56773aCE43fE86EE1d80CBe03176Cbe4C09",
+
+  // Gauges
+  aaveLidoWethWstEthGauge: "0x0fcE2d8428baca96b14f5D3D03D260940E11a066",
+  aaveLido50WstEth50GnoGauge: "0xcBD87e4Dad6a99506484E9adEEC8FF84Ce7BD399",
+} as const
 
 export const curve = {
   crvEureUsd: "0x0CA1C1eC4EBf3CC67a9f545fF90a3795b318cA4a",
