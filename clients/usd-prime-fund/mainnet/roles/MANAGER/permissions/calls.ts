@@ -4,6 +4,7 @@ import { zeroAddress } from "@/addresses"
 import {
   cbBTC,
   GHO,
+  RLP,
   sUSDe,
   sUSDS,
   USDC,
@@ -411,6 +412,35 @@ export default (parameters: Parameters) =>
         normalFills: [],
         flashFills: [],
       }
+    ),
+
+    // Morpho Blue - RLP/USDC (id:0xe1b65304edd8ceaea9b629df4c3c926a37d1216e27900505c04f14b2ed279f33)
+    // USDC approval already included
+    allow.mainnet.morpho.morphoBlue.supply(
+      {
+        loanToken: USDC,
+        collateralToken: RLP,
+        oracle: morpho.oracleRlpUSDC,
+        irm: morpho.adaptativeCurveIrm,
+        lltv: "860000000000000000",
+      },
+      undefined,
+      undefined,
+      c.avatar,
+      "0x"
+    ),
+    allow.mainnet.morpho.morphoBlue.withdraw(
+      {
+        loanToken: USDC,
+        collateralToken: RLP,
+        oracle: morpho.oracleRlpUSDC,
+        irm: morpho.adaptativeCurveIrm,
+        lltv: "860000000000000000",
+      },
+      undefined,
+      undefined,
+      c.avatar,
+      c.avatar
     ),
 
     /*********************************************
