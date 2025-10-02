@@ -24,17 +24,16 @@ export default [
   // Balancer v2 - USDC.e/USDT/sDAI
   allowAction.balancer_v2.deposit({ targets: ["sBAL3"] }),
   allowAction.balancer_v2.stake({ targets: ["sBAL3"] }),
+  // Balancer v2 - sDAI/wstETH
+  allowAction.balancer_v2.deposit({ targets: ["B-50sDAI-50wstETH"] }),
+  allowAction.balancer_v2.stake({ targets: ["B-50sDAI-50wstETH"] }),
+  // Balancer v2 - wstETH/GNO
+  allowAction.balancer_v2.deposit({ targets: ["B-50wstETH-50GNO"] }),
+  allowAction.balancer_v2.stake({ targets: ["B-50wstETH-50GNO"] }),
   // Balancer v2 - Gyroscope - wstETH/GNO
   allowAction.balancer_v2.deposit({ targets: ["ECLP-GNO-wstETH-dyn"] }),
   // Balancer v2 - Gyroscope - USDC.e/GNO
   allowAction.balancer_v2.deposit({ targets: ["ECLP-GNO-USDC.e-dyn"] }),
-
-  // Balancer v2 - wstETH/GNO
-  allowAction.balancer_v2.deposit({ targets: ["B-50wstETH-50GNO"] }),
-  allowAction.balancer_v2.stake({ targets: ["B-50wstETH-50GNO"] }),
-  // Balancer v2 - sDAI/wstETH
-  allowAction.balancer_v2.deposit({ targets: ["B-50sDAI-50wstETH"] }),
-  allowAction.balancer_v2.stake({ targets: ["B-50sDAI-50wstETH"] }),
 
   // CowSwap - [EURe, GHO, GNO, sDAI, USDC, USDCe, USDT, WETH, wstETH, WXDAI, XDAI] <-> [EURe, GHO, GNO, sDAI, USDC, USDCe, USDT, WETH, wstETH, WXDAI, XDAI]
   allowAction.cowswap.swap({

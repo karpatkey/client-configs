@@ -25,6 +25,7 @@ import {
   WETH,
   wstETH,
   aaveV3,
+  aura,
   balancerV3,
 } from "@/addresses/eth"
 import { contracts } from "@/contracts"
@@ -134,6 +135,61 @@ export default (parameters: Parameters) =>
     allow.mainnet.aaveV3.umbrellaRewardsController[
       "claimSelectedRewards(address,address[],address)"
     ](undefined, undefined, c.avatar),
+
+    // Aura - Aave Boosted USDT/GHO/USDC
+    allowErc20Approve(
+      [balancerV3.aaveGhoUsdtUsdc],
+      [contracts.mainnet.aura.booster]
+    ),
+    allow.mainnet.aura.booster.deposit("246"),
+    {
+      ...allow.mainnet.aura.rewarder.withdrawAndUnwrap(),
+      targetAddress: aura.auraAaveGhoUsdtUsdcRewarder,
+    },
+    {
+      ...allow.mainnet.aura.rewarder["getReward()"](),
+      targetAddress: aura.auraAaveGhoUsdtUsdcRewarder,
+    },
+    {
+      ...allow.mainnet.aura.rewarder["getReward(address,bool)"](c.avatar),
+      targetAddress: aura.auraAaveGhoUsdtUsdcRewarder,
+    },
+
+    // Balancer v3 - Aave Boosted USDT/GHO/USDC
+    allowErc20Approve([GHO, USDC, USDT], [contracts.mainnet.uniswap.permit2]),
+    allow.mainnet.uniswap.permit2.approve(
+      c.or(GHO, USDC, USDT),
+      contracts.mainnet.balancerV3.compositeLiquidityRouter
+    ),
+    allow.mainnet.balancerV3.compositeLiquidityRouter.addLiquidityProportionalToERC4626Pool(
+      balancerV3.aaveGhoUsdtUsdc
+    ),
+    allow.mainnet.balancerV3.compositeLiquidityRouter.addLiquidityUnbalancedToERC4626Pool(
+      balancerV3.aaveGhoUsdtUsdc
+    ),
+    allowErc20Approve(
+      [balancerV3.aaveGhoUsdtUsdc],
+      [contracts.mainnet.balancerV3.compositeLiquidityRouter]
+    ),
+    allow.mainnet.balancerV3.compositeLiquidityRouter.removeLiquidityProportionalFromERC4626Pool(
+      balancerV3.aaveGhoUsdtUsdc
+    ),
+    allowErc20Approve(
+      [balancerV3.aaveGhoUsdtUsdc],
+      [balancerV3.aaveGhoUsdtUsdcGauge]
+    ),
+    {
+      ...allow.mainnet.balancerV2.gauge["deposit(uint256)"](),
+      targetAddress: balancerV3.aaveGhoUsdtUsdcGauge,
+    },
+    {
+      ...allow.mainnet.balancerV2.gauge["withdraw(uint256)"](),
+      targetAddress: balancerV3.aaveGhoUsdtUsdcGauge,
+    },
+    {
+      ...allow.mainnet.balancerV2.gauge["claim_rewards()"](),
+      targetAddress: balancerV3.aaveGhoUsdtUsdcGauge,
+    },
 
     // Balancer v3 - Aave Lido Boosted WETH/wstETH
     allowErc20Approve([WETH, wstETH], [contracts.mainnet.uniswap.permit2]),

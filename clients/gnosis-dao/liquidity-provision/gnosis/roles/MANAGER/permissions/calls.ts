@@ -50,17 +50,17 @@ export default [
     contracts.gnosis.balancerV3.compositeLiquidityRouter
   ),
   allow.gnosis.balancerV3.compositeLiquidityRouter.addLiquidityUnbalancedToERC4626Pool(
-    balancerV3.aaveLidoWethWstEth
+    balancerV3.aaveUsdceGho
   ),
   allow.gnosis.balancerV3.compositeLiquidityRouter.addLiquidityProportionalToERC4626Pool(
-    balancerV3.aaveLidoWethWstEth
+    balancerV3.aaveUsdceGho
   ),
   allowErc20Approve(
-    [balancerV3.aaveLidoWethWstEth],
+    [balancerV3.aaveUsdceGho],
     [contracts.gnosis.balancerV3.compositeLiquidityRouter]
   ),
   allow.gnosis.balancerV3.compositeLiquidityRouter.removeLiquidityProportionalFromERC4626Pool(
-    balancerV3.aaveLidoWethWstEth
+    balancerV3.aaveUsdceGho
   ),
 
   // Balancer v3 - sDAI/BRLA
@@ -149,20 +149,20 @@ export default [
     contracts.gnosis.balancerV3.router
   ),
   allow.gnosis.balancerV3.router.addLiquidityProportional(
-    balancerV3.reClammWstEthGno
+    balancerV3.reClammGnoUsdce
   ),
   allow.gnosis.balancerV3.router.addLiquidityUnbalanced(
-    balancerV3.reClammWstEthGno
+    balancerV3.reClammGnoUsdce
   ),
   allowErc20Approve(
-    [balancerV3.reClammWstEthGno],
+    [balancerV3.reClammGnoUsdce],
     [contracts.gnosis.balancerV3.router]
   ),
   allow.gnosis.balancerV3.router.removeLiquidityProportional(
-    balancerV3.reClammWstEthGno
+    balancerV3.reClammGnoUsdce
   ),
   allow.gnosis.balancerV3.router.removeLiquiditySingleTokenExactIn(
-    balancerV3.reClammWstEthGno
+    balancerV3.reClammGnoUsdce
   ),
 
   // Curve - EURe/EURC.e
