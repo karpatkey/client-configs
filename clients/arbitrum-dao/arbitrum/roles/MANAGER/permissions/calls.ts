@@ -154,15 +154,15 @@ export default (parameters: Parameters) =>
     allowErc20Approve([USDC], [morpho.kUsdc]),
     {
       ...allow.arbitrumOne.morpho.vault.deposit(undefined, c.avatar),
-      targetAddress: morpho.kUsdc
+      targetAddress: morpho.kUsdc,
     },
     {
       ...allow.arbitrumOne.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kUsdc
+      targetAddress: morpho.kUsdc,
     },
     {
       ...allow.arbitrumOne.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kUsdc
+      targetAddress: morpho.kUsdc,
     },
     // Morpho Claim Rewards (through Merkle)
     allow.arbitrumOne.merkl.angleDistributor.claim(
