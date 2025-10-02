@@ -347,6 +347,12 @@ export const contracts = {
       sGyd: "0xeA50f402653c41cAdbaFD1f788341dB7B7F37816",
       stSgyd: "0xb4C19C1b16881A6d1d781264f0f8C0237D8Be0C7",
     },
+    merkl: {
+      angleDistributor: "0x3Ef3D8bA38EBe18DB133cEc108f4D14CE00Dd9Ae",
+    },
+    morpho: {
+      vault: "0x35a04d797164d54def24d6fc722c8f82f8ef0d45",
+    },
     oiv: {
       navCalculator: "0x7C90871c0bd3eb276712f9f783F30Bfaf215Be64", // prod navCalculator implementation
     },

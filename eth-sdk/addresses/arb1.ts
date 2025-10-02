@@ -63,3 +63,7 @@ export const gmx = {
     "0x602b805EedddBbD9ddff44A7dcBD46cb07849685",
   ],
 } as const
+
+export const morpho = {
+  kUsdc: "0x2C609d9CfC9dda2dB5C128B2a665D921ec53579d", // kUSDC - kpk USDC Vault
+} as const
