@@ -420,7 +420,7 @@ export default (parameters: Parameters) =>
       {
         loanToken: USDC,
         collateralToken: RLP,
-        oracle: morpho.oracleRlpUSDC,
+        oracle: morpho.oracleRlpUsdc,
         irm: morpho.adaptativeCurveIrm,
         lltv: "860000000000000000",
       },
@@ -433,7 +433,7 @@ export default (parameters: Parameters) =>
       {
         loanToken: USDC,
         collateralToken: RLP,
-        oracle: morpho.oracleRlpUSDC,
+        oracle: morpho.oracleRlpUsdc,
         irm: morpho.adaptativeCurveIrm,
         lltv: "860000000000000000",
       },
