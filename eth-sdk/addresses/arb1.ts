@@ -15,6 +15,7 @@ export const USDCe = "0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8"
 export const USDS = "0x6491c05A82219b8D1479057361ff1654749b876b"
 export const USDT = "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9"
 export const WETH = "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1"
+export const syrupUSDC = "0x41CA7586cC1311807B4605fBB748a3B8862b42b5"
 
 export const aura = {
   auraAaveGhoUsdtUsdcRewarder: "0x627305fF273640e0468D3c5DFE4FC2Adb1D013e8",
@@ -65,5 +66,11 @@ export const gmx = {
 } as const
 
 export const morpho = {
+  // Vaults
   kUsdc: "0x2C609d9CfC9dda2dB5C128B2a665D921ec53579d", // kUSDC - kpk USDC Vault
+  
+  // Oracles
+  oracleSusdsUsdc: "0x52CC7c3b27bb61D0a83785B5344acC919F8f7124",
+  oraclesyrupUsdcUsdc: "0x8f30fF3d54e69D4dfD5E99a9937474FaDdf27009",
+  adaptativeCurveIrm: "0x66F30587FB8D4206918deb78ecA7d5eBbafD06DA",
 } as const

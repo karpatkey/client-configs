@@ -349,6 +349,7 @@ export const contracts = {
     },
     morpho: {
       vault: "0x35a04d797164d54def24d6fc722c8f82f8ef0d45",
+      morphoBlue: "0x6c247b1F6182318877311737BaC0844bAa518F5e",
     },
     oiv: {
       navCalculator: "0x7C90871c0bd3eb276712f9f783F30Bfaf215Be64", // prod navCalculator implementation

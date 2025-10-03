@@ -33,5 +33,14 @@ export const balancerV3 = {
 export const morpho = {
   oracleCbEthUsdc: "0xb40d93F44411D8C09aD17d7F88195eF9b05cCD96",
   oracleCbBtcUsdc: "0x663BECd10daE6C4A3Dcd89F1d76c1174199639B9",
+  oraclePTUsde11Dec2025Usdc: "0x15af6e452Fe5C4B78c45f9DE02842a52E600A1cA",
   adaptativeCurveIrm: "0x46415998764C29aB2a25CbeA6254146D50D22687",
+} as const
+
+export const pendle = {
+  // Markets
+
+  // PTs
+  ptUsde11Dec2025: "0x194b8FeD256C02eF1036Ed812Cae0c659ee6F7FD",
+
 } as const
