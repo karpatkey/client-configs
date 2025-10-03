@@ -9,6 +9,7 @@ import {
   aura,
   balancerV3,
   morpho,
+  pendle,
 } from "@/addresses/base"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
@@ -124,6 +125,34 @@ export default (parameters: Parameters) =>
         oracle: morpho.oracleCbEthUsdc,
         irm: morpho.adaptativeCurveIrm,
         lltv: "860000000000000000",
+      },
+      undefined,
+      undefined,
+      c.avatar,
+      c.avatar
+    ),
+
+    // Morpho Blue PT-USDe-11DEC2025 - /USDC id:0xafa2d80fcc3aa58419dd8c62b57087384bc35de27d70de9c91525276f2b2fd6e
+    allow.mainnet.morpho.morphoBlue.supply(
+      {
+        loanToken: USDC,
+        collateralToken: pendle.ptUsde11Dec2025,
+        oracle: morpho.oraclePTUsde11Dec2025Usdc,
+        irm: morpho.adaptativeCurveIrm,
+        lltv: "915000000000000000",
+      },
+      undefined,
+      undefined,
+      c.avatar,
+      "0x"
+    ),
+    allow.mainnet.morpho.morphoBlue.withdraw(
+      {
+        loanToken: USDC,
+        collateralToken: pendle.ptUsde11Dec2025,
+        oracle: morpho.oraclePTUsde11Dec2025Usdc,
+        irm: morpho.adaptativeCurveIrm,
+        lltv: "915000000000000000",
       },
       undefined,
       undefined,
