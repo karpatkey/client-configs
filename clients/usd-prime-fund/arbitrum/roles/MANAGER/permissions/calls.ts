@@ -1,7 +1,16 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { zeroAddress } from "@/addresses"
-import { GHO, USDC, USDT, aura, balancerV3 } from "@/addresses/arb1"
+import {
+  GHO,
+  sUSDS,
+  syrupUSDC,
+  USDC,
+  USDT,
+  aura,
+  balancerV3,
+  morpho,
+} from "@/addresses/arb1"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
@@ -64,6 +73,72 @@ export default (parameters: Parameters) =>
       ...allow.arbitrumOne.balancerV2.gauge["claim_rewards()"](),
       targetAddress: balancerV3.aaveGhoUsdtUsdcGauge,
     },
+
+    // Morpho Blue - sUSDS/USDC - id:0x77fe2f7c2dd6f4da6bc5f445b06052ff8df55cb70cfce9afc16ec3c69a5fd3a3
+    allowErc20Approve([USDC], [contracts.arbitrumOne.morpho.morphoBlue]),
+    allow.mainnet.morpho.morphoBlue.supply(
+      {
+        loanToken: USDC,
+        collateralToken: sUSDS,
+        oracle: morpho.oracleSusdsUsdc,
+        irm: morpho.adaptativeCurveIrm,
+        lltv: "945000000000000000",
+      },
+      undefined,
+      undefined,
+      c.avatar,
+      "0x"
+    ),
+    allow.mainnet.morpho.morphoBlue.withdraw(
+      {
+        loanToken: USDC,
+        collateralToken: sUSDS,
+        oracle: morpho.oracleSusdsUsdc,
+        irm: morpho.adaptativeCurveIrm,
+        lltv: "945000000000000000",
+      },
+      undefined,
+      undefined,
+      c.avatar,
+      c.avatar
+    ),
+
+    // Morpho Blue - syrupUSDC/USDC - id:0xf86f3edd6f16cd8211f4d206866dc4ecd41be6211063ac11f8508e1b7112ef40
+    allow.mainnet.morpho.morphoBlue.supply(
+      {
+        loanToken: USDC,
+        collateralToken: syrupUSDC,
+        oracle: morpho.oraclesyrupUsdcUsdc,
+        irm: morpho.adaptativeCurveIrm,
+        lltv: "915000000000000000",
+      },
+      undefined,
+      undefined,
+      c.avatar,
+      "0x"
+    ),
+    allow.mainnet.morpho.morphoBlue.withdraw(
+      {
+        loanToken: USDC,
+        collateralToken: syrupUSDC,
+        oracle: morpho.oraclesyrupUsdcUsdc,
+        irm: morpho.adaptativeCurveIrm,
+        lltv: "915000000000000000",
+      },
+      undefined,
+      undefined,
+      c.avatar,
+      c.avatar
+    ),
+
+    // Morpho Claim Rewards (through Merkle)
+    allow.arbitrumOne.merkl.angleDistributor.claim(
+      c.or(
+        [parameters.avatar],
+        [parameters.avatar, parameters.avatar],
+        [parameters.avatar, parameters.avatar, parameters.avatar]
+      )
+    ),
 
     /*********************************************
      * Bridges
