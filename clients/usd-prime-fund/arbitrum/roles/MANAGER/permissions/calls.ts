@@ -1,15 +1,15 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { zeroAddress } from "@/addresses"
-import { 
+import {
   GHO,
   sUSDS,
   syrupUSDC,
-  USDC, 
-  USDT, 
-  aura, 
+  USDC,
+  USDT,
+  aura,
   balancerV3,
-  morpho, 
+  morpho,
 } from "@/addresses/arb1"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
@@ -136,7 +136,7 @@ export default (parameters: Parameters) =>
       c.or(
         [parameters.avatar],
         [parameters.avatar, parameters.avatar],
-        [parameters.avatar, parameters.avatar, parameters.avatar],
+        [parameters.avatar, parameters.avatar, parameters.avatar]
       )
     ),
 

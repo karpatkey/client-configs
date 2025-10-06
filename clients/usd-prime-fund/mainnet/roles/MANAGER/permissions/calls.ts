@@ -465,7 +465,7 @@ export default (parameters: Parameters) =>
       c.avatar,
       c.avatar
     ),
-    
+
     // Morpho Blue - PT-USDe-27NOV2025/USDC - id:0x534e7046c3aebaa0c6c363cdbeb9392fc87af71cc16862479403a198fe04b206
     // USDC approval already included
     allow.mainnet.morpho.morphoBlue.supply(
