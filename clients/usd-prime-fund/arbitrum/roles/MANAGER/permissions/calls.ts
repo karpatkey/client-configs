@@ -3,8 +3,8 @@ import { allow } from "zodiac-roles-sdk/kit"
 import { zeroAddress } from "@/addresses"
 import { 
   GHO,
+  sUSDS,
   syrupUSDC,
-  sUSDS, 
   USDC, 
   USDT, 
   aura, 
@@ -74,7 +74,7 @@ export default (parameters: Parameters) =>
       targetAddress: balancerV3.aaveGhoUsdtUsdcGauge,
     },
 
-    // Morpho Blue - sUSDS/USDC id:0x77fe2f7c2dd6f4da6bc5f445b06052ff8df55cb70cfce9afc16ec3c69a5fd3a3
+    // Morpho Blue - sUSDS/USDC - id:0x77fe2f7c2dd6f4da6bc5f445b06052ff8df55cb70cfce9afc16ec3c69a5fd3a3
     allowErc20Approve([USDC], [contracts.arbitrumOne.morpho.morphoBlue]),
     allow.mainnet.morpho.morphoBlue.supply(
       {
@@ -103,7 +103,7 @@ export default (parameters: Parameters) =>
       c.avatar
     ),
 
-    // Morpho Blue - syrupUSDC/USDC id:0xf86f3edd6f16cd8211f4d206866dc4ecd41be6211063ac11f8508e1b7112ef40
+    // Morpho Blue - syrupUSDC/USDC - id:0xf86f3edd6f16cd8211f4d206866dc4ecd41be6211063ac11f8508e1b7112ef40
     allow.mainnet.morpho.morphoBlue.supply(
       {
         loanToken: USDC,
@@ -129,6 +129,15 @@ export default (parameters: Parameters) =>
       undefined,
       c.avatar,
       c.avatar
+    ),
+
+    // Morpho Claim Rewards (through Merkle)
+    allow.arbitrumOne.merkl.angleDistributor.claim(
+      c.or(
+        [parameters.avatar],
+        [parameters.avatar, parameters.avatar],
+        [parameters.avatar, parameters.avatar, parameters.avatar],
+      )
     ),
 
     /*********************************************

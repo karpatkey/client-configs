@@ -3,7 +3,7 @@ import { allow } from "zodiac-roles-sdk/kit"
 import { zeroAddress } from "@/addresses"
 import {
   cbBTC,
-  ETHplus,
+  ETHPlus,
   GHO,
   RLP,
   sUSDe,
@@ -350,7 +350,7 @@ export default (parameters: Parameters) =>
       c.avatar
     ),
 
-    // Morpho Blue - RLP/USDC (id:0xe1b65304edd8ceaea9b629df4c3c926a37d1216e27900505c04f14b2ed279f33)
+    // Morpho Blue - RLP/USDC - id:0xe1b65304edd8ceaea9b629df4c3c926a37d1216e27900505c04f14b2ed279f33
     // USDC approval already included
     allow.mainnet.morpho.morphoBlue.supply(
       {
@@ -379,7 +379,7 @@ export default (parameters: Parameters) =>
       c.avatar
     ),
 
-    // Morpho Blue - syrupUSDC/USDC (id:0x729badf297ee9f2f6b3f717b96fd355fc6ec00422284ce1968e76647b258cf44)
+    // Morpho Blue - syrupUSDC/USDC - id:0x729badf297ee9f2f6b3f717b96fd355fc6ec00422284ce1968e76647b258cf44
     // USDC approval already included
     allow.mainnet.morpho.morphoBlue.supply(
       {
@@ -408,12 +408,12 @@ export default (parameters: Parameters) =>
       c.avatar
     ),
 
-    // Morpho Blue - ETH+/USDC (id:0xdb8938f97571aeab0deb0c34cf7e6278cff969538f49eebe6f4fc75a9a111293)
+    // Morpho Blue - ETH+/USDC - id:0xdb8938f97571aeab0deb0c34cf7e6278cff969538f49eebe6f4fc75a9a111293
     // USDC approval already included
     allow.mainnet.morpho.morphoBlue.supply(
       {
         loanToken: USDC,
-        collateralToken: ETHplus,
+        collateralToken: ETHPlus,
         oracle: morpho.oracleEthplusUsdc,
         irm: morpho.adaptativeCurveIrm,
         lltv: "860000000000000000",
@@ -426,7 +426,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.morpho.morphoBlue.withdraw(
       {
         loanToken: USDC,
-        collateralToken: ETHplus,
+        collateralToken: ETHPlus,
         oracle: morpho.oracleEthplusUsdc,
         irm: morpho.adaptativeCurveIrm,
         lltv: "860000000000000000",
@@ -437,7 +437,7 @@ export default (parameters: Parameters) =>
       c.avatar
     ),
 
-    // Morpho Blue - PT-sUSDe-27NOV2025/USDC (id:0x05702edf1c4709808b62fe65a7d082dccc9386f858ae460ef207ec8dd1debfa2)
+    // Morpho Blue - PT-sUSDe-27NOV2025/USDC - id:0x05702edf1c4709808b62fe65a7d082dccc9386f858ae460ef207ec8dd1debfa2
     // USDC approval already included
     allow.mainnet.morpho.morphoBlue.supply(
       {
@@ -466,7 +466,7 @@ export default (parameters: Parameters) =>
       c.avatar
     ),
     
-    // Morpho Blue - PT-USDe-27NOV2025/USDC (id:0x534e7046c3aebaa0c6c363cdbeb9392fc87af71cc16862479403a198fe04b206)
+    // Morpho Blue - PT-USDe-27NOV2025/USDC - id:0x534e7046c3aebaa0c6c363cdbeb9392fc87af71cc16862479403a198fe04b206
     // USDC approval already included
     allow.mainnet.morpho.morphoBlue.supply(
       {
