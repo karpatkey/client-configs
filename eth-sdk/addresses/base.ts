@@ -42,5 +42,4 @@ export const pendle = {
 
   // PTs
   ptUsde11Dec2025: "0x194b8FeD256C02eF1036Ed812Cae0c659ee6F7FD",
-
 } as const

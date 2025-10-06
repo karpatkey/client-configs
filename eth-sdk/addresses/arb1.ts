@@ -68,7 +68,7 @@ export const gmx = {
 export const morpho = {
   // Vaults
   kUsdc: "0x2C609d9CfC9dda2dB5C128B2a665D921ec53579d", // kUSDC - kpk USDC Vault
-  
+
   // Oracles
   oracleSusdsUsdc: "0x52CC7c3b27bb61D0a83785B5344acC919F8f7124",
   oraclesyrupUsdcUsdc: "0x8f30fF3d54e69D4dfD5E99a9937474FaDdf27009",
