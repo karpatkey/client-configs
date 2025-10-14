@@ -1,4 +1,4 @@
-import { c, targetId } from "zodiac-roles-sdk"
+import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import {
   ankrETH,
@@ -35,10 +35,11 @@ import {
 } from "@/addresses/eth"
 import { zeroAddress, eAddress } from "@/addresses"
 import { contracts } from "@/contracts"
-import { allowErc20Approve } from "@/helpers"
+import { allowErc20Approve, allowErc20Transfer} from "@/helpers" 
 import { PermissionList } from "@/types"
 import { balancerV2Swap } from "@/exit_strategies/balancerV2"
-import { Parameters } from "../../../parameters"
+import { Parameters } from "../../../../parameters"
+import { timeLock } from "../../../../addresses"
 
 export default (parameters: Parameters) =>
   [
@@ -799,4 +800,10 @@ export default (parameters: Parameters) =>
       recipient: c.avatar,
       fee: 100,
     }),
+
+    /*********************************************
+     * Transfers
+     *********************************************/
+    // Transfer SPK to ENS Timelock
+    allowErc20Transfer([SPK], [timeLock]),
   ] satisfies PermissionList

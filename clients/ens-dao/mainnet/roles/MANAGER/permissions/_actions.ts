@@ -24,7 +24,7 @@ import {
   WETH,
   wstETH,
 } from "@/addresses/eth"
-import { Parameters } from "../../../parameters"
+import { Parameters } from "../../../../parameters"
 
 export default (parameters: Parameters) => [
   // Ankr
