@@ -1,7 +1,7 @@
 {
   "version": "1.0",
   "chainId": "1",
-  "createdAt": 1757338333571,
+  "createdAt": 1760481870753,
   "meta": {
     "name": "Update permissions of MANAGER role",
     "description": "",
@@ -3185,6 +3185,54 @@
         "targetAddress": "0xc20059e0317DE91738d13af027DfC4a50781b066",
         "selector": "0x095ea7b3",
         "conditions": "[[\"0\",\"5\",\"5\",\"0x\"],[\"0\",\"0\",\"2\",\"0x\"],[\"1\",\"1\",\"16\",\"0x00000000000000000000000068b3465833fb72a70ecdf485e0e4c7bd8665fc45\"],[\"1\",\"1\",\"16\",\"0x000000000000000000000000c92e8bdf79f0507f65a392b0ab4667716bfe0110\"]]",
+        "options": "0"
+      }
+    },
+    {
+      "to": "0x703806e61847984346d2d7ddd853049627e50a40",
+      "value": "0",
+      "contractMethod": {
+        "inputs": [
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
+          {
+            "internalType": "address",
+            "name": "targetAddress",
+            "type": "address"
+          },
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
+          {
+            "internalType": "struct ConditionFlat[]",
+            "name": "conditions",
+            "type": "tuple[]",
+            "components": [
+              { "internalType": "uint8", "name": "parent", "type": "uint8" },
+              {
+                "internalType": "enum AbiType",
+                "name": "paramType",
+                "type": "uint8"
+              },
+              {
+                "internalType": "enum Operator",
+                "name": "operator",
+                "type": "uint8"
+              },
+              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
+            ]
+          },
+          {
+            "internalType": "enum ExecutionOptions",
+            "name": "options",
+            "type": "uint8"
+          }
+        ],
+        "name": "scopeFunction",
+        "payable": false
+      },
+      "contractInputsValues": {
+        "roleKey": "0x4d414e4147455200000000000000000000000000000000000000000000000000",
+        "targetAddress": "0xc20059e0317DE91738d13af027DfC4a50781b066",
+        "selector": "0xa9059cbb",
+        "conditions": "[[\"0\",\"5\",\"5\",\"0x\"],[\"0\",\"1\",\"16\",\"0x000000000000000000000000fe89cc7abb2c4183683ab71653c4cdc9b02d44b7\"]]",
         "options": "0"
       }
     },
