@@ -150,41 +150,41 @@ export default (parameters: Parameters) =>
     // Included for completeness; not used by the UI
     allow.arbitrumOne.euler.rEul.withdrawTo(c.avatar),
 
-    // Morpho - kpk USDC Vault
-    allowErc20Approve([USDC], [morpho.kUsdc]),
-    {
-      ...allow.arbitrumOne.morpho.vault.deposit(undefined, c.avatar),
-      targetAddress: morpho.kUsdc,
-    },
-    {
-      ...allow.arbitrumOne.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kUsdc,
-    },
-    {
-      ...allow.arbitrumOne.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kUsdc,
-    },
-    // Morpho Claim Rewards (through Merkle)
-    allow.arbitrumOne.merkl.angleDistributor.claim(
-      c.or(
-        [parameters.avatar],
-        [parameters.avatar, parameters.avatar],
-        [parameters.avatar, parameters.avatar, parameters.avatar],
-        [
-          parameters.avatar,
-          parameters.avatar,
-          parameters.avatar,
-          parameters.avatar,
-        ],
-        [
-          parameters.avatar,
-          parameters.avatar,
-          parameters.avatar,
-          parameters.avatar,
-          parameters.avatar,
-        ]
-      )
-    ),
+    // // Morpho - kpk USDC Vault
+    // allowErc20Approve([USDC], [morpho.kUsdc]),
+    // {
+    //   ...allow.arbitrumOne.morpho.vault.deposit(undefined, c.avatar),
+    //   targetAddress: morpho.kUsdc,
+    // },
+    // {
+    //   ...allow.arbitrumOne.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+    //   targetAddress: morpho.kUsdc,
+    // },
+    // {
+    //   ...allow.arbitrumOne.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+    //   targetAddress: morpho.kUsdc,
+    // },
+    // // Morpho Claim Rewards (through Merkle)
+    // allow.arbitrumOne.merkl.angleDistributor.claim(
+    //   c.or(
+    //     [parameters.avatar],
+    //     [parameters.avatar, parameters.avatar],
+    //     [parameters.avatar, parameters.avatar, parameters.avatar],
+    //     [
+    //       parameters.avatar,
+    //       parameters.avatar,
+    //       parameters.avatar,
+    //       parameters.avatar,
+    //     ],
+    //     [
+    //       parameters.avatar,
+    //       parameters.avatar,
+    //       parameters.avatar,
+    //       parameters.avatar,
+    //       parameters.avatar,
+    //     ]
+    //   )
+    // ),
 
     // Spark - sUSDC
     allowErc20Approve([USDC], [sUSDC]),
