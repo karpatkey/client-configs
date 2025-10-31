@@ -38,7 +38,12 @@ export default (parameters: Parameters) =>
         [parameters.avatar],
         [parameters.avatar, parameters.avatar],
         [parameters.avatar, parameters.avatar, parameters.avatar],
-        [parameters.avatar, parameters.avatar, parameters.avatar, parameters.avatar]
+        [
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+        ]
       )
     ),
 
