@@ -5,6 +5,7 @@ import {
   DAI,
   GHO,
   MORPHO,
+  RLUSD,
   SPK,
   sUSDe,
   sUSDS,
@@ -13,6 +14,7 @@ import {
   USDe,
   USDS,
   USDT,
+  syrupUSDC,
 } from "@/addresses/eth"
 import { Parameters } from "../../../parameters"
 
@@ -23,6 +25,8 @@ export default (parameters: Parameters) => [
 
   // Aave Safety Module - Stake GHO
   allowAction.aave_v2.stake({ targets: ["GHO"] }),
+  // Aave v3 Core Market - Deposit RLUSD
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["RLUSD"] }),
   // Aave v3 Core Market - Deposit sUSDe
   allowAction.aave_v3.deposit({ market: "Core", targets: ["sUSDe"] }),
   // Aave v3 Core Market - Deposit USDC
@@ -51,7 +55,8 @@ export default (parameters: Parameters) => [
    * Swaps
    *********************************************/
 
-  // CowSwap - [AURA, BAL, DAI, GHO, MORPHO, SPK, sUSDe, sUSDS, stkGHO, USDC, USDe, USDS, USDT] <-> [GHO, sUSDe, sUSDS, stkGHO, USDC, USDe, USDS, USDT]
+  // CowSwap - [AURA, BAL, DAI, GHO, MORPHO, RLUSD, SPK, sUSDe, sUSDS, stkGHO, syrupUSDC, USDC, USDe, USDS, USDT] <->
+  // [GHO, RLUSD, sUSDe, sUSDS, stkGHO, syrupUSDC, USDC, USDe, USDS, USDT]
   allowAction.cowswap.swap({
     sell: [
       AURA,
@@ -59,16 +64,18 @@ export default (parameters: Parameters) => [
       DAI,
       GHO,
       MORPHO,
+      RLUSD,
       SPK,
       sUSDe,
       sUSDS,
       stkGHO,
+      syrupUSDC,
       USDC,
       USDe,
       USDS,
       USDT,
     ],
-    buy: [GHO, sUSDe, sUSDS, stkGHO, USDC, USDe, USDS, USDT],
+    buy: [GHO, RLUSD, sUSDe, sUSDS, stkGHO, syrupUSDC, USDC, USDe, USDS, USDT],
   }),
 
   /*********************************************
