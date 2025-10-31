@@ -32,12 +32,13 @@ export default (parameters: Parameters) =>
      * Protocols
      *********************************************/
 
-    // ACI - Claim Merit Rewards through Merkle (max 3 tokens: MORPHO, stkGHO and USDS)
+    // ACI - Claim Merit Rewards through Merkle (max 4 tokens: aEthRLUSD, MORPHO, stkGHO and USDS)
     allow.mainnet.merkl.angleDistributor.claim(
       c.or(
         [parameters.avatar],
         [parameters.avatar, parameters.avatar],
-        [parameters.avatar, parameters.avatar, parameters.avatar]
+        [parameters.avatar, parameters.avatar, parameters.avatar],
+        [parameters.avatar, parameters.avatar, parameters.avatar, parameters.avatar]
       )
     ),
 
