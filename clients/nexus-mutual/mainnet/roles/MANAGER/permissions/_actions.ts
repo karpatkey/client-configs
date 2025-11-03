@@ -26,8 +26,9 @@ import {
   wNXM,
   wstETH,
 } from "@/addresses/eth"
+import { Parameters } from "../../../parameters"
 
-export default [
+export default (parameters: Parameters) => [
   // Aave Safety Module - Stake GHO
   allowAction.aave_v3.stake({ targets: ["GHO"] }),
   // Aave v3 Core Market - Deposit DAI
@@ -140,6 +141,28 @@ export default [
   allowAction.cowswap.swap({
     sell: [MORPHO, SPK],
     buy: ["ETH", USDC, WETH],
+  }),
+
+  // CowSwap - [stETH, weETH] -> [USDC]
+  allowAction.cowswap.swap({
+    sell: [stETH, weETH],
+    buy: [USDC],
+  }),
+
+  // CowSwap - TWAP - [stETH] -> [USDC]
+  allowAction.cowswap.swap({
+    sell: [stETH],
+    buy: [USDC],
+    twap: true,
+    receiver: parameters.avatar,
+  }),
+
+  // CowSwap - TWAP - [wNXM] -> [WETH]
+  allowAction.cowswap.swap({
+    sell: [wNXM],
+    buy: [WETH],
+    twap: true,
+    receiver: parameters.avatar,
   }),
 
   // Fluid - Deposit USDC
