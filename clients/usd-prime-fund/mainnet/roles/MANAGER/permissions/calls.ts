@@ -104,29 +104,15 @@ export default (parameters: Parameters) =>
 
     // cap - USDC/cUSD
     allowErc20Approve([USDC], [contracts.mainnet.cap.cUsd]),
-    allow.mainnet.cap.cUsd.mint(
-      USDC,
-      undefined,
-      undefined,
-      c.avatar
-    ),
-    allow.mainnet.cap.cUsd.burn(
-      USDC,
-      undefined,
-      undefined,
-      c.avatar
-    ),
+    allow.mainnet.cap.cUsd.mint(USDC, undefined, undefined, c.avatar),
+    allow.mainnet.cap.cUsd.burn(USDC, undefined, undefined, c.avatar),
     // cap - cUSD Stake and Unstake
-    allowErc20Approve([contracts.mainnet.cap.cUsd], [contracts.mainnet.cap.stcUsd]),
-    allow.mainnet.cap.stcUsd.deposit(
-      undefined,
-      c.avatar
+    allowErc20Approve(
+      [contracts.mainnet.cap.cUsd],
+      [contracts.mainnet.cap.stcUsd]
     ),
-    allow.mainnet.cap.stcUsd.redeem(
-      undefined,
-      c.avatar,
-      c.avatar
-    ),
+    allow.mainnet.cap.stcUsd.deposit(undefined, c.avatar),
+    allow.mainnet.cap.stcUsd.redeem(undefined, c.avatar, c.avatar),
 
     // Ethena - Stake USDe
     allowErc20Approve([USDe], [sUSDe]),
