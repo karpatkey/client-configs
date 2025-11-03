@@ -1,5 +1,5 @@
 import { allow as allowAction } from "defi-kit/arb1"
-import { AURA, BAL, GHO, syrupUSDC, USDC, USDT } from "@/addresses/arb1"
+import { AURA, BAL, GHO, MORPHO, syrupUSDC, USDC, USDT } from "@/addresses/arb1"
 import { Parameters } from "../../../parameters"
 
 export default (parameters: Parameters) => [
@@ -34,9 +34,9 @@ export default (parameters: Parameters) => [
    * Swaps
    *********************************************/
 
-  // CowSwap - [AURA, BAL, GHO, syrupUSDC, USDC, USDT] <-> [GHO, syrupUSDC, USDC, USDT]
+  // CowSwap - [AURA, BAL, GHO, MORPHO, syrupUSDC, USDC, USDT] <-> [GHO, syrupUSDC, USDC, USDT]
   allowAction.cowswap.swap({
-    sell: [AURA, BAL, GHO, syrupUSDC, USDC, USDT],
+    sell: [AURA, BAL, GHO, MORPHO, syrupUSDC, USDC, USDT],
     buy: [GHO, syrupUSDC, USDC, USDT],
   }),
 ]

@@ -513,6 +513,21 @@ export default (parameters: Parameters) =>
       c.avatar
     ),
 
+    // Morpho - kpk USDC Prime Vault
+    allowErc20Approve([USDC], [morpho.kpkUsdc]),
+    {
+      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
+      targetAddress: morpho.kpkUsdc,
+    },
+    {
+      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkUsdc,
+    },
+    {
+      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkUsdc,
+    },
+
     // Morpho - Claim Rewards
     allow.mainnet.morpho.universalRewardsDistributor.claim(c.avatar),
 
