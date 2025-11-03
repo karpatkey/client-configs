@@ -4,7 +4,7 @@ import { Parameters } from "../../../parameters"
 
 export default (parameters: Parameters) => [
   // Balancer v2 - axlBAL/BAL
-  allowAction.balancer_v2.deposit({targets: ["axlBAL/BAL"]}),
+  allowAction.balancer_v2.deposit({ targets: ["axlBAL/BAL"] }),
 
   // Circle v2 - Bridge USDC to Ethereum
   allowAction.circle_v2.bridge({
