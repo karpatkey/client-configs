@@ -39,6 +39,10 @@ export const contracts = {
       basePortal: "0x49048044D57e1C92A77f79988d21Fa8fAF74E97e",
       resolvedDelegateProxy: "0x866E82a600A1414e583f7F13623F1aC5d58b0Afa",
     },
+    cap: {
+      cUsd: "0xcCcc62962d17b8914c62D74FfB843d73B2a3cccC",
+      stcUsd: "0x88887bE419578051FF9F4eb6C858A951921D8888",
+    },
     chainlink: {
       router: "0x80226fc0Ee2b096224EeAc085Bb9a8cba1146f7D",
     },
