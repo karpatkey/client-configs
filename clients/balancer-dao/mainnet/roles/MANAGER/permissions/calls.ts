@@ -43,6 +43,12 @@ export default (parameters: Parameters) =>
     // ACI - Aave Merit rewards (https://apps.aavechan.com/merit) through Merkl
     allow.mainnet.merkl.angleDistributor.claim([parameters.avatar]),
 
+    // Balancer v2 - BCoW-50WETH-50USDC - Withdraw
+    allow.mainnet.balancerV2.bCow50Weth50Usdc.exitPool(),
+
+    // Balancer v2 - BCoW-50BAL-50ETH - Withdraw
+    allow.mainnet.balancerV2.bCow50Bal50Eth.exitPool(),
+
     // Compound v3 - Deposit USDC
     allowErc20Approve([USDC], [contracts.mainnet.compoundV3.cUsdcV3]),
     allow.mainnet.compoundV3.cUsdcV3.supply(USDC),
