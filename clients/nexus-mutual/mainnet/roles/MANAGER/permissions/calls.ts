@@ -27,6 +27,7 @@ import {
   balancerV2,
   balancerV3,
   curve,
+  gearbox,
   morpho,
   nexus,
 } from "@/addresses/eth"
@@ -219,6 +220,40 @@ export default (parameters: Parameters) =>
       targetAddress: balancerV3.aaveGhoUsdtUsdcGauge,
     },
 
+    // Balancer v3 - Aave Boosted WETH/osETH
+    allowErc20Approve([WETH, osETH], [contracts.mainnet.uniswap.permit2]),
+    allow.mainnet.uniswap.permit2.approve(
+      c.or(WETH, osETH),
+      contracts.mainnet.balancerV3.compositeLiquidityRouter
+    ),
+    allow.mainnet.balancerV3.compositeLiquidityRouter.addLiquidityProportionalToERC4626Pool(
+      balancerV3.osEthWaWeth
+    ),
+    allow.mainnet.balancerV3.compositeLiquidityRouter.addLiquidityUnbalancedToERC4626Pool(
+      balancerV3.osEthWaWeth
+    ),
+    allowErc20Approve(
+      [balancerV3.osEthWaWeth],
+      [contracts.mainnet.balancerV3.compositeLiquidityRouter]
+    ),
+    allow.mainnet.balancerV3.compositeLiquidityRouter.removeLiquidityProportionalFromERC4626Pool(
+      balancerV3.osEthWaWeth
+    ),
+    allowErc20Approve([balancerV3.osEthWaWeth], [balancerV3.osEthWaWethGauge]),
+    {
+      ...allow.mainnet.balancerV2.gauge["deposit(uint256)"](),
+      targetAddress: balancerV3.osEthWaWethGauge,
+    },
+    {
+      ...allow.mainnet.balancerV2.gauge["withdraw(uint256)"](),
+      targetAddress: balancerV3.osEthWaWethGauge,
+    },
+    {
+      ...allow.mainnet.balancerV2.gauge["claim_rewards()"](),
+      targetAddress: balancerV3.osEthWaWethGauge,
+    },
+    allow.mainnet.balancerV2.minter.mint(balancerV3.osEthWaWethGauge),
+
     // Compound v3 - Deposit ETH
     allow.mainnet.compoundV3.cWethV3.allow(
       contracts.mainnet.compoundV3.mainnetBulker
@@ -317,6 +352,38 @@ export default (parameters: Parameters) =>
     // Unwrap weETH
     allow.mainnet.etherfi.weEth.unwrap(),
 
+    // Gearbox - ETH v3 - Curator: kpk
+    allowErc20Approve([WETH], [gearbox.kpkWeth]),
+    {
+      ...allow.mainnet.gearbox.poolV3.deposit(undefined, c.avatar),
+      targetAddress: gearbox.kpkWeth,
+    },
+    // This is the function called by the UI
+    {
+      ...allow.mainnet.gearbox.poolV3.depositWithReferral(undefined, c.avatar),
+      targetAddress: gearbox.kpkWeth,
+    },
+    {
+      ...allow.mainnet.gearbox.poolV3.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: gearbox.kpkWeth,
+    },
+
+    // Gearbox - wstETH v3 - Curator: kpk
+    allowErc20Approve([wstETH], [gearbox.kpkWstEth]),
+    {
+      ...allow.mainnet.gearbox.poolV3.deposit(undefined, c.avatar),
+      targetAddress: gearbox.kpkWstEth,
+    },
+    // This is the function called by the UI
+    {
+      ...allow.mainnet.gearbox.poolV3.depositWithReferral(undefined, c.avatar),
+      targetAddress: gearbox.kpkWstEth,
+    },
+    {
+      ...allow.mainnet.gearbox.poolV3.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: gearbox.kpkWstEth,
+    },
+
     // Morpho - Gauntlet USDC Prime Vault
     allowErc20Approve([USDC], [morpho.gtUsdc]),
     {
@@ -330,6 +397,36 @@ export default (parameters: Parameters) =>
     {
       ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
       targetAddress: morpho.gtUsdc,
+    },
+
+    // Morpho - kpk USDC Prime Vault
+    allowErc20Approve([USDC], [morpho.kpkUsdc]),
+    {
+      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
+      targetAddress: morpho.kpkUsdc,
+    },
+    {
+      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkUsdc,
+    },
+    {
+      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkUsdc,
+    },
+
+    // Morpho - kpk ETH Prime Vault
+    allowErc20Approve([WETH], [morpho.kpkEth]),
+    {
+      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
+      targetAddress: morpho.kpkEth,
+    },
+    {
+      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkEth,
+    },
+    {
+      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkEth,
     },
 
     // Morpho - Steakhouse USDC Vault
