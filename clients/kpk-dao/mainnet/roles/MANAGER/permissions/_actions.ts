@@ -9,12 +9,17 @@ import {
   cvxCRV,
   DAI,
   eETH,
+  ETHPlus,
+  EURC,
+  GEAR,
   GHO,
   KING,
+  MORPHO,
   NOTE,
   RPL,
   rETH,
   sDAI,
+  SPK,
   stETH,
   stkGHO,
   sUSDS,
@@ -53,15 +58,13 @@ export default [
 
   // Convex - USDT/WBTC/WETH
   allowAction.convex.deposit({ targets: ["188"] }),
-  // Convex - GHO/WBTC/wstETH
-  allowAction.convex.deposit({ targets: ["297"] }),
   // Convex - GHO/cbBTC/WETH
   allowAction.convex.deposit({ targets: ["409"] }),
   // Convex - Stake cvxCRV
   allowAction.convex.stake({ targets: ["cvxCRV"] }),
 
-  // CowSwap - [COMP, CRV, crvUSD, CVX, cvxCRV, DAI, eETH, ETH, GHO, KING, NOTE, RPL, rETH, sDAI, sUSDS, stETH, stkGHO, USDC, USDS, USDT, weETH, WETH, wstETH] ->
-  // [DAI, eETH, ETH, GHO, rETH, sDAI, sUSDS, stETH, stkGHO, USDC, USDS, USDT, weETH, WETH, wstETH]
+  // CowSwap - [COMP, CRV, crvUSD, CVX, cvxCRV, DAI, eETH, ETH, ETH+, EURC, GEAR, GHO, KING, MORPHO, NOTE, RPL, rETH, sDAI, SPK, sUSDS, stETH, stkGHO, USDC, USDS, USDT, weETH, WETH, wstETH] ->
+  // [DAI, eETH ETH, EURC, GHO, rETH, sDAI, sUSDS, stETH, stkGHO, USDC, USDS, USDT, weETH, WETH, wstETH]
   allowAction.cowswap.swap({
     sell: [
       "ETH",
@@ -72,12 +75,17 @@ export default [
       cvxCRV,
       DAI,
       eETH,
+      ETHPlus,
+      EURC,
+      GEAR,
       GHO,
       KING,
+      MORPHO,
       NOTE,
       RPL,
       rETH,
       sDAI,
+      SPK,
       sUSDS,
       stETH,
       stkGHO,
@@ -92,6 +100,7 @@ export default [
       "ETH",
       DAI,
       eETH,
+      EURC,
       GHO,
       rETH,
       sDAI,

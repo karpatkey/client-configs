@@ -27,6 +27,7 @@ export const ENS = "0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72"
 export const ETHx = "0xA35b1B31Ce002FBF2058D22F30f95D405200A15b"
 export const EUL = "0xd9Fcd98c322942075A5C3860693e9f4f03AAE07b"
 export const EURA = "0x1a7e4e63778B4f12a199C062f3eFdD288afCBce8"
+export const EURC = "0x1aBaEA1f7C830bD89Acc67eC4af516284b1bC33c"
 export const ezETH = "0xbf5495Efe5DB9ce00f80364C8B423567e58d2110"
 export const FIS = "0xef3A930e1FfFFAcd2fc13434aC81bD278B0ecC8d"
 export const FJO = "0x69457A1C9Ec492419344DA01Daf0DF0e0369d5D0"
@@ -277,6 +278,7 @@ export const morpho = {
   steakUsdc: "0xBEEF01735c132Ada46AA9aA4c54623cAA92A64CB", // Steakhouse USDC
   kpkUsdc: "0xe108fbc04852B5df72f9E44d7C29F47e7A993aDd", // kpk USDC Prime
   kpkEth: "0xd564F765F9aD3E7d2d6cA782100795a885e8e7C8", // kpk ETH Prime
+  kpkEurc: "0x0c6aec603d48eBf1cECc7b247a2c3DA08b398DC1", // kpk EURC
 
   // Oracles
   oracleEthplusUsdc: "0x83Fb5ff55eAA528F0C0f95c3f270b85E5d094756",

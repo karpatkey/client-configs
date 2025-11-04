@@ -1,11 +1,31 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { USDC } from "@/addresses/eth"
+import { USDC, morpho } from "@/addresses/eth"
 import { PermissionList } from "@/types"
 
 export default [
   // Unwrap ETH
   allow.mainnet.weth.withdraw(),
+
+  // Morpho - kpk EURC Vault
+  {
+    ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+    targetAddress: morpho.kpkEurc,
+  },
+  {
+    ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+    targetAddress: morpho.kpkEurc,
+  },
+
+  // Morpho - kpk USDC Prime Vault
+  {
+    ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+    targetAddress: morpho.kpkUsdc,
+  },
+  {
+    ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+    targetAddress: morpho.kpkUsdc,
+  },
 
   // Aave v3 Core Market - Withdraw USDC
   allow.mainnet.aaveV3.poolCoreV3.withdraw(USDC, undefined, c.avatar),

@@ -1,20 +1,17 @@
 import { allow as allowAction } from "defi-kit/eth"
-import { COMP, DAI, sDAI, sUSDS, USDC, USDS, USDT } from "@/addresses/eth"
+import { COMP, DAI, EURC, MORPHO, sDAI, sUSDS, USDC, USDS, USDT } from "@/addresses/eth"
 
 export default [
-  /*********************************************
-   * DeFi-Kit permissions
-   *********************************************/
   // Aave v3 - Deposit USDC
   allowAction.aave_v3.deposit({ market: "Core", targets: ["USDC"] }),
 
   // Compound v3 - Deposit USDC
   allowAction.compound_v3.deposit({ targets: ["cUSDCv3"], tokens: ["USDC"] }),
 
-  // CowSwap - [COMP, DAI, sDAI, sUSDS, USDC, USDS, USDT] -> [DAI, sDAI, sUSDS, USDC, USDS, USDT]
+  // CowSwap - [COMP, DAI, EURC, MORPHO, sDAI, sUSDS, USDC, USDS, USDT] -> [DAI, EURC, sDAI, sUSDS, USDC, USDS, USDT]
   allowAction.cowswap.swap({
-    sell: [COMP, DAI, sDAI, sUSDS, USDC, USDS, USDT],
-    buy: [DAI, sDAI, sUSDS, USDC, USDS, USDT],
+    sell: [COMP, DAI, EURC, MORPHO, sDAI, sUSDS, USDC, USDS, USDT],
+    buy: [DAI, EURC, sDAI, sUSDS, USDC, USDS, USDT],
   }),
 
   // Spark - Deposit DSR_sDAI
