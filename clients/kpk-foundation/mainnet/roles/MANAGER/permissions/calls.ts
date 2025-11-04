@@ -48,7 +48,7 @@ export default (parameters: Parameters) =>
 
     // Morpho - Claim Rewards
     allow.mainnet.morpho.universalRewardsDistributor.claim(c.avatar),
-    
+
     // Merkl - Rewards
     allow.mainnet.merkl.angleDistributor.claim(
       c.or(

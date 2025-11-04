@@ -1,5 +1,15 @@
 import { allow as allowAction } from "defi-kit/eth"
-import { COMP, DAI, EURC, MORPHO, sDAI, sUSDS, USDC, USDS, USDT } from "@/addresses/eth"
+import {
+  COMP,
+  DAI,
+  EURC,
+  MORPHO,
+  sDAI,
+  sUSDS,
+  USDC,
+  USDS,
+  USDT,
+} from "@/addresses/eth"
 
 export default [
   // Aave v3 - Deposit USDC
