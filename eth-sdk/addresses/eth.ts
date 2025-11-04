@@ -275,6 +275,7 @@ export const morpho = {
   usualUsdc: "0xd63070114470f685b75B74D60EEc7c1113d33a3D", // MEV Capital USDC
   bbqUsdc: "0xBEeFFF209270748ddd194831b3fa287a5386f5bC", // Smokehouse USDC
   steakUsdc: "0xBEEF01735c132Ada46AA9aA4c54623cAA92A64CB", // Steakhouse USDC
+  kpkUsdc: "0xe108fbc04852B5df72f9E44d7C29F47e7A993aDd", // kpk USDC Prime
 
   // Oracles
   oracleEthplusUsdc: "0x83Fb5ff55eAA528F0C0f95c3f270b85E5d094756",

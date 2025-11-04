@@ -76,7 +76,7 @@ export default (parameters: Parameters) =>
 
     // Morpho Blue - sUSDS/USDC - id:0x77fe2f7c2dd6f4da6bc5f445b06052ff8df55cb70cfce9afc16ec3c69a5fd3a3
     allowErc20Approve([USDC], [contracts.arbitrumOne.morpho.morphoBlue]),
-    allow.mainnet.morpho.morphoBlue.supply(
+    allow.arbitrumOne.morpho.morphoBlue.supply(
       {
         loanToken: USDC,
         collateralToken: sUSDS,
@@ -89,7 +89,7 @@ export default (parameters: Parameters) =>
       c.avatar,
       "0x"
     ),
-    allow.mainnet.morpho.morphoBlue.withdraw(
+    allow.arbitrumOne.morpho.morphoBlue.withdraw(
       {
         loanToken: USDC,
         collateralToken: sUSDS,
@@ -104,7 +104,7 @@ export default (parameters: Parameters) =>
     ),
 
     // Morpho Blue - syrupUSDC/USDC - id:0xf86f3edd6f16cd8211f4d206866dc4ecd41be6211063ac11f8508e1b7112ef40
-    allow.mainnet.morpho.morphoBlue.supply(
+    allow.arbitrumOne.morpho.morphoBlue.supply(
       {
         loanToken: USDC,
         collateralToken: syrupUSDC,
@@ -117,7 +117,7 @@ export default (parameters: Parameters) =>
       c.avatar,
       "0x"
     ),
-    allow.mainnet.morpho.morphoBlue.withdraw(
+    allow.arbitrumOne.morpho.morphoBlue.withdraw(
       {
         loanToken: USDC,
         collateralToken: syrupUSDC,
@@ -128,6 +128,54 @@ export default (parameters: Parameters) =>
       undefined,
       undefined,
       c.avatar,
+      c.avatar
+    ),
+    allow.arbitrumOne.morpho.morphoBlue.supplyCollateral(
+      {
+        loanToken: USDC,
+        collateralToken: syrupUSDC,
+        oracle: morpho.oraclesyrupUsdcUsdc,
+        irm: morpho.adaptativeCurveIrm,
+        lltv: "915000000000000000",
+      },
+      undefined,
+      c.avatar
+    ),
+    allow.arbitrumOne.morpho.morphoBlue.withdrawCollateral(
+      {
+        loanToken: USDC,
+        collateralToken: syrupUSDC,
+        oracle: morpho.oraclesyrupUsdcUsdc,
+        irm: morpho.adaptativeCurveIrm,
+        lltv: "915000000000000000",
+      },
+      undefined,
+      c.avatar,
+      c.avatar
+    ),
+    allow.arbitrumOne.morpho.morphoBlue.borrow(
+      {
+        loanToken: USDC,
+        collateralToken: syrupUSDC,
+        oracle: morpho.oraclesyrupUsdcUsdc,
+        irm: morpho.adaptativeCurveIrm,
+        lltv: "915000000000000000",
+      },
+      undefined,
+      undefined,
+      c.avatar,
+      c.avatar
+    ),
+    allow.arbitrumOne.morpho.morphoBlue.repay(
+      {
+        loanToken: USDC,
+        collateralToken: syrupUSDC,
+        oracle: morpho.oraclesyrupUsdcUsdc,
+        irm: morpho.adaptativeCurveIrm,
+        lltv: "915000000000000000",
+      },
+      undefined,
+      undefined,
       c.avatar
     ),
 

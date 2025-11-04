@@ -32,12 +32,18 @@ export default (parameters: Parameters) =>
      * Protocols
      *********************************************/
 
-    // ACI - Claim Merit Rewards through Merkle (max 3 tokens: MORPHO, stkGHO and USDS)
+    // ACI - Claim Merit Rewards through Merkle (max 4 tokens: aEthRLUSD, MORPHO, stkGHO and USDS)
     allow.mainnet.merkl.angleDistributor.claim(
       c.or(
         [parameters.avatar],
         [parameters.avatar, parameters.avatar],
-        [parameters.avatar, parameters.avatar, parameters.avatar]
+        [parameters.avatar, parameters.avatar, parameters.avatar],
+        [
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+        ]
       )
     ),
 
@@ -95,6 +101,18 @@ export default (parameters: Parameters) =>
       ...allow.mainnet.balancerV2.gauge["claim_rewards()"](),
       targetAddress: balancerV3.aaveGhoUsdtUsdcGauge,
     },
+
+    // cap - USDC/cUSD
+    allowErc20Approve([USDC], [contracts.mainnet.cap.cUsd]),
+    allow.mainnet.cap.cUsd.mint(USDC, undefined, undefined, c.avatar),
+    allow.mainnet.cap.cUsd.burn(USDC, undefined, undefined, c.avatar),
+    // cap - cUSD Stake and Unstake
+    allowErc20Approve(
+      [contracts.mainnet.cap.cUsd],
+      [contracts.mainnet.cap.stcUsd]
+    ),
+    allow.mainnet.cap.stcUsd.deposit(undefined, c.avatar),
+    allow.mainnet.cap.stcUsd.redeem(undefined, c.avatar, c.avatar),
 
     // Ethena - Stake USDe
     allowErc20Approve([USDe], [sUSDe]),
@@ -494,6 +512,21 @@ export default (parameters: Parameters) =>
       c.avatar,
       c.avatar
     ),
+
+    // Morpho - kpk USDC Prime Vault
+    allowErc20Approve([USDC], [morpho.kpkUsdc]),
+    {
+      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
+      targetAddress: morpho.kpkUsdc,
+    },
+    {
+      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkUsdc,
+    },
+    {
+      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkUsdc,
+    },
 
     // Morpho - Claim Rewards
     allow.mainnet.morpho.universalRewardsDistributor.claim(c.avatar),
