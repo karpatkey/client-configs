@@ -54,6 +54,11 @@ export default (parameters: Parameters) => [
     delegatee: kpkGovernance,
   }),
 
+  // Balancer v2 - 80BAL20wETH/wETH
+  allowAction.balancer_v2.deposit({ targets: ["80BAL20wETH/wETH"] }),
+  // Balancer v2 - B-80BAL-20WETH
+  allowAction.balancer_v2.deposit({ targets: ["B-80BAL-20WETH"] }),
+
   // Circle v2 - Receive USDC from Arbitrum
   allowAction.circle_v2.receive({
     targets: ["Arbitrum"],

@@ -30,6 +30,7 @@ export const contracts = {
       bCow50Weth50Usdc: "0xf08D4dEa369C456d26a3168ff0024B904F2d8b91",
       bCow50Wnxm50Weth: "0x7c838b3Ed3C15a5d5032e809B8714f0aE5e9A821",
       bCow50Safe50Weth: "0xbF8868b754A77E90Ea68ffC0b5B10A7c729457E1",
+      bCow50Bal50Eth: "0xf8F5B88328DFF3d19E5f4F11A9700293Ac8f638F",
     },
     balancerV3: {
       compositeLiquidityRouter: "0xb21A277466e7dB6934556a1Ce12eb3F032815c8A",
