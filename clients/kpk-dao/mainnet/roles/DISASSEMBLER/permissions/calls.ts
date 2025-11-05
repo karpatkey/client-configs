@@ -130,20 +130,12 @@ export default [
 
   // kpk - USD Prime Fund
   {
-    ...allow.mainnet.kpk.shares.requestRedeem(
-      undefined,
-      undefined,
-      c.avatar
-    ),
+    ...allow.mainnet.kpk.shares.requestRedeem(undefined, undefined, c.avatar),
     targetAddress: kpk.usdPrimeFundShares,
   },
   // kpk - Renaissance Fund
   {
-    ...allow.mainnet.kpk.shares.requestRedeem(
-      undefined,
-      undefined,
-      c.avatar
-    ),
+    ...allow.mainnet.kpk.shares.requestRedeem(undefined, undefined, c.avatar),
     targetAddress: kpk.renaissanceFundShares,
   },
 
@@ -183,5 +175,5 @@ export default [
   allow.mainnet.spark.stSpk.withdraw(c.avatar),
   allow.mainnet.spark.stSpk.redeem(c.avatar),
   allow.mainnet.spark.stSpk.claim(c.avatar),
-  allow.mainnet.spark.stSpk.claimBatch(c.avatar),  
+  allow.mainnet.spark.stSpk.claimBatch(c.avatar),
 ] satisfies PermissionList

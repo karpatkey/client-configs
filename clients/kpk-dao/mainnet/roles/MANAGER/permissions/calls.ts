@@ -258,11 +258,7 @@ export default (parameters: Parameters) =>
       targetAddress: kpk.usdPrimeFundShares,
     },
     {
-      ...allow.mainnet.kpk.shares.requestRedeem(
-        undefined,
-        undefined,
-        c.avatar
-      ),
+      ...allow.mainnet.kpk.shares.requestRedeem(undefined, undefined, c.avatar),
       targetAddress: kpk.usdPrimeFundShares,
     },
     // kpk - Renaissance Fund
@@ -276,11 +272,7 @@ export default (parameters: Parameters) =>
       targetAddress: kpk.renaissanceFundShares,
     },
     {
-      ...allow.mainnet.kpk.shares.requestRedeem(
-        undefined,
-        undefined,
-        c.avatar
-      ),
+      ...allow.mainnet.kpk.shares.requestRedeem(undefined, undefined, c.avatar),
       targetAddress: kpk.renaissanceFundShares,
     },
 
