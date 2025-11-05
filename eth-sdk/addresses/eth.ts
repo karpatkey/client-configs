@@ -261,6 +261,11 @@ export const gearbox = {
   kpkWstEth: "0xA9d17f6D3285208280a1Fd9B94479c62e0AABa64", // Underlying token: wstETH - Curator: kpk
 } as const
 
+export const kpk = {
+  usdPrimeFundShares: "0x2F77a41C17C7cAb30cc320112b649ab8B070617E",
+  renaissanceFundShares: "0x8a1c05BD2bC8E6E78Afc9753aB5b377391aF43B2",
+} as const
+
 export const maverickV2 = {
   ghoStkGhoPool: "0x9F274D28FedCe05153F9C810b8070277EAF8C031",
 } as const

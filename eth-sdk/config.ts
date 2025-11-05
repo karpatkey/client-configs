@@ -129,6 +129,9 @@ export const contracts = {
       lrtWithdrawalManager: "0x62De59c08eB5dAE4b7E6F7a8cAd3006d6965ec16",
       hgEthAdapter: "0xB185D98056419029daE7120EcBeFa0DbC12c283A",
     },
+    kpk: {
+      shares: "0xbf7d1dd7aedE0841f563584E39cA8b69F4Ca29B1" // Shares contract implementation
+    },
     lido: {
       ...deFiKitContracts.mainnet.lido,
       vestingEscrow: "0x484FD04c598A095360DF89bF85AB34c37127AA39",

@@ -17,6 +17,7 @@ import {
   WETH,
   wstETH,
   gearbox,
+  kpk,
   morpho,
 } from "@/addresses/eth"
 import { zeroAddress, eAddress } from "@/addresses"
@@ -230,7 +231,6 @@ export default (parameters: Parameters) =>
       ...allow.mainnet.gearbox.poolV3.redeem(undefined, c.avatar, c.avatar),
       targetAddress: gearbox.kpkWeth,
     },
-
     // Gearbox - wstETH v3 - Curator: kpk
     allowErc20Approve([wstETH], [gearbox.kpkWstEth]),
     {
@@ -247,44 +247,48 @@ export default (parameters: Parameters) =>
       targetAddress: gearbox.kpkWstEth,
     },
 
+    // kpk - USD Prime Fund
+    allowErc20Approve([USDC], [kpk.usdPrimeFundShares]),
+    {
+      ...allow.mainnet.kpk.shares.requestDeposit(
+        undefined,
+        undefined,
+        c.avatar
+      ),
+      targetAddress: kpk.usdPrimeFundShares,
+    },
+    {
+      ...allow.mainnet.kpk.shares.requestRedeem(
+        undefined,
+        undefined,
+        c.avatar
+      ),
+      targetAddress: kpk.usdPrimeFundShares,
+    },
+    // kpk - Renaissance Fund
+    allowErc20Approve([USDC], [kpk.renaissanceFundShares]),
+    {
+      ...allow.mainnet.kpk.shares.requestDeposit(
+        undefined,
+        undefined,
+        c.avatar
+      ),
+      targetAddress: kpk.renaissanceFundShares,
+    },
+    {
+      ...allow.mainnet.kpk.shares.requestRedeem(
+        undefined,
+        undefined,
+        c.avatar
+      ),
+      targetAddress: kpk.renaissanceFundShares,
+    },
+
     // Lido - Lido's Token Rewards Plan (TRP) - Claim LDO
     {
       ...allow.mainnet.lido.vestingEscrow["claim(address,uint256)"](c.avatar),
       targetAddress: lidoVestingEscrow,
     },
-
-    // Morpho - kpk EURC Vault
-    allowErc20Approve([EURC], [morpho.kpkEurc]),
-    {
-      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
-      targetAddress: morpho.kpkEurc,
-    },
-    {
-      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kpkEurc,
-    },
-    {
-      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kpkEurc,
-    },
-
-    // Morpho - kpk USDC Prime Vault
-    allowErc20Approve([USDC], [morpho.kpkUsdc]),
-    {
-      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
-      targetAddress: morpho.kpkUsdc,
-    },
-    {
-      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kpkUsdc,
-    },
-    {
-      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kpkUsdc,
-    },
-
-    // Morpho - Claim Rewards
-    allow.mainnet.morpho.universalRewardsDistributor.claim(c.avatar),
 
     // Merkl - ACI Merit Rewards / Morpho Rewards / Gearbox Rewards / ETH+
     allow.mainnet.merkl.angleDistributor.claim(
@@ -307,6 +311,37 @@ export default (parameters: Parameters) =>
         ]
       )
     ),
+
+    // Morpho - kpk EURC Vault
+    allowErc20Approve([EURC], [morpho.kpkEurc]),
+    {
+      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
+      targetAddress: morpho.kpkEurc,
+    },
+    {
+      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkEurc,
+    },
+    {
+      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkEurc,
+    },
+    // Morpho - kpk USDC Prime Vault
+    allowErc20Approve([USDC], [morpho.kpkUsdc]),
+    {
+      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
+      targetAddress: morpho.kpkUsdc,
+    },
+    {
+      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkUsdc,
+    },
+    {
+      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkUsdc,
+    },
+    // Morpho - Claim Rewards
+    allow.mainnet.morpho.universalRewardsDistributor.claim(c.avatar),
 
     // pods - ETHphoria Vault
     // Deposit ETH

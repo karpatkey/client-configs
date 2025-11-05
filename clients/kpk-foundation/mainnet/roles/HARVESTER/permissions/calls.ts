@@ -19,9 +19,7 @@ export default (parameters: Parameters) =>
       c.avatar
     ),
 
-    // Morpho - Claim Rewards
-    allow.mainnet.morpho.universalRewardsDistributor.claim(c.avatar),
-    // Morpho Claim Rewards (through Merkle)
+    // Merkl - Rewards
     allow.mainnet.merkl.angleDistributor.claim(
       c.or(
         [parameters.avatar],
@@ -42,4 +40,7 @@ export default (parameters: Parameters) =>
         ]
       )
     ),
+
+    // Morpho - Claim Rewards
+    allow.mainnet.morpho.universalRewardsDistributor.claim(c.avatar),
   ] satisfies PermissionList

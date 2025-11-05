@@ -2,7 +2,7 @@ import { PermissionList } from "@/types"
 import { allow } from "zodiac-roles-sdk/kit"
 import { c } from "zodiac-roles-sdk"
 import { allowErc20Approve, allowErc20Transfer } from "@/helpers"
-import { DAI, EURC, USDC, morpho } from "@/addresses/eth"
+import { DAI, EURC, USDC, kpk, morpho } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { kfPaymentsEth } from "../../../../../kpk-dao/mainnet/addresses"
 import { kpkFoundationGc, fundReapGeneralEth } from "../../../addresses"
@@ -16,38 +16,42 @@ export default (parameters: Parameters) =>
       send: true,
     }),
 
-    // Morpho - kpk EURC Vault
-    allowErc20Approve([EURC], [morpho.kpkEurc]),
+    // kpk - USD Prime Fund
+    allowErc20Approve([USDC], [kpk.usdPrimeFundShares]),
     {
-      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
-      targetAddress: morpho.kpkEurc,
+      ...allow.mainnet.kpk.shares.requestDeposit(
+        undefined,
+        undefined,
+        c.avatar
+      ),
+      targetAddress: kpk.usdPrimeFundShares,
     },
     {
-      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kpkEurc,
+      ...allow.mainnet.kpk.shares.requestRedeem(
+        undefined,
+        undefined,
+        c.avatar
+      ),
+      targetAddress: kpk.usdPrimeFundShares,
+    },
+    // kpk - Renaissance Fund
+    allowErc20Approve([USDC], [kpk.renaissanceFundShares]),
+    {
+      ...allow.mainnet.kpk.shares.requestDeposit(
+        undefined,
+        undefined,
+        c.avatar
+      ),
+      targetAddress: kpk.renaissanceFundShares,
     },
     {
-      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kpkEurc,
+      ...allow.mainnet.kpk.shares.requestRedeem(
+        undefined,
+        undefined,
+        c.avatar
+      ),
+      targetAddress: kpk.renaissanceFundShares,
     },
-
-    // Morpho - kpk USDC Prime Vault
-    allowErc20Approve([USDC], [morpho.kpkUsdc]),
-    {
-      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
-      targetAddress: morpho.kpkUsdc,
-    },
-    {
-      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kpkUsdc,
-    },
-    {
-      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kpkUsdc,
-    },
-
-    // Morpho - Claim Rewards
-    allow.mainnet.morpho.universalRewardsDistributor.claim(c.avatar),
 
     // Merkl - Rewards
     allow.mainnet.merkl.angleDistributor.claim(
@@ -70,6 +74,37 @@ export default (parameters: Parameters) =>
         ]
       )
     ),
+
+    // Morpho - kpk EURC Vault
+    allowErc20Approve([EURC], [morpho.kpkEurc]),
+    {
+      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
+      targetAddress: morpho.kpkEurc,
+    },
+    {
+      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkEurc,
+    },
+    {
+      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkEurc,
+    },
+    // Morpho - kpk USDC Prime Vault
+    allowErc20Approve([USDC], [morpho.kpkUsdc]),
+    {
+      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
+      targetAddress: morpho.kpkUsdc,
+    },
+    {
+      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkUsdc,
+    },
+    {
+      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkUsdc,
+    },
+    // Morpho - Claim Rewards
+    allow.mainnet.morpho.universalRewardsDistributor.claim(c.avatar),
 
     /*********************************************
      * Bridging

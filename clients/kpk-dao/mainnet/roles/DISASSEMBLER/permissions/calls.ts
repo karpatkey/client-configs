@@ -10,6 +10,9 @@ import {
   balancerV2,
   convex,
   fluid,
+  gearbox,
+  kpk,
+  morpho,
 } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
@@ -114,6 +117,36 @@ export default [
     targetAddress: fluid.fwstEth,
   },
 
+  // Gearbox - ETH v3 - Curator: kpk
+  {
+    ...allow.mainnet.gearbox.poolV3.redeem(undefined, c.avatar, c.avatar),
+    targetAddress: gearbox.kpkWeth,
+  },
+  // Gearbox - wstETH v3 - Curator: kpk
+  {
+    ...allow.mainnet.gearbox.poolV3.redeem(undefined, c.avatar, c.avatar),
+    targetAddress: gearbox.kpkWstEth,
+  },
+
+  // kpk - USD Prime Fund
+  {
+    ...allow.mainnet.kpk.shares.requestRedeem(
+      undefined,
+      undefined,
+      c.avatar
+    ),
+    targetAddress: kpk.usdPrimeFundShares,
+  },
+  // kpk - Renaissance Fund
+  {
+    ...allow.mainnet.kpk.shares.requestRedeem(
+      undefined,
+      undefined,
+      c.avatar
+    ),
+    targetAddress: kpk.renaissanceFundShares,
+  },
+
   // Lido
   allow.mainnet.lido.wstEth.unwrap(),
   allow.mainnet.lido.unstEth.requestWithdrawals(undefined, c.avatar),
@@ -121,10 +154,34 @@ export default [
   allow.mainnet.lido.unstEth.claimWithdrawal(),
   allow.mainnet.lido.unstEth.claimWithdrawals(),
 
+  // Morpho - kpk EURC Vault
+  {
+    ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+    targetAddress: morpho.kpkEurc,
+  },
+  {
+    ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+    targetAddress: morpho.kpkEurc,
+  },
+  // Morpho - kpk USDC Prime Vault
+  {
+    ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+    targetAddress: morpho.kpkUsdc,
+  },
+  {
+    ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+    targetAddress: morpho.kpkUsdc,
+  },
+
   // Spark - DSR_sDAI
   allow.mainnet.spark.sDai.redeem(undefined, c.avatar, c.avatar),
   allow.mainnet.spark.sDai.withdraw(undefined, c.avatar, c.avatar),
   // Spark - SKY_USDS
   allow.mainnet.spark.sUsds.withdraw(undefined, c.avatar, c.avatar),
   allow.mainnet.spark.sUsds.redeem(undefined, c.avatar, c.avatar),
+  // Spark - Unstake SPK
+  allow.mainnet.spark.stSpk.withdraw(c.avatar),
+  allow.mainnet.spark.stSpk.redeem(c.avatar),
+  allow.mainnet.spark.stSpk.claim(c.avatar),
+  allow.mainnet.spark.stSpk.claimBatch(c.avatar),  
 ] satisfies PermissionList
