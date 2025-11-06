@@ -4,9 +4,11 @@ import {
   cbBTC,
   DAI,
   eETH,
+  EURC,
   GHO,
   liquidETH,
   SAFE,
+  SPK,
   stETH,
   USDC,
   USDT,
@@ -14,6 +16,9 @@ import {
   weETH,
   WETH,
   wstETH,
+  gearbox,
+  kpk,
+  morpho,
 } from "@/addresses/eth"
 import { zeroAddress, eAddress } from "@/addresses"
 import { contracts } from "@/contracts"
@@ -79,29 +84,6 @@ export default (parameters: Parameters) =>
       contracts.mainnet.curve.crvUsdtWbtcWethGauge
     ),
 
-    // Curve - Tricrypto GHO (GHO/WBTC/wstETH)
-    allowErc20Approve(
-      [GHO, WBTC, wstETH],
-      [contracts.mainnet.curve.ghoBtcWstePool]
-    ),
-    allow.mainnet.curve.ghoBtcWstePool[
-      "add_liquidity(uint256[3],uint256,bool)"
-    ](),
-    allow.mainnet.curve.ghoBtcWstePool[
-      "remove_liquidity(uint256,uint256[3],bool)"
-    ](),
-    allow.mainnet.curve.ghoBtcWstePool[
-      "remove_liquidity_one_coin(uint256,uint256,uint256,bool)"
-    ](),
-    allowErc20Approve(
-      [contracts.mainnet.curve.ghoBtcWstePool],
-      [contracts.mainnet.curve.ghoBtcWsteGauge]
-    ),
-    allow.mainnet.curve.ghoBtcWsteGauge["deposit(uint256)"](),
-    allow.mainnet.curve.ghoBtcWsteGauge["withdraw(uint256)"](),
-    allow.mainnet.curve.ghoBtcWsteGauge["claim_rewards()"](),
-    allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.ghoBtcWsteGauge),
-
     // Curve - Tricrypto GHO (GHO/cbBTC/ETH)
     allowErc20Approve(
       [GHO, cbBTC, WETH],
@@ -136,10 +118,6 @@ export default (parameters: Parameters) =>
       [contracts.mainnet.curve.stakeDepositZap]
     ),
     allowErc20Approve(
-      [GHO, WBTC, wstETH],
-      [contracts.mainnet.curve.stakeDepositZap]
-    ),
-    allowErc20Approve(
       [USDT, WBTC, WETH],
       [contracts.mainnet.curve.stakeDepositZap]
     ),
@@ -148,24 +126,20 @@ export default (parameters: Parameters) =>
     ](
       c.or(
         contracts.mainnet.curve.btcGhoEthPool,
-        contracts.mainnet.curve.ghoBtcWstePool,
         contracts.mainnet.curve.crvUsdtWbtcWethPool
       ),
       c.or(
         contracts.mainnet.curve.btcGhoEthPool,
-        contracts.mainnet.curve.ghoBtcWstePool,
         contracts.mainnet.curve.crvUsdtWbtcWethPool
       ),
       c.or(
         contracts.mainnet.curve.btcGhoEthGauge,
-        contracts.mainnet.curve.ghoBtcWsteGauge,
         contracts.mainnet.curve.crvUsdtWbtcWethGauge
       ),
       3,
       c.or(
         [GHO, cbBTC, eAddress],
         [GHO, cbBTC, WETH],
-        [GHO, WBTC, wstETH],
         [USDT, WBTC, eAddress],
         [USDT, WBTC, WETH]
       ),
@@ -242,14 +216,124 @@ export default (parameters: Parameters) =>
     // ether.fi - Claim rewards
     allow.mainnet.etherfi.kingDistributor.claim(c.avatar),
 
+    // Gearbox - ETH v3 - Curator: kpk
+    allowErc20Approve([WETH], [gearbox.kpkWeth]),
+    {
+      ...allow.mainnet.gearbox.poolV3.deposit(undefined, c.avatar),
+      targetAddress: gearbox.kpkWeth,
+    },
+    // This is the function called by the UI
+    {
+      ...allow.mainnet.gearbox.poolV3.depositWithReferral(undefined, c.avatar),
+      targetAddress: gearbox.kpkWeth,
+    },
+    {
+      ...allow.mainnet.gearbox.poolV3.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: gearbox.kpkWeth,
+    },
+    // Gearbox - wstETH v3 - Curator: kpk
+    allowErc20Approve([wstETH], [gearbox.kpkWstEth]),
+    {
+      ...allow.mainnet.gearbox.poolV3.deposit(undefined, c.avatar),
+      targetAddress: gearbox.kpkWstEth,
+    },
+    // This is the function called by the UI
+    {
+      ...allow.mainnet.gearbox.poolV3.depositWithReferral(undefined, c.avatar),
+      targetAddress: gearbox.kpkWstEth,
+    },
+    {
+      ...allow.mainnet.gearbox.poolV3.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: gearbox.kpkWstEth,
+    },
+
+    // kpk - USD Prime Fund
+    allowErc20Approve([USDC], [kpk.usdPrimeFundShares]),
+    {
+      ...allow.mainnet.kpk.shares.requestDeposit(
+        undefined,
+        undefined,
+        c.avatar
+      ),
+      targetAddress: kpk.usdPrimeFundShares,
+    },
+    {
+      ...allow.mainnet.kpk.shares.requestRedeem(undefined, undefined, c.avatar),
+      targetAddress: kpk.usdPrimeFundShares,
+    },
+    // kpk - Renaissance Fund
+    allowErc20Approve([USDC], [kpk.renaissanceFundShares]),
+    {
+      ...allow.mainnet.kpk.shares.requestDeposit(
+        undefined,
+        undefined,
+        c.avatar
+      ),
+      targetAddress: kpk.renaissanceFundShares,
+    },
+    {
+      ...allow.mainnet.kpk.shares.requestRedeem(undefined, undefined, c.avatar),
+      targetAddress: kpk.renaissanceFundShares,
+    },
+
     // Lido - Lido's Token Rewards Plan (TRP) - Claim LDO
     {
       ...allow.mainnet.lido.vestingEscrow["claim(address,uint256)"](c.avatar),
       targetAddress: lidoVestingEscrow,
     },
 
-    // Merkl - ACI Merit Rewards
-    allow.mainnet.merkl.angleDistributor.claim([parameters.avatar]),
+    // Merkl - ACI Merit Rewards / Morpho Rewards / Gearbox Rewards / ETH+
+    allow.mainnet.merkl.angleDistributor.claim(
+      c.or(
+        [parameters.avatar],
+        [parameters.avatar, parameters.avatar],
+        [parameters.avatar, parameters.avatar, parameters.avatar],
+        [
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+        ],
+        [
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+        ]
+      )
+    ),
+
+    // Morpho - kpk EURC Vault
+    allowErc20Approve([EURC], [morpho.kpkEurc]),
+    {
+      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
+      targetAddress: morpho.kpkEurc,
+    },
+    {
+      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkEurc,
+    },
+    {
+      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkEurc,
+    },
+    // Morpho - kpk USDC Prime Vault
+    allowErc20Approve([USDC], [morpho.kpkUsdc]),
+    {
+      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
+      targetAddress: morpho.kpkUsdc,
+    },
+    {
+      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkUsdc,
+    },
+    {
+      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkUsdc,
+    },
+    // Morpho - Claim Rewards
+    allow.mainnet.morpho.universalRewardsDistributor.claim(c.avatar),
 
     // pods - ETHphoria Vault
     // Deposit ETH
@@ -285,6 +369,14 @@ export default (parameters: Parameters) =>
     allow.mainnet.sky.dsrManager.join(c.avatar),
     allow.mainnet.sky.dsrManager.exit(c.avatar),
     allow.mainnet.sky.dsrManager.exitAll(c.avatar),
+
+    // Spark - Stake/Unstake SPK
+    allowErc20Approve([SPK], [contracts.mainnet.spark.stSpk]),
+    allow.mainnet.spark.stSpk.deposit(c.avatar),
+    allow.mainnet.spark.stSpk.withdraw(c.avatar),
+    allow.mainnet.spark.stSpk.redeem(c.avatar),
+    allow.mainnet.spark.stSpk.claim(c.avatar),
+    allow.mainnet.spark.stSpk.claimBatch(c.avatar),
 
     /*********************************************
      * Bridge

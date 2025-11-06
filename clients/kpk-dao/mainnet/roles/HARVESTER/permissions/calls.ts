@@ -99,7 +99,7 @@ export default (parameters: Parameters) =>
       targetAddress: lidoVestingEscrow,
     },
 
-    // Merkl - ACI Merit Rewards
+    // Merkl - Rewards
     allow.mainnet.merkl.angleDistributor.claim(
       c.or(
         [parameters.avatar],
@@ -120,4 +120,7 @@ export default (parameters: Parameters) =>
         ]
       )
     ),
+
+    // Morpho - Claim Rewards
+    allow.mainnet.morpho.universalRewardsDistributor.claim(c.avatar),
   ] satisfies PermissionList
