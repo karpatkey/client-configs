@@ -22,15 +22,6 @@ export default (parameters: Parameters) =>
      * Protocols
      *********************************************/
 
-    // ACI - Claim Merit Rewards through Merkle (MORPHO) - https://app.merkl.xyz/status
-    allow.base.merkl.angleDistributor.claim(
-      c.or(
-        [parameters.avatar],
-        [parameters.avatar, parameters.avatar],
-        [parameters.avatar, parameters.avatar, parameters.avatar]
-      )
-    ),
-
     // Aura - Aave Boosted GHO/USDC
     allowErc20Approve([balancerV3.aaveUsdcGho], [contracts.base.aura.booster]),
     allow.base.aura.booster.deposit("19"),
@@ -80,6 +71,15 @@ export default (parameters: Parameters) =>
       ...allow.base.balancerV2.gauge["claim_rewards()"](),
       targetAddress: balancerV3.aaveUsdcGhoGauge,
     },
+
+    // Merkl - Rewards
+    allow.base.merkl.angleDistributor.claim(
+      c.or(
+        [parameters.avatar],
+        [parameters.avatar, parameters.avatar],
+        [parameters.avatar, parameters.avatar, parameters.avatar]
+      )
+    ),
 
     // Morpho Blue - cbBTC/USDC
     allowErc20Approve([USDC], [contracts.mainnet.morpho.morphoBlue]),

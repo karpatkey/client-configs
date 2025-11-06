@@ -24,23 +24,41 @@ export default [
     targetAddress: kpk.renaissanceFundShares,
   },
 
-  // Morpho - kpk EURC Vault
+  // Morpho - kpk EURC v1 Vault
   {
     ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-    targetAddress: morpho.kpkEurc,
+    targetAddress: morpho.kpkEurcV1,
   },
   {
     ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-    targetAddress: morpho.kpkEurc,
+    targetAddress: morpho.kpkEurcV1,
   },
-  // Morpho - kpk USDC Prime Vault
+  // Morpho - kpk EURC v2 Vault
   {
     ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-    targetAddress: morpho.kpkUsdc,
+    targetAddress: morpho.kpkEurcV2,
   },
   {
     ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-    targetAddress: morpho.kpkUsdc,
+    targetAddress: morpho.kpkEurcV2,
+  },
+  // Morpho - kpk USDC Prime v1 Vault
+  {
+    ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+    targetAddress: morpho.kpkUsdcV1,
+  },
+  {
+    ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+    targetAddress: morpho.kpkUsdcV1,
+  },
+  // Morpho - kpk USDC Prime v2 Vault
+  {
+    ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+    targetAddress: morpho.kpkUsdcV2,
+  },
+  {
+    ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+    targetAddress: morpho.kpkUsdcV2,
   },
 
   // Spark - DSR_sDAI

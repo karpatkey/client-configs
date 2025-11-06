@@ -146,23 +146,59 @@ export default [
   allow.mainnet.lido.unstEth.claimWithdrawal(),
   allow.mainnet.lido.unstEth.claimWithdrawals(),
 
-  // Morpho - kpk EURC Vault
+  // Morpho - kpk ETH Prime v1 Vault
   {
     ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-    targetAddress: morpho.kpkEurc,
+    targetAddress: morpho.kpkEthV1,
   },
   {
     ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-    targetAddress: morpho.kpkEurc,
+    targetAddress: morpho.kpkEthV1,
   },
-  // Morpho - kpk USDC Prime Vault
+  // Morpho - kpk ETH Prime v2 Vault
   {
     ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-    targetAddress: morpho.kpkUsdc,
+    targetAddress: morpho.kpkEthV2,
   },
   {
     ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-    targetAddress: morpho.kpkUsdc,
+    targetAddress: morpho.kpkEthV2,
+  },
+  // Morpho - kpk EURC v1 Vault
+  {
+    ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+    targetAddress: morpho.kpkEurcV1,
+  },
+  {
+    ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+    targetAddress: morpho.kpkEurcV1,
+  },
+  // Morpho - kpk EURC v2 Vault
+  {
+    ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+    targetAddress: morpho.kpkEurcV2,
+  },
+  {
+    ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+    targetAddress: morpho.kpkEurcV2,
+  },
+  // Morpho - kpk USDC Prime v1 Vault
+  {
+    ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+    targetAddress: morpho.kpkUsdcV1,
+  },
+  {
+    ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+    targetAddress: morpho.kpkUsdcV1,
+  },
+  // Morpho - kpk USDC Prime v2 Vault
+  {
+    ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+    targetAddress: morpho.kpkUsdcV2,
+  },
+  {
+    ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+    targetAddress: morpho.kpkUsdcV2,
   },
 
   // Spark - DSR_sDAI

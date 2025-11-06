@@ -32,21 +32,6 @@ export default (parameters: Parameters) =>
      * Protocols
      *********************************************/
 
-    // ACI - Claim Merit Rewards through Merkle (max 4 tokens: aEthRLUSD, MORPHO, stkGHO and USDS)
-    allow.mainnet.merkl.angleDistributor.claim(
-      c.or(
-        [parameters.avatar],
-        [parameters.avatar, parameters.avatar],
-        [parameters.avatar, parameters.avatar, parameters.avatar],
-        [
-          parameters.avatar,
-          parameters.avatar,
-          parameters.avatar,
-          parameters.avatar,
-        ]
-      )
-    ),
-
     // Aura - Aave Boosted USDT/GHO/USDC
     allowErc20Approve(
       [balancerV3.aaveGhoUsdtUsdc],
@@ -120,6 +105,21 @@ export default (parameters: Parameters) =>
     // Ethena - Unstake USDe
     allow.mainnet.ethena.sUsde.cooldownShares(),
     allow.mainnet.ethena.sUsde.unstake(c.avatar),
+
+    // Merkl - Rewards (max 4 tokens: aEthRLUSD, MORPHO, stkGHO and USDS)
+    allow.mainnet.merkl.angleDistributor.claim(
+      c.or(
+        [parameters.avatar],
+        [parameters.avatar, parameters.avatar],
+        [parameters.avatar, parameters.avatar, parameters.avatar],
+        [
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+        ]
+      )
+    ),
 
     // Morpho Blue - wstETH/USDC
     allowErc20Approve([USDC], [contracts.mainnet.morpho.morphoBlue]),
@@ -513,19 +513,33 @@ export default (parameters: Parameters) =>
       c.avatar
     ),
 
-    // Morpho - kpk USDC Prime Vault
-    allowErc20Approve([USDC], [morpho.kpkUsdc]),
+    // Morpho - kpk USDC Prime v1 Vault
+    allowErc20Approve([USDC], [morpho.kpkUsdcV1]),
     {
       ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
-      targetAddress: morpho.kpkUsdc,
+      targetAddress: morpho.kpkUsdcV1,
     },
     {
       ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kpkUsdc,
+      targetAddress: morpho.kpkUsdcV1,
     },
     {
       ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kpkUsdc,
+      targetAddress: morpho.kpkUsdcV1,
+    },
+    // Morpho - kpk USDC Prime v2 Vault
+    allowErc20Approve([USDC], [morpho.kpkUsdcV2]),
+    {
+      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
+      targetAddress: morpho.kpkUsdcV2,
+    },
+    {
+      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkUsdcV2,
+    },
+    {
+      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkUsdcV2,
     },
 
     // Morpho - Claim Rewards

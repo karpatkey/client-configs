@@ -282,7 +282,7 @@ export default (parameters: Parameters) =>
       targetAddress: lidoVestingEscrow,
     },
 
-    // Merkl - ACI Merit Rewards / Morpho Rewards / Gearbox Rewards / ETH+
+    // Merkl - Rewards
     allow.mainnet.merkl.angleDistributor.claim(
       c.or(
         [parameters.avatar],
@@ -304,33 +304,89 @@ export default (parameters: Parameters) =>
       )
     ),
 
-    // Morpho - kpk EURC Vault
-    allowErc20Approve([EURC], [morpho.kpkEurc]),
+    // Morpho - kpk ETH Prime v1 Vault
+    allowErc20Approve([WETH], [morpho.kpkEthV1]),
     {
       ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
-      targetAddress: morpho.kpkEurc,
+      targetAddress: morpho.kpkEthV1,
     },
     {
       ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kpkEurc,
+      targetAddress: morpho.kpkEthV1,
     },
     {
       ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kpkEurc,
+      targetAddress: morpho.kpkEthV1,
     },
-    // Morpho - kpk USDC Prime Vault
-    allowErc20Approve([USDC], [morpho.kpkUsdc]),
+    // Morpho - kpk ETH Prime v2 Vault
+    allowErc20Approve([WETH], [morpho.kpkEthV2]),
     {
       ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
-      targetAddress: morpho.kpkUsdc,
+      targetAddress: morpho.kpkEthV2,
     },
     {
       ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kpkUsdc,
+      targetAddress: morpho.kpkEthV2,
     },
     {
       ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kpkUsdc,
+      targetAddress: morpho.kpkEthV2,
+    },
+    // Morpho - kpk EURC v1 Vault
+    allowErc20Approve([EURC], [morpho.kpkEurcV1]),
+    {
+      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
+      targetAddress: morpho.kpkEurcV1,
+    },
+    {
+      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkEurcV1,
+    },
+    {
+      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkEurcV1,
+    },
+    // Morpho - kpk EURC v2 Vault
+    allowErc20Approve([EURC], [morpho.kpkEurcV2]),
+    {
+      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
+      targetAddress: morpho.kpkEurcV2,
+    },
+    {
+      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkEurcV2,
+    },
+    {
+      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkEurcV2,
+    },
+    // Morpho - kpk USDC Prime v1 Vault
+    allowErc20Approve([USDC], [morpho.kpkUsdcV1]),
+    {
+      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
+      targetAddress: morpho.kpkUsdcV1,
+    },
+    {
+      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkUsdcV1,
+    },
+    {
+      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkUsdcV1,
+    },
+    // Morpho - kpk USDC Prime v2 Vault
+    allowErc20Approve([USDC], [morpho.kpkUsdcV2]),
+    {
+      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
+      targetAddress: morpho.kpkUsdcV2,
+    },
+    {
+      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkUsdcV2,
+    },
+    {
+      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkUsdcV2,
     },
     // Morpho - Claim Rewards
     allow.mainnet.morpho.universalRewardsDistributor.claim(c.avatar),

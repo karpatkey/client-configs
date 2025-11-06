@@ -15,9 +15,6 @@ export default (parameters: Parameters) =>
       send: true,
     }),
 
-    // ACI - Aave Merit rewards (https://apps.aavechan.com/merit) through Merkl
-    allow.mainnet.merkl.angleDistributor.claim([parameters.avatar]),
-
     // Lido - Delegate/Undelgate LDO on Snapshot
     allow.mainnet.snapshot.delegation.setDelegate(
       snapshotLidoId,
@@ -28,6 +25,9 @@ export default (parameters: Parameters) =>
     // Lido - Delegate/Undelgate LDO on Aragon
     allow.mainnet.lido.aragonVoting.assignDelegate(kpkGovernance),
     allow.mainnet.lido.aragonVoting.unassignDelegate(),
+
+    // Merkl - Rewards
+    allow.mainnet.merkl.angleDistributor.claim([parameters.avatar]),
 
     // Uniswap - Delegate/Undelgate UNI on Tally
     allow.mainnet.uniswap.uni.delegate(c.or(kpkGovernance, c.avatar)),

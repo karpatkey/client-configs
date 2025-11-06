@@ -130,7 +130,7 @@ export const contracts = {
       hgEthAdapter: "0xB185D98056419029daE7120EcBeFa0DbC12c283A",
     },
     kpk: {
-      shares: "0xbf7d1dd7aedE0841f563584E39cA8b69F4Ca29B1" // Shares contract implementation
+      shares: "0xbf7d1dd7aedE0841f563584E39cA8b69F4Ca29B1", // Shares contract implementation
     },
     lido: {
       ...deFiKitContracts.mainnet.lido,

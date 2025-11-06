@@ -46,28 +46,6 @@ export default (parameters: Parameters) =>
       send: true,
     }),
 
-    // ACI - Claim Merit Rewards (through Merkle)
-    allow.mainnet.merkl.angleDistributor.claim(
-      c.or(
-        [parameters.avatar],
-        [parameters.avatar, parameters.avatar],
-        [parameters.avatar, parameters.avatar, parameters.avatar],
-        [
-          parameters.avatar,
-          parameters.avatar,
-          parameters.avatar,
-          parameters.avatar,
-        ],
-        [
-          parameters.avatar,
-          parameters.avatar,
-          parameters.avatar,
-          parameters.avatar,
-          parameters.avatar,
-        ]
-      )
-    ),
-
     // Aave Umbrella Staking - GHO
     allowErc20Approve([GHO], [contracts.mainnet.aaveV3.umbrellaBatchHelper]),
     allow.mainnet.aaveV3.umbrellaBatchHelper.deposit({
@@ -384,69 +362,7 @@ export default (parameters: Parameters) =>
       targetAddress: gearbox.kpkWstEth,
     },
 
-    // Morpho - Gauntlet USDC Prime Vault
-    allowErc20Approve([USDC], [morpho.gtUsdc]),
-    {
-      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
-      targetAddress: morpho.gtUsdc,
-    },
-    {
-      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.gtUsdc,
-    },
-    {
-      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.gtUsdc,
-    },
-
-    // Morpho - kpk USDC Prime Vault
-    allowErc20Approve([USDC], [morpho.kpkUsdc]),
-    {
-      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
-      targetAddress: morpho.kpkUsdc,
-    },
-    {
-      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kpkUsdc,
-    },
-    {
-      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kpkUsdc,
-    },
-
-    // Morpho - kpk ETH Prime Vault
-    allowErc20Approve([WETH], [morpho.kpkEth]),
-    {
-      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
-      targetAddress: morpho.kpkEth,
-    },
-    {
-      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kpkEth,
-    },
-    {
-      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kpkEth,
-    },
-
-    // Morpho - Steakhouse USDC Vault
-    allowErc20Approve([USDC], [morpho.steakUsdc]),
-    {
-      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
-      targetAddress: morpho.steakUsdc,
-    },
-    {
-      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.steakUsdc,
-    },
-    {
-      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.steakUsdc,
-    },
-
-    // Morpho - Claim Rewards
-    allow.mainnet.morpho.universalRewardsDistributor.claim(c.avatar),
-    // Morpho Claim Rewards (through Merkle)
+    // Merkl - Rewards
     allow.mainnet.merkl.angleDistributor.claim(
       c.or(
         [parameters.avatar],
@@ -467,6 +383,69 @@ export default (parameters: Parameters) =>
         ]
       )
     ),
+
+    // Morpho - Gauntlet USDC Prime Vault
+    allowErc20Approve([USDC], [morpho.gtUsdc]),
+    {
+      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
+      targetAddress: morpho.gtUsdc,
+    },
+    {
+      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.gtUsdc,
+    },
+    {
+      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.gtUsdc,
+    },
+
+    // Morpho - kpk USDC Prime v1 Vault
+    allowErc20Approve([USDC], [morpho.kpkUsdcV1]),
+    {
+      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
+      targetAddress: morpho.kpkUsdcV1,
+    },
+    {
+      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkUsdcV1,
+    },
+    {
+      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkUsdcV1,
+    },
+
+    // Morpho - kpk ETH Prime v1 Vault
+    allowErc20Approve([WETH], [morpho.kpkEthV1]),
+    {
+      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
+      targetAddress: morpho.kpkEthV1,
+    },
+    {
+      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkEthV1,
+    },
+    {
+      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkEthV1,
+    },
+
+    // Morpho - Steakhouse USDC Vault
+    allowErc20Approve([USDC], [morpho.steakUsdc]),
+    {
+      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
+      targetAddress: morpho.steakUsdc,
+    },
+    {
+      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.steakUsdc,
+    },
+    {
+      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.steakUsdc,
+    },
+
+    // Morpho - Claim Rewards
+    allow.mainnet.morpho.universalRewardsDistributor.claim(c.avatar),
 
     // Nexus Mutual
     // Deposit ETH in exchange for NXM; redeem NXM in exchange for ETH

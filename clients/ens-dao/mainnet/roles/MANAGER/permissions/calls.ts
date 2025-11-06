@@ -416,6 +416,28 @@ export default (parameters: Parameters) =>
       { send: true }
     ),
 
+    // Merkl - Rewards
+    allow.mainnet.merkl.angleDistributor.claim(
+      c.or(
+        [parameters.avatar],
+        [parameters.avatar, parameters.avatar],
+        [parameters.avatar, parameters.avatar, parameters.avatar],
+        [
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+        ],
+        [
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+        ]
+      )
+    ),
+
     // Morpho Blue - cbBTC/USDC Market
     allowErc20Approve([USDC], [contracts.mainnet.morpho.morphoBlue]),
     allow.mainnet.morpho.morphoBlue.supply(
@@ -534,27 +556,6 @@ export default (parameters: Parameters) =>
 
     // Morpho - Claim Rewards
     allow.mainnet.morpho.universalRewardsDistributor.claim(c.avatar),
-    // Morpho - Claim Rewards (through Merkle)
-    allow.mainnet.merkl.angleDistributor.claim(
-      c.or(
-        [parameters.avatar],
-        [parameters.avatar, parameters.avatar],
-        [parameters.avatar, parameters.avatar, parameters.avatar],
-        [
-          parameters.avatar,
-          parameters.avatar,
-          parameters.avatar,
-          parameters.avatar,
-        ],
-        [
-          parameters.avatar,
-          parameters.avatar,
-          parameters.avatar,
-          parameters.avatar,
-          parameters.avatar,
-        ]
-      )
-    ),
 
     // Origin - Mint OETH
     allow.mainnet.origin.oEthZapper.deposit({ send: true }),
