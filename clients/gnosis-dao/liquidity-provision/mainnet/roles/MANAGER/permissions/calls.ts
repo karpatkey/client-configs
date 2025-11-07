@@ -380,7 +380,7 @@ export default (parameters: Parameters) =>
       c.or(eAddress, ETHx, stETH)
     ),
 
-    // Merkl - ACI Merit Rewards
+    // Merkl - Rewards
     allow.mainnet.merkl.angleDistributor.claim(
       c.or(
         [parameters.avatar],

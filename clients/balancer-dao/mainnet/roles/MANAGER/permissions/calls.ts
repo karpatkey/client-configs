@@ -40,9 +40,6 @@ export default (parameters: Parameters) =>
       send: true,
     }),
 
-    // ACI - Aave Merit rewards (https://apps.aavechan.com/merit) through Merkl
-    allow.mainnet.merkl.angleDistributor.claim([parameters.avatar]),
-
     // Balancer v2 - BCoW-50WETH-50USDC - Withdraw
     allow.mainnet.balancerV2.bCow50Weth50Usdc.exitPool(),
 
@@ -104,6 +101,9 @@ export default (parameters: Parameters) =>
     allowErc20Approve([GYD], [contracts.mainnet.gyroscope.sGyd]),
     allow.mainnet.gyroscope.sGyd.deposit(undefined, c.avatar),
     allow.mainnet.gyroscope.sGyd.redeem(undefined, c.avatar, c.avatar),
+
+    // Merkl - Rewards
+    allow.mainnet.merkl.angleDistributor.claim([parameters.avatar]),
 
     // Origin - Mint OETH
     allow.mainnet.origin.oEthZapper.deposit({ send: true }),

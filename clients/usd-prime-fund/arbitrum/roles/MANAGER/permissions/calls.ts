@@ -74,6 +74,15 @@ export default (parameters: Parameters) =>
       targetAddress: balancerV3.aaveGhoUsdtUsdcGauge,
     },
 
+    // Merkl - Rewards
+    allow.arbitrumOne.merkl.angleDistributor.claim(
+      c.or(
+        [parameters.avatar],
+        [parameters.avatar, parameters.avatar],
+        [parameters.avatar, parameters.avatar, parameters.avatar]
+      )
+    ),
+
     // Morpho Blue - sUSDS/USDC - id:0x77fe2f7c2dd6f4da6bc5f445b06052ff8df55cb70cfce9afc16ec3c69a5fd3a3
     allowErc20Approve([USDC], [contracts.arbitrumOne.morpho.morphoBlue]),
     allow.arbitrumOne.morpho.morphoBlue.supply(
@@ -179,14 +188,20 @@ export default (parameters: Parameters) =>
       c.avatar
     ),
 
-    // Morpho Claim Rewards (through Merkle)
-    allow.arbitrumOne.merkl.angleDistributor.claim(
-      c.or(
-        [parameters.avatar],
-        [parameters.avatar, parameters.avatar],
-        [parameters.avatar, parameters.avatar, parameters.avatar]
-      )
-    ),
+    // Morpho - kpk USDC Vault
+    allowErc20Approve([USDC], [morpho.kpkUsdc]),
+    {
+      ...allow.arbitrumOne.morpho.vault.deposit(undefined, c.avatar),
+      targetAddress: morpho.kpkUsdc,
+    },
+    {
+      ...allow.arbitrumOne.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkUsdc,
+    },
+    {
+      ...allow.arbitrumOne.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkUsdc,
+    },
 
     /*********************************************
      * Bridges

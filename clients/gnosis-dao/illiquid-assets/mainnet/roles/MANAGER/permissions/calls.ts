@@ -44,7 +44,7 @@ export default (parameters: Parameters) =>
     // Autonolas - OLAS Withdraw
     allow.mainnet.autonolas.veOlas.withdraw(),
 
-    // Merkl - ACI Merit Rewards
+    // Merkl - Rewards
     allow.mainnet.merkl.angleDistributor.claim(
       c.or(
         [parameters.avatar],
