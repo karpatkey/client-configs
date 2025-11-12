@@ -388,8 +388,6 @@ export default (parameters: Parameters) =>
       ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
       targetAddress: morpho.kpkUsdcV2,
     },
-    // Morpho - Claim Rewards
-    allow.mainnet.morpho.universalRewardsDistributor.claim(c.avatar),
 
     // pods - ETHphoria Vault
     // Deposit ETH

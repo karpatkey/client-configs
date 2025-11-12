@@ -40,7 +40,4 @@ export default (parameters: Parameters) =>
         ]
       )
     ),
-
-    // Morpho - Claim Rewards
-    allow.mainnet.morpho.universalRewardsDistributor.claim(c.avatar),
   ] satisfies PermissionList
