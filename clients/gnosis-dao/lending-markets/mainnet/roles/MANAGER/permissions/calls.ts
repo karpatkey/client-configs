@@ -180,6 +180,36 @@ export default (parameters: Parameters) =>
       targetAddress: morpho.gtWeth,
     },
 
+    // Morpho - kpk ETH Prime v2 Vault
+    allowErc20Approve([WETH], [morpho.kpkEthV2]),
+    {
+      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
+      targetAddress: morpho.kpkEthV2,
+    },
+    {
+      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkEthV2,
+    },
+    {
+      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkEthV2,
+    },
+
+    // Morpho - kpk USDC Prime v2 Vault
+    allowErc20Approve([USDC], [morpho.kpkUsdcV2]),
+    {
+      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
+      targetAddress: morpho.kpkUsdcV2,
+    },
+    {
+      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkUsdcV2,
+    },
+    {
+      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkUsdcV2,
+    },
+
     // Morpho - MEV Capital wETH Vault
     allowErc20Approve([WETH], [morpho.mcWeth]),
     {
@@ -284,9 +314,6 @@ export default (parameters: Parameters) =>
       ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
       targetAddress: morpho.steakUsdc,
     },
-
-    // Morpho - Claim Rewards
-    allow.mainnet.morpho.universalRewardsDistributor.claim(c.avatar),
 
     /*********************************************
      * Bridge

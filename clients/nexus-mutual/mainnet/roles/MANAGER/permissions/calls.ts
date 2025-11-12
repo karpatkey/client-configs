@@ -474,9 +474,6 @@ export default (parameters: Parameters) =>
       targetAddress: morpho.steakUsdc,
     },
 
-    // Morpho - Claim Rewards
-    allow.mainnet.morpho.universalRewardsDistributor.claim(c.avatar),
-
     // Nexus Mutual
     // Deposit ETH in exchange for NXM; redeem NXM in exchange for ETH
     allow.mainnet.nexus.ramm.swap(undefined, undefined, undefined, {
