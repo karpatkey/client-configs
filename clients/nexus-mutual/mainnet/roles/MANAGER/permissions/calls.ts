@@ -413,7 +413,7 @@ export default (parameters: Parameters) =>
       ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
       targetAddress: morpho.kpkEthV1,
     },
-    
+
     // Morpho - kpk ETH Prime v2 Vault
     allowErc20Approve([WETH], [morpho.kpkEthV2]),
     {
