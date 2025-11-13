@@ -542,9 +542,6 @@ export default (parameters: Parameters) =>
       targetAddress: morpho.kpkUsdcV2,
     },
 
-    // Morpho - Claim Rewards
-    allow.mainnet.morpho.universalRewardsDistributor.claim(c.avatar),
-
     // Pendle - USDe <-> PT-USDE-DDMMMYYYY / sUSDe <-> PT-sUSDE-DDMMMYYYY
     allowErc20Approve([USDe, sUSDe], [contracts.mainnet.pendle.routerV4]),
     allow.mainnet.pendle.routerV4.swapExactTokenForPt(
