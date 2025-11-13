@@ -138,6 +138,13 @@ export default (parameters: Parameters) => [
     receiver: parameters.avatar,
   }),
 
+  // Fluid - Deposit GHO
+  allowAction.fluid.deposit({ targets: ["GHO"] }),
+  // Fluid - Deposit USDC
+  allowAction.fluid.deposit({ targets: ["USDC"] }),
+  // Fluid - Deposit USDT
+  allowAction.fluid.deposit({ targets: ["USDT"] }),
+
   // Lido
   allowAction.lido.deposit(),
 

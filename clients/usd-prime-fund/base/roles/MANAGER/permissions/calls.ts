@@ -166,9 +166,6 @@ export default (parameters: Parameters) =>
       c.avatar
     ),
 
-    // Morpho - Claim Rewards
-    allow.base.morpho.universalRewardsDistributor.claim(c.avatar),
-
     /*********************************************
      * Bridges
      *********************************************/
