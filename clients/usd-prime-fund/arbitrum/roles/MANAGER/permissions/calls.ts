@@ -1,13 +1,7 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { zeroAddress } from "@/addresses"
-import {
-  GHO,
-  USDC,
-  USDT,
-  aura,
-  balancerV3,
-} from "@/addresses/arb1"
+import { GHO, USDC, USDT, aura, balancerV3 } from "@/addresses/arb1"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
