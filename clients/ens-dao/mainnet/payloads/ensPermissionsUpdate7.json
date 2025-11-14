@@ -1,7 +1,7 @@
 {
   "version": "1.0",
   "chainId": "1",
-  "createdAt": 1763053200064,
+  "createdAt": 1763136464086,
   "meta": {
     "name": "Update permissions of MANAGER role",
     "description": "",
@@ -13,11 +13,7 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
@@ -37,21 +33,13 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
             "type": "address"
           },
-          {
-            "internalType": "bytes4",
-            "name": "selector",
-            "type": "bytes4"
-          }
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" }
         ],
         "name": "revokeFunction",
         "payable": false
@@ -67,31 +55,19 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
             "type": "address"
           },
-          {
-            "internalType": "bytes4",
-            "name": "selector",
-            "type": "bytes4"
-          },
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
           {
             "internalType": "struct ConditionFlat[]",
             "name": "conditions",
             "type": "tuple[]",
             "components": [
-              {
-                "internalType": "uint8",
-                "name": "parent",
-                "type": "uint8"
-              },
+              { "internalType": "uint8", "name": "parent", "type": "uint8" },
               {
                 "internalType": "enum AbiType",
                 "name": "paramType",
@@ -102,11 +78,7 @@
                 "name": "operator",
                 "type": "uint8"
               },
-              {
-                "internalType": "bytes",
-                "name": "compValue",
-                "type": "bytes"
-              }
+              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
             ]
           },
           {
@@ -131,31 +103,19 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
             "type": "address"
           },
-          {
-            "internalType": "bytes4",
-            "name": "selector",
-            "type": "bytes4"
-          },
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
           {
             "internalType": "struct ConditionFlat[]",
             "name": "conditions",
             "type": "tuple[]",
             "components": [
-              {
-                "internalType": "uint8",
-                "name": "parent",
-                "type": "uint8"
-              },
+              { "internalType": "uint8", "name": "parent", "type": "uint8" },
               {
                 "internalType": "enum AbiType",
                 "name": "paramType",
@@ -166,11 +126,7 @@
                 "name": "operator",
                 "type": "uint8"
               },
-              {
-                "internalType": "bytes",
-                "name": "compValue",
-                "type": "bytes"
-              }
+              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
             ]
           },
           {
@@ -195,31 +151,19 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
             "type": "address"
           },
-          {
-            "internalType": "bytes4",
-            "name": "selector",
-            "type": "bytes4"
-          },
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
           {
             "internalType": "struct ConditionFlat[]",
             "name": "conditions",
             "type": "tuple[]",
             "components": [
-              {
-                "internalType": "uint8",
-                "name": "parent",
-                "type": "uint8"
-              },
+              { "internalType": "uint8", "name": "parent", "type": "uint8" },
               {
                 "internalType": "enum AbiType",
                 "name": "paramType",
@@ -230,11 +174,7 @@
                 "name": "operator",
                 "type": "uint8"
               },
-              {
-                "internalType": "bytes",
-                "name": "compValue",
-                "type": "bytes"
-              }
+              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
             ]
           },
           {
@@ -259,11 +199,103 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
+            "internalType": "address",
+            "name": "targetAddress",
+            "type": "address"
           },
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
+          {
+            "internalType": "struct ConditionFlat[]",
+            "name": "conditions",
+            "type": "tuple[]",
+            "components": [
+              { "internalType": "uint8", "name": "parent", "type": "uint8" },
+              {
+                "internalType": "enum AbiType",
+                "name": "paramType",
+                "type": "uint8"
+              },
+              {
+                "internalType": "enum Operator",
+                "name": "operator",
+                "type": "uint8"
+              },
+              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
+            ]
+          },
+          {
+            "internalType": "enum ExecutionOptions",
+            "name": "options",
+            "type": "uint8"
+          }
+        ],
+        "name": "scopeFunction",
+        "payable": false
+      },
+      "contractInputsValues": {
+        "roleKey": "0x4d414e4147455200000000000000000000000000000000000000000000000000",
+        "targetAddress": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+        "selector": "0xa99aad89",
+        "conditions": "[[\"0\",\"5\",\"5\",\"0x\"],[\"0\",\"0\",\"2\",\"0x\"],[\"0\",\"1\",\"0\",\"0x\"],[\"0\",\"1\",\"0\",\"0x\"],[\"0\",\"1\",\"15\",\"0x\"],[\"0\",\"2\",\"16\",\"0x00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000000\"],[\"1\",\"3\",\"5\",\"0x\"],[\"1\",\"3\",\"5\",\"0x\"],[\"1\",\"3\",\"5\",\"0x\"],[\"1\",\"3\",\"5\",\"0x\"],[\"1\",\"3\",\"5\",\"0x\"],[\"6\",\"1\",\"16\",\"0x000000000000000000000000a0b86991c6218b36c1d19d4a2e9eb0ce3606eb48\"],[\"6\",\"1\",\"16\",\"0x0000000000000000000000002260fac5e5542a773aa44fbcfedf7c193bc2c599\"],[\"6\",\"1\",\"16\",\"0x000000000000000000000000dddd770badd886df3864029e4b377b5f6a2b6b83\"],[\"6\",\"1\",\"16\",\"0x000000000000000000000000870ac11d48b15db9a138cf899d20f13f79ba00bc\"],[\"6\",\"1\",\"16\",\"0x0000000000000000000000000000000000000000000000000bef55718ad60000\"],[\"7\",\"1\",\"16\",\"0x000000000000000000000000a0b86991c6218b36c1d19d4a2e9eb0ce3606eb48\"],[\"7\",\"1\",\"16\",\"0x0000000000000000000000007f39c581f595b53c5cb19bd0b3f8da6c935e2ca0\"],[\"7\",\"1\",\"16\",\"0x00000000000000000000000048f7e36eb6b826b2df4b2e630b62cd25e89e40e2\"],[\"7\",\"1\",\"16\",\"0x000000000000000000000000870ac11d48b15db9a138cf899d20f13f79ba00bc\"],[\"7\",\"1\",\"16\",\"0x0000000000000000000000000000000000000000000000000bef55718ad60000\"],[\"8\",\"1\",\"16\",\"0x000000000000000000000000a0b86991c6218b36c1d19d4a2e9eb0ce3606eb48\"],[\"8\",\"1\",\"16\",\"0x000000000000000000000000cbb7c0000ab88b473b1f5afd9ef808440eed33bf\"],[\"8\",\"1\",\"16\",\"0x000000000000000000000000a6d6950c9f177f1de7f7757fb33539e3ec60182a\"],[\"8\",\"1\",\"16\",\"0x000000000000000000000000870ac11d48b15db9a138cf899d20f13f79ba00bc\"],[\"8\",\"1\",\"16\",\"0x0000000000000000000000000000000000000000000000000bef55718ad60000\"],[\"9\",\"1\",\"16\",\"0x000000000000000000000000c02aaa39b223fe8d0a0e5c4f27ead9083c756cc2\"],[\"9\",\"1\",\"16\",\"0x0000000000000000000000007f39c581f595b53c5cb19bd0b3f8da6c935e2ca0\"],[\"9\",\"1\",\"16\",\"0x000000000000000000000000bd60a6770b27e084e8617335dde769241b0e71d8\"],[\"9\",\"1\",\"16\",\"0x000000000000000000000000870ac11d48b15db9a138cf899d20f13f79ba00bc\"],[\"9\",\"1\",\"16\",\"0x0000000000000000000000000000000000000000000000000d1d507e40be8000\"],[\"10\",\"1\",\"16\",\"0x000000000000000000000000c02aaa39b223fe8d0a0e5c4f27ead9083c756cc2\"],[\"10\",\"1\",\"16\",\"0x0000000000000000000000007f39c581f595b53c5cb19bd0b3f8da6c935e2ca0\"],[\"10\",\"1\",\"16\",\"0x000000000000000000000000bd60a6770b27e084e8617335dde769241b0e71d8\"],[\"10\",\"1\",\"16\",\"0x000000000000000000000000870ac11d48b15db9a138cf899d20f13f79ba00bc\"],[\"10\",\"1\",\"16\",\"0x0000000000000000000000000000000000000000000000000d645e6320408000\"]]",
+        "options": "0"
+      }
+    },
+    {
+      "to": "0x703806e61847984346d2d7ddd853049627e50a40",
+      "value": "0",
+      "contractMethod": {
+        "inputs": [
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
+          {
+            "internalType": "address",
+            "name": "targetAddress",
+            "type": "address"
+          },
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
+          {
+            "internalType": "struct ConditionFlat[]",
+            "name": "conditions",
+            "type": "tuple[]",
+            "components": [
+              { "internalType": "uint8", "name": "parent", "type": "uint8" },
+              {
+                "internalType": "enum AbiType",
+                "name": "paramType",
+                "type": "uint8"
+              },
+              {
+                "internalType": "enum Operator",
+                "name": "operator",
+                "type": "uint8"
+              },
+              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
+            ]
+          },
+          {
+            "internalType": "enum ExecutionOptions",
+            "name": "options",
+            "type": "uint8"
+          }
+        ],
+        "name": "scopeFunction",
+        "payable": false
+      },
+      "contractInputsValues": {
+        "roleKey": "0x4d414e4147455200000000000000000000000000000000000000000000000000",
+        "targetAddress": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+        "selector": "0x5c2bea49",
+        "conditions": "[[\"0\",\"5\",\"5\",\"0x\"],[\"0\",\"0\",\"2\",\"0x\"],[\"0\",\"1\",\"0\",\"0x\"],[\"0\",\"1\",\"0\",\"0x\"],[\"0\",\"1\",\"15\",\"0x\"],[\"0\",\"1\",\"15\",\"0x\"],[\"1\",\"3\",\"5\",\"0x\"],[\"1\",\"3\",\"5\",\"0x\"],[\"1\",\"3\",\"5\",\"0x\"],[\"1\",\"3\",\"5\",\"0x\"],[\"1\",\"3\",\"5\",\"0x\"],[\"6\",\"1\",\"16\",\"0x000000000000000000000000a0b86991c6218b36c1d19d4a2e9eb0ce3606eb48\"],[\"6\",\"1\",\"16\",\"0x0000000000000000000000002260fac5e5542a773aa44fbcfedf7c193bc2c599\"],[\"6\",\"1\",\"16\",\"0x000000000000000000000000dddd770badd886df3864029e4b377b5f6a2b6b83\"],[\"6\",\"1\",\"16\",\"0x000000000000000000000000870ac11d48b15db9a138cf899d20f13f79ba00bc\"],[\"6\",\"1\",\"16\",\"0x0000000000000000000000000000000000000000000000000bef55718ad60000\"],[\"7\",\"1\",\"16\",\"0x000000000000000000000000a0b86991c6218b36c1d19d4a2e9eb0ce3606eb48\"],[\"7\",\"1\",\"16\",\"0x0000000000000000000000007f39c581f595b53c5cb19bd0b3f8da6c935e2ca0\"],[\"7\",\"1\",\"16\",\"0x00000000000000000000000048f7e36eb6b826b2df4b2e630b62cd25e89e40e2\"],[\"7\",\"1\",\"16\",\"0x000000000000000000000000870ac11d48b15db9a138cf899d20f13f79ba00bc\"],[\"7\",\"1\",\"16\",\"0x0000000000000000000000000000000000000000000000000bef55718ad60000\"],[\"8\",\"1\",\"16\",\"0x000000000000000000000000a0b86991c6218b36c1d19d4a2e9eb0ce3606eb48\"],[\"8\",\"1\",\"16\",\"0x000000000000000000000000cbb7c0000ab88b473b1f5afd9ef808440eed33bf\"],[\"8\",\"1\",\"16\",\"0x000000000000000000000000a6d6950c9f177f1de7f7757fb33539e3ec60182a\"],[\"8\",\"1\",\"16\",\"0x000000000000000000000000870ac11d48b15db9a138cf899d20f13f79ba00bc\"],[\"8\",\"1\",\"16\",\"0x0000000000000000000000000000000000000000000000000bef55718ad60000\"],[\"9\",\"1\",\"16\",\"0x000000000000000000000000c02aaa39b223fe8d0a0e5c4f27ead9083c756cc2\"],[\"9\",\"1\",\"16\",\"0x0000000000000000000000007f39c581f595b53c5cb19bd0b3f8da6c935e2ca0\"],[\"9\",\"1\",\"16\",\"0x000000000000000000000000bd60a6770b27e084e8617335dde769241b0e71d8\"],[\"9\",\"1\",\"16\",\"0x000000000000000000000000870ac11d48b15db9a138cf899d20f13f79ba00bc\"],[\"9\",\"1\",\"16\",\"0x0000000000000000000000000000000000000000000000000d1d507e40be8000\"],[\"10\",\"1\",\"16\",\"0x000000000000000000000000c02aaa39b223fe8d0a0e5c4f27ead9083c756cc2\"],[\"10\",\"1\",\"16\",\"0x0000000000000000000000007f39c581f595b53c5cb19bd0b3f8da6c935e2ca0\"],[\"10\",\"1\",\"16\",\"0x000000000000000000000000bd60a6770b27e084e8617335dde769241b0e71d8\"],[\"10\",\"1\",\"16\",\"0x000000000000000000000000870ac11d48b15db9a138cf899d20f13f79ba00bc\"],[\"10\",\"1\",\"16\",\"0x0000000000000000000000000000000000000000000000000d645e6320408000\"]]",
+        "options": "0"
+      }
+    },
+    {
+      "to": "0x703806e61847984346d2d7ddd853049627e50a40",
+      "value": "0",
+      "contractMethod": {
+        "inputs": [
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
@@ -283,31 +315,19 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
             "type": "address"
           },
-          {
-            "internalType": "bytes4",
-            "name": "selector",
-            "type": "bytes4"
-          },
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
           {
             "internalType": "struct ConditionFlat[]",
             "name": "conditions",
             "type": "tuple[]",
             "components": [
-              {
-                "internalType": "uint8",
-                "name": "parent",
-                "type": "uint8"
-              },
+              { "internalType": "uint8", "name": "parent", "type": "uint8" },
               {
                 "internalType": "enum AbiType",
                 "name": "paramType",
@@ -318,11 +338,7 @@
                 "name": "operator",
                 "type": "uint8"
               },
-              {
-                "internalType": "bytes",
-                "name": "compValue",
-                "type": "bytes"
-              }
+              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
             ]
           },
           {
@@ -347,11 +363,7 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
@@ -371,31 +383,19 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
             "type": "address"
           },
-          {
-            "internalType": "bytes4",
-            "name": "selector",
-            "type": "bytes4"
-          },
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
           {
             "internalType": "struct ConditionFlat[]",
             "name": "conditions",
             "type": "tuple[]",
             "components": [
-              {
-                "internalType": "uint8",
-                "name": "parent",
-                "type": "uint8"
-              },
+              { "internalType": "uint8", "name": "parent", "type": "uint8" },
               {
                 "internalType": "enum AbiType",
                 "name": "paramType",
@@ -406,11 +406,7 @@
                 "name": "operator",
                 "type": "uint8"
               },
-              {
-                "internalType": "bytes",
-                "name": "compValue",
-                "type": "bytes"
-              }
+              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
             ]
           },
           {
@@ -435,31 +431,19 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
             "type": "address"
           },
-          {
-            "internalType": "bytes4",
-            "name": "selector",
-            "type": "bytes4"
-          },
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
           {
             "internalType": "struct ConditionFlat[]",
             "name": "conditions",
             "type": "tuple[]",
             "components": [
-              {
-                "internalType": "uint8",
-                "name": "parent",
-                "type": "uint8"
-              },
+              { "internalType": "uint8", "name": "parent", "type": "uint8" },
               {
                 "internalType": "enum AbiType",
                 "name": "paramType",
@@ -470,11 +454,7 @@
                 "name": "operator",
                 "type": "uint8"
               },
-              {
-                "internalType": "bytes",
-                "name": "compValue",
-                "type": "bytes"
-              }
+              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
             ]
           },
           {
@@ -499,31 +479,19 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
             "type": "address"
           },
-          {
-            "internalType": "bytes4",
-            "name": "selector",
-            "type": "bytes4"
-          },
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
           {
             "internalType": "struct ConditionFlat[]",
             "name": "conditions",
             "type": "tuple[]",
             "components": [
-              {
-                "internalType": "uint8",
-                "name": "parent",
-                "type": "uint8"
-              },
+              { "internalType": "uint8", "name": "parent", "type": "uint8" },
               {
                 "internalType": "enum AbiType",
                 "name": "paramType",
@@ -534,11 +502,7 @@
                 "name": "operator",
                 "type": "uint8"
               },
-              {
-                "internalType": "bytes",
-                "name": "compValue",
-                "type": "bytes"
-              }
+              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
             ]
           },
           {
@@ -563,11 +527,7 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
@@ -587,31 +547,19 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
             "type": "address"
           },
-          {
-            "internalType": "bytes4",
-            "name": "selector",
-            "type": "bytes4"
-          },
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
           {
             "internalType": "struct ConditionFlat[]",
             "name": "conditions",
             "type": "tuple[]",
             "components": [
-              {
-                "internalType": "uint8",
-                "name": "parent",
-                "type": "uint8"
-              },
+              { "internalType": "uint8", "name": "parent", "type": "uint8" },
               {
                 "internalType": "enum AbiType",
                 "name": "paramType",
@@ -622,11 +570,7 @@
                 "name": "operator",
                 "type": "uint8"
               },
-              {
-                "internalType": "bytes",
-                "name": "compValue",
-                "type": "bytes"
-              }
+              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
             ]
           },
           {
@@ -651,11 +595,7 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
@@ -675,31 +615,19 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
             "type": "address"
           },
-          {
-            "internalType": "bytes4",
-            "name": "selector",
-            "type": "bytes4"
-          },
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
           {
             "internalType": "struct ConditionFlat[]",
             "name": "conditions",
             "type": "tuple[]",
             "components": [
-              {
-                "internalType": "uint8",
-                "name": "parent",
-                "type": "uint8"
-              },
+              { "internalType": "uint8", "name": "parent", "type": "uint8" },
               {
                 "internalType": "enum AbiType",
                 "name": "paramType",
@@ -710,11 +638,7 @@
                 "name": "operator",
                 "type": "uint8"
               },
-              {
-                "internalType": "bytes",
-                "name": "compValue",
-                "type": "bytes"
-              }
+              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
             ]
           },
           {
@@ -739,31 +663,19 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
             "type": "address"
           },
-          {
-            "internalType": "bytes4",
-            "name": "selector",
-            "type": "bytes4"
-          },
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
           {
             "internalType": "struct ConditionFlat[]",
             "name": "conditions",
             "type": "tuple[]",
             "components": [
-              {
-                "internalType": "uint8",
-                "name": "parent",
-                "type": "uint8"
-              },
+              { "internalType": "uint8", "name": "parent", "type": "uint8" },
               {
                 "internalType": "enum AbiType",
                 "name": "paramType",
@@ -774,11 +686,7 @@
                 "name": "operator",
                 "type": "uint8"
               },
-              {
-                "internalType": "bytes",
-                "name": "compValue",
-                "type": "bytes"
-              }
+              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
             ]
           },
           {
@@ -803,31 +711,19 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
             "type": "address"
           },
-          {
-            "internalType": "bytes4",
-            "name": "selector",
-            "type": "bytes4"
-          },
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
           {
             "internalType": "struct ConditionFlat[]",
             "name": "conditions",
             "type": "tuple[]",
             "components": [
-              {
-                "internalType": "uint8",
-                "name": "parent",
-                "type": "uint8"
-              },
+              { "internalType": "uint8", "name": "parent", "type": "uint8" },
               {
                 "internalType": "enum AbiType",
                 "name": "paramType",
@@ -838,11 +734,7 @@
                 "name": "operator",
                 "type": "uint8"
               },
-              {
-                "internalType": "bytes",
-                "name": "compValue",
-                "type": "bytes"
-              }
+              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
             ]
           },
           {
@@ -867,11 +759,7 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
@@ -891,31 +779,19 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
             "type": "address"
           },
-          {
-            "internalType": "bytes4",
-            "name": "selector",
-            "type": "bytes4"
-          },
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
           {
             "internalType": "struct ConditionFlat[]",
             "name": "conditions",
             "type": "tuple[]",
             "components": [
-              {
-                "internalType": "uint8",
-                "name": "parent",
-                "type": "uint8"
-              },
+              { "internalType": "uint8", "name": "parent", "type": "uint8" },
               {
                 "internalType": "enum AbiType",
                 "name": "paramType",
@@ -926,11 +802,7 @@
                 "name": "operator",
                 "type": "uint8"
               },
-              {
-                "internalType": "bytes",
-                "name": "compValue",
-                "type": "bytes"
-              }
+              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
             ]
           },
           {
@@ -955,31 +827,19 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
             "type": "address"
           },
-          {
-            "internalType": "bytes4",
-            "name": "selector",
-            "type": "bytes4"
-          },
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
           {
             "internalType": "struct ConditionFlat[]",
             "name": "conditions",
             "type": "tuple[]",
             "components": [
-              {
-                "internalType": "uint8",
-                "name": "parent",
-                "type": "uint8"
-              },
+              { "internalType": "uint8", "name": "parent", "type": "uint8" },
               {
                 "internalType": "enum AbiType",
                 "name": "paramType",
@@ -990,11 +850,7 @@
                 "name": "operator",
                 "type": "uint8"
               },
-              {
-                "internalType": "bytes",
-                "name": "compValue",
-                "type": "bytes"
-              }
+              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
             ]
           },
           {
@@ -1019,31 +875,19 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
             "type": "address"
           },
-          {
-            "internalType": "bytes4",
-            "name": "selector",
-            "type": "bytes4"
-          },
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
           {
             "internalType": "struct ConditionFlat[]",
             "name": "conditions",
             "type": "tuple[]",
             "components": [
-              {
-                "internalType": "uint8",
-                "name": "parent",
-                "type": "uint8"
-              },
+              { "internalType": "uint8", "name": "parent", "type": "uint8" },
               {
                 "internalType": "enum AbiType",
                 "name": "paramType",
@@ -1054,11 +898,7 @@
                 "name": "operator",
                 "type": "uint8"
               },
-              {
-                "internalType": "bytes",
-                "name": "compValue",
-                "type": "bytes"
-              }
+              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
             ]
           },
           {
@@ -1083,11 +923,7 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
@@ -1107,31 +943,19 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
             "type": "address"
           },
-          {
-            "internalType": "bytes4",
-            "name": "selector",
-            "type": "bytes4"
-          },
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
           {
             "internalType": "struct ConditionFlat[]",
             "name": "conditions",
             "type": "tuple[]",
             "components": [
-              {
-                "internalType": "uint8",
-                "name": "parent",
-                "type": "uint8"
-              },
+              { "internalType": "uint8", "name": "parent", "type": "uint8" },
               {
                 "internalType": "enum AbiType",
                 "name": "paramType",
@@ -1142,11 +966,7 @@
                 "name": "operator",
                 "type": "uint8"
               },
-              {
-                "internalType": "bytes",
-                "name": "compValue",
-                "type": "bytes"
-              }
+              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
             ]
           },
           {
@@ -1171,31 +991,19 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
             "type": "address"
           },
-          {
-            "internalType": "bytes4",
-            "name": "selector",
-            "type": "bytes4"
-          },
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
           {
             "internalType": "struct ConditionFlat[]",
             "name": "conditions",
             "type": "tuple[]",
             "components": [
-              {
-                "internalType": "uint8",
-                "name": "parent",
-                "type": "uint8"
-              },
+              { "internalType": "uint8", "name": "parent", "type": "uint8" },
               {
                 "internalType": "enum AbiType",
                 "name": "paramType",
@@ -1206,11 +1014,7 @@
                 "name": "operator",
                 "type": "uint8"
               },
-              {
-                "internalType": "bytes",
-                "name": "compValue",
-                "type": "bytes"
-              }
+              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
             ]
           },
           {
@@ -1235,31 +1039,19 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
             "type": "address"
           },
-          {
-            "internalType": "bytes4",
-            "name": "selector",
-            "type": "bytes4"
-          },
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
           {
             "internalType": "struct ConditionFlat[]",
             "name": "conditions",
             "type": "tuple[]",
             "components": [
-              {
-                "internalType": "uint8",
-                "name": "parent",
-                "type": "uint8"
-              },
+              { "internalType": "uint8", "name": "parent", "type": "uint8" },
               {
                 "internalType": "enum AbiType",
                 "name": "paramType",
@@ -1270,11 +1062,7 @@
                 "name": "operator",
                 "type": "uint8"
               },
-              {
-                "internalType": "bytes",
-                "name": "compValue",
-                "type": "bytes"
-              }
+              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
             ]
           },
           {
@@ -1299,11 +1087,7 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
@@ -1323,31 +1107,19 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
             "type": "address"
           },
-          {
-            "internalType": "bytes4",
-            "name": "selector",
-            "type": "bytes4"
-          },
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
           {
             "internalType": "struct ConditionFlat[]",
             "name": "conditions",
             "type": "tuple[]",
             "components": [
-              {
-                "internalType": "uint8",
-                "name": "parent",
-                "type": "uint8"
-              },
+              { "internalType": "uint8", "name": "parent", "type": "uint8" },
               {
                 "internalType": "enum AbiType",
                 "name": "paramType",
@@ -1358,11 +1130,7 @@
                 "name": "operator",
                 "type": "uint8"
               },
-              {
-                "internalType": "bytes",
-                "name": "compValue",
-                "type": "bytes"
-              }
+              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
             ]
           },
           {
@@ -1387,31 +1155,19 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
             "type": "address"
           },
-          {
-            "internalType": "bytes4",
-            "name": "selector",
-            "type": "bytes4"
-          },
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
           {
             "internalType": "struct ConditionFlat[]",
             "name": "conditions",
             "type": "tuple[]",
             "components": [
-              {
-                "internalType": "uint8",
-                "name": "parent",
-                "type": "uint8"
-              },
+              { "internalType": "uint8", "name": "parent", "type": "uint8" },
               {
                 "internalType": "enum AbiType",
                 "name": "paramType",
@@ -1422,11 +1178,7 @@
                 "name": "operator",
                 "type": "uint8"
               },
-              {
-                "internalType": "bytes",
-                "name": "compValue",
-                "type": "bytes"
-              }
+              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
             ]
           },
           {
@@ -1451,31 +1203,19 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
             "type": "address"
           },
-          {
-            "internalType": "bytes4",
-            "name": "selector",
-            "type": "bytes4"
-          },
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
           {
             "internalType": "struct ConditionFlat[]",
             "name": "conditions",
             "type": "tuple[]",
             "components": [
-              {
-                "internalType": "uint8",
-                "name": "parent",
-                "type": "uint8"
-              },
+              { "internalType": "uint8", "name": "parent", "type": "uint8" },
               {
                 "internalType": "enum AbiType",
                 "name": "paramType",
@@ -1486,11 +1226,7 @@
                 "name": "operator",
                 "type": "uint8"
               },
-              {
-                "internalType": "bytes",
-                "name": "compValue",
-                "type": "bytes"
-              }
+              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
             ]
           },
           {
@@ -1515,11 +1251,7 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
@@ -1539,31 +1271,19 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
             "type": "address"
           },
-          {
-            "internalType": "bytes4",
-            "name": "selector",
-            "type": "bytes4"
-          },
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
           {
             "internalType": "struct ConditionFlat[]",
             "name": "conditions",
             "type": "tuple[]",
             "components": [
-              {
-                "internalType": "uint8",
-                "name": "parent",
-                "type": "uint8"
-              },
+              { "internalType": "uint8", "name": "parent", "type": "uint8" },
               {
                 "internalType": "enum AbiType",
                 "name": "paramType",
@@ -1574,11 +1294,7 @@
                 "name": "operator",
                 "type": "uint8"
               },
-              {
-                "internalType": "bytes",
-                "name": "compValue",
-                "type": "bytes"
-              }
+              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
             ]
           },
           {
@@ -1603,11 +1319,7 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
@@ -1627,31 +1339,19 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
             "type": "address"
           },
-          {
-            "internalType": "bytes4",
-            "name": "selector",
-            "type": "bytes4"
-          },
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
           {
             "internalType": "struct ConditionFlat[]",
             "name": "conditions",
             "type": "tuple[]",
             "components": [
-              {
-                "internalType": "uint8",
-                "name": "parent",
-                "type": "uint8"
-              },
+              { "internalType": "uint8", "name": "parent", "type": "uint8" },
               {
                 "internalType": "enum AbiType",
                 "name": "paramType",
@@ -1662,11 +1362,7 @@
                 "name": "operator",
                 "type": "uint8"
               },
-              {
-                "internalType": "bytes",
-                "name": "compValue",
-                "type": "bytes"
-              }
+              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
             ]
           },
           {
@@ -1691,31 +1387,19 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
             "type": "address"
           },
-          {
-            "internalType": "bytes4",
-            "name": "selector",
-            "type": "bytes4"
-          },
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
           {
             "internalType": "struct ConditionFlat[]",
             "name": "conditions",
             "type": "tuple[]",
             "components": [
-              {
-                "internalType": "uint8",
-                "name": "parent",
-                "type": "uint8"
-              },
+              { "internalType": "uint8", "name": "parent", "type": "uint8" },
               {
                 "internalType": "enum AbiType",
                 "name": "paramType",
@@ -1726,11 +1410,7 @@
                 "name": "operator",
                 "type": "uint8"
               },
-              {
-                "internalType": "bytes",
-                "name": "compValue",
-                "type": "bytes"
-              }
+              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
             ]
           },
           {
@@ -1755,31 +1435,19 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
             "type": "address"
           },
-          {
-            "internalType": "bytes4",
-            "name": "selector",
-            "type": "bytes4"
-          },
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
           {
             "internalType": "struct ConditionFlat[]",
             "name": "conditions",
             "type": "tuple[]",
             "components": [
-              {
-                "internalType": "uint8",
-                "name": "parent",
-                "type": "uint8"
-              },
+              { "internalType": "uint8", "name": "parent", "type": "uint8" },
               {
                 "internalType": "enum AbiType",
                 "name": "paramType",
@@ -1790,11 +1458,7 @@
                 "name": "operator",
                 "type": "uint8"
               },
-              {
-                "internalType": "bytes",
-                "name": "compValue",
-                "type": "bytes"
-              }
+              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
             ]
           },
           {
@@ -1819,11 +1483,7 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
@@ -1843,31 +1503,19 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
             "type": "address"
           },
-          {
-            "internalType": "bytes4",
-            "name": "selector",
-            "type": "bytes4"
-          },
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
           {
             "internalType": "struct ConditionFlat[]",
             "name": "conditions",
             "type": "tuple[]",
             "components": [
-              {
-                "internalType": "uint8",
-                "name": "parent",
-                "type": "uint8"
-              },
+              { "internalType": "uint8", "name": "parent", "type": "uint8" },
               {
                 "internalType": "enum AbiType",
                 "name": "paramType",
@@ -1878,11 +1526,7 @@
                 "name": "operator",
                 "type": "uint8"
               },
-              {
-                "internalType": "bytes",
-                "name": "compValue",
-                "type": "bytes"
-              }
+              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
             ]
           },
           {
@@ -1907,31 +1551,19 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
             "type": "address"
           },
-          {
-            "internalType": "bytes4",
-            "name": "selector",
-            "type": "bytes4"
-          },
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
           {
             "internalType": "struct ConditionFlat[]",
             "name": "conditions",
             "type": "tuple[]",
             "components": [
-              {
-                "internalType": "uint8",
-                "name": "parent",
-                "type": "uint8"
-              },
+              { "internalType": "uint8", "name": "parent", "type": "uint8" },
               {
                 "internalType": "enum AbiType",
                 "name": "paramType",
@@ -1942,11 +1574,7 @@
                 "name": "operator",
                 "type": "uint8"
               },
-              {
-                "internalType": "bytes",
-                "name": "compValue",
-                "type": "bytes"
-              }
+              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
             ]
           },
           {
@@ -1971,31 +1599,19 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
             "type": "address"
           },
-          {
-            "internalType": "bytes4",
-            "name": "selector",
-            "type": "bytes4"
-          },
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
           {
             "internalType": "struct ConditionFlat[]",
             "name": "conditions",
             "type": "tuple[]",
             "components": [
-              {
-                "internalType": "uint8",
-                "name": "parent",
-                "type": "uint8"
-              },
+              { "internalType": "uint8", "name": "parent", "type": "uint8" },
               {
                 "internalType": "enum AbiType",
                 "name": "paramType",
@@ -2006,11 +1622,7 @@
                 "name": "operator",
                 "type": "uint8"
               },
-              {
-                "internalType": "bytes",
-                "name": "compValue",
-                "type": "bytes"
-              }
+              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
             ]
           },
           {
@@ -2035,11 +1647,7 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
@@ -2059,31 +1667,19 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
             "type": "address"
           },
-          {
-            "internalType": "bytes4",
-            "name": "selector",
-            "type": "bytes4"
-          },
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
           {
             "internalType": "struct ConditionFlat[]",
             "name": "conditions",
             "type": "tuple[]",
             "components": [
-              {
-                "internalType": "uint8",
-                "name": "parent",
-                "type": "uint8"
-              },
+              { "internalType": "uint8", "name": "parent", "type": "uint8" },
               {
                 "internalType": "enum AbiType",
                 "name": "paramType",
@@ -2094,11 +1690,7 @@
                 "name": "operator",
                 "type": "uint8"
               },
-              {
-                "internalType": "bytes",
-                "name": "compValue",
-                "type": "bytes"
-              }
+              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
             ]
           },
           {
@@ -2123,31 +1715,19 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
             "type": "address"
           },
-          {
-            "internalType": "bytes4",
-            "name": "selector",
-            "type": "bytes4"
-          },
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
           {
             "internalType": "struct ConditionFlat[]",
             "name": "conditions",
             "type": "tuple[]",
             "components": [
-              {
-                "internalType": "uint8",
-                "name": "parent",
-                "type": "uint8"
-              },
+              { "internalType": "uint8", "name": "parent", "type": "uint8" },
               {
                 "internalType": "enum AbiType",
                 "name": "paramType",
@@ -2158,11 +1738,7 @@
                 "name": "operator",
                 "type": "uint8"
               },
-              {
-                "internalType": "bytes",
-                "name": "compValue",
-                "type": "bytes"
-              }
+              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
             ]
           },
           {
@@ -2187,31 +1763,19 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
             "type": "address"
           },
-          {
-            "internalType": "bytes4",
-            "name": "selector",
-            "type": "bytes4"
-          },
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
           {
             "internalType": "struct ConditionFlat[]",
             "name": "conditions",
             "type": "tuple[]",
             "components": [
-              {
-                "internalType": "uint8",
-                "name": "parent",
-                "type": "uint8"
-              },
+              { "internalType": "uint8", "name": "parent", "type": "uint8" },
               {
                 "internalType": "enum AbiType",
                 "name": "paramType",
@@ -2222,11 +1786,7 @@
                 "name": "operator",
                 "type": "uint8"
               },
-              {
-                "internalType": "bytes",
-                "name": "compValue",
-                "type": "bytes"
-              }
+              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
             ]
           },
           {
@@ -2251,11 +1811,7 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
@@ -2275,31 +1831,19 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
             "type": "address"
           },
-          {
-            "internalType": "bytes4",
-            "name": "selector",
-            "type": "bytes4"
-          },
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
           {
             "internalType": "struct ConditionFlat[]",
             "name": "conditions",
             "type": "tuple[]",
             "components": [
-              {
-                "internalType": "uint8",
-                "name": "parent",
-                "type": "uint8"
-              },
+              { "internalType": "uint8", "name": "parent", "type": "uint8" },
               {
                 "internalType": "enum AbiType",
                 "name": "paramType",
@@ -2310,11 +1854,7 @@
                 "name": "operator",
                 "type": "uint8"
               },
-              {
-                "internalType": "bytes",
-                "name": "compValue",
-                "type": "bytes"
-              }
+              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
             ]
           },
           {
@@ -2339,31 +1879,19 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
             "type": "address"
           },
-          {
-            "internalType": "bytes4",
-            "name": "selector",
-            "type": "bytes4"
-          },
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
           {
             "internalType": "struct ConditionFlat[]",
             "name": "conditions",
             "type": "tuple[]",
             "components": [
-              {
-                "internalType": "uint8",
-                "name": "parent",
-                "type": "uint8"
-              },
+              { "internalType": "uint8", "name": "parent", "type": "uint8" },
               {
                 "internalType": "enum AbiType",
                 "name": "paramType",
@@ -2374,11 +1902,7 @@
                 "name": "operator",
                 "type": "uint8"
               },
-              {
-                "internalType": "bytes",
-                "name": "compValue",
-                "type": "bytes"
-              }
+              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
             ]
           },
           {
@@ -2403,31 +1927,19 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "roleKey",
-            "type": "bytes32"
-          },
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
           {
             "internalType": "address",
             "name": "targetAddress",
             "type": "address"
           },
-          {
-            "internalType": "bytes4",
-            "name": "selector",
-            "type": "bytes4"
-          },
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
           {
             "internalType": "struct ConditionFlat[]",
             "name": "conditions",
             "type": "tuple[]",
             "components": [
-              {
-                "internalType": "uint8",
-                "name": "parent",
-                "type": "uint8"
-              },
+              { "internalType": "uint8", "name": "parent", "type": "uint8" },
               {
                 "internalType": "enum AbiType",
                 "name": "paramType",
@@ -2438,11 +1950,7 @@
                 "name": "operator",
                 "type": "uint8"
               },
-              {
-                "internalType": "bytes",
-                "name": "compValue",
-                "type": "bytes"
-              }
+              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
             ]
           },
           {
@@ -2467,22 +1975,14 @@
       "value": "0",
       "contractMethod": {
         "inputs": [
-          {
-            "internalType": "string",
-            "name": "content",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "tag",
-            "type": "string"
-          }
+          { "internalType": "string", "name": "content", "type": "string" },
+          { "internalType": "string", "name": "tag", "type": "string" }
         ],
         "name": "post",
         "payable": false
       },
       "contractInputsValues": {
-        "content": "{\"rolesMod\":\"0x703806e61847984346d2d7ddd853049627e50a40\",\"roleKey\":\"0x4d414e4147455200000000000000000000000000000000000000000000000000\",\"addAnnotations\":[{\"schema\":\"https://kit.karpatkey.com/api/v1/openapi.json\",\"uris\":[\"https://kit.karpatkey.com/api/v1/permissions/eth/fluid/deposit?targets=GHO\",\"https://kit.karpatkey.com/api/v1/permissions/eth/fluid/deposit?targets=USDC\",\"https://kit.karpatkey.com/api/v1/permissions/eth/fluid/deposit?targets=USDT\"]}]}",
+        "content": "{\"rolesMod\":\"0x703806e61847984346d2d7ddd853049627e50a40\",\"roleKey\":\"0x4d414e4147455200000000000000000000000000000000000000000000000000\",\"addAnnotations\":[{\"schema\":\"https://kit.karpatkey.com/api/v1/openapi.json\",\"uris\":[\"https://kit.karpatkey.com/api/v1/permissions/eth/fluid/deposit?targets=GHO\",\"https://kit.karpatkey.com/api/v1/permissions/eth/fluid/deposit?targets=USDC\",\"https://kit.karpatkey.com/api/v1/permissions/eth/fluid/deposit?targets=USDT\",\"https://kit.karpatkey.com/api/v1/permissions/eth/morphoMarkets/deposit?targets=0x64d65c9a2d91c36d56fbc42d69e979335320169b3df63bf92789e2c8883fcc64\",\"https://kit.karpatkey.com/api/v1/permissions/eth/morphoMarkets/deposit?targets=0xb8fc70e82bc5bb53e773626fcc6a23f7eefa036918d7ef216ecfb1950a94a85e\",\"https://kit.karpatkey.com/api/v1/permissions/eth/morphoMarkets/deposit?targets=0xd0e50cdac92fe2172043f5e0c36532c6369d24947e40968f34a5e8819ca9ec5d\",\"https://kit.karpatkey.com/api/v1/permissions/eth/morphoMarkets/deposit?targets=0x3a85e619751152991742810df6ec69ce473daef99e28a64ab2340d7b7ccfee49\",\"https://kit.karpatkey.com/api/v1/permissions/eth/morphoMarkets/deposit?targets=0xb323495f7e4148be5643a4ea4a8221eef163e4bccfdedc2a6f4696baacbc86cc\",\"https://kit.karpatkey.com/api/v1/permissions/eth/morphoVaults/deposit?targets=0xd564F765F9aD3E7d2d6cA782100795a885e8e7C8\",\"https://kit.karpatkey.com/api/v1/permissions/eth/morphoVaults/deposit?targets=0xBb50A5341368751024ddf33385BA8cf61fE65FF9\",\"https://kit.karpatkey.com/api/v1/permissions/eth/morphoVaults/deposit?targets=0x0c6aec603d48eBf1cECc7b247a2c3DA08b398DC1\",\"https://kit.karpatkey.com/api/v1/permissions/eth/morphoVaults/deposit?targets=0xa877D5bb0274dcCbA8556154A30E1Ca4021a275f\",\"https://kit.karpatkey.com/api/v1/permissions/eth/morphoVaults/deposit?targets=0xe108fbc04852B5df72f9E44d7C29F47e7A993aDd\",\"https://kit.karpatkey.com/api/v1/permissions/eth/morphoVaults/deposit?targets=0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6\"]}]}",
         "tag": "ROLES_PERMISSION_ANNOTATION"
       }
     }
