@@ -144,10 +144,6 @@ export const contracts = {
     merkl: {
       angleDistributor: "0x3Ef3D8bA38EBe18DB133cEc108f4D14CE00Dd9Ae",
     },
-    // morpho: {
-    //   ...deFiKitContracts.mainnet.morpho,
-    //   vault: "0xdd0f28e19C1780eb6396170735D45153D261490d", // gtUSDC
-    // },
     mStableV2: {
       stkMta: "0x8f2326316eC696F6d023E37A9931c2b2C177a3D7",
     },
@@ -355,10 +351,6 @@ export const contracts = {
     merkl: {
       angleDistributor: "0x3Ef3D8bA38EBe18DB133cEc108f4D14CE00Dd9Ae",
     },
-    // morpho: {
-    //   vault: "0x35a04d797164d54def24d6fc722c8f82f8ef0d45",
-    //   morphoBlue: "0x6c247b1F6182318877311737BaC0844bAa518F5e",
-    // },
     oiv: {
       navCalculator: "0x7C90871c0bd3eb276712f9f783F30Bfaf215Be64", // prod navCalculator implementation
     },
@@ -394,9 +386,6 @@ export const contracts = {
       routeProcessor4: "0x0389879e0156033202C44BF784ac18fC02edeE4f",
     },
     baseBridge: "0x4200000000000000000000000000000000000010",
-    // morpho: {
-    //   morphoBlue: "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
-    // },
   },
 } as const
 
