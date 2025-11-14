@@ -12,7 +12,6 @@ import {
   USDT,
   compoundV3,
   euler,
-  morpho,
 } from "@/addresses/arb1"
 import { COMP as COMP_eth } from "@/addresses/eth"
 import { contracts } from "@/contracts"
