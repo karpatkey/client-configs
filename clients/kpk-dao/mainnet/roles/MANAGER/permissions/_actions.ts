@@ -127,11 +127,36 @@ export default [
   // Lido
   allowAction.lido.deposit(),
 
+  // Morpho Vault - kpk ETH Prime v1.1
+  allowAction.morphoVaults.deposit({
+    targets: ["0xd564F765F9aD3E7d2d6cA782100795a885e8e7C8"],
+  }),
+  // Morpho Vault - kpk ETH v2
+  allowAction.morphoVaults.deposit({
+    targets: ["0xBb50A5341368751024ddf33385BA8cf61fE65FF9"],
+  }),
+  // Morpho Vault - kpk EURC Yield v1.1
+  allowAction.morphoVaults.deposit({
+    targets: ["0x0c6aec603d48eBf1cECc7b247a2c3DA08b398DC1"],
+  }),
+  // Morpho Vault - kpk EURC v2
+  allowAction.morphoVaults.deposit({
+    targets: ["0xa877D5bb0274dcCbA8556154A30E1Ca4021a275f"],
+  }),
+  // Morpho Vault - kpk USDC Prime v1.1
+  allowAction.morphoVaults.deposit({
+    targets: ["0xe108fbc04852B5df72f9E44d7C29F47e7A993aDd"],
+  }),
+  // Morpho Vault - kpk USDC v2
+  allowAction.morphoVaults.deposit({
+    targets: ["0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6"],
+  }),
+
   // Rocket Pool
   allowAction.rocket_pool.deposit(),
 
   // Spark - DSR_sDAI
   allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
   // Spark - SKY_USDS
-  allowAction.spark.deposit({ targets: ["SKY_USDS"] }),
+  allowAction.spark.deposit({ targets: ["SKY_sUSDS"] }),
 ]

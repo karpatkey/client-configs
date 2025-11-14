@@ -1,16 +1,7 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { zeroAddress } from "@/addresses"
-import {
-  GHO,
-  sUSDS,
-  syrupUSDC,
-  USDC,
-  USDT,
-  aura,
-  balancerV3,
-  morpho,
-} from "@/addresses/arb1"
+import { GHO, USDC, USDT, aura, balancerV3 } from "@/addresses/arb1"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
@@ -82,126 +73,6 @@ export default (parameters: Parameters) =>
         [parameters.avatar, parameters.avatar, parameters.avatar]
       )
     ),
-
-    // Morpho Blue - sUSDS/USDC - id:0x77fe2f7c2dd6f4da6bc5f445b06052ff8df55cb70cfce9afc16ec3c69a5fd3a3
-    allowErc20Approve([USDC], [contracts.arbitrumOne.morpho.morphoBlue]),
-    allow.arbitrumOne.morpho.morphoBlue.supply(
-      {
-        loanToken: USDC,
-        collateralToken: sUSDS,
-        oracle: morpho.oracleSusdsUsdc,
-        irm: morpho.adaptativeCurveIrm,
-        lltv: "945000000000000000",
-      },
-      undefined,
-      undefined,
-      c.avatar,
-      "0x"
-    ),
-    allow.arbitrumOne.morpho.morphoBlue.withdraw(
-      {
-        loanToken: USDC,
-        collateralToken: sUSDS,
-        oracle: morpho.oracleSusdsUsdc,
-        irm: morpho.adaptativeCurveIrm,
-        lltv: "945000000000000000",
-      },
-      undefined,
-      undefined,
-      c.avatar,
-      c.avatar
-    ),
-
-    // Morpho Blue - syrupUSDC/USDC - id:0xf86f3edd6f16cd8211f4d206866dc4ecd41be6211063ac11f8508e1b7112ef40
-    allow.arbitrumOne.morpho.morphoBlue.supply(
-      {
-        loanToken: USDC,
-        collateralToken: syrupUSDC,
-        oracle: morpho.oraclesyrupUsdcUsdc,
-        irm: morpho.adaptativeCurveIrm,
-        lltv: "915000000000000000",
-      },
-      undefined,
-      undefined,
-      c.avatar,
-      "0x"
-    ),
-    allow.arbitrumOne.morpho.morphoBlue.withdraw(
-      {
-        loanToken: USDC,
-        collateralToken: syrupUSDC,
-        oracle: morpho.oraclesyrupUsdcUsdc,
-        irm: morpho.adaptativeCurveIrm,
-        lltv: "915000000000000000",
-      },
-      undefined,
-      undefined,
-      c.avatar,
-      c.avatar
-    ),
-    allow.arbitrumOne.morpho.morphoBlue.supplyCollateral(
-      {
-        loanToken: USDC,
-        collateralToken: syrupUSDC,
-        oracle: morpho.oraclesyrupUsdcUsdc,
-        irm: morpho.adaptativeCurveIrm,
-        lltv: "915000000000000000",
-      },
-      undefined,
-      c.avatar
-    ),
-    allow.arbitrumOne.morpho.morphoBlue.withdrawCollateral(
-      {
-        loanToken: USDC,
-        collateralToken: syrupUSDC,
-        oracle: morpho.oraclesyrupUsdcUsdc,
-        irm: morpho.adaptativeCurveIrm,
-        lltv: "915000000000000000",
-      },
-      undefined,
-      c.avatar,
-      c.avatar
-    ),
-    allow.arbitrumOne.morpho.morphoBlue.borrow(
-      {
-        loanToken: USDC,
-        collateralToken: syrupUSDC,
-        oracle: morpho.oraclesyrupUsdcUsdc,
-        irm: morpho.adaptativeCurveIrm,
-        lltv: "915000000000000000",
-      },
-      undefined,
-      undefined,
-      c.avatar,
-      c.avatar
-    ),
-    allow.arbitrumOne.morpho.morphoBlue.repay(
-      {
-        loanToken: USDC,
-        collateralToken: syrupUSDC,
-        oracle: morpho.oraclesyrupUsdcUsdc,
-        irm: morpho.adaptativeCurveIrm,
-        lltv: "915000000000000000",
-      },
-      undefined,
-      undefined,
-      c.avatar
-    ),
-
-    // Morpho - kpk USDC Vault
-    allowErc20Approve([USDC], [morpho.kpkUsdc]),
-    {
-      ...allow.arbitrumOne.morpho.vault.deposit(undefined, c.avatar),
-      targetAddress: morpho.kpkUsdc,
-    },
-    {
-      ...allow.arbitrumOne.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kpkUsdc,
-    },
-    {
-      ...allow.arbitrumOne.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kpkUsdc,
-    },
 
     /*********************************************
      * Bridges

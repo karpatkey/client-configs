@@ -7,7 +7,7 @@ export default [
   // Aave v3 - Withdraw USDC
   allow.base.aaveV3.poolV3.withdraw(USDC, undefined, c.avatar),
 
-  // Morpho Blue - cbETH/USDC
+  // Morpho Market - USDC/cbETH - id: 0x1c21c59df9db44bf6f645d854ee710a8ca17b479451447e9f56758aee10a2fad
   allow.mainnet.morpho.morphoBlue.withdraw(
     {
       loanToken: USDC,

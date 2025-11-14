@@ -10,6 +10,13 @@ export default (parameters: Parameters) => [
   // Aave v3 - Deposit USDC
   allowAction.aave_v3.deposit({ targets: ["USDC"] }),
 
+  // Morpho Market - USDC/cbETH - id: 0x1c21c59df9db44bf6f645d854ee710a8ca17b479451447e9f56758aee10a2fad
+  allowAction.morphoMarkets.deposit({
+    targets: [
+      "0x1c21c59df9db44bf6f645d854ee710a8ca17b479451447e9f56758aee10a2fad",
+    ],
+  }),
+
   /*********************************************
    * Swaps
    *********************************************/

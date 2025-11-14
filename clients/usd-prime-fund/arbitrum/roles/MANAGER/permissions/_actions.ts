@@ -14,6 +14,29 @@ export default (parameters: Parameters) => [
   // Aave v3 - Borrow GHO
   allowAction.aave_v3.borrow({ targets: ["GHO"] }),
 
+  // Morpho Market - USDC/sUSDS - id: 0x77fe2f7c2dd6f4da6bc5f445b06052ff8df55cb70cfce9afc16ec3c69a5fd3a3
+  allowAction.morphoMarkets.deposit({
+    targets: [
+      "0x77fe2f7c2dd6f4da6bc5f445b06052ff8df55cb70cfce9afc16ec3c69a5fd3a3",
+    ],
+  }),
+  // Morpho Market - USDC/syrupUSDC - id: 0xf86f3edd6f16cd8211f4d206866dc4ecd41be6211063ac11f8508e1b7112ef40
+  allowAction.morphoMarkets.deposit({
+    targets: [
+      "0xf86f3edd6f16cd8211f4d206866dc4ecd41be6211063ac11f8508e1b7112ef40",
+    ],
+  }),
+  allowAction.morphoMarkets.borrow({
+    targets: [
+      "0xf86f3edd6f16cd8211f4d206866dc4ecd41be6211063ac11f8508e1b7112ef40",
+    ],
+  }),
+
+  // Morpho Vault - kpk USDC Yield v1.1
+  allowAction.morphoVaults.deposit({
+    targets: ["0x2C609d9CfC9dda2dB5C128B2a665D921ec53579d"],
+  }),
+
   /*********************************************
    * Bridges
    *********************************************/

@@ -1,16 +1,7 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { zeroAddress } from "@/addresses"
-import {
-  cbBTC,
-  cbETH,
-  GHO,
-  USDC,
-  aura,
-  balancerV3,
-  morpho,
-  pendle,
-} from "@/addresses/base"
+import { GHO, USDC, aura, balancerV3 } from "@/addresses/base"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
@@ -79,91 +70,6 @@ export default (parameters: Parameters) =>
         [parameters.avatar, parameters.avatar],
         [parameters.avatar, parameters.avatar, parameters.avatar]
       )
-    ),
-
-    // Morpho Blue - cbBTC/USDC
-    allowErc20Approve([USDC], [contracts.mainnet.morpho.morphoBlue]),
-    allow.mainnet.morpho.morphoBlue.supply(
-      {
-        loanToken: USDC,
-        collateralToken: cbBTC,
-        oracle: morpho.oracleCbBtcUsdc,
-        irm: morpho.adaptativeCurveIrm,
-        lltv: "860000000000000000",
-      },
-      undefined,
-      undefined,
-      c.avatar,
-      "0x"
-    ),
-    allow.mainnet.morpho.morphoBlue.withdraw(
-      {
-        loanToken: USDC,
-        collateralToken: cbBTC,
-        oracle: morpho.oracleCbBtcUsdc,
-        irm: morpho.adaptativeCurveIrm,
-        lltv: "860000000000000000",
-      },
-      undefined,
-      undefined,
-      c.avatar,
-      c.avatar
-    ),
-
-    // Morpho Blue - cbETH/USDC
-    allow.mainnet.morpho.morphoBlue.supply(
-      {
-        loanToken: USDC,
-        collateralToken: cbETH,
-        oracle: morpho.oracleCbEthUsdc,
-        irm: morpho.adaptativeCurveIrm,
-        lltv: "860000000000000000",
-      },
-      undefined,
-      undefined,
-      c.avatar,
-      "0x"
-    ),
-    allow.mainnet.morpho.morphoBlue.withdraw(
-      {
-        loanToken: USDC,
-        collateralToken: cbETH,
-        oracle: morpho.oracleCbEthUsdc,
-        irm: morpho.adaptativeCurveIrm,
-        lltv: "860000000000000000",
-      },
-      undefined,
-      undefined,
-      c.avatar,
-      c.avatar
-    ),
-
-    // Morpho Blue - PT-USDe-11DEC2025/USDC id:0xafa2d80fcc3aa58419dd8c62b57087384bc35de27d70de9c91525276f2b2fd6e
-    allow.mainnet.morpho.morphoBlue.supply(
-      {
-        loanToken: USDC,
-        collateralToken: pendle.ptUsde11Dec2025,
-        oracle: morpho.oraclePTUsde11Dec2025Usdc,
-        irm: morpho.adaptativeCurveIrm,
-        lltv: "915000000000000000",
-      },
-      undefined,
-      undefined,
-      c.avatar,
-      "0x"
-    ),
-    allow.mainnet.morpho.morphoBlue.withdraw(
-      {
-        loanToken: USDC,
-        collateralToken: pendle.ptUsde11Dec2025,
-        oracle: morpho.oraclePTUsde11Dec2025Usdc,
-        irm: morpho.adaptativeCurveIrm,
-        lltv: "915000000000000000",
-      },
-      undefined,
-      undefined,
-      c.avatar,
-      c.avatar
     ),
 
     /*********************************************

@@ -12,14 +12,10 @@ import {
   USDe,
   USDM,
   USDT,
-  WBTC,
   wM,
-  wstETH,
   aura,
   balancerV2,
   balancerV3,
-  morpho,
-  pendle,
 } from "@/addresses/eth"
 import { DAI as DAI_opt, COMP as COMP_opt } from "@/addresses/oeth"
 import { contracts } from "@/contracts"
@@ -170,91 +166,6 @@ export default (parameters: Parameters) =>
     // Ethena - Unstake USDe
     allow.mainnet.ethena.sUsde.cooldownShares(),
     allow.mainnet.ethena.sUsde.unstake(c.avatar),
-
-    // Morpho Blue - wstETH/USDC
-    allowErc20Approve([USDC], [contracts.mainnet.morpho.morphoBlue]),
-    allow.mainnet.morpho.morphoBlue.supply(
-      {
-        loanToken: USDC,
-        collateralToken: wstETH,
-        oracle: morpho.oracleWstEthUsdc,
-        irm: morpho.adaptativeCurveIrm,
-        lltv: "860000000000000000",
-      },
-      undefined,
-      undefined,
-      c.avatar,
-      "0x"
-    ),
-    allow.mainnet.morpho.morphoBlue.withdraw(
-      {
-        loanToken: USDC,
-        collateralToken: wstETH,
-        oracle: morpho.oracleWstEthUsdc,
-        irm: morpho.adaptativeCurveIrm,
-        lltv: "860000000000000000",
-      },
-      undefined,
-      undefined,
-      c.avatar,
-      c.avatar
-    ),
-    // Morpho Blue - WBTC/USDC
-    // USDC approval already included
-    allow.mainnet.morpho.morphoBlue.supply(
-      {
-        loanToken: USDC,
-        collateralToken: WBTC,
-        oracle: morpho.oracleWbtcUsdc,
-        irm: morpho.adaptativeCurveIrm,
-        lltv: "860000000000000000",
-      },
-      undefined,
-      undefined,
-      c.avatar,
-      "0x"
-    ),
-    allow.mainnet.morpho.morphoBlue.withdraw(
-      {
-        loanToken: USDC,
-        collateralToken: WBTC,
-        oracle: morpho.oracleWbtcUsdc,
-        irm: morpho.adaptativeCurveIrm,
-        lltv: "860000000000000000",
-      },
-      undefined,
-      undefined,
-      c.avatar,
-      c.avatar
-    ),
-    // Morpho Blue - WBTC/USDT
-    allowErc20Approve([USDT], [contracts.mainnet.morpho.morphoBlue]),
-    allow.mainnet.morpho.morphoBlue.supply(
-      {
-        loanToken: USDT,
-        collateralToken: WBTC,
-        oracle: morpho.oracleWbtcUsdt,
-        irm: morpho.adaptativeCurveIrm,
-        lltv: "860000000000000000",
-      },
-      undefined,
-      undefined,
-      c.avatar,
-      "0x"
-    ),
-    allow.mainnet.morpho.morphoBlue.withdraw(
-      {
-        loanToken: USDT,
-        collateralToken: WBTC,
-        oracle: morpho.oracleWbtcUsdt,
-        irm: morpho.adaptativeCurveIrm,
-        lltv: "860000000000000000",
-      },
-      undefined,
-      undefined,
-      c.avatar,
-      c.avatar
-    ),
 
     // Notional v3 - USDC
     allowErc20Approve([USDT], [contracts.mainnet.notionalV3.nProxy]),

@@ -141,7 +141,7 @@ export default (parameters: Parameters) => [
   // Spark - DSR_sDAI
   allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
   // Spark - SKY_USDS
-  allowAction.spark.deposit({ targets: ["SKY_USDS"] }),
+  allowAction.spark.deposit({ targets: ["SKY_sUSDS"] }),
 
   // StakeWise v3 - Genesis Vault
   allowAction.stakewise_v3.stake({ targets: ["Genesis"] }),
