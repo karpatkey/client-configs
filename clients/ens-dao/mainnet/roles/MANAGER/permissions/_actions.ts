@@ -149,28 +149,60 @@ export default (parameters: Parameters) => [
   allowAction.lido.deposit(),
 
   // Morpho Market - USDC/cbBTC - id: 0x64d65c9a2d91c36d56fbc42d69e979335320169b3df63bf92789e2c8883fcc64
-  allowAction.morphoMarkets.deposit({ targets: ["0x64d65c9a2d91c36d56fbc42d69e979335320169b3df63bf92789e2c8883fcc64"] }),
+  allowAction.morphoMarkets.deposit({
+    targets: [
+      "0x64d65c9a2d91c36d56fbc42d69e979335320169b3df63bf92789e2c8883fcc64",
+    ],
+  }),
   // Morpho Market - WETH/wstETH - id: 0xb8fc70e82bc5bb53e773626fcc6a23f7eefa036918d7ef216ecfb1950a94a85e
-  allowAction.morphoMarkets.deposit({ targets: ["0xb8fc70e82bc5bb53e773626fcc6a23f7eefa036918d7ef216ecfb1950a94a85e"] }),
+  allowAction.morphoMarkets.deposit({
+    targets: [
+      "0xb8fc70e82bc5bb53e773626fcc6a23f7eefa036918d7ef216ecfb1950a94a85e",
+    ],
+  }),
   // Morpho Market - WETH/wstETH - id: 0xd0e50cdac92fe2172043f5e0c36532c6369d24947e40968f34a5e8819ca9ec5d
-  allowAction.morphoMarkets.deposit({ targets: ["0xd0e50cdac92fe2172043f5e0c36532c6369d24947e40968f34a5e8819ca9ec5d"] }),
+  allowAction.morphoMarkets.deposit({
+    targets: [
+      "0xd0e50cdac92fe2172043f5e0c36532c6369d24947e40968f34a5e8819ca9ec5d",
+    ],
+  }),
   // Morpho Market - USDC/WBTC - id: 0x3a85e619751152991742810df6ec69ce473daef99e28a64ab2340d7b7ccfee49
-  allowAction.morphoMarkets.deposit({ targets: ["0x3a85e619751152991742810df6ec69ce473daef99e28a64ab2340d7b7ccfee49"] }),
+  allowAction.morphoMarkets.deposit({
+    targets: [
+      "0x3a85e619751152991742810df6ec69ce473daef99e28a64ab2340d7b7ccfee49",
+    ],
+  }),
   // Morpho Market - USDC/wstETH - id: 0xb323495f7e4148be5643a4ea4a8221eef163e4bccfdedc2a6f4696baacbc86cc
-  allowAction.morphoMarkets.deposit({ targets: ["0xb323495f7e4148be5643a4ea4a8221eef163e4bccfdedc2a6f4696baacbc86cc"] }),
+  allowAction.morphoMarkets.deposit({
+    targets: [
+      "0xb323495f7e4148be5643a4ea4a8221eef163e4bccfdedc2a6f4696baacbc86cc",
+    ],
+  }),
 
   // Morpho Vault - kpk ETH Prime v1.1
-  allowAction.morphoVaults.deposit({ targets: ["0xd564F765F9aD3E7d2d6cA782100795a885e8e7C8"] }),
+  allowAction.morphoVaults.deposit({
+    targets: ["0xd564F765F9aD3E7d2d6cA782100795a885e8e7C8"],
+  }),
   // Morpho Vault - kpk ETH v2
-  allowAction.morphoVaults.deposit({ targets: ["0xBb50A5341368751024ddf33385BA8cf61fE65FF9"] }),
+  allowAction.morphoVaults.deposit({
+    targets: ["0xBb50A5341368751024ddf33385BA8cf61fE65FF9"],
+  }),
   // Morpho Vault - kpk EURC Yield - v1.1
-  allowAction.morphoVaults.deposit({ targets: ["0x0c6aec603d48eBf1cECc7b247a2c3DA08b398DC1"] }),
+  allowAction.morphoVaults.deposit({
+    targets: ["0x0c6aec603d48eBf1cECc7b247a2c3DA08b398DC1"],
+  }),
   // Morpho Vault - kpk EURC - v2
-  allowAction.morphoVaults.deposit({ targets: ["0xa877D5bb0274dcCbA8556154A30E1Ca4021a275f"] }),
+  allowAction.morphoVaults.deposit({
+    targets: ["0xa877D5bb0274dcCbA8556154A30E1Ca4021a275f"],
+  }),
   // Morpho Vault - kpk USDC Prime - v1.1
-  allowAction.morphoVaults.deposit({ targets: ["0xe108fbc04852B5df72f9E44d7C29F47e7A993aDd"] }),
+  allowAction.morphoVaults.deposit({
+    targets: ["0xe108fbc04852B5df72f9E44d7C29F47e7A993aDd"],
+  }),
   // Morpho Vault - kpk USDC - v2
-  allowAction.morphoVaults.deposit({ targets: ["0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6"] }),
+  allowAction.morphoVaults.deposit({
+    targets: ["0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6"],
+  }),
 
   // Rocket Pool
   allowAction.rocket_pool.deposit(),
