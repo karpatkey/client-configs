@@ -22,7 +22,7 @@ export default [
   // Compound v3 - Withdraw USDC
   allow.mainnet.compoundV3.cUsdcV3.withdraw(USDC),
 
-  // Morpho Blue - Withdraw wstETH/USDC
+  // Morpho Market - USDC/wstETH - id: 0xb323495f7e4148be5643a4ea4a8221eef163e4bccfdedc2a6f4696baacbc86cc
   allow.mainnet.morpho.morphoBlue.withdraw(
     {
       loanToken: USDC,
@@ -36,7 +36,7 @@ export default [
     c.avatar,
     c.avatar
   ),
-  // Morpho Blue - Withdraw WBTC/USDC
+  // Morpho Market - USDC/WBTC - id: 0x3a85e619751152991742810df6ec69ce473daef99e28a64ab2340d7b7ccfee49
   allow.mainnet.morpho.morphoBlue.withdraw(
     {
       loanToken: USDC,

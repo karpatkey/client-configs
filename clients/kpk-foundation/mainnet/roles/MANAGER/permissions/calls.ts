@@ -2,7 +2,7 @@ import { PermissionList } from "@/types"
 import { allow } from "zodiac-roles-sdk/kit"
 import { c } from "zodiac-roles-sdk"
 import { allowErc20Approve, allowErc20Transfer } from "@/helpers"
-import { DAI, EURC, USDC, kpk, morpho } from "@/addresses/eth"
+import { DAI, USDC, kpk } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { kfPaymentsEth } from "../../../../../kpk-dao/mainnet/addresses"
 import { kpkFoundationGc, fundReapGeneralEth } from "../../../addresses"
@@ -66,63 +66,6 @@ export default (parameters: Parameters) =>
         ]
       )
     ),
-
-    // Morpho - kpk EURC v1 Vault
-    allowErc20Approve([EURC], [morpho.kpkEurcV1]),
-    {
-      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
-      targetAddress: morpho.kpkEurcV1,
-    },
-    {
-      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kpkEurcV1,
-    },
-    {
-      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kpkEurcV1,
-    },
-    // Morpho - kpk EURC v2 Vault
-    allowErc20Approve([EURC], [morpho.kpkEurcV2]),
-    {
-      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
-      targetAddress: morpho.kpkEurcV2,
-    },
-    {
-      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kpkEurcV2,
-    },
-    {
-      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kpkEurcV2,
-    },
-    // Morpho - kpk USDC Prime v1 Vault
-    allowErc20Approve([USDC], [morpho.kpkUsdcV1]),
-    {
-      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
-      targetAddress: morpho.kpkUsdcV1,
-    },
-    {
-      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kpkUsdcV1,
-    },
-    {
-      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kpkUsdcV1,
-    },
-    // Morpho - kpk USDC Prime v2 Vault
-    allowErc20Approve([USDC], [morpho.kpkUsdcV2]),
-    {
-      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
-      targetAddress: morpho.kpkUsdcV2,
-    },
-    {
-      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kpkUsdcV2,
-    },
-    {
-      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kpkUsdcV2,
-    },
 
     /*********************************************
      * Bridging

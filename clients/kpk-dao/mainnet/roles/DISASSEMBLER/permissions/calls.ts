@@ -146,7 +146,7 @@ export default [
   allow.mainnet.lido.unstEth.claimWithdrawal(),
   allow.mainnet.lido.unstEth.claimWithdrawals(),
 
-  // Morpho - kpk ETH Prime v1 Vault
+  // Morpho Vault - kpk ETH Prime v1.1
   {
     ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
     targetAddress: morpho.kpkEthV1,
@@ -155,7 +155,7 @@ export default [
     ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
     targetAddress: morpho.kpkEthV1,
   },
-  // Morpho - kpk ETH Prime v2 Vault
+  // Morpho Vault - kpk ETH v2
   {
     ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
     targetAddress: morpho.kpkEthV2,
@@ -164,7 +164,7 @@ export default [
     ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
     targetAddress: morpho.kpkEthV2,
   },
-  // Morpho - kpk EURC v1 Vault
+  // Morpho Vault - kpk EURC Yield v1.1
   {
     ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
     targetAddress: morpho.kpkEurcV1,
@@ -173,7 +173,7 @@ export default [
     ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
     targetAddress: morpho.kpkEurcV1,
   },
-  // Morpho - kpk EURC v2 Vault
+  // Morpho Vault - kpk EURC v2
   {
     ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
     targetAddress: morpho.kpkEurcV2,
@@ -182,7 +182,7 @@ export default [
     ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
     targetAddress: morpho.kpkEurcV2,
   },
-  // Morpho - kpk USDC Prime v1 Vault
+  // Morpho Vault - kpk USDC Prime v1.1
   {
     ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
     targetAddress: morpho.kpkUsdcV1,
@@ -191,7 +191,7 @@ export default [
     ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
     targetAddress: morpho.kpkUsdcV1,
   },
-  // Morpho - kpk USDC Prime v2 Vault
+  // Morpho Vault - kpk USDC v2
   {
     ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
     targetAddress: morpho.kpkUsdcV2,

@@ -270,42 +270,41 @@ export const maverickV2 = {
   ghoStkGhoPool: "0x9F274D28FedCe05153F9C810b8070277EAF8C031",
 } as const
 
-// export const morpho = {
-//   // Vaults
-//   gtWeth: "0x2371e134e3455e0593363cBF89d3b6cf53740618", // Gauntlet WETH Prime
-//   mcWeth: "0x9a8bC3B04b7f3D87cfC09ba407dCED575f2d61D8", // MEV Capital wETH
-//   re7Weth: "0x78Fc2c2eD1A4cDb5402365934aE5648aDAd094d0", // Re7 WETH
-//   steakEth: "0xBEEf050ecd6a16c4e7bfFbB52Ebba7846C4b8cD4", // Steakhouse ETH
-//   vbgtWeth: "0x31A5684983EeE865d943A696AAC155363bA024f9", // Vault Bridge WETH
-//   gtUsdc: "0xdd0f28e19C1780eb6396170735D45153D261490d", // Gauntlet USDC Prime
-//   usualUsdc: "0xd63070114470f685b75B74D60EEc7c1113d33a3D", // MEV Capital USDC
-//   bbqUsdc: "0xBEeFFF209270748ddd194831b3fa287a5386f5bC", // Smokehouse USDC
-//   steakUsdc: "0xBEEF01735c132Ada46AA9aA4c54623cAA92A64CB", // Steakhouse USDC
-//   kpkUsdcV1: "0xe108fbc04852B5df72f9E44d7C29F47e7A993aDd", // kpk USDC Prime v1
-//   kpkEthV1: "0xd564F765F9aD3E7d2d6cA782100795a885e8e7C8", // kpk ETH Prime v1
-//   kpkEurcV1: "0x0c6aec603d48eBf1cECc7b247a2c3DA08b398DC1", // kpk EURC v1
-//   kpkUsdcV2: "0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6", // kpk USDC Prime v2
-//   kpkEthV2: "0xBb50A5341368751024ddf33385BA8cf61fE65FF9", // kpk ETH Prime v2
-//   kpkEurcV2: "0xa877D5bb0274dcCbA8556154A30E1Ca4021a275f", // kpk EURC v2
+export const morpho = {
+  // Vaults
+  gtWeth: "0x2371e134e3455e0593363cBF89d3b6cf53740618", // Gauntlet WETH Prime
+  mcWeth: "0x9a8bC3B04b7f3D87cfC09ba407dCED575f2d61D8", // MEV Capital wETH
+  re7Weth: "0x78Fc2c2eD1A4cDb5402365934aE5648aDAd094d0", // Re7 WETH
+  steakEth: "0xBEEf050ecd6a16c4e7bfFbB52Ebba7846C4b8cD4", // Steakhouse ETH
+  vbgtWeth: "0x31A5684983EeE865d943A696AAC155363bA024f9", // Vault Bridge WETH
+  gtUsdc: "0xdd0f28e19C1780eb6396170735D45153D261490d", // Gauntlet USDC Prime
+  usualUsdc: "0xd63070114470f685b75B74D60EEc7c1113d33a3D", // MEV Capital USDC
+  bbqUsdc: "0xBEeFFF209270748ddd194831b3fa287a5386f5bC", // Smokehouse USDC
+  steakUsdc: "0xBEEF01735c132Ada46AA9aA4c54623cAA92A64CB", // Steakhouse USDC
+  kpkUsdcV1: "0xe108fbc04852B5df72f9E44d7C29F47e7A993aDd", // kpk USDC Prime v1
+  kpkEthV1: "0xd564F765F9aD3E7d2d6cA782100795a885e8e7C8", // kpk ETH Prime v1
+  kpkEurcV1: "0x0c6aec603d48eBf1cECc7b247a2c3DA08b398DC1", // kpk EURC v1
+  kpkUsdcV2: "0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6", // kpk USDC Prime v2
+  kpkEthV2: "0xBb50A5341368751024ddf33385BA8cf61fE65FF9", // kpk ETH Prime v2
+  kpkEurcV2: "0xa877D5bb0274dcCbA8556154A30E1Ca4021a275f", // kpk EURC v2
 
-//   // Oracles
-//   oracleEthplusUsdc: "0x83Fb5ff55eAA528F0C0f95c3f270b85E5d094756",
-//   oracleRlpUsdc: "0x19018450A02bC5c1994eaD517498311f64B2626a",
-//   oracleWstEthUsdc: "0x48F7E36EB6B826B2dF4B2E630B62Cd25e89E40e2",
-//   oracleWbtcUsdc: "0xDddd770BADd886dF3864029e4B377B5F6a2B6b83",
-//   oracleCbBtcUsdc: "0xA6D6950c9F177F1De7f7757FB33539e3Ec60182a",
-//   oracleWstEthWeth: "0xbD60A6770b27E084E8617335ddE769241B0e71D8",
-//   oracleWbtcUsdt: "0x008bF4B1cDA0cc9f0e882E0697f036667652E1ef",
-//   oracleSusdsUsdt: "0x0C426d174FC88B7A25d59945Ab2F7274Bf7B4C79",
-//   oraclesyrupUsdcUsdc: "0x80032f4cb6E3573b9ed61E888AF658E48Fb790cC",
-//   oracleCbbtcUsdc: "0xA6D6950c9F177F1De7f7757FB33539e3Ec60182a",
-//   oraclePTSusde27Nov2025Usdc: "0x639c6f403822E1bDA434BEb2034Beb54f725BA0c",
-//   oraclePTUsde27Nov2025Usdc: "0x0beC5A0f7Bea1D14efC2663054D6D1E2B764b630",
-//   oraclePTUsde25Sep2025Usdc: "0xe6aBD3B78Abbb1cc1Ee76c5c3689Aa9646481Fbb",
-//   oraclePTUsde25Sep2025Usdt: "0xe6aBD3B78Abbb1cc1Ee76c5c3689Aa9646481Fbb",
-//   oraclewstUSRUsdc: "0xDa850a72080024e17c1590fbf6ea7a826dB90760",
-//   adaptativeCurveIrm: "0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC",
-// } as const
+  // Oracles
+  oracleEthplusUsdc: "0x83Fb5ff55eAA528F0C0f95c3f270b85E5d094756",
+  oracleRlpUsdc: "0x19018450A02bC5c1994eaD517498311f64B2626a",
+  oracleWstEthUsdc: "0x48F7E36EB6B826B2dF4B2E630B62Cd25e89E40e2",
+  oracleWbtcUsdc: "0xDddd770BADd886dF3864029e4B377B5F6a2B6b83",
+  oracleCbBtcUsdc: "0xA6D6950c9F177F1De7f7757FB33539e3Ec60182a",
+  oracleWstEthWeth: "0xbD60A6770b27E084E8617335ddE769241B0e71D8",
+  oracleWbtcUsdt: "0x008bF4B1cDA0cc9f0e882E0697f036667652E1ef",
+  oracleSusdsUsdt: "0x0C426d174FC88B7A25d59945Ab2F7274Bf7B4C79",
+  oraclesyrupUsdcUsdc: "0x80032f4cb6E3573b9ed61E888AF658E48Fb790cC",
+  oraclePTSusde27Nov2025Usdc: "0x639c6f403822E1bDA434BEb2034Beb54f725BA0c",
+  oraclePTUsde27Nov2025Usdc: "0x0beC5A0f7Bea1D14efC2663054D6D1E2B764b630",
+  oraclePTUsde25Sep2025Usdc: "0xe6aBD3B78Abbb1cc1Ee76c5c3689Aa9646481Fbb",
+  oraclePTUsde25Sep2025Usdt: "0xe6aBD3B78Abbb1cc1Ee76c5c3689Aa9646481Fbb",
+  oraclewstUSRUsdc: "0xDa850a72080024e17c1590fbf6ea7a826dB90760",
+  adaptativeCurveIrm: "0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC",
+} as const
 
 export const nexus = {
   pools: [

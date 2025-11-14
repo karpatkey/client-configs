@@ -66,12 +66,12 @@ export const gmx = {
   ],
 } as const
 
-// export const morpho = {
-//   // Vaults
-//   kpkUsdc: "0x2C609d9CfC9dda2dB5C128B2a665D921ec53579d", // kpk USDC Vault
+export const morpho = {
+  // Vaults
+  kpkUsdc: "0x2C609d9CfC9dda2dB5C128B2a665D921ec53579d", // kpk USDC Vault
 
-//   // Oracles
-//   oracleSusdsUsdc: "0x52CC7c3b27bb61D0a83785B5344acC919F8f7124",
-//   oraclesyrupUsdcUsdc: "0x8f30fF3d54e69D4dfD5E99a9937474FaDdf27009",
-//   adaptativeCurveIrm: "0x66F30587FB8D4206918deb78ecA7d5eBbafD06DA",
-// } as const
+  // Oracles
+  oracleSusdsUsdc: "0x52CC7c3b27bb61D0a83785B5344acC919F8f7124",
+  oraclesyrupUsdcUsdc: "0x8f30fF3d54e69D4dfD5E99a9937474FaDdf27009",
+  adaptativeCurveIrm: "0x66F30587FB8D4206918deb78ecA7d5eBbafD06DA",
+} as const

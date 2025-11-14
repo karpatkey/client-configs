@@ -56,6 +56,19 @@ export default (parameters: Parameters) => [
     buy: [DAI, sDAI, USDC],
   }),
 
+  // Morpho Market - USDC/wstETH - id: 0xb323495f7e4148be5643a4ea4a8221eef163e4bccfdedc2a6f4696baacbc86cc
+  allowAction.morphoMarkets.deposit({
+    targets: [
+      "0xb323495f7e4148be5643a4ea4a8221eef163e4bccfdedc2a6f4696baacbc86cc",
+    ],
+  }),
+  // Morpho Market - USDC/WBTC - id: 0x3a85e619751152991742810df6ec69ce473daef99e28a64ab2340d7b7ccfee49
+  allowAction.morphoMarkets.deposit({
+    targets: [
+      "0x3a85e619751152991742810df6ec69ce473daef99e28a64ab2340d7b7ccfee49",
+    ],
+  }),
+
   // Spark - DSR_sDAI
   allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
   // Spark - Borrow DAI

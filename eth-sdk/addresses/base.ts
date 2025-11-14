@@ -30,12 +30,12 @@ export const balancerV3 = {
   aaveUsdcGhoGauge: "0x70DB188E5953f67a4B16979a2ceA26248b315401",
 } as const
 
-// export const morpho = {
-//   oracleCbEthUsdc: "0xb40d93F44411D8C09aD17d7F88195eF9b05cCD96",
-//   oracleCbBtcUsdc: "0x663BECd10daE6C4A3Dcd89F1d76c1174199639B9",
-//   oraclePTUsde11Dec2025Usdc: "0x15af6e452Fe5C4B78c45f9DE02842a52E600A1cA",
-//   adaptativeCurveIrm: "0x46415998764C29aB2a25CbeA6254146D50D22687",
-// } as const
+export const morpho = {
+  oracleCbEthUsdc: "0xb40d93F44411D8C09aD17d7F88195eF9b05cCD96",
+  oracleCbBtcUsdc: "0x663BECd10daE6C4A3Dcd89F1d76c1174199639B9",
+  oraclePTUsde11Dec2025Usdc: "0x15af6e452Fe5C4B78c45f9DE02842a52E600A1cA",
+  adaptativeCurveIrm: "0x46415998764C29aB2a25CbeA6254146D50D22687",
+} as const
 
 export const pendle = {
   // Markets

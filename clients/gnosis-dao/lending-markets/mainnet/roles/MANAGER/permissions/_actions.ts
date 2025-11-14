@@ -144,6 +144,47 @@ export default [
   // Lido
   allowAction.lido.deposit(),
 
+  // Morpho Vault - Gauntlet WETH Prime v1
+  allowAction.morphoVaults.deposit({
+    targets: ["0x2371e134e3455e0593363cBF89d3b6cf53740618"],
+  }),
+  // Morpho Vault - kpk ETH v2
+  allowAction.morphoVaults.deposit({
+    targets: ["0xBb50A5341368751024ddf33385BA8cf61fE65FF9"],
+  }),
+  // Morpho Vault - kpk USDC v2
+  allowAction.morphoVaults.deposit({
+    targets: ["0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6"],
+  }),
+  // Morpho Vault - MEV Capital wETH v1
+  allowAction.morphoVaults.deposit({
+    targets: ["0x9a8bC3B04b7f3D87cfC09ba407dCED575f2d61D8"],
+  }),
+  // Morpho Vault - Re7 WETH v1
+  allowAction.morphoVaults.deposit({
+    targets: ["0x78Fc2c2eD1A4cDb5402365934aE5648aDAd094d0"],
+  }),
+  // Morpho Vault - Smokehouse USDC v1
+  allowAction.morphoVaults.deposit({
+    targets: ["0xBEeFFF209270748ddd194831b3fa287a5386f5bC"],
+  }),
+  // Morpho Vault - Steakhouse ETH v1
+  allowAction.morphoVaults.deposit({
+    targets: ["0xBEEf050ecd6a16c4e7bfFbB52Ebba7846C4b8cD4"],
+  }),
+  // Morpho Vault - Steakhouse USDC v1
+  allowAction.morphoVaults.deposit({
+    targets: ["0xBEEF01735c132Ada46AA9aA4c54623cAA92A64CB"],
+  }),
+  // Morpho Vault - Usual Boosted USDC v1
+  allowAction.morphoVaults.deposit({
+    targets: ["0xd63070114470f685b75B74D60EEc7c1113d33a3D"],
+  }),
+  // Morpho Vault - Vault Bridge WETH v1.1
+  allowAction.morphoVaults.deposit({
+    targets: ["0x31A5684983EeE865d943A696AAC155363bA024f9"],
+  }),
+
   // Rocket Pool
   allowAction.rocket_pool.deposit(),
 

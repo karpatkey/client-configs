@@ -28,7 +28,6 @@ import {
   balancerV3,
   curve,
   gearbox,
-  morpho,
   nexus,
 } from "@/addresses/eth"
 import { zeroAddress } from "@/addresses"
@@ -383,96 +382,6 @@ export default (parameters: Parameters) =>
         ]
       )
     ),
-
-    // Morpho - Gauntlet USDC Prime Vault
-    allowErc20Approve([USDC], [morpho.gtUsdc]),
-    {
-      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
-      targetAddress: morpho.gtUsdc,
-    },
-    {
-      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.gtUsdc,
-    },
-    {
-      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.gtUsdc,
-    },
-
-    // Morpho - kpk ETH Prime v1 Vault
-    allowErc20Approve([WETH], [morpho.kpkEthV1]),
-    {
-      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
-      targetAddress: morpho.kpkEthV1,
-    },
-    {
-      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kpkEthV1,
-    },
-    {
-      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kpkEthV1,
-    },
-
-    // Morpho - kpk ETH Prime v2 Vault
-    allowErc20Approve([WETH], [morpho.kpkEthV2]),
-    {
-      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
-      targetAddress: morpho.kpkEthV2,
-    },
-    {
-      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kpkEthV2,
-    },
-    {
-      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kpkEthV2,
-    },
-
-    // Morpho - kpk USDC Prime v1 Vault
-    allowErc20Approve([USDC], [morpho.kpkUsdcV1]),
-    {
-      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
-      targetAddress: morpho.kpkUsdcV1,
-    },
-    {
-      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kpkUsdcV1,
-    },
-    {
-      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kpkUsdcV1,
-    },
-
-    // Morpho - kpk USDC Prime v2 Vault
-    allowErc20Approve([USDC], [morpho.kpkUsdcV2]),
-    {
-      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
-      targetAddress: morpho.kpkUsdcV2,
-    },
-    {
-      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kpkUsdcV2,
-    },
-    {
-      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kpkUsdcV2,
-    },
-
-    // Morpho - Steakhouse USDC Vault
-    allowErc20Approve([USDC], [morpho.steakUsdc]),
-    {
-      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
-      targetAddress: morpho.steakUsdc,
-    },
-    {
-      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.steakUsdc,
-    },
-    {
-      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.steakUsdc,
-    },
 
     // Nexus Mutual
     // Deposit ETH in exchange for NXM; redeem NXM in exchange for ETH
