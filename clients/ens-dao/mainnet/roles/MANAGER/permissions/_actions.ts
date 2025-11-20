@@ -207,7 +207,7 @@ export default (parameters: Parameters) => [
   // Rocket Pool
   allowAction.rocket_pool.deposit(),
 
-  // Spark - SKY_USDS
+  // Spark - SKY_sUSDS
   allowAction.spark.deposit({ targets: ["SKY_sUSDS"] }),
   // Spark - Stake - Farm USDS
   allowAction.spark.stake(),

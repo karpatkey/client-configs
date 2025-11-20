@@ -157,6 +157,6 @@ export default [
 
   // Spark - DSR_sDAI
   allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
-  // Spark - SKY_USDS
+  // Spark - SKY_sUSDS
   allowAction.spark.deposit({ targets: ["SKY_sUSDS"] }),
 ]
