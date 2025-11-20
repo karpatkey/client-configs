@@ -159,7 +159,7 @@ export default (parameters: Parameters) =>
       )
     ),
 
-    // WETH -> WETH - Gnosis Bridge
+    // WETH - Gnosis Bridge
     allowErc20Approve([WETH], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
     allow.mainnet.gnosisBridge.gnoOmnibridge[
       "relayTokens(address,address,uint256)"
