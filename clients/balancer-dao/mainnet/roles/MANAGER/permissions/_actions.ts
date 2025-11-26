@@ -1,8 +1,15 @@
 import { allow as allowAction } from "defi-kit/eth"
 import {
   AAVE,
+  aBAL,
+  aEthBAL,
+  aEthEURC,
+  anyBAL,
   COMP,
+  COW,
   DAI,
+  EURA,
+  EURC,
   FJO,
   GHO,
   GTC,
@@ -12,16 +19,22 @@ import {
   rETH,
   sDAI,
   sUSDS,
+  stEUR,
   stETH,
   stkAAVE,
   stkGHO,
+  stUSR,
+  sUSDe,
   SWISE,
+  USDe,
   USDC,
+  USR,
   USDS,
   USDT,
   WBTC,
   WETH,
   wstETH,
+  wstUSR,
 } from "@/addresses/eth"
 import { Parameters } from "../../../parameters"
 
@@ -70,12 +83,13 @@ export default (parameters: Parameters) => [
   // Convex - ETH/OETH
   allowAction.convex.deposit({ targets: ["174"] }),
 
-  // CowSwap - [AAVE, COMP, DAI, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH] ->
+  // CowSwap - [AAVE, COMP, COW, DAI, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH] ->
   // [DAI, rETH, stETH, USDC, USDT, WBTC, WETH, wstETH]
   allowAction.cowswap.swap({
     sell: [
       AAVE,
       COMP,
+      COW,
       DAI,
       rETH,
       stETH,
@@ -91,10 +105,11 @@ export default (parameters: Parameters) => [
     feeAmountBp: 200,
   }),
 
-  // CowSwap - [DAI, GHO, GYD, sDAI, USDC, USDT] <-> [DAI, GHO, GYD, sDAI, USDC, USDT]
+  // CowSwap - [aEthEURC, DAI, EURA, EURC, GHO, GYD, sDAI, stEUR, stUSR, sUSDe, USDe, USDC, USR, USDS, USDT, wstUSR] -> 
+  // [aEthEURC, DAI, EURA, EURC, GHO, GYD, sDAI, stEUR, stUSR, sUSDe, sUSDS, USDe, USDC, USR, USDT, wstUSR]
   allowAction.cowswap.swap({
-    sell: [DAI, GHO, GYD, sDAI, USDC, USDT],
-    buy: [DAI, GHO, GYD, sDAI, USDC, USDT],
+    sell: [aEthEURC, DAI, EURA, EURC, GHO, GYD, sDAI, stEUR, stUSR, sUSDe, USDe, USDC, USR, USDS, USDT, wstUSR],
+    buy: [aEthEURC, DAI, EURA, EURC, GHO, GYD, sDAI, stEUR, stUSR, sUSDe, sUSDS, USDe, USDC, USR, USDT, wstUSR],
     feeAmountBp: 200,
   }),
 
@@ -105,12 +120,12 @@ export default (parameters: Parameters) => [
     feeAmountBp: 200,
   }),
 
-  // CowSwap - USDS -> [DAI, sUSDS, USDC, USDT]
-  allowAction.cowswap.swap({
-    sell: [USDS],
-    buy: [DAI, sUSDS, USDC, USDT],
-    feeAmountBp: 200,
-  }),
+  // // CowSwap - USDS -> [DAI, sUSDS, USDC, USDT]
+  // allowAction.cowswap.swap({
+  //   sell: [USDS],
+  //   buy: [DAI, sUSDS, USDC, USDT],
+  //   feeAmountBp: 200,
+  // }),
 
   // CowSwap - sUSDS -> [DAI, USDC, USDS, USDT]
   allowAction.cowswap.swap({
@@ -126,10 +141,17 @@ export default (parameters: Parameters) => [
     feeAmountBp: 200,
   }),
 
-  // CowSwap - [FJO, GTC, MTA] -> USDC
+  // CowSwap - [FJO, GTC, MTA] -> [USDC, WETH]
   allowAction.cowswap.swap({
     sell: [FJO, GTC, MTA],
-    buy: [USDC],
+    buy: [USDC, WETH],
+    feeAmountBp: 200,
+  }),
+
+  // CowSwap - [aBAL, aEthBAL, anyBAL, ETH, WETH] <-> [aBAL, aEthBAL, anyBAL, ETH, WETH]
+  allowAction.cowswap.swap({
+    sell: ["ETH", aBAL, aEthBAL, anyBAL, WETH],
+    buy: ["ETH", aBAL, aEthBAL, anyBAL, WETH],
     feeAmountBp: 200,
   }),
 

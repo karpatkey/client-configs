@@ -34,8 +34,8 @@ export default [
   allowAction.stakewise_v3.stake({ targets: ["Axol.io"] }),
   // StakeWise v3 - Stakecat
   allowAction.stakewise_v3.stake({ targets: ["Stakecat"] }),
-  // StakeWise v3 - SEEDNode
-  allowAction.stakewise_v3.stake({ targets: ["SEEDNode"] }),
+  // // StakeWise v3 - SEEDNode
+  // allowAction.stakewise_v3.stake({ targets: ["SEEDNode"] }),
   // StakeWise v3 - Stakesaurus
   allowAction.stakewise_v3.stake({ targets: ["Stakesaurus SEA Home Nodes"] }),
 ]
