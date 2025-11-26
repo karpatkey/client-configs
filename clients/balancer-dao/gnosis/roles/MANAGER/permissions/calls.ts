@@ -69,8 +69,5 @@ export default (parameters: Parameters) =>
     }),
 
     // XDAI -> USDS - Gnosis Bridge
-    allow.gnosis.gnosisBridge.usdsDeposit.relayTokens(
-      c.avatar,
-      { send: true }
-    )
+    allow.gnosis.gnosisBridge.usdsDeposit.relayTokens(c.avatar, { send: true }),
   ] satisfies PermissionList
