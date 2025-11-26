@@ -23,9 +23,12 @@ import {
   stETH,
   stkAAVE,
   stkGHO,
+  stUSD,
   stUSR,
   sUSDe,
   SWISE,
+  SYRUP,
+  USDA,
   USDe,
   USDC,
   USR,
@@ -83,7 +86,7 @@ export default (parameters: Parameters) => [
   // Convex - ETH/OETH
   allowAction.convex.deposit({ targets: ["174"] }),
 
-  // CowSwap - [AAVE, COMP, COW, DAI, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH] ->
+  // CowSwap - [AAVE, COMP, COW, DAI, rETH, stETH, stkAAVE, SWISE, SYRUP, USDC, USDT, WBTC, WETH, wstETH] ->
   // [DAI, rETH, stETH, USDC, USDT, WBTC, WETH, wstETH]
   allowAction.cowswap.swap({
     sell: [
@@ -95,6 +98,7 @@ export default (parameters: Parameters) => [
       stETH,
       stkAAVE,
       SWISE,
+      SYRUP,
       USDC,
       USDT,
       WBTC,
@@ -105,8 +109,8 @@ export default (parameters: Parameters) => [
     feeAmountBp: 200,
   }),
 
-  // CowSwap - [aEthEURC, DAI, EURA, EURC, GHO, GYD, sDAI, stEUR, stUSR, sUSDe, USDe, USDC, USR, USDS, USDT, wstUSR] ->
-  // [aEthEURC, DAI, EURA, EURC, GHO, GYD, sDAI, stEUR, stUSR, sUSDe, sUSDS, USDe, USDC, USR, USDT, wstUSR]
+  // CowSwap - [aEthEURC, DAI, EURA, EURC, GHO, GYD, sDAI, sUSDS, stEUR, stUSD, stUSR, sUSDe, USDA, USDe, USDC, USR, USDS, USDT, wstUSR] ->
+  // [aEthEURC, DAI, EURA, EURC, GHO, GYD, sDAI, stEUR, stUSD, stUSR, sUSDe, sUSDS, USDA, USDe, USDC, USR, USDT, wstUSR]
   allowAction.cowswap.swap({
     sell: [
       aEthEURC,
@@ -116,9 +120,12 @@ export default (parameters: Parameters) => [
       GHO,
       GYD,
       sDAI,
+      sUSDS,
       stEUR,
+      stUSD,
       stUSR,
       sUSDe,
+      USDA,
       USDe,
       USDC,
       USR,
@@ -135,9 +142,11 @@ export default (parameters: Parameters) => [
       GYD,
       sDAI,
       stEUR,
+      stUSD,
       stUSR,
       sUSDe,
       sUSDS,
+      USDA,
       USDe,
       USDC,
       USR,
@@ -151,20 +160,6 @@ export default (parameters: Parameters) => [
   allowAction.cowswap.swap({
     sell: [GHO, stkGHO],
     buy: [GHO, stkGHO],
-    feeAmountBp: 200,
-  }),
-
-  // // CowSwap - USDS -> [DAI, sUSDS, USDC, USDT]
-  // allowAction.cowswap.swap({
-  //   sell: [USDS],
-  //   buy: [DAI, sUSDS, USDC, USDT],
-  //   feeAmountBp: 200,
-  // }),
-
-  // CowSwap - sUSDS -> [DAI, USDC, USDS, USDT]
-  allowAction.cowswap.swap({
-    sell: [sUSDS],
-    buy: [DAI, USDC, USDS, USDT],
     feeAmountBp: 200,
   }),
 

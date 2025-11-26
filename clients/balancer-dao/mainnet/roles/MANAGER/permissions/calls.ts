@@ -25,6 +25,7 @@ import {
   aaveV3,
   balancerV2,
   gearbox,
+  pendle,
   siloV2,
 } from "@/addresses/eth"
 import { eAddress, zeroAddress } from "@/addresses"
@@ -402,6 +403,51 @@ export default (parameters: Parameters) =>
       }
     ),
 
+    // Pendle - USDe <-> PT-USDE-DDMMMYYYY
+    allowErc20Approve([USDe], [contracts.mainnet.pendle.routerV4]),
+    allow.mainnet.pendle.routerV4.swapExactTokenForPt(
+    c.avatar,
+    pendle.ptUsde05Feb2026,
+    undefined,
+    undefined,
+    {
+      tokenIn: USDe,
+      tokenMintSy: USDe,
+      pendleSwap: zeroAddress,
+      swapData: {
+        swapType: 0, // NONE: https://etherscan.io/address/0xd8d200d9a713a1c71cf1e7f694b14e5f1d948b15#code#F32#L18
+        extRouter: zeroAddress,
+        extCalldata: "0x",
+      },
+    },
+    {
+      limitRouter: zeroAddress,
+      normalFills: [],
+      flashFills: [],
+    }
+  ),
+  allowErc20Approve([pendle.ptUsde05Feb2026], [contracts.mainnet.pendle.routerV4]),
+  allow.mainnet.pendle.routerV4.swapExactPtForToken(
+    c.avatar,
+    pendle.ptUsde05Feb2026,
+    undefined,
+    {
+      tokenOut: USDe,
+      tokenRedeemSy: USDe,
+      pendleSwap: zeroAddress,
+      swapData: {
+        swapType: 0, // NONE: https://etherscan.io/address/0xd8d200d9a713a1c71cf1e7f694b14e5f1d948b15#code#F32#L18
+        extRouter: zeroAddress,
+        extCalldata: "0x",
+      },
+    },
+    {
+      limitRouter: zeroAddress,
+      normalFills: [],
+      flashFills: [],
+    }
+  ),
+
     // Uniswap v3 - [AAVE, COMP, DAI, rETH, stETH, stkAAVE, SWISE, USDC, USDT, WBTC, WETH, wstETH] ->
     // [DAI, rETH, stETH, USDC, USDT, WBTC, WETH, wstETH]
     allowErc20Approve(
@@ -477,6 +523,11 @@ export default (parameters: Parameters) =>
         })
       )
     ),
+
+    // ETH -> WETH - Gnosis Bridge
+    allow.mainnet.gnosisBridge.wethOmnibridgeRouter[
+      "wrapAndRelayTokens(address)"
+    ](c.avatar, { send: true }),
 
     // GNO - Gnosis Bridge
     allowErc20Approve([GNO], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),

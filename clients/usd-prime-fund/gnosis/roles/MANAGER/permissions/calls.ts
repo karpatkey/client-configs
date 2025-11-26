@@ -76,11 +76,18 @@ export default (parameters: Parameters) =>
       }
     ),
 
-    // XDAI -> USDS - Gnosis Bridge
+    // XDAI -> DAI - Gnosis Bridge
     allow.gnosis.gnosisBridge.xdaiBridge2.relayTokens(c.avatar, {
       send: true,
     }),
     // No claim is required for the DAI bridged from Mainnet via Gnosis Bridge.
+
+    // XDAI -> USDS - Gnosis Bridge
+    allow.gnosis.gnosisBridge.usdsDeposit.relayTokens(
+      c.avatar,
+      { send: true }
+    ),
+    // No claim is required for the USDS bridged from Mainnet via Gnosis Bridge.
 
     // Gnosis Chain -> Arbitrum
     // GHO - Chainlink - transporter.io
