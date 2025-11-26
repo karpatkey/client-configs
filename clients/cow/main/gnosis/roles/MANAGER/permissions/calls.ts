@@ -16,7 +16,7 @@ export default (parameters: Parameters) =>
      * Bridge
      *********************************************/
     // Gnosis -> Mainnet
-    // GNO - Gmosis Bridge
+    // GNO - Gnosis Bridge
     allow.gnosis.gno.transferAndCall(
       contracts.gnosis.gnosisBridge.xdaiBridge,
       undefined,
