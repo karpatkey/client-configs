@@ -105,11 +105,45 @@ export default (parameters: Parameters) => [
     feeAmountBp: 200,
   }),
 
-  // CowSwap - [aEthEURC, DAI, EURA, EURC, GHO, GYD, sDAI, stEUR, stUSR, sUSDe, USDe, USDC, USR, USDS, USDT, wstUSR] -> 
+  // CowSwap - [aEthEURC, DAI, EURA, EURC, GHO, GYD, sDAI, stEUR, stUSR, sUSDe, USDe, USDC, USR, USDS, USDT, wstUSR] ->
   // [aEthEURC, DAI, EURA, EURC, GHO, GYD, sDAI, stEUR, stUSR, sUSDe, sUSDS, USDe, USDC, USR, USDT, wstUSR]
   allowAction.cowswap.swap({
-    sell: [aEthEURC, DAI, EURA, EURC, GHO, GYD, sDAI, stEUR, stUSR, sUSDe, USDe, USDC, USR, USDS, USDT, wstUSR],
-    buy: [aEthEURC, DAI, EURA, EURC, GHO, GYD, sDAI, stEUR, stUSR, sUSDe, sUSDS, USDe, USDC, USR, USDT, wstUSR],
+    sell: [
+      aEthEURC,
+      DAI,
+      EURA,
+      EURC,
+      GHO,
+      GYD,
+      sDAI,
+      stEUR,
+      stUSR,
+      sUSDe,
+      USDe,
+      USDC,
+      USR,
+      USDS,
+      USDT,
+      wstUSR,
+    ],
+    buy: [
+      aEthEURC,
+      DAI,
+      EURA,
+      EURC,
+      GHO,
+      GYD,
+      sDAI,
+      stEUR,
+      stUSR,
+      sUSDe,
+      sUSDS,
+      USDe,
+      USDC,
+      USR,
+      USDT,
+      wstUSR,
+    ],
     feeAmountBp: 200,
   }),
 

@@ -1,5 +1,14 @@
 import { allow as allowAction } from "defi-kit/arb1"
-import { ARB, COW, sUSDe, USDe, USDC, USDCe, USDT, WETH } from "@/addresses/arb1"
+import {
+  ARB,
+  COW,
+  sUSDe,
+  USDe,
+  USDC,
+  USDCe,
+  USDT,
+  WETH,
+} from "@/addresses/arb1"
 import { Parameters } from "../../../parameters"
 import { wstETH } from "@/addresses/eth"
 
