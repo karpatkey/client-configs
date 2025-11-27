@@ -15,5 +15,5 @@ export default [
   {
     ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
     targetAddress: morpho.kpkUsdc,
-  }
+  },
 ] satisfies PermissionList

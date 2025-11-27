@@ -1,9 +1,5 @@
 import { allow as allowAction } from "defi-kit/arb1"
-import {
-  ARB,
-  MORPHO,
-  USDC,
-} from "@/addresses/arb1"
+import { ARB, MORPHO, USDC } from "@/addresses/arb1"
 import { Parameters } from "../../../parameters"
 
 export default (parameters: Parameters) => [

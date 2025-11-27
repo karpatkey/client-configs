@@ -31,5 +31,5 @@ export default (parameters: Parameters) =>
           parameters.avatar,
         ]
       )
-    )
+    ),
   ] satisfies PermissionList
