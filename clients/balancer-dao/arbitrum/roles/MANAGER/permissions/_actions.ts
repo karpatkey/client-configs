@@ -8,9 +8,9 @@ import {
   USDCe,
   USDT,
   WETH,
+  wstETH,
 } from "@/addresses/arb1"
 import { Parameters } from "../../../parameters"
-import { wstETH } from "@/addresses/eth"
 
 export default (parameters: Parameters) => [
   // Balancer v2 - axlBAL/BAL
