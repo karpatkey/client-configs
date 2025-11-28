@@ -10,10 +10,23 @@ import {
   USDS,
   USDT,
 } from "@/addresses/eth"
+import { Parameters } from "../../../parameters"
 
-export default [
+export default (parameters: Parameters) => [
   // Aave v3 - Deposit USDC
   allowAction.aave_v3.deposit({ market: "Core", targets: ["USDC"] }),
+
+  // Circle v2 - Bridge USDC to Arbitrum
+  allowAction.circle_v2.bridge({
+    targets: ["Arbitrum"],
+    recipient: parameters.avatar,
+  }),
+  // Circle v2 - Receive USDC from Arbitrum
+  allowAction.circle_v2.receive({
+    targets: ["Arbitrum"],
+    sender: parameters.avatar,
+    recipient: parameters.avatar,
+  }),
 
   // Compound v3 - Deposit USDC
   allowAction.compound_v3.deposit({ targets: ["cUSDCv3"], tokens: ["USDC"] }),
