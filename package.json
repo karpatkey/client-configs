@@ -6,6 +6,7 @@
   "scripts": {
     "setup": "cross-env NODE_OPTIONS=--max-old-space-size=4096 eth-sdk",
     "clean": "rimraf build",
+    "list-configs": "tsx ./scripts/list-configs.ts",
     "apply": "tsx ./scripts/apply.ts",
     "apply:export": "tsx ./scripts/applyExport.ts",
     "anvil": "anvil --silent --fork-url ${FORK_RPC:-https://ethereum-rpc.publicnode.com}",
