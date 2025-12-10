@@ -10,7 +10,6 @@ import {
   CVX,
   DAI,
   ETHx,
-  EURC,
   LDO,
   MORPHO,
   OETH,

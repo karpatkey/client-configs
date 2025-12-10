@@ -1,7 +1,7 @@
 {
   "version": "1.0",
   "chainId": "1",
-  "createdAt": 1763136464086,
+  "createdAt": 1765386639888,
   "meta": {
     "name": "Update permissions of MANAGER role",
     "description": "",
@@ -48,6 +48,22 @@
         "roleKey": "0x4d414e4147455200000000000000000000000000000000000000000000000000",
         "targetAddress": "0x330eefa8a787552DC5cAd3C3cA644844B1E61Ddb",
         "selector": "0xfabed412"
+      }
+    },
+    {
+      "to": "0x000000000000cd17345801aa8147b8D3950260FF",
+      "value": "0",
+      "contractMethod": {
+        "inputs": [
+          { "internalType": "string", "name": "content", "type": "string" },
+          { "internalType": "string", "name": "tag", "type": "string" }
+        ],
+        "name": "post",
+        "payable": false
+      },
+      "contractInputsValues": {
+        "content": "{\"rolesMod\":\"0x703806e61847984346d2d7ddd853049627e50a40\",\"roleKey\":\"0x4d414e4147455200000000000000000000000000000000000000000000000000\",\"removeAnnotations\":[\"https://kit.karpatkey.com/api/v1/permissions/eth/spark/deposit?targets=SKY_USDS\"]}",
+        "tag": "ROLES_PERMISSION_ANNOTATION"
       }
     },
     {
@@ -1263,402 +1279,6 @@
       },
       "contractInputsValues": {
         "roleKey": "0x4d414e4147455200000000000000000000000000000000000000000000000000",
-        "targetAddress": "0x1aBaEA1f7C830bD89Acc67eC4af516284b1bC33c"
-      }
-    },
-    {
-      "to": "0x703806e61847984346d2d7ddd853049627e50a40",
-      "value": "0",
-      "contractMethod": {
-        "inputs": [
-          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
-          {
-            "internalType": "address",
-            "name": "targetAddress",
-            "type": "address"
-          },
-          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
-          {
-            "internalType": "struct ConditionFlat[]",
-            "name": "conditions",
-            "type": "tuple[]",
-            "components": [
-              { "internalType": "uint8", "name": "parent", "type": "uint8" },
-              {
-                "internalType": "enum AbiType",
-                "name": "paramType",
-                "type": "uint8"
-              },
-              {
-                "internalType": "enum Operator",
-                "name": "operator",
-                "type": "uint8"
-              },
-              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
-            ]
-          },
-          {
-            "internalType": "enum ExecutionOptions",
-            "name": "options",
-            "type": "uint8"
-          }
-        ],
-        "name": "scopeFunction",
-        "payable": false
-      },
-      "contractInputsValues": {
-        "roleKey": "0x4d414e4147455200000000000000000000000000000000000000000000000000",
-        "targetAddress": "0x1aBaEA1f7C830bD89Acc67eC4af516284b1bC33c",
-        "selector": "0x095ea7b3",
-        "conditions": "[[\"0\",\"5\",\"5\",\"0x\"],[\"0\",\"0\",\"2\",\"0x\"],[\"1\",\"1\",\"16\",\"0x0000000000000000000000000c6aec603d48ebf1cecc7b247a2c3da08b398dc1\"],[\"1\",\"1\",\"16\",\"0x000000000000000000000000a877d5bb0274dccba8556154a30e1ca4021a275f\"]]",
-        "options": "0"
-      }
-    },
-    {
-      "to": "0x703806e61847984346d2d7ddd853049627e50a40",
-      "value": "0",
-      "contractMethod": {
-        "inputs": [
-          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
-          {
-            "internalType": "address",
-            "name": "targetAddress",
-            "type": "address"
-          }
-        ],
-        "name": "scopeTarget",
-        "payable": false
-      },
-      "contractInputsValues": {
-        "roleKey": "0x4d414e4147455200000000000000000000000000000000000000000000000000",
-        "targetAddress": "0x0c6aec603d48eBf1cECc7b247a2c3DA08b398DC1"
-      }
-    },
-    {
-      "to": "0x703806e61847984346d2d7ddd853049627e50a40",
-      "value": "0",
-      "contractMethod": {
-        "inputs": [
-          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
-          {
-            "internalType": "address",
-            "name": "targetAddress",
-            "type": "address"
-          },
-          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
-          {
-            "internalType": "struct ConditionFlat[]",
-            "name": "conditions",
-            "type": "tuple[]",
-            "components": [
-              { "internalType": "uint8", "name": "parent", "type": "uint8" },
-              {
-                "internalType": "enum AbiType",
-                "name": "paramType",
-                "type": "uint8"
-              },
-              {
-                "internalType": "enum Operator",
-                "name": "operator",
-                "type": "uint8"
-              },
-              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
-            ]
-          },
-          {
-            "internalType": "enum ExecutionOptions",
-            "name": "options",
-            "type": "uint8"
-          }
-        ],
-        "name": "scopeFunction",
-        "payable": false
-      },
-      "contractInputsValues": {
-        "roleKey": "0x4d414e4147455200000000000000000000000000000000000000000000000000",
-        "targetAddress": "0x0c6aec603d48eBf1cECc7b247a2c3DA08b398DC1",
-        "selector": "0x6e553f65",
-        "conditions": "[[\"0\",\"5\",\"5\",\"0x\"],[\"0\",\"1\",\"0\",\"0x\"],[\"0\",\"1\",\"15\",\"0x\"]]",
-        "options": "0"
-      }
-    },
-    {
-      "to": "0x703806e61847984346d2d7ddd853049627e50a40",
-      "value": "0",
-      "contractMethod": {
-        "inputs": [
-          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
-          {
-            "internalType": "address",
-            "name": "targetAddress",
-            "type": "address"
-          },
-          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
-          {
-            "internalType": "struct ConditionFlat[]",
-            "name": "conditions",
-            "type": "tuple[]",
-            "components": [
-              { "internalType": "uint8", "name": "parent", "type": "uint8" },
-              {
-                "internalType": "enum AbiType",
-                "name": "paramType",
-                "type": "uint8"
-              },
-              {
-                "internalType": "enum Operator",
-                "name": "operator",
-                "type": "uint8"
-              },
-              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
-            ]
-          },
-          {
-            "internalType": "enum ExecutionOptions",
-            "name": "options",
-            "type": "uint8"
-          }
-        ],
-        "name": "scopeFunction",
-        "payable": false
-      },
-      "contractInputsValues": {
-        "roleKey": "0x4d414e4147455200000000000000000000000000000000000000000000000000",
-        "targetAddress": "0x0c6aec603d48eBf1cECc7b247a2c3DA08b398DC1",
-        "selector": "0xb460af94",
-        "conditions": "[[\"0\",\"5\",\"5\",\"0x\"],[\"0\",\"1\",\"0\",\"0x\"],[\"0\",\"1\",\"15\",\"0x\"],[\"0\",\"1\",\"15\",\"0x\"]]",
-        "options": "0"
-      }
-    },
-    {
-      "to": "0x703806e61847984346d2d7ddd853049627e50a40",
-      "value": "0",
-      "contractMethod": {
-        "inputs": [
-          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
-          {
-            "internalType": "address",
-            "name": "targetAddress",
-            "type": "address"
-          },
-          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
-          {
-            "internalType": "struct ConditionFlat[]",
-            "name": "conditions",
-            "type": "tuple[]",
-            "components": [
-              { "internalType": "uint8", "name": "parent", "type": "uint8" },
-              {
-                "internalType": "enum AbiType",
-                "name": "paramType",
-                "type": "uint8"
-              },
-              {
-                "internalType": "enum Operator",
-                "name": "operator",
-                "type": "uint8"
-              },
-              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
-            ]
-          },
-          {
-            "internalType": "enum ExecutionOptions",
-            "name": "options",
-            "type": "uint8"
-          }
-        ],
-        "name": "scopeFunction",
-        "payable": false
-      },
-      "contractInputsValues": {
-        "roleKey": "0x4d414e4147455200000000000000000000000000000000000000000000000000",
-        "targetAddress": "0x0c6aec603d48eBf1cECc7b247a2c3DA08b398DC1",
-        "selector": "0xba087652",
-        "conditions": "[[\"0\",\"5\",\"5\",\"0x\"],[\"0\",\"1\",\"0\",\"0x\"],[\"0\",\"1\",\"15\",\"0x\"],[\"0\",\"1\",\"15\",\"0x\"]]",
-        "options": "0"
-      }
-    },
-    {
-      "to": "0x703806e61847984346d2d7ddd853049627e50a40",
-      "value": "0",
-      "contractMethod": {
-        "inputs": [
-          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
-          {
-            "internalType": "address",
-            "name": "targetAddress",
-            "type": "address"
-          }
-        ],
-        "name": "scopeTarget",
-        "payable": false
-      },
-      "contractInputsValues": {
-        "roleKey": "0x4d414e4147455200000000000000000000000000000000000000000000000000",
-        "targetAddress": "0xa877D5bb0274dcCbA8556154A30E1Ca4021a275f"
-      }
-    },
-    {
-      "to": "0x703806e61847984346d2d7ddd853049627e50a40",
-      "value": "0",
-      "contractMethod": {
-        "inputs": [
-          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
-          {
-            "internalType": "address",
-            "name": "targetAddress",
-            "type": "address"
-          },
-          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
-          {
-            "internalType": "struct ConditionFlat[]",
-            "name": "conditions",
-            "type": "tuple[]",
-            "components": [
-              { "internalType": "uint8", "name": "parent", "type": "uint8" },
-              {
-                "internalType": "enum AbiType",
-                "name": "paramType",
-                "type": "uint8"
-              },
-              {
-                "internalType": "enum Operator",
-                "name": "operator",
-                "type": "uint8"
-              },
-              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
-            ]
-          },
-          {
-            "internalType": "enum ExecutionOptions",
-            "name": "options",
-            "type": "uint8"
-          }
-        ],
-        "name": "scopeFunction",
-        "payable": false
-      },
-      "contractInputsValues": {
-        "roleKey": "0x4d414e4147455200000000000000000000000000000000000000000000000000",
-        "targetAddress": "0xa877D5bb0274dcCbA8556154A30E1Ca4021a275f",
-        "selector": "0x6e553f65",
-        "conditions": "[[\"0\",\"5\",\"5\",\"0x\"],[\"0\",\"1\",\"0\",\"0x\"],[\"0\",\"1\",\"15\",\"0x\"]]",
-        "options": "0"
-      }
-    },
-    {
-      "to": "0x703806e61847984346d2d7ddd853049627e50a40",
-      "value": "0",
-      "contractMethod": {
-        "inputs": [
-          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
-          {
-            "internalType": "address",
-            "name": "targetAddress",
-            "type": "address"
-          },
-          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
-          {
-            "internalType": "struct ConditionFlat[]",
-            "name": "conditions",
-            "type": "tuple[]",
-            "components": [
-              { "internalType": "uint8", "name": "parent", "type": "uint8" },
-              {
-                "internalType": "enum AbiType",
-                "name": "paramType",
-                "type": "uint8"
-              },
-              {
-                "internalType": "enum Operator",
-                "name": "operator",
-                "type": "uint8"
-              },
-              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
-            ]
-          },
-          {
-            "internalType": "enum ExecutionOptions",
-            "name": "options",
-            "type": "uint8"
-          }
-        ],
-        "name": "scopeFunction",
-        "payable": false
-      },
-      "contractInputsValues": {
-        "roleKey": "0x4d414e4147455200000000000000000000000000000000000000000000000000",
-        "targetAddress": "0xa877D5bb0274dcCbA8556154A30E1Ca4021a275f",
-        "selector": "0xb460af94",
-        "conditions": "[[\"0\",\"5\",\"5\",\"0x\"],[\"0\",\"1\",\"0\",\"0x\"],[\"0\",\"1\",\"15\",\"0x\"],[\"0\",\"1\",\"15\",\"0x\"]]",
-        "options": "0"
-      }
-    },
-    {
-      "to": "0x703806e61847984346d2d7ddd853049627e50a40",
-      "value": "0",
-      "contractMethod": {
-        "inputs": [
-          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
-          {
-            "internalType": "address",
-            "name": "targetAddress",
-            "type": "address"
-          },
-          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
-          {
-            "internalType": "struct ConditionFlat[]",
-            "name": "conditions",
-            "type": "tuple[]",
-            "components": [
-              { "internalType": "uint8", "name": "parent", "type": "uint8" },
-              {
-                "internalType": "enum AbiType",
-                "name": "paramType",
-                "type": "uint8"
-              },
-              {
-                "internalType": "enum Operator",
-                "name": "operator",
-                "type": "uint8"
-              },
-              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
-            ]
-          },
-          {
-            "internalType": "enum ExecutionOptions",
-            "name": "options",
-            "type": "uint8"
-          }
-        ],
-        "name": "scopeFunction",
-        "payable": false
-      },
-      "contractInputsValues": {
-        "roleKey": "0x4d414e4147455200000000000000000000000000000000000000000000000000",
-        "targetAddress": "0xa877D5bb0274dcCbA8556154A30E1Ca4021a275f",
-        "selector": "0xba087652",
-        "conditions": "[[\"0\",\"5\",\"5\",\"0x\"],[\"0\",\"1\",\"0\",\"0x\"],[\"0\",\"1\",\"15\",\"0x\"],[\"0\",\"1\",\"15\",\"0x\"]]",
-        "options": "0"
-      }
-    },
-    {
-      "to": "0x703806e61847984346d2d7ddd853049627e50a40",
-      "value": "0",
-      "contractMethod": {
-        "inputs": [
-          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
-          {
-            "internalType": "address",
-            "name": "targetAddress",
-            "type": "address"
-          }
-        ],
-        "name": "scopeTarget",
-        "payable": false
-      },
-      "contractInputsValues": {
-        "roleKey": "0x4d414e4147455200000000000000000000000000000000000000000000000000",
         "targetAddress": "0xe108fbc04852B5df72f9E44d7C29F47e7A993aDd"
       }
     },
@@ -1982,7 +1602,7 @@
         "payable": false
       },
       "contractInputsValues": {
-        "content": "{\"rolesMod\":\"0x703806e61847984346d2d7ddd853049627e50a40\",\"roleKey\":\"0x4d414e4147455200000000000000000000000000000000000000000000000000\",\"addAnnotations\":[{\"schema\":\"https://kit.karpatkey.com/api/v1/openapi.json\",\"uris\":[\"https://kit.karpatkey.com/api/v1/permissions/eth/fluid/deposit?targets=GHO\",\"https://kit.karpatkey.com/api/v1/permissions/eth/fluid/deposit?targets=USDC\",\"https://kit.karpatkey.com/api/v1/permissions/eth/fluid/deposit?targets=USDT\",\"https://kit.karpatkey.com/api/v1/permissions/eth/morphoMarkets/deposit?targets=0x64d65c9a2d91c36d56fbc42d69e979335320169b3df63bf92789e2c8883fcc64\",\"https://kit.karpatkey.com/api/v1/permissions/eth/morphoMarkets/deposit?targets=0xb8fc70e82bc5bb53e773626fcc6a23f7eefa036918d7ef216ecfb1950a94a85e\",\"https://kit.karpatkey.com/api/v1/permissions/eth/morphoMarkets/deposit?targets=0xd0e50cdac92fe2172043f5e0c36532c6369d24947e40968f34a5e8819ca9ec5d\",\"https://kit.karpatkey.com/api/v1/permissions/eth/morphoMarkets/deposit?targets=0x3a85e619751152991742810df6ec69ce473daef99e28a64ab2340d7b7ccfee49\",\"https://kit.karpatkey.com/api/v1/permissions/eth/morphoMarkets/deposit?targets=0xb323495f7e4148be5643a4ea4a8221eef163e4bccfdedc2a6f4696baacbc86cc\",\"https://kit.karpatkey.com/api/v1/permissions/eth/morphoVaults/deposit?targets=0xd564F765F9aD3E7d2d6cA782100795a885e8e7C8\",\"https://kit.karpatkey.com/api/v1/permissions/eth/morphoVaults/deposit?targets=0xBb50A5341368751024ddf33385BA8cf61fE65FF9\",\"https://kit.karpatkey.com/api/v1/permissions/eth/morphoVaults/deposit?targets=0x0c6aec603d48eBf1cECc7b247a2c3DA08b398DC1\",\"https://kit.karpatkey.com/api/v1/permissions/eth/morphoVaults/deposit?targets=0xa877D5bb0274dcCbA8556154A30E1Ca4021a275f\",\"https://kit.karpatkey.com/api/v1/permissions/eth/morphoVaults/deposit?targets=0xe108fbc04852B5df72f9E44d7C29F47e7A993aDd\",\"https://kit.karpatkey.com/api/v1/permissions/eth/morphoVaults/deposit?targets=0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6\"]}]}",
+        "content": "{\"rolesMod\":\"0x703806e61847984346d2d7ddd853049627e50a40\",\"roleKey\":\"0x4d414e4147455200000000000000000000000000000000000000000000000000\",\"addAnnotations\":[{\"schema\":\"https://kit.karpatkey.com/api/v1/openapi.json\",\"uris\":[\"https://kit.karpatkey.com/api/v1/permissions/eth/fluid/deposit?targets=GHO\",\"https://kit.karpatkey.com/api/v1/permissions/eth/fluid/deposit?targets=USDC\",\"https://kit.karpatkey.com/api/v1/permissions/eth/fluid/deposit?targets=USDT\",\"https://kit.karpatkey.com/api/v1/permissions/eth/morphoMarkets/deposit?targets=0x64d65c9a2d91c36d56fbc42d69e979335320169b3df63bf92789e2c8883fcc64\",\"https://kit.karpatkey.com/api/v1/permissions/eth/morphoMarkets/deposit?targets=0xb8fc70e82bc5bb53e773626fcc6a23f7eefa036918d7ef216ecfb1950a94a85e\",\"https://kit.karpatkey.com/api/v1/permissions/eth/morphoMarkets/deposit?targets=0xd0e50cdac92fe2172043f5e0c36532c6369d24947e40968f34a5e8819ca9ec5d\",\"https://kit.karpatkey.com/api/v1/permissions/eth/morphoMarkets/deposit?targets=0x3a85e619751152991742810df6ec69ce473daef99e28a64ab2340d7b7ccfee49\",\"https://kit.karpatkey.com/api/v1/permissions/eth/morphoMarkets/deposit?targets=0xb323495f7e4148be5643a4ea4a8221eef163e4bccfdedc2a6f4696baacbc86cc\",\"https://kit.karpatkey.com/api/v1/permissions/eth/morphoVaults/deposit?targets=0xd564F765F9aD3E7d2d6cA782100795a885e8e7C8\",\"https://kit.karpatkey.com/api/v1/permissions/eth/morphoVaults/deposit?targets=0xBb50A5341368751024ddf33385BA8cf61fE65FF9\",\"https://kit.karpatkey.com/api/v1/permissions/eth/morphoVaults/deposit?targets=0xe108fbc04852B5df72f9E44d7C29F47e7A993aDd\",\"https://kit.karpatkey.com/api/v1/permissions/eth/morphoVaults/deposit?targets=0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6\",\"https://kit.karpatkey.com/api/v1/permissions/eth/spark/deposit?targets=SKY_sUSDS\"]}]}",
         "tag": "ROLES_PERMISSION_ANNOTATION"
       }
     }
