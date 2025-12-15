@@ -1,14 +1,7 @@
 import { allow as allowAction } from "defi-kit/eth"
-import {
-  rETH,
-  rsETH,
-  stETH,
-  weETH,
-  WETH,
-  wstETH,
-} from "@/addresses/eth"
+import { rETH, rsETH, stETH, weETH, WETH, wstETH } from "@/addresses/eth"
 import { Parameters } from "../../../parameters"
-    
+
 export default (parameters: Parameters) => [
   // Aave v3 Core Market - Deposit ezETH
   allowAction.aave_v3.deposit({ market: "Core", targets: ["ezETH"] }),
@@ -76,7 +69,7 @@ export default (parameters: Parameters) => [
   // Morpho Vault - kpk ETH v2
   allowAction.morphoVaults.deposit({
     targets: ["0xBb50A5341368751024ddf33385BA8cf61fE65FF9"],
-  }), 
+  }),
 
   // Rocket Pool
   allowAction.rocket_pool.deposit(),
