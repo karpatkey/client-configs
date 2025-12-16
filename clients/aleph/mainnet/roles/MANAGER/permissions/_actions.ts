@@ -1,5 +1,5 @@
 import { allow as allowAction } from "defi-kit/eth"
-import { rETH, rsETH, stETH, weETH, WETH, wstETH } from "@/addresses/eth"
+import { ETHPlus, ezETH, GEAR, MORPHO, rETH, rsETH, stETH, weETH, WETH, wstETH } from "@/addresses/eth"
 import { Parameters } from "../../../parameters"
 
 export default (parameters: Parameters) => [
@@ -27,10 +27,11 @@ export default (parameters: Parameters) => [
   // Aave v3 Prime Market - Borrow wstETH
   allowAction.aave_v3.borrow({ market: "Prime", targets: ["wstETH"] }),
 
-  // CowSwap - [rETH, rsETH, stETH, weETH, WETH, wstETH] <-> [rETH, rsETH, stETH, weETH, WETH, wstETH]
+  // CowSwap - [ETHPlus, ezETH, GEAR, MORPHO, rETH, rsETH, stETH, weETH, WETH, wstETH] <-> 
+  // [ETHPlus, ezETH, GEAR, MORPHO, ETH, rsETH, stETH, weETH, WETH, wstETH]
   allowAction.cowswap.swap({
-    sell: [rETH, rsETH, stETH, weETH, WETH, wstETH],
-    buy: [rETH, rsETH, stETH, weETH, WETH, wstETH],
+    sell: [ETHPlus, ezETH, GEAR, MORPHO, rETH, rsETH, stETH, weETH, WETH, wstETH],
+    buy: [ETHPlus, ezETH, GEAR, MORPHO, rETH, rsETH, stETH, weETH, WETH, wstETH],
   }),
 
   // Lido
