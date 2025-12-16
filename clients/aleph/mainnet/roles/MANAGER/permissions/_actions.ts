@@ -14,14 +14,14 @@ import {
 import { Parameters } from "../../../parameters"
 
 export default (parameters: Parameters) => [
-  // Aave v3 Core Market - Deposit ezETH
-  allowAction.aave_v3.deposit({ market: "Core", targets: ["ezETH"] }),
   // Aave v3 Core Market - Deposit rsETH
   allowAction.aave_v3.deposit({ market: "Core", targets: ["rsETH"] }),
   // Aave v3 Core Market - Deposit weETH
   allowAction.aave_v3.deposit({ market: "Core", targets: ["weETH"] }),
   // Aave v3 Core Market - Deposit WETH
   allowAction.aave_v3.deposit({ market: "Core", targets: ["WETH"] }),
+  // Aave v3 Core Market - Deposit wstETH
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["wstETH"] }),
 
   // Aave v3 Core Market - Borrow WETH
   allowAction.aave_v3.borrow({ market: "Core", targets: ["WETH"] }),
