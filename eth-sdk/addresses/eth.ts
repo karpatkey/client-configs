@@ -147,6 +147,7 @@ export const aura = {
   auraAaveGhoUsdtUsdcRewarder: "0x8e89d41c563e6C3d9901ad75B75e2d8e140DEF04",
   auraAaveLidoWethWstEthRewarder: "0xCF370C3279452143f68e350b824714B49593a334",
   auraOsETHWaWethRewarder: "0x994BE003de5FD6E41d37c6948f405EB0759149e6",
+  aurarEthWaEthWethRewarder: "0x20283cce209b29D19329E8aDa47215a52188aFDc",
 } as const
 
 export const balancerV2 = {
@@ -217,6 +218,7 @@ export const balancerV3 = {
   ethxWaWeth: "0x4AB7aB316D43345009B2140e0580B072eEc7DF16",
   osEthWaWeth: "0x57c23c58B1D8C3292c15BEcF07c62C5c52457A42",
   surgeFluidWstEthWeth: "0x6b31a94029fd7840d780191B6D63Fa0D269bd883",
+  rEthWaEthWeth: "0x1ea5870f7C037930CE1d5d8d9317c670e89e13E3",
 
   // Gauges
   aaveGhoUsdtUsdcGauge: "0x9fdD52eFEb601E4Bc78b89C6490505B8aC637E9f",
@@ -224,6 +226,7 @@ export const balancerV3 = {
   ethxWaWethGauge: "0x1f3A4C8115629C33A28bF2F97F22D31d256317F6",
   osEthWaWethGauge: "0x70A1c01902DAb7a45dcA1098Ca76A8314dd8aDbA",
   surgeFluidWstEthWethGauge: "0x1CCE9d493224A19FcB5f7fBade8478630141CB54",
+  rEthWaEthWethGauge: "0x62A66eB9aBf7a788F48D0ce7C0C065df9e09dA19",
 } as const
 
 export const convex = {
