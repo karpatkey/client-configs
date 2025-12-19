@@ -1,7 +1,15 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { contracts } from "@/contracts"
-import { eETH, rETH, WETH, wstETH, aura, balancerV3, gearbox } from "@/addresses/eth"
+import {
+  eETH,
+  rETH,
+  WETH,
+  wstETH,
+  aura,
+  balancerV3,
+  gearbox,
+} from "@/addresses/eth"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
 import { Parameters } from "../../../parameters"
@@ -58,7 +66,10 @@ export default (parameters: Parameters) =>
     allow.mainnet.balancerV3.compositeLiquidityRouter.removeLiquidityProportionalFromERC4626Pool(
       balancerV3.rEthWaEthWeth
     ),
-    allowErc20Approve([balancerV3.rEthWaEthWeth], [balancerV3.rEthWaEthWethGauge]),
+    allowErc20Approve(
+      [balancerV3.rEthWaEthWeth],
+      [balancerV3.rEthWaEthWethGauge]
+    ),
     {
       ...allow.mainnet.balancerV2.gauge["deposit(uint256)"](),
       targetAddress: balancerV3.rEthWaEthWethGauge,
