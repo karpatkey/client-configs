@@ -4,7 +4,6 @@ import {
   cbBTC,
   DAI,
   eETH,
-  EURC,
   GHO,
   liquidETH,
   SAFE,
