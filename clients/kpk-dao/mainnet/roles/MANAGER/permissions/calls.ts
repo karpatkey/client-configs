@@ -14,8 +14,6 @@ import {
   WBTC,
   weETH,
   WETH,
-  wstETH,
-  gearbox,
   kpk,
 } from "@/addresses/eth"
 import { zeroAddress, eAddress } from "@/addresses"

@@ -27,7 +27,6 @@ import {
   balancerV2,
   balancerV3,
   curve,
-  gearbox,
   nexus,
 } from "@/addresses/eth"
 import { zeroAddress } from "@/addresses"

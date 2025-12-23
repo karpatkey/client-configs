@@ -16,7 +16,6 @@ import {
   WBTC,
   WETH,
   wstETH,
-  gearbox,
 } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import {
