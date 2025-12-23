@@ -1,17 +1,8 @@
 import { allow } from "zodiac-roles-sdk/kit"
-import {
-  DAI,
-  USDC,
-  USDS,
-  USDT,
-  WETH,
-} from "@/addresses/eth"
+import { DAI, USDC, USDS, USDT, WETH } from "@/addresses/eth"
 import { mainTreasury } from "../../../../../addresses"
 import { PermissionList } from "@/types"
-import {
-  allowErc20Approve,
-  allowErc20Transfer,
-} from "@/helpers"
+import { allowErc20Approve, allowErc20Transfer } from "@/helpers"
 import { c } from "zodiac-roles-sdk"
 import { contracts } from "@/contracts"
 import { Parameters } from "../../../../../parameters"
@@ -72,7 +63,6 @@ export default (parameters: Parameters) =>
     allow.mainnet.gnosisBridge.wethOmnibridgeRouter[
       "wrapAndRelayTokens(address)"
     ](c.avatar, { send: true }),
-
 
     // USDS -> XDAI - Gnosis Bridge
     allowErc20Approve([USDS], [contracts.mainnet.gnosisBridge.xdaiUsdsBridge]),
