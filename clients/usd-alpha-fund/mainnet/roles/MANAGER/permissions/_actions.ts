@@ -25,7 +25,7 @@ import { Parameters } from "../../../parameters"
 
 export default (parameters: Parameters) => [
   // Aave Safety Module - Stake GHO
-  allowAction.aave_v2.stake({ targets: ["GHO"] }),
+  allowAction.aave_v3.stake({ targets: ["GHO"] }),
 
   // Aave v3 Core Market - Deposit crvUSD
   allowAction.aave_v3.deposit({ market: "Core", targets: ["crvUSD"] }),

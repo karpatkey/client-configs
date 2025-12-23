@@ -27,10 +27,10 @@ export default [
   allow.mainnet.weth.withdraw(),
 
   // Aave Safety Module - Unstake AAVE and GHO
-  allow.mainnet.aaveV2.stkAave.redeem(c.avatar),
-  allow.mainnet.aaveV2.stkAave.cooldown(),
-  allow.mainnet.aaveV2.stkGho.redeem(c.avatar),
-  allow.mainnet.aaveV2.stkGho.cooldown(),
+  allow.mainnet.aaveV3.stkAave.redeem(c.avatar),
+  allow.mainnet.aaveV3.stkAave.cooldown(),
+  allow.mainnet.aaveV3.stkGho.redeem(c.avatar),
+  allow.mainnet.aaveV3.stkGho.cooldown(),
 
   // Aave v3 Core Market - Withdraw DAI
   allow.mainnet.aaveV3.poolCoreV3.withdraw(DAI, undefined, c.avatar),

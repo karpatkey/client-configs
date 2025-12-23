@@ -24,8 +24,8 @@ import { Chain, PermissionList } from "@/types"
 
 export default [
   // Aave Safety Module - Unstake GHO
-  allow.mainnet.aaveV2.stkGho.redeem(c.avatar),
-  allow.mainnet.aaveV2.stkGho.cooldown(),
+  allow.mainnet.aaveV3.stkGho.redeem(c.avatar),
+  allow.mainnet.aaveV3.stkGho.cooldown(),
 
   // Aave v3 - Withdraw wstETH
   allow.mainnet.aaveV3.poolCoreV3.withdraw(wstETH, undefined, c.avatar),

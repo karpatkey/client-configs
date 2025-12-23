@@ -23,6 +23,7 @@ import {
   USDT,
   WETH,
   wstETH,
+  morpho,
 } from "@/addresses/eth"
 import { Parameters } from "../../../../parameters"
 
@@ -181,19 +182,19 @@ export default (parameters: Parameters) => [
 
   // Morpho Vault - kpk ETH Prime v1.1
   allowAction.morphoVaults.deposit({
-    targets: ["0xd564F765F9aD3E7d2d6cA782100795a885e8e7C8"],
+    targets: [morpho.kpkEthV1],
   }),
   // Morpho Vault - kpk ETH v2
   allowAction.morphoVaults.deposit({
-    targets: ["0xBb50A5341368751024ddf33385BA8cf61fE65FF9"],
+    targets: [morpho.kpkEthV2],
   }),
   // Morpho Vault - kpk USDC Prime v1.1
   allowAction.morphoVaults.deposit({
-    targets: ["0xe108fbc04852B5df72f9E44d7C29F47e7A993aDd"],
+    targets: [morpho.kpkUsdcV1],
   }),
   // Morpho Vault - kpk USDC v2
   allowAction.morphoVaults.deposit({
-    targets: ["0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6"],
+    targets: [morpho.kpkUsdcV2],
   }),
 
   // Rocket Pool
