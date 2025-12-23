@@ -2,7 +2,7 @@ import { allow } from "zodiac-roles-sdk/kit"
 import { PermissionList } from "@/types"
 import { c } from "zodiac-roles-sdk"
 import { contracts } from "@/contracts"
-import { 
+import {
   EURe,
   USDC,
   USDCe,
@@ -44,7 +44,7 @@ export default (parameters: Parameters) =>
     allow.gnosis.curve.crvEureUsdGauge["deposit(uint256)"](),
     allow.gnosis.curve.crvEureUsdGauge["withdraw(uint256)"](),
     allow.gnosis.curve.crvEureUsdGauge["claim_rewards()"](),
-  
+
     /*********************************************
      * Swaps
      *********************************************/
