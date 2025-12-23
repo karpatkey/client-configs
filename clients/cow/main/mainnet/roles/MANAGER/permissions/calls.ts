@@ -1,5 +1,5 @@
 import { allow } from "zodiac-roles-sdk/kit"
-import { 
+import {
   COW,
   DAI,
   GHO,
@@ -20,7 +20,11 @@ import {
 import { baseBridge as baseBridgeBase } from "@/addresses/base"
 import { legalDefenseFund, twapAvatar } from "../../../../../addresses"
 import { PermissionList } from "@/types"
-import { allowErc20Approve, allowErc20Transfer, allowEthTransfer } from "@/helpers"
+import {
+  allowErc20Approve,
+  allowErc20Transfer,
+  allowEthTransfer,
+} from "@/helpers"
 import { c } from "zodiac-roles-sdk"
 import { contracts } from "@/contracts"
 import { Parameters } from "../../../../../parameters"

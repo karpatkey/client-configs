@@ -1,5 +1,5 @@
 import { allow as allowAction } from "defi-kit/eth"
-import { 
+import {
   AAVE,
   COMP,
   DAI,
@@ -62,30 +62,63 @@ export default [
   // Compound v3 - Deposit WETH
   allowAction.compound_v3.deposit({ targets: ["cWETHv3"], tokens: ["WETH"] }),
   // Compound v3 - Deposit wstETH
-  allowAction.compound_v3.deposit({ targets: ["cWstETHv3"], tokens: ["wstETH"] }),
+  allowAction.compound_v3.deposit({
+    targets: ["cWstETHv3"],
+    tokens: ["wstETH"],
+  }),
 
-  // CowSwap - [DAI, ETH, EURC, GHO, sDAI, stkGHO, sUSDe, sUSDS, syrupUSDC, USDC, USDe, USDS, USDT, WETH] <-> 
+  // CowSwap - [DAI, ETH, EURC, GHO, sDAI, stkGHO, sUSDe, sUSDS, syrupUSDC, USDC, USDe, USDS, USDT, WETH] <->
   // [DAI, ETH, EURC, GHO, sDAI, stkGHO, sUSDe, sUSDS, syrupUSDC, USDC, USDe, USDS, USDT, WETH]
   allowAction.cowswap.swap({
-    sell: ["ETH", DAI, EURC, GHO, sDAI, stkGHO, sUSDe, sUSDS, syrupUSDC, USDC, USDe, USDS, USDT, WETH],
-    buy: ["ETH", DAI, EURC, GHO, sDAI, stkGHO, sUSDe, sUSDS, syrupUSDC, USDC, USDe, USDS, USDT, WETH],
+    sell: [
+      "ETH",
+      DAI,
+      EURC,
+      GHO,
+      sDAI,
+      stkGHO,
+      sUSDe,
+      sUSDS,
+      syrupUSDC,
+      USDC,
+      USDe,
+      USDS,
+      USDT,
+      WETH,
+    ],
+    buy: [
+      "ETH",
+      DAI,
+      EURC,
+      GHO,
+      sDAI,
+      stkGHO,
+      sUSDe,
+      sUSDS,
+      syrupUSDC,
+      USDC,
+      USDe,
+      USDS,
+      USDT,
+      WETH,
+    ],
   }),
 
-  // CowSwap - [ETH, osETH, rETH, stETH, WETH, wstETH] <-> 
+  // CowSwap - [ETH, osETH, rETH, stETH, WETH, wstETH] <->
   // [ETH, osETH, rETH, stETH, WETH, wstETH]
   allowAction.cowswap.swap({
     sell: ["ETH", osETH, rETH, stETH, WETH, wstETH],
     buy: ["ETH", osETH, rETH, stETH, WETH, wstETH],
   }),
 
-  // CowSwap - [ETH, osETH, rETH, stETH, WETH, wstETH] <-> 
+  // CowSwap - [ETH, osETH, rETH, stETH, WETH, wstETH] <->
   // [ETH, osETH, rETH, stETH, WETH, wstETH]
   allowAction.cowswap.swap({
     sell: ["ETH", osETH, rETH, stETH, WETH, wstETH],
     buy: ["ETH", osETH, rETH, stETH, WETH, wstETH],
   }),
 
-  // CowSwap - [AAVE, COMP, ETH, MORPHO, POL, USDC, USDT, WBTC, WETH] <-> 
+  // CowSwap - [AAVE, COMP, ETH, MORPHO, POL, USDC, USDT, WBTC, WETH] <->
   // [AAVE, COMP, ETH, MORPHO, POL, USDC, USDT, WBTC, WETH]
   allowAction.cowswap.swap({
     sell: ["ETH", AAVE, COMP, MORPHO, POL, USDC, USDT, WBTC, WETH],
