@@ -22,6 +22,7 @@ import {
   WBTC,
   WETH,
   wstETH,
+  gearbox,
 } from "@/addresses/eth"
 
 export default [
@@ -123,6 +124,15 @@ export default [
   allowAction.cowswap.swap({
     sell: ["ETH", AAVE, COMP, MORPHO, POL, USDC, USDT, WBTC, WETH],
     buy: ["ETH", AAVE, COMP, MORPHO, POL, USDC, USDT, WBTC, WETH],
+  }),
+
+  // Gearbox - ETH v3 - Curator: kpk
+  allowAction.gearbox.deposit({
+    targets: [gearbox.kpkWeth],
+  }),
+  // Gearbox - wstETH v3 - Curator: kpk
+  allowAction.gearbox.deposit({
+    targets: [gearbox.kpkWstEth],
   }),
 
   // Lido
