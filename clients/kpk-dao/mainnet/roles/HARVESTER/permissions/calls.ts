@@ -9,9 +9,9 @@ import { PermissionList } from "@/types"
 export default (parameters: Parameters) =>
   [
     // Aave Safety Module - Stake AAVE rewards
-    allow.mainnet.aaveV2.stkAave.claimRewards(c.avatar),
+    allow.mainnet.aaveV3.stkAave.claimRewards(c.avatar),
     // Aave Safety Module - Stake GHO rewards
-    allow.mainnet.aaveV2.stkGho.claimRewards(c.avatar),
+    allow.mainnet.aaveV3.stkGho.claimRewards(c.avatar),
     // Aave Incentives rewards
     allow.mainnet.aaveV3.incentivesV3.claimRewards(
       undefined,

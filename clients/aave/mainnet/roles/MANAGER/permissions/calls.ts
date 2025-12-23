@@ -4,6 +4,6 @@ import { Parameters } from "../../../parameters"
 
 export default (parameters: Parameters) =>
   [
-    allow.mainnet.aaveV2.gho.transfer(parameters.aaveCollector),
-    allow.mainnet.aaveV2.aave.transfer(parameters.aaveCollector),
+    allow.mainnet.aaveV3.gho.transfer(parameters.aaveCollector),
+    allow.mainnet.aaveV3.aave.transfer(parameters.aaveCollector),
   ] satisfies PermissionList
