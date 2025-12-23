@@ -11,6 +11,8 @@ import {
   weETH,
   WETH,
   wstETH,
+  gearbox,
+  morpho,
 } from "@/addresses/eth"
 import { Parameters } from "../../../parameters"
 
@@ -71,6 +73,15 @@ export default (parameters: Parameters) => [
     ],
   }),
 
+  // Gearbox - ETH v3 - Curator: kpk
+  allowAction.gearbox.deposit({
+    targets: [gearbox.kpkWeth],
+  }),
+  // Gearbox - wstETH v3 - Curator: kpk
+  allowAction.gearbox.deposit({
+    targets: [gearbox.kpkWstEth],
+  }),
+
   // Lido
   allowAction.lido.deposit(),
 
@@ -102,11 +113,11 @@ export default (parameters: Parameters) => [
 
   // Morpho Vault - kpk ETH Prime v1.1
   allowAction.morphoVaults.deposit({
-    targets: ["0xd564F765F9aD3E7d2d6cA782100795a885e8e7C8"],
+    targets: [morpho.kpkEthV1],
   }),
   // Morpho Vault - kpk ETH v2
   allowAction.morphoVaults.deposit({
-    targets: ["0xBb50A5341368751024ddf33385BA8cf61fE65FF9"],
+    targets: [morpho.kpkEthV2],
   }),
 
   // Rocket Pool

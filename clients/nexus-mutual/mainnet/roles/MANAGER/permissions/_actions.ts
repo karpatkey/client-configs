@@ -25,6 +25,8 @@ import {
   WETH,
   wNXM,
   wstETH,
+  gearbox,
+  morpho,
 } from "@/addresses/eth"
 import { Parameters } from "../../../parameters"
 
@@ -170,32 +172,41 @@ export default (parameters: Parameters) => [
   // Fluid - Deposit USDT
   allowAction.fluid.deposit({ targets: ["USDT"] }),
 
+  // Gearbox - ETH v3 - Curator: kpk
+  allowAction.gearbox.deposit({
+    targets: [gearbox.kpkWeth],
+  }),
+  // Gearbox - wstETH v3 - Curator: kpk
+  allowAction.gearbox.deposit({
+    targets: [gearbox.kpkWstEth],
+  }),
+
   // Lido
   allowAction.lido.deposit(),
 
   // Morpho Vault - Gauntlet USDC Prime v1
   allowAction.morphoVaults.deposit({
-    targets: ["0xdd0f28e19C1780eb6396170735D45153D261490d"],
+    targets: [morpho.gtUsdc],
   }),
   // Morpho Vault - kpk ETH Prime v1.1
   allowAction.morphoVaults.deposit({
-    targets: ["0xd564F765F9aD3E7d2d6cA782100795a885e8e7C8"],
+    targets: [morpho.kpkEthV1],
   }),
   // Morpho Vault - kpk ETH v2
   allowAction.morphoVaults.deposit({
-    targets: ["0xBb50A5341368751024ddf33385BA8cf61fE65FF9"],
+    targets: [morpho.kpkEthV2],
   }),
   // Morpho Vault - kpk USDC Prime v1.1
   allowAction.morphoVaults.deposit({
-    targets: ["0xe108fbc04852B5df72f9E44d7C29F47e7A993aDd"],
+    targets: [morpho.kpkUsdcV1],
   }),
   // Morpho Vault - kpk USDC v2
   allowAction.morphoVaults.deposit({
-    targets: ["0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6"],
+    targets: [morpho.kpkUsdcV2],
   }),
   // Morpho Vault - Steakhouse USDC v1
   allowAction.morphoVaults.deposit({
-    targets: ["0xBEEF01735c132Ada46AA9aA4c54623cAA92A64CB"],
+    targets: [morpho.steakUsdc],
   }),
 
   // Rocket Pool

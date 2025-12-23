@@ -113,9 +113,6 @@ export const contracts = {
       withdrawRequestNft: "0x7d5706f6ef3F89B3951E23e557CDFBC3239D4E2c",
       kingDistributor: "0x6Db24Ee656843E3fE03eb8762a54D86186bA6B64",
     },
-    gearbox: {
-      poolV3: "0xda00000035fef4082f78def6a8903bee419fbf8e", // dUSDCV3 - https://docs.gearbox.finance/lending-market/pools-and-apy#pool-tokens-staked-diesel-tokens
-    },
     gyroscope: {
       sGyd: "0xeA50f402653c41cAdbaFD1f788341dB7B7F37816",
     },

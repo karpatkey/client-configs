@@ -15,6 +15,7 @@ import {
   USDS,
   USDT,
   syrupUSDC,
+  morpho,
 } from "@/addresses/eth"
 import { Parameters } from "../../../parameters"
 
@@ -24,7 +25,7 @@ export default (parameters: Parameters) => [
    *********************************************/
 
   // Aave Safety Module - Stake GHO
-  allowAction.aave_v2.stake({ targets: ["GHO"] }),
+  allowAction.aave_v3.stake({ targets: ["GHO"] }),
   // Aave v3 Core Market - Deposit RLUSD
   allowAction.aave_v3.deposit({ market: "Core", targets: ["RLUSD"] }),
   // Aave v3 Core Market - Deposit sUSDe
@@ -120,11 +121,11 @@ export default (parameters: Parameters) => [
 
   // Morpho Vault - kpk USDC Prime v1.1
   allowAction.morphoVaults.deposit({
-    targets: ["0xe108fbc04852B5df72f9E44d7C29F47e7A993aDd"],
+    targets: [morpho.kpkUsdcV1],
   }),
   // Morpho Vault - kpk USDC v2
   allowAction.morphoVaults.deposit({
-    targets: ["0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6"],
+    targets: [morpho.kpkUsdcV2],
   }),
 
   // Spark - Deposit USDS to get sUSDS

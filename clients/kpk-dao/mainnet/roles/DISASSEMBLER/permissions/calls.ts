@@ -29,10 +29,10 @@ export default [
   // Aave v3 Core Market - Withdraw USDC
   allow.mainnet.aaveV3.poolCoreV3.withdraw(USDC, undefined, c.avatar),
   // Aave Safety Module - Unstake AAVE and GHO
-  allow.mainnet.aaveV2.stkAave.redeem(c.avatar),
-  allow.mainnet.aaveV2.stkAave.cooldown(),
-  allow.mainnet.aaveV2.stkGho.redeem(c.avatar),
-  allow.mainnet.aaveV2.stkGho.cooldown(),
+  allow.mainnet.aaveV3.stkAave.redeem(c.avatar),
+  allow.mainnet.aaveV3.stkAave.cooldown(),
+  allow.mainnet.aaveV3.stkGho.redeem(c.avatar),
+  allow.mainnet.aaveV3.stkGho.cooldown(),
 
   // Aura + Balancer - Unstake + Withdraw rETH/WETH
   auraWithdrawBalancer(aura.auraBrEthStableRewarder, balancerV2.bREthStablePid),
@@ -119,12 +119,12 @@ export default [
 
   // Gearbox - ETH v3 - Curator: kpk
   {
-    ...allow.mainnet.gearbox.poolV3.redeem(undefined, c.avatar, c.avatar),
+    ...allow.mainnet.gearbox.vault.redeem(undefined, c.avatar, c.avatar),
     targetAddress: gearbox.kpkWeth,
   },
   // Gearbox - wstETH v3 - Curator: kpk
   {
-    ...allow.mainnet.gearbox.poolV3.redeem(undefined, c.avatar, c.avatar),
+    ...allow.mainnet.gearbox.vault.redeem(undefined, c.avatar, c.avatar),
     targetAddress: gearbox.kpkWstEth,
   },
 
