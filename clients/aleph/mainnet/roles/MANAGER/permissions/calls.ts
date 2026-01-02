@@ -5,10 +5,8 @@ import {
   eETH,
   rETH,
   WETH,
-  wstETH,
   aura,
   balancerV3,
-  gearbox,
 } from "@/addresses/eth"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
