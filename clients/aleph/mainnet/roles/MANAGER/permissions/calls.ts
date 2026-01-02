@@ -1,13 +1,7 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { contracts } from "@/contracts"
-import {
-  eETH,
-  rETH,
-  WETH,
-  aura,
-  balancerV3,
-} from "@/addresses/eth"
+import { eETH, rETH, WETH, aura, balancerV3 } from "@/addresses/eth"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
 import { Parameters } from "../../../parameters"
