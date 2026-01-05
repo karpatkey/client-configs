@@ -50,8 +50,7 @@ async function main() {
       },
     })
     .positional("role", { demandOption: true, type: "string" })
-    .help()
-    .argv
+    .help().argv
 
   // yargs positional arguments can be accessed as properties or via args._
   // If accessed via properties, coerce function has already run
@@ -65,7 +64,9 @@ async function main() {
   } else if (args._[1]) {
     // Need to apply coerce logic manually
     const accountArgRaw = args._[1] as string
-    accountArg = accountArgRaw.includes("/") ? accountArgRaw : `${accountArgRaw}/main`
+    accountArg = accountArgRaw.includes("/")
+      ? accountArgRaw
+      : `${accountArgRaw}/main`
   }
 
   const roleArg = (args.role as string) || (args._[2] as string)
@@ -74,7 +75,9 @@ async function main() {
     console.error("Error: Missing required arguments")
     console.error("\nUsage: yarn apply <client> <account(/instance)> <role>")
     console.error("\nExamples:")
-    console.error("  yarn apply gnosis-dao/illiquid-assets mainnet/main MANAGER")
+    console.error(
+      "  yarn apply gnosis-dao/illiquid-assets mainnet/main MANAGER"
+    )
     console.error("  yarn apply balancer-dao mainnet/test MANAGER")
     console.error("  yarn apply gnosis-dao mainnet MANAGER")
     process.exit(1)
@@ -97,8 +100,13 @@ async function main() {
     console.log(`Permissions diff page: ${diffUrl}`)
   } catch (error: any) {
     console.error("\n❌ Error:", error.message)
-    if (error.message.includes("Available") || error.message.includes("not found")) {
-      console.error("\n💡 Tip: Use the suggestions above to find the correct client, account, instance, or role.")
+    if (
+      error.message.includes("Available") ||
+      error.message.includes("not found")
+    ) {
+      console.error(
+        "\n💡 Tip: Use the suggestions above to find the correct client, account, instance, or role."
+      )
     }
     process.exit(1)
   }

@@ -7,7 +7,10 @@ import {
 import type { Instance, PermissionList } from "@/types"
 import fs from "node:fs"
 import path from "node:path"
-import { discoverAvailableConfigs, formatAvailableConfigs } from "../scripts/discover"
+import {
+  discoverAvailableConfigs,
+  formatAvailableConfigs,
+} from "../scripts/discover"
 
 export const preprocessPermissions = async <P extends { [key: string]: any }>(
   permissions: {
@@ -64,7 +67,11 @@ export const compileApplyData = async ({
 
   // Parse account/instance
   const accountParts = accountArg.split("/")
-  if (accountParts.length > 2 || accountParts.length === 0 || !accountParts[0]) {
+  if (
+    accountParts.length > 2 ||
+    accountParts.length === 0 ||
+    !accountParts[0]
+  ) {
     throw new Error(
       `Invalid account format: "${accountArg}". Expected format: <account> or <account>/<instance>\n\n${formatAvailableConfigs(clientArg)}`
     )
@@ -93,16 +100,18 @@ export const compileApplyData = async ({
   }
 
   if (!fs.existsSync(instancePath)) {
-    const availableInstances = discoverAvailableConfigs().instances[`${clientArg}/${accountName}`] || []
+    const availableInstances =
+      discoverAvailableConfigs().instances[`${clientArg}/${accountName}`] || []
     throw new Error(
-      `Instance "${instanceName}" not found for "${clientArg}/${accountName}".\n\nAvailable instances:\n${availableInstances.map(i => `  - ${i}`).join("\n")}`
+      `Instance "${instanceName}" not found for "${clientArg}/${accountName}".\n\nAvailable instances:\n${availableInstances.map((i) => `  - ${i}`).join("\n")}`
     )
   }
 
   if (!fs.existsSync(rolePath)) {
-    const availableRoles = discoverAvailableConfigs().roles[`${clientArg}/${accountName}`] || []
+    const availableRoles =
+      discoverAvailableConfigs().roles[`${clientArg}/${accountName}`] || []
     throw new Error(
-      `Role "${roleArg}" not found for "${clientArg}/${accountName}".\n\nAvailable roles:\n${availableRoles.map(r => `  - ${r}`).join("\n")}`
+      `Role "${roleArg}" not found for "${clientArg}/${accountName}".\n\nAvailable roles:\n${availableRoles.map((r) => `  - ${r}`).join("\n")}`
     )
   }
 
@@ -121,8 +130,7 @@ export const compileApplyData = async ({
   // Import role members
   let members: `0x${string}`[]
   try {
-    members = (await import(`${rolePath}/members`))
-      .default as `0x${string}`[]
+    members = (await import(`${rolePath}/members`)).default as `0x${string}`[]
   } catch (error: any) {
     throw new Error(
       `Failed to import members for role "${roleArg}": ${error.message}`
@@ -132,9 +140,7 @@ export const compileApplyData = async ({
   // Import permissions
   let allowedActions: PermissionList
   try {
-    allowedActions = (
-      await import(`${rolePath}/permissions/_actions`)
-    ).default
+    allowedActions = (await import(`${rolePath}/permissions/_actions`)).default
   } catch (error: any) {
     throw new Error(
       `Failed to import actions for role "${roleArg}": ${error.message}`
@@ -143,9 +149,7 @@ export const compileApplyData = async ({
 
   let allowedCalls: PermissionList | ((parameters: any) => PermissionList)
   try {
-    allowedCalls = (
-      await import(`${rolePath}/permissions/calls`)
-    ).default
+    allowedCalls = (await import(`${rolePath}/permissions/calls`)).default
   } catch (error: any) {
     throw new Error(
       `Failed to import calls for role "${roleArg}": ${error.message}`
