@@ -7,6 +7,7 @@ import {
 import type { Instance, PermissionList } from "@/types"
 import fs from "node:fs"
 import path from "node:path"
+import { pathToFileURL } from "node:url"
 import {
   discoverAvailableConfigs,
   formatAvailableConfigs,
@@ -118,9 +119,7 @@ export const compileApplyData = async ({
   // Import instance
   let instance: Instance
   try {
-    instance = (await import(
-      `../clients/${clientArg}/${accountName}/instances/${instanceName}`
-    )) as Instance
+    instance = (await import(pathToFileURL(instancePath).href)) as Instance
   } catch (error: any) {
     throw new Error(
       `Failed to import instance "${instanceName}" from "${clientArg}/${accountName}": ${error.message}`
@@ -130,7 +129,7 @@ export const compileApplyData = async ({
   // Import role members
   let members: `0x${string}`[]
   try {
-    members = (await import(`${rolePath}/members`)).default as `0x${string}`[]
+    members = (await import(pathToFileURL(path.join(rolePath, "members.ts")).href)).default as `0x${string}`[]
   } catch (error: any) {
     throw new Error(
       `Failed to import members for role "${roleArg}": ${error.message}`
@@ -140,7 +139,7 @@ export const compileApplyData = async ({
   // Import permissions
   let allowedActions: PermissionList
   try {
-    allowedActions = (await import(`${rolePath}/permissions/_actions`)).default
+    allowedActions = (await import(pathToFileURL(path.join(rolePath, "permissions", "_actions.ts")).href)).default
   } catch (error: any) {
     throw new Error(
       `Failed to import actions for role "${roleArg}": ${error.message}`
@@ -149,7 +148,7 @@ export const compileApplyData = async ({
 
   let allowedCalls: PermissionList | ((parameters: any) => PermissionList)
   try {
-    allowedCalls = (await import(`${rolePath}/permissions/calls`)).default
+    allowedCalls = (await import(pathToFileURL(path.join(rolePath, "permissions", "calls.ts")).href)).default
   } catch (error: any) {
     throw new Error(
       `Failed to import calls for role "${roleArg}": ${error.message}`
