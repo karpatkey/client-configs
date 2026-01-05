@@ -129,7 +129,9 @@ export const compileApplyData = async ({
   // Import role members
   let members: `0x${string}`[]
   try {
-    members = (await import(pathToFileURL(path.join(rolePath, "members.ts")).href)).default as `0x${string}`[]
+    members = (
+      await import(pathToFileURL(path.join(rolePath, "members.ts")).href)
+    ).default as `0x${string}`[]
   } catch (error: any) {
     throw new Error(
       `Failed to import members for role "${roleArg}": ${error.message}`
@@ -139,7 +141,11 @@ export const compileApplyData = async ({
   // Import permissions
   let allowedActions: PermissionList
   try {
-    allowedActions = (await import(pathToFileURL(path.join(rolePath, "permissions", "_actions.ts")).href)).default
+    allowedActions = (
+      await import(
+        pathToFileURL(path.join(rolePath, "permissions", "_actions.ts")).href
+      )
+    ).default
   } catch (error: any) {
     throw new Error(
       `Failed to import actions for role "${roleArg}": ${error.message}`
@@ -148,7 +154,11 @@ export const compileApplyData = async ({
 
   let allowedCalls: PermissionList | ((parameters: any) => PermissionList)
   try {
-    allowedCalls = (await import(pathToFileURL(path.join(rolePath, "permissions", "calls.ts")).href)).default
+    allowedCalls = (
+      await import(
+        pathToFileURL(path.join(rolePath, "permissions", "calls.ts")).href
+      )
+    ).default
   } catch (error: any) {
     throw new Error(
       `Failed to import calls for role "${roleArg}": ${error.message}`
