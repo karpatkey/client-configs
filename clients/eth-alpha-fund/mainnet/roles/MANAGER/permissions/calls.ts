@@ -1,23 +1,10 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { contracts } from "@/contracts"
-import {
-  eETH,
-  rETH,
-  WETH,
-  wstETH,
-  aura,
-  balancerV3,
-} from "@/addresses/eth"
-import {
-  WETH as WETH_arb1,
-} from "@/addresses/arb1"
-import {
-  WETH as WETH_base,
-} from "@/addresses/base"
-import {
-  WETH as WETH_oeth,
-} from "@/addresses/oeth"
+import { eETH, rETH, WETH, wstETH, aura, balancerV3 } from "@/addresses/eth"
+import { WETH as WETH_arb1 } from "@/addresses/arb1"
+import { WETH as WETH_base } from "@/addresses/base"
+import { WETH as WETH_oeth } from "@/addresses/oeth"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
 import { Parameters } from "../../../parameters"
@@ -198,7 +185,10 @@ export default (parameters: Parameters) =>
           // https://etherscan.io/address/0xb4299a1f5f26ff6a98b7ba35572290c359fde900#code#F6#L116
           // https://etherscan.io/address/0xb4299a1f5f26ff6a98b7ba35572290c359fde900#code#F15#L58
           // The callHookData should be scoped to 0x to prevent any unwanted data from being included
-          c.or("0x", c.abiEncodedMatches([undefined, "0x"], ["uint256", "bytes"])),
+          c.or(
+            "0x",
+            c.abiEncodedMatches([undefined, "0x"], ["uint256", "bytes"])
+          )
         )
       )
     ),
@@ -217,11 +207,14 @@ export default (parameters: Parameters) =>
       undefined,
       undefined,
       undefined,
-      "0x",
+      "0x"
     ),
 
     // wstETH - Arbitrum Bridge
-    allowErc20Approve([wstETH], [contracts.mainnet.arbitrumBridge.lidoArbL1Erc20TokenGateway]),
+    allowErc20Approve(
+      [wstETH],
+      [contracts.mainnet.arbitrumBridge.lidoArbL1Erc20TokenGateway]
+    ),
     allow.mainnet.arbitrumBridge.arbL1GatewayRouter.outboundTransfer(
       wstETH,
       c.avatar,
@@ -252,7 +245,10 @@ export default (parameters: Parameters) =>
           // https://etherscan.io/address/0xb4299a1f5f26ff6a98b7ba35572290c359fde900#code#F6#L116
           // https://etherscan.io/address/0xb4299a1f5f26ff6a98b7ba35572290c359fde900#code#F15#L58
           // The callHookData should be scoped to 0x to prevent any unwanted data from being included
-          c.or("0x", c.abiEncodedMatches([undefined, "0x"], ["uint256", "bytes"])),
+          c.or(
+            "0x",
+            c.abiEncodedMatches([undefined, "0x"], ["uint256", "bytes"])
+          )
         )
       )
     ),
@@ -263,7 +259,7 @@ export default (parameters: Parameters) =>
       c.avatar,
       undefined,
       // 0x6272696467670a equals bridgg in hex and 0x73757065726272696467650a equals superbridge in hex
-      c.or("0x", "0x6272696467670a", "0x73757065726272696467650a"), 
+      c.or("0x", "0x6272696467670a", "0x73757065726272696467650a"),
       {
         send: true,
       }
@@ -283,7 +279,7 @@ export default (parameters: Parameters) =>
       undefined,
       undefined,
       undefined,
-      "0x",
+      "0x"
     ),
 
     // Mainnet -> Gnosis
@@ -387,7 +383,7 @@ export default (parameters: Parameters) =>
         })
       )
     ),
-    
+
     // wstETH - Gnosis Bridge
     allowErc20Approve([wstETH], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
     allow.mainnet.gnosisBridge.gnoOmnibridge[
@@ -510,6 +506,6 @@ export default (parameters: Parameters) =>
       undefined,
       undefined,
       undefined,
-      "0x",
+      "0x"
     ),
   ] satisfies PermissionList

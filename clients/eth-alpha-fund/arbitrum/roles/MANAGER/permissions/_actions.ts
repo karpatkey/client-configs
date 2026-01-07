@@ -1,11 +1,5 @@
 import { allow as allowAction } from "defi-kit/arb1"
-import {
-  ezETH,
-  rsETH,
-  weETH,
-  WETH,
-  wstETH,
-} from "@/addresses/arb1"
+import { ezETH, rsETH, weETH, WETH, wstETH } from "@/addresses/arb1"
 import { Parameters } from "../../../parameters"
 
 export default (parameters: Parameters) => [
@@ -21,8 +15,9 @@ export default (parameters: Parameters) => [
   allowAction.aave_v3.deposit({ targets: ["wstETH"] }),
 
   // Aave v3 Core Market - Borrow WETH
-  allowAction.aave_v3.borrow({ targets: ["WETH"] }),,
+  allowAction.aave_v3.borrow({ targets: ["WETH"] }),
 
+  ,
   // CowSwap - [ezETH, rsETH, weETH, WETH, wstETH] <-> [ezETH, rsETH, weETH, WETH, wstETH]
   allowAction.cowswap.swap({
     sell: [ezETH, rsETH, weETH, WETH, wstETH],

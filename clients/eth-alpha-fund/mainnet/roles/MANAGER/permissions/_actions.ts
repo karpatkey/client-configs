@@ -67,16 +67,7 @@ export default (parameters: Parameters) => [
       WETH,
       wstETH,
     ],
-    buy: [
-      ETHPlus,
-      ezETH,
-      rETH,
-      rsETH,
-      stETH,
-      weETH,
-      WETH,
-      wstETH,
-    ],
+    buy: [ETHPlus, ezETH, rETH, rsETH, stETH, weETH, WETH, wstETH],
   }),
 
   // Gearbox - ETH v3 - Curator: kpk

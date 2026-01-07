@@ -1,13 +1,8 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { contracts } from "@/contracts"
-import {
-  WETH,
-} from "@/addresses/arb1"
-import {
-  WETH as WETH_eth,
-  wstETH as wstETH_eth,
-}from "@/addresses/eth"
+import { WETH } from "@/addresses/arb1"
+import { WETH as WETH_eth, wstETH as wstETH_eth } from "@/addresses/eth"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
 import { Parameters } from "../../../parameters"
@@ -34,12 +29,9 @@ export default (parameters: Parameters) =>
 
     // WETH - Arbitrum Bridge
     // No need to approve WETH for the bridge, as it is handled by the bridge
-    allow.arbitrumOne.arbitrumBridge.gatewayRouter["outboundTransfer(address,address,uint256,bytes)"](
-      WETH_eth,
-      c.avatar,
-      undefined,
-      "0x",
-    ),
+    allow.arbitrumOne.arbitrumBridge.gatewayRouter[
+      "outboundTransfer(address,address,uint256,bytes)"
+    ](WETH_eth, c.avatar, undefined, "0x"),
 
     // WETH - Across
     allowErc20Approve([WETH], [contracts.mainnet.across.ethereumSpokePoolV2]),
@@ -55,15 +47,12 @@ export default (parameters: Parameters) =>
       undefined,
       undefined,
       undefined,
-      "0x",
+      "0x"
     ),
 
     // wstETH - Arbitrum Bridge
     // No need to approve wstETH for the bridge, as it is handled by the bridge
-    allow.arbitrumOne.arbitrumBridge.gatewayRouter["outboundTransfer(address,address,uint256,bytes)"](
-      wstETH_eth,
-      c.avatar,
-      undefined,
-      "0x",
-    ),
+    allow.arbitrumOne.arbitrumBridge.gatewayRouter[
+      "outboundTransfer(address,address,uint256,bytes)"
+    ](wstETH_eth, c.avatar, undefined, "0x"),
   ] satisfies PermissionList
