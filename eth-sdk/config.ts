@@ -11,11 +11,16 @@ export const contracts = {
       stkwaEthToken: "0xaAFD07D53A7365D3e9fb6F3a3B09EC19676B73Ce", // stkwaEthWETH
       umbrellaRewardsController: "0x4655Ce3D625a63d30bA704087E52B4C31E38188B",
     },
-    acrossV2: {
-      hubPoolV2: "0xc186fA914353c44b2E33eBE05f21846F1048bEda",
+    across: {
+      ethereumSpokePoolV2: "0x5c7BCd6E7De5423a257D81B442095A1a6ced35C5",
     },
     angle: {
       wstEthEurVault: "0x73aaf8694BA137a7537E7EF544fcf5E2475f227B",
+    },
+    arbitrumBridge: {
+      ...deFiKitContracts.mainnet.arbitrumBridge,
+      wethGateway: "0xd92023E9d9911199a6711321D1277285e6d4e2db",
+      lidoArbL1Erc20TokenGateway: "0x0F25c1DC2a9922304f2eac71DCa9B07E310e8E5a",
     },
     autonolas: {
       veOlas: "0x7e01A500805f8A52Fad229b3015AD130A332B7b3",
@@ -308,6 +313,14 @@ export const contracts = {
   },
   arbitrumOne: {
     ...deFiKitContracts.arbitrumOne,
+    across: {
+      bridge: "0xe35e9842fceaCA96570B734083f4a58e8F7C5f2A",
+    },
+    arbitrumBridge: {
+      ...deFiKitContracts.arbitrumOne.arbitrumBridge,
+      l2WethGateway: "0x6c411aD3E74De3E7Bd422b94A27770f5B86C623B",
+      lidoL2Erc20TokenGateway: "0x07D4692291B9E30E326fd31706f686f83f331B82",
+    },
     balancerV3: {
       compositeLiquidityRouter: "0xC1A64500E035D9159C8826E982dFb802003227f0",
     },

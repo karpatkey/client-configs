@@ -300,7 +300,7 @@ export default (parameters: Parameters) =>
     ),
 
     // Mainnet -> Base
-    // ETH - Base Bridge
+    // ETH - Base Bridge - TODO!!!!!: verify _extraData: 1) bridgg data 0x6272696467670a or 2) superbridge data 0x73757065726272696467650a
     allow.mainnet.baseBridge.baseBridge.bridgeETHTo(
       c.avatar,
       undefined,

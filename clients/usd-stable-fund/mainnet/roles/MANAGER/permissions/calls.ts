@@ -346,7 +346,7 @@ export default (parameters: Parameters) =>
       undefined,
       undefined,
       undefined,
-      c.abiEncodedMatches([undefined, "0x"], ["uint256", "bytes"]),
+      c.or("0x", c.abiEncodedMatches([undefined, "0x"], ["uint256", "bytes"])),
       {
         send: true,
       }
