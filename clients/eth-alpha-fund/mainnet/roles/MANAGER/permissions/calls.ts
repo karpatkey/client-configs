@@ -194,8 +194,8 @@ export default (parameters: Parameters) =>
     ),
 
     // WETH - Across
-    allowErc20Approve([WETH], [contracts.mainnet.across.ethereumSpokePoolV2]),
-    allow.mainnet.across.ethereumSpokePoolV2.deposit(
+    allowErc20Approve([WETH], [contracts.mainnet.across.spokePoolV2]),
+    allow.mainnet.across.spokePoolV2.deposit(
       "0x" + parameters.avatar.slice(2).padStart(64, "0"),
       "0x" + parameters.avatar.slice(2).padStart(64, "0"),
       "0x" + WETH.slice(2).padStart(64, "0"),
@@ -203,7 +203,10 @@ export default (parameters: Parameters) =>
       undefined,
       undefined,
       42161,
-      "0x0000000000000000000000000000000000000000000000000000000000000000",
+      // Relayer exclusivity is dynamically set by the Across API per quote
+      // and must not be hardcoded.
+      // https://docs.across.to/relayers/relayer-nomination
+      undefined,
       undefined,
       undefined,
       undefined,
@@ -258,16 +261,63 @@ export default (parameters: Parameters) =>
     allow.mainnet.baseBridge.baseBridge.bridgeETHTo(
       c.avatar,
       undefined,
-      // 0x6272696467670a equals bridgg in hex and 0x73757065726272696467650a equals superbridge in hex
-      c.or("0x", "0x6272696467670a", "0x73757065726272696467650a"),
+      // 0x6272696467670a equals bridgg in hex and 0x7375706572627269646765 equals superbridge in hex
+      c.or("0x", "0x6272696467670a", "0x7375706572627269646765"),
       {
         send: true,
       }
     ),
+    // Claim bridged ETH from Base
+    // Test txn: https://etherscan.io/tx/0x1c1a3ae0983253305fe3253b167683c7abe4f6f3ee70bc3259946ccf2e9c8150
+    allow.mainnet.baseBridge.basePortal.proveWithdrawalTransaction({
+      sender: contracts.base.baseBridge.l2CrossDomainMessengerProxy,
+      target: contracts.mainnet.baseBridge.resolvedDelegateProxy,
+      data: c.calldataMatches(
+        allow.mainnet.baseBridge.resolvedDelegateProxy.relayMessage(
+          undefined,
+          contracts.base.baseBridge.l2StandardBridgeProxy,
+          contracts.mainnet.baseBridge.baseBridge,
+          undefined,
+          undefined,
+          c.calldataMatches(
+            // https://etherscan.io/address/0x0b09ba359a106c9ea3b181cbc5f394570c7d2a7a#code#F2#L239
+            // No need to scope _extraData since it’s only used in _emitETHBridgeFinalized
+            allow.mainnet.baseBridge.baseBridge.finalizeBridgeETH(
+              c.avatar,
+              c.avatar
+            )
+          )
+        )
+      ),
+    }),
+    // Test txn: https://etherscan.io/tx/0x5123d4c0401ef5c96f1094233c0f8daa4a819f714edf7e941af8c8a12a730534
+    allow.mainnet.baseBridge.basePortal.finalizeWithdrawalTransactionExternalProof(
+      {
+        sender: contracts.base.baseBridge.l2CrossDomainMessengerProxy,
+        target: contracts.mainnet.baseBridge.resolvedDelegateProxy,
+        data: c.calldataMatches(
+          allow.mainnet.baseBridge.resolvedDelegateProxy.relayMessage(
+            undefined,
+            contracts.base.baseBridge.l2StandardBridgeProxy,
+            contracts.mainnet.baseBridge.baseBridge,
+            undefined,
+            undefined,
+            c.calldataMatches(
+              // https://etherscan.io/address/0x0b09ba359a106c9ea3b181cbc5f394570c7d2a7a#code#F2#L239
+              // No need to scope _extraData since it’s only used in _emitETHBridgeFinalized
+              allow.mainnet.baseBridge.baseBridge.finalizeBridgeETH(
+                c.avatar,
+                c.avatar
+              )
+            )
+          )
+        ),
+      }
+    ),
 
     // WETH - Across
-    allowErc20Approve([WETH], [contracts.mainnet.across.ethereumSpokePoolV2]),
-    allow.mainnet.across.ethereumSpokePoolV2.deposit(
+    allowErc20Approve([WETH], [contracts.mainnet.across.spokePoolV2]),
+    allow.mainnet.across.spokePoolV2.deposit(
       "0x" + parameters.avatar.slice(2).padStart(64, "0"),
       "0x" + parameters.avatar.slice(2).padStart(64, "0"),
       "0x" + WETH.slice(2).padStart(64, "0"),
@@ -275,7 +325,10 @@ export default (parameters: Parameters) =>
       undefined,
       undefined,
       8453,
-      "0x0000000000000000000000000000000000000000000000000000000000000000",
+      // Relayer exclusivity is dynamically set by the Across API per quote
+      // and must not be hardcoded.
+      // https://docs.across.to/relayers/relayer-nomination
+      undefined,
       undefined,
       undefined,
       undefined,
@@ -485,16 +538,39 @@ export default (parameters: Parameters) =>
     allow.mainnet.optimismBridge.optGateway.bridgeETHTo(
       c.avatar,
       undefined,
-      // 0x6272696467670a equals bridgg in hex and 0x73757065726272696467650a equals superbridge in hex
-      c.or("0x", "0x6272696467670a", "0x73757065726272696467650a"),
+      // 0x6272696467670a equals bridgg in hex and 0x7375706572627269646765 equals superbridge in hex
+      c.or("0x", "0x6272696467670a", "0x7375706572627269646765"),
       {
         send: true,
       }
     ),
+    // Claim bridged ETH from Optimism
+    // Test txn: https://etherscan.io/tx/0xe1281bc099725e8adedd86a95e2a51b0396c01d64e4c536db1dd68eaab73168a
+    allow.mainnet.baseBridge.basePortal.proveWithdrawalTransaction({
+      sender: contracts.optimism.optimismBridge.l2CrossDomainMessenger,
+      target: contracts.mainnet.optimismBridge.l1CrossDomainMessenger,
+      data: c.calldataMatches(
+        allow.mainnet.baseBridge.resolvedDelegateProxy.relayMessage(
+          undefined,
+          contracts.optimism.optimismBridge.optimismBridge,
+          contracts.optimism.optimismBridge.gateway,
+          undefined,
+          undefined,
+          c.calldataMatches(
+            // https://etherscan.io/address/0x0b09ba359a106c9ea3b181cbc5f394570c7d2a7a#code#F2#L239
+            // No need to scope _extraData since it’s only used in _emitETHBridgeFinalized
+            allow.mainnet.baseBridge.baseBridge.finalizeBridgeETH(
+              c.avatar,
+              c.avatar
+            )
+          )
+        )
+      ),
+    }),
 
     // WETH - Across
-    allowErc20Approve([WETH], [contracts.mainnet.across.ethereumSpokePoolV2]),
-    allow.mainnet.across.ethereumSpokePoolV2.deposit(
+    allowErc20Approve([WETH], [contracts.mainnet.across.spokePoolV2]),
+    allow.mainnet.across.spokePoolV2.deposit(
       "0x" + parameters.avatar.slice(2).padStart(64, "0"),
       "0x" + parameters.avatar.slice(2).padStart(64, "0"),
       "0x" + WETH.slice(2).padStart(64, "0"),
@@ -502,7 +578,10 @@ export default (parameters: Parameters) =>
       undefined,
       undefined,
       10,
-      "0x0000000000000000000000000000000000000000000000000000000000000000",
+      // Relayer exclusivity is dynamically set by the Across API per quote
+      // and must not be hardcoded.
+      // https://docs.across.to/relayers/relayer-nomination
+      undefined,
       undefined,
       undefined,
       undefined,

@@ -12,7 +12,7 @@ export const contracts = {
       umbrellaRewardsController: "0x4655Ce3D625a63d30bA704087E52B4C31E38188B",
     },
     across: {
-      ethereumSpokePoolV2: "0x5c7BCd6E7De5423a257D81B442095A1a6ced35C5",
+      spokePoolV2: "0x5c7BCd6E7De5423a257D81B442095A1a6ced35C5",
     },
     angle: {
       wstEthEurVault: "0x73aaf8694BA137a7537E7EF544fcf5E2475f227B",
@@ -162,6 +162,10 @@ export const contracts = {
       shares: "0x673493C9d023CecDB026AB090853f9D2f2FFE764", // prod shares implementation
       navCalculator: "0x7C90871c0bd3eb276712f9f783F30Bfaf215Be64", // prod navCalculator implementation
     },
+    optimismBridge: {
+      ...deFiKitContracts.mainnet.optimismBridge,
+      l1CrossDomainMessenger: "0x25ace71c97B33Cc4729CF772ae268934F7ab5fA1",
+    },
     origin: {
       oEthZapper: "0x9858e47BCbBe6fBAC040519B02d7cd4B2C470C66",
       armOethWeth: "0x6bac785889A4127dB0e0CeFEE88E0a9F1Aaf3cC7",
@@ -297,6 +301,9 @@ export const contracts = {
   },
   optimism: {
     ...deFiKitContracts.optimism,
+    across: {
+      spokePool: "0x6f26Bf09B1C792e3228e5467807a900A503c0281",
+    },
     curve: {
       x3CrvPool: "0x1337BedC9D22ecbe766dF105c9623922A27963EC",
       crvUsdUsdcPool: "0x03771e24b7C9172d163Bf447490B142a15be3485",
@@ -305,6 +312,11 @@ export const contracts = {
     },
     oiv: {
       navCalculator: "0x7C90871c0bd3eb276712f9f783F30Bfaf215Be64", // prod navCalculator implementation
+    },
+    optimismBridge: {
+      ...deFiKitContracts.optimism.optimismBridge,
+      l2CrossDomainMessenger: "0x4200000000000000000000000000000000000007",
+      gateway: "0x99C9fc46f92E8a1c0deC1b1747d010903E884bE1",
     },
     stargate: {
       poolUsdc: "0xcE8CcA271Ebc0533920C83d39F417ED6A0abB7D0",
@@ -369,8 +381,15 @@ export const contracts = {
   },
   base: {
     ...deFiKitContracts.base,
+    across: {
+      spokePool: "0x09aea4b2242abC8bb4BB78D537A67a245A7bEC64",
+    },
     balancerV3: {
       compositeLiquidityRouter: "0x9dA18982a33FD0c7051B19F0d7C76F2d5E7e017c",
+    },
+    baseBridge: {
+      l2CrossDomainMessengerProxy: "0x4200000000000000000000000000000000000007",
+      l2StandardBridgeProxy: "0x4200000000000000000000000000000000000010",
     },
     chainlink: {
       router: "0x881e3A65B4d4a04dD529061dd0071cf975F58bCD",
@@ -388,7 +407,6 @@ export const contracts = {
     sushiSwap: {
       routeProcessor4: "0x0389879e0156033202C44BF784ac18fC02edeE4f",
     },
-    baseBridge: "0x4200000000000000000000000000000000000010",
   },
 } as const
 

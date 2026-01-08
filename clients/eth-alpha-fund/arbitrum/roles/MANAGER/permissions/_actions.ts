@@ -3,21 +3,20 @@ import { ezETH, rsETH, weETH, WETH, wstETH } from "@/addresses/arb1"
 import { Parameters } from "../../../parameters"
 
 export default (parameters: Parameters) => [
-  // Aave v3 Core Market - Deposit ezETH
+  // Aave v3 - Deposit ezETH
   allowAction.aave_v3.deposit({ targets: ["ezETH"] }),
-  // Aave v3 Core Market - Deposit rsETH
+  // Aave v3 - Deposit rsETH
   allowAction.aave_v3.deposit({ targets: ["rsETH"] }),
-  // Aave v3 Core Market - Deposit weETH
+  // Aave v3 - Deposit weETH
   allowAction.aave_v3.deposit({ targets: ["weETH"] }),
-  // Aave v3 Core Market - Deposit WETH
+  // Aave v3 - Deposit WETH
   allowAction.aave_v3.deposit({ targets: ["WETH"] }),
-  // Aave v3 Core Market - Deposit wstETH
+  // Aave v3 - Deposit wstETH
   allowAction.aave_v3.deposit({ targets: ["wstETH"] }),
 
-  // Aave v3 Core Market - Borrow WETH
+  // Aave v3 - Borrow WETH
   allowAction.aave_v3.borrow({ targets: ["WETH"] }),
 
-  ,
   // CowSwap - [ezETH, rsETH, weETH, WETH, wstETH] <-> [ezETH, rsETH, weETH, WETH, wstETH]
   allowAction.cowswap.swap({
     sell: [ezETH, rsETH, weETH, WETH, wstETH],

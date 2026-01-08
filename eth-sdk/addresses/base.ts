@@ -8,14 +8,9 @@ export const DAI = "0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb"
 export const GHO = "0x6Bb7a212910682DCFdbd5BCBb3e28FB4E8da10Ee"
 export const MORPHO = "0xBAa5CC21fd487B8Fcc2F632f3F4E8D37262a0842"
 export const USDC = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
+export const weETH = "0x04C0599Ae5A44757c0af6F9eC3b93da8976c150A"
 export const WETH = "0x4200000000000000000000000000000000000006"
-
-// Base Bridge
-// Bridges
-export const baseBridge = {
-  l2CrossDomainMessengerProxy: "0x4200000000000000000000000000000000000007",
-  l2StandardBridgeProxy: "0x4200000000000000000000000000000000000010",
-}
+export const wstETH = "0xc1CBa3fCea344f92D9239c08C0568f6F2F0ee452"
 
 // Protocols
 export const aura = {
