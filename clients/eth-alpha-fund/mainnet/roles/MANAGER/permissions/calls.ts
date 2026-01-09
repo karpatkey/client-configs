@@ -545,21 +545,21 @@ export default (parameters: Parameters) =>
       }
     ),
     // Claim bridged ETH from Optimism
-    // Test txn: https://etherscan.io/tx/0xe1281bc099725e8adedd86a95e2a51b0396c01d64e4c536db1dd68eaab73168a
-    allow.mainnet.baseBridge.basePortal.proveWithdrawalTransaction({
+    // Test txn: https://etherscan.io/tx/0xed30859c45ad41995399e00d5b54fb95fd2a6ecf429a550b8f38907757bb6858
+    allow.mainnet.optimismBridge.optimismPortal.proveWithdrawalTransaction({
       sender: contracts.optimism.optimismBridge.l2CrossDomainMessenger,
       target: contracts.mainnet.optimismBridge.l1CrossDomainMessenger,
       data: c.calldataMatches(
-        allow.mainnet.baseBridge.resolvedDelegateProxy.relayMessage(
+        allow.mainnet.optimismBridge.l1CrossDomainMessenger.relayMessage(
           undefined,
           contracts.optimism.optimismBridge.optimismBridge,
-          contracts.optimism.optimismBridge.gateway,
+          contracts.mainnet.optimismBridge.gateway,
           undefined,
           undefined,
           c.calldataMatches(
             // https://etherscan.io/address/0x0b09ba359a106c9ea3b181cbc5f394570c7d2a7a#code#F2#L239
             // No need to scope _extraData since it’s only used in _emitETHBridgeFinalized
-            allow.mainnet.baseBridge.baseBridge.finalizeBridgeETH(
+            allow.mainnet.optimismBridge.gateway.finalizeBridgeETH(
               c.avatar,
               c.avatar
             )
@@ -567,6 +567,30 @@ export default (parameters: Parameters) =>
         )
       ),
     }),
+    // Test txn: https://etherscan.io/tx/0xf33671de6ad582934ed091971b01940372a4e19df99b0dd3b03392d0ced63a4d
+    allow.mainnet.optimismBridge.optimismPortal.finalizeWithdrawalTransactionExternalProof(
+      {
+        sender: contracts.optimism.optimismBridge.l2CrossDomainMessenger,
+        target: contracts.mainnet.optimismBridge.l1CrossDomainMessenger,
+        data: c.calldataMatches(
+          allow.mainnet.optimismBridge.l1CrossDomainMessenger.relayMessage(
+            undefined,
+            contracts.optimism.optimismBridge.optimismBridge,
+            contracts.mainnet.optimismBridge.gateway,
+            undefined,
+            undefined,
+            c.calldataMatches(
+              // https://etherscan.io/address/0x0b09ba359a106c9ea3b181cbc5f394570c7d2a7a#code#F2#L239
+              // No need to scope _extraData since it’s only used in _emitETHBridgeFinalized
+              allow.mainnet.optimismBridge.gateway.finalizeBridgeETH(
+                c.avatar,
+                c.avatar
+              )
+            )
+          )
+        ),
+      }
+    ),
 
     // WETH - Across
     allowErc20Approve([WETH], [contracts.mainnet.across.spokePoolV2]),

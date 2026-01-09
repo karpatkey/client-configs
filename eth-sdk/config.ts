@@ -165,6 +165,8 @@ export const contracts = {
     optimismBridge: {
       ...deFiKitContracts.mainnet.optimismBridge,
       l1CrossDomainMessenger: "0x25ace71c97B33Cc4729CF772ae268934F7ab5fA1",
+      optimismPortal: "0xbEb5Fc579115071764c7423A4f12eDde41f106Ed",
+      gateway: "0x99C9fc46f92E8a1c0deC1b1747d010903E884bE1",
     },
     origin: {
       oEthZapper: "0x9858e47BCbBe6fBAC040519B02d7cd4B2C470C66",
@@ -316,7 +318,6 @@ export const contracts = {
     optimismBridge: {
       ...deFiKitContracts.optimism.optimismBridge,
       l2CrossDomainMessenger: "0x4200000000000000000000000000000000000007",
-      gateway: "0x99C9fc46f92E8a1c0deC1b1747d010903E884bE1",
     },
     stargate: {
       poolUsdc: "0xcE8CcA271Ebc0533920C83d39F417ED6A0abB7D0",
