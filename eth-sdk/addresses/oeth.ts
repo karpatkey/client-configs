@@ -5,6 +5,7 @@ export const COMP = "0x7e7d4467112689329f7E06571eD0E8CbAd4910eE"
 export const USDC = "0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85"
 export const USDT = "0x94b008aa00579c1307b0ef2c499ad98a8ce58e58"
 export const USDCe = "0x7F5c764cBc14f9669B88837ca1490cCa17c31607"
+export const WETH = "0x4200000000000000000000000000000000000006"
 
 export const balancer = {
   stableBeetsPid:
