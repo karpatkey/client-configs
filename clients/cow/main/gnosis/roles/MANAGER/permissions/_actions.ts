@@ -1,6 +1,6 @@
 import {
   COW,
-  EURe, 
+  EURe,
   GNO,
   sDAI,
   USDC,
@@ -9,7 +9,7 @@ import {
   WETH,
   wstETH,
   WXDAI,
- } from "@/addresses/gno"
+} from "@/addresses/gno"
 import { allow as allowAction } from "defi-kit/gno"
 
 export default [
@@ -23,7 +23,19 @@ export default [
   // CowSwap - [COW, EURe, GNO, sDAI, USDC, USDC.e, USDT, WETH, wstETH, WXDAI, XDAI] <->
   // [COW, EURe, GNO, sDAI, USDC, USDC.e, USDT, WETH, wstETH, WXDAI, XDAI]
   allowAction.cowswap.swap({
-    sell: ["XDAI", COW, EURe, GNO, sDAI, USDC, USDCe, USDT, WETH, wstETH, WXDAI],
+    sell: [
+      "XDAI",
+      COW,
+      EURe,
+      GNO,
+      sDAI,
+      USDC,
+      USDCe,
+      USDT,
+      WETH,
+      wstETH,
+      WXDAI,
+    ],
     buy: ["XDAI", COW, EURe, GNO, sDAI, USDC, USDCe, USDT, WETH, wstETH, WXDAI],
   }),
 

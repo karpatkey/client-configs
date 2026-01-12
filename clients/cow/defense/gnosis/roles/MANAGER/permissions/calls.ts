@@ -14,7 +14,7 @@ export default (parameters: Parameters) =>
      *********************************************/
     // Transfer XDAI to the Main Treasury
     allowEthTransfer(mainTreasury),
-  
+
     // Transfer USDC and USDT to the Main Treasury
     allowErc20Transfer([USDC, USDT], [mainTreasury]),
 
