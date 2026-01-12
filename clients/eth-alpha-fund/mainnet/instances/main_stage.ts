@@ -4,5 +4,5 @@ export const rolesMod = ""
 export const chainId = 1
 
 export const parameters: Parameters = {
-  avatar: "0x40B15e05D528827e5814A1D247b0B9d85C017341",
+  avatar: "0x54Ed53CAEC03c1e58f708922f68f12Ed411E1026",
 }

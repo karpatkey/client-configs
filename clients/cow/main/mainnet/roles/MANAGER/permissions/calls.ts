@@ -791,7 +791,7 @@ export default (parameters: Parameters) =>
     ),
 
     // Mainnet -> Base
-    // ETH - Base Bridge
+    // ETH - Base Bridge - TODO!!!!!: verify _extraData: 1) bridgg data 0x6272696467670a or 2) superbridge data 0x7375706572627269646765
     allow.mainnet.baseBridge.baseBridge.bridgeETHTo(
       c.avatar,
       undefined,
@@ -803,12 +803,12 @@ export default (parameters: Parameters) =>
     // Claim bridged ETH from Base
     // Test txn: https://etherscan.io/tx/0x1c1a3ae0983253305fe3253b167683c7abe4f6f3ee70bc3259946ccf2e9c8150
     allow.mainnet.baseBridge.basePortal.proveWithdrawalTransaction({
-      sender: baseBridgeBase.l2CrossDomainMessengerProxy,
+      sender: contracts.base.baseBridge.l2CrossDomainMessengerProxy,
       target: contracts.mainnet.baseBridge.resolvedDelegateProxy,
       data: c.calldataMatches(
         allow.mainnet.baseBridge.resolvedDelegateProxy.relayMessage(
           undefined,
-          baseBridgeBase.l2StandardBridgeProxy,
+          contracts.base.baseBridge.l2StandardBridgeProxy,
           contracts.mainnet.baseBridge.baseBridge,
           undefined,
           undefined,
@@ -826,12 +826,12 @@ export default (parameters: Parameters) =>
     // Test txn: https://etherscan.io/tx/0x5123d4c0401ef5c96f1094233c0f8daa4a819f714edf7e941af8c8a12a730534
     allow.mainnet.baseBridge.basePortal.finalizeWithdrawalTransactionExternalProof(
       {
-        sender: baseBridgeBase.l2CrossDomainMessengerProxy,
+        sender: contracts.base.baseBridge.l2CrossDomainMessengerProxy,
         target: contracts.mainnet.baseBridge.resolvedDelegateProxy,
         data: c.calldataMatches(
           allow.mainnet.baseBridge.resolvedDelegateProxy.relayMessage(
             undefined,
-            baseBridgeBase.l2StandardBridgeProxy,
+            contracts.base.baseBridge.l2StandardBridgeProxy,
             contracts.mainnet.baseBridge.baseBridge,
             undefined,
             undefined,

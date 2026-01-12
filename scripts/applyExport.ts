@@ -29,48 +29,96 @@ async function main() {
     .positional("account", {
       demandOption: true,
       type: "string",
-      coerce: (value) => (value.includes("/") ? value : value + "/main"),
+      coerce: (value) => {
+        if (!value) return "main/main"
+        return value.includes("/") ? value : `${value}/main`
+      },
     })
-    .positional("role", { demandOption: true, type: "string" }).argv
+    .positional("role", { demandOption: true, type: "string" })
+    .help().argv
 
-  const [clientArg, accountArg, roleArg] = args._ as [string, string, string]
+  // yargs positional arguments can be accessed as properties or via args._
+  // If accessed via properties, coerce function has already run
+  // If accessed via args._, we need to apply coerce logic manually
+  const clientArg = (args.client as string) || (args._[0] as string)
+  let accountArg: string | undefined
 
-  const { targets, annotations, members, instance, roleKey } =
-    await compileApplyData({
-      clientArg,
-      accountArg,
-      roleArg,
-    })
-
-  const encodedRoleKey = encodeBytes32String(roleKey)
-
-  const calls = await planApplyRole(
-    {
-      key: encodedRoleKey,
-      targets,
-      annotations,
-    },
-    { chainId: instance.chainId, address: instance.rolesMod }
-  )
-
-  const txBuilderJson = exportToSafeTransactionBuilder(
-    calls,
-    instance.chainId,
-    roleKey
-  )
-
-  const exportDir = path.join(__dirname, "../export")
-  if (!fs.existsSync(exportDir)) {
-    fs.mkdirSync(exportDir)
+  if (args.account) {
+    // Already coerced by yargs
+    accountArg = args.account as string
+  } else if (args._[1]) {
+    // Need to apply coerce logic manually
+    const accountArgRaw = args._[1] as string
+    accountArg = accountArgRaw.includes("/")
+      ? accountArgRaw
+      : `${accountArgRaw}/main`
   }
 
-  const filePath = path.join(
-    exportDir,
-    `${clientArg}_${accountArg.replace(/\//g, "-")}_${roleArg}.json`
-  )
-  fs.writeFileSync(filePath, JSON.stringify(txBuilderJson, null, 2))
+  const roleArg = (args.role as string) || (args._[2] as string)
 
-  console.log(`Transaction Builder JSON exported to: ${filePath}`)
+  if (!clientArg || !accountArg || !roleArg) {
+    console.error("Error: Missing required arguments")
+    console.error(
+      "\nUsage: yarn apply:export <client> <account(/instance)> <role>"
+    )
+    console.error("\nExamples:")
+    console.error(
+      "  yarn apply:export gnosis-dao/illiquid-assets mainnet/main MANAGER"
+    )
+    console.error("  yarn apply:export balancer-dao mainnet/test MANAGER")
+    console.error("  yarn apply:export gnosis-dao mainnet MANAGER")
+    process.exit(1)
+  }
+
+  try {
+    const { targets, annotations, members, instance, roleKey } =
+      await compileApplyData({
+        clientArg,
+        accountArg,
+        roleArg,
+      })
+
+    const encodedRoleKey = encodeBytes32String(roleKey)
+
+    const calls = await planApplyRole(
+      {
+        key: encodedRoleKey,
+        targets,
+        annotations,
+      },
+      { chainId: instance.chainId, address: instance.rolesMod }
+    )
+
+    const txBuilderJson = exportToSafeTransactionBuilder(
+      calls,
+      instance.chainId,
+      roleKey
+    )
+
+    const exportDir = path.join(__dirname, "../export")
+    if (!fs.existsSync(exportDir)) {
+      fs.mkdirSync(exportDir)
+    }
+
+    const filePath = path.join(
+      exportDir,
+      `${clientArg}_${accountArg.replace(/\//g, "-")}_${roleArg}.json`
+    )
+    fs.writeFileSync(filePath, JSON.stringify(txBuilderJson, null, 2))
+
+    console.log(`Transaction Builder JSON exported to: ${filePath}`)
+  } catch (error: any) {
+    console.error("\n❌ Error:", error.message)
+    if (
+      error.message.includes("Available") ||
+      error.message.includes("not found")
+    ) {
+      console.error(
+        "\n💡 Tip: Use the suggestions above to find the correct client, account, instance, or role."
+      )
+    }
+    process.exit(1)
+  }
 }
 
 main()
