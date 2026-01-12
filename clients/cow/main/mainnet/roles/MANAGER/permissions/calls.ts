@@ -16,7 +16,6 @@ import {
   wstETH,
   aaveV3,
 } from "@/addresses/eth"
-import { baseBridge as baseBridgeBase } from "@/addresses/base"
 import { legalDefenseFund, twapAvatar } from "../../../../../addresses"
 import { PermissionList } from "@/types"
 import {
