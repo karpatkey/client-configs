@@ -7,12 +7,15 @@ import {
   USDC,
   USDCe,
   USDT,
+  WBTC,
   WETH,
+  wstETH,
   WXDAI,
   x3CRV,
   curve,
 } from "@/addresses/gno"
-import { allowErc20Approve } from "@/helpers"
+import { allowErc20Approve, allowErc20Transfer, allowEthTransfer } from "@/helpers"
+import { legalDefenseFund } from "../../../../../addresses"
 import { Parameters } from "../../../../../parameters"
 
 export default (parameters: Parameters) =>
@@ -56,6 +59,15 @@ export default (parameters: Parameters) =>
     allow.gnosis.gnosisBridge.usdcTransmuter.deposit(),
 
     /*********************************************
+     * Transfers
+     *********************************************/
+    // Transfer XDAI to CoW Defense Fund
+    allowEthTransfer(legalDefenseFund),
+  
+    // // Transfer USDC and USDT to CoW Defense Fund
+    // allowErc20Transfer([USDC, USDT], [legalDefenseFund]),
+
+    /*********************************************
      * Bridge
      *********************************************/
     // Gnosis -> Mainnet
@@ -65,6 +77,33 @@ export default (parameters: Parameters) =>
       undefined,
       parameters.avatar
     ),
+
+    // USDC - Gnosis Bridge
+    allow.gnosis.usdc.transferAndCall(
+      contracts.gnosis.gnosisBridge.xdaiBridge,
+      undefined,
+      parameters.avatar
+    ),
+
+    // USDT - Gnosis Bridge
+    {
+      ...allow.gnosis.gno.transferAndCall(
+        contracts.gnosis.gnosisBridge.xdaiBridge,
+        undefined,
+        parameters.avatar
+      ),
+      targetAddress: USDT,
+    },
+
+    // WBTC - Gnosis Bridge
+    {
+      ...allow.gnosis.gno.transferAndCall(
+        contracts.gnosis.gnosisBridge.xdaiBridge,
+        undefined,
+        parameters.avatar
+      ),
+      targetAddress: WBTC,
+    },
 
     // WETH - Gnosis Bridge
     {
@@ -93,8 +132,21 @@ export default (parameters: Parameters) =>
       }
     ),
 
+    // wstETH - Gnosis Bridge
+    {
+      ...allow.gnosis.gno.transferAndCall(
+        contracts.gnosis.gnosisBridge.xdaiBridge,
+        undefined,
+        parameters.avatar
+      ),
+      targetAddress: wstETH,
+    },
+
     // XDAI -> DAI - Gnosis Bridge
     allow.gnosis.gnosisBridge.xdaiBridge2.relayTokens(c.avatar, {
       send: true,
     }),
+
+    // XDAI -> USDS - Gnosis Bridge
+    allow.gnosis.gnosisBridge.usdsDeposit.relayTokens(c.avatar, { send: true }),
   ] satisfies PermissionList
