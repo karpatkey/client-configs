@@ -1,3 +1,4 @@
+import { allow as allowAction } from "defi-kit/gno"
 import {
   COW,
   EURe,
@@ -10,7 +11,6 @@ import {
   wstETH,
   WXDAI,
 } from "@/addresses/gno"
-import { allow as allowAction } from "defi-kit/gno"
 
 export default [
   // Aave v3 - Deposit EURe

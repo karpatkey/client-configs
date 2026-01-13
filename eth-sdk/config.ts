@@ -237,6 +237,9 @@ export const contracts = {
     uniswapV2: {
       router2: "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D",
     },
+    uniswapV4: {
+      positionManager: "0xbD216513d74C8cf14cf4747E6AaA6420FF64ee9e",
+    },
     upshift: {
       maxiUsr: "0xdA89af5bF2eb0B225d787aBfA9095610f2E79e7D",
     },

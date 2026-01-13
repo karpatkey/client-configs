@@ -14,11 +14,7 @@ import {
   x3CRV,
   curve,
 } from "@/addresses/gno"
-import {
-  allowErc20Approve,
-  allowErc20Transfer,
-  allowEthTransfer,
-} from "@/helpers"
+import { allowErc20Approve, allowEthTransfer } from "@/helpers"
 import { legalDefenseFund } from "../../../../../addresses"
 import { Parameters } from "../../../../../parameters"
 
@@ -67,9 +63,6 @@ export default (parameters: Parameters) =>
      *********************************************/
     // Transfer XDAI to CoW Defense Fund
     allowEthTransfer(legalDefenseFund),
-
-    // // Transfer USDC and USDT to CoW Defense Fund
-    // allowErc20Transfer([USDC, USDT], [legalDefenseFund]),
 
     /*********************************************
      * Bridge
