@@ -188,7 +188,9 @@ export default [
   allowAction.spark.deposit({ targets: ["SKY_spUSDT"] }),
 
   // Stakewise v3 - Stake/Unstake ETH
-  allowAction.stakewise_v3.stake({ targets: ["0x15639e82d2072fa510e5d2b5f0db361c823bcad3"] }),
+  allowAction.stakewise_v3.stake({
+    targets: ["0x15639e82d2072fa510e5d2b5f0db361c823bcad3"],
+  }),
 
   // Uniswap v3 - WETH + COW - NFT Id: 1129129
   allowAction.uniswap_v3.deposit({ targets: ["1129129"] }),
