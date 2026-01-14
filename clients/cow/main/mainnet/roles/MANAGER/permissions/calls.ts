@@ -205,6 +205,16 @@ export default (parameters: Parameters) =>
       )
     ),
 
+    // Uniswap v4 - WETH + COW - NFT Id: 67745
+    allowErc20Approve([WETH, COW], [contracts.mainnet.uniswap.permit2]),
+    allow.mainnet.uniswap.permit2.approve(
+      c.or(WETH, COW),
+      contracts.mainnet.uniswapV4.positionManager
+    ),
+    // Roles Modifier v2 supports calldata-based scoping, but modifyLiquidities() is currently too complex to scope safely.
+    // TODO: Revisit and restrict this once the Roles Modifier implementation supports scoping this function.
+    allow.mainnet.uniswapV4.positionManager.modifyLiquidities(),
+
     /*********************************************
      * Transfers
      *********************************************/

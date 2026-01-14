@@ -1,31 +1,27 @@
-import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { contracts } from "@/contracts"
-import { allowErc20Approve } from "@/helpers"
-import { USDC, USDCe, USDT, WBTC, WETH } from "@/addresses/gno"
+import { c } from "zodiac-roles-sdk"
+import { USDC, USDT, WETH } from "@/addresses/gno"
+import { mainTreasury } from "../../../../../addresses"
 import { PermissionList } from "@/types"
-import { Parameters } from "../../../parameters"
+import { allowEthTransfer, allowErc20Transfer } from "@/helpers"
+import { contracts } from "@/contracts"
+import { Parameters } from "../../../../../parameters"
 
 export default (parameters: Parameters) =>
   [
-    // Swap USDC.e -> USDC
-    allowErc20Approve([USDCe], [contracts.gnosis.gnosisBridge.usdcTransmuter]),
-    allow.gnosis.gnosisBridge.usdcTransmuter.withdraw(),
-    // Swap USDC -> USDC.e
-    allowErc20Approve([USDC], [contracts.gnosis.gnosisBridge.usdcTransmuter]),
-    allow.gnosis.gnosisBridge.usdcTransmuter.deposit(),
+    /*********************************************
+     * Transfers
+     *********************************************/
+    // Transfer XDAI to the Main Treasury
+    allowEthTransfer(mainTreasury),
+
+    // Transfer USDC and USDT to the Main Treasury
+    allowErc20Transfer([USDC, USDT], [mainTreasury]),
 
     /*********************************************
      * Bridge
      *********************************************/
     // Gnosis -> Mainnet
-    // GNO - Gnosis Bridge
-    allow.gnosis.gno.transferAndCall(
-      contracts.gnosis.gnosisBridge.xdaiBridge,
-      undefined,
-      parameters.avatar
-    ),
-
     // USDC - Gnosis Bridge
     allow.gnosis.usdc.transferAndCall(
       contracts.gnosis.gnosisBridge.xdaiBridge,
@@ -43,16 +39,6 @@ export default (parameters: Parameters) =>
       targetAddress: USDT,
     },
 
-    // WBTC - Gnosis Bridge
-    {
-      ...allow.gnosis.gno.transferAndCall(
-        contracts.gnosis.gnosisBridge.xdaiBridge,
-        undefined,
-        parameters.avatar
-      ),
-      targetAddress: WBTC,
-    },
-
     // WETH - Gnosis Bridge
     {
       ...allow.gnosis.gno.transferAndCall(
@@ -63,7 +49,7 @@ export default (parameters: Parameters) =>
       targetAddress: WETH,
     },
 
-    // XDAI -> XDAI - Gnosis Bridge
+    // XDAI -> DAI - Gnosis Bridge
     allow.gnosis.gnosisBridge.xdaiBridge2.relayTokens(c.avatar, {
       send: true,
     }),
