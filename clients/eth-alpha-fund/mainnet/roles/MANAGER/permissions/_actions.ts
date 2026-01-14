@@ -11,6 +11,7 @@ import {
   RPL,
   rsETH,
   stETH,
+  USDC,
   weETH,
   WETH,
   wstETH,
@@ -48,7 +49,7 @@ export default (parameters: Parameters) => [
   // Aave v3 Prime Market - Borrow wstETH
   allowAction.aave_v3.borrow({ market: "Prime", targets: ["wstETH"] }),
 
-  // CowSwap - [AURA, BAL, ETHPlus, ezETH, GEAR, KING, MORPHO, rETH, RPL, rsETH, stETH, weETH, WETH, wstETH] ->
+  // CowSwap - [AURA, BAL, ETHPlus, ezETH, GEAR, KING, MORPHO, rETH, RPL, rsETH, stETH, USDC, weETH, WETH, wstETH] ->
   // [ETHPlus, ezETH, rETH, rsETH, stETH, weETH, WETH, wstETH]
   allowAction.cowswap.swap({
     sell: [
@@ -63,6 +64,7 @@ export default (parameters: Parameters) => [
       RPL,
       rsETH,
       stETH,
+      USDC,
       weETH,
       WETH,
       wstETH,
