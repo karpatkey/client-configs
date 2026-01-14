@@ -12,8 +12,8 @@ describe("stable_fund", () => {
     // Fresh role with stable_fund manage permissions
     await applyPermissions(
       {
-        allowedCalls,
         allowedActions,
+        allowedCalls,
       },
       stableFundParameters
     )

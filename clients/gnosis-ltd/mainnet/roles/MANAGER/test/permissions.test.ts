@@ -10,8 +10,8 @@ describe("GnosisLTD", () => {
   beforeAll(async () => {
     await applyPermissions(
       {
-        allowedCalls,
         allowedActions,
+        allowedCalls,
       },
       gnosisLtdParameters
     )

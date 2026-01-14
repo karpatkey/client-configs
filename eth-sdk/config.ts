@@ -11,11 +11,16 @@ export const contracts = {
       stkwaEthToken: "0xaAFD07D53A7365D3e9fb6F3a3B09EC19676B73Ce", // stkwaEthWETH
       umbrellaRewardsController: "0x4655Ce3D625a63d30bA704087E52B4C31E38188B",
     },
-    acrossV2: {
-      hubPoolV2: "0xc186fA914353c44b2E33eBE05f21846F1048bEda",
+    across: {
+      spokePoolV2: "0x5c7BCd6E7De5423a257D81B442095A1a6ced35C5",
     },
     angle: {
       wstEthEurVault: "0x73aaf8694BA137a7537E7EF544fcf5E2475f227B",
+    },
+    arbitrumBridge: {
+      ...deFiKitContracts.mainnet.arbitrumBridge,
+      wethGateway: "0xd92023E9d9911199a6711321D1277285e6d4e2db",
+      lidoArbL1Erc20TokenGateway: "0x0F25c1DC2a9922304f2eac71DCa9B07E310e8E5a",
     },
     autonolas: {
       veOlas: "0x7e01A500805f8A52Fad229b3015AD130A332B7b3",
@@ -157,6 +162,12 @@ export const contracts = {
       shares: "0x673493C9d023CecDB026AB090853f9D2f2FFE764", // prod shares implementation
       navCalculator: "0x7C90871c0bd3eb276712f9f783F30Bfaf215Be64", // prod navCalculator implementation
     },
+    optimismBridge: {
+      ...deFiKitContracts.mainnet.optimismBridge,
+      l1CrossDomainMessenger: "0x25ace71c97B33Cc4729CF772ae268934F7ab5fA1",
+      optimismPortal: "0xbEb5Fc579115071764c7423A4f12eDde41f106Ed",
+      gateway: "0x99C9fc46f92E8a1c0deC1b1747d010903E884bE1",
+    },
     origin: {
       oEthZapper: "0x9858e47BCbBe6fBAC040519B02d7cd4B2C470C66",
       armOethWeth: "0x6bac785889A4127dB0e0CeFEE88E0a9F1Aaf3cC7",
@@ -292,6 +303,9 @@ export const contracts = {
   },
   optimism: {
     ...deFiKitContracts.optimism,
+    across: {
+      spokePool: "0x6f26Bf09B1C792e3228e5467807a900A503c0281",
+    },
     curve: {
       x3CrvPool: "0x1337BedC9D22ecbe766dF105c9623922A27963EC",
       crvUsdUsdcPool: "0x03771e24b7C9172d163Bf447490B142a15be3485",
@@ -301,6 +315,10 @@ export const contracts = {
     oiv: {
       navCalculator: "0x7C90871c0bd3eb276712f9f783F30Bfaf215Be64", // prod navCalculator implementation
     },
+    optimismBridge: {
+      ...deFiKitContracts.optimism.optimismBridge,
+      l2CrossDomainMessenger: "0x4200000000000000000000000000000000000007",
+    },
     stargate: {
       poolUsdc: "0xcE8CcA271Ebc0533920C83d39F417ED6A0abB7D0",
       poolUsdt: "0x19cFCE47eD54a88614648DC3f19A5980097007dD",
@@ -308,6 +326,14 @@ export const contracts = {
   },
   arbitrumOne: {
     ...deFiKitContracts.arbitrumOne,
+    across: {
+      bridge: "0xe35e9842fceaCA96570B734083f4a58e8F7C5f2A",
+    },
+    arbitrumBridge: {
+      ...deFiKitContracts.arbitrumOne.arbitrumBridge,
+      l2WethGateway: "0x6c411aD3E74De3E7Bd422b94A27770f5B86C623B",
+      lidoL2Erc20TokenGateway: "0x07D4692291B9E30E326fd31706f686f83f331B82",
+    },
     balancerV3: {
       compositeLiquidityRouter: "0xC1A64500E035D9159C8826E982dFb802003227f0",
     },
@@ -356,8 +382,15 @@ export const contracts = {
   },
   base: {
     ...deFiKitContracts.base,
+    across: {
+      spokePool: "0x09aea4b2242abC8bb4BB78D537A67a245A7bEC64",
+    },
     balancerV3: {
       compositeLiquidityRouter: "0x9dA18982a33FD0c7051B19F0d7C76F2d5E7e017c",
+    },
+    baseBridge: {
+      l2CrossDomainMessengerProxy: "0x4200000000000000000000000000000000000007",
+      l2StandardBridgeProxy: "0x4200000000000000000000000000000000000010",
     },
     chainlink: {
       router: "0x881e3A65B4d4a04dD529061dd0071cf975F58bCD",
@@ -375,7 +408,6 @@ export const contracts = {
     sushiSwap: {
       routeProcessor4: "0x0389879e0156033202C44BF784ac18fC02edeE4f",
     },
-    baseBridge: "0x4200000000000000000000000000000000000010",
   },
 } as const
 

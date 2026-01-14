@@ -487,7 +487,7 @@ export default (parameters: Parameters) =>
       undefined,
       undefined,
       undefined,
-      c.abiEncodedMatches([undefined, "0x"], ["uint256", "bytes"]),
+      c.or(c.abiEncodedMatches([undefined, "0x"], ["uint256", "bytes"]), "0x"),
       {
         send: true,
       }
@@ -515,7 +515,7 @@ export default (parameters: Parameters) =>
       undefined,
       undefined,
       undefined,
-      c.abiEncodedMatches([undefined, "0x"], ["uint256", "bytes"]),
+      c.or(c.abiEncodedMatches([undefined, "0x"], ["uint256", "bytes"]), "0x"),
       {
         send: true,
       }

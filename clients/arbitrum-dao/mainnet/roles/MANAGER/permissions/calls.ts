@@ -51,7 +51,10 @@ export default (parameters: Parameters) =>
           // https://etherscan.io/address/0xb4299a1f5f26ff6a98b7ba35572290c359fde900#code#F6#L116
           // https://etherscan.io/address/0xb4299a1f5f26ff6a98b7ba35572290c359fde900#code#F15#L58
           // The callHookData should be scoped to 0x to prevent any unwanted data from being included
-          c.abiEncodedMatches([undefined, "0x"], ["uint256", "bytes"])
+          c.or(
+            c.abiEncodedMatches([undefined, "0x"], ["uint256", "bytes"]),
+            "0x"
+          )
         )
       )
     ),
