@@ -81,7 +81,7 @@ export default (parameters: Parameters) =>
       "relayTokens(address,address,uint256)"
     ](COW, gnosisLtdGno),
     // Claim bridged COW from Gnosis - Gnosis Bridge
-    allow.mainnet.gnosisBridge.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.safeExecuteSignaturesWithAutoGasLimit(
       c.and(
         // messageId: 32 bytes
         // First 4 bytes
@@ -216,7 +216,7 @@ export default (parameters: Parameters) =>
       "relayTokens(address,address,uint256)"
     ](GNO, gnosisLtdGno),
     // Claim bridged GNO from Gnosis
-    allow.mainnet.gnosisBridge.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.safeExecuteSignaturesWithAutoGasLimit(
       c.and(
         // messageId: 32 bytes
         // First 4 bytes
@@ -312,7 +312,7 @@ export default (parameters: Parameters) =>
       "relayTokens(address,address,uint256)"
     ](SAFE, gnosisLtdGno),
     // Claim bridged SAFE from Gnosis
-    allow.mainnet.gnosisBridge.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.safeExecuteSignaturesWithAutoGasLimit(
       c.and(
         // messageId: 32 bytes
         // First 4 bytes
@@ -411,7 +411,7 @@ export default (parameters: Parameters) =>
       "0x" + gnosisLtdGno.slice(2).padStart(64, "0")
     ),
     // Claim bridged USDC from Gnosis
-    allow.mainnet.gnosisBridge.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.safeExecuteSignaturesWithAutoGasLimit(
       c.and(
         // messageId: 32 bytes
         // First 4 bytes
@@ -507,7 +507,7 @@ export default (parameters: Parameters) =>
       "relayTokens(address,address,uint256)"
     ](USDT, gnosisLtdGno),
     // Claim bridged USDT from Gnosis - Gnosis Bridge
-    allow.mainnet.gnosisBridge.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.safeExecuteSignaturesWithAutoGasLimit(
       c.and(
         // messageId: 32 bytes
         // First 4 bytes
@@ -603,7 +603,7 @@ export default (parameters: Parameters) =>
       "relayTokens(address,address,uint256)"
     ](WETH, gnosisLtdGno),
     // Claim bridged WETH from Gnosis - Gnosis Bridge
-    allow.mainnet.gnosisBridge.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.safeExecuteSignaturesWithAutoGasLimit(
       c.and(
         // messageId: 32 bytes
         // First 4 bytes
@@ -699,7 +699,7 @@ export default (parameters: Parameters) =>
       "relayTokens(address,address,uint256)"
     ](wstETH, gnosisLtdGno),
     // Claim bridged wstETH from Gnosis - Gnosis Bridge
-    allow.mainnet.gnosisBridge.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.safeExecuteSignaturesWithAutoGasLimit(
       c.and(
         // messageId: 32 bytes
         // First 4 bytes

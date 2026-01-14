@@ -347,7 +347,7 @@ export default (parameters: Parameters) =>
       "relayTokens(address,address,uint256)"
     ](WETH, c.avatar),
     // Claim bridged WETH from Gnosis - Gnosis Bridge
-    allow.mainnet.gnosisBridge.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.safeExecuteSignaturesWithAutoGasLimit(
       c.and(
         // messageId: 32 bytes
         // First 4 bytes
@@ -443,7 +443,7 @@ export default (parameters: Parameters) =>
       "relayTokens(address,address,uint256)"
     ](wstETH, c.avatar),
     // Claim bridged wstETH from Gnosis - Gnosis Bridge
-    allow.mainnet.gnosisBridge.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.safeExecuteSignaturesWithAutoGasLimit(
       c.and(
         // messageId: 32 bytes
         // First 4 bytes
