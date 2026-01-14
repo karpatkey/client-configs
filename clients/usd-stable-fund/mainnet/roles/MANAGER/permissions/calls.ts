@@ -92,7 +92,7 @@ export default (parameters: Parameters) =>
     //   c.avatar
     // ),
     // // Claim bridged COMP from Gnosis
-    // allow.mainnet.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
+    // allow.mainnet.xdaiUsdsBridge.safeExecuteSignaturesWithAutoGasLimit(
     //   c.and(
     //     // messageId: 32 bytes
     //     // First 4 bytes
@@ -190,7 +190,7 @@ export default (parameters: Parameters) =>
       "0x" + parameters.avatar.slice(2).padStart(64, "0")
     ),
     // Claim bridged USDC from Gnosis
-    allow.mainnet.gnosisBridge.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.safeExecuteSignaturesWithAutoGasLimit(
       c.and(
         // messageId: 32 bytes
         // First 4 bytes

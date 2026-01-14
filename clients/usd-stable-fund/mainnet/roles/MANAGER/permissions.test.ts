@@ -68,7 +68,7 @@ describe("stable_fund", () => {
         "00000000000000000000000000000000000000000000000000000000004c4c10"
       console.log("Message: ", message)
       await expect(
-        kit.asMember.gnosisBridge.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
+        kit.asMember.gnosisBridge.xdaiUsdsBridge.safeExecuteSignaturesWithAutoGasLimit(
           message,
           "0x041c1b1c1bc97b6bf0d0aa9747b3d67a41d9b44d59bc88786a53d556ebdb41925c28c31be06811b13a90d7425217e81f0308782cec9f1f8a53efea1f6119528e63d431610c5427863194fe1b17ca43f8cf31fcf4b384eac8ecd40cc038f6e0e3e82df983a9d1d918647ab97eaa6d0907f849da2b439ee25cea79d084cf31fc2e960f4e71693e0bef8383abe60ffee4e8324da1cdea9e854fd968c9dee7a9d4356df1cfc1ba3baa1b0f765a888b33bc5e54f3329ed19b69295ce94a9a1ef83968a2311ccc3769f72a6502187f5c9ed76a6d249db9ea7e173abf2745559a938ffeb3174d61d1260b4060e4b8523552498c4efe75ff5acc88b3f73baa692ae899f119ed6951d6"
         )

@@ -276,7 +276,7 @@ export default (parameters: Parameters) =>
       "relayTokens(address,address,uint256)"
     ](GNO, c.avatar),
     // Claim bridged GNO from Gnosis
-    allow.mainnet.gnosisBridge.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.safeExecuteSignaturesWithAutoGasLimit(
       c.and(
         // messageId: 32 bytes
         // First 4 bytes
@@ -377,7 +377,7 @@ export default (parameters: Parameters) =>
       "relayTokens(address,address,uint256)"
     ](USDT, c.avatar),
     // Claim bridged USDT from Gnosis - Gnosis Bridge
-    allow.mainnet.gnosisBridge.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.safeExecuteSignaturesWithAutoGasLimit(
       c.and(
         // messageId: 32 bytes
         // First 4 bytes
@@ -473,7 +473,7 @@ export default (parameters: Parameters) =>
       "relayTokens(address,address,uint256)"
     ](WBTC, c.avatar),
     // Claim bridged WBTC from Gnosis
-    allow.mainnet.gnosisBridge.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.safeExecuteSignaturesWithAutoGasLimit(
       c.and(
         // messageId: 32 bytes
         // First 4 bytes
@@ -569,7 +569,7 @@ export default (parameters: Parameters) =>
       "relayTokens(address,address,uint256)"
     ](WETH, c.avatar),
     // Claim bridged WETH from Gnosis - Gnosis Bridge
-    allow.mainnet.gnosisBridge.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.safeExecuteSignaturesWithAutoGasLimit(
       c.and(
         // messageId: 32 bytes
         // First 4 bytes
@@ -665,7 +665,7 @@ export default (parameters: Parameters) =>
       "relayTokens(address,address,uint256)"
     ](wstETH, c.avatar),
     // Claim bridged wstETH from Gnosis - Gnosis Bridge
-    allow.mainnet.gnosisBridge.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.safeExecuteSignaturesWithAutoGasLimit(
       c.and(
         // messageId: 32 bytes
         // First 4 bytes
@@ -800,11 +800,12 @@ export default (parameters: Parameters) =>
     ),
 
     // Mainnet -> Base
-    // ETH - Base Bridge - TODO!!!!!: verify _extraData: 1) bridgg data 0x6272696467670a or 2) superbridge data 0x7375706572627269646765
+    // ETH - brid.gg or superbridge
     allow.mainnet.baseBridge.baseBridge.bridgeETHTo(
       c.avatar,
       undefined,
-      undefined,
+      // 0x6272696467670a equals bridgg in hex and 0x7375706572627269646765 equals superbridge in hex
+      c.or("0x", "0x6272696467670a", "0x7375706572627269646765"),
       {
         send: true,
       }

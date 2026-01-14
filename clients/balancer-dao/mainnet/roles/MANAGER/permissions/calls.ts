@@ -506,7 +506,7 @@ export default (parameters: Parameters) =>
       "relayTokens(address,address,uint256)"
     ](GNO, c.avatar),
     // Claim bridged GNO from Gnosis
-    allow.mainnet.gnosisBridge.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.safeExecuteSignaturesWithAutoGasLimit(
       c.and(
         // messageId: 32 bytes
         // First 4 bytes
@@ -605,7 +605,7 @@ export default (parameters: Parameters) =>
       "0x" + parameters.avatar.slice(2).padStart(64, "0")
     ),
     // Claim bridged USDC from Gnosis - Gnosis Bridge
-    allow.mainnet.gnosisBridge.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.safeExecuteSignaturesWithAutoGasLimit(
       c.and(
         // messageId: 32 bytes
         // First 4 bytes
@@ -706,7 +706,7 @@ export default (parameters: Parameters) =>
       "relayTokens(address,address,uint256)"
     ](USDT, c.avatar),
     // Claim bridged USDT from Gnosis - Gnosis Bridge
-    allow.mainnet.gnosisBridge.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.safeExecuteSignaturesWithAutoGasLimit(
       c.and(
         // messageId: 32 bytes
         // First 4 bytes
@@ -802,7 +802,7 @@ export default (parameters: Parameters) =>
       "relayTokens(address,address,uint256)"
     ](WBTC, c.avatar),
     // Claim bridged WBTC from Gnosis
-    allow.mainnet.gnosisBridge.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.safeExecuteSignaturesWithAutoGasLimit(
       c.and(
         // messageId: 32 bytes
         // First 4 bytes
@@ -898,7 +898,7 @@ export default (parameters: Parameters) =>
       "relayTokens(address,address,uint256)"
     ](WETH, c.avatar),
     // Claim bridged WETH from Gnosis - Gnosis Bridge
-    allow.mainnet.gnosisBridge.ambEthXdai.safeExecuteSignaturesWithAutoGasLimit(
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.safeExecuteSignaturesWithAutoGasLimit(
       c.and(
         // messageId: 32 bytes
         // First 4 bytes
