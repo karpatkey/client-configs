@@ -49,10 +49,14 @@ export default [
   // Fluid - Deposit USDC
   allowAction.fluid.deposit({ targets: ["USDC"] }),
   // Fluid - Deposit USDT
-  allowAction.fluid.deposit({ targets: ["USDT"] }),
+  allowAction.fluid.deposit({ targets: ["USD₮0"] }),
 
   // Morpho Vault - kpk USDC Yield v1.1
   allowAction.morphoVaults.deposit({
     targets: [morpho.kpkUsdc],
+  }),
+  // Morpho Vault - kpk USDC Yield v2
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkUsdcV2],
   }),
 ]

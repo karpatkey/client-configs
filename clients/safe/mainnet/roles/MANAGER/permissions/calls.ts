@@ -34,6 +34,7 @@ import {
   balancerV2,
   balancerV3,
   curve,
+  fluid,
   uniswapV2,
 } from "@/addresses/eth"
 import { zeroAddress, eAddress } from "@/addresses"
@@ -376,6 +377,12 @@ export default (parameters: Parameters) =>
       zeroAddress,
       { send: true }
     ),
+
+    // Fluid - FLUID Rewards
+    {
+      ...allow.mainnet.fluid.merkleDistributor.claim(c.avatar),
+      targetAddress: fluid.fluidRewards2025,
+    },
 
     // Origin - Mint OETH
     allow.mainnet.origin.oEthZapper.deposit({ send: true }),

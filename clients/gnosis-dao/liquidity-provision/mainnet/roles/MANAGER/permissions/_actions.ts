@@ -133,16 +133,14 @@ export default [
   // Stader
   allowAction.stader.deposit(),
 
-  // StakeWise v3 - Chorus One - MEV Max
-  allowAction.stakewise_v3.stake({ targets: ["Chorus One - MEV Max"] }),
+  // StakeWise v3 - Chorus One Max Vault
+  allowAction.stakewise_v3.stake({ targets: ["Chorus One Max Vault"] }),
   // StakeWise v3 - Genesis
   allowAction.stakewise_v3.stake({ targets: ["Genesis"] }),
   // StakeWise v3 - NodeSet Private Vault
   allowAction.stakewise_v3.stake({ targets: ["NodeSet Private Vault"] }),
   // StakeWise v3 - Serenita - Powered by Vero
   allowAction.stakewise_v3.stake({ targets: ["Serenita - Powered by Vero"] }),
-  // StakeWise v3 - Stakeway Private Vault 1
-  allowAction.stakewise_v3.stake({ targets: ["Stakeway Private Vault 1"] }),
 
   // Uniswap v3 - ETHx + wstETH
   allowAction.uniswap_v3.deposit({

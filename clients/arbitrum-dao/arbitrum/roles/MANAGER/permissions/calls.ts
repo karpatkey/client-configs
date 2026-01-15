@@ -155,9 +155,14 @@ export default (parameters: Parameters) =>
     // Included for completeness; not used by the UI
     allow.arbitrumOne.euler.rEul.withdrawTo(c.avatar),
 
+    // Fluid - FLUID Rewards
+    {
+      ...allow.arbitrumOne.fluid.merkleDistributor.claim(c.avatar),
+      targetAddress: fluid.fluidRewards2025,
+    },
     // Fluid - fGHO Rewards
     {
-      ...allow.mainnet.fluid.merkleDistributor.claim(c.avatar),
+      ...allow.arbitrumOne.fluid.merkleDistributor.claim(c.avatar),
       targetAddress: fluid.fGhoRewardsJul2025,
     },
 

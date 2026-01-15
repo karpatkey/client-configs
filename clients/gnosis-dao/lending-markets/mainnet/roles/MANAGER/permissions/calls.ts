@@ -16,6 +16,7 @@ import {
   WBTC,
   WETH,
   wstETH,
+  fluid,
 } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import {
@@ -62,6 +63,12 @@ export default (parameters: Parameters) =>
     allow.mainnet.etherfi.weEth.unwrap(),
     // ether.fi - Claim rewards
     allow.mainnet.etherfi.kingDistributor.claim(c.avatar),
+
+    // Fluid - FLUID Rewards
+    {
+      ...allow.mainnet.fluid.merkleDistributor.claim(c.avatar),
+      targetAddress: fluid.fluidRewards2025,
+    },
 
     // Kelp - Stake/Unstake ETH, ETHx and stETH
     allow.mainnet.kelp.lrtDepositPool.depositETH(undefined, undefined, {

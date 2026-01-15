@@ -17,11 +17,6 @@ export const contracts = {
     angle: {
       wstEthEurVault: "0x73aaf8694BA137a7537E7EF544fcf5E2475f227B",
     },
-    arbitrumBridge: {
-      ...deFiKitContracts.mainnet.arbitrumBridge,
-      wethGateway: "0xd92023E9d9911199a6711321D1277285e6d4e2db",
-      lidoArbL1Erc20TokenGateway: "0x0F25c1DC2a9922304f2eac71DCa9B07E310e8E5a",
-    },
     autonolas: {
       veOlas: "0x7e01A500805f8A52Fad229b3015AD130A332B7b3",
     },
@@ -39,11 +34,6 @@ export const contracts = {
     },
     balancerV3: {
       compositeLiquidityRouter: "0xb21A277466e7dB6934556a1Ce12eb3F032815c8A",
-    },
-    baseBridge: {
-      baseBridge: "0x3154Cf16ccdb4C6d922629664174b904d80F2C35",
-      basePortal: "0x49048044D57e1C92A77f79988d21Fa8fAF74E97e",
-      resolvedDelegateProxy: "0x866E82a600A1414e583f7F13623F1aC5d58b0Afa",
     },
     cap: {
       cUsd: "0xcCcc62962d17b8914c62D74FfB843d73B2a3cccC",
@@ -161,12 +151,6 @@ export const contracts = {
     oiv: {
       shares: "0x673493C9d023CecDB026AB090853f9D2f2FFE764", // prod shares implementation
       navCalculator: "0x7C90871c0bd3eb276712f9f783F30Bfaf215Be64", // prod navCalculator implementation
-    },
-    optimismBridge: {
-      ...deFiKitContracts.mainnet.optimismBridge,
-      l1CrossDomainMessenger: "0x25ace71c97B33Cc4729CF772ae268934F7ab5fA1",
-      optimismPortal: "0xbEb5Fc579115071764c7423A4f12eDde41f106Ed",
-      gateway: "0x99C9fc46f92E8a1c0deC1b1747d010903E884bE1",
     },
     origin: {
       oEthZapper: "0x9858e47BCbBe6fBAC040519B02d7cd4B2C470C66",
@@ -318,10 +302,6 @@ export const contracts = {
     oiv: {
       navCalculator: "0x7C90871c0bd3eb276712f9f783F30Bfaf215Be64", // prod navCalculator implementation
     },
-    optimismBridge: {
-      ...deFiKitContracts.optimism.optimismBridge,
-      l2CrossDomainMessenger: "0x4200000000000000000000000000000000000007",
-    },
     stargate: {
       poolUsdc: "0xcE8CcA271Ebc0533920C83d39F417ED6A0abB7D0",
       poolUsdt: "0x19cFCE47eD54a88614648DC3f19A5980097007dD",
@@ -332,11 +312,6 @@ export const contracts = {
     across: {
       bridge: "0xe35e9842fceaCA96570B734083f4a58e8F7C5f2A",
     },
-    arbitrumBridge: {
-      ...deFiKitContracts.arbitrumOne.arbitrumBridge,
-      l2WethGateway: "0x6c411aD3E74De3E7Bd422b94A27770f5B86C623B",
-      lidoL2Erc20TokenGateway: "0x07D4692291B9E30E326fd31706f686f83f331B82",
-    },
     balancerV3: {
       compositeLiquidityRouter: "0xC1A64500E035D9159C8826E982dFb802003227f0",
     },
@@ -346,7 +321,6 @@ export const contracts = {
     compoundV3: {
       ...deFiKitContracts.arbitrumOne.compoundV3,
       comet: "0x2416101cFd4aD12cA2D5b3E58419073c7D78d857", // CometWithExtendedAssetList
-      cometRewards: "0x88730d254A2f7e6AC8388c3198aFd694bA9f7fae",
     },
     euler: {
       eVault: "0x832fF4011A3164ea76ceA06A313EE0B6CD72ba96",
@@ -393,10 +367,6 @@ export const contracts = {
     },
     balancerV3: {
       compositeLiquidityRouter: "0x9dA18982a33FD0c7051B19F0d7C76F2d5E7e017c",
-    },
-    baseBridge: {
-      l2CrossDomainMessengerProxy: "0x4200000000000000000000000000000000000007",
-      l2StandardBridgeProxy: "0x4200000000000000000000000000000000000010",
     },
     chainlink: {
       router: "0x881e3A65B4d4a04dD529061dd0071cf975F58bCD",
