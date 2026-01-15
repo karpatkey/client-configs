@@ -373,6 +373,9 @@ export const contracts = {
     oiv: {
       navCalculator: "0x7C90871c0bd3eb276712f9f783F30Bfaf215Be64", // prod navCalculator implementation
     },
+    pendle: {
+      routerV4: "0x888888888889758F76e7103c6CbF23ABbF58F946",
+    },
     spark: {
       sUSDC: "0x940098b108fB7D0a7E374f6eDED7760787464609",
       psm3: "0x2B05F8e1cACC6974fD79A673a341Fe1f58d27266",
