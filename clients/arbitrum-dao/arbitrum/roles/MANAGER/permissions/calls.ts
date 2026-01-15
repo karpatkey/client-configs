@@ -189,13 +189,16 @@ export default (parameters: Parameters) =>
     ),
 
     // Pendle - syrupUSDC <-> PT-syrupUSDC-DDMMMYYYY / USDai <-> PT-USDai-DDMMMYYYY / sUSDai <-> PT-sUSDai-DDMMMYYYY
-    allowErc20Approve([syrupUSDC, USDai, sUSDai], [contracts.arbitrumOne.pendle.routerV4]),
+    allowErc20Approve(
+      [syrupUSDC, USDai, sUSDai],
+      [contracts.arbitrumOne.pendle.routerV4]
+    ),
     allow.arbitrumOne.pendle.routerV4.swapExactTokenForPt(
       c.avatar,
       c.or(
         pendle.marketSyrupUsdc29Jan2026,
         pendle.marketUsDai19Feb2026,
-        pendle.marketsUsDai19Feb2026,
+        pendle.marketsUsDai19Feb2026
       ),
       undefined,
       undefined,
@@ -228,7 +231,7 @@ export default (parameters: Parameters) =>
       c.or(
         pendle.marketSyrupUsdc29Jan2026,
         pendle.marketUsDai19Feb2026,
-        pendle.marketsUsDai19Feb2026,
+        pendle.marketsUsDai19Feb2026
       ),
       undefined,
       {
