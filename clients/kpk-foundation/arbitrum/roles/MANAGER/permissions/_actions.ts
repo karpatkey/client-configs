@@ -1,5 +1,5 @@
 import { allow as allowAction } from "defi-kit/arb1"
-import { ARB, MORPHO, USDC } from "@/addresses/arb1"
+import { ARB, MORPHO, USDC, morpho } from "@/addresses/arb1"
 import { Parameters } from "../../../parameters"
 
 export default (parameters: Parameters) => [
@@ -23,6 +23,6 @@ export default (parameters: Parameters) => [
 
   // Morpho Vault - kpk USDC Yield v1.1
   allowAction.morphoVaults.deposit({
-    targets: ["0x2C609d9CfC9dda2dB5C128B2a665D921ec53579d"],
+    targets: [morpho.kpkUsdc],
   }),
 ]

@@ -71,8 +71,6 @@ export default [
 
   // StakeWise v3 - Axol.io
   allowAction.stakewise_v3.stake({ targets: ["Axol.io"] }),
-  // StakeWise v3 - H2O Nodes
-  allowAction.stakewise_v3.stake({ targets: ["H2O Nodes"] }),
   // StakeWise v3 - IP Stake
   allowAction.stakewise_v3.stake({ targets: ["IP Stake"] }),
   // StakeWise v3 - Genesis

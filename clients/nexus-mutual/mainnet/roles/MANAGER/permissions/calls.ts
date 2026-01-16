@@ -27,6 +27,7 @@ import {
   balancerV2,
   balancerV3,
   curve,
+  fluid,
   nexus,
 } from "@/addresses/eth"
 import { zeroAddress } from "@/addresses"
@@ -327,6 +328,12 @@ export default (parameters: Parameters) =>
     allow.mainnet.etherfi.weEth.wrap(),
     // Unwrap weETH
     allow.mainnet.etherfi.weEth.unwrap(),
+
+    // Fluid - FLUID Rewards
+    {
+      ...allow.mainnet.fluid.merkleDistributor.claim(c.avatar),
+      targetAddress: fluid.fluidRewards2025,
+    },
 
     // Merkl - Rewards
     allow.mainnet.merkl.angleDistributor.claim(

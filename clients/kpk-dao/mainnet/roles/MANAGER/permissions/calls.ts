@@ -14,6 +14,7 @@ import {
   WBTC,
   weETH,
   WETH,
+  fluid,
   kpk,
 } from "@/addresses/eth"
 import { zeroAddress, eAddress } from "@/addresses"
@@ -211,6 +212,12 @@ export default (parameters: Parameters) =>
     allow.mainnet.etherfi.weEth.unwrap(),
     // ether.fi - Claim rewards
     allow.mainnet.etherfi.kingDistributor.claim(c.avatar),
+
+    // Fluid - FLUID Rewards
+    {
+      ...allow.mainnet.fluid.merkleDistributor.claim(c.avatar),
+      targetAddress: fluid.fluidRewards2025,
+    },
 
     // kpk - USD Prime Fund
     allowErc20Approve([USDC], [kpk.usdPrimeFundShares]),

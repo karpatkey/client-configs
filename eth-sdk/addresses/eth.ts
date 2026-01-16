@@ -259,10 +259,14 @@ export const curve = {
 } as const
 
 export const fluid = {
+  // fTokens
   fsUsds: "0x2BBE31d63E6813E3AC858C04dae43FB2a72B0D11",
   fUsdc: "0x9Fb7b4477576Fe5B32be4C1843aFB1e55F251B33",
   fUsdt: "0x5C20B550819128074FD538Edf79791733ccEdd18",
   fwstEth: "0x2411802D8BEA09be0aF8fD8D08314a63e706b29C",
+
+  // Rewards
+  fluidRewards2025: "0x7060FE0Dd3E31be01EFAc6B28C8D38018fD163B0",
 } as const
 
 export const gearbox = {
