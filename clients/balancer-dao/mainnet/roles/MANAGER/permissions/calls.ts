@@ -24,7 +24,6 @@ import {
   wstETH,
   aaveV3,
   balancerV2,
-  gearbox,
   pendle,
   siloV2,
 } from "@/addresses/eth"
