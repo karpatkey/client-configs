@@ -4,13 +4,11 @@ import {
   ankrETH,
   AURA,
   BAL,
-  cbBTC,
   COMP,
   CRV,
   CVX,
   DAI,
   ETHx,
-  EURC,
   LDO,
   MORPHO,
   OETH,
@@ -24,7 +22,6 @@ import {
   USDC,
   USDS,
   USDT,
-  WBTC,
   WETH,
   wstETH,
   x3CRV,
@@ -32,6 +29,7 @@ import {
   balancerV2,
   balancerV3,
   curve,
+  fluid,
 } from "@/addresses/eth"
 import { zeroAddress, eAddress } from "@/addresses"
 import { contracts } from "@/contracts"
@@ -415,6 +413,12 @@ export default (parameters: Parameters) =>
       zeroAddress,
       { send: true }
     ),
+
+    // Fluid - FLUID Rewards
+    {
+      ...allow.mainnet.fluid.merkleDistributor.claim(c.avatar),
+      targetAddress: fluid.fluidRewards2025,
+    },
 
     // Merkl - Rewards
     allow.mainnet.merkl.angleDistributor.claim(

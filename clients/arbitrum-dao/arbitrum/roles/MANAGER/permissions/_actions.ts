@@ -1,14 +1,23 @@
 import { allow as allowAction } from "defi-kit/arb1"
 import {
+  ARB,
   DAI,
   EUL,
   GHO,
   FLUID,
+  MORPHO,
+  PENDLE,
+  sUSDai,
+  sUSDe,
   sUSDS,
+  syrupUSDC,
+  USDai,
   USDC,
+  USDe,
   USDCe,
   USDS,
   USDT,
+  morpho,
 } from "@/addresses/arb1"
 
 export default [
@@ -29,10 +38,43 @@ export default [
   // Aave v3 Arbitrum Market - Borrow USDT
   allowAction.aave_v3.borrow({ targets: ["USD₮0"] }),
 
-  // CowSwap - [DAI, ETH, EUL, GHO, FLUID, sUSDS, USDC, USDC.e, USDS, USDT] -> [DAI, GHO, sUSDS, USDC, USDC.e, USDS, USDT]
+  // CowSwap - [ARB, DAI, ETH, EUL, GHO, FLUID, MORPHO, PENDLE, sUSDai, sUSDe, sUSDS, syrupUSDC, USDai, USDC, USDC.e, USDe, USDS, USDT] ->
+  // [DAI, GHO, sUSDai, sUSDe, sUSDS, syrupUSDC, USDai, USDC, USDC.e, USDe, USDS, USDT]
   allowAction.cowswap.swap({
-    sell: ["ETH", DAI, EUL, GHO, FLUID, sUSDS, USDC, USDCe, USDS, USDT],
-    buy: [DAI, GHO, sUSDS, USDC, USDCe, USDS, USDT],
+    sell: [
+      "ETH",
+      ARB,
+      DAI,
+      EUL,
+      GHO,
+      FLUID,
+      MORPHO,
+      PENDLE,
+      sUSDai,
+      sUSDe,
+      sUSDS,
+      syrupUSDC,
+      USDai,
+      USDC,
+      USDCe,
+      USDe,
+      USDS,
+      USDT,
+    ],
+    buy: [
+      DAI,
+      GHO,
+      sUSDai,
+      sUSDe,
+      sUSDS,
+      syrupUSDC,
+      USDai,
+      USDC,
+      USDCe,
+      USDe,
+      USDS,
+      USDT,
+    ],
   }),
 
   // Fluid - Deposit GHO
@@ -42,5 +84,14 @@ export default [
   // Fluid - Deposit USDC
   allowAction.fluid.deposit({ targets: ["USDC"] }),
   // Fluid - Deposit USDT
-  allowAction.fluid.deposit({ targets: ["USDT"] }),
+  allowAction.fluid.deposit({ targets: ["USD₮0"] }),
+
+  // Morpho Vault - kpk USDC Yield v1.1
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkUsdc],
+  }),
+  // Morpho Vault - kpk USDC Yield v2
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkUsdcV2],
+  }),
 ]

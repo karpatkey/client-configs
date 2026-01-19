@@ -4,15 +4,21 @@ import {
   COMP,
   EUL,
   FLUID,
+  sUSDai,
   sUSDC,
   sUSDS,
+  syrupUSDC,
+  USDai,
   USDC,
   USDCe,
   USDS,
   USDT,
   compoundV3,
   euler,
+  fluid,
+  pendle,
 } from "@/addresses/arb1"
+import { zeroAddress } from "@/addresses"
 import { COMP as COMP_eth } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
@@ -148,6 +154,102 @@ export default (parameters: Parameters) =>
     allow.arbitrumOne.euler.rEul.withdrawToByLockTimestamps(c.avatar),
     // Included for completeness; not used by the UI
     allow.arbitrumOne.euler.rEul.withdrawTo(c.avatar),
+
+    // Fluid - FLUID Rewards
+    {
+      ...allow.arbitrumOne.fluid.merkleDistributor.claim(c.avatar),
+      targetAddress: fluid.fluidRewards2025,
+    },
+    // Fluid - fGHO Rewards
+    {
+      ...allow.arbitrumOne.fluid.merkleDistributor.claim(c.avatar),
+      targetAddress: fluid.fGhoRewardsJul2025,
+    },
+
+    // Merkl - Rewards
+    allow.arbitrumOne.merkl.angleDistributor.claim(
+      c.or(
+        [parameters.avatar],
+        [parameters.avatar, parameters.avatar],
+        [parameters.avatar, parameters.avatar, parameters.avatar],
+        [
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+        ],
+        [
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+        ]
+      )
+    ),
+
+    // Pendle - syrupUSDC <-> PT-syrupUSDC-DDMMMYYYY / USDai <-> PT-USDai-DDMMMYYYY / sUSDai <-> PT-sUSDai-DDMMMYYYY
+    allowErc20Approve(
+      [syrupUSDC, USDai, sUSDai],
+      [contracts.arbitrumOne.pendle.routerV4]
+    ),
+    allow.arbitrumOne.pendle.routerV4.swapExactTokenForPt(
+      c.avatar,
+      c.or(
+        pendle.marketSyrupUsdc29Jan2026,
+        pendle.marketUsDai19Feb2026,
+        pendle.marketsUsDai19Feb2026
+      ),
+      undefined,
+      undefined,
+      {
+        tokenIn: c.or(syrupUSDC, USDai, sUSDai),
+        tokenMintSy: c.or(syrupUSDC, USDai, sUSDai),
+        pendleSwap: zeroAddress,
+        swapData: {
+          swapType: 0, // NONE: https://etherscan.io/address/0xd8d200d9a713a1c71cf1e7f694b14e5f1d948b15#code#F32#L18
+          extRouter: zeroAddress,
+          extCalldata: "0x",
+        },
+      },
+      {
+        limitRouter: zeroAddress,
+        normalFills: [],
+        flashFills: [],
+      }
+    ),
+    allowErc20Approve(
+      [
+        pendle.ptSyrupUsdc29Jan2026,
+        pendle.ptUsDai19Feb2026,
+        pendle.ptsUsDai19Feb2026,
+      ],
+      [contracts.arbitrumOne.pendle.routerV4]
+    ),
+    allow.arbitrumOne.pendle.routerV4.swapExactPtForToken(
+      c.avatar,
+      c.or(
+        pendle.marketSyrupUsdc29Jan2026,
+        pendle.marketUsDai19Feb2026,
+        pendle.marketsUsDai19Feb2026
+      ),
+      undefined,
+      {
+        tokenOut: c.or(syrupUSDC, USDai, sUSDai),
+        tokenRedeemSy: c.or(syrupUSDC, USDai, sUSDai),
+        pendleSwap: zeroAddress,
+        swapData: {
+          swapType: 0, // NONE: https://etherscan.io/address/0xd8d200d9a713a1c71cf1e7f694b14e5f1d948b15#code#F32#L18
+          extRouter: zeroAddress,
+          extCalldata: "0x",
+        },
+      },
+      {
+        limitRouter: zeroAddress,
+        normalFills: [],
+        flashFills: [],
+      }
+    ),
 
     // Spark - sUSDC
     allowErc20Approve([USDC], [sUSDC]),

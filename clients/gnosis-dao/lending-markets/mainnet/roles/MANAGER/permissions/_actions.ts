@@ -210,6 +210,6 @@ export default [
   // Stader
   allowAction.stader.deposit(),
 
-  // StakeWise v3 - Chorus One - MEV Max
-  allowAction.stakewise_v3.stake({ targets: ["Chorus One - MEV Max"] }),
+  // StakeWise v3 - Chorus One Max Vault
+  allowAction.stakewise_v3.stake({ targets: ["Chorus One Max Vault"] }),
 ]
