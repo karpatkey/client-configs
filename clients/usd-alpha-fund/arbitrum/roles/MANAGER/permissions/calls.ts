@@ -1,75 +1,197 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { COMP, DAI, USDC, USDCe, balancerV2 } from "@/addresses/arb1"
-import { COMP as COMP_eth, DAI as DAI_eth } from "@/addresses/eth"
+import { zeroAddress } from "@/addresses"
+import { GHO, USDC, USDT, aura, balancerV3 } from "@/addresses/arb1"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
-import { balancerV2Swap } from "@/exit_strategies/balancerV2"
+import { Parameters } from "../../../parameters"
 
-export default [
-  // Compound v3 - Deposit USDC
-  allowErc20Approve([USDC], [contracts.arbitrumOne.compoundV3.cUsdcV3]),
-  allow.arbitrumOne.compoundV3.cUsdcV3.supply(USDC),
-  allow.arbitrumOne.compoundV3.cUsdcV3.withdraw(USDC),
-  // Compound v3 - Claim rewards
-  allow.arbitrumOne.compoundV3.cometRewards.claim(undefined, c.avatar),
+export default (parameters: Parameters) =>
+  [
+    // Aura - Aave Boosted USDT/GHO/USDC
+    allowErc20Approve(
+      [balancerV3.aaveGhoUsdtUsdc],
+      [contracts.arbitrumOne.aura.booster]
+    ),
+    allow.arbitrumOne.aura.booster.deposit("99"),
+    {
+      ...allow.arbitrumOne.aura.rewarder.withdrawAndUnwrap(),
+      targetAddress: aura.auraAaveGhoUsdtUsdcRewarder,
+    },
+    {
+      ...allow.arbitrumOne.aura.rewarder["getReward()"](),
+      targetAddress: aura.auraAaveGhoUsdtUsdcRewarder,
+    },
+    {
+      ...allow.arbitrumOne.aura.rewarder["getReward(address,bool)"](c.avatar),
+      targetAddress: aura.auraAaveGhoUsdtUsdcRewarder,
+    },
 
-  // Gyroscope - Staking/Unstaking GYD
-  allow.arbitrumOne.gyroscope.sGyd.deposit(undefined, c.avatar),
-  allow.arbitrumOne.gyroscope.sGyd.redeem(undefined, c.avatar, c.avatar),
-  // Gyroscope - Staking/Unstaking sGYD
-  allow.arbitrumOne.gyroscope.stSgyd.deposit(undefined, c.avatar),
-  allow.arbitrumOne.gyroscope.stSgyd.withdraw(undefined, c.avatar, c.avatar),
-  // Gyroscope - Claim ARB
-  allow.arbitrumOne.gyroscope.stSgyd.claimRewards(),
+    // Balancer v3 - Aave Boosted USDT/GHO/USDC
+    // permit2 is the same contract address across chains, so using contracts.mainnet.uniswap.permit2 is valid
+    allowErc20Approve([GHO, USDC, USDT], [contracts.mainnet.uniswap.permit2]),
+    allow.mainnet.uniswap.permit2.approve(
+      c.or(GHO, USDC, USDT),
+      contracts.arbitrumOne.balancerV3.compositeLiquidityRouter
+    ),
+    allow.arbitrumOne.balancerV3.compositeLiquidityRouter.addLiquidityProportionalToERC4626Pool(
+      balancerV3.aaveGhoUsdtUsdc
+    ),
+    allow.arbitrumOne.balancerV3.compositeLiquidityRouter.addLiquidityUnbalancedToERC4626Pool(
+      balancerV3.aaveGhoUsdtUsdc
+    ),
+    allowErc20Approve(
+      [balancerV3.aaveGhoUsdtUsdc],
+      [contracts.arbitrumOne.balancerV3.compositeLiquidityRouter]
+    ),
+    allow.arbitrumOne.balancerV3.compositeLiquidityRouter.removeLiquidityProportionalFromERC4626Pool(
+      balancerV3.aaveGhoUsdtUsdc
+    ),
+    allowErc20Approve(
+      [balancerV3.aaveGhoUsdtUsdc],
+      [balancerV3.aaveGhoUsdtUsdcGauge]
+    ),
+    {
+      ...allow.arbitrumOne.balancerV2.gauge["deposit(uint256)"](),
+      targetAddress: balancerV3.aaveGhoUsdtUsdcGauge,
+    },
+    {
+      ...allow.arbitrumOne.balancerV2.gauge["withdraw(uint256)"](),
+      targetAddress: balancerV3.aaveGhoUsdtUsdcGauge,
+    },
+    {
+      ...allow.arbitrumOne.balancerV2.gauge["claim_rewards()"](),
+      targetAddress: balancerV3.aaveGhoUsdtUsdcGauge,
+    },
 
-  /*********************************************
-   * Swaps
-   *********************************************/
-  // Balancer - [DAI, USDC, USDC.e] <-> [DAI, USDC, USDC.e]
-  balancerV2Swap(balancerV2.b4PoolPid, [DAI, USDC, USDCe], [DAI, USDC, USDCe]),
+    // Merkl - Rewards
+    allow.arbitrumOne.merkl.angleDistributor.claim(
+      c.or(
+        [parameters.avatar],
+        [parameters.avatar, parameters.avatar],
+        [parameters.avatar, parameters.avatar, parameters.avatar]
+      )
+    ),
 
-  // Uniswap v3 - [DAI, USDC, USDC.e] <-> [DAI, USDC, USDC.e]
-  allowErc20Approve([DAI, USDC, USDCe], [contracts.mainnet.uniswapV3.router2]),
-  allow.mainnet.uniswapV3.router2.exactInputSingle({
-    tokenIn: c.or(DAI, USDC, USDCe),
-    tokenOut: c.or(DAI, USDC, USDCe),
-    recipient: c.avatar,
-  }),
+    /*********************************************
+     * Bridges
+     *********************************************/
+    // Arbitrum -> Mainnet
+    // GHO - Chainlink - transporter.io
+    allowErc20Approve([GHO], [contracts.arbitrumOne.chainlink.router]),
+    allow.arbitrumOne.chainlink.router.ccipSend(
+      "5009297550715157269", // https://docs.chain.link/ccip/directory/mainnet/chain/mainnet
+      {
+        receiver: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
+        data: "0x",
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#evmtokenamount
+        tokenAmounts: c.matches([
+          {
+            token: GHO,
+            amount: undefined,
+          },
+        ]),
+        feeToken: zeroAddress,
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#generic_extra_args_v2_tag
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#genericextraargsv2
+        extraArgs: c.or(
+          "0x",
+          "0x181dcf1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001"
+        ),
+      },
+      {
+        send: true,
+      }
+    ),
 
-  /*********************************************
-   * Bridge
-   *********************************************/
-  // Arbitrum -> Mainnet
-  // DAI - Arbitrum Bridge
-  allowErc20Approve(
-    [DAI],
-    [contracts.arbitrumOne.arbitrumBridge.gatewayRouter]
-  ),
-  allow.arbitrumOne.arbitrumBridge.gatewayRouter[
-    "outboundTransfer(address,address,uint256,bytes)"
-  ](DAI_eth, c.avatar, undefined, "0x"),
-  // DAI - HOP
-  allowErc20Approve([DAI], [contracts.arbitrumOne.hop.hopDaiWrapper]),
-  allow.arbitrumOne.hop.hopDaiWrapper.swapAndSend(
-    1, // Mainnet
-    c.avatar
-  ),
+    // USDC - Stargate to Mainnet
+    allowErc20Approve([USDC], [contracts.arbitrumOne.stargate.poolUsdc]),
+    allow.arbitrumOne.stargate.poolUsdc.send(
+      {
+        dstEid: "30101", // Mainnet ID
+        to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
+        extraOptions: "0x",
+        composeMsg: "0x",
+        oftCmd: "0x",
+      },
+      undefined,
+      c.avatar,
+      {
+        send: true,
+      }
+    ),
 
-  // COMP - Arbitrum Bridge
-  allowErc20Approve(
-    [COMP],
-    [contracts.arbitrumOne.arbitrumBridge.gatewayRouter]
-  ),
-  allow.arbitrumOne.arbitrumBridge.gatewayRouter[
-    "outboundTransfer(address,address,uint256,bytes)"
-  ](COMP_eth, c.avatar, undefined, "0x"),
+    // USDT - Stargate to Mainnet
+    allowErc20Approve([USDT], [contracts.arbitrumOne.stargate.poolUsdt]),
+    allow.arbitrumOne.stargate.poolUsdt.send(
+      {
+        dstEid: "30101", // Mainnet chain ID
+        to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
+        extraOptions: "0x",
+        composeMsg: "0x",
+        oftCmd: "0x",
+      },
+      undefined,
+      c.avatar,
+      {
+        send: true,
+      }
+    ),
 
-  // USDC (Arbitrum) -> USDC (Mainnet) - HOP
-  allowErc20Approve([USDC], [contracts.arbitrumOne.hop.l2HopCctp]),
-  allow.arbitrumOne.hop.l2HopCctp.send(
-    1, // Mainnet
-    c.avatar
-  ),
-] satisfies PermissionList
+    // Arbitrum -> Gnosis Chain
+    // GHO - Chainlink - transporter.io
+    allowErc20Approve([GHO], [contracts.arbitrumOne.chainlink.router]),
+    allow.arbitrumOne.chainlink.router.ccipSend(
+      "465200170687744372", // https://docs.chain.link/ccip/directory/mainnet/chain/xdai-mainnet
+      {
+        receiver: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
+        data: "0x",
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#evmtokenamount
+        tokenAmounts: c.matches([
+          {
+            token: GHO,
+            amount: undefined,
+          },
+        ]),
+        feeToken: zeroAddress,
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#generic_extra_args_v2_tag
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#genericextraargsv2
+        extraArgs: c.or(
+          "0x",
+          "0x181dcf1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001"
+        ),
+      },
+      {
+        send: true,
+      }
+    ),
+
+    // Arbitrum -> Base
+    // GHO - Chainlink - transporter.io
+    allowErc20Approve([GHO], [contracts.arbitrumOne.chainlink.router]),
+    allow.arbitrumOne.chainlink.router.ccipSend(
+      "15971525489660198786", // https://docs.chain.link/ccip/directory/mainnet/chain/ethereum-mainnet-base-1
+      {
+        receiver: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
+        data: "0x",
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#evmtokenamount
+        tokenAmounts: c.matches([
+          {
+            token: GHO,
+            amount: undefined,
+          },
+        ]),
+        feeToken: zeroAddress,
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#generic_extra_args_v2_tag
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#genericextraargsv2
+        extraArgs: c.or(
+          "0x",
+          "0x181dcf1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001"
+        ),
+      },
+      {
+        send: true,
+      }
+    ),
+  ] satisfies PermissionList
