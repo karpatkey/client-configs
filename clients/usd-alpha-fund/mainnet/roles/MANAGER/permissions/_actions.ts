@@ -1,38 +1,33 @@
 import { allow as allowAction } from "defi-kit/eth"
 import {
-  AAVE,
   AURA,
   BAL,
-  COMP,
-  CRV,
-  crvUSD,
-  CVX,
   DAI,
   GHO,
-  GYD,
-  NOTE,
-  sDAI,
+  MORPHO,
+  RLUSD,
+  SPK,
   sUSDe,
+  sUSDS,
   stkGHO,
   USDC,
   USDe,
-  USDM,
   USDS,
   USDT,
-  wM,
+  syrupUSDC,
+  morpho,
 } from "@/addresses/eth"
 import { Parameters } from "../../../parameters"
 
 export default (parameters: Parameters) => [
+  /*********************************************
+   * Protocols
+   *********************************************/
+
   // Aave Safety Module - Stake GHO
   allowAction.aave_v3.stake({ targets: ["GHO"] }),
-
-  // Aave v3 Core Market - Deposit crvUSD
-  allowAction.aave_v3.deposit({ market: "Core", targets: ["crvUSD"] }),
-  // Aave v3 Core Market - Deposit DAI
-  allowAction.aave_v3.deposit({ market: "Core", targets: ["DAI"] }),
-  // Aave v3 Core Market - Deposit sDAI
-  allowAction.aave_v3.deposit({ market: "Core", targets: ["sDAI"] }),
+  // Aave v3 Core Market - Deposit RLUSD
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["RLUSD"] }),
   // Aave v3 Core Market - Deposit sUSDe
   allowAction.aave_v3.deposit({ market: "Core", targets: ["sUSDe"] }),
   // Aave v3 Core Market - Deposit USDC
@@ -43,138 +38,169 @@ export default (parameters: Parameters) => [
   allowAction.aave_v3.deposit({ market: "Core", targets: ["USDS"] }),
   // Aave v3 Core Market - Deposit USDT
   allowAction.aave_v3.deposit({ market: "Core", targets: ["USDT"] }),
-  // Aave v3 Core Market - Borrow DAI
-  allowAction.aave_v3.borrow({ market: "Core", targets: ["DAI"] }),
   // Aave v3 Core Market - Borrow USDC
   allowAction.aave_v3.borrow({ market: "Core", targets: ["USDC"] }),
 
-  // Aura - GHO/USDC/USDT
-  allowAction.aura.deposit({ targets: ["157"] }),
-
-  // Balancer v2 - GHO/USDC/USDT
-  allowAction.balancer_v2.deposit({ targets: ["GHO/USDT/USDC"] }),
-  allowAction.balancer_v2.stake({ targets: ["GHO/USDT/USDC"] }),
-
-  // Convex - crvUSD/USDT
-  allowAction.convex.deposit({ targets: ["179"] }),
-  // Convex - crvUSD/USDc
-  allowAction.convex.deposit({ targets: ["182"] }),
-
-  // Circle v1 - Bridge USDC to Arbitrum
-  allowAction.circle_v1.bridge({
-    targets: ["Arbitrum"],
-    recipient: parameters.avatar,
-  }),
-  // Circle v1 - Receive USDC from Arbitrum
-  allowAction.circle_v1.receive({
-    targets: ["Arbitrum"],
-    sender: parameters.avatar,
-    recipient: parameters.avatar,
-  }),
-
-  // Circle v1 - Bridge USDC to Base
-  allowAction.circle_v1.bridge({
-    targets: ["Base"],
-    recipient: parameters.avatar,
-  }),
-  // Circle v1 - Receive USDC from Base
-  allowAction.circle_v1.receive({
-    targets: ["Base"],
-    sender: parameters.avatar,
-    recipient: parameters.avatar,
-  }),
-
-  // Circle v1 - Bridge USDC to Optimism
-  allowAction.circle_v1.bridge({
-    targets: ["Optimism"],
-    recipient: parameters.avatar,
-  }),
-  // Circle v1 - Receive USDC from Optimism
-  allowAction.circle_v1.receive({
-    targets: ["Optimism"],
-    sender: parameters.avatar,
-    recipient: parameters.avatar,
-  }),
-
-  // CowSwap - [COMP, DAI, sDAI, USDC] -> [DAI, sDAI, USDC]
-  allowAction.cowswap.swap({
-    sell: [COMP, DAI, sDAI, USDC],
-    buy: [DAI, sDAI, USDC],
-  }),
-  // CowSwap - [DAI, USDC, USDM] <-> [DAI, USDC, USDM]
-  allowAction.cowswap.swap({ sell: [DAI, USDC, USDM], buy: [DAI, USDC, USDM] }),
-  // CowSwap - [USDC, wM] <-> [USDC, wM]
-  allowAction.cowswap.swap({ sell: [USDC, wM], buy: [USDC, wM] }),
-  // CowSwap - [AAVE, AURA, BAL, CRV, crvUSD, CVX, DAI, GHO, GYD, NOTE, sDAI, stkGHO, sUSDe, USDC, USDe, USDS, USDT] <->
-  // [AAVE, AURA, BAL, CRV, crvUSD, CVX, DAI, GHO, GYD, NOTE, sDAI, stkGHO, sUSDe, USDC, USDe, USDS, USDT]
-  allowAction.cowswap.swap({
-    sell: [
-      AAVE,
-      AURA,
-      BAL,
-      CRV,
-      crvUSD,
-      CVX,
-      DAI,
-      GHO,
-      GYD,
-      NOTE,
-      sDAI,
-      stkGHO,
-      sUSDe,
-      USDC,
-      USDe,
-      USDS,
-      USDT,
-    ],
-    buy: [
-      AAVE,
-      AURA,
-      BAL,
-      CRV,
-      crvUSD,
-      CVX,
-      DAI,
-      GHO,
-      GYD,
-      NOTE,
-      sDAI,
-      stkGHO,
-      sUSDe,
-      USDC,
-      USDe,
-      USDS,
-      USDT,
-    ],
-  }),
-
-  // Morpho Market - USDC/WBTC - id: 0x3a85e619751152991742810df6ec69ce473daef99e28a64ab2340d7b7ccfee49
-  allowAction.morphoMarkets.deposit({
-    targets: [
-      "0x3a85e619751152991742810df6ec69ce473daef99e28a64ab2340d7b7ccfee49",
-    ],
-  }),
-  // Morpho Market - USDT/WBTC - id: 0xa921ef34e2fc7a27ccc50ae7e4b154e16c9799d3387076c421423ef52ac4df99
-  allowAction.morphoMarkets.deposit({
-    targets: [
-      "0xa921ef34e2fc7a27ccc50ae7e4b154e16c9799d3387076c421423ef52ac4df99",
-    ],
-  }),
   // Morpho Market - USDC/wstETH - id: 0xb323495f7e4148be5643a4ea4a8221eef163e4bccfdedc2a6f4696baacbc86cc
   allowAction.morphoMarkets.deposit({
     targets: [
       "0xb323495f7e4148be5643a4ea4a8221eef163e4bccfdedc2a6f4696baacbc86cc",
     ],
   }),
+  // Morpho Market - USDC/WBTC - id: 0x3a85e619751152991742810df6ec69ce473daef99e28a64ab2340d7b7ccfee49
+  allowAction.morphoMarkets.deposit({
+    targets: [
+      "0x3a85e619751152991742810df6ec69ce473daef99e28a64ab2340d7b7ccfee49",
+    ],
+  }),
+  // Morpho Market - USDT/sUSDS - id: 0x3274643db77a064abd3bc851de77556a4ad2e2f502f4f0c80845fa8f909ecf0b
+  allowAction.morphoMarkets.deposit({
+    targets: [
+      "0x3274643db77a064abd3bc851de77556a4ad2e2f502f4f0c80845fa8f909ecf0b",
+    ],
+  }),
+  allowAction.morphoMarkets.borrow({
+    targets: [
+      "0x3274643db77a064abd3bc851de77556a4ad2e2f502f4f0c80845fa8f909ecf0b",
+    ],
+  }),
+  // Morpho Market - USDC/cbBTC - id: 0x64d65c9a2d91c36d56fbc42d69e979335320169b3df63bf92789e2c8883fcc64
+  allowAction.morphoMarkets.deposit({
+    targets: [
+      "0x64d65c9a2d91c36d56fbc42d69e979335320169b3df63bf92789e2c8883fcc64",
+    ],
+  }),
+  // Morpho Market - USDC/PT-USDe-25SEP2025 - id: 0x7a5d67805cb78fad2596899e0c83719ba89df353b931582eb7d3041fd5a06dc8
+  allowAction.morphoMarkets.deposit({
+    targets: [
+      "0x7a5d67805cb78fad2596899e0c83719ba89df353b931582eb7d3041fd5a06dc8",
+    ],
+  }),
+  // Morpho Market - USDT/PT-USDe-25SEP2025 - id: 0xb0a9ac81a8c6a5274aa1a8337aed35a2cb2cd4feb5c6d3b39d41f234fbf2955b
+  allowAction.morphoMarkets.deposit({
+    targets: [
+      "0xb0a9ac81a8c6a5274aa1a8337aed35a2cb2cd4feb5c6d3b39d41f234fbf2955b",
+    ],
+  }),
+  // Morpho Market - USDC/wstUSR - id: 0xd9e34b1eed46d123ac1b69b224de1881dbc88798bc7b70f504920f62f58f28cc
+  allowAction.morphoMarkets.deposit({
+    targets: [
+      "0xd9e34b1eed46d123ac1b69b224de1881dbc88798bc7b70f504920f62f58f28cc",
+    ],
+  }),
+  // Morpho Market - USDC/RLP - id: 0xe1b65304edd8ceaea9b629df4c3c926a37d1216e27900505c04f14b2ed279f33
+  allowAction.morphoMarkets.deposit({
+    targets: [
+      "0xe1b65304edd8ceaea9b629df4c3c926a37d1216e27900505c04f14b2ed279f33",
+    ],
+  }),
+  // Morpho Market - USDC/syrupUSDC - id: 0x729badf297ee9f2f6b3f717b96fd355fc6ec00422284ce1968e76647b258cf44
+  allowAction.morphoMarkets.deposit({
+    targets: [
+      "0x729badf297ee9f2f6b3f717b96fd355fc6ec00422284ce1968e76647b258cf44",
+    ],
+  }),
+  // Morpho Market - USDC/ETH+ - id: 0xdb8938f97571aeab0deb0c34cf7e6278cff969538f49eebe6f4fc75a9a111293
+  allowAction.morphoMarkets.deposit({
+    targets: [
+      "0xdb8938f97571aeab0deb0c34cf7e6278cff969538f49eebe6f4fc75a9a111293",
+    ],
+  }),
+  // Morpho Market - USDC/PT-sUSDE-27NOV2025 - id: 0x05702edf1c4709808b62fe65a7d082dccc9386f858ae460ef207ec8dd1debfa2
+  allowAction.morphoMarkets.deposit({
+    targets: [
+      "0x05702edf1c4709808b62fe65a7d082dccc9386f858ae460ef207ec8dd1debfa2",
+    ],
+  }),
+  // Morpho Market - USDC/PT-USDe-27NOV2025 - id: 0x534e7046c3aebaa0c6c363cdbeb9392fc87af71cc16862479403a198fe04b206
+  allowAction.morphoMarkets.deposit({
+    targets: [
+      "0x534e7046c3aebaa0c6c363cdbeb9392fc87af71cc16862479403a198fe04b206",
+    ],
+  }),
 
-  // Spark - DSR_sDAI
-  allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
-  // Spark - SKY_sUSDS
+  // Morpho Vault - kpk USDC Prime v1.1
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkUsdcV1],
+  }),
+  // Morpho Vault - kpk USDC v2
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkUsdcV2],
+  }),
+
+  // Spark - Deposit USDS to get sUSDS
   allowAction.spark.deposit({ targets: ["SKY_sUSDS"] }),
-  // Spark - Borrow DAI
-  allowAction.spark.borrow({ targets: ["DAI"] }),
-  // Spark - Deposit sDAI
-  allowAction.spark.deposit({ targets: ["sDAI"] }),
+  // Spark - Deposit sUSDS
+  allowAction.spark.deposit({ targets: ["sUSDS"] }),
+  // Spark - Deposit USDC
+  allowAction.spark.deposit({ targets: ["USDC"] }),
+  // Spark - Deposit USDT
+  allowAction.spark.deposit({ targets: ["USDT"] }),
   // Spark - Borrow USDC
   allowAction.spark.borrow({ targets: ["USDC"] }),
+
+  /*********************************************
+   * Swaps
+   *********************************************/
+
+  // CowSwap - [AURA, BAL, DAI, GHO, MORPHO, RLUSD, SPK, sUSDe, sUSDS, stkGHO, syrupUSDC, USDC, USDe, USDS, USDT] <->
+  // [GHO, RLUSD, sUSDe, sUSDS, stkGHO, syrupUSDC, USDC, USDe, USDS, USDT]
+  allowAction.cowswap.swap({
+    sell: [
+      AURA,
+      BAL,
+      DAI,
+      GHO,
+      MORPHO,
+      RLUSD,
+      SPK,
+      sUSDe,
+      sUSDS,
+      stkGHO,
+      syrupUSDC,
+      USDC,
+      USDe,
+      USDS,
+      USDT,
+    ],
+    buy: [GHO, RLUSD, sUSDe, sUSDS, stkGHO, syrupUSDC, USDC, USDe, USDS, USDT],
+  }),
+
+  /*********************************************
+   * Bridges
+   *********************************************/
+
+  // Circle v2 - Bridge USDC to Arbitrum
+  allowAction.circle_v2.bridge({
+    targets: ["Arbitrum"],
+    recipient: parameters.avatar,
+  }),
+  // Circle v2 - Receive USDC from Arbitrum
+  allowAction.circle_v2.receive({
+    targets: ["Arbitrum"],
+    sender: parameters.avatar,
+    recipient: parameters.avatar,
+  }),
+  // Circle v2 - Bridge USDC to Base
+  allowAction.circle_v2.bridge({
+    targets: ["Base"],
+    recipient: parameters.avatar,
+  }),
+  // Circle v2 - Receive USDC from Base
+  allowAction.circle_v2.receive({
+    targets: ["Base"],
+    sender: parameters.avatar,
+    recipient: parameters.avatar,
+  }),
+  // Circle v2 - Bridge USDC to Optimism
+  allowAction.circle_v2.bridge({
+    targets: ["Optimism"],
+    recipient: parameters.avatar,
+  }),
+  // Circle v2 - Receive USDC from Optimism
+  allowAction.circle_v2.receive({
+    targets: ["Optimism"],
+    sender: parameters.avatar,
+    recipient: parameters.avatar,
+  }),
 ]
