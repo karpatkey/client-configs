@@ -13,6 +13,7 @@ import {
   EURC,
   GEAR,
   GHO,
+  GNO,
   KING,
   MORPHO,
   NOTE,
@@ -65,7 +66,7 @@ export default [
   // Convex - Stake cvxCRV
   allowAction.convex.stake({ targets: ["cvxCRV"] }),
 
-  // CowSwap - [COMP, CRV, crvUSD, CVX, cvxCRV, DAI, eETH, ETH, ETH+, EURC, GEAR, GHO, KING, MORPHO, NOTE, RPL, rETH, sDAI, SPK, sUSDS, stETH, stkGHO, USDC, USDS, USDT, weETH, WETH, wstETH] ->
+  // CowSwap - [COMP, CRV, crvUSD, CVX, cvxCRV, DAI, eETH, ETH, ETH+, EURC, GEAR, GHO, GNO, KING, MORPHO, NOTE, RPL, rETH, sDAI, SPK, sUSDS, stETH, stkGHO, USDC, USDS, USDT, weETH, WETH, wstETH] ->
   // [DAI, eETH ETH, EURC, GHO, rETH, sDAI, sUSDS, stETH, stkGHO, USDC, USDS, USDT, weETH, WETH, wstETH]
   allowAction.cowswap.swap({
     sell: [
@@ -81,6 +82,7 @@ export default [
       EURC,
       GEAR,
       GHO,
+      GNO,
       KING,
       MORPHO,
       NOTE,
@@ -140,27 +142,43 @@ export default [
 
   // Morpho Vault - kpk ETH Prime v1.1
   allowAction.morphoVaults.deposit({
-    targets: [morpho.kpkEthV1],
+    targets: [morpho.kpkEthPrimeV1],
   }),
-  // Morpho Vault - kpk ETH v2
+  // Morpho Vault - kpk ETH Prime v2
   allowAction.morphoVaults.deposit({
-    targets: [morpho.kpkEthV2],
+    targets: [morpho.kpkEthPrimeV2],
+  }),
+  // Morpho Vault - kpk ETH Yield v1.1
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkEthYieldV1],
+  }),
+  // Morpho Vault - kpk ETH Yield v2
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkEthYieldV2],
   }),
   // Morpho Vault - kpk EURC Yield v1.1
   allowAction.morphoVaults.deposit({
-    targets: [morpho.kpkEurcV1],
+    targets: [morpho.kpkEurcYieldV1],
   }),
-  // Morpho Vault - kpk EURC v2
+  // Morpho Vault - kpk EURC Yield v2
   allowAction.morphoVaults.deposit({
-    targets: [morpho.kpkEurcV2],
+    targets: [morpho.kpkEurcYieldV2],
   }),
   // Morpho Vault - kpk USDC Prime v1.1
   allowAction.morphoVaults.deposit({
-    targets: [morpho.kpkUsdcV1],
+    targets: [morpho.kpkUsdcPrimeV1],
   }),
-  // Morpho Vault - kpk USDC v2
+  // Morpho Vault - kpk USDC Prime v2
   allowAction.morphoVaults.deposit({
-    targets: [morpho.kpkUsdcV2],
+    targets: [morpho.kpkUsdcPrimeV2],
+  }),
+  // Morpho Vault - kpk USDC Yield v1.1
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkUsdcYieldV1],
+  }),
+  // Morpho Vault - kpk USDC Yield v2
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkUsdcYieldV2],
   }),
 
   // Rocket Pool

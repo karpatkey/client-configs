@@ -63,7 +63,7 @@ export default (parameters: Parameters) =>
       targetAddress: WETH,
     },
 
-    // XDAI -> XDAI - Gnosis Bridge
+    // XDAI -> DAI - Gnosis Bridge
     allow.gnosis.gnosisBridge.xdaiBridge2.relayTokens(c.avatar, {
       send: true,
     }),

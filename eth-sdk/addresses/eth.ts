@@ -296,12 +296,16 @@ export const morpho = {
   usualUsdc: "0xd63070114470f685b75B74D60EEc7c1113d33a3D", // MEV Capital USDC
   bbqUsdc: "0xBEeFFF209270748ddd194831b3fa287a5386f5bC", // Smokehouse USDC
   steakUsdc: "0xBEEF01735c132Ada46AA9aA4c54623cAA92A64CB", // Steakhouse USDC
-  kpkUsdcV1: "0xe108fbc04852B5df72f9E44d7C29F47e7A993aDd", // kpk USDC Prime v1
-  kpkEthV1: "0xd564F765F9aD3E7d2d6cA782100795a885e8e7C8", // kpk ETH Prime v1
-  kpkEurcV1: "0x0c6aec603d48eBf1cECc7b247a2c3DA08b398DC1", // kpk EURC v1
-  kpkUsdcV2: "0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6", // kpk USDC Prime v2
-  kpkEthV2: "0xBb50A5341368751024ddf33385BA8cf61fE65FF9", // kpk ETH Prime v2
-  kpkEurcV2: "0xa877D5bb0274dcCbA8556154A30E1Ca4021a275f", // kpk EURC v2
+  kpkEthPrimeV1: "0xd564F765F9aD3E7d2d6cA782100795a885e8e7C8", // kpk ETH Prime v1
+  kpkEthPrimeV2: "0xBb50A5341368751024ddf33385BA8cf61fE65FF9", // kpk ETH Prime v2
+  kpkEthYieldV1: "0xc88eFFD6e74D55c78290892809955463468E982A", // kpk ETH Yield v1
+  kpkEthYieldV2: "0x5dbf760b4fd0cDdDe0366b33aEb338b2A6d77725", // kpk ETH Yield v2
+  kpkUsdcPrimeV1: "0xe108fbc04852B5df72f9E44d7C29F47e7A993aDd", // kpk USDC Prime v1
+  kpkUsdcPrimeV2: "0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6", // kpk USDC Prime v2
+  kpkUsdcYieldV1: "0x9178eBE0691593184c1D785a864B62a326cc3509", // kpk USDC Yield v1
+  kpkUsdcYieldV2: "0xD5cCe260E7a755DDf0Fb9cdF06443d593AaeaA13", // kpk USDC Yield v2
+  kpkEurcYieldV1: "0x0c6aec603d48eBf1cECc7b247a2c3DA08b398DC1", // kpk EURC Yield v1
+  kpkEurcYieldV2: "0xa877D5bb0274dcCbA8556154A30E1Ca4021a275f", // kpk EURC Yield v2
 
   // Oracles
   oracleEthplusUsdc: "0x83Fb5ff55eAA528F0C0f95c3f270b85E5d094756",

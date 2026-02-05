@@ -1,11 +1,20 @@
 import { allow as allowAction } from "defi-kit/gno"
-import { sDAI, USDC, USDCe, USDT, WXDAI } from "@/addresses/gno"
+import {
+  GNO,
+  sDAI,
+  USDC,
+  USDCe,
+  USDT,
+  WETH,
+  wstETH,
+  WXDAI,
+} from "@/addresses/gno"
 
 export default [
-  // CowSwap - [sDAI, USDC, USDCe, USDT, WXDAI, XDAI] <-> [sDAI, USDC, USDCe, USDT, WXDAI, XDAI]
+  // CowSwap - [GNO, sDAI, USDC, USDCe, USDT, WETH, wstETH, WXDAI, XDAI] -> [sDAI, USDC, USDCe, USDT, WETH, wstETH, WXDAI, XDAI]
   allowAction.cowswap.swap({
-    sell: ["XDAI", sDAI, USDC, USDCe, USDT, WXDAI],
-    buy: ["XDAI", sDAI, USDC, USDCe, USDT, WXDAI],
+    sell: ["XDAI", GNO, sDAI, USDC, USDCe, USDT, WETH, wstETH, WXDAI],
+    buy: ["XDAI", sDAI, USDC, USDCe, USDT, WETH, wstETH, WXDAI],
   }),
 
   // Spark - DSR_sDAI
