@@ -54,6 +54,14 @@ export default (parameters: Parameters) => [
   allowAction.morphoVaults.deposit({
     targets: [morpho.kpkUsdcPrimeV2],
   }),
+  // Morpho Vault - kpk USDC Yield v1.1
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkUsdcYieldV1],
+  }),
+  // Morpho Vault - kpk USDC Yield v2
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkUsdcYieldV2],
+  }),
 
   // Spark - Deposit DSR_sDAI
   allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
