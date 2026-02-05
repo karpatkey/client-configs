@@ -1,10 +1,14 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import {
+  BAL,
   cbBTC,
+  COW,
+  CRV,
   DAI,
   eETH,
   GHO,
+  GNO,
   liquidETH,
   SAFE,
   SPK,
@@ -14,6 +18,7 @@ import {
   WBTC,
   weETH,
   WETH,
+  wstETH,
   fluid,
   kpk,
 } from "@/addresses/eth"
@@ -323,7 +328,295 @@ export default (parameters: Parameters) =>
      * Bridge
      *********************************************/
     // Mainnet -> Gnosis
-    // DAI (Mainnet) -> XDAI (Gnosis) - Gnosis Bridge - 600K per month to vcbGc
+    // BAL - Gnosis Bridge
+    allowErc20Approve([BAL], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
+    allow.mainnet.gnosisBridge.gnoOmnibridge[
+      "relayTokens(address,address,uint256)"
+    ](BAL, kpkGc),
+    // Claim bridged BAL from Gnosis - Gnosis Bridge
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.safeExecuteSignaturesWithAutoGasLimit(
+      c.and(
+        // messageId: 32 bytes
+        // First 4 bytes
+        c.bitmask({
+          shift: 0,
+          mask: "0xffffffff",
+          value: "0x00050000",
+        }),
+        // Next 10 bytes
+        c.bitmask({
+          shift: 4,
+          mask: "0xffffffffffffffffffff",
+          value: "0xa7823d6f1e31569f5186",
+        }),
+        // Next 10 bytes
+        c.bitmask({
+          shift: 4 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x1e345b30c6bebf70ebe7",
+        }),
+        // skip last 8 bytes (nonce)
+        // sender: 20 bytes
+        c.bitmask({
+          shift: 32,
+          mask: "0xffffffffffffffffffff",
+          value: contracts.gnosis.gnosisBridge.xdaiBridge.slice(0, 22), // First 10 bytes of the sender address (XDAI Bridge)
+        }),
+        c.bitmask({
+          shift: 32 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x" + contracts.gnosis.gnosisBridge.xdaiBridge.slice(22, 42), // Second 10 bytes of the sender address (XDAI Bridge)
+        }),
+        // executor: 20 bytes
+        c.bitmask({
+          shift: 32 + 20,
+          mask: "0xffffffffffffffffffff",
+          value: contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(0, 22), // First 10 bytes of the executor address (Omnibridge)
+        }),
+        c.bitmask({
+          shift: 32 + 20 + 10,
+          mask: "0xffffffffffffffffffff",
+          value:
+            "0x" + contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
+        }),
+        // gasLimit: 4 bytes
+        c.bitmask({
+          shift: 32 + 20 + 20,
+          mask: "0xffffffff",
+          value: "0x000927c0",
+        }),
+        // dataType + chainIds: 5 bytes
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4,
+          mask: "0xffffffffff",
+          value: "0x0101806401",
+        }),
+        // selector (handleNativeTokens): 4 bytes
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5,
+          mask: "0xffffffff",
+          value: "0x272255bb",
+        }),
+        // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
+        // Token address
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 12,
+          mask: "0xffffffffffffffffffff",
+          value: BAL.slice(0, 22), // First 10 bytes of the token address
+        }),
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 12 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x" + BAL.slice(22, 42), // Last 10 bytes of the token address
+        }),
+        // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
+        // Avatar address
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 32 + 12,
+          mask: "0xffffffffffffffffffff",
+          value: parameters.avatar.slice(0, 22), // First 10 bytes of the avatar address
+        }),
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 32 + 12 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x" + parameters.avatar.slice(22, 42), // Last 10 bytes of the avatar address
+        })
+      )
+    ),
+
+    // COW - Gnosis Bridge
+    allowErc20Approve([COW], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
+    allow.mainnet.gnosisBridge.gnoOmnibridge[
+      "relayTokens(address,address,uint256)"
+    ](COW, kpkGc),
+    // Claim bridged COW from Gnosis - Gnosis Bridge
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.safeExecuteSignaturesWithAutoGasLimit(
+      c.and(
+        // messageId: 32 bytes
+        // First 4 bytes
+        c.bitmask({
+          shift: 0,
+          mask: "0xffffffff",
+          value: "0x00050000",
+        }),
+        // Next 10 bytes
+        c.bitmask({
+          shift: 4,
+          mask: "0xffffffffffffffffffff",
+          value: "0xa7823d6f1e31569f5186",
+        }),
+        // Next 10 bytes
+        c.bitmask({
+          shift: 4 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x1e345b30c6bebf70ebe7",
+        }),
+        // skip last 8 bytes (nonce)
+        // sender: 20 bytes
+        c.bitmask({
+          shift: 32,
+          mask: "0xffffffffffffffffffff",
+          value: contracts.gnosis.gnosisBridge.xdaiBridge.slice(0, 22), // First 10 bytes of the sender address (XDAI Bridge)
+        }),
+        c.bitmask({
+          shift: 32 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x" + contracts.gnosis.gnosisBridge.xdaiBridge.slice(22, 42), // Second 10 bytes of the sender address (XDAI Bridge)
+        }),
+        // executor: 20 bytes
+        c.bitmask({
+          shift: 32 + 20,
+          mask: "0xffffffffffffffffffff",
+          value: contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(0, 22), // First 10 bytes of the executor address (Omnibridge)
+        }),
+        c.bitmask({
+          shift: 32 + 20 + 10,
+          mask: "0xffffffffffffffffffff",
+          value:
+            "0x" + contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
+        }),
+        // gasLimit: 4 bytes
+        c.bitmask({
+          shift: 32 + 20 + 20,
+          mask: "0xffffffff",
+          value: "0x000927c0",
+        }),
+        // dataType + chainIds: 5 bytes
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4,
+          mask: "0xffffffffff",
+          value: "0x0101806401",
+        }),
+        // selector (handleNativeTokens): 4 bytes
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5,
+          mask: "0xffffffff",
+          value: "0x272255bb",
+        }),
+        // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
+        // Token address
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 12,
+          mask: "0xffffffffffffffffffff",
+          value: COW.slice(0, 22), // First 10 bytes of the token address
+        }),
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 12 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x" + COW.slice(22, 42), // Last 10 bytes of the token address
+        }),
+        // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
+        // Avatar address
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 32 + 12,
+          mask: "0xffffffffffffffffffff",
+          value: parameters.avatar.slice(0, 22), // First 10 bytes of the avatar address
+        }),
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 32 + 12 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x" + parameters.avatar.slice(22, 42), // Last 10 bytes of the avatar address
+        })
+      )
+    ),
+
+    // CRV - Gnosis Bridge
+    allowErc20Approve([CRV], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
+    allow.mainnet.gnosisBridge.gnoOmnibridge[
+      "relayTokens(address,address,uint256)"
+    ](CRV, kpkGc),
+    // Claim bridged CRV from Gnosis - Gnosis Bridge
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.safeExecuteSignaturesWithAutoGasLimit(
+      c.and(
+        // messageId: 32 bytes
+        // First 4 bytes
+        c.bitmask({
+          shift: 0,
+          mask: "0xffffffff",
+          value: "0x00050000",
+        }),
+        // Next 10 bytes
+        c.bitmask({
+          shift: 4,
+          mask: "0xffffffffffffffffffff",
+          value: "0xa7823d6f1e31569f5186",
+        }),
+        // Next 10 bytes
+        c.bitmask({
+          shift: 4 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x1e345b30c6bebf70ebe7",
+        }),
+        // skip last 8 bytes (nonce)
+        // sender: 20 bytes
+        c.bitmask({
+          shift: 32,
+          mask: "0xffffffffffffffffffff",
+          value: contracts.gnosis.gnosisBridge.xdaiBridge.slice(0, 22), // First 10 bytes of the sender address (XDAI Bridge)
+        }),
+        c.bitmask({
+          shift: 32 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x" + contracts.gnosis.gnosisBridge.xdaiBridge.slice(22, 42), // Second 10 bytes of the sender address (XDAI Bridge)
+        }),
+        // executor: 20 bytes
+        c.bitmask({
+          shift: 32 + 20,
+          mask: "0xffffffffffffffffffff",
+          value: contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(0, 22), // First 10 bytes of the executor address (Omnibridge)
+        }),
+        c.bitmask({
+          shift: 32 + 20 + 10,
+          mask: "0xffffffffffffffffffff",
+          value:
+            "0x" + contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
+        }),
+        // gasLimit: 4 bytes
+        c.bitmask({
+          shift: 32 + 20 + 20,
+          mask: "0xffffffff",
+          value: "0x000927c0",
+        }),
+        // dataType + chainIds: 5 bytes
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4,
+          mask: "0xffffffffff",
+          value: "0x0101806401",
+        }),
+        // selector (handleNativeTokens): 4 bytes
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5,
+          mask: "0xffffffff",
+          value: "0x272255bb",
+        }),
+        // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
+        // Token address
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 12,
+          mask: "0xffffffffffffffffffff",
+          value: CRV.slice(0, 22), // First 10 bytes of the token address
+        }),
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 12 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x" + CRV.slice(22, 42), // Last 10 bytes of the token address
+        }),
+        // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
+        // Avatar address
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 32 + 12,
+          mask: "0xffffffffffffffffffff",
+          value: parameters.avatar.slice(0, 22), // First 10 bytes of the avatar address
+        }),
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 32 + 12 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x" + parameters.avatar.slice(22, 42), // Last 10 bytes of the avatar address
+        })
+      )
+    ),
+
+    // DAI -> XDAI - Gnosis Bridge - 600K per month to vcbGc
     allowErc20Approve([DAI], [contracts.mainnet.gnosisBridge.xdaiUsdsBridge]),
     // Bridge up tp 600K DAI to vcbGc per month
     allow.mainnet.gnosisBridge.xdaiUsdsBridge.relayTokens(
@@ -363,6 +656,708 @@ export default (parameters: Parameters) =>
         })
       )
     ),
+
+    // GHO - Chainlink - transporter.io
+    allowErc20Approve([GHO], [contracts.mainnet.chainlink.router]),
+    allow.mainnet.chainlink.router.ccipSend(
+      "465200170687744372", // https://docs.chain.link/ccip/directory/mainnet/chain/xdai-mainnet
+      {
+        receiver: "0x" + kpkGc.slice(2).padStart(64, "0"),
+        data: "0x",
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#evmtokenamount
+        tokenAmounts: c.matches([
+          {
+            token: GHO,
+            amount: undefined,
+          },
+        ]),
+        feeToken: zeroAddress,
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#generic_extra_args_v2_tag
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#genericextraargsv2
+        extraArgs: c.or(
+          "0x",
+          "0x181dcf1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001"
+        ),
+      },
+      {
+        send: true,
+      }
+    ),
+
+    // GNO - Gnosis Bridge
+    allowErc20Approve([GNO], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
+    allow.mainnet.gnosisBridge.gnoOmnibridge[
+      "relayTokens(address,address,uint256)"
+    ](GNO, kpkGc),
+    // Claim bridged GNO from Gnosis
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.safeExecuteSignaturesWithAutoGasLimit(
+      c.and(
+        // messageId: 32 bytes
+        // First 4 bytes
+        c.bitmask({
+          shift: 0,
+          mask: "0xffffffff",
+          value: "0x00050000",
+        }),
+        // Next 10 bytes
+        c.bitmask({
+          shift: 4,
+          mask: "0xffffffffffffffffffff",
+          value: "0xa7823d6f1e31569f5186",
+        }),
+        // Next 10 bytes
+        c.bitmask({
+          shift: 4 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x1e345b30c6bebf70ebe7",
+        }),
+        // skip last 8 bytes (nonce)
+        // sender: 20 bytes
+        c.bitmask({
+          shift: 32,
+          mask: "0xffffffffffffffffffff",
+          value: contracts.gnosis.gnosisBridge.xdaiBridge.slice(0, 22), // First 10 bytes of the sender address (XDAI Bridge)
+        }),
+        c.bitmask({
+          shift: 32 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x" + contracts.gnosis.gnosisBridge.xdaiBridge.slice(22, 42), // Second 10 bytes of the sender address (XDAI Bridge)
+        }),
+        // executor: 20 bytes
+        c.bitmask({
+          shift: 32 + 20,
+          mask: "0xffffffffffffffffffff",
+          value: contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(0, 22), // First 10 bytes of the executor address (Omnibridge)
+        }),
+        c.bitmask({
+          shift: 32 + 20 + 10,
+          mask: "0xffffffffffffffffffff",
+          value:
+            "0x" + contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
+        }),
+        // gasLimit: 4 bytes
+        c.bitmask({
+          shift: 32 + 20 + 20,
+          mask: "0xffffffff",
+          value: "0x000927c0",
+        }),
+        // dataType + chainIds: 5 bytes
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4,
+          mask: "0xffffffffff",
+          value: "0x0101806401",
+        }),
+        // selector (handleNativeTokens): 4 bytes
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5,
+          mask: "0xffffffff",
+          value: "0x272255bb",
+        }),
+        // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
+        // Token address
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 12,
+          mask: "0xffffffffffffffffffff",
+          value: GNO.slice(0, 22), // First 10 bytes of the token address
+        }),
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 12 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x" + GNO.slice(22, 42), // Last 10 bytes of the token address
+        }),
+        // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
+        // Avatar address
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 32 + 12,
+          mask: "0xffffffffffffffffffff",
+          value: parameters.avatar.slice(0, 22), // First 10 bytes of the avatar address
+        }),
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 32 + 12 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x" + parameters.avatar.slice(22, 42), // Last 10 bytes of the avatar address
+        })
+      )
+    ),
+
+    // SAFE - Gnosis Bridge
+    allowErc20Approve([SAFE], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
+    allow.mainnet.gnosisBridge.gnoOmnibridge[
+      "relayTokens(address,address,uint256)"
+    ](SAFE, kpkGc),
+    // Claim bridged SAFE from Gnosis
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.safeExecuteSignaturesWithAutoGasLimit(
+      c.and(
+        // messageId: 32 bytes
+        // First 4 bytes
+        c.bitmask({
+          shift: 0,
+          mask: "0xffffffff",
+          value: "0x00050000",
+        }),
+        // Next 10 bytes
+        c.bitmask({
+          shift: 4,
+          mask: "0xffffffffffffffffffff",
+          value: "0xa7823d6f1e31569f5186",
+        }),
+        // Next 10 bytes
+        c.bitmask({
+          shift: 4 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x1e345b30c6bebf70ebe7",
+        }),
+        // skip last 8 bytes (nonce)
+        // sender: 20 bytes
+        c.bitmask({
+          shift: 32,
+          mask: "0xffffffffffffffffffff",
+          value: contracts.gnosis.gnosisBridge.xdaiBridge.slice(0, 22), // First 10 bytes of the sender address (XDAI Bridge)
+        }),
+        c.bitmask({
+          shift: 32 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x" + contracts.gnosis.gnosisBridge.xdaiBridge.slice(22, 42), // Second 10 bytes of the sender address (XDAI Bridge)
+        }),
+        // executor: 20 bytes
+        c.bitmask({
+          shift: 32 + 20,
+          mask: "0xffffffffffffffffffff",
+          value: contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(0, 22), // First 10 bytes of the executor address (Omnibridge)
+        }),
+        c.bitmask({
+          shift: 32 + 20 + 10,
+          mask: "0xffffffffffffffffffff",
+          value:
+            "0x" + contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
+        }),
+        // gasLimit: 4 bytes
+        c.bitmask({
+          shift: 32 + 20 + 20,
+          mask: "0xffffffff",
+          value: "0x000927c0",
+        }),
+        // dataType + chainIds: 5 bytes
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4,
+          mask: "0xffffffffff",
+          value: "0x0101806401",
+        }),
+        // selector (handleNativeTokens): 4 bytes
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5,
+          mask: "0xffffffff",
+          value: "0x272255bb",
+        }),
+        // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
+        // Token address
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 12,
+          mask: "0xffffffffffffffffffff",
+          value: SAFE.slice(0, 22), // First 10 bytes of the token address
+        }),
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 12 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x" + SAFE.slice(22, 42), // Last 10 bytes of the token address
+        }),
+        // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
+        // Avatar address
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 32 + 12,
+          mask: "0xffffffffffffffffffff",
+          value: parameters.avatar.slice(0, 22), // First 10 bytes of the avatar address
+        }),
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 32 + 12 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x" + parameters.avatar.slice(22, 42), // Last 10 bytes of the avatar address
+        })
+      )
+    ),
+
+    // USDC -> USDC.e - Gnosis Bridge
+    allowErc20Approve([USDC], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
+    allow.mainnet.gnosisBridge.gnoOmnibridge.relayTokensAndCall(
+      USDC,
+      contracts.gnosis.gnosisBridge.usdcTransmuter,
+      undefined,
+      "0x" + kpkGc.slice(2).padStart(64, "0")
+    ),
+    // Claim bridged USDC from Gnosis
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.safeExecuteSignaturesWithAutoGasLimit(
+      c.and(
+        // messageId: 32 bytes
+        // First 4 bytes
+        c.bitmask({
+          shift: 0,
+          mask: "0xffffffff",
+          value: "0x00050000",
+        }),
+        // Next 10 bytes
+        c.bitmask({
+          shift: 4,
+          mask: "0xffffffffffffffffffff",
+          value: "0xa7823d6f1e31569f5186",
+        }),
+        // Next 10 bytes
+        c.bitmask({
+          shift: 4 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x1e345b30c6bebf70ebe7",
+        }),
+        // skip last 8 bytes (nonce)
+        // sender: 20 bytes
+        c.bitmask({
+          shift: 32,
+          mask: "0xffffffffffffffffffff",
+          value: contracts.gnosis.gnosisBridge.xdaiBridge.slice(0, 22), // First 10 bytes of the sender address (XDAI Bridge)
+        }),
+        c.bitmask({
+          shift: 32 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x" + contracts.gnosis.gnosisBridge.xdaiBridge.slice(22, 42), // Second 10 bytes of the sender address (XDAI Bridge)
+        }),
+        // executor: 20 bytes
+        c.bitmask({
+          shift: 32 + 20,
+          mask: "0xffffffffffffffffffff",
+          value: contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(0, 22), // First 10 bytes of the executor address (Omnibridge)
+        }),
+        c.bitmask({
+          shift: 32 + 20 + 10,
+          mask: "0xffffffffffffffffffff",
+          value:
+            "0x" + contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
+        }),
+        // gasLimit: 4 bytes
+        c.bitmask({
+          shift: 32 + 20 + 20,
+          mask: "0xffffffff",
+          value: "0x000927c0",
+        }),
+        // dataType + chainIds: 5 bytes
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4,
+          mask: "0xffffffffff",
+          value: "0x0101806401",
+        }),
+        // selector (handleNativeTokens): 4 bytes
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5,
+          mask: "0xffffffff",
+          value: "0x272255bb",
+        }),
+        // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
+        // Token address
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 12,
+          mask: "0xffffffffffffffffffff",
+          value: USDC.slice(0, 22), // First 10 bytes of the token address
+        }),
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 12 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x" + USDC.slice(22, 42), // Last 10 bytes of the token address
+        }),
+        // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
+        // Avatar address
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 32 + 12,
+          mask: "0xffffffffffffffffffff",
+          value: parameters.avatar.slice(0, 22), // First 10 bytes of the avatar address
+        }),
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 32 + 12 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x" + parameters.avatar.slice(22, 42), // Last 10 bytes of the avatar address
+        })
+      )
+    ),
+
+    // USDT - Gnosis Bridge
+    allowErc20Approve([USDT], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
+    allow.mainnet.gnosisBridge.gnoOmnibridge[
+      "relayTokens(address,address,uint256)"
+    ](USDT, kpkGc),
+    // Claim bridged USDT from Gnosis - Gnosis Bridge
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.safeExecuteSignaturesWithAutoGasLimit(
+      c.and(
+        // messageId: 32 bytes
+        // First 4 bytes
+        c.bitmask({
+          shift: 0,
+          mask: "0xffffffff",
+          value: "0x00050000",
+        }),
+        // Next 10 bytes
+        c.bitmask({
+          shift: 4,
+          mask: "0xffffffffffffffffffff",
+          value: "0xa7823d6f1e31569f5186",
+        }),
+        // Next 10 bytes
+        c.bitmask({
+          shift: 4 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x1e345b30c6bebf70ebe7",
+        }),
+        // skip last 8 bytes (nonce)
+        // sender: 20 bytes
+        c.bitmask({
+          shift: 32,
+          mask: "0xffffffffffffffffffff",
+          value: contracts.gnosis.gnosisBridge.xdaiBridge.slice(0, 22), // First 10 bytes of the sender address (XDAI Bridge)
+        }),
+        c.bitmask({
+          shift: 32 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x" + contracts.gnosis.gnosisBridge.xdaiBridge.slice(22, 42), // Second 10 bytes of the sender address (XDAI Bridge)
+        }),
+        // executor: 20 bytes
+        c.bitmask({
+          shift: 32 + 20,
+          mask: "0xffffffffffffffffffff",
+          value: contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(0, 22), // First 10 bytes of the executor address (Omnibridge)
+        }),
+        c.bitmask({
+          shift: 32 + 20 + 10,
+          mask: "0xffffffffffffffffffff",
+          value:
+            "0x" + contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
+        }),
+        // gasLimit: 4 bytes
+        c.bitmask({
+          shift: 32 + 20 + 20,
+          mask: "0xffffffff",
+          value: "0x000927c0",
+        }),
+        // dataType + chainIds: 5 bytes
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4,
+          mask: "0xffffffffff",
+          value: "0x0101806401",
+        }),
+        // selector (handleNativeTokens): 4 bytes
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5,
+          mask: "0xffffffff",
+          value: "0x272255bb",
+        }),
+        // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
+        // Token address
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 12,
+          mask: "0xffffffffffffffffffff",
+          value: USDT.slice(0, 22), // First 10 bytes of the token address
+        }),
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 12 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x" + USDT.slice(22, 42), // Last 10 bytes of the token address
+        }),
+        // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
+        // Avatar address
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 32 + 12,
+          mask: "0xffffffffffffffffffff",
+          value: parameters.avatar.slice(0, 22), // First 10 bytes of the avatar address
+        }),
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 32 + 12 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x" + parameters.avatar.slice(22, 42), // Last 10 bytes of the avatar address
+        })
+      )
+    ),
+
+    // WBTC - Gnosis Bridge
+    allowErc20Approve([WBTC], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
+    allow.mainnet.gnosisBridge.gnoOmnibridge[
+      "relayTokens(address,address,uint256)"
+    ](WBTC, kpkGc),
+    // Claim bridged WBTC from Gnosis
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.safeExecuteSignaturesWithAutoGasLimit(
+      c.and(
+        // messageId: 32 bytes
+        // First 4 bytes
+        c.bitmask({
+          shift: 0,
+          mask: "0xffffffff",
+          value: "0x00050000",
+        }),
+        // Next 10 bytes
+        c.bitmask({
+          shift: 4,
+          mask: "0xffffffffffffffffffff",
+          value: "0xa7823d6f1e31569f5186",
+        }),
+        // Next 10 bytes
+        c.bitmask({
+          shift: 4 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x1e345b30c6bebf70ebe7",
+        }),
+        // skip last 8 bytes (nonce)
+        // sender: 20 bytes
+        c.bitmask({
+          shift: 32,
+          mask: "0xffffffffffffffffffff",
+          value: contracts.gnosis.gnosisBridge.xdaiBridge.slice(0, 22), // First 10 bytes of the sender address (XDAI Bridge)
+        }),
+        c.bitmask({
+          shift: 32 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x" + contracts.gnosis.gnosisBridge.xdaiBridge.slice(22, 42), // Second 10 bytes of the sender address (XDAI Bridge)
+        }),
+        // executor: 20 bytes
+        c.bitmask({
+          shift: 32 + 20,
+          mask: "0xffffffffffffffffffff",
+          value: contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(0, 22), // First 10 bytes of the executor address (Omnibridge)
+        }),
+        c.bitmask({
+          shift: 32 + 20 + 10,
+          mask: "0xffffffffffffffffffff",
+          value:
+            "0x" + contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
+        }),
+        // gasLimit: 4 bytes
+        c.bitmask({
+          shift: 32 + 20 + 20,
+          mask: "0xffffffff",
+          value: "0x000927c0",
+        }),
+        // dataType + chainIds: 5 bytes
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4,
+          mask: "0xffffffffff",
+          value: "0x0101806401",
+        }),
+        // selector (handleNativeTokens): 4 bytes
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5,
+          mask: "0xffffffff",
+          value: "0x272255bb",
+        }),
+        // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
+        // Token address
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 12,
+          mask: "0xffffffffffffffffffff",
+          value: WBTC.slice(0, 22), // First 10 bytes of the token address
+        }),
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 12 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x" + WBTC.slice(22, 42), // Last 10 bytes of the token address
+        }),
+        // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
+        // Avatar address
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 32 + 12,
+          mask: "0xffffffffffffffffffff",
+          value: parameters.avatar.slice(0, 22), // First 10 bytes of the avatar address
+        }),
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 32 + 12 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x" + parameters.avatar.slice(22, 42), // Last 10 bytes of the avatar address
+        })
+      )
+    ),
+
+    // WETH - Gnosis Bridge
+    allowErc20Approve([WETH], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
+    allow.mainnet.gnosisBridge.gnoOmnibridge[
+      "relayTokens(address,address,uint256)"
+    ](WETH, kpkGc),
+    // Claim bridged WETH from Gnosis - Gnosis Bridge
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.safeExecuteSignaturesWithAutoGasLimit(
+      c.and(
+        // messageId: 32 bytes
+        // First 4 bytes
+        c.bitmask({
+          shift: 0,
+          mask: "0xffffffff",
+          value: "0x00050000",
+        }),
+        // Next 10 bytes
+        c.bitmask({
+          shift: 4,
+          mask: "0xffffffffffffffffffff",
+          value: "0xa7823d6f1e31569f5186",
+        }),
+        // Next 10 bytes
+        c.bitmask({
+          shift: 4 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x1e345b30c6bebf70ebe7",
+        }),
+        // skip last 8 bytes (nonce)
+        // sender: 20 bytes
+        c.bitmask({
+          shift: 32,
+          mask: "0xffffffffffffffffffff",
+          value: contracts.gnosis.gnosisBridge.xdaiBridge.slice(0, 22), // First 10 bytes of the sender address (XDAI Bridge)
+        }),
+        c.bitmask({
+          shift: 32 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x" + contracts.gnosis.gnosisBridge.xdaiBridge.slice(22, 42), // Second 10 bytes of the sender address (XDAI Bridge)
+        }),
+        // executor: 20 bytes
+        c.bitmask({
+          shift: 32 + 20,
+          mask: "0xffffffffffffffffffff",
+          value: contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(0, 22), // First 10 bytes of the executor address (Omnibridge)
+        }),
+        c.bitmask({
+          shift: 32 + 20 + 10,
+          mask: "0xffffffffffffffffffff",
+          value:
+            "0x" + contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
+        }),
+        // gasLimit: 4 bytes
+        c.bitmask({
+          shift: 32 + 20 + 20,
+          mask: "0xffffffff",
+          value: "0x000927c0",
+        }),
+        // dataType + chainIds: 5 bytes
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4,
+          mask: "0xffffffffff",
+          value: "0x0101806401",
+        }),
+        // selector (handleNativeTokens): 4 bytes
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5,
+          mask: "0xffffffff",
+          value: "0x272255bb",
+        }),
+        // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
+        // Token address
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 12,
+          mask: "0xffffffffffffffffffff",
+          value: WETH.slice(0, 22), // First 10 bytes of the token address
+        }),
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 12 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x" + WETH.slice(22, 42), // Last 10 bytes of the token address
+        }),
+        // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
+        // Avatar address
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 32 + 12,
+          mask: "0xffffffffffffffffffff",
+          value: parameters.avatar.slice(0, 22), // First 10 bytes of the avatar address
+        }),
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 32 + 12 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x" + parameters.avatar.slice(22, 42), // Last 10 bytes of the avatar address
+        })
+      )
+    ),
+
+    // wstETH - Gnosis Bridge
+    allowErc20Approve([wstETH], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
+    allow.mainnet.gnosisBridge.gnoOmnibridge[
+      "relayTokens(address,address,uint256)"
+    ](wstETH, kpkGc),
+    // Claim bridged wstETH from Gnosis - Gnosis Bridge
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.safeExecuteSignaturesWithAutoGasLimit(
+      c.and(
+        // messageId: 32 bytes
+        // First 4 bytes
+        c.bitmask({
+          shift: 0,
+          mask: "0xffffffff",
+          value: "0x00050000",
+        }),
+        // Next 10 bytes
+        c.bitmask({
+          shift: 4,
+          mask: "0xffffffffffffffffffff",
+          value: "0xa7823d6f1e31569f5186",
+        }),
+        // Next 10 bytes
+        c.bitmask({
+          shift: 4 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x1e345b30c6bebf70ebe7",
+        }),
+        // skip last 8 bytes (nonce)
+        // sender: 20 bytes
+        c.bitmask({
+          shift: 32,
+          mask: "0xffffffffffffffffffff",
+          value: contracts.gnosis.gnosisBridge.xdaiBridge.slice(0, 22), // First 10 bytes of the sender address (XDAI Bridge)
+        }),
+        c.bitmask({
+          shift: 32 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x" + contracts.gnosis.gnosisBridge.xdaiBridge.slice(22, 42), // Second 10 bytes of the sender address (XDAI Bridge)
+        }),
+        // executor: 20 bytes
+        c.bitmask({
+          shift: 32 + 20,
+          mask: "0xffffffffffffffffffff",
+          value: contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(0, 22), // First 10 bytes of the executor address (Omnibridge)
+        }),
+        c.bitmask({
+          shift: 32 + 20 + 10,
+          mask: "0xffffffffffffffffffff",
+          value:
+            "0x" + contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
+        }),
+        // gasLimit: 4 bytes
+        c.bitmask({
+          shift: 32 + 20 + 20,
+          mask: "0xffffffff",
+          value: "0x000927c0",
+        }),
+        // dataType + chainIds: 5 bytes
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4,
+          mask: "0xffffffffff",
+          value: "0x0101806401",
+        }),
+        // selector (handleNativeTokens): 4 bytes
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5,
+          mask: "0xffffffff",
+          value: "0x272255bb",
+        }),
+        // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
+        // Token address
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 12,
+          mask: "0xffffffffffffffffffff",
+          value: wstETH.slice(0, 22), // First 10 bytes of the token address
+        }),
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 12 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x" + wstETH.slice(22, 42), // Last 10 bytes of the token address
+        }),
+        // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
+        // Avatar address
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 32 + 12,
+          mask: "0xffffffffffffffffffff",
+          value: parameters.avatar.slice(0, 22), // First 10 bytes of the avatar address
+        }),
+        c.bitmask({
+          shift: 32 + 20 + 20 + 4 + 5 + 4 + 32 + 12 + 10,
+          mask: "0xffffffffffffffffffff",
+          value: "0x" + parameters.avatar.slice(22, 42), // Last 10 bytes of the avatar address
+        })
+      )
+        ),
 
     /*********************************************
      * Transfers

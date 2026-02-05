@@ -167,13 +167,13 @@ export default [
   allowAction.morphoVaults.deposit({
     targets: [morpho.gtWeth],
   }),
-  // Morpho Vault - kpk ETH v2
+  // Morpho Vault - kpk ETH Prime v2
   allowAction.morphoVaults.deposit({
-    targets: [morpho.kpkEthV2],
+    targets: [morpho.kpkEthPrimeV2],
   }),
-  // Morpho Vault - kpk USDC v2
+  // Morpho Vault - kpk USDC Prime v2
   allowAction.morphoVaults.deposit({
-    targets: [morpho.kpkUsdcV2],
+    targets: [morpho.kpkUsdcPrimeV2],
   }),
   // Morpho Vault - MEV Capital wETH v1
   allowAction.morphoVaults.deposit({

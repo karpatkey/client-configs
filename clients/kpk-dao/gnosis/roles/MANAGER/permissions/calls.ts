@@ -1,7 +1,10 @@
+import { c } from "zodiac-roles-sdk"
 import { PermissionList } from "@/types"
 import { allow } from "zodiac-roles-sdk/kit"
-import { GNO, WXDAI } from "@/addresses/gno"
-import { allowErc20Transfer, allowEthTransfer } from "@/helpers"
+import { contracts } from "@/contracts"
+import { zeroAddress } from "@/addresses"
+import { BAL, COW, CRV, GHO, GNO, SAFE, USDC, USDCe, USDT, WBTC, WETH, wstETH, WXDAI } from "@/addresses/gno"
+import { allowErc20Approve, allowErc20Transfer, allowEthTransfer } from "@/helpers"
 import { kpkEth, kfPaymentsGC } from "../../../addresses"
 import { vcbGc } from "../../../../mainnet/addresses"
 
@@ -11,9 +14,141 @@ export default [
   allow.gnosis.wxdai.withdraw(),
 
   /*********************************************
+   * Swaps
+   *********************************************/
+  // Swap USDC.e -> USDC
+  allowErc20Approve([USDCe], [contracts.gnosis.gnosisBridge.usdcTransmuter]),
+  allow.gnosis.gnosisBridge.usdcTransmuter.withdraw(),
+  // Swap USDC -> USDC.e
+  allowErc20Approve([USDC], [contracts.gnosis.gnosisBridge.usdcTransmuter]),
+  allow.gnosis.gnosisBridge.usdcTransmuter.deposit(),
+
+  /*********************************************
    * Bridge
    *********************************************/
-  // Bridge - Gnosis -> Mainnet
+  // Gnosis -> Mainnet
+  // BAL - Gnosis Bridge
+  {
+    ...allow.gnosis.gno.transferAndCall(
+      contracts.gnosis.gnosisBridge.xdaiBridge,
+      undefined,
+      kpkEth
+    ),
+    targetAddress: BAL,
+  },
+
+  // COW - Gnosis Bridge
+  {
+    ...allow.gnosis.gno.transferAndCall(
+      contracts.gnosis.gnosisBridge.xdaiBridge,
+      undefined,
+      kpkEth
+    ),
+    targetAddress: COW,
+  },
+
+  // CRV - Gnosis Bridge
+  {
+    ...allow.gnosis.gno.transferAndCall(
+      contracts.gnosis.gnosisBridge.xdaiBridge,
+      undefined,
+      kpkEth
+    ),
+    targetAddress: CRV,
+  },
+
+  // GHO - Chainlink - transporter.io
+  allowErc20Approve([GHO], [contracts.gnosis.chainlink.router]),
+  allow.gnosis.chainlink.router.ccipSend(
+    "5009297550715157269", // https://docs.chain.link/ccip/directory/mainnet/chain/mainnet
+    {
+      receiver: "0x" + kpkEth.slice(2).padStart(64, "0"),
+      data: "0x",
+      // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#evmtokenamount
+      tokenAmounts: c.matches([
+        {
+          token: GHO,
+          amount: undefined,
+        },
+      ]),
+      feeToken: zeroAddress,
+      // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#generic_extra_args_v2_tag
+      // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#genericextraargsv2
+      extraArgs: c.or(
+        "0x",
+        "0x181dcf1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001"
+      ),
+    },
+    {
+      send: true,
+    }
+  ),
+
+  // GNO - Gnosis Bridge
+  allow.gnosis.gno.transferAndCall(
+    contracts.gnosis.gnosisBridge.xdaiBridge,
+    undefined,
+    kpkEth
+  ),
+
+  // SAFE - Gnosis Bridge
+  {
+    ...allow.gnosis.gno.transferAndCall(
+      contracts.gnosis.gnosisBridge.xdaiBridge,
+      undefined,
+      kpkEth
+    ),
+    targetAddress: SAFE,
+  },
+
+  // USDC - Gnosis Bridge
+  allow.gnosis.usdc.transferAndCall(
+    contracts.gnosis.gnosisBridge.xdaiBridge,
+    undefined,
+    kpkEth
+  ),
+
+  // USDT - Gnosis Bridge
+  {
+    ...allow.gnosis.gno.transferAndCall(
+      contracts.gnosis.gnosisBridge.xdaiBridge,
+      undefined,
+      kpkEth
+    ),
+    targetAddress: USDT,
+  },
+
+  // WBTC - Gnosis Bridge
+  {
+    ...allow.gnosis.gno.transferAndCall(
+      contracts.gnosis.gnosisBridge.xdaiBridge,
+      undefined,
+      kpkEth
+    ),
+    targetAddress: WBTC,
+  },
+
+  // WETH - Gnosis Bridge
+  {
+    ...allow.gnosis.gno.transferAndCall(
+      contracts.gnosis.gnosisBridge.xdaiBridge,
+      undefined,
+      kpkEth
+    ),
+    targetAddress: WETH,
+  },
+
+  // wstETH - Gnosis Bridge
+  {
+    ...allow.gnosis.gno.transferAndCall(
+      contracts.gnosis.gnosisBridge.xdaiBridge,
+      undefined,
+      kpkEth
+
+    ),
+    targetAddress: wstETH,
+  },
+
   // XDAI -> DAI - Gnosis Bridge
   allow.gnosis.gnosisBridge.xdaiBridge2.relayTokens(kpkEth, {
     send: true,

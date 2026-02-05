@@ -10,10 +10,10 @@ export default [
   // Morpho Vault - kpk USDC Yield v1.1
   {
     ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-    targetAddress: morpho.kpkUsdc,
+    targetAddress: morpho.kpkUsdcYieldV1,
   },
   {
     ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-    targetAddress: morpho.kpkUsdc,
+    targetAddress: morpho.kpkUsdcYieldV1,
   },
 ] satisfies PermissionList

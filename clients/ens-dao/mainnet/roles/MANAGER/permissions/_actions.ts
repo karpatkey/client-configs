@@ -182,19 +182,19 @@ export default (parameters: Parameters) => [
 
   // Morpho Vault - kpk ETH Prime v1.1
   allowAction.morphoVaults.deposit({
-    targets: [morpho.kpkEthV1],
+    targets: [morpho.kpkEthPrimeV1],
   }),
-  // Morpho Vault - kpk ETH v2
+  // Morpho Vault - kpk ETH Prime v2
   allowAction.morphoVaults.deposit({
-    targets: [morpho.kpkEthV2],
+    targets: [morpho.kpkEthPrimeV2],
   }),
   // Morpho Vault - kpk USDC Prime v1.1
   allowAction.morphoVaults.deposit({
-    targets: [morpho.kpkUsdcV1],
+    targets: [morpho.kpkUsdcPrimeV1],
   }),
-  // Morpho Vault - kpk USDC v2
+  // Morpho Vault - kpk USDC Prime v2
   allowAction.morphoVaults.deposit({
-    targets: [morpho.kpkUsdcV2],
+    targets: [morpho.kpkUsdcPrimeV2],
   }),
 
   // Rocket Pool

@@ -88,10 +88,10 @@ export default [
 
   // Morpho Vault - kpk USDC Yield v1.1
   allowAction.morphoVaults.deposit({
-    targets: [morpho.kpkUsdc],
+    targets: [morpho.kpkUsdcYieldV1],
   }),
   // Morpho Vault - kpk USDC Yield v2
   allowAction.morphoVaults.deposit({
-    targets: [morpho.kpkUsdcV2],
+    targets: [morpho.kpkUsdcYieldV2],
   }),
 ]

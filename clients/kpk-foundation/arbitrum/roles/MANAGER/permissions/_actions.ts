@@ -23,6 +23,6 @@ export default (parameters: Parameters) => [
 
   // Morpho Vault - kpk USDC Yield v1.1
   allowAction.morphoVaults.deposit({
-    targets: [morpho.kpkUsdc],
+    targets: [morpho.kpkUsdcYieldV1],
   }),
 ]

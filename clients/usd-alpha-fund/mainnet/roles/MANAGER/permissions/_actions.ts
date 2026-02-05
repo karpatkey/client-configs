@@ -121,11 +121,11 @@ export default (parameters: Parameters) => [
 
   // Morpho Vault - kpk USDC Prime v1.1
   allowAction.morphoVaults.deposit({
-    targets: [morpho.kpkUsdcV1],
+    targets: [morpho.kpkUsdcPrimeV1],
   }),
-  // Morpho Vault - kpk USDC v2
+  // Morpho Vault - kpk USDC Prime v2
   allowAction.morphoVaults.deposit({
-    targets: [morpho.kpkUsdcV2],
+    targets: [morpho.kpkUsdcPrimeV2],
   }),
 
   // Spark - Deposit USDS to get sUSDS

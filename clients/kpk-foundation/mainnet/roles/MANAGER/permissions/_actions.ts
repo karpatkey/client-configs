@@ -40,19 +40,19 @@ export default (parameters: Parameters) => [
 
   // Morpho Vault - kpk EURC Yield v1.1
   allowAction.morphoVaults.deposit({
-    targets: [morpho.kpkEurcV1],
+    targets: [morpho.kpkEurcYieldV1],
   }),
-  // Morpho Vault - kpk EURC v2
+  // Morpho Vault - kpk EURC Yield v2
   allowAction.morphoVaults.deposit({
-    targets: [morpho.kpkEurcV2],
+    targets: [morpho.kpkEurcYieldV2],
   }),
   // Morpho Vault - kpk USDC Prime v1.1
   allowAction.morphoVaults.deposit({
-    targets: [morpho.kpkUsdcV1],
+    targets: [morpho.kpkUsdcPrimeV1],
   }),
-  // Morpho Vault - kpk USDC v2
+  // Morpho Vault - kpk USDC Prime v2
   allowAction.morphoVaults.deposit({
-    targets: [morpho.kpkUsdcV2],
+    targets: [morpho.kpkUsdcPrimeV2],
   }),
 
   // Spark - Deposit DSR_sDAI

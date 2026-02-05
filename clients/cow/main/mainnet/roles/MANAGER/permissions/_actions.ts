@@ -142,7 +142,7 @@ export default [
   allowAction.morphoVaults.deposit({
     targets: ["0xd564F765F9aD3E7d2d6cA782100795a885e8e7C8"],
   }),
-  // Morpho Vault - kpk ETH v2
+  // Morpho Vault - kpk ETH Prime v2
   allowAction.morphoVaults.deposit({
     targets: ["0xBb50A5341368751024ddf33385BA8cf61fE65FF9"],
   }),
@@ -150,7 +150,7 @@ export default [
   allowAction.morphoVaults.deposit({
     targets: ["0x0c6aec603d48eBf1cECc7b247a2c3DA08b398DC1"],
   }),
-  // Morpho Vault - kpk EURC v2
+  // Morpho Vault - kpk EURC Yield v2
   allowAction.morphoVaults.deposit({
     targets: ["0xa877D5bb0274dcCbA8556154A30E1Ca4021a275f"],
   }),
@@ -158,7 +158,7 @@ export default [
   allowAction.morphoVaults.deposit({
     targets: ["0xe108fbc04852B5df72f9E44d7C29F47e7A993aDd"],
   }),
-  // Morpho Vault - kpk USDC v2
+  // Morpho Vault - kpk USDC Prime v2
   allowAction.morphoVaults.deposit({
     targets: ["0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6"],
   }),

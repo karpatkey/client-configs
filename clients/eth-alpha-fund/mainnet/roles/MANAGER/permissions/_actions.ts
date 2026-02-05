@@ -124,11 +124,11 @@ export default (parameters: Parameters) => [
 
   // Morpho Vault - kpk ETH Prime v1.1
   allowAction.morphoVaults.deposit({
-    targets: [morpho.kpkEthV1],
+    targets: [morpho.kpkEthPrimeV1],
   }),
-  // Morpho Vault - kpk ETH v2
+  // Morpho Vault - kpk ETH Prime v2
   allowAction.morphoVaults.deposit({
-    targets: [morpho.kpkEthV2],
+    targets: [morpho.kpkEthPrimeV2],
   }),
 
   // Rocket Pool
