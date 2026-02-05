@@ -1,5 +1,14 @@
 import { allow as allowAction } from "defi-kit/gno"
-import { GNO, sDAI, USDC, USDCe, USDT, WETH, wstETH, WXDAI } from "@/addresses/gno"
+import {
+  GNO,
+  sDAI,
+  USDC,
+  USDCe,
+  USDT,
+  WETH,
+  wstETH,
+  WXDAI,
+} from "@/addresses/gno"
 
 export default [
   // CowSwap - [GNO, sDAI, USDC, USDCe, USDT, WETH, wstETH, WXDAI, XDAI] -> [sDAI, USDC, USDCe, USDT, WETH, wstETH, WXDAI, XDAI]

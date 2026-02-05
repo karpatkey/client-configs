@@ -1357,7 +1357,7 @@ export default (parameters: Parameters) =>
           value: "0x" + parameters.avatar.slice(22, 42), // Last 10 bytes of the avatar address
         })
       )
-        ),
+    ),
 
     /*********************************************
      * Transfers

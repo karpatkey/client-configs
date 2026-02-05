@@ -3,8 +3,26 @@ import { PermissionList } from "@/types"
 import { allow } from "zodiac-roles-sdk/kit"
 import { contracts } from "@/contracts"
 import { zeroAddress } from "@/addresses"
-import { BAL, COW, CRV, GHO, GNO, SAFE, USDC, USDCe, USDT, WBTC, WETH, wstETH, WXDAI } from "@/addresses/gno"
-import { allowErc20Approve, allowErc20Transfer, allowEthTransfer } from "@/helpers"
+import {
+  BAL,
+  COW,
+  CRV,
+  GHO,
+  GNO,
+  SAFE,
+  USDC,
+  USDCe,
+  USDT,
+  WBTC,
+  WETH,
+  wstETH,
+  WXDAI,
+} from "@/addresses/gno"
+import {
+  allowErc20Approve,
+  allowErc20Transfer,
+  allowEthTransfer,
+} from "@/helpers"
 import { kpkEth, kfPaymentsGC } from "../../../addresses"
 import { vcbGc } from "../../../../mainnet/addresses"
 
@@ -144,7 +162,6 @@ export default [
       contracts.gnosis.gnosisBridge.xdaiBridge,
       undefined,
       kpkEth
-
     ),
     targetAddress: wstETH,
   },
