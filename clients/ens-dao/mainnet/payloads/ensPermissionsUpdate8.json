@@ -1,0 +1,140 @@
+{
+  "version": "1.0",
+  "chainId": "1",
+  "createdAt": 1770388470232,
+  "meta": {
+    "name": "Update permissions of MANAGER role",
+    "description": "",
+    "txBuilderVersion": "1.16.2"
+  },
+  "transactions": [
+    {
+      "to": "0x000000000000cd17345801aa8147b8D3950260FF",
+      "value": "0",
+      "contractMethod": {
+        "inputs": [
+          { "internalType": "string", "name": "content", "type": "string" },
+          { "internalType": "string", "name": "tag", "type": "string" }
+        ],
+        "name": "post",
+        "payable": false
+      },
+      "contractInputsValues": {
+        "content": "{\"rolesMod\":\"0x703806e61847984346d2d7ddd853049627e50a40\",\"roleKey\":\"0x4d414e4147455200000000000000000000000000000000000000000000000000\",\"removeAnnotations\":[\"https://kit.karpatkey.com/api/v1/permissions/eth/spark/deposit?targets=SKY_USDS\"]}",
+        "tag": "ROLES_PERMISSION_ANNOTATION"
+      }
+    },
+    {
+      "to": "0x703806e61847984346d2d7ddd853049627e50a40",
+      "value": "0",
+      "contractMethod": {
+        "inputs": [
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
+          {
+            "internalType": "address",
+            "name": "targetAddress",
+            "type": "address"
+          },
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
+          {
+            "internalType": "struct ConditionFlat[]",
+            "name": "conditions",
+            "type": "tuple[]",
+            "components": [
+              { "internalType": "uint8", "name": "parent", "type": "uint8" },
+              {
+                "internalType": "enum AbiType",
+                "name": "paramType",
+                "type": "uint8"
+              },
+              {
+                "internalType": "enum Operator",
+                "name": "operator",
+                "type": "uint8"
+              },
+              { "internalType": "bytes", "name": "compValue", "type": "bytes" }
+            ]
+          },
+          {
+            "internalType": "enum ExecutionOptions",
+            "name": "options",
+            "type": "uint8"
+          }
+        ],
+        "name": "scopeFunction",
+        "payable": false
+      },
+      "contractInputsValues": {
+        "roleKey": "0x4d414e4147455200000000000000000000000000000000000000000000000000",
+        "targetAddress": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+        "selector": "0xa9059cbb",
+        "conditions": "[[\"0\",\"5\",\"5\",\"0x\"],[\"0\",\"1\",\"16\",\"0x000000000000000000000000fe89cc7abb2c4183683ab71653c4cdc9b02d44b7\"]]",
+        "options": "0"
+      }
+    },
+    {
+      "to": "0x703806e61847984346d2d7ddd853049627e50a40",
+      "value": "0",
+      "contractMethod": {
+        "inputs": [
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
+          {
+            "internalType": "address",
+            "name": "targetAddress",
+            "type": "address"
+          }
+        ],
+        "name": "scopeTarget",
+        "payable": false
+      },
+      "contractInputsValues": {
+        "roleKey": "0x4d414e4147455200000000000000000000000000000000000000000000000000",
+        "targetAddress": "0xFe89cc7aBB2C4183683ab71653C4cdc9B02D44b7"
+      }
+    },
+    {
+      "to": "0x703806e61847984346d2d7ddd853049627e50a40",
+      "value": "0",
+      "contractMethod": {
+        "inputs": [
+          { "internalType": "bytes32", "name": "roleKey", "type": "bytes32" },
+          {
+            "internalType": "address",
+            "name": "targetAddress",
+            "type": "address"
+          },
+          { "internalType": "bytes4", "name": "selector", "type": "bytes4" },
+          {
+            "internalType": "enum ExecutionOptions",
+            "name": "options",
+            "type": "uint8"
+          }
+        ],
+        "name": "allowFunction",
+        "payable": false
+      },
+      "contractInputsValues": {
+        "roleKey": "0x4d414e4147455200000000000000000000000000000000000000000000000000",
+        "targetAddress": "0xFe89cc7aBB2C4183683ab71653C4cdc9B02D44b7",
+        "selector": "0x00000000",
+        "options": "1"
+      }
+    },
+    {
+      "to": "0x000000000000cd17345801aa8147b8D3950260FF",
+      "value": "0",
+      "contractMethod": {
+        "inputs": [
+          { "internalType": "string", "name": "content", "type": "string" },
+          { "internalType": "string", "name": "tag", "type": "string" }
+        ],
+        "name": "post",
+        "payable": false
+      },
+      "contractInputsValues": {
+        "content": "{\"rolesMod\":\"0x703806e61847984346d2d7ddd853049627e50a40\",\"roleKey\":\"0x4d414e4147455200000000000000000000000000000000000000000000000000\",\"addAnnotations\":[{\"schema\":\"https://kit.karpatkey.com/api/v1/openapi.json\",\"uris\":[\"https://kit.karpatkey.com/api/v1/permissions/eth/spark/deposit?targets=SKY_sUSDS\"]}]}",
+        "tag": "ROLES_PERMISSION_ANNOTATION"
+      }
+    }
+  ]
+}
