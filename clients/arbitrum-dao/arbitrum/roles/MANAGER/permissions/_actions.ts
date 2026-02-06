@@ -6,14 +6,9 @@ import {
   GHO,
   FLUID,
   MORPHO,
-  PENDLE,
-  sUSDai,
-  sUSDe,
   sUSDS,
   syrupUSDC,
-  USDai,
   USDC,
-  USDe,
   USDCe,
   USDS,
   USDT,
@@ -38,8 +33,8 @@ export default [
   // Aave v3 Arbitrum Market - Borrow USDT
   allowAction.aave_v3.borrow({ targets: ["USD₮0"] }),
 
-  // CowSwap - [ARB, DAI, ETH, EUL, GHO, FLUID, MORPHO, PENDLE, sUSDai, sUSDe, sUSDS, syrupUSDC, USDai, USDC, USDC.e, USDe, USDS, USDT] ->
-  // [DAI, GHO, sUSDai, sUSDe, sUSDS, syrupUSDC, USDai, USDC, USDC.e, USDe, USDS, USDT]
+  // CowSwap - [ARB, DAI, ETH, EUL, GHO, FLUID, MORPHO, sUSDS, syrupUSDC, USDC, USDC.e, USDS, USDT] ->
+  // [DAI, GHO, sUSDS, syrupUSDC, USDC, USDC.e, USDS, USDT]
   allowAction.cowswap.swap({
     sell: [
       "ETH",
@@ -49,32 +44,14 @@ export default [
       GHO,
       FLUID,
       MORPHO,
-      PENDLE,
-      sUSDai,
-      sUSDe,
       sUSDS,
       syrupUSDC,
-      USDai,
       USDC,
       USDCe,
-      USDe,
       USDS,
       USDT,
     ],
-    buy: [
-      DAI,
-      GHO,
-      sUSDai,
-      sUSDe,
-      sUSDS,
-      syrupUSDC,
-      USDai,
-      USDC,
-      USDCe,
-      USDe,
-      USDS,
-      USDT,
-    ],
+    buy: [DAI, GHO, sUSDS, syrupUSDC, USDC, USDCe, USDS, USDT],
   }),
 
   // Fluid - Deposit GHO
