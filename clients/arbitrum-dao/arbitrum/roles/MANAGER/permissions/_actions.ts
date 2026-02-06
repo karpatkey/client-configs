@@ -51,16 +51,7 @@ export default [
       USDS,
       USDT,
     ],
-    buy: [
-      DAI,
-      GHO,
-      sUSDS,
-      syrupUSDC,
-      USDC,
-      USDCe,
-      USDS,
-      USDT,
-    ],
+    buy: [DAI, GHO, sUSDS, syrupUSDC, USDC, USDCe, USDS, USDT],
   }),
 
   // Fluid - Deposit GHO
