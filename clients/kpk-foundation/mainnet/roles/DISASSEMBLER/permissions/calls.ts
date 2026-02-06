@@ -60,6 +60,24 @@ export default [
     ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
     targetAddress: morpho.kpkUsdcPrimeV2,
   },
+  // Morpho Vault - kpk USDC Yield v1.1
+  {
+    ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+    targetAddress: morpho.kpkUsdcYieldV1,
+  },
+  {
+    ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+    targetAddress: morpho.kpkUsdcYieldV1,
+  },
+  // Morpho Vault - kpk USDC Yield v2
+  {
+    ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+    targetAddress: morpho.kpkUsdcYieldV2,
+  },
+  {
+    ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+    targetAddress: morpho.kpkUsdcYieldV2,
+  },
 
   // Spark - DSR_sDAI
   allow.mainnet.spark.sDai.redeem(undefined, c.avatar, c.avatar),
