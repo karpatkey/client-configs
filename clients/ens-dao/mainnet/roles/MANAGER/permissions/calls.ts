@@ -33,7 +33,7 @@ import {
 } from "@/addresses/eth"
 import { zeroAddress, eAddress } from "@/addresses"
 import { contracts } from "@/contracts"
-import { allowErc20Approve, allowErc20Transfer } from "@/helpers"
+import { allowErc20Approve, allowErc20Transfer, allowEthTransfer } from "@/helpers"
 import { PermissionList } from "@/types"
 import { balancerV2Swap } from "@/exit_strategies/balancerV2"
 import { Parameters } from "../../../../parameters"
@@ -690,6 +690,9 @@ export default (parameters: Parameters) =>
     /*********************************************
      * Transfers
      *********************************************/
-    // Transfer SPK to ENS Timelock
-    allowErc20Transfer([SPK], [timeLock]),
+    // Transfer ETH to ENS Timelock
+    allowEthTransfer(timeLock),
+
+    // Transfer [SPK, USDC] to ENS Timelock
+    allowErc20Transfer([SPK, USDC], [timeLock]),
   ] satisfies PermissionList
