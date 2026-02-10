@@ -7,6 +7,8 @@ export default (parameters: Parameters) => [
    * Protocols
    *********************************************/
 
+  // Aave v3 - Deposit GHO
+  allowAction.aave_v3.deposit({ targets: ["GHO"] }),
   // Aave v3 - Deposit USDC
   allowAction.aave_v3.deposit({ targets: ["USDC"] }),
   // Aave v3 - Deposit USDT
