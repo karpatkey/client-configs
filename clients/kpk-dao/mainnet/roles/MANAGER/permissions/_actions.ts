@@ -66,7 +66,7 @@ export default [
   // Convex - Stake cvxCRV
   allowAction.convex.stake({ targets: ["cvxCRV"] }),
 
-  // CowSwap - [COMP, CRV, crvUSD, CVX, cvxCRV, DAI, eETH, ETH, ETH+, EURC, GEAR, GHO, GNO, KING, MORPHO, NOTE, RPL, rETH, sDAI, SPK, sUSDS, stETH, stkGHO, USDC, USDS, USDT, weETH, WETH, wstETH] ->
+  // CowSwap - [COMP, CRV, crvUSD, CVX, cvxCRV, DAI, eETH, ETH, ETH+, EURC, GEAR, GHO, KING, MORPHO, NOTE, RPL, rETH, sDAI, SPK, sUSDS, stETH, stkGHO, USDC, USDS, USDT, weETH, WETH, wstETH] ->
   // [DAI, eETH ETH, EURC, GHO, rETH, sDAI, sUSDS, stETH, stkGHO, USDC, USDS, USDT, weETH, WETH, wstETH]
   allowAction.cowswap.swap({
     sell: [
@@ -82,7 +82,6 @@ export default [
       EURC,
       GEAR,
       GHO,
-      GNO,
       KING,
       MORPHO,
       NOTE,
@@ -123,6 +122,11 @@ export default [
   allowAction.cowswap.swap({
     sell: [BAL],
     buy: [auraBAL],
+  }),
+  // CowSwap - GNO -> [ETH, stETH, WETH, wstETH]
+  allowAction.cowswap.swap({
+    sell: [GNO],
+    buy: ["ETH", stETH, WETH, wstETH],
   }),
 
   // Fluid - Deposit wstETH

@@ -11,10 +11,16 @@ import {
 } from "@/addresses/gno"
 
 export default [
-  // CowSwap - [GNO, sDAI, USDC, USDCe, USDT, WETH, wstETH, WXDAI, XDAI] -> [sDAI, USDC, USDCe, USDT, WETH, wstETH, WXDAI, XDAI]
+  // CowSwap - [sDAI, USDC, USDCe, USDT, WXDAI, XDAI] <-> [sDAI, USDC, USDCe, USDT, WXDAI, XDAI]
   allowAction.cowswap.swap({
-    sell: ["XDAI", GNO, sDAI, USDC, USDCe, USDT, WETH, wstETH, WXDAI],
-    buy: ["XDAI", sDAI, USDC, USDCe, USDT, WETH, wstETH, WXDAI],
+    sell: ["XDAI", sDAI, USDC, USDCe, USDT, WXDAI],
+    buy: ["XDAI", sDAI, USDC, USDCe, USDT, WXDAI],
+  }),
+
+  // CowSwap - [GNO, WETH, wstETH] -> [WETH, wstETH]
+  allowAction.cowswap.swap({
+    sell: [GNO, WETH, wstETH],
+    buy: [WETH, wstETH],
   }),
 
   // Spark - DSR_sDAI
