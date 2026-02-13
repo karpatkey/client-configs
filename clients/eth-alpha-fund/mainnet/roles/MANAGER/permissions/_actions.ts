@@ -49,6 +49,9 @@ export default (parameters: Parameters) => [
   // Aave v3 Prime Market - Borrow wstETH
   allowAction.aave_v3.borrow({ market: "Prime", targets: ["wstETH"] }),
 
+  // Convex - WETH/weETH
+  allowAction.convex.deposit({ targets: ["355"] }),
+
   // CowSwap - [AURA, BAL, ETHPlus, ezETH, GEAR, KING, MORPHO, rETH, RPL, rsETH, stETH, USDC, weETH, WETH, wstETH] ->
   // [ETHPlus, ezETH, rETH, rsETH, stETH, weETH, WETH, wstETH]
   allowAction.cowswap.swap({

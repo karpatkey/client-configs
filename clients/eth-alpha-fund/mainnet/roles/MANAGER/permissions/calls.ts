@@ -1,7 +1,15 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { contracts } from "@/contracts"
-import { eETH, rETH, WETH, wstETH, aura, balancerV3 } from "@/addresses/eth"
+import {
+  eETH,
+  rETH,
+  weETH,
+  WETH,
+  wstETH,
+  aura,
+  balancerV3,
+} from "@/addresses/eth"
 import { WETH as WETH_arb1 } from "@/addresses/arb1"
 import { WETH as WETH_base } from "@/addresses/base"
 import { WETH as WETH_oeth } from "@/addresses/oeth"
@@ -78,6 +86,17 @@ export default (parameters: Parameters) =>
       targetAddress: balancerV3.rEthWaEthWethGauge,
     },
     allow.mainnet.balancerV2.minter.mint(balancerV3.rEthWaEthWethGauge),
+
+    // Curve - WETH/weETH
+    allowErc20Approve([weETH, WETH], [contracts.mainnet.curve.weethNgPool]),
+    allow.mainnet.curve.weethNgPool["add_liquidity(uint256[],uint256)"](),
+    allow.mainnet.curve.weethNgPool["remove_liquidity(uint256,uint256[])"](),
+    allow.mainnet.curve.weethNgPool[
+      "remove_liquidity_imbalance(uint256[],uint256)"
+    ](),
+    allow.mainnet.curve.weethNgPool[
+      "remove_liquidity_one_coin(uint256,int128,uint256)"
+    ](),
 
     // ether.fi - EigenLayer Restaking
     // Stake ETH for eETH
