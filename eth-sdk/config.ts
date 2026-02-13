@@ -87,6 +87,8 @@ export const contracts = {
       wethRethGauge: "0xFB5B02863E2917AE1662598F7eBdE60AFEaFe84e",
       oEthWethPool: "0xcc7d5785AD5755B6164e21495E07aDb0Ff11C2A8",
       oEthWethGauge: "0x36cC1d791704445A5b6b9c36a667e511d4702F3f",
+      weethNgPool: "0xDB74dfDD3BB46bE8Ce6C33dC9D82777BCFc3dEd5",
+      weethNgGauge: "0x053df3e4D0CeD9a3Bf0494F97E83CE1f13BdC0E2",
     },
     enzyme: {
       depositWrapper2: "0x65BbAD6545B7ac9C30Fb0f07e64e25106Bf05eEc",
