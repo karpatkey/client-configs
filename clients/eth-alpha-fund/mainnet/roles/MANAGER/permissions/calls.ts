@@ -25,6 +25,20 @@ export default (parameters: Parameters) =>
       send: true,
     }),
 
+    // Shares contract
+    {
+      ...allow.mainnet.oiv.shares.processRequests(),
+      targetAddress: parameters.shares,
+    },
+    {
+      ...allow.mainnet.oiv.shares.cancelSubscription(),
+      targetAddress: parameters.shares,
+    },
+    {
+      ...allow.mainnet.oiv.shares.cancelRedemption(),
+      targetAddress: parameters.shares,
+    },
+
     // Aave Core v3 - Enable/Disable E-Mode
     allow.mainnet.aaveV3.poolCoreV3.setUserEMode(),
 
@@ -145,32 +159,32 @@ export default (parameters: Parameters) =>
      * Bridge
      *********************************************/
     // Mainnet -> Arbitrum
-    // ETH - Arbitrum Bridge
-    allow.mainnet.arbitrumBridge.delayedInbox.createRetryableTicket(
-      c.avatar, // Destination address
-      undefined,
-      undefined,
-      c.avatar, // Origin address
-      c.avatar, // Destination address
-      undefined,
-      undefined,
-      "0x",
-      {
-        send: true,
-      }
-    ),
-    // Claim bridged ETH from Arbitrum
-    allow.mainnet.arbitrumBridge.outbox4.executeTransaction(
-      undefined,
-      undefined,
-      c.avatar, // Origin address
-      c.avatar, // Destination address
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      "0x"
-    ),
+    // // ETH - Arbitrum Bridge
+    // allow.mainnet.arbitrumBridge.delayedInbox.createRetryableTicket(
+    //   c.avatar, // Destination address
+    //   undefined,
+    //   undefined,
+    //   c.avatar, // Origin address
+    //   c.avatar, // Destination address
+    //   undefined,
+    //   undefined,
+    //   "0x",
+    //   {
+    //     send: true,
+    //   }
+    // ),
+    // // Claim bridged ETH from Arbitrum
+    // allow.mainnet.arbitrumBridge.outbox4.executeTransaction(
+    //   undefined,
+    //   undefined,
+    //   c.avatar, // Origin address
+    //   c.avatar, // Destination address
+    //   undefined,
+    //   undefined,
+    //   undefined,
+    //   undefined,
+    //   "0x"
+    // ),
 
     // WETH - Arbitrum Bridge
     allowErc20Approve([WETH], [contracts.mainnet.arbitrumBridge.wethGateway]),

@@ -151,8 +151,8 @@ export const contracts = {
       nProxy: "0x6e7058c91F85E0F6db4fc9da2CA41241f5e4263f",
     },
     oiv: {
-      shares: "0x673493C9d023CecDB026AB090853f9D2f2FFE764", // prod shares implementation
-      navCalculator: "0x7C90871c0bd3eb276712f9f783F30Bfaf215Be64", // prod navCalculator implementation
+      shares: "0x2816A7253BDe94a012D06832A8ab726EE7BDA649",
+      navCalculator: "0xD09001ff4735584585431803B23E693ABF0077cB", // FIXME: This one will change!!
     },
     origin: {
       oEthZapper: "0x9858e47BCbBe6fBAC040519B02d7cd4B2C470C66",
