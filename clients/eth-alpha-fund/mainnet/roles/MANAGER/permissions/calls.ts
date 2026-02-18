@@ -159,32 +159,52 @@ export default (parameters: Parameters) =>
      * Bridge
      *********************************************/
     // Mainnet -> Arbitrum
-    // // ETH - Arbitrum Bridge
-    // allow.mainnet.arbitrumBridge.delayedInbox.createRetryableTicket(
-    //   c.avatar, // Destination address
-    //   undefined,
-    //   undefined,
-    //   c.avatar, // Origin address
-    //   c.avatar, // Destination address
-    //   undefined,
-    //   undefined,
-    //   "0x",
-    //   {
-    //     send: true,
-    //   }
-    // ),
-    // // Claim bridged ETH from Arbitrum
-    // allow.mainnet.arbitrumBridge.outbox4.executeTransaction(
-    //   undefined,
-    //   undefined,
-    //   c.avatar, // Origin address
-    //   c.avatar, // Destination address
-    //   undefined,
-    //   undefined,
-    //   undefined,
-    //   undefined,
-    //   "0x"
-    // ),
+    // ETH - Arbitrum Bridge
+    allow.mainnet.arbitrumBridge.delayedInbox.createRetryableTicket(
+      c.avatar, // Destination address
+      undefined,
+      undefined,
+      c.avatar, // Origin address
+      c.avatar, // Destination address
+      undefined,
+      undefined,
+      "0x",
+      {
+        send: true,
+      }
+    ),
+    // Claim bridged ETH from Arbitrum
+    // NOTE (Roles Modifier limitation): We have multiple permissions for
+    // outbox4.executeTransaction(...) in this policy. If we scope the final data
+    // parameter as a plain "0x" (dynamic bytes), it collides with the other
+    // executeTransaction permissions due to how the Roles Modifier merges/scopes
+    // dynamic types, and the payload application fails.
+    // Repro (payload apply): https://dashboard.tenderly.co/public/safe/safe-apps/simulator/8ae36362-16e7-4d0e-8166-c06efe46eab5?trace=0.1.7.0.2.0.1.57.1.2
+    //
+    // Workaround: scope data using calldataMatches(..., { selector: "0x00000000" })
+    // to avoid the dynamic-bytes clash while still constraining the inner call format.
+    //
+    // Safety check: attempting the alternative destination wethGateway
+    // (https://etherscan.io/address/0xd92023E9d9911199a6711321D1277285e6d4e2db)
+    // with selector 0x00000000 reverts, so this selector-based scoping does not open
+    // an exploitable path. (Verified in simulation: https://www.tdly.co/shared/simulation/0180e190-9f50-40de-bb9f-4b5e2a0ecdbf)
+    allow.mainnet.arbitrumBridge.outbox4.executeTransaction(
+      undefined,
+      undefined,
+      c.avatar, // Origin address
+      c.avatar, // Destination address
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      c.calldataMatches(
+        [],
+        ["address","address","address","uint256","bytes"],
+        {
+          selector: "0x00000000",
+        }        
+      )
+    ),
 
     // WETH - Arbitrum Bridge
     allowErc20Approve([WETH], [contracts.mainnet.arbitrumBridge.wethGateway]),
