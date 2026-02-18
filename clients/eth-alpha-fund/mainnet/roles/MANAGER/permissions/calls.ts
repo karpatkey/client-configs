@@ -199,10 +199,10 @@ export default (parameters: Parameters) =>
       undefined,
       c.calldataMatches(
         [],
-        ["address","address","address","uint256","bytes"],
+        ["address", "address", "address", "uint256", "bytes"],
         {
           selector: "0x00000000",
-        }        
+        }
       )
     ),
 
