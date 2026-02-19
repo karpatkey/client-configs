@@ -1,7 +1,15 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { contracts } from "@/contracts"
-import { eETH, rETH, WETH, wstETH, aura, balancerV3 } from "@/addresses/eth"
+import {
+  eETH,
+  rETH,
+  weETH,
+  WETH,
+  wstETH,
+  aura,
+  balancerV3,
+} from "@/addresses/eth"
 import { WETH as WETH_arb1 } from "@/addresses/arb1"
 import { WETH as WETH_base } from "@/addresses/base"
 import { WETH as WETH_oeth } from "@/addresses/oeth"
@@ -16,6 +24,20 @@ export default (parameters: Parameters) =>
     allow.mainnet.weth.deposit({
       send: true,
     }),
+
+    // Shares contract
+    {
+      ...allow.mainnet.oiv.shares.processRequests(),
+      targetAddress: parameters.shares,
+    },
+    {
+      ...allow.mainnet.oiv.shares.cancelSubscription(),
+      targetAddress: parameters.shares,
+    },
+    {
+      ...allow.mainnet.oiv.shares.cancelRedemption(),
+      targetAddress: parameters.shares,
+    },
 
     // Aave Core v3 - Enable/Disable E-Mode
     allow.mainnet.aaveV3.poolCoreV3.setUserEMode(),
@@ -79,6 +101,17 @@ export default (parameters: Parameters) =>
     },
     allow.mainnet.balancerV2.minter.mint(balancerV3.rEthWaEthWethGauge),
 
+    // Curve - WETH/weETH
+    allowErc20Approve([weETH, WETH], [contracts.mainnet.curve.weethNgPool]),
+    allow.mainnet.curve.weethNgPool["add_liquidity(uint256[],uint256)"](),
+    allow.mainnet.curve.weethNgPool["remove_liquidity(uint256,uint256[])"](),
+    allow.mainnet.curve.weethNgPool[
+      "remove_liquidity_imbalance(uint256[],uint256)"
+    ](),
+    allow.mainnet.curve.weethNgPool[
+      "remove_liquidity_one_coin(uint256,int128,uint256)"
+    ](),
+
     // ether.fi - EigenLayer Restaking
     // Stake ETH for eETH
     allow.mainnet.etherfi.liquidityPool["deposit()"]({ send: true }),
@@ -141,6 +174,20 @@ export default (parameters: Parameters) =>
       }
     ),
     // Claim bridged ETH from Arbitrum
+    // NOTE (Roles Modifier limitation): We have multiple permissions for
+    // outbox4.executeTransaction(...) in this policy. If we scope the final data
+    // parameter as a plain "0x" (dynamic bytes), it collides with the other
+    // executeTransaction permissions due to how the Roles Modifier merges/scopes
+    // dynamic types, and the payload application fails.
+    // Repro (payload apply): https://dashboard.tenderly.co/public/safe/safe-apps/simulator/8ae36362-16e7-4d0e-8166-c06efe46eab5?trace=0.1.7.0.2.0.1.57.1.2
+    //
+    // Workaround: scope data using calldataMatches(..., { selector: "0x00000000" })
+    // to avoid the dynamic-bytes clash while still constraining the inner call format.
+    //
+    // Safety check: attempting the alternative destination wethGateway
+    // (https://etherscan.io/address/0xd92023E9d9911199a6711321D1277285e6d4e2db)
+    // with selector 0x00000000 reverts, so this selector-based scoping does not open
+    // an exploitable path. (Verified in simulation: https://www.tdly.co/shared/simulation/0180e190-9f50-40de-bb9f-4b5e2a0ecdbf)
     allow.mainnet.arbitrumBridge.outbox4.executeTransaction(
       undefined,
       undefined,
@@ -150,7 +197,13 @@ export default (parameters: Parameters) =>
       undefined,
       undefined,
       undefined,
-      "0x"
+      c.calldataMatches(
+        [],
+        ["address", "address", "address", "uint256", "bytes"],
+        {
+          selector: "0x00000000",
+        }
+      )
     ),
 
     // WETH - Arbitrum Bridge

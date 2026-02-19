@@ -87,6 +87,8 @@ export const contracts = {
       wethRethGauge: "0xFB5B02863E2917AE1662598F7eBdE60AFEaFe84e",
       oEthWethPool: "0xcc7d5785AD5755B6164e21495E07aDb0Ff11C2A8",
       oEthWethGauge: "0x36cC1d791704445A5b6b9c36a667e511d4702F3f",
+      weethNgPool: "0xDB74dfDD3BB46bE8Ce6C33dC9D82777BCFc3dEd5",
+      weethNgGauge: "0x053df3e4D0CeD9a3Bf0494F97E83CE1f13BdC0E2",
     },
     enzyme: {
       depositWrapper2: "0x65BbAD6545B7ac9C30Fb0f07e64e25106Bf05eEc",
@@ -149,8 +151,8 @@ export const contracts = {
       nProxy: "0x6e7058c91F85E0F6db4fc9da2CA41241f5e4263f",
     },
     oiv: {
-      shares: "0x673493C9d023CecDB026AB090853f9D2f2FFE764", // prod shares implementation
-      navCalculator: "0x7C90871c0bd3eb276712f9f783F30Bfaf215Be64", // prod navCalculator implementation
+      shares: "0x2816A7253BDe94a012D06832A8ab726EE7BDA649",
+      navCalculator: "0xD09001ff4735584585431803B23E693ABF0077cB", // FIXME: This one will change!!
     },
     origin: {
       oEthZapper: "0x9858e47BCbBe6fBAC040519B02d7cd4B2C470C66",
