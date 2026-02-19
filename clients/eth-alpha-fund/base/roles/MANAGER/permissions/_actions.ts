@@ -7,6 +7,8 @@ export default (parameters: Parameters) => [
   allowAction.aave_v3.deposit({ targets: ["cbETH"] }),
   // Aave v3 - Deposit weETH
   allowAction.aave_v3.deposit({ targets: ["weETH"] }),
+  // Aave v3 - Deposit WETH
+  allowAction.aave_v3.deposit({ targets: ["WETH"] }),
   // Aave v3 - Deposit wstETH
   allowAction.aave_v3.deposit({ targets: ["wstETH"] }),
 

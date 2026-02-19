@@ -2,7 +2,9 @@ import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { zeroAddress } from "@/addresses"
 import {
+  crvUSD,
   GHO,
+  RLUSD,
   sUSDe,
   USDC,
   USDe,
@@ -89,6 +91,43 @@ export default (parameters: Parameters) =>
     ),
     allow.mainnet.cap.stcUsd.deposit(undefined, c.avatar),
     allow.mainnet.cap.stcUsd.redeem(undefined, c.avatar, c.avatar),
+
+    // Curve - crvUSD/USDC
+    allowErc20Approve([crvUSD, USDC], [contracts.mainnet.curve.crvUsdUsdcPool]),
+    allow.mainnet.curve.crvUsdUsdcPool["add_liquidity(uint256[2],uint256)"](),
+    allow.mainnet.curve.crvUsdUsdcPool[
+      "remove_liquidity(uint256,uint256[2])"
+    ](),
+    allow.mainnet.curve.crvUsdUsdcPool[
+      "remove_liquidity_imbalance(uint256[2],uint256)"
+    ](),
+    allow.mainnet.curve.crvUsdUsdcPool[
+      "remove_liquidity_one_coin(uint256,int128,uint256)"
+    ](),
+
+    // Curve - crvUSD/USDT
+    allowErc20Approve([crvUSD, USDT], [contracts.mainnet.curve.crvUsdUsdtPool]),
+    allow.mainnet.curve.crvUsdUsdtPool["add_liquidity(uint256[2],uint256)"](),
+    allow.mainnet.curve.crvUsdUsdtPool[
+      "remove_liquidity(uint256,uint256[2])"
+    ](),
+    allow.mainnet.curve.crvUsdUsdtPool[
+      "remove_liquidity_imbalance(uint256[2],uint256)"
+    ](),
+    allow.mainnet.curve.crvUsdUsdtPool[
+      "remove_liquidity_one_coin(uint256,int128,uint256)"
+    ](),
+
+    // Curve - RLUSD/USDC
+    allowErc20Approve([RLUSD, USDC], [contracts.mainnet.curve.rlUsdUsdcPool]),
+    allow.mainnet.curve.rlUsdUsdcPool["add_liquidity(uint256[],uint256)"](),
+    allow.mainnet.curve.rlUsdUsdcPool["remove_liquidity(uint256,uint256[])"](),
+    allow.mainnet.curve.rlUsdUsdcPool[
+      "remove_liquidity_imbalance(uint256[],uint256)"
+    ](),
+    allow.mainnet.curve.rlUsdUsdcPool[
+      "remove_liquidity_one_coin(uint256,int128,uint256)"
+    ](),
 
     // Ethena - Stake USDe
     allowErc20Approve([USDe], [sUSDe]),
