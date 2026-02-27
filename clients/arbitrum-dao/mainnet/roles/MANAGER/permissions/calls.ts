@@ -13,21 +13,19 @@ export default (parameters: Parameters) =>
      * Swaps
      *********************************************/
     // allowErc20Approve([sellTokens], [contracts.mainnet.kyberswap.metaAggregationRouterV2]),
-    allow.mainnet.kyberswap.metaAggregationRouterV2.swap(
-      {
-        callTarget: kyberswap.aggregatorExecutorV3,
-        approveTarget: zeroAddress,
-        targetData: "0x", // FIXME
-        desc: {
-          srcToken: c.or(USDC, syrupUSDC), // FIXME: add the rest of the sell tokens
-          dstToken: c.or(USDC, syrupUSDC), // FIXME: add the rest of the buy tokens
-          srcReceivers: c.or([], [kyberswap.aggregatorExecutorV3]),
-          feeReceivers: [kyberswap.feeReceiver],
-          dstReceiver: c.avatar,
-          permit: "0x",
-        }
-      }
-    ),
+    allow.mainnet.kyberswap.metaAggregationRouterV2.swap({
+      callTarget: kyberswap.aggregatorExecutorV3,
+      approveTarget: zeroAddress,
+      targetData: "0x", // FIXME
+      desc: {
+        srcToken: c.or(USDC, syrupUSDC), // FIXME: add the rest of the sell tokens
+        dstToken: c.or(USDC, syrupUSDC), // FIXME: add the rest of the buy tokens
+        srcReceivers: c.or([], [kyberswap.aggregatorExecutorV3]),
+        feeReceivers: [kyberswap.feeReceiver],
+        dstReceiver: c.avatar,
+        permit: "0x",
+      },
+    }),
 
     /*********************************************
      * Bridge
@@ -151,6 +149,4 @@ export default (parameters: Parameters) =>
         send: true,
       }
     ),
-    
-    
   ] satisfies PermissionList
