@@ -118,4 +118,7 @@ export default (parameters: Parameters) =>
         ]
       )
     ),
+
+    // Spark - Enable/Disable E-Mode
+    allow.mainnet.spark.poolV3.setUserEMode(),
   ] satisfies PermissionList

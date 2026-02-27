@@ -119,4 +119,11 @@ export default (parameters: Parameters) => [
 
   // Rocket Pool
   allowAction.rocket_pool.deposit(),
+
+  // Spark - Deposit rETH
+  allowAction.spark.deposit({ targets: ["rETH"] }),
+  // Spark - Deposit wstETH
+  allowAction.spark.deposit({ targets: ["wstETH"] }),
+  // Spark - Borrow WETH
+  allowAction.spark.borrow({ targets: ["WETH"] }),
 ]
