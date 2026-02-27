@@ -41,6 +41,13 @@ export default (parameters: Parameters) => [
   // Aave v3 Core Market - Borrow USDC
   allowAction.aave_v3.borrow({ market: "Core", targets: ["USDC"] }),
 
+  // Convex - crvUSD/USDC
+  allowAction.convex.deposit({ targets: ["182"] }),
+  // Convex - crvUSD/USDT
+  allowAction.convex.deposit({ targets: ["179"] }),
+  // Convex - RLUSD/USDC
+  allowAction.convex.deposit({ targets: ["443"] }),
+
   // Morpho Market - USDC/wstETH - id: 0xb323495f7e4148be5643a4ea4a8221eef163e4bccfdedc2a6f4696baacbc86cc
   allowAction.morphoMarkets.deposit({
     targets: [
