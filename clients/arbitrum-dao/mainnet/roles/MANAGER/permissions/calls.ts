@@ -1,6 +1,7 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { COMP, USDT } from "@/addresses/eth"
+import { zeroAddress } from "@/addresses"
+import { COMP, syrupUSDC, USDC, USDT, kyberswap } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
@@ -9,30 +10,30 @@ import { Parameters } from "../../../../arbitrum/parameters"
 export default (parameters: Parameters) =>
   [
     /*********************************************
+     * Swaps
+     *********************************************/
+    // allowErc20Approve([sellTokens], [contracts.mainnet.kyberswap.metaAggregationRouterV2]),
+    allow.mainnet.kyberswap.metaAggregationRouterV2.swap(
+      {
+        callTarget: kyberswap.aggregatorExecutorV3,
+        approveTarget: zeroAddress,
+        targetData: "0x", // FIXME
+        desc: {
+          srcToken: c.or(USDC, syrupUSDC), // FIXME: add the rest of the sell tokens
+          dstToken: c.or(USDC, syrupUSDC), // FIXME: add the rest of the buy tokens
+          srcReceivers: c.or([], [kyberswap.aggregatorExecutorV3]),
+          feeReceivers: [kyberswap.feeReceiver],
+          dstReceiver: c.avatar,
+          permit: "0x",
+        }
+      }
+    ),
+
+    /*********************************************
      * Bridge
      *********************************************/
     // Mainnet -> Arbitrum
-    // USDT - Arbitrum Bridge
-    allowErc20Approve(
-      [USDT],
-      [contracts.mainnet.arbitrumBridge.usdtOftAdapter]
-    ),
-    // https://docs.layerzero.network/v2/developers/evm/oft/oft-patterns-extensions#sending-token
-    allow.mainnet.arbitrumBridge.usdtOftAdapter.send(
-      {
-        dstEid: "30110", // Arbitrum
-        to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-        extraOptions: "0x",
-        composeMsg: "0x",
-        oftCmd: "0x",
-      },
-      undefined,
-      c.avatar,
-      {
-        send: true,
-      }
-    ),
-    // Claim bridged COMP from Arbitrum
+    // COMP - Claim bridged from Arbitrum
     allow.mainnet.arbitrumBridge.outbox4.executeTransaction(
       undefined,
       undefined,
@@ -58,4 +59,98 @@ export default (parameters: Parameters) =>
         )
       )
     ),
+
+    // syrupUSDC - Chainlink - transporter.io
+    allowErc20Approve([syrupUSDC], [contracts.mainnet.chainlink.router]),
+    allow.mainnet.chainlink.router.ccipSend(
+      "4949039107694359620", // https://docs.chain.link/ccip/directory/mainnet/chain/ethereum-mainnet-arbitrum-1
+      {
+        receiver: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
+        data: "0x",
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#evmtokenamount
+        tokenAmounts: c.matches([
+          {
+            token: syrupUSDC,
+            amount: undefined,
+          },
+        ]),
+        feeToken: zeroAddress,
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#generic_extra_args_v2_tag
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#genericextraargsv2
+        extraArgs: c.or(
+          "0x",
+          "0x181dcf1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001"
+        ),
+      },
+      {
+        send: true,
+      }
+    ),
+
+    // USDC - Stargate
+    allowErc20Approve([USDC], [contracts.mainnet.stargate.poolUsdc]),
+    allow.mainnet.stargate.poolUsdc.send(
+      {
+        dstEid: "30110", // Arbitrum chain ID
+        to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
+        extraOptions: "0x",
+        composeMsg: "0x",
+        oftCmd: "0x",
+      },
+      undefined,
+      c.avatar,
+      {
+        send: true,
+      }
+    ),
+
+    // USDC - Chainlink - transporter.io
+    allowErc20Approve([USDC], [contracts.mainnet.chainlink.router]),
+    allow.mainnet.chainlink.router.ccipSend(
+      "4949039107694359620", // https://docs.chain.link/ccip/directory/mainnet/chain/ethereum-mainnet-arbitrum-1
+      {
+        receiver: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
+        data: "0x",
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#evmtokenamount
+        tokenAmounts: c.matches([
+          {
+            token: USDC,
+            amount: undefined,
+          },
+        ]),
+        feeToken: zeroAddress,
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#generic_extra_args_v2_tag
+        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#genericextraargsv2
+        extraArgs: c.or(
+          "0x",
+          "0x181dcf1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001"
+        ),
+      },
+      {
+        send: true,
+      }
+    ),
+
+    // USDT - Arbitrum Bridge
+    allowErc20Approve(
+      [USDT],
+      [contracts.mainnet.arbitrumBridge.usdtOftAdapter]
+    ),
+    // https://docs.layerzero.network/v2/developers/evm/oft/oft-patterns-extensions#sending-token
+    allow.mainnet.arbitrumBridge.usdtOftAdapter.send(
+      {
+        dstEid: "30110", // Arbitrum
+        to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
+        extraOptions: "0x",
+        composeMsg: "0x",
+        oftCmd: "0x",
+      },
+      undefined,
+      c.avatar,
+      {
+        send: true,
+      }
+    ),
+    
+    
   ] satisfies PermissionList

@@ -281,6 +281,11 @@ export const kpk = {
   renaissanceFundShares: "0x8a1c05BD2bC8E6E78Afc9753aB5b377391aF43B2",
 } as const
 
+export const kyberswap = {
+  aggregatorExecutorV3: "0x63242A4Ea82847b20E506b63B0e2e2eFF0CC6cB0",
+  feeReceiver: "0x55602F3057be52BFB6F98fFE799CFDec58Af5130",
+} as const
+
 export const maverickV2 = {
   ghoStkGhoPool: "0x9F274D28FedCe05153F9C810b8070277EAF8C031",
 } as const
