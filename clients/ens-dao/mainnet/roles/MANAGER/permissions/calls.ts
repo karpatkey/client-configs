@@ -472,9 +472,6 @@ export default (parameters: Parameters) =>
     allow.mainnet.sky.dsrManager.exit(c.avatar),
     allow.mainnet.sky.dsrManager.exitAll(c.avatar),
 
-    // Spark - Claim SPK Airdrop
-    allow.mainnet.spark.sparkRewards.claim(undefined, c.avatar),
-
     // StakeWise v3 - Genesis Vault
     allow.mainnet.stakeWiseV3.genesis.deposit(c.avatar, undefined, {
       send: true,
@@ -697,6 +694,6 @@ export default (parameters: Parameters) =>
     // Transfer ETH to ENS Timelock
     allowEthTransfer(timeLock),
 
-    // Transfer [SPK, USDC] to ENS Timelock
-    allowErc20Transfer([SPK, USDC], [timeLock]),
+    // Transfer USDCto ENS Timelock
+    allowErc20Transfer([USDC], [timeLock]),
   ] satisfies PermissionList
