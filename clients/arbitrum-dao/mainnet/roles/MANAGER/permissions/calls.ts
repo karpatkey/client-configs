@@ -21,7 +21,7 @@ export default (parameters: Parameters) =>
         srcToken: c.or(USDC, syrupUSDC), // FIXME: add the rest of the sell tokens
         dstToken: c.or(USDC, syrupUSDC), // FIXME: add the rest of the buy tokens
         srcReceivers: c.or([], [kyberswap.aggregatorExecutorV3]),
-        feeReceivers: [kyberswap.feeReceiver],
+        feeReceivers: c.or([], [kyberswap.feeReceiver]),
         dstReceiver: c.avatar,
         permit: "0x",
       },
