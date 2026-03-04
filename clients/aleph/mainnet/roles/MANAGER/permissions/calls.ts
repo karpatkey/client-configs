@@ -1,7 +1,7 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { contracts } from "@/contracts"
-import { eETH, rETH, WETH, aura, balancerV3 } from "@/addresses/eth"
+import { eETH, rETH, WETH, aura, balancerV3, kpk } from "@/addresses/eth"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
 import { Parameters } from "../../../parameters"
@@ -13,6 +13,26 @@ export default (parameters: Parameters) =>
     allow.mainnet.weth.deposit({
       send: true,
     }),
+
+    // ETH Alpha Fund - Shares contract
+    {
+      ...allow.mainnet.oiv.shares.requestSubscription(
+        undefined,
+        undefined,
+        WETH,
+        c.avatar
+      ),
+      targetAddress: kpk.ethAlphaFundShares,
+    },
+    {
+      ...allow.mainnet.oiv.shares.requestRedemption(
+        undefined,
+        undefined,
+        WETH,
+        c.avatar
+      ),
+      targetAddress: kpk.ethAlphaFundShares,
+    },
 
     // Aave Core v3 - Enable/Disable E-Mode
     allow.mainnet.aaveV3.poolCoreV3.setUserEMode(),

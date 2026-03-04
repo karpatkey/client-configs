@@ -279,6 +279,7 @@ export const gearbox = {
 export const kpk = {
   usdPrimeFundShares: "0x2F77a41C17C7cAb30cc320112b649ab8B070617E",
   renaissanceFundShares: "0x8a1c05BD2bC8E6E78Afc9753aB5b377391aF43B2",
+  ethAlphaFundShares: "0xED01a1Fe4e020Ca901F43E17B6203A7e0cEa818C",
 } as const
 
 export const maverickV2 = {
