@@ -266,7 +266,8 @@ export const fluid = {
   fwstEth: "0x2411802D8BEA09be0aF8fD8D08314a63e706b29C",
 
   // Rewards
-  fluidRewards2025: "0x7060FE0Dd3E31be01EFAc6B28C8D38018fD163B0",
+  fluidRewardsDec2024: "0x7060FE0Dd3E31be01EFAc6B28C8D38018fD163B0", // $FLUID MerkleDistributor (Fluid Rewards - Dec 2024)
+  ghoRewards: "0xF398E66B1273a34558AeBbEC550DccaF4AcC7714", // $GHO rewards MerkleDistributors
 } as const
 
 export const gearbox = {

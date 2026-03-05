@@ -421,7 +421,13 @@ export default (parameters: Parameters) =>
     // Fluid - FLUID Rewards
     {
       ...allow.mainnet.fluid.merkleDistributor.claim(c.avatar),
-      targetAddress: fluid.fluidRewards2025,
+      targetAddress: fluid.fluidRewardsDec2024,
+    },
+
+    // Fluid - GHO Rewards
+    {
+      ...allow.mainnet.fluid.merkleDistributor.claim(c.avatar),
+      targetAddress: fluid.ghoRewards,
     },
 
     // Merkl - Rewards
@@ -471,9 +477,6 @@ export default (parameters: Parameters) =>
     allow.mainnet.sky.dsrManager.join(c.avatar),
     allow.mainnet.sky.dsrManager.exit(c.avatar),
     allow.mainnet.sky.dsrManager.exitAll(c.avatar),
-
-    // Spark - Claim SPK Airdrop
-    allow.mainnet.spark.sparkRewards.claim(undefined, c.avatar),
 
     // StakeWise v3 - Genesis Vault
     allow.mainnet.stakeWiseV3.genesis.deposit(c.avatar, undefined, {
@@ -690,13 +693,4 @@ export default (parameters: Parameters) =>
       recipient: c.avatar,
       fee: 100,
     }),
-
-    /*********************************************
-     * Transfers
-     *********************************************/
-    // Transfer ETH to ENS Timelock
-    allowEthTransfer(timeLock),
-
-    // Transfer [SPK, USDC] to ENS Timelock
-    allowErc20Transfer([SPK, USDC], [timeLock]),
   ] satisfies PermissionList

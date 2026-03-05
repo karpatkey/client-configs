@@ -68,8 +68,8 @@ export const fluid = {
   fUsdt: "0x4A03F37e7d3fC243e3f99341d36f4b829BEe5E03",
 
   // Rewards
-  fluidRewards2025: "0x94312a608246Cecfce6811Db84B3Ef4B2619054E",
-  fGhoRewardsJul2025: "0xF36029358A684CdDD5103A4b84dC8a832c6e5b40",
+  fluidRewardsJul2025: "0x94312a608246Cecfce6811Db84B3Ef4B2619054E", // $FLUID MerkleDistributor (Fluid Rewards - July 2025)
+  fGhoRewardsJul2025: "0xF36029358A684CdDD5103A4b84dC8a832c6e5b40", // GHO Arbitrum/Base $FLUID MerkleDistributor (Fluid Rewards GHO - July 2025)
 } as const
 
 export const gmx = {
