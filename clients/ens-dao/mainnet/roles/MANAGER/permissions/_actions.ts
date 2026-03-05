@@ -8,6 +8,8 @@ import {
   CVX,
   DAI,
   ETHx,
+  FLUID,
+  GHO,
   LDO,
   MORPHO,
   OETH,
@@ -84,8 +86,8 @@ export default (parameters: Parameters) => [
   allowAction.convex.deposit({ targets: ["268"] }),
 
   // CowSwap
-  // [ankrETH, AURA, BAL, COMP, CRV, CVX, DAI, ETH, ETHx, LDO, MORPHO, OETH, osETH, rETH, RPL, SPK, stETH, sUSDS, SWISE, USDC, USDS, USDT, WETH, wstETH] ->
-  // [ankrETH, DAI, ETH, ETHx, OETH, osETH, rETH, stETH, sUSDS, USDC, USDS, USDT, WETH, wstETH]
+  // [ankrETH, AURA, BAL, COMP, CRV, CVX, DAI, ETH, ETHx, FLUID, GHO, LDO, MORPHO, OETH, osETH, rETH, RPL, SPK, stETH, sUSDS, SWISE, USDC, USDS, USDT, WETH, wstETH] ->
+  // [ankrETH, DAI, ETH, ETHx, GHO, OETH, osETH, rETH, stETH, sUSDS, USDC, USDS, USDT, WETH, wstETH]
   allowAction.cowswap.swap({
     sell: [
       "ETH",
@@ -97,6 +99,8 @@ export default (parameters: Parameters) => [
       CVX,
       DAI,
       ETHx,
+      FLUID,
+      GHO,
       LDO,
       MORPHO,
       OETH,
@@ -118,6 +122,7 @@ export default (parameters: Parameters) => [
       ankrETH,
       DAI,
       ETHx,
+      GHO,
       OETH,
       osETH,
       rETH,

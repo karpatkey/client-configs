@@ -421,7 +421,13 @@ export default (parameters: Parameters) =>
     // Fluid - FLUID Rewards
     {
       ...allow.mainnet.fluid.merkleDistributor.claim(c.avatar),
-      targetAddress: fluid.fluidRewards2025,
+      targetAddress: fluid.fluidRewardsDec2024,
+    },
+
+    // Fluid - GHO Rewards
+    {
+      ...allow.mainnet.fluid.merkleDistributor.claim(c.avatar),
+      targetAddress: fluid.ghoRewards,
     },
 
     // Merkl - Rewards
@@ -687,13 +693,4 @@ export default (parameters: Parameters) =>
       recipient: c.avatar,
       fee: 100,
     }),
-
-    /*********************************************
-     * Transfers
-     *********************************************/
-    // Transfer ETH to ENS Timelock
-    allowEthTransfer(timeLock),
-
-    // Transfer USDCto ENS Timelock
-    allowErc20Transfer([USDC], [timeLock]),
   ] satisfies PermissionList

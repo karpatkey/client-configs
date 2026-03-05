@@ -153,7 +153,7 @@ export default (parameters: Parameters) =>
     // Fluid - FLUID Rewards
     {
       ...allow.arbitrumOne.fluid.merkleDistributor.claim(c.avatar),
-      targetAddress: fluid.fluidRewards2025,
+      targetAddress: fluid.fluidRewardsJul2025,
     },
     // Fluid - fGHO Rewards
     {

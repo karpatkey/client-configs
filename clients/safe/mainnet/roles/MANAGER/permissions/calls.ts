@@ -381,7 +381,7 @@ export default (parameters: Parameters) =>
     // Fluid - FLUID Rewards
     {
       ...allow.mainnet.fluid.merkleDistributor.claim(c.avatar),
-      targetAddress: fluid.fluidRewards2025,
+      targetAddress: fluid.fluidRewardsDec2024,
     },
 
     // Origin - Mint OETH
