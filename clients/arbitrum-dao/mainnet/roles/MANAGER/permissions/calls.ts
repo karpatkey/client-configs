@@ -1,7 +1,7 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { zeroAddress } from "@/addresses"
-import { COMP, syrupUSDC, USDC, USDT, kyberswap } from "@/addresses/eth"
+import { COMP, syrupUSDC, USDC, USDT } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
@@ -9,24 +9,6 @@ import { Parameters } from "../../../../arbitrum/parameters"
 
 export default (parameters: Parameters) =>
   [
-    /*********************************************
-     * Swaps
-     *********************************************/
-    // allowErc20Approve([sellTokens], [contracts.mainnet.kyberswap.metaAggregationRouterV2]),
-    allow.mainnet.kyberswap.metaAggregationRouterV2.swap({
-      callTarget: kyberswap.aggregatorExecutorV3,
-      approveTarget: zeroAddress,
-      targetData: "0x", // FIXME
-      desc: {
-        srcToken: c.or(USDC, syrupUSDC), // FIXME: add the rest of the sell tokens
-        dstToken: c.or(USDC, syrupUSDC), // FIXME: add the rest of the buy tokens
-        srcReceivers: c.or([], [kyberswap.aggregatorExecutorV3]),
-        feeReceivers: c.or([], [kyberswap.feeReceiver]),
-        dstReceiver: c.avatar,
-        permit: "0x",
-      },
-    }),
-
     /*********************************************
      * Bridge
      *********************************************/

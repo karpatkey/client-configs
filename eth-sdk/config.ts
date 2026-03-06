@@ -112,9 +112,6 @@ export const contracts = {
       withdrawRequestNft: "0x7d5706f6ef3F89B3951E23e557CDFBC3239D4E2c",
       kingDistributor: "0x6Db24Ee656843E3fE03eb8762a54D86186bA6B64",
     },
-    kyberswap: {
-      metaAggregationRouterV2: "0x6131B5fae19EA4f9D964eAc0408E4408b66337b5",
-    },
     gyroscope: {
       sGyd: "0xeA50f402653c41cAdbaFD1f788341dB7B7F37816",
     },
