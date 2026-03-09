@@ -77,18 +77,6 @@ export default (parameters: Parameters) => [
       "0x64d65c9a2d91c36d56fbc42d69e979335320169b3df63bf92789e2c8883fcc64",
     ],
   }),
-  // Morpho Market - USDC/PT-USDe-25SEP2025 - id: 0x7a5d67805cb78fad2596899e0c83719ba89df353b931582eb7d3041fd5a06dc8
-  allowAction.morphoMarkets.deposit({
-    targets: [
-      "0x7a5d67805cb78fad2596899e0c83719ba89df353b931582eb7d3041fd5a06dc8",
-    ],
-  }),
-  // Morpho Market - USDT/PT-USDe-25SEP2025 - id: 0xb0a9ac81a8c6a5274aa1a8337aed35a2cb2cd4feb5c6d3b39d41f234fbf2955b
-  allowAction.morphoMarkets.deposit({
-    targets: [
-      "0xb0a9ac81a8c6a5274aa1a8337aed35a2cb2cd4feb5c6d3b39d41f234fbf2955b",
-    ],
-  }),
   // Morpho Market - USDC/wstUSR - id: 0xd9e34b1eed46d123ac1b69b224de1881dbc88798bc7b70f504920f62f58f28cc
   allowAction.morphoMarkets.deposit({
     targets: [
@@ -111,18 +99,6 @@ export default (parameters: Parameters) => [
   allowAction.morphoMarkets.deposit({
     targets: [
       "0xdb8938f97571aeab0deb0c34cf7e6278cff969538f49eebe6f4fc75a9a111293",
-    ],
-  }),
-  // Morpho Market - USDC/PT-sUSDE-27NOV2025 - id: 0x05702edf1c4709808b62fe65a7d082dccc9386f858ae460ef207ec8dd1debfa2
-  allowAction.morphoMarkets.deposit({
-    targets: [
-      "0x05702edf1c4709808b62fe65a7d082dccc9386f858ae460ef207ec8dd1debfa2",
-    ],
-  }),
-  // Morpho Market - USDC/PT-USDe-27NOV2025 - id: 0x534e7046c3aebaa0c6c363cdbeb9392fc87af71cc16862479403a198fe04b206
-  allowAction.morphoMarkets.deposit({
-    targets: [
-      "0x534e7046c3aebaa0c6c363cdbeb9392fc87af71cc16862479403a198fe04b206",
     ],
   }),
 
