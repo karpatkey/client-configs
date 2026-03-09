@@ -374,7 +374,7 @@ export default (parameters: Parameters) =>
     allowErc20Approve([USDe], [contracts.mainnet.pendle.routerV4]),
     allow.mainnet.pendle.routerV4.swapExactTokenForPt(
       c.avatar,
-      pendle.ptUsde05Feb2026,
+      pendle.marketUsde05Feb2026,
       undefined,
       undefined,
       {
@@ -399,7 +399,7 @@ export default (parameters: Parameters) =>
     ),
     allow.mainnet.pendle.routerV4.swapExactPtForToken(
       c.avatar,
-      pendle.ptUsde05Feb2026,
+      pendle.marketUsde05Feb2026,
       undefined,
       {
         tokenOut: USDe,
