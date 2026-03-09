@@ -105,7 +105,7 @@ export default (parameters: Parameters) =>
       }
     ),
 
-    // USDC - Stargate to Mainnet
+    // USDC - Stargate
     allowErc20Approve([USDC], [contracts.arbitrumOne.stargate.poolUsdc]),
     allow.arbitrumOne.stargate.poolUsdc.send(
       {
@@ -122,7 +122,7 @@ export default (parameters: Parameters) =>
       }
     ),
 
-    // USDT - Stargate to Mainnet
+    // USDT - Stargate
     allowErc20Approve([USDT], [contracts.arbitrumOne.stargate.poolUsdt]),
     allow.arbitrumOne.stargate.poolUsdt.send(
       {
