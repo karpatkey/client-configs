@@ -153,7 +153,7 @@ export const contracts = {
       nProxy: "0x6e7058c91F85E0F6db4fc9da2CA41241f5e4263f",
     },
     oiv: {
-      shares: "0x2816A7253BDe94a012D06832A8ab726EE7BDA649",
+      shares: "0x909DD020c37a00cD35Bb2d1948D0BEbC4254BA8f",
       navCalculator: "0xD09001ff4735584585431803B23E693ABF0077cB", // FIXME: This one will change!!
     },
     origin: {
