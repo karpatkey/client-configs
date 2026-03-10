@@ -1,10 +1,11 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { contracts } from "@/contracts"
-import { eETH, rETH, WETH, aura, balancerV3, kpk } from "@/addresses/eth"
-import { allowErc20Approve } from "@/helpers"
+import { eETH, osETH, rETH, stETH, WETH, aura, balancerV3, kpk } from "@/addresses/eth"
+import { allowErc20Approve, allowErc20Transfer } from "@/helpers"
 import { PermissionList } from "@/types"
 import { Parameters } from "../../../parameters"
+import { rEthVault, stEthVault, osEthVault } from "../../../addresses"
 
 export default (parameters: Parameters) =>
   [
@@ -141,4 +142,16 @@ export default (parameters: Parameters) =>
 
     // Spark - Enable/Disable E-Mode
     allow.mainnet.spark.poolV3.setUserEMode(),
+
+    /*********************************************
+     * Transfers
+     *********************************************/
+    // Transfer osETH to Aleph's osETH Vault
+    allowErc20Transfer([osETH], [osEthVault]),
+
+    // Transfer rETH to Aleph's rETH Vault
+    allowErc20Transfer([rETH], [rEthVault]),
+
+    // Transfer stETH to Aleph's stETH Vault
+    allowErc20Transfer([stETH], [stEthVault]),
   ] satisfies PermissionList
