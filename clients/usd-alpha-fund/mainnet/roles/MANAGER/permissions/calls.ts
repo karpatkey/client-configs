@@ -319,9 +319,12 @@ export default (parameters: Parameters) =>
       {
         dstEid: "30145", // Gnosis Chain ID
         to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-        extraOptions: "0x",
+        // 0x = default / no LayerZero options
+        // 0x0003 = empty LayerZero TYPE_3 options container (OptionsBuilder.newOptions())
+        // https://github.com/LayerZero-Labs/LayerZero-v2/blob/9c741e7f9790639537b1710a203bcdfd73b0b9ac/packages/layerzero-v2/evm/oapp/contracts/oapp/libs/OptionsBuilder.sol#L22
+        extraOptions: c.or("0x", "0x0003"),
         composeMsg: "0x",
-        oftCmd: "0x",
+        oftCmd: c.or("0x", "0x01"), // https://docs.stargate.finance/developers/protocol-docs/transfer#sendparamoftcmd
       },
       undefined,
       c.avatar,
@@ -364,9 +367,12 @@ export default (parameters: Parameters) =>
       {
         dstEid: "30110", // Arbitrum chain ID
         to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-        extraOptions: "0x",
+        // 0x = default / no LayerZero options
+        // 0x0003 = empty LayerZero TYPE_3 options container (OptionsBuilder.newOptions())
+        // https://github.com/LayerZero-Labs/LayerZero-v2/blob/9c741e7f9790639537b1710a203bcdfd73b0b9ac/packages/layerzero-v2/evm/oapp/contracts/oapp/libs/OptionsBuilder.sol#L22
+        extraOptions: c.or("0x", "0x0003"),
         composeMsg: "0x",
-        oftCmd: "0x",
+        oftCmd: c.or("0x", "0x01"), // https://docs.stargate.finance/developers/protocol-docs/transfer#sendparamoftcmd
       },
       undefined,
       c.avatar,
@@ -381,9 +387,12 @@ export default (parameters: Parameters) =>
         {
           dstEid: "30110", // Arbitrum chain ID
           to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-          extraOptions: "0x",
+          // 0x = default / no LayerZero options
+          // 0x0003 = empty LayerZero TYPE_3 options container (OptionsBuilder.newOptions())
+          // https://github.com/LayerZero-Labs/LayerZero-v2/blob/9c741e7f9790639537b1710a203bcdfd73b0b9ac/packages/layerzero-v2/evm/oapp/contracts/oapp/libs/OptionsBuilder.sol#L22
+          extraOptions: c.or("0x", "0x0003"),
           composeMsg: "0x",
-          oftCmd: "0x",
+          oftCmd: c.or("0x", "0x01"), // https://docs.stargate.finance/developers/protocol-docs/transfer#sendparamoftcmd,
         },
         undefined,
         c.avatar,
@@ -427,9 +436,12 @@ export default (parameters: Parameters) =>
       {
         dstEid: "30184", // Base chain ID
         to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-        extraOptions: "0x",
+        // 0x = default / no LayerZero options
+        // 0x0003 = empty LayerZero TYPE_3 options container (OptionsBuilder.newOptions())
+        // https://github.com/LayerZero-Labs/LayerZero-v2/blob/9c741e7f9790639537b1710a203bcdfd73b0b9ac/packages/layerzero-v2/evm/oapp/contracts/oapp/libs/OptionsBuilder.sol#L22
+        extraOptions: c.or("0x", "0x0003"),
         composeMsg: "0x",
-        oftCmd: "0x",
+        oftCmd: c.or("0x", "0x01"), // https://docs.stargate.finance/developers/protocol-docs/transfer#sendparamoftcmd
       },
       undefined,
       c.avatar,
@@ -444,9 +456,12 @@ export default (parameters: Parameters) =>
       {
         dstEid: "30184", // Base chain ID
         to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-        extraOptions: "0x",
+        // 0x = default / no LayerZero options
+        // 0x0003 = empty LayerZero TYPE_3 options container (OptionsBuilder.newOptions())
+        // https://github.com/LayerZero-Labs/LayerZero-v2/blob/9c741e7f9790639537b1710a203bcdfd73b0b9ac/packages/layerzero-v2/evm/oapp/contracts/oapp/libs/OptionsBuilder.sol#L22
+        extraOptions: c.or("0x", "0x0003"),
         composeMsg: "0x",
-        oftCmd: "0x",
+        oftCmd: c.or("0x", "0x01"), // https://docs.stargate.finance/developers/protocol-docs/transfer#sendparamoftcmd
       },
       undefined,
       c.avatar,
@@ -460,9 +475,12 @@ export default (parameters: Parameters) =>
       {
         dstEid: "30111", // Optimism chain ID
         to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-        extraOptions: "0x",
+        // 0x = default / no LayerZero options
+        // 0x0003 = empty LayerZero TYPE_3 options container (OptionsBuilder.newOptions())
+        // https://github.com/LayerZero-Labs/LayerZero-v2/blob/9c741e7f9790639537b1710a203bcdfd73b0b9ac/packages/layerzero-v2/evm/oapp/contracts/oapp/libs/OptionsBuilder.sol#L22
+        extraOptions: c.or("0x", "0x0003"),
         composeMsg: "0x",
-        oftCmd: "0x",
+        oftCmd: c.or("0x", "0x01"), // https://docs.stargate.finance/developers/protocol-docs/transfer#sendparamoftcmd
       },
       undefined,
       c.avatar,
@@ -478,9 +496,12 @@ export default (parameters: Parameters) =>
         {
           dstEid: "30111", // Optimism chain ID
           to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-          extraOptions: "0x",
+          // 0x = default / no LayerZero options
+          // 0x0003 = empty LayerZero TYPE_3 options container (OptionsBuilder.newOptions())
+          // https://github.com/LayerZero-Labs/LayerZero-v2/blob/9c741e7f9790639537b1710a203bcdfd73b0b9ac/packages/layerzero-v2/evm/oapp/contracts/oapp/libs/OptionsBuilder.sol#L22
+          extraOptions: c.or("0x", "0x0003"),
           composeMsg: "0x",
-          oftCmd: "0x",
+          oftCmd: c.or("0x", "0x01"), // https://docs.stargate.finance/developers/protocol-docs/transfer#sendparamoftcmd
         },
         undefined,
         c.avatar,
