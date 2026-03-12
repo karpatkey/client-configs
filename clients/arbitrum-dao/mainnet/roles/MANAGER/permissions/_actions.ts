@@ -21,9 +21,9 @@ export default (parameters: Parameters) => [
     buy: [USDC, USDT],
   }),
 
-  // CowSwap - [ETH, USDC, syrupUSDC] <-> [ETH, USDC, syrupUSDC]
+  // CowSwap - [USDC, syrupUSDC] <-> [USDC, syrupUSDC]
   allowAction.cowswap.swap({
-    sell: ["ETH", USDC, syrupUSDC],
-    buy: ["ETH", USDC, syrupUSDC],
+    sell: [USDC, syrupUSDC],
+    buy: [USDC, syrupUSDC],
   }),
 ]
