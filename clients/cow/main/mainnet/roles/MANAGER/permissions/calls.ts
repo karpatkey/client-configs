@@ -35,122 +35,122 @@ export default (parameters: Parameters) =>
       send: true,
     }),
 
-    // // Aave Umbrella Staking - GHO
-    // allowErc20Approve([GHO], [contracts.mainnet.aaveV3.umbrellaBatchHelper]),
-    // allow.mainnet.aaveV3.umbrellaBatchHelper.deposit({
-    //   stakeToken: aaveV3.stkEthGHO,
-    //   edgeToken: GHO,
-    // }),
-    // allowErc20Approve([GHO], [aaveV3.stkEthGHO]),
-    // {
-    //   ...allow.mainnet.aaveV3.stkwaEthToken.deposit(undefined, c.avatar),
-    //   targetAddress: aaveV3.stkEthGHO,
-    // },
-    // {
-    //   ...allow.mainnet.aaveV3.stkwaEthToken.cooldown(),
-    //   targetAddress: aaveV3.stkEthGHO,
-    // },
-    // allow.mainnet.aaveV3.umbrellaBatchHelper.redeem({
-    //   stakeToken: aaveV3.stkEthGHO,
-    //   edgeToken: GHO,
-    // }),
-    // {
-    //   ...allow.mainnet.aaveV3.stkwaEthToken.redeem(
-    //     undefined,
-    //     c.avatar,
-    //     c.avatar
-    //   ),
-    //   targetAddress: aaveV3.stkEthGHO,
-    // },
+    // Aave Umbrella Staking - GHO
+    allowErc20Approve([GHO], [contracts.mainnet.aaveV3.umbrellaBatchHelper]),
+    allow.mainnet.aaveV3.umbrellaBatchHelper.deposit({
+      stakeToken: aaveV3.stkEthGHO,
+      edgeToken: GHO,
+    }),
+    allowErc20Approve([GHO], [aaveV3.stkEthGHO]),
+    {
+      ...allow.mainnet.aaveV3.stkwaEthToken.deposit(undefined, c.avatar),
+      targetAddress: aaveV3.stkEthGHO,
+    },
+    {
+      ...allow.mainnet.aaveV3.stkwaEthToken.cooldown(),
+      targetAddress: aaveV3.stkEthGHO,
+    },
+    allow.mainnet.aaveV3.umbrellaBatchHelper.redeem({
+      stakeToken: aaveV3.stkEthGHO,
+      edgeToken: GHO,
+    }),
+    {
+      ...allow.mainnet.aaveV3.stkwaEthToken.redeem(
+        undefined,
+        c.avatar,
+        c.avatar
+      ),
+      targetAddress: aaveV3.stkEthGHO,
+    },
 
-    // // Aave Umbrella Staking - USDC
-    // allowErc20Approve([USDC], [contracts.mainnet.aaveV3.umbrellaBatchHelper]),
-    // allow.mainnet.aaveV3.umbrellaBatchHelper.deposit({
-    //   stakeToken: aaveV3.stkEthUSDC,
-    //   edgeToken: USDC,
-    // }),
-    // allowErc20Approve([USDC], [aaveV3.stkEthUSDC]),
-    // {
-    //   ...allow.mainnet.aaveV3.stkwaEthToken.deposit(undefined, c.avatar),
-    //   targetAddress: aaveV3.stkEthUSDC,
-    // },
-    // {
-    //   ...allow.mainnet.aaveV3.stkwaEthToken.cooldown(),
-    //   targetAddress: aaveV3.stkEthUSDC,
-    // },
-    // allow.mainnet.aaveV3.umbrellaBatchHelper.redeem({
-    //   stakeToken: aaveV3.stkEthUSDC,
-    //   edgeToken: USDC,
-    // }),
-    // {
-    //   ...allow.mainnet.aaveV3.stkwaEthToken.redeem(
-    //     undefined,
-    //     c.avatar,
-    //     c.avatar
-    //   ),
-    //   targetAddress: aaveV3.stkEthUSDC,
-    // },
+    // Aave Umbrella Staking - USDC
+    allowErc20Approve([USDC], [contracts.mainnet.aaveV3.umbrellaBatchHelper]),
+    allow.mainnet.aaveV3.umbrellaBatchHelper.deposit({
+      stakeToken: aaveV3.stkEthUSDC,
+      edgeToken: USDC,
+    }),
+    allowErc20Approve([USDC], [aaveV3.stkEthUSDC]),
+    {
+      ...allow.mainnet.aaveV3.stkwaEthToken.deposit(undefined, c.avatar),
+      targetAddress: aaveV3.stkEthUSDC,
+    },
+    {
+      ...allow.mainnet.aaveV3.stkwaEthToken.cooldown(),
+      targetAddress: aaveV3.stkEthUSDC,
+    },
+    allow.mainnet.aaveV3.umbrellaBatchHelper.redeem({
+      stakeToken: aaveV3.stkEthUSDC,
+      edgeToken: USDC,
+    }),
+    {
+      ...allow.mainnet.aaveV3.stkwaEthToken.redeem(
+        undefined,
+        c.avatar,
+        c.avatar
+      ),
+      targetAddress: aaveV3.stkEthUSDC,
+    },
 
-    // // Aave Umbrella Staking - USDT
-    // allowErc20Approve([USDT], [contracts.mainnet.aaveV3.umbrellaBatchHelper]),
-    // allow.mainnet.aaveV3.umbrellaBatchHelper.deposit({
-    //   stakeToken: aaveV3.stkEthUSDT,
-    //   edgeToken: USDT,
-    // }),
-    // allowErc20Approve([USDT], [aaveV3.stkEthUSDT]),
-    // {
-    //   ...allow.mainnet.aaveV3.stkwaEthToken.deposit(undefined, c.avatar),
-    //   targetAddress: aaveV3.stkEthUSDT,
-    // },
-    // {
-    //   ...allow.mainnet.aaveV3.stkwaEthToken.cooldown(),
-    //   targetAddress: aaveV3.stkEthUSDT,
-    // },
-    // allow.mainnet.aaveV3.umbrellaBatchHelper.redeem({
-    //   stakeToken: aaveV3.stkEthUSDT,
-    //   edgeToken: USDT,
-    // }),
-    // {
-    //   ...allow.mainnet.aaveV3.stkwaEthToken.redeem(
-    //     undefined,
-    //     c.avatar,
-    //     c.avatar
-    //   ),
-    //   targetAddress: aaveV3.stkEthUSDT,
-    // },
+    // Aave Umbrella Staking - USDT
+    allowErc20Approve([USDT], [contracts.mainnet.aaveV3.umbrellaBatchHelper]),
+    allow.mainnet.aaveV3.umbrellaBatchHelper.deposit({
+      stakeToken: aaveV3.stkEthUSDT,
+      edgeToken: USDT,
+    }),
+    allowErc20Approve([USDT], [aaveV3.stkEthUSDT]),
+    {
+      ...allow.mainnet.aaveV3.stkwaEthToken.deposit(undefined, c.avatar),
+      targetAddress: aaveV3.stkEthUSDT,
+    },
+    {
+      ...allow.mainnet.aaveV3.stkwaEthToken.cooldown(),
+      targetAddress: aaveV3.stkEthUSDT,
+    },
+    allow.mainnet.aaveV3.umbrellaBatchHelper.redeem({
+      stakeToken: aaveV3.stkEthUSDT,
+      edgeToken: USDT,
+    }),
+    {
+      ...allow.mainnet.aaveV3.stkwaEthToken.redeem(
+        undefined,
+        c.avatar,
+        c.avatar
+      ),
+      targetAddress: aaveV3.stkEthUSDT,
+    },
 
-    // // Aave Umbrella Staking - WETH
-    // allowErc20Approve([WETH], [contracts.mainnet.aaveV3.umbrellaBatchHelper]),
-    // allow.mainnet.aaveV3.umbrellaBatchHelper.deposit({
-    //   stakeToken: aaveV3.stkEthWETH,
-    //   edgeToken: WETH,
-    // }),
-    // allowErc20Approve([WETH], [aaveV3.stkEthWETH]),
-    // {
-    //   ...allow.mainnet.aaveV3.stkwaEthToken.deposit(undefined, c.avatar),
-    //   targetAddress: aaveV3.stkEthWETH,
-    // },
-    // {
-    //   ...allow.mainnet.aaveV3.stkwaEthToken.cooldown(),
-    //   targetAddress: aaveV3.stkEthWETH,
-    // },
-    // allow.mainnet.aaveV3.umbrellaBatchHelper.redeem({
-    //   stakeToken: aaveV3.stkEthWETH,
-    //   edgeToken: WETH,
-    // }),
-    // {
-    //   ...allow.mainnet.aaveV3.stkwaEthToken.redeem(
-    //     undefined,
-    //     c.avatar,
-    //     c.avatar
-    //   ),
-    //   targetAddress: aaveV3.stkEthWETH,
-    // },
+    // Aave Umbrella Staking - WETH
+    allowErc20Approve([WETH], [contracts.mainnet.aaveV3.umbrellaBatchHelper]),
+    allow.mainnet.aaveV3.umbrellaBatchHelper.deposit({
+      stakeToken: aaveV3.stkEthWETH,
+      edgeToken: WETH,
+    }),
+    allowErc20Approve([WETH], [aaveV3.stkEthWETH]),
+    {
+      ...allow.mainnet.aaveV3.stkwaEthToken.deposit(undefined, c.avatar),
+      targetAddress: aaveV3.stkEthWETH,
+    },
+    {
+      ...allow.mainnet.aaveV3.stkwaEthToken.cooldown(),
+      targetAddress: aaveV3.stkEthWETH,
+    },
+    allow.mainnet.aaveV3.umbrellaBatchHelper.redeem({
+      stakeToken: aaveV3.stkEthWETH,
+      edgeToken: WETH,
+    }),
+    {
+      ...allow.mainnet.aaveV3.stkwaEthToken.redeem(
+        undefined,
+        c.avatar,
+        c.avatar
+      ),
+      targetAddress: aaveV3.stkEthWETH,
+    },
 
-    // // Claim Umbrella Staking Rewards
-    // allow.mainnet.aaveV3.umbrellaRewardsController[
-    //   "claimSelectedRewards(address,address[],address)"
-    // ](undefined, undefined, c.avatar),
+    // Claim Umbrella Staking Rewards
+    allow.mainnet.aaveV3.umbrellaRewardsController[
+      "claimSelectedRewards(address,address[],address)"
+    ](undefined, undefined, c.avatar),
 
     // // Compound v3 - Deposit ETH
     // allow.mainnet.compoundV3.cWethV3.allow(
