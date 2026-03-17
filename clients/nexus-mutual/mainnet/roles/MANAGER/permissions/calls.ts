@@ -8,6 +8,7 @@ import {
   CVX,
   DAI,
   eETH,
+  ETHPlus,
   GHO,
   LDO,
   NXM,
@@ -290,9 +291,7 @@ export default (parameters: Parameters) =>
     ),
 
     // Curve - osETH/rETH
-    allowErc20Approve([osETH], [contracts.mainnet.curve.osEthRethPool]),
-    allowErc20Approve([rETH], [contracts.mainnet.curve.osEthRethPool]),
-
+    allowErc20Approve([osETH, rETH], [contracts.mainnet.curve.osEthRethPool]),
     allow.mainnet.curve.osEthRethPool["add_liquidity(uint256[],uint256)"](),
     allow.mainnet.curve.osEthRethPool["remove_liquidity(uint256,uint256[])"](),
     allow.mainnet.curve.osEthRethPool[
@@ -310,6 +309,17 @@ export default (parameters: Parameters) =>
     allow.mainnet.curve.osEthRethGauge["withdraw(uint256,bool)"](),
     allow.mainnet.curve.osEthRethGauge["claim_rewards()"](),
     allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.osEthRethGauge),
+
+    // Curve - ETH+/WETH
+    allowErc20Approve([ETHPlus, WETH], [contracts.mainnet.curve.ethPlusEthPool]),
+    allow.mainnet.curve.ethPlusEthPool["add_liquidity(uint256[],uint256)"](),
+    allow.mainnet.curve.ethPlusEthPool["remove_liquidity(uint256,uint256[])"](),
+    allow.mainnet.curve.ethPlusEthPool[
+      "remove_liquidity_one_coin(uint256,int128,uint256)"
+    ](),
+    allow.mainnet.curve.osEthRethPool[
+      "remove_liquidity_imbalance(uint256[],uint256)"
+    ](),
 
     // Ether.fi
     // Stake ETH for eETH

@@ -63,6 +63,8 @@ export default (parameters: Parameters) => [
   allowAction.convex.deposit({ targets: ["25"] }),
   // Convex - osETH/rETH
   allowAction.convex.deposit({ targets: ["268"] }),
+  // Convex - ETH+/WETH
+  allowAction.convex.deposit({ targets: ["470"] }),
 
   // CowSwap - [AAVE, AURA, BAL, CRV, CVX, DAI, ETH, GHO, LDO, osETH, rETH, RPL, stETH, SWISE, USDC, USDT, WETH, wNXM, wstETH] ->
   // [DAI, ETH, GHO, osETH, rETH, stETH, USDC, USDT, WETH, wNXM, wstETH]
