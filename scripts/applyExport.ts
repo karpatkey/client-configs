@@ -2,7 +2,15 @@
 import yargs from "yargs"
 import fs from "node:fs"
 import path from "node:path"
-import { Annotation, Target, ChainId, Clearance, planApplyRole, posterAbi, rolesAbi } from "zodiac-roles-sdk"
+import {
+  Annotation,
+  Target,
+  ChainId,
+  Clearance,
+  planApplyRole,
+  posterAbi,
+  rolesAbi,
+} from "zodiac-roles-sdk"
 import {
   hexlify,
   Interface,
@@ -133,8 +141,12 @@ async function main() {
 
     const hash = await postPermissions({ targets, annotations })
     const chainPrefix = CHAIN_PREFIX[instance.chainId]
-    console.log(`Permissions page: ${ZODIAC_ROLES_APP}/permissions/${chainPrefix}/${hash}`)
-    console.log(`Permissions diff page: ${ZODIAC_ROLES_APP}/${chainPrefix}:${instance.rolesMod}/roles/${roleKey}/diff/${hash}`)
+    console.log(
+      `Permissions page: ${ZODIAC_ROLES_APP}/permissions/${chainPrefix}/${hash}`
+    )
+    console.log(
+      `Permissions diff page: ${ZODIAC_ROLES_APP}/${chainPrefix}:${instance.rolesMod}/roles/${roleKey}/diff/${hash}`
+    )
   } catch (error: any) {
     console.error("\n❌ Error:", error.message)
     if (
