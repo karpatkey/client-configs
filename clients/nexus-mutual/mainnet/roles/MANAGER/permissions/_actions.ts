@@ -59,28 +59,6 @@ export default (parameters: Parameters) => [
   // Aave v3 Prime Market - Deposit wstETH
   allowAction.aave_v3.deposit({ market: "Prime", targets: ["wstETH"] }),
 
-  // Aura - wstETH/WETH
-  allowAction.aura.deposit({ targets: ["153"] }),
-  // Aura - osETH/WETH
-  allowAction.aura.deposit({ targets: ["179"] }),
-  // Aura - rETH/WETH
-  allowAction.aura.deposit({ targets: ["109"] }),
-  // Aura - weETH/rETH
-  allowAction.aura.deposit({ targets: ["182"] }),
-
-  // Balancer v2 - wstETH/WETH
-  allowAction.balancer_v2.deposit({ targets: ["wstETH-WETH-BPT"] }),
-  allowAction.balancer_v2.stake({ targets: ["wstETH-WETH-BPT"] }),
-  // Balancer v2 - osETH/WETH
-  allowAction.balancer_v2.deposit({ targets: ["osETH/wETH-BPT"] }),
-  allowAction.balancer_v2.stake({ targets: ["osETH/wETH-BPT"] }),
-  // Balancer v2 - rETH/WETH
-  allowAction.balancer_v2.deposit({ targets: ["B-rETH-STABLE"] }),
-  allowAction.balancer_v2.stake({ targets: ["B-rETH-STABLE"] }),
-  // Balancer v2 - weETH/rETH
-  allowAction.balancer_v2.deposit({ targets: ["weETH/rETH"] }),
-  allowAction.balancer_v2.stake({ targets: ["weETH/rETH"] }),
-
   // Convex - ETH/stETH - steCRV
   allowAction.convex.deposit({ targets: ["25"] }),
   // Convex - osETH/rETH
@@ -167,6 +145,8 @@ export default (parameters: Parameters) => [
     receiver: parameters.avatar,
   }),
 
+  // Fluid - Deposit GHO
+  allowAction.fluid.deposit({ targets: ["GHO"] }),
   // Fluid - Deposit USDC
   allowAction.fluid.deposit({ targets: ["USDC"] }),
   // Fluid - Deposit USDT
@@ -196,6 +176,14 @@ export default (parameters: Parameters) => [
   allowAction.morphoVaults.deposit({
     targets: [morpho.kpkEthPrimeV2],
   }),
+  // Morpho Vault - kpk ETH Yield v1.1
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkEthYieldV1],
+  }),
+  // Morpho Vault - kpk ETH Yield v2
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkEthYieldV2],
+  }),
   // Morpho Vault - kpk USDC Prime v1.1
   allowAction.morphoVaults.deposit({
     targets: [morpho.kpkUsdcPrimeV1],
@@ -203,6 +191,14 @@ export default (parameters: Parameters) => [
   // Morpho Vault - kpk USDC Prime v2
   allowAction.morphoVaults.deposit({
     targets: [morpho.kpkUsdcPrimeV2],
+  }),
+  // Morpho Vault - kpk USDC Yield v1.1
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkUsdcYieldV1],
+  }),
+  // Morpho Vault - kpk USDC Yield v2
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkUsdcYieldV2],
   }),
   // Morpho Vault - Steakhouse USDC v1
   allowAction.morphoVaults.deposit({

@@ -334,6 +334,11 @@ export default (parameters: Parameters) =>
       ...allow.mainnet.fluid.merkleDistributor.claim(c.avatar),
       targetAddress: fluid.fluidRewardsDec2024,
     },
+    // Fluid - GHO Rewards
+    {
+      ...allow.mainnet.fluid.merkleDistributor.claim(c.avatar),
+      targetAddress: fluid.ghoRewards,
+    },
 
     // Merkl - Rewards
     allow.mainnet.merkl.angleDistributor.claim(
