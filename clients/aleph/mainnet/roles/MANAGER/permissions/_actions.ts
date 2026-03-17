@@ -21,6 +21,8 @@ import {
 import { Parameters } from "../../../parameters"
 
 export default (parameters: Parameters) => [
+  // Aave v3 Core Market - Deposit osETH
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["osETH"] }),
   // Aave v3 Core Market - Deposit rETH
   allowAction.aave_v3.deposit({ market: "Core", targets: ["rETH"] }),
   // Aave v3 Core Market - Deposit rsETH

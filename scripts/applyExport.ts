@@ -3,9 +3,10 @@ import yargs from "yargs"
 import fs from "node:fs"
 import path from "node:path"
 import {
+  Annotation,
+  Target,
   ChainId,
   Clearance,
-  Target,
   planApplyRole,
   posterAbi,
   rolesAbi,
@@ -21,6 +22,36 @@ import {
 } from "ethers"
 import { encodeBytes32String } from "defi-kit"
 import { compileApplyData } from "../helpers/apply"
+
+const ZODIAC_ROLES_APP = "https://roles.gnosisguild.org"
+
+const CHAIN_PREFIX: Record<number, string> = {
+  1: "eth",
+  10: "oeth",
+  100: "gno",
+  8453: "base",
+  42161: "arb1",
+}
+
+const postPermissions = async ({
+  targets,
+  annotations,
+}: {
+  targets: Target[]
+  annotations: Annotation[]
+}) => {
+  const res = await fetch(`${ZODIAC_ROLES_APP}/api/permissions`, {
+    method: "POST",
+    body: JSON.stringify({ targets, annotations }),
+  })
+  const json = (await res.json()) as any
+  const { hash } = json
+  if (!hash) {
+    console.error(json)
+    throw new Error("Failed to post permissions")
+  }
+  return hash
+}
 
 async function main() {
   const args = await yargs(process.argv.slice(2))
@@ -107,6 +138,15 @@ async function main() {
     fs.writeFileSync(filePath, JSON.stringify(txBuilderJson, null, 2))
 
     console.log(`Transaction Builder JSON exported to: ${filePath}`)
+
+    const hash = await postPermissions({ targets, annotations })
+    const chainPrefix = CHAIN_PREFIX[instance.chainId]
+    console.log(
+      `Permissions page: ${ZODIAC_ROLES_APP}/permissions/${chainPrefix}/${hash}`
+    )
+    console.log(
+      `Permissions diff page: ${ZODIAC_ROLES_APP}/${chainPrefix}:${instance.rolesMod}/roles/${roleKey}/diff/${hash}`
+    )
   } catch (error: any) {
     console.error("\n❌ Error:", error.message)
     if (
