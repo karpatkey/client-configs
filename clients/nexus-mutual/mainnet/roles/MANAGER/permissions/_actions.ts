@@ -98,8 +98,32 @@ export default (parameters: Parameters) => [
 
   // CowSwap - [eETH, ETH, ETH+, ETHx, osETH, rETH, rsETH, stETH, weETH, WETH, wstETH] <-> [eETH, ETH, ETH+, ETHx, osETH, rETH, rsETH, stETH, weETH, WETH, wstETH]
   allowAction.cowswap.swap({
-    sell: ["ETH", eETH, ETHPlus, ETHx, osETH, rETH, rsETH, stETH, weETH, WETH, wstETH],
-    buy: ["ETH", eETH, ETHPlus, ETHx, osETH, rETH, rsETH, stETH, weETH, WETH, wstETH],
+    sell: [
+      "ETH",
+      eETH,
+      ETHPlus,
+      ETHx,
+      osETH,
+      rETH,
+      rsETH,
+      stETH,
+      weETH,
+      WETH,
+      wstETH,
+    ],
+    buy: [
+      "ETH",
+      eETH,
+      ETHPlus,
+      ETHx,
+      osETH,
+      rETH,
+      rsETH,
+      stETH,
+      weETH,
+      WETH,
+      wstETH,
+    ],
   }),
 
   // CowSwap - [cbBTC] -> [USDC, USDT, WETH, wstETH]
