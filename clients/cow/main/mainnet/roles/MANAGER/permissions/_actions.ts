@@ -26,31 +26,31 @@ import {
 } from "@/addresses/eth"
 
 export default [
-  // // Aave Safety Module - Stake GHO
-  // allowAction.aave_v3.stake({ targets: ["GHO"] }),
+  // Aave Safety Module - Stake GHO
+  allowAction.aave_v3.stake({ targets: ["GHO"] }),
 
-  // // Aave v3 Core Market - Deposit DAI
-  // allowAction.aave_v3.deposit({ market: "Core", targets: ["DAI"] }),
-  // // Aave v3 Core Market - Deposit EURC
-  // allowAction.aave_v3.deposit({ market: "Core", targets: ["EURC"] }),
-  // // Aave v3 Core Market - Deposit GHO
-  // allowAction.aave_v3.deposit({ market: "Core", targets: ["GHO"] }),
-  // // Aave v3 Core Market - Deposit osETH
-  // allowAction.aave_v3.deposit({ market: "Core", targets: ["osETH"] }),
-  // // Aave v3 Core Market - Deposit sDAI
-  // allowAction.aave_v3.deposit({ market: "Core", targets: ["sDAI"] }),
-  // // Aave v3 Core Market - Deposit USDC
-  // allowAction.aave_v3.deposit({ market: "Core", targets: ["USDC"] }),
-  // // Aave v3 Core Market - Deposit USDe
-  // allowAction.aave_v3.deposit({ market: "Core", targets: ["USDe"] }),
-  // // Aave v3 Core Market - Deposit USDS
-  // allowAction.aave_v3.deposit({ market: "Core", targets: ["USDS"] }),
-  // // Aave v3 Core Market - Deposit USDT
-  // allowAction.aave_v3.deposit({ market: "Core", targets: ["USDT"] }),
-  // // Aave v3 Core Market - Deposit WBTC
-  // allowAction.aave_v3.deposit({ market: "Core", targets: ["WBTC"] }),
-  // // Aave v3 Core Market - Deposit WETH
-  // allowAction.aave_v3.deposit({ market: "Core", targets: ["WETH"] }),
+  // Aave v3 Core Market - Deposit DAI
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["DAI"] }),
+  // Aave v3 Core Market - Deposit EURC
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["EURC"] }),
+  // Aave v3 Core Market - Deposit GHO
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["GHO"] }),
+  // Aave v3 Core Market - Deposit osETH
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["osETH"] }),
+  // Aave v3 Core Market - Deposit sDAI
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["sDAI"] }),
+  // Aave v3 Core Market - Deposit USDC
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["USDC"] }),
+  // Aave v3 Core Market - Deposit USDe
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["USDe"] }),
+  // Aave v3 Core Market - Deposit USDS
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["USDS"] }),
+  // Aave v3 Core Market - Deposit USDT
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["USDT"] }),
+  // Aave v3 Core Market - Deposit WBTC
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["WBTC"] }),
+  // Aave v3 Core Market - Deposit WETH
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["WETH"] }),
 
   // // Compound v3 - Deposit USDC
   // allowAction.compound_v3.deposit({ targets: ["cUSDCv3"], tokens: ["USDC"] }),

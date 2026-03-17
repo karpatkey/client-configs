@@ -13,12 +13,12 @@ import {
 } from "@/addresses/gno"
 
 export default [
-  // // Aave v3 - Deposit EURe
-  // allowAction.aave_v3.deposit({ targets: ["EURe"] }),
-  // // Aave v3 - Deposit sDAI
-  // allowAction.aave_v3.deposit({ targets: ["sDAI"] }),
-  // // Aave v3 - Deposit XDAI
-  // allowAction.aave_v3.deposit({ targets: ["XDAI"] }),
+  // Aave v3 - Deposit EURe
+  allowAction.aave_v3.deposit({ targets: ["EURe"] }),
+  // Aave v3 - Deposit sDAI
+  allowAction.aave_v3.deposit({ targets: ["sDAI"] }),
+  // Aave v3 - Deposit XDAI
+  allowAction.aave_v3.deposit({ targets: ["XDAI"] }),
 
   // CowSwap - [COW, EURe, GNO, sDAI, USDC, USDC.e, USDT, WETH, wstETH, WXDAI, XDAI] <->
   // [COW, EURe, GNO, sDAI, USDC, USDC.e, USDT, WETH, wstETH, WXDAI, XDAI]
