@@ -311,7 +311,10 @@ export default (parameters: Parameters) =>
     allow.mainnet.curve.crvMinter.mint(contracts.mainnet.curve.osEthRethGauge),
 
     // Curve - ETH+/WETH
-    allowErc20Approve([ETHPlus, WETH], [contracts.mainnet.curve.ethPlusEthPool]),
+    allowErc20Approve(
+      [ETHPlus, WETH],
+      [contracts.mainnet.curve.ethPlusEthPool]
+    ),
     allow.mainnet.curve.ethPlusEthPool["add_liquidity(uint256[],uint256)"](),
     allow.mainnet.curve.ethPlusEthPool["remove_liquidity(uint256,uint256[])"](),
     allow.mainnet.curve.ethPlusEthPool[
