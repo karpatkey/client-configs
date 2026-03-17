@@ -155,9 +155,6 @@ export default (parameters: Parameters) =>
     /*********************************************
      * Transfers
      *********************************************/
-    // Transfer osETH to Aleph's osETH Vault
-    allowErc20Transfer([osETH], [osEthVault]),
-
     // Transfer rETH to Aleph's rETH Vault
     allowErc20Transfer([rETH], [rEthVault]),
 
