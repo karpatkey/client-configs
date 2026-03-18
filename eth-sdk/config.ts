@@ -91,6 +91,7 @@ export const contracts = {
       weethNgGauge: "0x053df3e4D0CeD9a3Bf0494F97E83CE1f13BdC0E2",
       rlUsdUsdcPool: "0xD001aE433f254283FeCE51d4ACcE8c53263aa186",
       rlUsdUsdcGauge: "0xFc3212Bd9Ad9A28Da6B2bd50a2918969C126894F",
+      ethPlusEthPool: "0x2c683fAd51da2cd17793219CC86439C1875c353e",
     },
     enzyme: {
       depositWrapper2: "0x65BbAD6545B7ac9C30Fb0f07e64e25106Bf05eEc",

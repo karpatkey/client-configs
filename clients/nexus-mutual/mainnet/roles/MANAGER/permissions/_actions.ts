@@ -8,12 +8,16 @@ import {
   CVX,
   DAI,
   eETH,
+  ETHPlus,
+  ETHx,
+  FLUID,
   GHO,
   LDO,
   MORPHO,
   osETH,
   rETH,
   RPL,
+  rsETH,
   sUSDS,
   stETH,
   SPK,
@@ -59,96 +63,73 @@ export default (parameters: Parameters) => [
   // Aave v3 Prime Market - Deposit wstETH
   allowAction.aave_v3.deposit({ market: "Prime", targets: ["wstETH"] }),
 
-  // Aura - wstETH/WETH
-  allowAction.aura.deposit({ targets: ["153"] }),
-  // Aura - osETH/WETH
-  allowAction.aura.deposit({ targets: ["179"] }),
-  // Aura - rETH/WETH
-  allowAction.aura.deposit({ targets: ["109"] }),
-  // Aura - weETH/rETH
-  allowAction.aura.deposit({ targets: ["182"] }),
-
-  // Balancer v2 - wstETH/WETH
-  allowAction.balancer_v2.deposit({ targets: ["wstETH-WETH-BPT"] }),
-  allowAction.balancer_v2.stake({ targets: ["wstETH-WETH-BPT"] }),
-  // Balancer v2 - osETH/WETH
-  allowAction.balancer_v2.deposit({ targets: ["osETH/wETH-BPT"] }),
-  allowAction.balancer_v2.stake({ targets: ["osETH/wETH-BPT"] }),
-  // Balancer v2 - rETH/WETH
-  allowAction.balancer_v2.deposit({ targets: ["B-rETH-STABLE"] }),
-  allowAction.balancer_v2.stake({ targets: ["B-rETH-STABLE"] }),
-  // Balancer v2 - weETH/rETH
-  allowAction.balancer_v2.deposit({ targets: ["weETH/rETH"] }),
-  allowAction.balancer_v2.stake({ targets: ["weETH/rETH"] }),
-
   // Convex - ETH/stETH - steCRV
   allowAction.convex.deposit({ targets: ["25"] }),
   // Convex - osETH/rETH
   allowAction.convex.deposit({ targets: ["268"] }),
+  // Convex - ETH+/WETH
+  allowAction.convex.deposit({ targets: ["470"] }),
 
-  // CowSwap - [AAVE, AURA, BAL, CRV, CVX, DAI, ETH, GHO, LDO, osETH, rETH, RPL, stETH, SWISE, USDC, USDT, WETH, wNXM, wstETH] ->
-  // [DAI, ETH, GHO, osETH, rETH, stETH, USDC, USDT, WETH, wNXM, wstETH]
+  // CowSwap - [AAVE, AURA, BAL, CRV, CVX, FLUID, LDO, MORPHO, RPL, SPK, SWISE, wNXM] ->
+  // [DAI, ETH, GHO, USDC, USDS, USDT, WETH, wNXM, wstETH]
   allowAction.cowswap.swap({
     sell: [
-      "ETH",
       AAVE,
       AURA,
       BAL,
       CRV,
       CVX,
-      DAI,
-      GHO,
+      FLUID,
       LDO,
+      MORPHO,
+      RPL,
+      SPK,
+      SWISE,
+      wNXM,
+    ],
+    buy: ["ETH", DAI, GHO, USDC, USDS, USDT, WETH, wNXM, wstETH],
+  }),
+
+  // CowSwap - [GHO, sUSDS, stETH, USDC, USDS, WETH, wNXM, wstETH] <-> [GHO, sUSDS, stETH, USDC, USDS, WETH, wNXM, wstETH]
+  allowAction.cowswap.swap({
+    sell: [GHO, sUSDS, stETH, USDC, USDS, WETH, wNXM, wstETH],
+    buy: [GHO, sUSDS, stETH, USDC, USDS, WETH, wNXM, wstETH],
+  }),
+
+  // CowSwap - [eETH, ETH, ETH+, ETHx, osETH, rETH, rsETH, stETH, weETH, WETH, wstETH] <-> [eETH, ETH, ETH+, ETHx, osETH, rETH, rsETH, stETH, weETH, WETH, wstETH]
+  allowAction.cowswap.swap({
+    sell: [
+      "ETH",
+      eETH,
+      ETHPlus,
+      ETHx,
       osETH,
       rETH,
-      RPL,
+      rsETH,
       stETH,
-      SWISE,
-      USDC,
-      USDT,
+      weETH,
       WETH,
-      wNXM,
       wstETH,
     ],
-    buy: ["ETH", DAI, GHO, osETH, rETH, stETH, USDC, USDT, WETH, wNXM, wstETH],
-  }),
-
-  // CowSwap - [USDS] <-> [ETH, sUSDS, USDC, WETH, wNXM, wstETH]
-  allowAction.cowswap.swap({
-    sell: [USDS],
-    buy: ["ETH", sUSDS, USDC, WETH, wNXM, wstETH],
-  }),
-  allowAction.cowswap.swap({
-    sell: ["ETH", sUSDS, USDC, WETH, wNXM, wstETH],
-    buy: [USDS],
-  }),
-
-  // CowSwap - [eETH, weETH] <-> [ETH, eETH, rETH, stETH, WETH, wstETH]
-  allowAction.cowswap.swap({
-    sell: [eETH, weETH],
-    buy: ["ETH", eETH, rETH, stETH, WETH, wstETH],
-  }),
-  allowAction.cowswap.swap({
-    sell: ["ETH", eETH, rETH, stETH, WETH, wstETH],
-    buy: [eETH, weETH],
+    buy: [
+      "ETH",
+      eETH,
+      ETHPlus,
+      ETHx,
+      osETH,
+      rETH,
+      rsETH,
+      stETH,
+      weETH,
+      WETH,
+      wstETH,
+    ],
   }),
 
   // CowSwap - [cbBTC] -> [USDC, USDT, WETH, wstETH]
   allowAction.cowswap.swap({
     sell: [cbBTC],
     buy: [USDC, USDT, WETH, wstETH],
-  }),
-
-  // CowSwap - [MORPHO, SPK] -> [ETH, USDC, WETH]
-  allowAction.cowswap.swap({
-    sell: [MORPHO, SPK],
-    buy: ["ETH", USDC, WETH],
-  }),
-
-  // CowSwap - [stETH, weETH] -> [USDC]
-  allowAction.cowswap.swap({
-    sell: [stETH, weETH],
-    buy: [USDC],
   }),
 
   // CowSwap - TWAP - [stETH] -> [USDC]
@@ -167,6 +148,8 @@ export default (parameters: Parameters) => [
     receiver: parameters.avatar,
   }),
 
+  // Fluid - Deposit GHO
+  allowAction.fluid.deposit({ targets: ["GHO"] }),
   // Fluid - Deposit USDC
   allowAction.fluid.deposit({ targets: ["USDC"] }),
   // Fluid - Deposit USDT
@@ -196,6 +179,14 @@ export default (parameters: Parameters) => [
   allowAction.morphoVaults.deposit({
     targets: [morpho.kpkEthPrimeV2],
   }),
+  // Morpho Vault - kpk ETH Yield v1.1
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkEthYieldV1],
+  }),
+  // Morpho Vault - kpk ETH Yield v2
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkEthYieldV2],
+  }),
   // Morpho Vault - kpk USDC Prime v1.1
   allowAction.morphoVaults.deposit({
     targets: [morpho.kpkUsdcPrimeV1],
@@ -203,6 +194,14 @@ export default (parameters: Parameters) => [
   // Morpho Vault - kpk USDC Prime v2
   allowAction.morphoVaults.deposit({
     targets: [morpho.kpkUsdcPrimeV2],
+  }),
+  // Morpho Vault - kpk USDC Yield v1.1
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkUsdcYieldV1],
+  }),
+  // Morpho Vault - kpk USDC Yield v2
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkUsdcYieldV2],
   }),
   // Morpho Vault - Steakhouse USDC v1
   allowAction.morphoVaults.deposit({
