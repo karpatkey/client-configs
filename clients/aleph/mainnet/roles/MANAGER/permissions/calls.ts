@@ -25,6 +25,7 @@ export default (parameters: Parameters) =>
     }),
 
     // ETH Alpha Fund - Shares contract
+    allowErc20Approve([WETH], [kpk.ethAlphaFundShares]),
     {
       ...allow.mainnet.oiv.shares.requestSubscription(
         undefined,
