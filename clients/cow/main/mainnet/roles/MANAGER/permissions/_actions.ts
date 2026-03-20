@@ -128,8 +128,8 @@ export default [
   //   targets: [gearbox.kpkWstEth],
   // }),
 
-  // // Lido
-  // allowAction.lido.deposit(),
+  // Lido
+  allowAction.lido.deposit(),
 
   // // Morpho Vault - kpk ETH Prime v1.1
   // allowAction.morphoVaults.deposit({
@@ -156,8 +156,8 @@ export default [
   //   targets: ["0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6"],
   // }),
 
-  // // Rocket Pool
-  // allowAction.rocket_pool.deposit(),
+  // Rocket Pool
+  allowAction.rocket_pool.deposit(),
 
   // // Spark - Deposit DAI
   // allowAction.spark.deposit({ targets: ["DAI"] }),
@@ -180,10 +180,10 @@ export default [
   // // Spark - SKY_spUSDT
   // allowAction.spark.deposit({ targets: ["SKY_spUSDT"] }),
 
-  // // Stakewise v3 - Stake/Unstake ETH
-  // allowAction.stakewise_v3.stake({
-  //   targets: ["0x15639e82d2072fa510e5d2b5f0db361c823bcad3"],
-  // }),
+  // Stakewise v3 - Stake/Unstake ETH
+  allowAction.stakewise_v3.stake({
+    targets: ["0x15639e82d2072fa510e5d2b5f0db361c823bcad3"],
+  }),
 
   // // Uniswap v3 - WETH + COW - NFT Id: 1129129
   // allowAction.uniswap_v3.deposit({ targets: ["1129129"] }),
