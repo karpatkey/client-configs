@@ -221,8 +221,8 @@ export default (parameters: Parameters) =>
     // Transfer sDAI, sUSDS,USDC to Legal Defense Fund
     allowErc20Transfer([sDAI, sUSDS, USDC], [legalDefenseFund]),
 
-    // // Transfer ETH to TWAP Safe
-    // allowEthTransfer(twapAvatar),
+    // Transfer ETH to TWAP Safe
+    allowEthTransfer(twapAvatar),
 
     // Transfer WETH to TWAP Safe
     allowErc20Transfer([COW, USDC, WETH], [twapAvatar]),
