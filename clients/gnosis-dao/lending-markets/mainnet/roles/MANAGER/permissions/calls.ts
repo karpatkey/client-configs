@@ -76,7 +76,8 @@ export default (parameters: Parameters) =>
     }),
     allowErc20Approve([ETHx, stETH], [contracts.mainnet.kelp.lrtDepositPool]),
     allow.mainnet.kelp.lrtDepositPool.depositAsset(c.or(ETHx, stETH)),
-    allowErc20Approve([rsETH], [contracts.mainnet.kelp.lrtDepositPool]),
+    // Standard Withdrawal
+    allowErc20Approve([rsETH], [contracts.mainnet.kelp.lrtWithdrawalManager]),
     allow.mainnet.kelp.lrtWithdrawalManager.initiateWithdrawal(
       c.or(eAddress, ETHx, stETH)
     ),
