@@ -7,4 +7,3 @@ export default [
     targets: [morpho.kpkUsdtPrimeV2],
   }),
 ]
-
