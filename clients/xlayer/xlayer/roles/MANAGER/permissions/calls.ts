@@ -17,5 +17,5 @@ export default (parameters: Parameters) =>
       {
         send: true,
       }
-    )
+    ),
   ] satisfies PermissionList
