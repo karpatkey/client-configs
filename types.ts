@@ -10,7 +10,7 @@ export type PermissionList = (
   | Promise<PermissionSet>
 )[]
 
-export type ChainId = 1 | 10 | 100 | 8453 | 42161
+export type ChainId = 1 | 10 | 100 | 196 | 8453 | 42161
 
 export interface Instance {
   rolesMod: `0x${string}`
@@ -23,6 +23,7 @@ export enum Chain {
   eth = 1,
   oeth = 10,
   gno = 100,
+  xlayer = 196,
   base = 8453,
   arb1 = 42161,
 }
