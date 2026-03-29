@@ -129,6 +129,9 @@ export const contracts = {
     kpk: {
       shares: "0xbf7d1dd7aedE0841f563584E39cA8b69F4Ca29B1", // Shares contract implementation
     },
+    layerZero: {
+      usdt0_bridge: "0x6C96dE32CEa08842dcc4058c14d3aaAD7Fa41dee",
+    },
     lido: {
       ...deFiKitContracts.mainnet.lido,
       vestingEscrow: "0x484FD04c598A095360DF89bF85AB34c37127AA39",
@@ -390,6 +393,11 @@ export const contracts = {
       routeProcessor4: "0x0389879e0156033202C44BF784ac18fC02edeE4f",
     },
   },
+  xlayer: {
+    layerZero: {
+      usdt0_bridge: "0x94BCCa6bdfd6A61817Ab0E960bFedE4984505554"
+    }
+  }
 } as const
 
 export default defineConfig({
@@ -400,6 +408,7 @@ export default defineConfig({
     optimism: "https://optimism-rpc.publicnode.com",
     arbitrumOne: "https://arb1.arbitrum.io/rpc",
     base: "https://base-rpc.publicnode.com",
+    xlayer: "https://rpc.xlayer.tech",
   },
   contracts,
 })
