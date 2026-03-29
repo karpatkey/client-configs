@@ -1,9 +1,12 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { contracts } from "@/contracts"
+import { eAddress } from "@/addresses"
 import {
   eETH,
   rETH,
+  rsETH,
+  stETH,
   weETH,
   WETH,
   wstETH,
@@ -118,6 +121,25 @@ export default (parameters: Parameters) =>
     allow.mainnet.etherfi.weEth.unwrap(),
     // ether.fi - Claim rewards
     allow.mainnet.etherfi.kingDistributor.claim(c.avatar),
+
+    // Kelp - Stake/Unstake ETH and stETH
+    allow.mainnet.kelp.lrtDepositPool.depositETH(undefined, undefined, {
+      send: true,
+    }),
+    allowErc20Approve([stETH], [contracts.mainnet.kelp.lrtDepositPool]),
+    allow.mainnet.kelp.lrtDepositPool.depositAsset(stETH),
+    // Standard Withdrawal
+    allowErc20Approve([rsETH], [contracts.mainnet.kelp.lrtWithdrawalManager]),
+    allow.mainnet.kelp.lrtWithdrawalManager.initiateWithdrawal(
+      c.or(eAddress, stETH)
+    ),
+    allow.mainnet.kelp.lrtWithdrawalManager.completeWithdrawal(
+      c.or(eAddress, stETH)
+    ),
+    // Instant Withdrawal
+    allow.mainnet.kelp.lrtWithdrawalManager.instantWithdrawal(
+      c.or(eAddress, stETH)
+    ),
 
     // Merkl - Rewards
     allow.mainnet.merkl.angleDistributor.claim(
