@@ -3,18 +3,20 @@ import { allow } from "zodiac-roles-sdk/kit"
 import { contracts } from "@/contracts"
 import {
   eETH,
-  osETH,
   rETH,
+  rsETH,
   stETH,
+  weETH,
   WETH,
   aura,
   balancerV3,
   kpk,
 } from "@/addresses/eth"
 import { allowErc20Approve, allowErc20Transfer } from "@/helpers"
+import { eAddress } from "@/addresses"
 import { PermissionList } from "@/types"
 import { Parameters } from "../../../parameters"
-import { rEthVault, stEthVault, osEthVault } from "../../../addresses"
+import { rEthVault, stEthVault } from "../../../addresses"
 
 export default (parameters: Parameters) =>
   [
@@ -107,6 +109,17 @@ export default (parameters: Parameters) =>
     },
     allow.mainnet.balancerV2.minter.mint(balancerV3.rEthWaEthWethGauge),
 
+    // Curve - WETH/weETH
+    allowErc20Approve([weETH, WETH], [contracts.mainnet.curve.weethNgPool]),
+    allow.mainnet.curve.weethNgPool["add_liquidity(uint256[],uint256)"](),
+    allow.mainnet.curve.weethNgPool["remove_liquidity(uint256,uint256[])"](),
+    allow.mainnet.curve.weethNgPool[
+      "remove_liquidity_imbalance(uint256[],uint256)"
+    ](),
+    allow.mainnet.curve.weethNgPool[
+      "remove_liquidity_one_coin(uint256,int128,uint256)"
+    ](),
+
     // ether.fi - EigenLayer Restaking
     // Stake ETH for eETH
     allow.mainnet.etherfi.liquidityPool["deposit()"]({ send: true }),
@@ -127,6 +140,25 @@ export default (parameters: Parameters) =>
     allow.mainnet.etherfi.weEth.unwrap(),
     // ether.fi - Claim rewards
     allow.mainnet.etherfi.kingDistributor.claim(c.avatar),
+
+    // Kelp - Stake/Unstake ETH and stETH
+    allow.mainnet.kelp.lrtDepositPool.depositETH(undefined, undefined, {
+      send: true,
+    }),
+    allowErc20Approve([stETH], [contracts.mainnet.kelp.lrtDepositPool]),
+    allow.mainnet.kelp.lrtDepositPool.depositAsset(stETH),
+    // Standard Withdrawal
+    allowErc20Approve([rsETH], [contracts.mainnet.kelp.lrtWithdrawalManager]),
+    allow.mainnet.kelp.lrtWithdrawalManager.initiateWithdrawal(
+      c.or(eAddress, stETH)
+    ),
+    allow.mainnet.kelp.lrtWithdrawalManager.completeWithdrawal(
+      c.or(eAddress, stETH)
+    ),
+    // Instant Withdrawal
+    allow.mainnet.kelp.lrtWithdrawalManager.instantWithdrawal(
+      c.or(eAddress, stETH)
+    ),
 
     // Merkl - Rewards
     allow.mainnet.merkl.angleDistributor.claim(

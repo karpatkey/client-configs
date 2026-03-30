@@ -1,3 +1,2 @@
 export const stEthVault = "0xf857Caa91ea4007eC26Aee2D039E870EB0Fa91bF"
 export const rEthVault = "0x9477df934574D47F240E18CD232E013118666690"
-export const osEthVault = "0xf857Caa91ea4007eC26Aee2D039E870EB0Fa91bF" // FIXME
