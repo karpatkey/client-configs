@@ -159,26 +159,26 @@ export default [
   // Rocket Pool
   allowAction.rocket_pool.deposit(),
 
-  // // Spark - Deposit DAI
-  // allowAction.spark.deposit({ targets: ["DAI"] }),
-  // // Spark - Deposit sUSDS
-  // allowAction.spark.deposit({ targets: ["sUSDS"] }),
-  // // Spark - Deposit USDC
-  // allowAction.spark.deposit({ targets: ["USDC"] }),
-  // // Spark - Deposit USDS
-  // allowAction.spark.deposit({ targets: ["USDS"] }),
-  // // Spark - Deposit USDT
-  // allowAction.spark.deposit({ targets: ["USDT"] }),
-  // // Spark - Deposit WBTC
-  // allowAction.spark.deposit({ targets: ["WBTC"] }),
-  // // Spark - Deposit WETH
-  // allowAction.spark.deposit({ targets: ["WETH"] }),
-  // // Spark - SKY_spUSDC
-  // allowAction.spark.deposit({ targets: ["SKY_spUSDC"] }),
-  // // Spark - SKY_sUSDS
-  // allowAction.spark.deposit({ targets: ["SKY_sUSDS"] }),
-  // // Spark - SKY_spUSDT
-  // allowAction.spark.deposit({ targets: ["SKY_spUSDT"] }),
+  // Spark - Deposit DAI
+  allowAction.spark.deposit({ targets: ["DAI"] }),
+  // Spark - Deposit sUSDS
+  allowAction.spark.deposit({ targets: ["sUSDS"] }),
+  // Spark - Deposit USDC
+  allowAction.spark.deposit({ targets: ["USDC"] }),
+  // Spark - Deposit USDS
+  allowAction.spark.deposit({ targets: ["USDS"] }),
+  // Spark - Deposit USDT
+  allowAction.spark.deposit({ targets: ["USDT"] }),
+  // Spark - Deposit WBTC
+  allowAction.spark.deposit({ targets: ["WBTC"] }),
+  // Spark - Deposit WETH
+  allowAction.spark.deposit({ targets: ["WETH"] }),
+  // Spark - SKY_spUSDC
+  allowAction.spark.deposit({ targets: ["SKY_spUSDC"] }),
+  // Spark - SKY_sUSDS
+  allowAction.spark.deposit({ targets: ["SKY_sUSDS"] }),
+  // Spark - SKY_spUSDT
+  allowAction.spark.deposit({ targets: ["SKY_spUSDT"] }),
 
   // Stakewise v3 - Stake/Unstake ETH
   allowAction.stakewise_v3.stake({

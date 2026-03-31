@@ -39,10 +39,10 @@ export default [
     buy: ["XDAI", COW, EURe, GNO, sDAI, USDC, USDCe, USDT, WETH, wstETH, WXDAI],
   }),
 
-  // // Spark - Deposit EURe
-  // allowAction.spark.deposit({ targets: ["EURe"] }),
-  // // Spark - Deposit USDC.e
-  // allowAction.spark.deposit({ targets: ["USDC.e"] }),
-  // // Spark - DSR_sDAI
-  // allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
+  // Spark - Deposit EURe
+  allowAction.spark.deposit({ targets: ["EURe"] }),
+  // Spark - Deposit USDC.e
+  allowAction.spark.deposit({ targets: ["USDC.e"] }),
+  // Spark - DSR_sDAI
+  allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
 ]
