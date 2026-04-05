@@ -1,0 +1,2 @@
+// Tokens
+export const USDT0 = "0x779ded0c9e1022225f8e0630b35a9b54be713736"
