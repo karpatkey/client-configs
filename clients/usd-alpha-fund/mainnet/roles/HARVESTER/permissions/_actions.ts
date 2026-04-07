@@ -19,24 +19,24 @@ import {
 
 export default [
   // CowSwap - [AURA, BAL, DAI, GHO, MORPHO, RLUSD, SPK, sUSDe, sUSDS, stkGHO, syrupUSDC, USDC, USDe, USDS, USDT] <-> [USDC, USDT]
-    allowAction.cowswap.swap({
-      sell: [
-        AURA,
-        BAL,
-        DAI,
-        GHO,
-        MORPHO,
-        RLUSD,
-        SPK,
-        sUSDe,
-        sUSDS,
-        stkGHO,
-        syrupUSDC,
-        USDC,
-        USDe,
-        USDS,
-        USDT,
-      ],
-      buy: [USDC, USDT],
-    }),
+  allowAction.cowswap.swap({
+    sell: [
+      AURA,
+      BAL,
+      DAI,
+      GHO,
+      MORPHO,
+      RLUSD,
+      SPK,
+      sUSDe,
+      sUSDS,
+      stkGHO,
+      syrupUSDC,
+      USDC,
+      USDe,
+      USDS,
+      USDT,
+    ],
+    buy: [USDC, USDT],
+  }),
 ]
