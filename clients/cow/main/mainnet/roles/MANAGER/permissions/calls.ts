@@ -183,27 +183,27 @@ export default (parameters: Parameters) =>
     // allow.mainnet.ethena.sUsde.cooldownShares(),
     // allow.mainnet.ethena.sUsde.unstake(c.avatar),
 
-    // // Merkl - Rewards
-    // allow.mainnet.merkl.angleDistributor.claim(
-    //   c.or(
-    //     [parameters.avatar],
-    //     [parameters.avatar, parameters.avatar],
-    //     [parameters.avatar, parameters.avatar, parameters.avatar],
-    //     [
-    //       parameters.avatar,
-    //       parameters.avatar,
-    //       parameters.avatar,
-    //       parameters.avatar,
-    //     ],
-    //     [
-    //       parameters.avatar,
-    //       parameters.avatar,
-    //       parameters.avatar,
-    //       parameters.avatar,
-    //       parameters.avatar,
-    //     ]
-    //   )
-    // ),
+    // Merkl - Rewards
+    allow.mainnet.merkl.angleDistributor.claim(
+      c.or(
+        [parameters.avatar],
+        [parameters.avatar, parameters.avatar],
+        [parameters.avatar, parameters.avatar, parameters.avatar],
+        [
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+        ],
+        [
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+        ]
+      )
+    ),
 
     // // Uniswap v4 - WETH + COW - NFT Id: 67745
     // allowErc20Approve([WETH, COW], [contracts.mainnet.uniswap.permit2]),
@@ -227,13 +227,13 @@ export default (parameters: Parameters) =>
     // Transfer WETH to TWAP Safe
     allowErc20Transfer([COW, USDC, WETH], [twapAvatar]),
 
-    // /*********************************************
-    //  * Bridge
-    //  *********************************************/
-    // // Mainnet -> Gnosis
-    // // DAI -> XDAI - Gnosis Bridge
-    // allowErc20Approve([DAI], [contracts.mainnet.gnosisBridge.xdaiUsdsBridge]),
-    // allow.mainnet.gnosisBridge.xdaiUsdsBridge.relayTokens(DAI, c.avatar),
+    /*********************************************
+     * Bridge
+     *********************************************/
+    // Mainnet -> Gnosis
+    // DAI -> XDAI - Gnosis Bridge
+    allowErc20Approve([DAI], [contracts.mainnet.gnosisBridge.xdaiUsdsBridge]),
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.relayTokens(DAI, c.avatar),
     // // Claim bridged XDAI from Gnosis (DAI or USDS)
     // allow.mainnet.gnosisBridge.xdaiUsdsBridge.executeSignatures(
     //   c.and(
@@ -265,16 +265,16 @@ export default (parameters: Parameters) =>
     //   )
     // ),
 
-    // // ETH -> WETH - Gnosis Bridge
-    // allow.mainnet.gnosisBridge.wethOmnibridgeRouter[
-    //   "wrapAndRelayTokens(address)"
-    // ](c.avatar, { send: true }),
+    // ETH -> WETH - Gnosis Bridge
+    allow.mainnet.gnosisBridge.wethOmnibridgeRouter[
+      "wrapAndRelayTokens(address)"
+    ](c.avatar, { send: true }),
 
-    // // GNO - Gnosis Bridge
-    // allowErc20Approve([GNO], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
-    // allow.mainnet.gnosisBridge.gnoOmnibridge[
-    //   "relayTokens(address,address,uint256)"
-    // ](GNO, c.avatar),
+    // GNO - Gnosis Bridge
+    allowErc20Approve([GNO], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
+    allow.mainnet.gnosisBridge.gnoOmnibridge[
+      "relayTokens(address,address,uint256)"
+    ](GNO, c.avatar),
     // // Claim bridged GNO from Gnosis
     // allow.mainnet.gnosisBridge.xdaiUsdsBridge.safeExecuteSignaturesWithAutoGasLimit(
     //   c.and(
@@ -366,16 +366,115 @@ export default (parameters: Parameters) =>
     //   )
     // ),
 
-    // // USDS -> XDAI - Gnosis Bridge
-    // allowErc20Approve([USDS], [contracts.mainnet.gnosisBridge.xdaiUsdsBridge]),
-    // allow.mainnet.gnosisBridge.xdaiUsdsBridge.relayTokens(USDS, c.avatar),
-    // // Claiming already considered with: Claim bridged XDAI from Gnosis (DAI or USDS)
+    // USDC -> USDC.e - Gnosis Bridge
+    allowErc20Approve([USDC], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
+    allow.mainnet.gnosisBridge.gnoOmnibridge.relayTokensAndCall(
+      USDC,
+      contracts.gnosis.gnosisBridge.usdcTransmuter,
+      undefined,
+      "0x" + parameters.avatar.slice(2).padStart(64, "0")
+    ),
+    // // Claim bridged USDC from Gnosis - Gnosis Bridge
+    // allow.mainnet.gnosisBridge.xdaiUsdsBridge.safeExecuteSignaturesWithAutoGasLimit(
+    //   c.and(
+    //     // messageId: 32 bytes
+    //     // First 4 bytes
+    //     c.bitmask({
+    //       shift: 0,
+    //       mask: "0xffffffff",
+    //       value: "0x00050000",
+    //     }),
+    //     // Next 10 bytes
+    //     c.bitmask({
+    //       shift: 4,
+    //       mask: "0xffffffffffffffffffff",
+    //       value: "0xa7823d6f1e31569f5186",
+    //     }),
+    //     // Next 10 bytes
+    //     c.bitmask({
+    //       shift: 4 + 10,
+    //       mask: "0xffffffffffffffffffff",
+    //       value: "0x1e345b30c6bebf70ebe7",
+    //     }),
+    //     // skip last 8 bytes (nonce)
+    //     // sender: 20 bytes
+    //     c.bitmask({
+    //       shift: 32,
+    //       mask: "0xffffffffffffffffffff",
+    //       value: contracts.gnosis.gnosisBridge.xdaiBridge.slice(0, 22), // First 10 bytes of the sender address (XDAI Bridge)
+    //     }),
+    //     c.bitmask({
+    //       shift: 32 + 10,
+    //       mask: "0xffffffffffffffffffff",
+    //       value: "0x" + contracts.gnosis.gnosisBridge.xdaiBridge.slice(22, 42), // Second 10 bytes of the sender address (XDAI Bridge)
+    //     }),
+    //     // executor: 20 bytes
+    //     c.bitmask({
+    //       shift: 32 + 20,
+    //       mask: "0xffffffffffffffffffff",
+    //       value: contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(0, 22), // First 10 bytes of the executor address (Omnibridge)
+    //     }),
+    //     c.bitmask({
+    //       shift: 32 + 20 + 10,
+    //       mask: "0xffffffffffffffffffff",
+    //       value:
+    //         "0x" + contracts.mainnet.gnosisBridge.gnoOmnibridge.slice(22, 42), // Second 10 bytes of the executor address (Omnibridge)
+    //     }),
+    //     // gasLimit: 4 bytes
+    //     c.bitmask({
+    //       shift: 32 + 20 + 20,
+    //       mask: "0xffffffff",
+    //       value: "0x000927c0",
+    //     }),
+    //     // dataType + chainIds: 5 bytes
+    //     c.bitmask({
+    //       shift: 32 + 20 + 20 + 4,
+    //       mask: "0xffffffffff",
+    //       value: "0x0101806401",
+    //     }),
+    //     // selector (handleNativeTokens): 4 bytes
+    //     c.bitmask({
+    //       shift: 32 + 20 + 20 + 4 + 5,
+    //       mask: "0xffffffff",
+    //       value: "0x272255bb",
+    //     }),
+    //     // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
+    //     // Token address
+    //     c.bitmask({
+    //       shift: 32 + 20 + 20 + 4 + 5 + 4 + 12,
+    //       mask: "0xffffffffffffffffffff",
+    //       value: USDC.slice(0, 22), // First 10 bytes of the token address
+    //     }),
+    //     c.bitmask({
+    //       shift: 32 + 20 + 20 + 4 + 5 + 4 + 12 + 10,
+    //       mask: "0xffffffffffffffffffff",
+    //       value: "0x" + USDC.slice(22, 42), // Last 10 bytes of the token address
+    //     }),
+    //     // skip the first 12 bytes (0's) of the address and scope the first 10 bytes
+    //     // Avatar address
+    //     c.bitmask({
+    //       shift: 32 + 20 + 20 + 4 + 5 + 4 + 32 + 12,
+    //       mask: "0xffffffffffffffffffff",
+    //       value: parameters.avatar.slice(0, 22), // First 10 bytes of the avatar address
+    //     }),
+    //     c.bitmask({
+    //       shift: 32 + 20 + 20 + 4 + 5 + 4 + 32 + 12 + 10,
+    //       mask: "0xffffffffffffffffffff",
+    //       value: "0x" + parameters.avatar.slice(22, 42), // Last 10 bytes of the avatar address
+    //     })
+    //   )
+    // ),
 
-    // // USDT - Gnosis Bridge
-    // allowErc20Approve([USDT], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
-    // allow.mainnet.gnosisBridge.gnoOmnibridge[
-    //   "relayTokens(address,address,uint256)"
-    // ](USDT, c.avatar),
+    // USDS -> XDAI - Gnosis Bridge
+    allowErc20Approve([USDS], [contracts.mainnet.gnosisBridge.xdaiUsdsBridge]),
+    allow.mainnet.gnosisBridge.xdaiUsdsBridge.relayTokens(USDS, c.avatar),
+    // Claiming already considered with: Claim bridged XDAI from Gnosis (DAI or USDS)
+
+    // USDT - Gnosis Bridge
+    allowErc20Approve([USDT], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
+    allow.mainnet.gnosisBridge.gnoOmnibridge[
+      "relayTokens(address,address,uint256)"
+    ](USDT, c.avatar),
     // // Claim bridged USDT from Gnosis - Gnosis Bridge
     // allow.mainnet.gnosisBridge.xdaiUsdsBridge.safeExecuteSignaturesWithAutoGasLimit(
     //   c.and(
@@ -467,11 +566,11 @@ export default (parameters: Parameters) =>
     //   )
     // ),
 
-    // // WBTC - Gnosis Bridge
-    // allowErc20Approve([WBTC], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
-    // allow.mainnet.gnosisBridge.gnoOmnibridge[
-    //   "relayTokens(address,address,uint256)"
-    // ](WBTC, c.avatar),
+    // WBTC - Gnosis Bridge
+    allowErc20Approve([WBTC], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
+    allow.mainnet.gnosisBridge.gnoOmnibridge[
+      "relayTokens(address,address,uint256)"
+    ](WBTC, c.avatar),
     // // Claim bridged WBTC from Gnosis
     // allow.mainnet.gnosisBridge.xdaiUsdsBridge.safeExecuteSignaturesWithAutoGasLimit(
     //   c.and(
@@ -563,11 +662,11 @@ export default (parameters: Parameters) =>
     //   )
     // ),
 
-    // // WETH - Gnosis Bridge
-    // allowErc20Approve([WETH], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
-    // allow.mainnet.gnosisBridge.gnoOmnibridge[
-    //   "relayTokens(address,address,uint256)"
-    // ](WETH, c.avatar),
+    // WETH - Gnosis Bridge
+    allowErc20Approve([WETH], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
+    allow.mainnet.gnosisBridge.gnoOmnibridge[
+      "relayTokens(address,address,uint256)"
+    ](WETH, c.avatar),
     // // Claim bridged WETH from Gnosis - Gnosis Bridge
     // allow.mainnet.gnosisBridge.xdaiUsdsBridge.safeExecuteSignaturesWithAutoGasLimit(
     //   c.and(
@@ -659,11 +758,11 @@ export default (parameters: Parameters) =>
     //   )
     // ),
 
-    // // wstETH - Gnosis Bridge
-    // allowErc20Approve([wstETH], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
-    // allow.mainnet.gnosisBridge.gnoOmnibridge[
-    //   "relayTokens(address,address,uint256)"
-    // ](wstETH, c.avatar),
+    // wstETH - Gnosis Bridge
+    allowErc20Approve([wstETH], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
+    allow.mainnet.gnosisBridge.gnoOmnibridge[
+      "relayTokens(address,address,uint256)"
+    ](wstETH, c.avatar),
     // // Claim bridged wstETH from Gnosis - Gnosis Bridge
     // allow.mainnet.gnosisBridge.xdaiUsdsBridge.safeExecuteSignaturesWithAutoGasLimit(
     //   c.and(
