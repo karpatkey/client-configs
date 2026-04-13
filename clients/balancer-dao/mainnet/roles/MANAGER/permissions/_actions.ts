@@ -24,20 +24,17 @@ import {
   stkAAVE,
   stkGHO,
   stUSD,
-  stUSR,
   sUSDe,
   SWISE,
   SYRUP,
   USDA,
   USDe,
   USDC,
-  USR,
   USDS,
   USDT,
   WBTC,
   WETH,
   wstETH,
-  wstUSR,
   gearbox,
   morpho,
 } from "@/addresses/eth"
@@ -111,8 +108,8 @@ export default (parameters: Parameters) => [
     feeAmountBp: 200,
   }),
 
-  // CowSwap - [aEthEURC, DAI, EURA, EURC, GHO, GYD, sDAI, sUSDS, stEUR, stUSD, stUSR, sUSDe, USDA, USDe, USDC, USR, USDS, USDT, wstUSR] ->
-  // [aEthEURC, DAI, EURA, EURC, GHO, GYD, sDAI, stEUR, stUSD, stUSR, sUSDe, sUSDS, USDA, USDe, USDC, USR, USDT, wstUSR]
+  // CowSwap - [aEthEURC, DAI, EURA, EURC, GHO, GYD, sDAI, sUSDS, stEUR, stUSD, sUSDe, USDA, USDe, USDC, USDS, USDT] ->
+  // [aEthEURC, DAI, EURA, EURC, GHO, GYD, sDAI, stEUR, stUSD, sUSDe, sUSDS, USDA, USDe, USDC, USDT]
   allowAction.cowswap.swap({
     sell: [
       aEthEURC,
@@ -125,15 +122,12 @@ export default (parameters: Parameters) => [
       sUSDS,
       stEUR,
       stUSD,
-      stUSR,
       sUSDe,
       USDA,
       USDe,
       USDC,
-      USR,
       USDS,
       USDT,
-      wstUSR,
     ],
     buy: [
       aEthEURC,
@@ -145,15 +139,12 @@ export default (parameters: Parameters) => [
       sDAI,
       stEUR,
       stUSD,
-      stUSR,
       sUSDe,
       sUSDS,
       USDA,
       USDe,
       USDC,
-      USR,
       USDT,
-      wstUSR,
     ],
     feeAmountBp: 200,
   }),
