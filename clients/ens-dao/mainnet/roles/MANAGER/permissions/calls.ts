@@ -23,6 +23,7 @@ import {
   USDC,
   USDS,
   USDT,
+  weETH,
   WETH,
   wstETH,
   x3CRV,
@@ -36,13 +37,10 @@ import { zeroAddress, eAddress } from "@/addresses"
 import { contracts } from "@/contracts"
 import {
   allowErc20Approve,
-  allowErc20Transfer,
-  allowEthTransfer,
 } from "@/helpers"
 import { PermissionList } from "@/types"
 import { balancerV2Swap } from "@/exit_strategies/balancerV2"
 import { Parameters } from "../../../../parameters"
-import { timeLock } from "../../../../addresses"
 
 export default (parameters: Parameters) =>
   [
@@ -422,15 +420,34 @@ export default (parameters: Parameters) =>
     // ether.fi - EigenLayer Restaking
     // Stake ETH for eETH
     allow.mainnet.etherfi.liquidityPool["deposit()"]({ send: true }),
-    // Request Withdrawal - A Withdraw Request NFT is issued
-    allowErc20Approve([eETH], [contracts.mainnet.etherfi.liquidityPool]),
-    allow.mainnet.etherfi.liquidityPool.requestWithdraw(c.avatar),
-    // Funds can be claimed once the request is finalized
-    allow.mainnet.etherfi.withdrawRequestNft.claimWithdraw(),
     // Stake ETH for weETH
     allow.mainnet.etherfi.depositAdapter.depositETHForWeETH(undefined, {
       send: true,
     }),
+    // Standard unstaking eETH -> ETH - A Withdraw Request NFT is issued
+    allowErc20Approve([eETH], [contracts.mainnet.etherfi.liquidityPool]),
+    allow.mainnet.etherfi.liquidityPool.requestWithdraw(c.avatar),
+    // Standard unstaking weETH -> ETH - A Withdraw Request NFT is issued
+    allowErc20Approve([weETH], [contracts.mainnet.etherfi.withdrawalAdapter]),
+    allow.mainnet.etherfi.withdrawalAdapter.requestWithdraw(
+      undefined,
+      c.avatar
+    ),
+    // Funds can be claimed once the request is finalized
+    // The same function is called for both paths (eETH/weETH -> ETH)
+    allow.mainnet.etherfi.withdrawRequestNft.claimWithdraw(),
+    // Express unstaking eETH -> ETH
+    allow.mainnet.etherfi.redemptionManager.redeemEEth(
+      undefined,
+      c.avatar,
+      eAddress,
+    ),
+    // Express unstaking weETH -> ETH
+    allow.mainnet.etherfi.redemptionManager.redeemWeEth(
+      undefined,
+      c.avatar,
+      eAddress,
+    ),
     // ether.fi - Wrap/Unwrap
     // Wrap eETH
     allowErc20Approve([eETH], [contracts.mainnet.etherfi.weEth]),

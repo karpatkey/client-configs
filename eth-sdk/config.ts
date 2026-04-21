@@ -113,6 +113,7 @@ export const contracts = {
       withdrawRequestNft: "0x7d5706f6ef3F89B3951E23e557CDFBC3239D4E2c",
       kingDistributor: "0x6Db24Ee656843E3fE03eb8762a54D86186bA6B64",
       redemptionManager: "0xDadEf1fFBFeaAB4f68A9fD181395F68b4e4E7Ae0",
+      withdrawalAdapter: "0xFbfe6b9cEe0E555Bad7e2E7309EFFC75200cBE38",
     },
     gyroscope: {
       sGyd: "0xeA50f402653c41cAdbaFD1f788341dB7B7F37816",
