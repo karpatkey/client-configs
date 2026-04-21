@@ -53,21 +53,21 @@ export default [
   // Aave v3 Core Market - Deposit WETH
   allowAction.aave_v3.deposit({ market: "Core", targets: ["WETH"] }),
 
-  // // Compound v3 - Deposit USDC
-  // allowAction.compound_v3.deposit({ targets: ["cUSDCv3"], tokens: ["USDC"] }),
-  // // Compound v3 - Deposit USDS
-  // allowAction.compound_v3.deposit({ targets: ["cUSDSv3"], tokens: ["USDS"] }),
-  // // Compound v3 - Deposit USDT
-  // allowAction.compound_v3.deposit({ targets: ["cUSDTv3"], tokens: ["USDT"] }),
-  // // Compound v3 - Deposit WBTC
-  // allowAction.compound_v3.deposit({ targets: ["cWBTCv3"], tokens: ["WBTC"] }),
-  // // Compound v3 - Deposit WETH
-  // allowAction.compound_v3.deposit({ targets: ["cWETHv3"], tokens: ["WETH"] }),
-  // // Compound v3 - Deposit wstETH
-  // allowAction.compound_v3.deposit({
-  //   targets: ["cWstETHv3"],
-  //   tokens: ["wstETH"],
-  // }),
+  // Compound v3 - Deposit USDC
+  allowAction.compound_v3.deposit({ targets: ["cUSDCv3"], tokens: ["USDC"] }),
+  // Compound v3 - Deposit USDS
+  allowAction.compound_v3.deposit({ targets: ["cUSDSv3"], tokens: ["USDS"] }),
+  // Compound v3 - Deposit USDT
+  allowAction.compound_v3.deposit({ targets: ["cUSDTv3"], tokens: ["USDT"] }),
+  // Compound v3 - Deposit WBTC
+  allowAction.compound_v3.deposit({ targets: ["cWBTCv3"], tokens: ["WBTC"] }),
+  // Compound v3 - Deposit WETH
+  allowAction.compound_v3.deposit({ targets: ["cWETHv3"], tokens: ["WETH"] }),
+  // Compound v3 - Deposit wstETH
+  allowAction.compound_v3.deposit({
+    targets: ["cWstETHv3"],
+    tokens: ["wstETH"],
+  }),
 
   // CowSwap - [DAI, ETH, EURC, GHO, sDAI, stkGHO, sUSDe, sUSDS, syrupUSDC, USDC, USDe, USDS, USDT, WETH] <->
   // [DAI, ETH, EURC, GHO, sDAI, stkGHO, sUSDe, sUSDS, syrupUSDC, USDC, USDe, USDS, USDT, WETH]

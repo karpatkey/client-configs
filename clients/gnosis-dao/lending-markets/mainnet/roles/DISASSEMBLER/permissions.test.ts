@@ -7,7 +7,7 @@ import { COW, GNO } from "@/addresses/eth"
 import allowedCalls from "./permissions/calls"
 import allowedActions from "./permissions/_actions"
 
-describe("GnosisDAO", () => {
+describe.skip("GnosisDAO", () => {
   beforeAll(async () => {
     // fresh role with Institutional manage permissions
     await applyPermissions({

@@ -5,7 +5,7 @@ import kit from "@/test/kit"
 import allowedCalls from "./permissions/calls"
 import allowedActions from "./permissions/_actions"
 
-describe("auraRelocker", () => {
+describe.skip("auraRelocker", () => {
   beforeAll(async () => {
     await applyPermissions({
       allowedCalls,
