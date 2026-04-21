@@ -29,9 +29,7 @@ export default (parameters: Parameters) =>
     }),
 
     // Leverage Contract - Unwind leveraged positions
-    allow.mainnet.oiv.leverage.deleverageAavePosition(
-      
-    ),
+    allow.mainnet.oiv.leverage.deleverageAavePosition(),
 
     // Aave Core v3 - Enable/Disable E-Mode
     allow.mainnet.aaveV3.poolCoreV3.setUserEMode(),
