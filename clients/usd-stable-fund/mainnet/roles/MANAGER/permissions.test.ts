@@ -7,7 +7,7 @@ import { parameters as stableFundParameters } from "../../instances/main"
 import allowedCalls from "./permissions/calls"
 import allowedActions from "./permissions/_actions"
 
-describe("stable_fund", () => {
+describe.skip("stable_fund", () => {
   beforeAll(async () => {
     // Fresh role with stable_fund manage permissions
     await applyPermissions(

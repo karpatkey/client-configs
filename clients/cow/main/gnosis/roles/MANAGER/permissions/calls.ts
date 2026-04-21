@@ -58,11 +58,11 @@ export default (parameters: Parameters) =>
     // allowErc20Approve([USDC], [contracts.gnosis.gnosisBridge.usdcTransmuter]),
     // allow.gnosis.gnosisBridge.usdcTransmuter.deposit(),
 
-    // /*********************************************
-    //  * Transfers
-    //  *********************************************/
-    // // Transfer XDAI to CoW Defense Fund
-    // allowEthTransfer(legalDefenseFund),
+    /*********************************************
+     * Transfers
+     *********************************************/
+    // Transfer XDAI to CoW Defense Fund
+    allowEthTransfer(legalDefenseFund),
 
     // /*********************************************
     //  * Bridge

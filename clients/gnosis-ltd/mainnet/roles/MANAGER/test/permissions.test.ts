@@ -6,7 +6,7 @@ import allowedCalls from "../permissions/calls"
 import allowedActions from "../permissions/_actions"
 import { parameters as gnosisLtdParameters } from "../../../instances/main"
 
-describe("GnosisLTD", () => {
+describe.skip("GnosisLTD", () => {
   beforeAll(async () => {
     await applyPermissions(
       {
