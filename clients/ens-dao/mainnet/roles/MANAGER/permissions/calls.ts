@@ -8,6 +8,7 @@ import {
   CRV,
   CVX,
   DAI,
+  eETH,
   ETHx,
   LDO,
   MORPHO,
@@ -417,6 +418,27 @@ export default (parameters: Parameters) =>
       zeroAddress,
       { send: true }
     ),
+
+    // ether.fi - EigenLayer Restaking
+    // Stake ETH for eETH
+    allow.mainnet.etherfi.liquidityPool["deposit()"]({ send: true }),
+    // Request Withdrawal - A Withdraw Request NFT is issued
+    allowErc20Approve([eETH], [contracts.mainnet.etherfi.liquidityPool]),
+    allow.mainnet.etherfi.liquidityPool.requestWithdraw(c.avatar),
+    // Funds can be claimed once the request is finalized
+    allow.mainnet.etherfi.withdrawRequestNft.claimWithdraw(),
+    // Stake ETH for weETH
+    allow.mainnet.etherfi.depositAdapter.depositETHForWeETH(undefined, {
+      send: true,
+    }),
+    // ether.fi - Wrap/Unwrap
+    // Wrap eETH
+    allowErc20Approve([eETH], [contracts.mainnet.etherfi.weEth]),
+    allow.mainnet.etherfi.weEth.wrap(),
+    // Unwrap weETH
+    allow.mainnet.etherfi.weEth.unwrap(),
+    // ether.fi - Claim rewards
+    allow.mainnet.etherfi.kingDistributor.claim(c.avatar),
 
     // Fluid - FLUID Rewards
     {

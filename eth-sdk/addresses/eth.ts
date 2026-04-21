@@ -308,6 +308,8 @@ export const morpho = {
   kpkUsdcYieldV2: "0xD5cCe260E7a755DDf0Fb9cdF06443d593AaeaA13", // kpk USDC Yield v2
   kpkEurcYieldV1: "0x0c6aec603d48eBf1cECc7b247a2c3DA08b398DC1", // kpk EURC Yield v1
   kpkEurcYieldV2: "0xa877D5bb0274dcCbA8556154A30E1Ca4021a275f", // kpk EURC Yield v2
+  kpkUsdtPrimeV1: "0xdaD4e51d64c3B65A9d27aD9F3185B09449712065", // kpk USDT Prime v1
+  kpkUsdtPrimeV2: "0x870F0BF29A25A40E7CC087cD5C53e70C11F2C8A8", // kpk USDT Prime v2
 
   // Oracles
   oracleEthplusUsdc: "0x83Fb5ff55eAA528F0C0f95c3f270b85E5d094756",

@@ -7,6 +7,7 @@ import {
   CRV,
   CVX,
   DAI,
+  eETH,
   ETHx,
   FLUID,
   GHO,
@@ -23,6 +24,7 @@ import {
   USDC,
   USDS,
   USDT,
+  weETH,
   WETH,
   wstETH,
   morpho,
@@ -86,8 +88,8 @@ export default (parameters: Parameters) => [
   allowAction.convex.deposit({ targets: ["268"] }),
 
   // CowSwap
-  // [ankrETH, AURA, BAL, COMP, CRV, CVX, DAI, ETH, ETHx, FLUID, GHO, LDO, MORPHO, OETH, osETH, rETH, RPL, SPK, stETH, sUSDS, SWISE, USDC, USDS, USDT, WETH, wstETH] ->
-  // [ankrETH, DAI, ETH, ETHx, GHO, OETH, osETH, rETH, stETH, sUSDS, USDC, USDS, USDT, WETH, wstETH]
+  // [ankrETH, AURA, BAL, COMP, CRV, CVX, DAI, eETH, ETH, ETHx, FLUID, GHO, LDO, MORPHO, OETH, osETH, rETH, RPL, SPK, stETH, sUSDS, SWISE, USDC, USDS, USDT, weETH, WETH, wstETH] ->
+  // [ankrETH, DAI, eETH, ETH, ETHx, GHO, OETH, osETH, rETH, stETH, sUSDS, USDC, USDS, USDT, weETH, WETH, wstETH]
   allowAction.cowswap.swap({
     sell: [
       "ETH",
@@ -98,6 +100,7 @@ export default (parameters: Parameters) => [
       CRV,
       CVX,
       DAI,
+      eETH,
       ETHx,
       FLUID,
       GHO,
@@ -114,6 +117,7 @@ export default (parameters: Parameters) => [
       USDC,
       USDS,
       USDT,
+      weETH,
       WETH,
       wstETH,
     ],
@@ -121,6 +125,7 @@ export default (parameters: Parameters) => [
       "ETH",
       ankrETH,
       DAI,
+      eETH,
       ETHx,
       GHO,
       OETH,
@@ -131,6 +136,7 @@ export default (parameters: Parameters) => [
       USDC,
       USDS,
       USDT,
+      weETH,
       WETH,
       wstETH,
     ],
@@ -200,6 +206,14 @@ export default (parameters: Parameters) => [
   // Morpho Vault - kpk USDC Prime v2
   allowAction.morphoVaults.deposit({
     targets: [morpho.kpkUsdcPrimeV2],
+  }),
+  // Morpho Vault - kpk USDT Prime v1.1
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkUsdtPrimeV1],
+  }),
+  // Morpho Vault - kpk USDT Prime v2
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkUsdtPrimeV2],
   }),
 
   // Rocket Pool
