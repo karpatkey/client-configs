@@ -38,14 +38,14 @@ export const applyPermissions = async (
 
   console.log(`Applying permissions with ${calls.length} calls`)
   const ownerSigner = await owner.getSigner()
-  // let nonce = await ownerSigner.getNonce()
+  let nonce = await ownerSigner.getNonce()
 
   await Promise.all(
     calls.map(async (call, i) => {
       try {
         return await ownerSigner.sendTransaction({
           ...call,
-          // nonce: nonce++,
+          nonce: nonce++,
         })
       } catch (e: any) {
         console.error(`Error applying permissions in call #${i}:`, call)
