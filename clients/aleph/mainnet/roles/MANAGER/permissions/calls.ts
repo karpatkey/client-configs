@@ -26,6 +26,11 @@ export default (parameters: Parameters) =>
       send: true,
     }),
 
+    // Leverage Contract - Unwind leveraged positions
+    allow.mainnet.oiv.leverage.deleverageAavePosition(
+      
+    ),
+
     // ETH Alpha Fund - Shares contract
     allowErc20Approve([WETH], [kpk.ethAlphaFundShares]),
     {
