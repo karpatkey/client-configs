@@ -35,9 +35,7 @@ import {
 } from "@/addresses/eth"
 import { zeroAddress, eAddress } from "@/addresses"
 import { contracts } from "@/contracts"
-import {
-  allowErc20Approve,
-} from "@/helpers"
+import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
 import { balancerV2Swap } from "@/exit_strategies/balancerV2"
 import { Parameters } from "../../../../parameters"
@@ -440,13 +438,13 @@ export default (parameters: Parameters) =>
     allow.mainnet.etherfi.redemptionManager.redeemEEth(
       undefined,
       c.avatar,
-      eAddress,
+      eAddress
     ),
     // Express unstaking weETH -> ETH
     allow.mainnet.etherfi.redemptionManager.redeemWeEth(
       undefined,
       c.avatar,
-      eAddress,
+      eAddress
     ),
     // ether.fi - Wrap/Unwrap
     // Wrap eETH
