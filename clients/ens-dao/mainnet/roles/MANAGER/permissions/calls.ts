@@ -415,13 +415,29 @@ export default (parameters: Parameters) =>
       { send: true }
     ),
 
-    // ether.fi - EigenLayer Restaking
-    // Stake ETH for eETH
-    allow.mainnet.etherfi.liquidityPool["deposit()"]({ send: true }),
+    // ether.fi - Earn - Stake
     // Stake ETH for weETH
     allow.mainnet.etherfi.depositAdapter.depositETHForWeETH(undefined, {
       send: true,
     }),
+    // Stake WETH for weETH
+    allowErc20Approve([WETH], [contracts.mainnet.etherfi.depositAdapter]),
+    allow.mainnet.etherfi.depositAdapter.depositWETHForWeETH(
+      undefined,
+      c.avatar
+    ),
+    // Stake stETH for weETH
+    allowErc20Approve([stETH], [contracts.mainnet.etherfi.depositAdapter]),
+    allow.mainnet.etherfi.depositAdapter.depositStETHForWeETHWithPermit(
+      undefined,
+      c.avatar
+    ),
+    // Stake wstETH for weETH
+    allowErc20Approve([wstETH], [contracts.mainnet.etherfi.depositAdapter]),
+    allow.mainnet.etherfi.depositAdapter.depositWstETHForWeETHWithPermit(
+      undefined,
+      c.avatar
+    ),
     // Standard unstaking eETH -> ETH - A Withdraw Request NFT is issued
     allowErc20Approve([eETH], [contracts.mainnet.etherfi.liquidityPool]),
     allow.mainnet.etherfi.liquidityPool.requestWithdraw(c.avatar),
@@ -435,15 +451,29 @@ export default (parameters: Parameters) =>
     // The same function is called for both paths (eETH/weETH -> ETH)
     allow.mainnet.etherfi.withdrawRequestNft.claimWithdraw(),
     // Express unstaking eETH -> ETH
+    allowErc20Approve([eETH], [contracts.mainnet.etherfi.redemptionManager]), 
     allow.mainnet.etherfi.redemptionManager.redeemEEth(
       undefined,
       c.avatar,
       eAddress
     ),
+    allow.mainnet.etherfi.redemptionManager.redeemEEthWithPermit(
+      undefined,
+      c.avatar,
+      undefined,
+      eAddress
+    ),
     // Express unstaking weETH -> ETH
+    allowErc20Approve([weETH], [contracts.mainnet.etherfi.redemptionManager]),
     allow.mainnet.etherfi.redemptionManager.redeemWeEth(
       undefined,
       c.avatar,
+      eAddress
+    ),
+    allow.mainnet.etherfi.redemptionManager.redeemWeEthWithPermit(
+      undefined,
+      c.avatar,
+      undefined,
       eAddress
     ),
     // ether.fi - Wrap/Unwrap
