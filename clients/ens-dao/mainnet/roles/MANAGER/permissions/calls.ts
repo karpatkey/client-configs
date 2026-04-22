@@ -451,7 +451,7 @@ export default (parameters: Parameters) =>
     // The same function is called for both paths (eETH/weETH -> ETH)
     allow.mainnet.etherfi.withdrawRequestNft.claimWithdraw(),
     // Express unstaking eETH -> ETH
-    allowErc20Approve([eETH], [contracts.mainnet.etherfi.redemptionManager]), 
+    allowErc20Approve([eETH], [contracts.mainnet.etherfi.redemptionManager]),
     allow.mainnet.etherfi.redemptionManager.redeemEEth(
       undefined,
       c.avatar,
