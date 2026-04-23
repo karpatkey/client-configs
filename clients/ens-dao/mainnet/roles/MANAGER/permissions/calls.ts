@@ -35,10 +35,15 @@ import {
 } from "@/addresses/eth"
 import { zeroAddress, eAddress } from "@/addresses"
 import { contracts } from "@/contracts"
-import { allowErc20Approve } from "@/helpers"
+import {
+  allowErc20Approve,
+  allowErc20Transfer,
+  allowEthTransfer,
+} from "@/helpers"
 import { PermissionList } from "@/types"
 import { balancerV2Swap } from "@/exit_strategies/balancerV2"
 import { Parameters } from "../../../../parameters"
+import { timeLock } from "../../../../addresses"
 
 export default (parameters: Parameters) =>
   [
@@ -760,4 +765,13 @@ export default (parameters: Parameters) =>
       recipient: c.avatar,
       fee: 100,
     }),
+
+    /*********************************************
+     * Transfers
+     *********************************************/
+    // Transfer ETH to ENS Timelock
+    allowEthTransfer(timeLock),
+
+    // Transfer USDC to ENS Timelock
+    allowErc20Transfer([USDC], [timeLock]),
   ] satisfies PermissionList
