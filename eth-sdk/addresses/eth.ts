@@ -330,6 +330,7 @@ export const morpho = {
   oraclePTUsde25Sep2025Usdc: "0xe6aBD3B78Abbb1cc1Ee76c5c3689Aa9646481Fbb",
   oraclePTUsde25Sep2025Usdt: "0xe6aBD3B78Abbb1cc1Ee76c5c3689Aa9646481Fbb",
   oraclewstUSRUsdc: "0xDa850a72080024e17c1590fbf6ea7a826dB90760",
+  oracleWethRsEth: "0x2A2658Fc208Ed00e11D96d3F7470618924466877",
   adaptativeCurveIrm: "0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC",
 } as const
 
