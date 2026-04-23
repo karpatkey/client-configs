@@ -258,6 +258,10 @@ export const curve = {
   ankrCrv: "0xaA17A236F2bAdc98DDc0Cf999AbB47D47Fc0A6Cf",
 } as const
 
+export const euler = {
+  kpkRwaUsdc: "0x2B47c128b35DDDcB66Ce2FA5B33c95314a7de245",
+} as const
+
 export const fluid = {
   // fTokens
   fsUsds: "0x2BBE31d63E6813E3AC858C04dae43FB2a72B0D11",

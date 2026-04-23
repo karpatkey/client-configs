@@ -115,6 +115,9 @@ export const contracts = {
       redemptionManager: "0xDadEf1fFBFeaAB4f68A9fD181395F68b4e4E7Ae0",
       withdrawalAdapter: "0xFbfe6b9cEe0E555Bad7e2E7309EFFC75200cBE38",
     },
+    euler: {
+      eVault: "0x8Ff1C814719096b61aBf00Bb46EAd0c9A529Dd7D",
+    },
     gyroscope: {
       sGyd: "0xeA50f402653c41cAdbaFD1f788341dB7B7F37816",
     },
@@ -156,7 +159,7 @@ export const contracts = {
       nProxy: "0x6e7058c91F85E0F6db4fc9da2CA41241f5e4263f",
     },
     oiv: {
-      shares: "0x909DD020c37a00cD35Bb2d1948D0BEbC4254BA8f",
+      shares: "0x909DD020c37a00cD35Bb2d1948D0BEbC4254BA8f", // kpk Shares Implementation
       navCalculator: "0xD09001ff4735584585431803B23E693ABF0077cB", // FIXME: This one will change!!
     },
     origin: {

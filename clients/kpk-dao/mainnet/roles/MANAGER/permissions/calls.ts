@@ -19,6 +19,7 @@ import {
   weETH,
   WETH,
   wstETH,
+  euler,
   fluid,
   kpk,
 } from "@/addresses/eth"
@@ -251,6 +252,41 @@ export default (parameters: Parameters) =>
     {
       ...allow.mainnet.kpk.shares.requestRedeem(undefined, undefined, c.avatar),
       targetAddress: kpk.renaissanceFundShares,
+    },
+    // KPK - ETH Alpha Fund
+    allowErc20Approve([WETH], [kpk.ethAlphaFundShares]),
+    {
+      ...allow.mainnet.oiv.shares.requestSubscription(
+        undefined,
+        undefined,
+        WETH,
+        c.avatar
+      ),
+      targetAddress: kpk.ethAlphaFundShares,
+    },
+    {
+      ...allow.mainnet.oiv.shares.requestRedemption(
+        undefined,
+        undefined,
+        WETH,
+        c.avatar
+      ),
+      targetAddress: kpk.ethAlphaFundShares,
+    },
+
+    // Euler - KPK RWA USDC
+    allowErc20Approve([USDC], [euler.kpkRwaUsdc]),
+    {
+      ...allow.mainnet.euler.eVault.deposit(undefined, c.avatar),
+      targetAddress: euler.kpkRwaUsdc,
+    },
+    {
+      ...allow.mainnet.euler.eVault.withdraw(undefined, c.avatar, c.avatar),
+      targetAddress: euler.kpkRwaUsdc,
+    },
+    {
+      ...allow.mainnet.euler.eVault.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: euler.kpkRwaUsdc,
     },
 
     // Lido - Lido's Token Rewards Plan (TRP) - Claim LDO
