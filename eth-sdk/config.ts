@@ -129,6 +129,9 @@ export const contracts = {
     kpk: {
       shares: "0xbf7d1dd7aedE0841f563584E39cA8b69F4Ca29B1", // Shares contract implementation
     },
+    kyberswap: {
+      metaAggregationRouterV2: "0x6131B5fae19EA4f9D964eAc0408E4408b66337b5",
+    },
     lido: {
       ...deFiKitContracts.mainnet.lido,
       vestingEscrow: "0x484FD04c598A095360DF89bF85AB34c37127AA39",

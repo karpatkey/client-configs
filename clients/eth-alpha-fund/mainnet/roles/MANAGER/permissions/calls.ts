@@ -36,6 +36,18 @@ export default (parameters: Parameters) =>
       undefined,
       undefined,
       kyberswap.metaAggregationRouterV2,
+      c.calldataMatches(
+        allow.mainnet.kyberswap.metaAggregationRouterV2.swap(
+          {
+            desc: {
+              srcToken: c.or(rsETH, weETH, wstETH),
+              dstToken: WETH,
+              dstReceiver: contracts.mainnet.oiv.leverage,
+              permit: "0x",
+            }
+          }
+        )
+      )
     ),
 
     // Aave Core v3 - Enable/Disable E-Mode
