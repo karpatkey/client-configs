@@ -8,6 +8,7 @@ import {
   CRV,
   CVX,
   DAI,
+  eETH,
   ETHx,
   LDO,
   MORPHO,
@@ -22,6 +23,7 @@ import {
   USDC,
   USDS,
   USDT,
+  weETH,
   WETH,
   wstETH,
   x3CRV,
@@ -418,6 +420,76 @@ export default (parameters: Parameters) =>
       { send: true }
     ),
 
+    // ether.fi - Earn - Stake
+    // Stake ETH for weETH
+    allow.mainnet.etherfi.depositAdapter.depositETHForWeETH(undefined, {
+      send: true,
+    }),
+    // Stake WETH for weETH
+    allowErc20Approve([WETH], [contracts.mainnet.etherfi.depositAdapter]),
+    allow.mainnet.etherfi.depositAdapter.depositWETHForWeETH(
+      undefined,
+      c.avatar
+    ),
+    // Stake stETH for weETH
+    allowErc20Approve([stETH], [contracts.mainnet.etherfi.depositAdapter]),
+    allow.mainnet.etherfi.depositAdapter.depositStETHForWeETHWithPermit(
+      undefined,
+      c.avatar
+    ),
+    // Stake wstETH for weETH
+    allowErc20Approve([wstETH], [contracts.mainnet.etherfi.depositAdapter]),
+    allow.mainnet.etherfi.depositAdapter.depositWstETHForWeETHWithPermit(
+      undefined,
+      c.avatar
+    ),
+    // Standard unstaking eETH -> ETH - A Withdraw Request NFT is issued
+    allowErc20Approve([eETH], [contracts.mainnet.etherfi.liquidityPool]),
+    allow.mainnet.etherfi.liquidityPool.requestWithdraw(c.avatar),
+    // Standard unstaking weETH -> ETH - A Withdraw Request NFT is issued
+    allowErc20Approve([weETH], [contracts.mainnet.etherfi.withdrawalAdapter]),
+    allow.mainnet.etherfi.withdrawalAdapter.requestWithdraw(
+      undefined,
+      c.avatar
+    ),
+    // Funds can be claimed once the request is finalized
+    // The same function is called for both paths (eETH/weETH -> ETH)
+    allow.mainnet.etherfi.withdrawRequestNft.claimWithdraw(),
+    // Express unstaking eETH -> ETH
+    allowErc20Approve([eETH], [contracts.mainnet.etherfi.redemptionManager]),
+    allow.mainnet.etherfi.redemptionManager.redeemEEth(
+      undefined,
+      c.avatar,
+      eAddress
+    ),
+    allow.mainnet.etherfi.redemptionManager.redeemEEthWithPermit(
+      undefined,
+      c.avatar,
+      undefined,
+      eAddress
+    ),
+    // Express unstaking weETH -> ETH
+    allowErc20Approve([weETH], [contracts.mainnet.etherfi.redemptionManager]),
+    allow.mainnet.etherfi.redemptionManager.redeemWeEth(
+      undefined,
+      c.avatar,
+      eAddress
+    ),
+    allow.mainnet.etherfi.redemptionManager.redeemWeEthWithPermit(
+      undefined,
+      c.avatar,
+      undefined,
+      eAddress
+    ),
+    // ether.fi - Wrap/Unwrap
+    // Wrap eETH
+    allowErc20Approve([eETH], [contracts.mainnet.etherfi.weEth]),
+    allow.mainnet.etherfi.weEth.wrap(),
+    // Unwrap weETH
+    allow.mainnet.etherfi.weEth.unwrap(),
+    // ether.fi - Claim rewards
+    allow.mainnet.etherfi.kingDistributor.claim(c.avatar),
+
     // Fluid - FLUID Rewards
     {
       ...allow.mainnet.fluid.merkleDistributor.claim(c.avatar),
@@ -693,4 +765,13 @@ export default (parameters: Parameters) =>
       recipient: c.avatar,
       fee: 100,
     }),
+
+    /*********************************************
+     * Transfers
+     *********************************************/
+    // Transfer ETH to ENS Timelock
+    allowEthTransfer(timeLock),
+
+    // Transfer USDC to ENS Timelock
+    allowErc20Transfer([USDC], [timeLock]),
   ] satisfies PermissionList
