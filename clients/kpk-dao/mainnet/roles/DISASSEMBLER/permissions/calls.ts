@@ -169,7 +169,7 @@ export default [
   allow.mainnet.lido.unstEth.claimWithdrawal(),
   allow.mainnet.lido.unstEth.claimWithdrawals(),
 
-  // Morpho Market - WETH/rsETH - id: 0xba761af4134efb0855adfba638945f454f0a704af11fc93439e20c7c5ebab942
+  // Morpho Market - Withdraw WETH/rsETH - id: 0xba761af4134efb0855adfba638945f454f0a704af11fc93439e20c7c5ebab942
   allow.mainnet.morpho.morphoBlue.withdraw(
     {
       loanToken: WETH,

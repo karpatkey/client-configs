@@ -204,6 +204,7 @@ export const contracts = {
       ...deFiKitContracts.mainnet.spark,
       sparkRewards: "0x7ac96180C4d6b2A328D3a19ac059D0E7Fc3C6d41",
       stSpk: "0xc6132FAF04627c8d05d6E759FAbB331Ef2D8F8fD",
+      litePsmUsdcA: "0xf6e72Db5454dd049d0788e411b06CfAF16853042", // USDC <-> DAI
     },
     stakeWiseV3: {
       ...deFiKitContracts.mainnet.stakeWiseV3,

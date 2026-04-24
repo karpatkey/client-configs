@@ -10,6 +10,7 @@ import {
   GHO,
   GNO,
   liquidETH,
+  rsETH,
   SAFE,
   SPK,
   stETH,
@@ -22,6 +23,7 @@ import {
   euler,
   fluid,
   kpk,
+  morpho,
 } from "@/addresses/eth"
 import { zeroAddress, eAddress } from "@/addresses"
 import { contracts } from "@/contracts"
@@ -38,6 +40,8 @@ import {
   kpkDaoPaymentsEth,
   vcbGc,
   lidoVestingEscrow,
+  vacarabiaEth,
+  kpkFoundationEth,
 } from "../../../addresses"
 import { encodeBytes32String } from "defi-kit"
 
@@ -185,6 +189,21 @@ export default (parameters: Parameters) =>
       [stETH]
     ),
 
+    // Euler - KPK RWA USDC
+    allowErc20Approve([USDC], [euler.kpkRwaUsdc]),
+    {
+      ...allow.mainnet.euler.eVault.deposit(undefined, c.avatar),
+      targetAddress: euler.kpkRwaUsdc,
+    },
+    {
+      ...allow.mainnet.euler.eVault.withdraw(undefined, c.avatar, c.avatar),
+      targetAddress: euler.kpkRwaUsdc,
+    },
+    {
+      ...allow.mainnet.euler.eVault.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: euler.kpkRwaUsdc,
+    },
+
     // ether.fi
     // ether.fi - Liquid ETH Yield Vault - Deposit
     allowErc20Approve([eETH, weETH, WETH], [liquidETH]),
@@ -274,21 +293,6 @@ export default (parameters: Parameters) =>
       targetAddress: kpk.ethAlphaFundShares,
     },
 
-    // Euler - KPK RWA USDC
-    allowErc20Approve([USDC], [euler.kpkRwaUsdc]),
-    {
-      ...allow.mainnet.euler.eVault.deposit(undefined, c.avatar),
-      targetAddress: euler.kpkRwaUsdc,
-    },
-    {
-      ...allow.mainnet.euler.eVault.withdraw(undefined, c.avatar, c.avatar),
-      targetAddress: euler.kpkRwaUsdc,
-    },
-    {
-      ...allow.mainnet.euler.eVault.redeem(undefined, c.avatar, c.avatar),
-      targetAddress: euler.kpkRwaUsdc,
-    },
-
     // Lido - Lido's Token Rewards Plan (TRP) - Claim LDO
     {
       ...allow.mainnet.lido.vestingEscrow["claim(address,uint256)"](c.avatar),
@@ -315,6 +319,21 @@ export default (parameters: Parameters) =>
           parameters.avatar,
         ]
       )
+    ),
+
+    // Morpho Market - Withdraw WETH/rsETH - id: 0xba761af4134efb0855adfba638945f454f0a704af11fc93439e20c7c5ebab942
+    allow.mainnet.morpho.morphoBlue.withdraw(
+      {
+        loanToken: WETH,
+        collateralToken: rsETH,
+        oracle: morpho.oracleWethRsEth,
+        irm: morpho.adaptativeCurveIrm,
+        lltv: "945000000000000000",
+      },
+      undefined,
+      undefined,
+      c.avatar,
+      c.avatar
     ),
 
     // pods - ETHphoria Vault
@@ -359,6 +378,14 @@ export default (parameters: Parameters) =>
     allow.mainnet.spark.stSpk.redeem(c.avatar),
     allow.mainnet.spark.stSpk.claim(c.avatar),
     allow.mainnet.spark.stSpk.claimBatch(c.avatar),
+
+    /*********************************************
+     * Swaps
+     *********************************************/
+    // Spark - Swap USDC <-> DAI
+    allowErc20Approve([DAI, USDC], [contracts.mainnet.spark.litePsmUsdcA]),
+    allow.mainnet.spark.litePsmUsdcA.sellGem(c.avatar),
+    allow.mainnet.spark.litePsmUsdcA.buyGem(c.avatar),
 
     /*********************************************
      * Bridge
@@ -1398,30 +1425,44 @@ export default (parameters: Parameters) =>
     /*********************************************
      * Transfers
      *********************************************/
-    // Transfer 100K per month to kpkDaoPaymentsEth
+    // Transfer up to 100K DAI per month to kpkDaoPaymentsEth
     allowErc20Transfer([DAI], [kpkDaoPaymentsEth], "DAI_KPK-PAYMENTS-ETH"),
 
-    // Transfer 10 ETH per month to kpkDaoPaymentsEth
+    // Transfer up to 10 ETH per month to kpkDaoPaymentsEth
     // allowErc20Transfer([WETH], [kpkDaoPaymentsEth], "ETH_KPK-PAYMENTS-ETH"),
     allowEthTransfer(kpkDaoPaymentsEth, "ETH_KPK-PAYMENTS-ETH"),
 
-    // Transfer 200K per month to kfPaymentsEth
+    // Transfer up to 200K USDC per month to kfPaymentsEth
     allowErc20Transfer([USDC], [kfPaymentsEth], "USDC_KPK-PAYMENTS-ETH"),
 
-    // Transfer 100K per month to kpkDaoPaymentsEth
+    // Transfer up to 100K USDC per month to kpkDaoPaymentsEth
     allowErc20Transfer(
       [USDC],
       [kpkDaoPaymentsEth],
       "USDC_KPK_DAO-PAYMENTS-ETH"
     ),
 
-    // Transfer 100K per month to kpkDaoPaymentsEth
+    // Transfer up to 100K USDT per month to kpkDaoPaymentsEth
     allowErc20Transfer(
       [USDT],
       [kpkDaoPaymentsEth],
       "USDT_KPK_DAO-PAYMENTS-ETH"
     ),
 
-    // Transfer 100K per month to kpkDaoPaymentsEth
+    // Transfer up to 100K GHO per month to kpkDaoPaymentsEth
     allowErc20Transfer([GHO], [kpkDaoPaymentsEth], "GHO_KPK_DAO-PAYMENTS-ETH"),
+
+    // Transfer up to 500K USDC per month to vacarabiaEth
+    allowErc20Transfer(
+      [USDC],
+      [vacarabiaEth],
+      "USDC_VACARABIA-ETH"
+    ),
+
+    // Transfer up to 500K USDC per month to kpkFoundationEth
+    allowErc20Transfer(
+      [USDC],
+      [vacarabiaEth],
+      "USDC_KPK_FOUNDATION-ETH"
+    ),
   ] satisfies PermissionList

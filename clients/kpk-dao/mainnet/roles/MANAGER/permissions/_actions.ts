@@ -144,13 +144,6 @@ export default [
   // Lido
   allowAction.lido.deposit(),
 
-  // Morpho Market - Deposit WETH/rsETH - id: 0xba761af4134efb0855adfba638945f454f0a704af11fc93439e20c7c5ebab942
-  allowAction.morphoMarkets.deposit({
-    targets: [
-      "0xba761af4134efb0855adfba638945f454f0a704af11fc93439e20c7c5ebab942",
-    ],
-  }),
-
   // Morpho Vault - kpk ETH Prime v1.1
   allowAction.morphoVaults.deposit({
     targets: [morpho.kpkEthPrimeV1],
