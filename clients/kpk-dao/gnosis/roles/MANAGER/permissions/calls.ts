@@ -23,7 +23,12 @@ import {
   allowErc20Transfer,
   allowEthTransfer,
 } from "@/helpers"
-import { kpkEth, kfPaymentsGc, vcbGc, kpkFoundationGc } from "../../../../addresses"
+import {
+  kpkEth,
+  kfPaymentsGc,
+  vcbGc,
+  kpkFoundationGc,
+} from "../../../../addresses"
 
 export default [
   // Wrapping and unwrapping of XDAI, WXDAI
