@@ -42,7 +42,7 @@ import {
   lidoVestingEscrow,
   vacarabiaEth,
   kpkFoundationEth,
-} from "../../../addresses"
+} from "../../../../addresses"
 import { encodeBytes32String } from "defi-kit"
 
 export default (parameters: Parameters) =>
@@ -1456,5 +1456,5 @@ export default (parameters: Parameters) =>
     allowErc20Transfer([USDC], [vacarabiaEth], "USDC_VACARABIA-ETH"),
 
     // Transfer up to 500K USDC per month to kpkFoundationEth
-    allowErc20Transfer([USDC], [vacarabiaEth], "USDC_KPK_FOUNDATION-ETH"),
+    allowErc20Transfer([USDC], [kpkFoundationEth], "USDC_KPK_FOUNDATION-ETH"),
   ] satisfies PermissionList

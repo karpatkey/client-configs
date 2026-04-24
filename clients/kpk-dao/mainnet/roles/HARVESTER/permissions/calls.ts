@@ -2,7 +2,7 @@ import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { aura, balancerV2, convex } from "@/addresses/eth"
 import { contracts } from "@/contracts"
-import { lidoVestingEscrow } from "../../../addresses"
+import { lidoVestingEscrow } from "../../../../addresses"
 import { Parameters } from "../../../parameters"
 import { PermissionList } from "@/types"
 

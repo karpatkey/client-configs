@@ -4,8 +4,7 @@ import { c } from "zodiac-roles-sdk"
 import { allowErc20Approve, allowErc20Transfer } from "@/helpers"
 import { DAI, USDC, kpk } from "@/addresses/eth"
 import { contracts } from "@/contracts"
-import { kfPaymentsEth } from "../../../../../kpk-dao/mainnet/addresses"
-import { kpkFoundationGc, fundReapGeneralEth } from "../../../addresses"
+import { kpkFoundationGc, fundReapGeneralEth, kfPaymentsEth } from "../../../../addresses"
 import { Parameters } from "../../../parameters"
 
 export default (parameters: Parameters) =>

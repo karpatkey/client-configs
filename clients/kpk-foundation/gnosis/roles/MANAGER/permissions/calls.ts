@@ -1,6 +1,6 @@
 import { allow } from "zodiac-roles-sdk/kit"
 import { PermissionList } from "@/types"
-import { kpkFoundationEth } from "../../../addresses"
+import { kpkFoundationEth } from "../../../../addresses"
 
 export default [
   /*********************************************
