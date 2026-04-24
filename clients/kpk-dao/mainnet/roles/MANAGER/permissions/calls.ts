@@ -1453,16 +1453,8 @@ export default (parameters: Parameters) =>
     allowErc20Transfer([GHO], [kpkDaoPaymentsEth], "GHO_KPK_DAO-PAYMENTS-ETH"),
 
     // Transfer up to 500K USDC per month to vacarabiaEth
-    allowErc20Transfer(
-      [USDC],
-      [vacarabiaEth],
-      "USDC_VACARABIA-ETH"
-    ),
+    allowErc20Transfer([USDC], [vacarabiaEth], "USDC_VACARABIA-ETH"),
 
     // Transfer up to 500K USDC per month to kpkFoundationEth
-    allowErc20Transfer(
-      [USDC],
-      [vacarabiaEth],
-      "USDC_KPK_FOUNDATION-ETH"
-    ),
+    allowErc20Transfer([USDC], [vacarabiaEth], "USDC_KPK_FOUNDATION-ETH"),
   ] satisfies PermissionList
