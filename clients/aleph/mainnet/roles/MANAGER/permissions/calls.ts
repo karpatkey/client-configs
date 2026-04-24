@@ -28,7 +28,14 @@ export default (parameters: Parameters) =>
       send: true,
     }),
 
-    // AaveV3MorphoFlashLeverage Contract - Unwind leveraged positions
+    // AaveV3MorphoFlashLeverage Contract - Setup/Unwind leveraged positions
+    allow.mainnet.oiv.leverage.leverageAavePosition(
+      c.or(
+        contracts.mainnet.aaveV3.poolCoreV3,
+        contracts.mainnet.aaveV3.poolPrimeV3
+      ),
+      c.or(rsETH, weETH, wstETH),
+    ),
     allow.mainnet.oiv.leverage.deleverageAavePosition(
       c.or(
         contracts.mainnet.aaveV3.poolCoreV3,
