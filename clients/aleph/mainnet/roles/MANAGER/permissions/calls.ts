@@ -34,7 +34,7 @@ export default (parameters: Parameters) =>
         contracts.mainnet.aaveV3.poolCoreV3,
         contracts.mainnet.aaveV3.poolPrimeV3
       ),
-      c.or(rsETH, weETH, wstETH),
+      c.or(rsETH, weETH, wstETH)
     ),
     allow.mainnet.oiv.leverage.deleverageAavePosition(
       c.or(
