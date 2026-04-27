@@ -1,5 +1,4 @@
 import { allow } from "zodiac-roles-sdk/kit"
-import { USDC } from "@/addresses/gno"
 import { PermissionList } from "@/types"
 import { allowEthTransfer } from "@/helpers"
 import { kpkFoundationEth, kpkGc } from "../../../../addresses"
