@@ -1,6 +1,8 @@
 import { allow } from "zodiac-roles-sdk/kit"
+import { USDC } from "@/addresses/gno"
 import { PermissionList } from "@/types"
-import { kpkFoundationEth } from "../../../../addresses"
+import { allowEthTransfer } from "@/helpers"
+import { kpkFoundationEth, kpkGc } from "../../../../addresses"
 
 export default [
   /*********************************************
@@ -15,4 +17,10 @@ export default [
   allow.gnosis.gnosisBridge.xdaiBridge2.relayTokens(kpkFoundationEth, {
     send: true,
   }),
+
+  /*********************************************
+   * Transfers
+   *********************************************/
+  // Transfer up to 500K XDAI per month to kpkGc
+  allowEthTransfer(kpkGc, "XDAI_KPK-GNO"),
 ] satisfies PermissionList

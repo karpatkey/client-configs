@@ -6,3 +6,4 @@ export const kpkEth = "0x58e6c7ab55Aa9012eAccA16d1ED4c15795669E1C"
 
 // Gnosis Chain
 export const kpkFoundationGc = "0x3710263f057A53F1A35189444A3893D0E688e6D3"
+export const kpkGc = "0x54e191B01aA9C1F61AA5C3BCe8d00956F32D3E71"
