@@ -283,6 +283,12 @@ export const kpk = {
   ethAlphaFundShares: "0xED01a1Fe4e020Ca901F43E17B6203A7e0cEa818C",
 } as const
 
+export const kyberswap = {
+  metaAggregationRouterV2: "0x6131B5fae19EA4f9D964eAc0408E4408b66337b5",
+  aggregatorExecutorV3: "0x63242A4Ea82847b20E506b63B0e2e2eFF0CC6cB0",
+  feeReceiver: "0x55602F3057be52BFB6F98fFE799CFDec58Af5130",
+} as const
+
 export const maverickV2 = {
   ghoStkGhoPool: "0x9F274D28FedCe05153F9C810b8070277EAF8C031",
 } as const

@@ -8,9 +8,11 @@ import {
   stETH,
   weETH,
   WETH,
+  wstETH,
   aura,
   balancerV3,
   kpk,
+  kyberswap,
 } from "@/addresses/eth"
 import { allowErc20Approve, allowErc20Transfer } from "@/helpers"
 import { eAddress } from "@/addresses"
@@ -25,6 +27,35 @@ export default (parameters: Parameters) =>
     allow.mainnet.weth.deposit({
       send: true,
     }),
+
+    // AaveV3MorphoFlashLeverage Contract - Setup/Unwind leveraged positions
+    allow.mainnet.oiv.leverage.leverageAavePosition(
+      c.or(
+        contracts.mainnet.aaveV3.poolCoreV3,
+        contracts.mainnet.aaveV3.poolPrimeV3
+      ),
+      c.or(rsETH, weETH, wstETH)
+    ),
+    allow.mainnet.oiv.leverage.deleverageAavePosition(
+      c.or(
+        contracts.mainnet.aaveV3.poolCoreV3,
+        contracts.mainnet.aaveV3.poolPrimeV3
+      ),
+      c.or(rsETH, weETH, wstETH),
+      undefined,
+      undefined,
+      kyberswap.metaAggregationRouterV2,
+      c.calldataMatches(
+        allow.mainnet.kyberswap.metaAggregationRouterV2.swap({
+          desc: {
+            srcToken: c.or(rsETH, weETH, wstETH),
+            dstToken: WETH,
+            dstReceiver: contracts.mainnet.oiv.leverage,
+            permit: "0x",
+          },
+        })
+      )
+    ),
 
     // ETH Alpha Fund - Shares contract
     allowErc20Approve([WETH], [kpk.ethAlphaFundShares]),

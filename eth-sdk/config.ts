@@ -131,6 +131,9 @@ export const contracts = {
     kpk: {
       shares: "0xbf7d1dd7aedE0841f563584E39cA8b69F4Ca29B1", // Shares contract implementation
     },
+    kyberswap: {
+      metaAggregationRouterV2: "0x6131B5fae19EA4f9D964eAc0408E4408b66337b5",
+    },
     lido: {
       ...deFiKitContracts.mainnet.lido,
       vestingEscrow: "0x484FD04c598A095360DF89bF85AB34c37127AA39",
@@ -158,6 +161,7 @@ export const contracts = {
     oiv: {
       shares: "0x909DD020c37a00cD35Bb2d1948D0BEbC4254BA8f",
       navCalculator: "0xD09001ff4735584585431803B23E693ABF0077cB", // FIXME: This one will change!!
+      leverage: "0x78A0705a0205C7e13eF7087A2450E4b863bC3F2F",
     },
     origin: {
       oEthZapper: "0x9858e47BCbBe6fBAC040519B02d7cd4B2C470C66",
