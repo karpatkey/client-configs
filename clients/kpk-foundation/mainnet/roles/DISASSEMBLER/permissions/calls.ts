@@ -1,6 +1,6 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { USDC, kpk, morpho } from "@/addresses/eth"
+import { USDC, WETH, euler, gearbox, kpk, morpho } from "@/addresses/eth"
 import { PermissionList } from "@/types"
 
 export default [
@@ -13,6 +13,27 @@ export default [
   // Compound v3 - Withdraw USDC
   allow.mainnet.compoundV3.cUsdcV3.withdraw(USDC),
 
+  // Euler - KPK RWA USDC
+  {
+    ...allow.mainnet.euler.eVault.withdraw(undefined, c.avatar, c.avatar),
+    targetAddress: euler.kpkRwaUsdc,
+  },
+  {
+    ...allow.mainnet.euler.eVault.redeem(undefined, c.avatar, c.avatar),
+    targetAddress: euler.kpkRwaUsdc,
+  },
+
+  // Gearbox - ETH v3 - Curator: kpk
+  {
+    ...allow.mainnet.gearbox.vault.redeem(undefined, c.avatar, c.avatar),
+    targetAddress: gearbox.kpkWeth,
+  },
+  // Gearbox - wstETH v3 - Curator: kpk
+  {
+    ...allow.mainnet.gearbox.vault.redeem(undefined, c.avatar, c.avatar),
+    targetAddress: gearbox.kpkWstEth,
+  },
+
   // kpk - USD Prime Fund
   {
     ...allow.mainnet.kpk.shares.requestRedeem(undefined, undefined, c.avatar),
@@ -23,7 +44,53 @@ export default [
     ...allow.mainnet.kpk.shares.requestRedeem(undefined, undefined, c.avatar),
     targetAddress: kpk.renaissanceFundShares,
   },
+  // KPK - ETH Alpha Fund
+  {
+    ...allow.mainnet.oiv.shares.requestRedemption(
+      undefined,
+      undefined,
+      WETH,
+      c.avatar
+    ),
+    targetAddress: kpk.ethAlphaFundShares,
+  },
 
+  // Morpho Vault - kpk ETH Prime v1.1
+  {
+    ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+    targetAddress: morpho.kpkEthPrimeV1,
+  },
+  {
+    ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+    targetAddress: morpho.kpkEthPrimeV1,
+  },
+  // Morpho Vault - kpk ETH Prime v2
+  {
+    ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+    targetAddress: morpho.kpkEthPrimeV2,
+  },
+  {
+    ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+    targetAddress: morpho.kpkEthPrimeV2,
+  },
+  // Morpho Vault - kpk ETH Yield v1.1
+  {
+    ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+    targetAddress: morpho.kpkEthYieldV1,
+  },
+  {
+    ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+    targetAddress: morpho.kpkEthYieldV1,
+  },
+  // Morpho Vault - kpk ETH Yield v2
+  {
+    ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+    targetAddress: morpho.kpkEthYieldV2,
+  },
+  {
+    ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+    targetAddress: morpho.kpkEthYieldV2,
+  },
   // Morpho Vault - kpk EURC Yield v1.1
   {
     ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
@@ -77,6 +144,24 @@ export default [
   {
     ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
     targetAddress: morpho.kpkUsdcYieldV2,
+  },
+  // Morpho Vault - kpk USDT Prime v1.1
+  {
+    ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+    targetAddress: morpho.kpkUsdtPrimeV1,
+  },
+  {
+    ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+    targetAddress: morpho.kpkUsdtPrimeV1,
+  },
+  // Morpho Vault - kpk USDT Prime v2
+  {
+    ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+    targetAddress: morpho.kpkUsdtPrimeV2,
+  },
+  {
+    ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+    targetAddress: morpho.kpkUsdtPrimeV2,
   },
 
   // Spark - DSR_sDAI

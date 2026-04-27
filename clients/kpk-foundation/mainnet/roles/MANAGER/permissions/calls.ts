@@ -2,12 +2,13 @@ import { PermissionList } from "@/types"
 import { allow } from "zodiac-roles-sdk/kit"
 import { c } from "zodiac-roles-sdk"
 import { allowErc20Approve, allowErc20Transfer } from "@/helpers"
-import { DAI, USDC, kpk } from "@/addresses/eth"
+import { DAI, USDC, WETH, euler, kpk } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import {
   kpkFoundationGc,
   fundReapGeneralEth,
   kfPaymentsEth,
+  kpkEth
 } from "../../../../addresses"
 import { Parameters } from "../../../parameters"
 
@@ -19,6 +20,21 @@ export default (parameters: Parameters) =>
       send: true,
     }),
 
+    // Euler - KPK RWA USDC
+    allowErc20Approve([USDC], [euler.kpkRwaUsdc]),
+    {
+      ...allow.mainnet.euler.eVault.deposit(undefined, c.avatar),
+      targetAddress: euler.kpkRwaUsdc,
+    },
+    {
+      ...allow.mainnet.euler.eVault.withdraw(undefined, c.avatar, c.avatar),
+      targetAddress: euler.kpkRwaUsdc,
+    },
+    {
+      ...allow.mainnet.euler.eVault.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: euler.kpkRwaUsdc,
+    },
+    
     // kpk - USD Prime Fund
     allowErc20Approve([USDC], [kpk.usdPrimeFundShares]),
     {
@@ -47,6 +63,26 @@ export default (parameters: Parameters) =>
       ...allow.mainnet.kpk.shares.requestRedeem(undefined, undefined, c.avatar),
       targetAddress: kpk.renaissanceFundShares,
     },
+    // KPK - ETH Alpha Fund
+    allowErc20Approve([WETH], [kpk.ethAlphaFundShares]),
+    {
+      ...allow.mainnet.oiv.shares.requestSubscription(
+        undefined,
+        undefined,
+        WETH,
+        c.avatar
+      ),
+      targetAddress: kpk.ethAlphaFundShares,
+    },
+    {
+      ...allow.mainnet.oiv.shares.requestRedemption(
+        undefined,
+        undefined,
+        WETH,
+        c.avatar
+      ),
+      targetAddress: kpk.ethAlphaFundShares,
+    },
 
     // Merkl - Rewards
     allow.mainnet.merkl.angleDistributor.claim(
@@ -69,6 +105,14 @@ export default (parameters: Parameters) =>
         ]
       )
     ),
+
+    /*********************************************
+     * Swaps
+     *********************************************/
+    // Spark - Swap USDC <-> DAI
+    allowErc20Approve([DAI, USDC], [contracts.mainnet.spark.litePsmUsdcA]),
+    allow.mainnet.spark.litePsmUsdcA.sellGem(c.avatar),
+    allow.mainnet.spark.litePsmUsdcA.buyGem(c.avatar),
 
     /*********************************************
      * Bridging
@@ -111,13 +155,16 @@ export default (parameters: Parameters) =>
     /*********************************************
      * Transfers
      *********************************************/
-    // Transfer 100K USDC per month to kfPaymentsEth
+    // Transfer up to 100K USDC per month to kfPaymentsEth
     allowErc20Transfer([USDC], [kfPaymentsEth], "USDC_KF-PAYMENTS-ETH"),
 
-    // Transfer 100K USDC per month to fundReapGeneralEth
+    // Transfer up tp 100K USDC per month to fundReapGeneralEth
     allowErc20Transfer(
       [USDC],
       [fundReapGeneralEth],
       "USDC_FUND-REAP-GENERAL-ETH"
     ),
+
+    // Transfer up to 500K USDC per month to kpkEth
+    allowErc20Transfer([USDC], [kpkEth], "USDC_KPK-ETH"),
   ] satisfies PermissionList
