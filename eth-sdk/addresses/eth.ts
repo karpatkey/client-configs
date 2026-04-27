@@ -258,6 +258,10 @@ export const curve = {
   ankrCrv: "0xaA17A236F2bAdc98DDc0Cf999AbB47D47Fc0A6Cf",
 } as const
 
+export const euler = {
+  kpkRwaUsdc: "0x2B47c128b35DDDcB66Ce2FA5B33c95314a7de245",
+} as const
+
 export const fluid = {
   // fTokens
   fsUsds: "0x2BBE31d63E6813E3AC858C04dae43FB2a72B0D11",
@@ -332,6 +336,7 @@ export const morpho = {
   oraclePTUsde25Sep2025Usdc: "0xe6aBD3B78Abbb1cc1Ee76c5c3689Aa9646481Fbb",
   oraclePTUsde25Sep2025Usdt: "0xe6aBD3B78Abbb1cc1Ee76c5c3689Aa9646481Fbb",
   oraclewstUSRUsdc: "0xDa850a72080024e17c1590fbf6ea7a826dB90760",
+  oracleWethRsEth: "0x2A2658Fc208Ed00e11D96d3F7470618924466877",
   adaptativeCurveIrm: "0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC",
 } as const
 

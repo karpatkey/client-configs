@@ -9,6 +9,7 @@ import {
   USDC,
   USDS,
   USDT,
+  gearbox,
   morpho,
 } from "@/addresses/eth"
 import { Parameters } from "../../../parameters"
@@ -38,6 +39,15 @@ export default (parameters: Parameters) => [
     buy: [DAI, EURC, sDAI, sUSDS, USDC, USDS, USDT],
   }),
 
+  // Gearbox - ETH v3 - Curator: kpk
+  allowAction.gearbox.deposit({
+    targets: [gearbox.kpkWeth],
+  }),
+  // Gearbox - wstETH v3 - Curator: kpk
+  allowAction.gearbox.deposit({
+    targets: [gearbox.kpkWstEth],
+  }),
+
   // Morpho Vault - kpk EURC Yield v1.1
   allowAction.morphoVaults.deposit({
     targets: [morpho.kpkEurcYieldV1],
@@ -61,6 +71,14 @@ export default (parameters: Parameters) => [
   // Morpho Vault - kpk USDC Yield v2
   allowAction.morphoVaults.deposit({
     targets: [morpho.kpkUsdcYieldV2],
+  }),
+  // Morpho Vault - kpk USDT Prime v1.1
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkUsdtPrimeV1],
+  }),
+  // Morpho Vault - kpk USDT Prime v2
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkUsdtPrimeV2],
   }),
 
   // Spark - Deposit DSR_sDAI

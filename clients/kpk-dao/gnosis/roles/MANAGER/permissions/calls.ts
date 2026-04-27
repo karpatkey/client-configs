@@ -23,8 +23,12 @@ import {
   allowErc20Transfer,
   allowEthTransfer,
 } from "@/helpers"
-import { kpkEth, kfPaymentsGC } from "../../../addresses"
-import { vcbGc } from "../../../../mainnet/addresses"
+import {
+  kpkEth,
+  kfPaymentsGc,
+  vcbGc,
+  kpkFoundationGc,
+} from "../../../../addresses"
 
 export default [
   // Wrapping and unwrapping of XDAI, WXDAI
@@ -175,12 +179,15 @@ export default [
   /*********************************************
    * Transfers
    *********************************************/
-  // Transfer 200 GNO per month to kfPaymentsGC
-  allowErc20Transfer([GNO], [kfPaymentsGC], "GNO_KF-PAYMENTS-GC"),
+  // Transfer up to 200 GNO per month to kfPaymentsGc
+  allowErc20Transfer([GNO], [kfPaymentsGc], "GNO_KF-PAYMENTS-GC"),
 
-  // Transfer 600K xDAI per month to vcbGC
+  // Transfer up to 600K xDAI per month to vcbGC
   allowEthTransfer(vcbGc, "XDAI_VCBGC-GC"),
 
-  // Transfer 600K WXDAI per month to vcbGC
+  // Transfer up to 500K xDAI per month to kpkFoundationGc
+  allowEthTransfer(kpkFoundationGc, "XDAI_KPK_FOUNDATION-GC"),
+
+  // Transfer up to 600K WXDAI per month to vcbGC
   allowErc20Transfer([WXDAI], [vcbGc], "XDAI_VCBGC-GC"),
 ] satisfies PermissionList
