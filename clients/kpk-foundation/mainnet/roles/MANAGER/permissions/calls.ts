@@ -8,7 +8,7 @@ import {
   kpkFoundationGc,
   fundReapGeneralEth,
   kfPaymentsEth,
-  kpkEth
+  kpkEth,
 } from "../../../../addresses"
 import { Parameters } from "../../../parameters"
 
@@ -34,7 +34,7 @@ export default (parameters: Parameters) =>
       ...allow.mainnet.euler.eVault.redeem(undefined, c.avatar, c.avatar),
       targetAddress: euler.kpkRwaUsdc,
     },
-    
+
     // kpk - USD Prime Fund
     allowErc20Approve([USDC], [kpk.usdPrimeFundShares]),
     {
