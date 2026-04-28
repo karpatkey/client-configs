@@ -64,53 +64,53 @@ export default (parameters: Parameters) =>
     // Transfer XDAI to CoW Defense Fund
     allowEthTransfer(legalDefenseFund),
 
-    // /*********************************************
-    //  * Bridge
-    //  *********************************************/
-    // // Gnosis -> Mainnet
-    // // GNO - Gnosis Bridge
-    // allow.gnosis.gno.transferAndCall(
-    //   contracts.gnosis.gnosisBridge.xdaiBridge,
-    //   undefined,
-    //   parameters.avatar
-    // ),
+    /*********************************************
+     * Bridge
+     *********************************************/
+    // Gnosis -> Mainnet
+    // GNO - Gnosis Bridge
+    allow.gnosis.gno.transferAndCall(
+      contracts.gnosis.gnosisBridge.xdaiBridge,
+      undefined,
+      parameters.avatar
+    ),
 
-    // // USDC - Gnosis Bridge
-    // allow.gnosis.usdc.transferAndCall(
-    //   contracts.gnosis.gnosisBridge.xdaiBridge,
-    //   undefined,
-    //   parameters.avatar
-    // ),
+    // USDC - Gnosis Bridge
+    allow.gnosis.usdc.transferAndCall(
+      contracts.gnosis.gnosisBridge.xdaiBridge,
+      undefined,
+      parameters.avatar
+    ),
 
-    // // USDT - Gnosis Bridge
-    // {
-    //   ...allow.gnosis.gno.transferAndCall(
-    //     contracts.gnosis.gnosisBridge.xdaiBridge,
-    //     undefined,
-    //     parameters.avatar
-    //   ),
-    //   targetAddress: USDT,
-    // },
+    // USDT - Gnosis Bridge
+    {
+      ...allow.gnosis.gno.transferAndCall(
+        contracts.gnosis.gnosisBridge.xdaiBridge,
+        undefined,
+        parameters.avatar
+      ),
+      targetAddress: USDT,
+    },
 
-    // // WBTC - Gnosis Bridge
-    // {
-    //   ...allow.gnosis.gno.transferAndCall(
-    //     contracts.gnosis.gnosisBridge.xdaiBridge,
-    //     undefined,
-    //     parameters.avatar
-    //   ),
-    //   targetAddress: WBTC,
-    // },
+    // WBTC - Gnosis Bridge
+    {
+      ...allow.gnosis.gno.transferAndCall(
+        contracts.gnosis.gnosisBridge.xdaiBridge,
+        undefined,
+        parameters.avatar
+      ),
+      targetAddress: WBTC,
+    },
 
-    // // WETH - Gnosis Bridge
-    // {
-    //   ...allow.gnosis.gno.transferAndCall(
-    //     contracts.gnosis.gnosisBridge.xdaiBridge,
-    //     undefined,
-    //     parameters.avatar
-    //   ),
-    //   targetAddress: WETH,
-    // },
+    // WETH - Gnosis Bridge
+    {
+      ...allow.gnosis.gno.transferAndCall(
+        contracts.gnosis.gnosisBridge.xdaiBridge,
+        undefined,
+        parameters.avatar
+      ),
+      targetAddress: WETH,
+    },
 
     // // WETH -> ETH - Stargate
     // allowErc20Approve([WETH], [contracts.gnosis.stargate.poolNative]),
@@ -132,21 +132,21 @@ export default (parameters: Parameters) =>
     //   }
     // ),
 
-    // // wstETH - Gnosis Bridge
-    // {
-    //   ...allow.gnosis.gno.transferAndCall(
-    //     contracts.gnosis.gnosisBridge.xdaiBridge,
-    //     undefined,
-    //     parameters.avatar
-    //   ),
-    //   targetAddress: wstETH,
-    // },
+    // wstETH - Gnosis Bridge
+    {
+      ...allow.gnosis.gno.transferAndCall(
+        contracts.gnosis.gnosisBridge.xdaiBridge,
+        undefined,
+        parameters.avatar
+      ),
+      targetAddress: wstETH,
+    },
 
-    // // XDAI -> DAI - Gnosis Bridge
-    // allow.gnosis.gnosisBridge.xdaiBridge2.relayTokens(c.avatar, {
-    //   send: true,
-    // }),
+    // XDAI -> DAI - Gnosis Bridge
+    allow.gnosis.gnosisBridge.xdaiBridge2.relayTokens(c.avatar, {
+      send: true,
+    }),
 
-    // // XDAI -> USDS - Gnosis Bridge
-    // allow.gnosis.gnosisBridge.usdsDeposit.relayTokens(c.avatar, { send: true }),
+    // XDAI -> USDS - Gnosis Bridge
+    allow.gnosis.gnosisBridge.usdsDeposit.relayTokens(c.avatar, { send: true }),
   ] satisfies PermissionList

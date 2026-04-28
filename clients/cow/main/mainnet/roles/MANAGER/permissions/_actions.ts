@@ -120,14 +120,14 @@ export default [
     buy: ["ETH", AAVE, COMP, MORPHO, POL, USDC, USDT, WBTC, WETH],
   }),
 
-  // // Gearbox - ETH v3 - Curator: kpk
-  // allowAction.gearbox.deposit({
-  //   targets: [gearbox.kpkWeth],
-  // }),
-  // // Gearbox - wstETH v3 - Curator: kpk
-  // allowAction.gearbox.deposit({
-  //   targets: [gearbox.kpkWstEth],
-  // }),
+  // Gearbox - ETH v3 - Curator: kpk
+  allowAction.gearbox.deposit({
+    targets: [gearbox.kpkWeth],
+  }),
+  // Gearbox - wstETH v3 - Curator: kpk
+  allowAction.gearbox.deposit({
+    targets: [gearbox.kpkWstEth],
+  }),
 
   // Lido
   allowAction.lido.deposit(),
