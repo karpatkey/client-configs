@@ -4,11 +4,14 @@ import {
   eETH,
   GHO,
   liquidETH,
+  rsETH,
   USDC,
   weETH,
+  WETH,
   aura,
   balancerV2,
   convex,
+  euler,
   fluid,
   gearbox,
   kpk,
@@ -99,6 +102,16 @@ export default [
   // Unwrap weETH
   allow.mainnet.etherfi.weEth.unwrap(),
 
+  // Euler - KPK RWA USDC
+  {
+    ...allow.mainnet.euler.eVault.withdraw(undefined, c.avatar, c.avatar),
+    targetAddress: euler.kpkRwaUsdc,
+  },
+  {
+    ...allow.mainnet.euler.eVault.redeem(undefined, c.avatar, c.avatar),
+    targetAddress: euler.kpkRwaUsdc,
+  },
+
   // Fluid - Withdraw wstETH
   {
     ...allow.mainnet.fluid.fWeth["withdraw(uint256,address,address)"](
@@ -138,6 +151,16 @@ export default [
     ...allow.mainnet.kpk.shares.requestRedeem(undefined, undefined, c.avatar),
     targetAddress: kpk.renaissanceFundShares,
   },
+  // KPK - ETH Alpha Fund
+  {
+    ...allow.mainnet.oiv.shares.requestRedemption(
+      undefined,
+      undefined,
+      WETH,
+      c.avatar
+    ),
+    targetAddress: kpk.ethAlphaFundShares,
+  },
 
   // Lido
   allow.mainnet.lido.wstEth.unwrap(),
@@ -145,6 +168,21 @@ export default [
   allow.mainnet.lido.unstEth.requestWithdrawalsWstETH(undefined, c.avatar),
   allow.mainnet.lido.unstEth.claimWithdrawal(),
   allow.mainnet.lido.unstEth.claimWithdrawals(),
+
+  // Morpho Market - Withdraw WETH/rsETH - id: 0xba761af4134efb0855adfba638945f454f0a704af11fc93439e20c7c5ebab942
+  allow.mainnet.morpho.morphoBlue.withdraw(
+    {
+      loanToken: WETH,
+      collateralToken: rsETH,
+      oracle: morpho.oracleWethRsEth,
+      irm: morpho.adaptativeCurveIrm,
+      lltv: "945000000000000000",
+    },
+    undefined,
+    undefined,
+    c.avatar,
+    c.avatar
+  ),
 
   // Morpho Vault - kpk ETH Prime v1.1
   {
@@ -235,6 +273,24 @@ export default [
   {
     ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
     targetAddress: morpho.kpkUsdcYieldV2,
+  },
+  // Morpho Vault - kpk USDT Prime v1.1
+  {
+    ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+    targetAddress: morpho.kpkUsdtPrimeV1,
+  },
+  {
+    ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+    targetAddress: morpho.kpkUsdtPrimeV1,
+  },
+  // Morpho Vault - kpk USDT Prime v2
+  {
+    ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+    targetAddress: morpho.kpkUsdtPrimeV2,
+  },
+  {
+    ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+    targetAddress: morpho.kpkUsdtPrimeV2,
   },
 
   // Spark - DSR_sDAI

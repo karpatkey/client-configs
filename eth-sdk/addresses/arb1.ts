@@ -12,6 +12,7 @@ export const GHO = "0x7dfF72693f6A4149b17e7C6314655f6A9F7c8B33"
 export const GMX = "0xfc5A1A6EB076a2C7aD06eD22C90d7E710E35ad0a"
 export const MORPHO = "0x40BD670A58238e6E230c430BBb5cE6ec0d40df48"
 export const PENDLE = "0x0c880f6761F1af8d9Aa9C466984b80DAb9a8c9e8"
+export const RPL = "0x35E5dB674D8e93a03d814FA0ADa70731efe8a4b9"
 export const rsETH = "0x4186BFC76E2E237523CBC30FD220FE055156b41F"
 export const sUSDai = "0x0B2b2B2076d95dda7817e785989fE353fe955ef9"
 export const sUSDe = "0x211Cc4DD073734dA055fbF44a2b4667d5E5fE5d2"
@@ -91,6 +92,7 @@ export const morpho = {
   // Oracles
   oracleSusdsUsdc: "0x52CC7c3b27bb61D0a83785B5344acC919F8f7124",
   oraclesyrupUsdcUsdc: "0x8f30fF3d54e69D4dfD5E99a9937474FaDdf27009",
+  oracleUsdcRpl: "0x2d8380D2E2DBE516049fA2c4CB2EC48C418d249C",
   adaptativeCurveIrm: "0x66F30587FB8D4206918deb78ecA7d5eBbafD06DA",
 } as const
 
