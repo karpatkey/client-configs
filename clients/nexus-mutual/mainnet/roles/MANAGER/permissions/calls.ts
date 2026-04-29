@@ -52,27 +52,51 @@ export default (parameters: Parameters) =>
 
     // Aave - ERC-4626 Redeem/Withdraw (waEthLidoGho/waEthUsdc/waEthUsdt)
     {
-      ...allow.mainnet.aaveV3.stataTokenV2.redeem(undefined, c.avatar, c.avatar),
+      ...allow.mainnet.aaveV3.stataTokenV2.redeem(
+        undefined,
+        c.avatar,
+        c.avatar
+      ),
       targetAddress: waEthLidoGho,
     },
     {
-      ...allow.mainnet.aaveV3.stataTokenV2.withdraw(undefined, c.avatar, c.avatar),
+      ...allow.mainnet.aaveV3.stataTokenV2.withdraw(
+        undefined,
+        c.avatar,
+        c.avatar
+      ),
       targetAddress: waEthLidoGho,
     },
     {
-      ...allow.mainnet.aaveV3.stataTokenV2.redeem(undefined, c.avatar, c.avatar),
+      ...allow.mainnet.aaveV3.stataTokenV2.redeem(
+        undefined,
+        c.avatar,
+        c.avatar
+      ),
       targetAddress: waEthUsdc,
     },
     {
-      ...allow.mainnet.aaveV3.stataTokenV2.withdraw(undefined, c.avatar, c.avatar),
+      ...allow.mainnet.aaveV3.stataTokenV2.withdraw(
+        undefined,
+        c.avatar,
+        c.avatar
+      ),
       targetAddress: waEthUsdc,
     },
     {
-      ...allow.mainnet.aaveV3.stataTokenV2.redeem(undefined, c.avatar, c.avatar),
+      ...allow.mainnet.aaveV3.stataTokenV2.redeem(
+        undefined,
+        c.avatar,
+        c.avatar
+      ),
       targetAddress: waEthUsdt,
     },
     {
-      ...allow.mainnet.aaveV3.stataTokenV2.withdraw(undefined, c.avatar, c.avatar),
+      ...allow.mainnet.aaveV3.stataTokenV2.withdraw(
+        undefined,
+        c.avatar,
+        c.avatar
+      ),
       targetAddress: waEthUsdt,
     },
 
@@ -445,15 +469,8 @@ export default (parameters: Parameters) =>
 
     // Nexus Mutual - RWIV Vault interaction
     allowErc20Approve([USDC], [contracts.mainnet.nexus.rwiv]),
-    allow.mainnet.nexus.rwiv.deposit(
-      undefined,
-      c.avatar
-    ),
-    allow.mainnet.nexus.rwiv.withdraw(
-      undefined,
-      c.avatar,
-      c.avatar
-    ),
+    allow.mainnet.nexus.rwiv.deposit(undefined, c.avatar),
+    allow.mainnet.nexus.rwiv.withdraw(undefined, c.avatar, c.avatar),
 
     // Sky - DSR (DAI Savings Rate)
     // The DsrManager provides an easy to use smart contract that allows
