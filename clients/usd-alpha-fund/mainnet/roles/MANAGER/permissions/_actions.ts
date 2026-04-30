@@ -148,7 +148,19 @@ export default (parameters: Parameters) => [
       USDS,
       USDT,
     ],
-    buy: [crvUSD, GHO, RLUSD, sUSDe, sUSDS, stkGHO, syrupUSDC, USDC, USDe, USDS, USDT],
+    buy: [
+      crvUSD,
+      GHO,
+      RLUSD,
+      sUSDe,
+      sUSDS,
+      stkGHO,
+      syrupUSDC,
+      USDC,
+      USDe,
+      USDS,
+      USDT,
+    ],
   }),
 
   /*********************************************
