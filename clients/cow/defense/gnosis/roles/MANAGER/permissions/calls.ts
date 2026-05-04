@@ -9,14 +9,14 @@ import { Parameters } from "../../../../../parameters"
 
 export default (parameters: Parameters) =>
   [
-    /*********************************************
-     * Transfers
-     *********************************************/
-    // Transfer XDAI to the Main Treasury
-    allowEthTransfer(mainTreasury),
+    // /*********************************************
+    //  * Transfers
+    //  *********************************************/
+    // // Transfer XDAI to the Main Treasury
+    // allowEthTransfer(mainTreasury),
 
-    // Transfer USDC and USDT to the Main Treasury
-    allowErc20Transfer([USDC, USDT], [mainTreasury]),
+    // // Transfer USDC and USDT to the Main Treasury
+    // allowErc20Transfer([USDC, USDT], [mainTreasury]),
 
     /*********************************************
      * Bridge
