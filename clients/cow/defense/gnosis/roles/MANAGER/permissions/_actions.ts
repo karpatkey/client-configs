@@ -8,7 +8,6 @@ export default [
   //   sell: ["XDAI", sDAI, USDC, USDCe, USDT, WBTC, WETH],
   //   buy: ["XDAI", sDAI, USDC, USDCe, USDT, WBTC, WETH],
   // }),
-
   // // Spark - DSR_sDAI
   // allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
 ]
