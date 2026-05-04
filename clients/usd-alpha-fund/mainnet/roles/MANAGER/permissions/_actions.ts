@@ -2,6 +2,7 @@ import { allow as allowAction } from "defi-kit/eth"
 import {
   AURA,
   BAL,
+  crvUSD,
   DAI,
   GHO,
   MORPHO,
@@ -110,6 +111,14 @@ export default (parameters: Parameters) => [
   allowAction.morphoVaults.deposit({
     targets: [morpho.kpkUsdcPrimeV2],
   }),
+  // Morpho Vault - kpk USDC Yield v2
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkUsdcYieldV2],
+  }),
+  // Morpho Vault - kpk USDT Prime v2
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkUsdtPrimeV2],
+  }),
 
   // Spark - Deposit USDS to get sUSDS
   allowAction.spark.deposit({ targets: ["SKY_sUSDS"] }),
@@ -126,12 +135,13 @@ export default (parameters: Parameters) => [
    * Swaps
    *********************************************/
 
-  // CowSwap - [AURA, BAL, DAI, GHO, MORPHO, RLUSD, SPK, sUSDe, sUSDS, stkGHO, syrupUSDC, USDC, USDe, USDS, USDT] <->
-  // [GHO, RLUSD, sUSDe, sUSDS, stkGHO, syrupUSDC, USDC, USDe, USDS, USDT]
+  // CowSwap - [AURA, BAL, crvUSD, DAI, GHO, MORPHO, RLUSD, SPK, sUSDe, sUSDS, stkGHO, syrupUSDC, USDC, USDe, USDS, USDT] <->
+  // [crvUSD, GHO, RLUSD, sUSDe, sUSDS, stkGHO, syrupUSDC, USDC, USDe, USDS, USDT]
   allowAction.cowswap.swap({
     sell: [
       AURA,
       BAL,
+      crvUSD,
       DAI,
       GHO,
       MORPHO,
@@ -146,7 +156,19 @@ export default (parameters: Parameters) => [
       USDS,
       USDT,
     ],
-    buy: [GHO, RLUSD, sUSDe, sUSDS, stkGHO, syrupUSDC, USDC, USDe, USDS, USDT],
+    buy: [
+      crvUSD,
+      GHO,
+      RLUSD,
+      sUSDe,
+      sUSDS,
+      stkGHO,
+      syrupUSDC,
+      USDC,
+      USDe,
+      USDS,
+      USDT,
+    ],
   }),
 
   /*********************************************
