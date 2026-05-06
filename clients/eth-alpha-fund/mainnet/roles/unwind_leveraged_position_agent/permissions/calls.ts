@@ -13,7 +13,7 @@ export default (parameters: Parameters) =>
       undefined,
       undefined,
       {
-        delegatecall: true
+        delegatecall: true,
       }
     ),
   ] satisfies PermissionList
