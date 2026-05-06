@@ -5,5 +5,15 @@ import { Parameters } from "../../../parameters"
 export default (parameters: Parameters) =>
   [
     // AaveV3MorphoFlashLeverage Contract - Unwind leveraged positions
-    allow.mainnet.oiv.leverage.deleverageAavePosition(),
+    allow.mainnet.oiv.leverage.deleverageAavePosition(
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      {
+        delegatecall: true
+      }
+    ),
   ] satisfies PermissionList
