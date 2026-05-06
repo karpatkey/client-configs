@@ -15,11 +15,11 @@ export default (parameters: Parameters) =>
       send: true,
     }),
 
-    // /*********************************************
-    //  * Transfers
-    //  *********************************************/
-    // // Transfer USDC, USDS, USDT, WETH to Main Safe
-    // allowErc20Transfer([USDC, USDS, USDT, WETH], [mainTreasury]),
+    /*********************************************
+     * Transfers
+     *********************************************/
+    // Transfer USDC, USDS, USDT, WETH to Main Safe
+    allowErc20Transfer([USDC, USDS, USDT, WETH], [mainTreasury]),
 
     /*********************************************
      * Bridge
