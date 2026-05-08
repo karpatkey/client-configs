@@ -10,7 +10,6 @@ import {
   USDe,
   USDS,
   USDT,
-  aura,
   balancerV3,
 } from "@/addresses/eth"
 import { contracts } from "@/contracts"
@@ -23,25 +22,6 @@ export default (parameters: Parameters) =>
     /*********************************************
      * Protocols
      *********************************************/
-
-    // Aura - Aave Boosted USDT/GHO/USDC
-    allowErc20Approve(
-      [balancerV3.aaveGhoUsdtUsdc],
-      [contracts.mainnet.aura.booster]
-    ),
-    allow.mainnet.aura.booster.deposit("246"),
-    {
-      ...allow.mainnet.aura.rewarder.withdrawAndUnwrap(),
-      targetAddress: aura.auraAaveGhoUsdtUsdcRewarder,
-    },
-    {
-      ...allow.mainnet.aura.rewarder["getReward()"](),
-      targetAddress: aura.auraAaveGhoUsdtUsdcRewarder,
-    },
-    {
-      ...allow.mainnet.aura.rewarder["getReward(address,bool)"](c.avatar),
-      targetAddress: aura.auraAaveGhoUsdtUsdcRewarder,
-    },
 
     // Balancer v3 - Aave Boosted USDT/GHO/USDC
     allowErc20Approve([GHO, USDC, USDT], [contracts.mainnet.uniswap.permit2]),
