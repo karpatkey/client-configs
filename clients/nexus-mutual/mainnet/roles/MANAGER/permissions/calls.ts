@@ -561,7 +561,7 @@ export default (parameters: Parameters) =>
     }),
 
     // Uniswap v3 - RWIV + USDC
-    allow.gnosis.uniswapV3.positionsNft.createAndInitializePoolIfNecessary(
+    allow.mainnet.uniswapV3.positionsNft.createAndInitializePoolIfNecessary(
       c.or(RWIV, USDC),
       c.or(RWIV, USDC)
     ),
