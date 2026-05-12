@@ -114,7 +114,7 @@ export default (parameters: Parameters) => [
   allowAction.spark.deposit({ targets: ["USDC"] }),
   // Spark - Deposit USDT
   allowAction.spark.deposit({ targets: ["USDT"] }),
-  
+
   /*********************************************
    * Swaps
    *********************************************/
