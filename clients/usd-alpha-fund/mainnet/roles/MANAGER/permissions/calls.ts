@@ -4,7 +4,6 @@ import { zeroAddress } from "@/addresses"
 import {
   crvUSD,
   GHO,
-  morpho,
   RLUSD,
   sUSDe,
   syrupUSDC,
@@ -13,6 +12,7 @@ import {
   USDS,
   USDT,
   balancerV3,
+  morpho,
 } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
@@ -116,50 +116,6 @@ export default (parameters: Parameters) =>
     // Ethena - Unstake USDe
     allow.mainnet.ethena.sUsde.cooldownShares(),
     allow.mainnet.ethena.sUsde.unstake(c.avatar),
-
-    // Morpho Market - USDC/syrupUSDC - id: 0x729badf297ee9f2f6b3f717b96fd355fc6ec00422284ce1968e76647b258cf44 - Supply/Withdraw collateral and Repay
-    allowErc20Approve(
-      [syrupUSDC],
-      ["0xbbbbbbbbbb9cc5e90e3b3af64bdaf62c37eeffcb"]
-    ),
-    allowErc20Approve([USDC], ["0xbbbbbbbbbb9cc5e90e3b3af64bdaf62c37eeffcb"]),
-    allow.mainnet.morpho.morphoBlue.supplyCollateral(
-      {
-        loanToken: USDC,
-        collateralToken: syrupUSDC,
-        oracle: morpho.oraclesyrupUsdcUsdc,
-        irm: morpho.adaptativeCurveIrm,
-        lltv: "915000000000000000",
-      },
-      undefined,
-      c.avatar,
-      "0x"
-    ),
-    allow.mainnet.morpho.morphoBlue.withdrawCollateral(
-      {
-        loanToken: USDC,
-        collateralToken: syrupUSDC,
-        oracle: morpho.oraclesyrupUsdcUsdc,
-        irm: morpho.adaptativeCurveIrm,
-        lltv: "915000000000000000",
-      },
-      undefined,
-      c.avatar,
-      c.avatar
-    ),
-    allow.mainnet.morpho.morphoBlue.repay(
-      {
-        loanToken: USDC,
-        collateralToken: syrupUSDC,
-        oracle: morpho.oraclesyrupUsdcUsdc,
-        irm: morpho.adaptativeCurveIrm,
-        lltv: "915000000000000000",
-      },
-      undefined,
-      undefined,
-      c.avatar,
-      "0x"
-    ),
 
     // Merkl - Rewards (max 4 tokens: aEthRLUSD, MORPHO, stkGHO and USDS)
     allow.mainnet.merkl.angleDistributor.claim(
