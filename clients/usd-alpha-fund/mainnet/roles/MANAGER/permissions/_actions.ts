@@ -98,6 +98,10 @@ export default (parameters: Parameters) => [
   allowAction.morphoVaults.deposit({
     targets: [morpho.kpkUsdcPrimeV2],
   }),
+  // Morpho Vault - kpk USDC Yield v2
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkUsdcYieldV2],
+  }),
   // Morpho Vault - kpk USDT Prime v2
   allowAction.morphoVaults.deposit({
     targets: [morpho.kpkUsdtPrimeV2],

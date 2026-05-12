@@ -161,25 +161,6 @@ export default (parameters: Parameters) =>
       "0x"
     ),
 
-    // Morpho Vault - kpk USDC Yield v2 (not yet registered in defi-kit)
-    allowErc20Approve([USDC], [morpho.kpkUsdcYieldV2 as `0x${string}`]),
-    {
-      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
-      targetAddress: morpho.kpkUsdcYieldV2,
-    },
-    {
-      ...allow.mainnet.morpho.vault.mint(undefined, c.avatar),
-      targetAddress: morpho.kpkUsdcYieldV2,
-    },
-    {
-      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kpkUsdcYieldV2,
-    },
-    {
-      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kpkUsdcYieldV2,
-    },
-
     // Merkl - Rewards (max 4 tokens: aEthRLUSD, MORPHO, stkGHO and USDS)
     allow.mainnet.merkl.angleDistributor.claim(
       c.or(

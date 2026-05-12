@@ -13,6 +13,8 @@ export default [
 
   // Morpho Vault - kpk USDC Prime v2
   allowAction.morphoVaults.deposit({ targets: [morpho.kpkUsdcPrimeV2] }),
+  // Morpho Vault - kpk USDC Yield v2
+  allowAction.morphoVaults.deposit({ targets: [morpho.kpkUsdcYieldV2] }),
 
   // Spark - Deposit USDS to get sUSDS / redeem sUSDS for USDS
   allowAction.spark.deposit({ targets: ["SKY_sUSDS"] }),
