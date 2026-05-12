@@ -122,10 +122,7 @@ export default (parameters: Parameters) =>
       [syrupUSDC],
       ["0xbbbbbbbbbb9cc5e90e3b3af64bdaf62c37eeffcb"]
     ),
-    allowErc20Approve(
-      [USDC],
-      ["0xbbbbbbbbbb9cc5e90e3b3af64bdaf62c37eeffcb"]
-    ),
+    allowErc20Approve([USDC], ["0xbbbbbbbbbb9cc5e90e3b3af64bdaf62c37eeffcb"]),
     allow.mainnet.morpho.morphoBlue.supplyCollateral(
       {
         loanToken: USDC,
