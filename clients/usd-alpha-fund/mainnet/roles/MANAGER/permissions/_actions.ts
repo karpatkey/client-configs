@@ -84,7 +84,7 @@ export default (parameters: Parameters) => [
       "0x729badf297ee9f2f6b3f717b96fd355fc6ec00422284ce1968e76647b258cf44",
     ],
   }),
-  // Morpho Market - USDC/syrupUSDC - Borrow USDC
+  // Morpho Market - USDC/syrupUSDC - id: 0x729badf297ee9f2f6b3f717b96fd355fc6ec00422284ce1968e76647b258cf44 - Borrow USDC
   allowAction.morphoMarkets.borrow({
     targets: [
       "0x729badf297ee9f2f6b3f717b96fd355fc6ec00422284ce1968e76647b258cf44",
