@@ -15,10 +15,14 @@ import {
   osETH,
   rETH,
   RPL,
+  RWIV,
   stETH,
   SWISE,
   USDC,
   USDT,
+  waEthLidoGho,
+  waEthUsdc,
+  waEthUsdt,
   weETH,
   WETH,
   wNXM,
@@ -45,6 +49,56 @@ export default (parameters: Parameters) =>
     allow.mainnet.weth.deposit({
       send: true,
     }),
+
+    // Aave - ERC-4626 Redeem/Withdraw (waEthLidoGho/waEthUsdc/waEthUsdt)
+    {
+      ...allow.mainnet.aaveV3.stataTokenV2.redeem(
+        undefined,
+        c.avatar,
+        c.avatar
+      ),
+      targetAddress: waEthLidoGho,
+    },
+    {
+      ...allow.mainnet.aaveV3.stataTokenV2.withdraw(
+        undefined,
+        c.avatar,
+        c.avatar
+      ),
+      targetAddress: waEthLidoGho,
+    },
+    {
+      ...allow.mainnet.aaveV3.stataTokenV2.redeem(
+        undefined,
+        c.avatar,
+        c.avatar
+      ),
+      targetAddress: waEthUsdc,
+    },
+    {
+      ...allow.mainnet.aaveV3.stataTokenV2.withdraw(
+        undefined,
+        c.avatar,
+        c.avatar
+      ),
+      targetAddress: waEthUsdc,
+    },
+    {
+      ...allow.mainnet.aaveV3.stataTokenV2.redeem(
+        undefined,
+        c.avatar,
+        c.avatar
+      ),
+      targetAddress: waEthUsdt,
+    },
+    {
+      ...allow.mainnet.aaveV3.stataTokenV2.withdraw(
+        undefined,
+        c.avatar,
+        c.avatar
+      ),
+      targetAddress: waEthUsdt,
+    },
 
     // Aave Umbrella Staking - GHO
     allowErc20Approve([GHO], [contracts.mainnet.aaveV3.umbrellaBatchHelper]),
@@ -413,6 +467,11 @@ export default (parameters: Parameters) =>
       targetAddress: pool,
     })),
 
+    // Nexus Mutual - RWIV Vault interaction
+    allowErc20Approve([USDC], [contracts.mainnet.nexus.rwiv]),
+    allow.mainnet.nexus.rwiv.deposit(undefined, c.avatar),
+    allow.mainnet.nexus.rwiv.withdraw(undefined, c.avatar, c.avatar),
+
     // Sky - DSR (DAI Savings Rate)
     // The DsrManager provides an easy to use smart contract that allows
     // service providers to deposit/withdraw dai into the DSR contract pot,
@@ -500,4 +559,10 @@ export default (parameters: Parameters) =>
       recipient: c.avatar,
       fee: c.or(100, 500),
     }),
+
+    // Uniswap v3 - RWIV + USDC
+    allow.mainnet.uniswapV3.positionsNft.createAndInitializePoolIfNecessary(
+      c.or(RWIV, USDC),
+      c.or(RWIV, USDC)
+    ),
   ] satisfies PermissionList

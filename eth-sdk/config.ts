@@ -10,6 +10,7 @@ export const contracts = {
       umbrellaBatchHelper: "0xCe6Ced23118EDEb23054E06118a702797b13fc2F",
       stkwaEthToken: "0xaAFD07D53A7365D3e9fb6F3a3B09EC19676B73Ce", // stkwaEthWETH
       umbrellaRewardsController: "0x4655Ce3D625a63d30bA704087E52B4C31E38188B",
+      stataTokenV2: "0x487c2C53c0866F0A73ae317bD1A28F63ADcD9aD1", // StataTokenV2 implementation — ERC-4626 wrapper for aTokens
     },
     across: {
       spokePoolV2: "0x5c7BCd6E7De5423a257D81B442095A1a6ced35C5",
@@ -157,6 +158,7 @@ export const contracts = {
       ramm: "0xcafea54f03E1Cc036653444e581A10a43B2487CD",
       stakingPool: "0xF3745f76C137738b0371a820A098fC678672660a", // Pool #2 (used as a general case)
       tokenController: "0x5407381b6c251cFd498ccD4A1d877739CB7960B8",
+      rwiv: "0xcAFeAA466736ac01e0AC9Ca72644beF348694731",
     },
     notionalV3: {
       nProxy: "0x6e7058c91F85E0F6db4fc9da2CA41241f5e4263f",
