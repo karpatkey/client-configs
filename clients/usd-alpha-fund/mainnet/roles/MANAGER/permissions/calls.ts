@@ -117,7 +117,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.ethena.sUsde.cooldownShares(),
     allow.mainnet.ethena.sUsde.unstake(c.avatar),
 
-    // Morpho Market - USDC/syrupUSDC - Supply/Withdraw collateral and Repay
+    // Morpho Market - USDC/syrupUSDC - id: 0x729badf297ee9f2f6b3f717b96fd355fc6ec00422284ce1968e76647b258cf44 - Supply/Withdraw collateral and Repay
     allowErc20Approve(
       [syrupUSDC],
       ["0xbbbbbbbbbb9cc5e90e3b3af64bdaf62c37eeffcb"]
