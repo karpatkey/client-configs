@@ -84,6 +84,12 @@ export default (parameters: Parameters) => [
       "0x729badf297ee9f2f6b3f717b96fd355fc6ec00422284ce1968e76647b258cf44",
     ],
   }),
+  // Morpho Market - USDC/syrupUSDC - Borrow USDC
+  allowAction.morphoMarkets.borrow({
+    targets: [
+      "0x729badf297ee9f2f6b3f717b96fd355fc6ec00422284ce1968e76647b258cf44",
+    ],
+  }),
   // Morpho Vault - kpk USDC Prime v1.1
   allowAction.morphoVaults.deposit({
     targets: [morpho.kpkUsdcPrimeV1],
@@ -91,10 +97,6 @@ export default (parameters: Parameters) => [
   // Morpho Vault - kpk USDC Prime v2
   allowAction.morphoVaults.deposit({
     targets: [morpho.kpkUsdcPrimeV2],
-  }),
-  // Morpho Vault - kpk USDC Yield v2
-  allowAction.morphoVaults.deposit({
-    targets: [morpho.kpkUsdcYieldV2],
   }),
   // Morpho Vault - kpk USDT Prime v2
   allowAction.morphoVaults.deposit({

@@ -4,8 +4,10 @@ import { zeroAddress } from "@/addresses"
 import {
   crvUSD,
   GHO,
+  morpho,
   RLUSD,
   sUSDe,
+  syrupUSDC,
   USDC,
   USDe,
   USDS,
@@ -114,6 +116,72 @@ export default (parameters: Parameters) =>
     // Ethena - Unstake USDe
     allow.mainnet.ethena.sUsde.cooldownShares(),
     allow.mainnet.ethena.sUsde.unstake(c.avatar),
+
+    // Morpho Market - USDC/syrupUSDC - Supply/Withdraw collateral and Repay
+    allowErc20Approve(
+      [syrupUSDC],
+      ["0xbbbbbbbbbb9cc5e90e3b3af64bdaf62c37eeffcb"]
+    ),
+    allowErc20Approve(
+      [USDC],
+      ["0xbbbbbbbbbb9cc5e90e3b3af64bdaf62c37eeffcb"]
+    ),
+    allow.mainnet.morpho.morphoBlue.supplyCollateral(
+      {
+        loanToken: USDC,
+        collateralToken: syrupUSDC,
+        oracle: morpho.oraclesyrupUsdcUsdc,
+        irm: morpho.adaptativeCurveIrm,
+        lltv: "915000000000000000",
+      },
+      undefined,
+      c.avatar,
+      "0x"
+    ),
+    allow.mainnet.morpho.morphoBlue.withdrawCollateral(
+      {
+        loanToken: USDC,
+        collateralToken: syrupUSDC,
+        oracle: morpho.oraclesyrupUsdcUsdc,
+        irm: morpho.adaptativeCurveIrm,
+        lltv: "915000000000000000",
+      },
+      undefined,
+      c.avatar,
+      c.avatar
+    ),
+    allow.mainnet.morpho.morphoBlue.repay(
+      {
+        loanToken: USDC,
+        collateralToken: syrupUSDC,
+        oracle: morpho.oraclesyrupUsdcUsdc,
+        irm: morpho.adaptativeCurveIrm,
+        lltv: "915000000000000000",
+      },
+      undefined,
+      undefined,
+      c.avatar,
+      "0x"
+    ),
+
+    // Morpho Vault - kpk USDC Yield v2 (not yet registered in defi-kit)
+    allowErc20Approve([USDC], [morpho.kpkUsdcYieldV2 as `0x${string}`]),
+    {
+      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
+      targetAddress: morpho.kpkUsdcYieldV2,
+    },
+    {
+      ...allow.mainnet.morpho.vault.mint(undefined, c.avatar),
+      targetAddress: morpho.kpkUsdcYieldV2,
+    },
+    {
+      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkUsdcYieldV2,
+    },
+    {
+      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkUsdcYieldV2,
+    },
 
     // Merkl - Rewards (max 4 tokens: aEthRLUSD, MORPHO, stkGHO and USDS)
     allow.mainnet.merkl.angleDistributor.claim(
