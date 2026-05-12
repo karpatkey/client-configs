@@ -161,6 +161,16 @@ export default [
     ),
     targetAddress: kpk.ethAlphaFundShares,
   },
+  // KPK - USD Alpha Fund
+  {
+    ...allow.mainnet.oiv.shares.requestRedemption(
+      undefined,
+      undefined,
+      WETH,
+      c.avatar
+    ),
+    targetAddress: kpk.usdAlphaFundShares,
+  },
 
   // Lido
   allow.mainnet.lido.wstEth.unwrap(),

@@ -2,7 +2,7 @@ import { PermissionList } from "@/types"
 import { allow } from "zodiac-roles-sdk/kit"
 import { c } from "zodiac-roles-sdk"
 import { allowErc20Approve, allowErc20Transfer } from "@/helpers"
-import { DAI, USDC, WETH, euler, kpk } from "@/addresses/eth"
+import { DAI, USDC, USDT, WETH, euler, kpk } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import {
   kpkFoundationGc,
@@ -82,6 +82,26 @@ export default (parameters: Parameters) =>
         c.avatar
       ),
       targetAddress: kpk.ethAlphaFundShares,
+    },
+    // KPK - USD Alpha Fund
+    allowErc20Approve([USDC, USDT], [kpk.usdAlphaFundShares]),
+    {
+      ...allow.mainnet.oiv.shares.requestSubscription(
+        undefined,
+        undefined,
+        WETH,
+        c.avatar
+      ),
+      targetAddress: kpk.usdAlphaFundShares,
+    },
+    {
+      ...allow.mainnet.oiv.shares.requestRedemption(
+        undefined,
+        undefined,
+        WETH,
+        c.avatar
+      ),
+      targetAddress: kpk.usdAlphaFundShares,
     },
 
     // Merkl - Rewards

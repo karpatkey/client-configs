@@ -292,6 +292,26 @@ export default (parameters: Parameters) =>
       ),
       targetAddress: kpk.ethAlphaFundShares,
     },
+    // KPK - USD Alpha Fund
+    allowErc20Approve([USDC, USDT], [kpk.usdAlphaFundShares]),
+    {
+      ...allow.mainnet.oiv.shares.requestSubscription(
+        undefined,
+        undefined,
+        WETH,
+        c.avatar
+      ),
+      targetAddress: kpk.usdAlphaFundShares,
+    },
+    {
+      ...allow.mainnet.oiv.shares.requestRedemption(
+        undefined,
+        undefined,
+        WETH,
+        c.avatar
+      ),
+      targetAddress: kpk.usdAlphaFundShares,
+    },
 
     // Lido - Lido's Token Rewards Plan (TRP) - Claim LDO
     {
