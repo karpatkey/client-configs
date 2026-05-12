@@ -54,7 +54,10 @@ export default (parameters: Parameters) =>
             permit: "0x",
           },
         })
-      )
+      ),
+      {
+        delegatecall: true,
+      }
     ),
 
     // ETH Alpha Fund - Shares contract
