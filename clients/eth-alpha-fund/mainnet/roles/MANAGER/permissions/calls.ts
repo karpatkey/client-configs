@@ -55,7 +55,10 @@ export default (parameters: Parameters) =>
             permit: "0x",
           },
         })
-      )
+      ),
+      {
+        delegatecall: true,
+      }
     ),
 
     // Aave Core v3 - Enable/Disable E-Mode
