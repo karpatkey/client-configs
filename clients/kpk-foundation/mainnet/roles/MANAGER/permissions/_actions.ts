@@ -48,6 +48,22 @@ export default (parameters: Parameters) => [
     targets: [gearbox.kpkWstEth],
   }),
 
+  // Morpho Vault - kpk ETH Prime v1.1
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkEthPrimeV1],
+  }),
+  // Morpho Vault - kpk ETH Prime v2
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkEthPrimeV2],
+  }),
+  // Morpho Vault - kpk ETH Yield v1.1
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkEthYieldV1],
+  }),
+  // Morpho Vault - kpk ETH Yield v2
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkEthYieldV2],
+  }),
   // Morpho Vault - kpk EURC Yield v1.1
   allowAction.morphoVaults.deposit({
     targets: [morpho.kpkEurcYieldV1],

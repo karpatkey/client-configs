@@ -6,6 +6,7 @@ import {
   liquidETH,
   rsETH,
   USDC,
+  USDT,
   weETH,
   WETH,
   aura,
@@ -160,6 +161,16 @@ export default [
       c.avatar
     ),
     targetAddress: kpk.ethAlphaFundShares,
+  },
+  // KPK - USD Alpha Fund
+  {
+    ...allow.mainnet.oiv.shares.requestRedemption(
+      undefined,
+      undefined,
+      c.or(USDC, USDT),
+      c.avatar
+    ),
+    targetAddress: kpk.usdAlphaFundShares,
   },
 
   // Lido

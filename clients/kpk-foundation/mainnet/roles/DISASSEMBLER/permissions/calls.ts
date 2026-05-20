@@ -1,6 +1,6 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { USDC, WETH, euler, gearbox, kpk, morpho } from "@/addresses/eth"
+import { USDC, USDT, WETH, euler, gearbox, kpk, morpho } from "@/addresses/eth"
 import { PermissionList } from "@/types"
 
 export default [
@@ -28,9 +28,17 @@ export default [
     ...allow.mainnet.gearbox.vault.redeem(undefined, c.avatar, c.avatar),
     targetAddress: gearbox.kpkWeth,
   },
+  {
+    ...allow.mainnet.gearbox.vault.withdraw(undefined, c.avatar, c.avatar),
+    targetAddress: gearbox.kpkWeth,
+  },
   // Gearbox - wstETH v3 - Curator: kpk
   {
     ...allow.mainnet.gearbox.vault.redeem(undefined, c.avatar, c.avatar),
+    targetAddress: gearbox.kpkWstEth,
+  },
+  {
+    ...allow.mainnet.gearbox.vault.withdraw(undefined, c.avatar, c.avatar),
     targetAddress: gearbox.kpkWstEth,
   },
 
@@ -53,6 +61,16 @@ export default [
       c.avatar
     ),
     targetAddress: kpk.ethAlphaFundShares,
+  },
+  // KPK - USD Alpha Fund
+  {
+    ...allow.mainnet.oiv.shares.requestRedemption(
+      undefined,
+      undefined,
+      c.or(USDC, USDT),
+      c.avatar
+    ),
+    targetAddress: kpk.usdAlphaFundShares,
   },
 
   // Morpho Vault - kpk ETH Prime v1.1
