@@ -78,31 +78,17 @@ export default (parameters: Parameters) => [
       "0x64d65c9a2d91c36d56fbc42d69e979335320169b3df63bf92789e2c8883fcc64",
     ],
   }),
-  // Morpho Market - USDC/wstUSR - id: 0xd9e34b1eed46d123ac1b69b224de1881dbc88798bc7b70f504920f62f58f28cc
-  allowAction.morphoMarkets.deposit({
-    targets: [
-      "0xd9e34b1eed46d123ac1b69b224de1881dbc88798bc7b70f504920f62f58f28cc",
-    ],
-  }),
-  // Morpho Market - USDC/RLP - id: 0xe1b65304edd8ceaea9b629df4c3c926a37d1216e27900505c04f14b2ed279f33
-  allowAction.morphoMarkets.deposit({
-    targets: [
-      "0xe1b65304edd8ceaea9b629df4c3c926a37d1216e27900505c04f14b2ed279f33",
-    ],
-  }),
   // Morpho Market - USDC/syrupUSDC - id: 0x729badf297ee9f2f6b3f717b96fd355fc6ec00422284ce1968e76647b258cf44
   allowAction.morphoMarkets.deposit({
     targets: [
       "0x729badf297ee9f2f6b3f717b96fd355fc6ec00422284ce1968e76647b258cf44",
     ],
   }),
-  // Morpho Market - USDC/ETH+ - id: 0xdb8938f97571aeab0deb0c34cf7e6278cff969538f49eebe6f4fc75a9a111293
-  allowAction.morphoMarkets.deposit({
+  allowAction.morphoMarkets.borrow({
     targets: [
-      "0xdb8938f97571aeab0deb0c34cf7e6278cff969538f49eebe6f4fc75a9a111293",
+      "0x729badf297ee9f2f6b3f717b96fd355fc6ec00422284ce1968e76647b258cf44",
     ],
   }),
-
   // Morpho Vault - kpk USDC Prime v1.1
   allowAction.morphoVaults.deposit({
     targets: [morpho.kpkUsdcPrimeV1],
@@ -128,8 +114,6 @@ export default (parameters: Parameters) => [
   allowAction.spark.deposit({ targets: ["USDC"] }),
   // Spark - Deposit USDT
   allowAction.spark.deposit({ targets: ["USDT"] }),
-  // Spark - Borrow USDC
-  allowAction.spark.borrow({ targets: ["USDC"] }),
 
   /*********************************************
    * Swaps
