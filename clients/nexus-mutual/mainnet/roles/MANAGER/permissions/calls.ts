@@ -471,6 +471,8 @@ export default (parameters: Parameters) =>
     allowErc20Approve([USDC], [contracts.mainnet.nexus.rwiv]),
     allow.mainnet.nexus.rwiv.requestDeposit(undefined, c.avatar, c.avatar),
     allow.mainnet.nexus.rwiv.requestRedeem(undefined, c.avatar, c.avatar),
+    allow.mainnet.nexus.rwiv.cancelDepositRequest(),
+    allow.mainnet.nexus.rwiv.cancelRedeemRequest(),
 
     // Sky - DSR (DAI Savings Rate)
     // The DsrManager provides an easy to use smart contract that allows
