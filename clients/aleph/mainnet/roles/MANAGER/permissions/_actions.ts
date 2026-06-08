@@ -2,11 +2,14 @@ import { allow as allowAction } from "defi-kit/eth"
 import {
   AURA,
   BAL,
+  EIGEN,
   ETHPlus,
   ezETH,
   GEAR,
+  GHO,
   KING,
   MORPHO,
+  osETH,
   rETH,
   RPL,
   rsETH,
@@ -36,6 +39,8 @@ export default (parameters: Parameters) => [
   // Aave v3 Core Market - Deposit wstETH
   allowAction.aave_v3.deposit({ market: "Core", targets: ["wstETH"] }),
 
+  // Aave v3 Core Market - Borrow GHO
+  allowAction.aave_v3.borrow({ market: "Core", targets: ["GHO"] }),
   // Aave v3 Core Market - Borrow WETH
   allowAction.aave_v3.borrow({ market: "Core", targets: ["WETH"] }),
 
@@ -54,17 +59,20 @@ export default (parameters: Parameters) => [
   // Convex - WETH/weETH
   allowAction.convex.deposit({ targets: ["355"] }),
 
-  // CowSwap - [AURA, BAL, ETHPlus, ezETH, GEAR, KING, MORPHO, rETH, RPL, rsETH, stETH, USDC, weETH, WETH, wstETH] ->
-  // [ETHPlus, ezETH, rETH, rsETH, stETH, weETH, WETH, wstETH]
+  // CowSwap - [AURA, BAL, EIGEN, ETHPlus, ezETH, GEAR, GHO, KING, MORPHO, osETH, rETH, RPL, rsETH, stETH, USDC, weETH, WETH, wstETH] ->
+  // [ETHPlus, ezETH, osETH, rETH, rsETH, stETH, weETH, WETH, wstETH]
   allowAction.cowswap.swap({
     sell: [
       AURA,
       BAL,
+      EIGEN,
       ETHPlus,
       ezETH,
       GEAR,
+      GHO,
       KING,
       MORPHO,
+      osETH,
       rETH,
       RPL,
       rsETH,
@@ -74,7 +82,7 @@ export default (parameters: Parameters) => [
       WETH,
       wstETH,
     ],
-    buy: [ETHPlus, ezETH, rETH, rsETH, stETH, weETH, WETH, wstETH],
+    buy: [ETHPlus, ezETH, osETH, rETH, rsETH, stETH, weETH, WETH, wstETH],
   }),
 
   // Gearbox - ETH v3 - Curator: kpk
@@ -143,14 +151,27 @@ export default (parameters: Parameters) => [
   allowAction.morphoVaults.deposit({
     targets: [morpho.kpkEthPrimeV2],
   }),
+  // Morpho Vault - kpk ETH Yield v2
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkEthYieldV2],
+  }),
 
   // Rocket Pool
   allowAction.rocket_pool.deposit(),
 
   // Spark - Deposit rETH
   allowAction.spark.deposit({ targets: ["rETH"] }),
+  // Spark - Deposit weETH
+  allowAction.spark.deposit({ targets: ["weETH"] }),
+  // Spark - Deposit WETH
+  allowAction.spark.deposit({ targets: ["WETH"] }),
   // Spark - Deposit wstETH
   allowAction.spark.deposit({ targets: ["wstETH"] }),
   // Spark - Borrow WETH
   allowAction.spark.borrow({ targets: ["WETH"] }),
+
+  // Stakewise v3 - Stake ETH
+  allowAction.stakewise_v3.stake({
+    targets: ["0x15639e82d2072fa510e5d2b5f0db361c823bcad3"],
+  }),
 ]
