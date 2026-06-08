@@ -11,6 +11,7 @@ export const contracts = {
       stkwaEthToken: "0xaAFD07D53A7365D3e9fb6F3a3B09EC19676B73Ce", // stkwaEthWETH
       umbrellaRewardsController: "0x4655Ce3D625a63d30bA704087E52B4C31E38188B",
       stataTokenV2: "0x487c2C53c0866F0A73ae317bD1A28F63ADcD9aD1", // StataTokenV2 implementation — ERC-4626 wrapper for aTokens
+      sGho: "0xE1753F2e00940cC31213dd92013cF019DFE4ca1d", // Savings GHO (sGHO) — ERC-4626 vault
     },
     across: {
       spokePoolV2: "0x5c7BCd6E7De5423a257D81B442095A1a6ced35C5",
@@ -131,6 +132,7 @@ export const contracts = {
       lrtDepositPool: "0x036676389e48133B63a802f8635AD39E752D375D",
       lrtWithdrawalManager: "0x62De59c08eB5dAE4b7E6F7a8cAd3006d6965ec16",
       hgEthAdapter: "0xB185D98056419029daE7120EcBeFa0DbC12c283A",
+      merklDistributor: "0x9bB6d4b928645EdA8f9C019495695BA98969eFF1", // Merkl distributor for Kelp EIGEN rewards
     },
     kpk: {
       shares: "0xbf7d1dd7aedE0841f563584E39cA8b69F4Ca29B1", // Shares contract implementation
