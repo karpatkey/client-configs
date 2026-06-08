@@ -4,6 +4,7 @@ import { contracts } from "@/contracts"
 import { eAddress } from "@/addresses"
 import {
   eETH,
+  GHO,
   rETH,
   rsETH,
   stETH,
@@ -66,6 +67,12 @@ export default (parameters: Parameters) =>
 
     // Aave Prime v3 - Enable/Disable E-Mode
     allow.mainnet.aaveV3.poolPrimeV3.setUserEMode(),
+
+    // Aave v3 - sGHO (Savings GHO)
+    allowErc20Approve([GHO], [contracts.mainnet.aaveV3.sGho]),
+    allow.mainnet.aaveV3.sGho.deposit(undefined, c.avatar),
+    allow.mainnet.aaveV3.sGho.withdraw(undefined, c.avatar, c.avatar),
+    allow.mainnet.aaveV3.sGho.redeem(undefined, c.avatar, c.avatar),
 
     // Aura - Aave Boosted WETH/rETH
     allowErc20Approve(
@@ -173,6 +180,8 @@ export default (parameters: Parameters) =>
     allow.mainnet.kelp.lrtWithdrawalManager.instantWithdrawal(
       c.or(eAddress, stETH)
     ),
+    // Kelp - Claim EIGEN rewards (Merkl) to the avatar Safe
+    allow.mainnet.kelp.merklDistributor.claim(undefined, c.avatar),
 
     // Merkl - Rewards
     allow.mainnet.merkl.angleDistributor.claim(

@@ -2,11 +2,14 @@ import { allow as allowAction } from "defi-kit/eth"
 import {
   AURA,
   BAL,
+  EIGEN,
   ETHPlus,
   ezETH,
   GEAR,
+  GHO,
   KING,
   MORPHO,
+  osETH,
   rETH,
   RPL,
   rsETH,
@@ -56,17 +59,20 @@ export default (parameters: Parameters) => [
   // Convex - WETH/weETH
   allowAction.convex.deposit({ targets: ["355"] }),
 
-  // CowSwap - [AURA, BAL, ETHPlus, ezETH, GEAR, KING, MORPHO, rETH, RPL, rsETH, stETH, USDC, weETH, WETH, wstETH] ->
-  // [ETHPlus, ezETH, rETH, rsETH, stETH, weETH, WETH, wstETH]
+  // CowSwap - [AURA, BAL, EIGEN, ETHPlus, ezETH, GEAR, GHO, KING, MORPHO, osETH, rETH, RPL, rsETH, stETH, USDC, weETH, WETH, wstETH] ->
+  // [ETHPlus, ezETH, osETH, rETH, rsETH, stETH, weETH, WETH, wstETH]
   allowAction.cowswap.swap({
     sell: [
       AURA,
       BAL,
+      EIGEN,
       ETHPlus,
       ezETH,
       GEAR,
+      GHO,
       KING,
       MORPHO,
+      osETH,
       rETH,
       RPL,
       rsETH,
@@ -76,7 +82,7 @@ export default (parameters: Parameters) => [
       WETH,
       wstETH,
     ],
-    buy: [ETHPlus, ezETH, rETH, rsETH, stETH, weETH, WETH, wstETH],
+    buy: [ETHPlus, ezETH, osETH, rETH, rsETH, stETH, weETH, WETH, wstETH],
   }),
 
   // Gearbox - ETH v3 - Curator: kpk
