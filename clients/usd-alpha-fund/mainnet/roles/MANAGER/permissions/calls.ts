@@ -25,6 +25,12 @@ export default (parameters: Parameters) =>
      * Protocols
      *********************************************/
 
+    // Aave v3 - sGHO (Savings GHO)
+    allowErc20Approve([GHO], [contracts.mainnet.aaveV3.sGho]),
+    allow.mainnet.aaveV3.sGho.deposit(undefined, c.avatar),
+    allow.mainnet.aaveV3.sGho.withdraw(undefined, c.avatar, c.avatar),
+    allow.mainnet.aaveV3.sGho.redeem(undefined, c.avatar, c.avatar),
+
     // Balancer v3 - Aave Boosted USDT/GHO/USDC
     allowErc20Approve([GHO, USDC, USDT], [contracts.mainnet.uniswap.permit2]),
     allow.mainnet.uniswap.permit2.approve(
