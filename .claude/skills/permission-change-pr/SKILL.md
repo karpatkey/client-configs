@@ -23,6 +23,18 @@ Your job with this skill is the **Implementation** stage: translate a request in
 code in `client-configs`, validate it, and open the PR. Testing on-chain (Pilot
 Extension / Tenderly) stays with the requester after the PR produces a payload.
 
+> 🛑 **Never guess — ask.** These are on-chain permission policies; a wrong scope
+> is a security risk. If anything about the exact policy is unclear or
+> underspecified, **stop and ask the user** rather than inferring it. This
+> includes (non-exhaustive): which client / network / role / instance; whether
+> it's New / Modify / Remove; the exact protocol, action, market/pool, tokens,
+> targets, and direction; recipient/destination addresses; allowance limits;
+> token/contract addresses you can't confirm in the repo; the action's argument
+> shape; and how a new role wires into instances. Do not invent addresses,
+> action names, argument values, or `targets`. Confirm the final entry with the
+> user before committing. When in doubt, ask — never fill a gap with a plausible
+> guess.
+
 ---
 
 ## 0. Understand the request
