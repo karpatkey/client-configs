@@ -97,6 +97,12 @@ Both files export a function `(parameters: Parameters) => [...]`. Add your entry
 the returned array with a clear `//` comment describing the action — match the
 surrounding comment style exactly.
 
+> 📐 **Sort everything alphabetically.** Keep entries ordered alphabetically —
+> imports, token/address lists, and the permission entries themselves (grouped by
+> protocol, protocols A→Z, and within a protocol by action/target). Insert new
+> entries in their correct alphabetical position rather than appending to the end,
+> and keep any import statements you touch alphabetically sorted too.
+
 ---
 
 ## 3. Build the change
