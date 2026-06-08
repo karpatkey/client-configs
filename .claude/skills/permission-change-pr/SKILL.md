@@ -43,13 +43,13 @@ Every permission change resolves to four coordinates plus a change type. Get the
 up front (from the user, a filled spreadsheet, or the Google Form export). If any
 are missing or ambiguous, ask.
 
-| Field | Meaning | Example |
-|---|---|---|
-| **Client** | Avatar Safe owner / client dir | `ens-dao`, `aleph`, `eth-alpha-fund` |
-| **Network** | account folder | `mainnet`, `gnosis`, `arbitrum`, `base`, `optimism` |
-| **Role** | role being changed | `MANAGER`, `DISASSEMBLER`, `HARVESTER`, … |
-| **Type** | `New` / `Modify` / `Remove` | `New` |
-| **What** | the protocol action(s) | "Aave v3 Core: deposit USDC, withdraw USDC" |
+| Field       | Meaning                        | Example                                             |
+| ----------- | ------------------------------ | --------------------------------------------------- |
+| **Client**  | Avatar Safe owner / client dir | `ens-dao`, `aleph`, `eth-alpha-fund`                |
+| **Network** | account folder                 | `mainnet`, `gnosis`, `arbitrum`, `base`, `optimism` |
+| **Role**    | role being changed             | `MANAGER`, `DISASSEMBLER`, `HARVESTER`, …           |
+| **Type**    | `New` / `Modify` / `Remove`    | `New`                                               |
+| **What**    | the protocol action(s)         | "Aave v3 Core: deposit USDC, withdraw USDC"         |
 
 The request usually falls into one of the four spreadsheet categories — they map to
 the same code, just different helpers:
@@ -125,13 +125,13 @@ surrounding comment style exactly.
 
 The import is chain-specific. Pick by the network folder:
 
-| Network folder | DeFi-Kit import |
-|---|---|
-| `mainnet` | `import { allow as allowAction } from "defi-kit/eth"` |
-| `gnosis` | `defi-kit/gno` |
-| `arbitrum` | `defi-kit/arb1` |
-| `base` | `defi-kit/base` |
-| `optimism` | `defi-kit/oeth` |
+| Network folder | DeFi-Kit import                                       |
+| -------------- | ----------------------------------------------------- |
+| `mainnet`      | `import { allow as allowAction } from "defi-kit/eth"` |
+| `gnosis`       | `defi-kit/gno`                                        |
+| `arbitrum`     | `defi-kit/arb1`                                       |
+| `base`         | `defi-kit/base`                                       |
+| `optimism`     | `defi-kit/oeth`                                       |
 
 ```ts
 import { allow as allowAction } from "defi-kit/eth"
@@ -180,13 +180,13 @@ export default (parameters: Parameters) =>
 
 The `allow.<chain>` namespace tracks the network folder:
 
-| Network folder | namespace |
-|---|---|
-| `mainnet` | `allow.mainnet` |
-| `gnosis` | `allow.gnosis` |
-| `arbitrum` | `allow.arbitrumOne` |
-| `base` | `allow.base` |
-| `optimism` | `allow.optimism` |
+| Network folder | namespace           |
+| -------------- | ------------------- |
+| `mainnet`      | `allow.mainnet`     |
+| `gnosis`       | `allow.gnosis`      |
+| `arbitrum`     | `allow.arbitrumOne` |
+| `base`         | `allow.base`        |
+| `optimism`     | `allow.optimism`    |
 
 Building blocks:
 
@@ -315,6 +315,7 @@ End the PR body with:
 ```
 
 In the PR body, include:
+
 - Client / network / role / change type.
 - The exact actions added, modified, or removed (and the lines, for Modify/Remove).
 - Any **Allowance** requested (amount + timeframe) for Transfers/Bridge.
@@ -328,18 +329,18 @@ In the PR body, include:
 
 ## Quick reference
 
-| Thing | Where |
-|---|---|
-| Permission files | `clients/<client>/<network>/roles/<ROLE>/permissions/{_actions.ts,calls.ts}` |
-| Role members | `clients/<client>/<network>/roles/<ROLE>/members.ts` |
-| Instances (wiring) | `clients/<client>/<network>/instances/*.ts` |
-| Token addresses | `eth-sdk/addresses/<chain>.ts` (alias `@/addresses/*`) |
-| Contracts + ABIs | `eth-sdk/config.ts` (alias `@/contracts`); `yarn setup` to regenerate |
-| Helpers | `helpers/` (`allowErc20Approve`, `allowEthTransfer`) via `@/helpers` |
-| Types | `@/types` (`PermissionList`) |
-| DeFi-Kit coverage | https://kit.karpatkey.com/learn |
-| Allowances | https://docs.roles.gnosisguild.org/general/allowances |
-| List configs | `yarn list-configs` |
-| Compile + preview | `yarn apply <client> <network>(/<instance>) <ROLE>` |
-| Export payload | `yarn apply:export <client> <network>(/<instance>) <ROLE>` |
-| Type check / format / test | `yarn check:types` · `yarn fix:prettier` · `yarn test` |
+| Thing                      | Where                                                                        |
+| -------------------------- | ---------------------------------------------------------------------------- |
+| Permission files           | `clients/<client>/<network>/roles/<ROLE>/permissions/{_actions.ts,calls.ts}` |
+| Role members               | `clients/<client>/<network>/roles/<ROLE>/members.ts`                         |
+| Instances (wiring)         | `clients/<client>/<network>/instances/*.ts`                                  |
+| Token addresses            | `eth-sdk/addresses/<chain>.ts` (alias `@/addresses/*`)                       |
+| Contracts + ABIs           | `eth-sdk/config.ts` (alias `@/contracts`); `yarn setup` to regenerate        |
+| Helpers                    | `helpers/` (`allowErc20Approve`, `allowEthTransfer`) via `@/helpers`         |
+| Types                      | `@/types` (`PermissionList`)                                                 |
+| DeFi-Kit coverage          | https://kit.karpatkey.com/learn                                              |
+| Allowances                 | https://docs.roles.gnosisguild.org/general/allowances                        |
+| List configs               | `yarn list-configs`                                                          |
+| Compile + preview          | `yarn apply <client> <network>(/<instance>) <ROLE>`                          |
+| Export payload             | `yarn apply:export <client> <network>(/<instance>) <ROLE>`                   |
+| Type check / format / test | `yarn check:types` · `yarn fix:prettier` · `yarn test`                       |

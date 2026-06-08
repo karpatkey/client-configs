@@ -16,8 +16,8 @@ description: >
 
 This skill reviews a permission-policy PR for **security**, focused on whether the
 scoped functions are correctly and minimally scoped, and whether they actually
-behave as the policy assumes. It complements `permission-change-pr` (which *builds*
-the policy); this one *audits* it.
+behave as the policy assumes. It complements `permission-change-pr` (which _builds_
+the policy); this one _audits_ it.
 
 The deliverable is a written review: per-function analysis, simulation results, and
 concrete scoping recommendations with severity.
@@ -36,16 +36,19 @@ concrete scoping recommendations with severity.
 Ask the user for whatever isn't already provided:
 
 **The change under review**
+
 - PR number / branch / diff (e.g. `gh pr checkout 214`), or the specific files.
 - Client / network / role / instance affected.
 
 **The specific setup to simulate against** (so the review reflects reality, not a generic fork)
+
 - Target **network** + an **RPC URL / archive node** for it (for `FORK_RPC`).
 - The **Roles Modifier** address, the **Avatar Safe**, and the **member** (the account/Safe that holds the role) — when reviewing against the live deployment.
 - A **block number** to fork at, if reproducibility matters.
 - Preferred simulation backend: **anvil fork** (default, free, local) or **Tenderly** (shareable, good for stakeholders).
 
 **Protocol source material** (essential for any new/hand-scoped protocol — see §2)
+
 - Contract addresses on the target network.
 - Etherscan/explorer links (verified source).
 - Official **GitHub** repo (ideally the deployed version/commit).
@@ -138,6 +141,7 @@ The repo already simulates policies on an anvil fork. Mirror an existing
 - Custom matchers assert outcomes: `await expect(...).not.toRevert()` / `.toBeAllowed()` for in-scope calls, and `.toBeForbidden()` for out-of-scope variants.
 
 Write a focused test that, for each scoped entry:
+
 1. Sets up prerequisite state (acquire tokens, approvals) using helpers like `wrapEth`.
 2. Calls the **allowed** action with in-scope arguments → expect **not forbidden / not reverted**.
 3. Calls a **deliberately out-of-scope** variant (e.g. recipient ≠ avatar, token not in the allowlist) → expect **`toBeForbidden()`**.
@@ -178,7 +182,7 @@ capture the pass/fail + traces. Link the Tenderly simulations in the report.
 
 Produce a structured review:
 
-1. **Summary** — what the PR changes, overall risk verdict (e.g. *safe to merge*, *changes requested*, *needs Ops Engineering sign-off*).
+1. **Summary** — what the PR changes, overall risk verdict (e.g. _safe to merge_, _changes requested_, _needs Ops Engineering sign-off_).
 2. **Scoped-surface inventory** — the table from §1.
 3. **Contract analysis** — per-contract notes from §2, with the source/audit links used.
 4. **Findings** — each with `file:line`, severity, risk, and recommended fix (from §3).
@@ -193,17 +197,17 @@ not verify or whose simulation you could not run — state what's missing instea
 
 ## Quick reference
 
-| Thing | Where / command |
-|---|---|
-| Check out the PR | `gh pr checkout <number>` |
-| Diff of permission files | `git diff main... -- 'clients/**/permissions/*.ts'` |
-| Apply harness | `applyPermissions(...)` in `test/helpers.ts` |
-| Execute through role | `kit.asMember.<contract>.<fn>(...)` (`test/kit.ts`) |
-| Matchers | `toRevert` · `toBeAllowed` · `toBeForbidden` (`test/setup-after-env.ts`) |
-| Test wallets / impersonation | `test/wallets.ts` (`anvil_impersonateAccount`, `anvil_setBalance`) |
-| Run a single policy test | `FORK_RPC=<rpc> yarn test clients/<client>/<network>/roles/<ROLE>/permissions.test.ts` |
-| Fork RPC selection | `FORK_RPC` env (defaults to mainnet) |
-| Export payload for Tenderly | `yarn apply:export <client> <network>(/<instance>) <ROLE>` |
-| Compile + visual diff | `yarn apply <client> <network>(/<instance>) <ROLE>` |
-| Verified source | explorer `#code` page / API `getsourcecode` · official GitHub |
-| Allowances reference | https://docs.roles.gnosisguild.org/general/allowances |
+| Thing                        | Where / command                                                                        |
+| ---------------------------- | -------------------------------------------------------------------------------------- |
+| Check out the PR             | `gh pr checkout <number>`                                                              |
+| Diff of permission files     | `git diff main... -- 'clients/**/permissions/*.ts'`                                    |
+| Apply harness                | `applyPermissions(...)` in `test/helpers.ts`                                           |
+| Execute through role         | `kit.asMember.<contract>.<fn>(...)` (`test/kit.ts`)                                    |
+| Matchers                     | `toRevert` · `toBeAllowed` · `toBeForbidden` (`test/setup-after-env.ts`)               |
+| Test wallets / impersonation | `test/wallets.ts` (`anvil_impersonateAccount`, `anvil_setBalance`)                     |
+| Run a single policy test     | `FORK_RPC=<rpc> yarn test clients/<client>/<network>/roles/<ROLE>/permissions.test.ts` |
+| Fork RPC selection           | `FORK_RPC` env (defaults to mainnet)                                                   |
+| Export payload for Tenderly  | `yarn apply:export <client> <network>(/<instance>) <ROLE>`                             |
+| Compile + visual diff        | `yarn apply <client> <network>(/<instance>) <ROLE>`                                    |
+| Verified source              | explorer `#code` page / API `getsourcecode` · official GitHub                          |
+| Allowances reference         | https://docs.roles.gnosisguild.org/general/allowances                                  |
