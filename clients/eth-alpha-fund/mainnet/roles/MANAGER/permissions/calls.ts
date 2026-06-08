@@ -180,7 +180,7 @@ export default (parameters: Parameters) =>
     allow.mainnet.kelp.lrtWithdrawalManager.instantWithdrawal(
       c.or(eAddress, stETH)
     ),
-    // Kelp - Claim EIGEN rewards (Merkl) to the avatar Safe
+    // Kelp - Claim EIGEN rewards (Merkl)
     allow.mainnet.kelp.merklDistributor.claim(undefined, c.avatar),
 
     // Merkl - Rewards
