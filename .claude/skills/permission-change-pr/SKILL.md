@@ -103,7 +103,9 @@ If the role directory doesn't exist yet, this is a **new role** — see §3c.
   **https://kit.karpatkey.com/learn** (Protocols and Bridges sections list the
   available Action Bundles). When unsure, use WebFetch on that page.
 - **Use `calls.ts`** (typed-presets / ad-hoc) only for protocols/functions **not**
-  covered by DeFi-Kit, or where you need a hand-scoped call.
+  covered by DeFi-Kit, or where you need a hand-scoped call. For a protocol that
+  isn't in DeFi-Kit at all, follow **§3e New protocol** — it must be scoped via
+  typed-presets after analysing the protocol's docs, source, ABIs, and audits.
 
 Both files export a function `(parameters: Parameters) => [...]`. Add your entry to
 the returned array with a clear `//` comment describing the action — match the
@@ -221,6 +223,40 @@ If an address isn't exported yet:
   to regenerate typings before referencing `contracts.<chain>.…`.
 
 Keep additions minimal and alphabetically consistent with the surrounding entries.
+
+### 3e. New protocol (not in DeFi-Kit)
+
+A protocol that isn't integrated in DeFi-Kit **must go through typed-presets /
+ad-hoc calls in `calls.ts`** — it will not be available as a DeFi-Kit action.
+Scoping a brand-new protocol by hand is the highest-risk path in this skill, so
+do not improvise it. Gather and analyse the protocol's real interface first, then
+scope the minimum necessary functions.
+
+**Ask the user for the source material — don't hunt blindly or assume.** Request links to:
+
+- **Contract addresses** — the exact deployed addresses on the target network (and confirm they're the canonical/verified ones).
+- **Official docs** — the protocol's documentation for the functions in scope.
+- **GitHub / source code** — the repo, ideally the exact contracts and version/commit deployed.
+- **ABIs** — the verified ABI (from the explorer or repo) for each contract.
+- **Audits** — audit reports, to understand trust assumptions and known risks.
+- **Sample transactions** — Etherscan/Tenderly examples of the action executed through a Safe.
+
+Then **read and analyse** that material before writing anything:
+
+- Read the docs, source, and ABIs to understand exactly what each function does, its parameters, and side effects (token movements, approvals, recipients, who can call it).
+- Cross-check the ABI against the verified on-chain contract and the audits — flag anything that doesn't line up.
+- Identify the **minimal** set of functions the requested action actually needs.
+- Determine, per function, which arguments must be **pinned** (e.g. recipient = `c.avatar`, specific token, specific pool) versus left open, so the policy can't be abused (no draining to arbitrary addresses, no unintended approvals, etc.).
+
+**Feed all of this into the clarifying questions to the user** (per the "Never
+guess" principle) so the final scoping is precise and secure — e.g. "should
+withdrawals only ever go to the Avatar Safe?", "which tokens/pools are in scope?",
+"is this approval bounded by an allowance?". Only once the exact scope is confirmed:
+
+1. Register the contract(s) + verified ABI(s) in `eth-sdk/config.ts`; run `yarn setup`.
+2. Scope the ad-hoc call(s) in `calls.ts` using `c` conditions (`c.avatar`, `c.eq`, `c.or`, allowances, etc.), pinning every argument that should be constrained.
+3. Validate with `yarn apply` and review the diff carefully.
+4. In the PR, flag it as a **new, hand-scoped protocol** that needs Ops Engineering security review, link all the source material (docs / repo / ABIs / audits / sample txs), and note whether it's a candidate for proper DeFi-Kit integration.
 
 ---
 
