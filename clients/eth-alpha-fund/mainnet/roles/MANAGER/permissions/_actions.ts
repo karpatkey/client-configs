@@ -23,6 +23,8 @@ import { Parameters } from "../../../parameters"
 export default (parameters: Parameters) => [
   // Aave v3 Core Market - Deposit ezETH
   allowAction.aave_v3.deposit({ market: "Core", targets: ["ezETH"] }),
+  // Aave v3 Core Market - Deposit osETH
+  allowAction.aave_v3.deposit({ market: "Core", targets: ["osETH"] }),
   // Aave v3 Core Market - Deposit rETH
   allowAction.aave_v3.deposit({ market: "Core", targets: ["rETH"] }),
   // Aave v3 Core Market - Deposit rsETH
@@ -34,6 +36,8 @@ export default (parameters: Parameters) => [
   // Aave v3 Core Market - Deposit wstETH
   allowAction.aave_v3.deposit({ market: "Core", targets: ["wstETH"] }),
 
+  // Aave v3 Core Market - Borrow GHO
+  allowAction.aave_v3.borrow({ market: "Core", targets: ["GHO"] }),
   // Aave v3 Core Market - Borrow WETH
   allowAction.aave_v3.borrow({ market: "Core", targets: ["WETH"] }),
 
@@ -133,7 +137,26 @@ export default (parameters: Parameters) => [
   allowAction.morphoVaults.deposit({
     targets: [morpho.kpkEthPrimeV2],
   }),
+  // Morpho Vault - kpk ETH Yield v2
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkEthYieldV2],
+  }),
 
   // Rocket Pool
   allowAction.rocket_pool.deposit(),
+
+  // Spark - Deposit weETH
+  allowAction.spark.deposit({ targets: ["weETH"] }),
+  // Spark - Deposit WETH
+  allowAction.spark.deposit({ targets: ["WETH"] }),
+  // Spark - Deposit wstETH
+  allowAction.spark.deposit({ targets: ["wstETH"] }),
+
+  // Spark - Borrow WETH
+  allowAction.spark.borrow({ targets: ["WETH"] }),
+
+  // Stakewise v3 - Stake ETH
+  allowAction.stakewise_v3.stake({
+    targets: ["0x15639e82d2072fa510e5d2b5f0db361c823bcad3"],
+  }),
 ]
