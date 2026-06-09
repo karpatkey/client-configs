@@ -24,12 +24,6 @@ export default (parameters: Parameters) => [
       "0x1c21c59df9db44bf6f645d854ee710a8ca17b479451447e9f56758aee10a2fad",
     ],
   }),
-  // Morpho Market - USDC/PT-USDe-11DEC2025 - id: 0xafa2d80fcc3aa58419dd8c62b57087384bc35de27d70de9c91525276f2b2fd6e
-  allowAction.morphoMarkets.deposit({
-    targets: [
-      "0xafa2d80fcc3aa58419dd8c62b57087384bc35de27d70de9c91525276f2b2fd6e",
-    ],
-  }),
 
   /*********************************************
    * Bridges
