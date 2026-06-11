@@ -1,5 +1,5 @@
 ---
-name: policy-security-review
+name: permission-review
 description: >
   Security-review a Pull Request that adds or changes a permission policy in
   client-configs. Pulls the real contract code (Etherscan verified source + the
@@ -12,11 +12,11 @@ description: >
   "is this calls.ts safe?".
 ---
 
-# Policy Security Review
+# Permission Review
 
 This skill reviews a permission-policy PR for **security**, focused on whether the
 scoped functions are correctly and minimally scoped, and whether they actually
-behave as the policy assumes. It complements `permission-change-pr` (which _builds_
+behave as the policy assumes. It complements `permission-update-request` (which _builds_
 the policy); this one _audits_ it.
 
 The deliverable is a written review: per-function analysis, simulation results, and

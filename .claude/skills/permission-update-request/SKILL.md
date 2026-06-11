@@ -1,5 +1,5 @@
 ---
-name: permission-change-pr
+name: permission-update-request
 description: >
   Create a Pull Request on the client-configs repo that adds, modifies, or
   removes permission policies for a client role (the Zodiac Roles Modifier
@@ -11,7 +11,7 @@ description: >
   validating, and opening the PR.
 ---
 
-# Permission Change PR
+# Permission Update Request
 
 This skill turns a permission change request into a Pull Request against the
 `client-configs` repo. It encodes the two reference docs:
