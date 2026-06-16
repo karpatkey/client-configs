@@ -156,6 +156,14 @@ export default [
   allowAction.morphoVaults.deposit({
     targets: [morpho.kpkUsdcPrimeV2],
   }),
+  // Morpho Vault - kpk USDC Prime Core
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkUsdcPrimeCore],
+  }),
+  // Morpho Vault - kpk USDT Prime v2
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkUsdtPrimeV2],
+  }),
 
   // Rocket Pool
   allowAction.rocket_pool.deposit(),
@@ -186,6 +194,6 @@ export default [
     targets: ["0x15639e82d2072fa510e5d2b5f0db361c823bcad3"],
   }),
 
-  // // Uniswap v3 - WETH + COW - NFT Id: 1129129
-  // allowAction.uniswap_v3.deposit({ targets: ["1129129"] }),
+  // Uniswap v3 - WETH/COW
+  allowAction.uniswap_v3.deposit({ tokens: ["WETH", "COW"] }),
 ]

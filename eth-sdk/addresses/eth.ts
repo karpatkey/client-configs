@@ -320,6 +320,7 @@ export const morpho = {
   kpkEthYieldV2: "0x5dbf760b4fd0cDdDe0366b33aEb338b2A6d77725", // kpk ETH Yield v2
   kpkUsdcPrimeV1: "0xe108fbc04852B5df72f9E44d7C29F47e7A993aDd", // kpk USDC Prime v1
   kpkUsdcPrimeV2: "0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6", // kpk USDC Prime v2
+  kpkUsdcPrimeCore: "0x1a1985F50352b58090eb36425AfdFacbaC7806F4", // kpk USDC Prime Core
   kpkUsdcYieldV1: "0x9178eBE0691593184c1D785a864B62a326cc3509", // kpk USDC Yield v1
   kpkUsdcYieldV2: "0xD5cCe260E7a755DDf0Fb9cdF06443d593AaeaA13", // kpk USDC Yield v2
   kpkEurcYieldV1: "0x0c6aec603d48eBf1cECc7b247a2c3DA08b398DC1", // kpk EURC Yield v1

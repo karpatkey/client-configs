@@ -2,6 +2,7 @@ import { allow } from "zodiac-roles-sdk/kit"
 import {
   COW,
   DAI,
+  eETH,
   GHO,
   GNO,
   sDAI,
@@ -152,12 +153,37 @@ export default (parameters: Parameters) =>
       "claimSelectedRewards(address,address[],address)"
     ](undefined, undefined, c.avatar),
 
+    // Aave v3 - sGHO (Savings GHO)
+    allowErc20Approve([GHO], [contracts.mainnet.aaveV3.sGho]),
+    allow.mainnet.aaveV3.sGho.deposit(undefined, c.avatar),
+    allow.mainnet.aaveV3.sGho.withdraw(undefined, c.avatar, c.avatar),
+    allow.mainnet.aaveV3.sGho.redeem(undefined, c.avatar, c.avatar),
+
     // Ethena - Stake USDe
     allowErc20Approve([USDe], [sUSDe]),
     allow.mainnet.ethena.sUsde.deposit(undefined, c.avatar),
     // Ethena - Unstake USDe
     allow.mainnet.ethena.sUsde.cooldownShares(),
     allow.mainnet.ethena.sUsde.unstake(c.avatar),
+
+    // ether.fi - EigenLayer Restaking
+    // Stake ETH for eETH
+    allow.mainnet.etherfi.liquidityPool["deposit()"]({ send: true }),
+    // Request Withdrawal - A Withdraw Request NFT is issued
+    allowErc20Approve([eETH], [contracts.mainnet.etherfi.liquidityPool]),
+    allow.mainnet.etherfi.liquidityPool.requestWithdraw(c.avatar),
+    // Funds can be claimed once the request is finalized
+    allow.mainnet.etherfi.withdrawRequestNft.claimWithdraw(),
+    // Stake ETH for weETH
+    allow.mainnet.etherfi.depositAdapter.depositETHForWeETH(undefined, {
+      send: true,
+    }),
+    // ether.fi - Wrap/Unwrap
+    // Wrap eETH
+    allowErc20Approve([eETH], [contracts.mainnet.etherfi.weEth]),
+    allow.mainnet.etherfi.weEth.wrap(),
+    // Unwrap weETH
+    allow.mainnet.etherfi.weEth.unwrap(),
 
     // Merkl - Rewards
     allow.mainnet.merkl.angleDistributor.claim(
@@ -179,6 +205,12 @@ export default (parameters: Parameters) =>
           parameters.avatar,
         ]
       )
+    ),
+
+    // Uniswap v3 - WETH + COW
+    allow.mainnet.uniswapV3.positionsNft.createAndInitializePoolIfNecessary(
+      c.or(WETH, COW),
+      c.or(WETH, COW)
     ),
 
     // // Uniswap v4 - WETH + COW - NFT Id: 67745
