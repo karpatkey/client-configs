@@ -139,10 +139,10 @@ surrounding comment style exactly.
 > `grep -rn "allowAction.<protocol>" clients`. A reviewed precedent almost always
 > exists and beats writing a fresh scope. **The request's "Protocol" / "Category"
 > label can be misleading — let the repo precedent win over the literal label.**
-> _Example:_ a request tagged "CoW Swap" for `XDAI ↔ WXDAI` is really a plain
-> wrap/unwrap on the WXDAI contract — `allow.gnosis.wxdai.deposit({ send: true })`
-> + `allow.gnosis.wxdai.withdraw()`, the pattern used by other gnosis policies —
-> not a `cowswap.swap`. When the request and precedent disagree, surface it and ask.
+> For example, a request tagged "CoW Swap" for XDAI/WXDAI is really a plain
+> wrap/unwrap on the WXDAI contract (`allow.gnosis.wxdai.deposit({ send: true })`
+> and `allow.gnosis.wxdai.withdraw()`), the pattern other gnosis policies use — not
+> a `cowswap.swap`. When the request and precedent disagree, surface it and ask.
 
 ---
 
@@ -371,14 +371,14 @@ may bundle several (different roles / networks / accounts):
 ```markdown
 ## Permission Change Request — <account>/<network>
 
-| Field            | Value                                              |
-| ---------------- | -------------------------------------------------- |
-| **Client**       | <client>                                           |
-| **Account**      | <account> _(omit row if the client has no account layer)_ |
-| **Network**      | <network>                                          |
-| **Role**         | <ROLE>                                             |
-| **Avatar Safe**  | `0x…`                                              |
-| **Type**         | New / Modify / Remove (+ combos)                   |
+| Field           | Value                                                     |
+| --------------- | --------------------------------------------------------- |
+| **Client**      | <client>                                                  |
+| **Account**     | <account> _(omit row if the client has no account layer)_ |
+| **Network**     | <network>                                                 |
+| **Role**        | <ROLE>                                                    |
+| **Avatar Safe** | `0x…`                                                     |
+| **Type**        | New / Modify / Remove (+ combos)                          |
 
 ### Actions added
 
@@ -419,18 +419,18 @@ provided. Keep the body to the public tooling vocabulary (the Zodiac Roles app,
 
 ## Quick reference
 
-| Thing                      | Where                                                                        |
-| -------------------------- | ---------------------------------------------------------------------------- |
+| Thing                      | Where                                                                                    |
+| -------------------------- | ---------------------------------------------------------------------------------------- |
 | Permission files           | `clients/<client>[/<account>]/<network>/roles/<ROLE>/permissions/{_actions.ts,calls.ts}` |
-| Role members               | `clients/<client>[/<account>]/<network>/roles/<ROLE>/members.ts`             |
-| Instances (wiring)         | `clients/<client>[/<account>]/<network>/instances/*.ts`                      |
-| Token addresses            | `eth-sdk/addresses/<chain>.ts` (alias `@/addresses/*`)                       |
-| Contracts + ABIs           | `eth-sdk/config.ts` (alias `@/contracts`); `yarn setup` to regenerate        |
-| Helpers                    | `helpers/` (`allowErc20Approve`, `allowEthTransfer`) via `@/helpers`         |
-| Types                      | `@/types` (`PermissionList`)                                                 |
-| DeFi-Kit coverage          | https://kit.karpatkey.com/learn                                              |
-| Allowances                 | https://docs.roles.gnosisguild.org/general/allowances                        |
-| List configs               | `yarn list-configs`                                                          |
-| Compile + preview          | `yarn apply <client>(/<account>) <network>(/<instance>) <ROLE>`              |
-| Export payload             | `yarn apply:export <client>(/<account>) <network>(/<instance>) <ROLE>`       |
-| Type check / format / test | `yarn check:types` · `npx prettier --write <files>` · `yarn test`            |
+| Role members               | `clients/<client>[/<account>]/<network>/roles/<ROLE>/members.ts`                         |
+| Instances (wiring)         | `clients/<client>[/<account>]/<network>/instances/*.ts`                                  |
+| Token addresses            | `eth-sdk/addresses/<chain>.ts` (alias `@/addresses/*`)                                   |
+| Contracts + ABIs           | `eth-sdk/config.ts` (alias `@/contracts`); `yarn setup` to regenerate                    |
+| Helpers                    | `helpers/` (`allowErc20Approve`, `allowEthTransfer`) via `@/helpers`                     |
+| Types                      | `@/types` (`PermissionList`)                                                             |
+| DeFi-Kit coverage          | https://kit.karpatkey.com/learn                                                          |
+| Allowances                 | https://docs.roles.gnosisguild.org/general/allowances                                    |
+| List configs               | `yarn list-configs`                                                                      |
+| Compile + preview          | `yarn apply <client>(/<account>) <network>(/<instance>) <ROLE>`                          |
+| Export payload             | `yarn apply:export <client>(/<account>) <network>(/<instance>) <ROLE>`                   |
+| Type check / format / test | `yarn check:types` · `npx prettier --write <files>` · `yarn test`                        |

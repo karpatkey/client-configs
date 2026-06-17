@@ -202,17 +202,17 @@ not verify or whose simulation you could not run — state what's missing instea
 
 ## Quick reference
 
-| Thing                        | Where / command                                                                        |
-| ---------------------------- | -------------------------------------------------------------------------------------- |
-| Check out the PR             | `gh pr checkout <number>`                                                              |
-| Diff of permission files     | `git diff main... -- 'clients/**/permissions/*.ts'`                                    |
-| Apply harness                | `applyPermissions(...)` in `test/helpers.ts`                                           |
-| Execute through role         | `kit.asMember.<contract>.<fn>(...)` (`test/kit.ts`)                                    |
-| Matchers                     | `toRevert` · `toBeAllowed` · `toBeForbidden` (`test/setup-after-env.ts`)               |
-| Test wallets / impersonation | `test/wallets.ts` (`anvil_impersonateAccount`, `anvil_setBalance`)                     |
+| Thing                        | Where / command                                                                                    |
+| ---------------------------- | -------------------------------------------------------------------------------------------------- |
+| Check out the PR             | `gh pr checkout <number>`                                                                          |
+| Diff of permission files     | `git diff main... -- 'clients/**/permissions/*.ts'`                                                |
+| Apply harness                | `applyPermissions(...)` in `test/helpers.ts`                                                       |
+| Execute through role         | `kit.asMember.<contract>.<fn>(...)` (`test/kit.ts`)                                                |
+| Matchers                     | `toRevert` · `toBeAllowed` · `toBeForbidden` (`test/setup-after-env.ts`)                           |
+| Test wallets / impersonation | `test/wallets.ts` (`anvil_impersonateAccount`, `anvil_setBalance`)                                 |
 | Run a single policy test     | `FORK_RPC=<rpc> yarn test clients/<client>[/<account>]/<network>/roles/<ROLE>/permissions.test.ts` |
-| Fork RPC selection           | `FORK_RPC` env (defaults to mainnet)                                                   |
-| Export payload for Tenderly  | `yarn apply:export <client> <network>(/<instance>) <ROLE>`                             |
-| Compile + visual diff        | `yarn apply <client> <network>(/<instance>) <ROLE>`                                    |
-| Verified source              | explorer `#code` page / API `getsourcecode` · official GitHub                          |
-| Allowances reference         | https://docs.roles.gnosisguild.org/general/allowances                                  |
+| Fork RPC selection           | `FORK_RPC` env (defaults to mainnet)                                                               |
+| Export payload for Tenderly  | `yarn apply:export <client> <network>(/<instance>) <ROLE>`                                         |
+| Compile + visual diff        | `yarn apply <client> <network>(/<instance>) <ROLE>`                                                |
+| Verified source              | explorer `#code` page / API `getsourcecode` · official GitHub                                      |
+| Allowances reference         | https://docs.roles.gnosisguild.org/general/allowances                                              |
