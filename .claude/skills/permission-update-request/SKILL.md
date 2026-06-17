@@ -3,7 +3,7 @@ name: permission-update-request
 description: >
   Create a Pull Request on the client-configs repo that adds, modifies, or
   removes permission policies for a client role (the Zodiac Roles Modifier
-  policy in clients/<client>/<network>/roles/<ROLE>/permissions). Use whenever
+  policy in clients/<client>[/<account>]/<network>/roles/<ROLE>/permissions). Use whenever
   someone wants to make a Permission Change Request as a PR — e.g. "whitelist
   Aave deposit for ens-dao MANAGER", "add a CoW swap for the fund", "open a
   policy PR", "implement this permission change spreadsheet". Walks through the
