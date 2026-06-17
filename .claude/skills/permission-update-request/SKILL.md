@@ -51,13 +51,19 @@ are missing or ambiguous, ask.
 | **Type**    | `New` / `Modify` / `Remove`    | `New`                                               |
 | **What**    | the protocol action(s)         | "Aave v3 Core: deposit USDC, withdraw USDC"         |
 
+> 🔎 **Resolve the Avatar Safe first.** Requests identify the target by **Avatar
+> Safe** (a client can have several — different accounts/mandates). Map it to the
+> right `client/[account]/network/instance` by grepping the address across
+> `clients/**` (e.g. `clients/<client>/addresses.ts`, the instance files) before
+> editing — this is how you find the correct (possibly account-layered) path.
+
 The request usually falls into one of the four spreadsheet categories — they map to
 the same code, just different helpers:
 
-- **Positions** — AMMs, DEXes, lending, staking, LPing (most DeFi-Kit actions).
-- **Swaps** — almost always **CoW Swap** (`allow.<chain>.cowSwap…` or `allowAction.cowswap.swap`). Group sell/buy token lists where possible; same sell+buy list ⇒ two-way swap.
+- **Positions** — AMMs, DEXes, lending, staking, LPing (most DeFi-Kit actions). The request gives a _Pool_ (AMM/DEX) or _Market_ (lending) → map it to the action's `targets` / `market`.
+- **Swaps** — almost always **CoW Swap** (`allow.<chain>.cowSwap…` or `allowAction.cowswap.swap`). Same sell+buy list ⇒ **two-way**; differing lists ⇒ **one-way**. **Before adding a new swap, check the swaps already in the policy and prefer merging/broadening** the sell+buy lists into an existing entry — leave standalone swaps only for specific cases. This keeps the policy within the **ZRM limit on the number of combinations**. Not every swap can be added; CoW Swap is prioritised.
 - **Transfers** — ERC-20 / native transfers to specific destinations. Consider an **Allowance** (spend limit + timeframe) — note it in the PR.
-- **Bridge** — Gnosis Bridge, Stargate, CCTP, Hop, etc. Source & destination token + recipient. Consider an Allowance.
+- **Bridge** — Gnosis Bridge, Stargate, CCTP, Hop, etc. Pin the **source token, destination token, and recipient**. Bridge the **same asset** end-to-end; when the bridge auto-converts (e.g. USDC→USDC.e, DAI→XDAI on the Gnosis Bridge), call it out explicitly. Consider an Allowance.
 
 ---
 
