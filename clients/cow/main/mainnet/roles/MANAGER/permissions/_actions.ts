@@ -13,7 +13,6 @@ import {
   sDAI,
   sGHO,
   stETH,
-  stkGHO,
   sUSDe,
   sUSDS,
   syrupUSDC,
@@ -69,8 +68,8 @@ export default [
     tokens: ["wstETH"],
   }),
 
-  // CowSwap - [DAI, ETH, EURC, GHO, sDAI, sGHO, stkGHO, sUSDe, sUSDS, syrupUSDC, USDC, USDe, USDS, USDT, WETH] <->
-  // [DAI, ETH, EURC, GHO, sDAI, sGHO, stkGHO, sUSDe, sUSDS, syrupUSDC, USDC, USDe, USDS, USDT, WETH]
+  // CowSwap - [DAI, ETH, EURC, GHO, sDAI, sGHO, sUSDe, sUSDS, syrupUSDC, USDC, USDe, USDS, USDT, WETH] <->
+  // [DAI, ETH, EURC, GHO, sDAI, sGHO, sUSDe, sUSDS, syrupUSDC, USDC, USDe, USDS, USDT, WETH]
   allowAction.cowswap.swap({
     sell: [
       "ETH",
@@ -79,7 +78,6 @@ export default [
       GHO,
       sDAI,
       sGHO,
-      stkGHO,
       sUSDe,
       sUSDS,
       syrupUSDC,
@@ -96,7 +94,6 @@ export default [
       GHO,
       sDAI,
       sGHO,
-      stkGHO,
       sUSDe,
       sUSDS,
       syrupUSDC,
