@@ -66,17 +66,26 @@ the same code, just different helpers:
 **Always do this first.** It avoids duplicate entries and tells you whether the
 change is `New`, `Modify`, or `Remove`.
 
+> 📁 **Directory layout — mind the optional `<account>` segment.** Most clients are
+> `clients/<client>/<network>/roles/<ROLE>/…`, but some (e.g. `cow`, `gnosis-dao`)
+> insert an **account** layer: `clients/<client>/<account>/<network>/roles/<ROLE>/…`
+> (e.g. `clients/cow/main/mainnet/...`, `clients/cow/defense/gnosis/...`). Confirm
+> the real path with `yarn list-configs`; don't assume the flat shape. Because the
+> depth varies, **copy the relative `parameters` import (`../../../parameters` vs
+> deeper) from a sibling permissions file** rather than hardcoding it.
+
 ```
-clients/<client>/<network>/roles/<ROLE>/permissions/
+clients/<client>[/<account>]/<network>/roles/<ROLE>/permissions/
   _actions.ts   # DeFi-Kit Actions (protocols already integrated, pre-audited)
   calls.ts      # Typed-Presets / ad-hoc permissions (protocols not in DeFi-Kit)
 ```
 
-Read both files for the target role and grep for the protocol/token/contract:
+Read both files for the target role and grep for the protocol/token/contract — and
+grep **across all clients** for an existing implementation you can copy (see §2):
 
 ```bash
-ls clients/<client>/<network>/roles/<ROLE>/permissions/
-grep -rin "<protocol-or-token>" clients/<client>/<network>/roles/<ROLE>/permissions/
+ls clients/<client>/.../roles/<ROLE>/permissions/
+grep -rin "<protocol-or-token>" clients/   # any client's precedent, not just this role
 ```
 
 - If the exact permission is already there → tell the user; no PR needed (or only a tweak).
@@ -116,6 +125,18 @@ surrounding comment style exactly.
 > protocol, protocols A→Z, and within a protocol by action/target). Insert new
 > entries in their correct alphabetical position rather than appending to the end,
 > and keep any import statements you touch alphabetically sorted too.
+
+> 🔁 **Copy an existing implementation — don't invent one.** Before scoping
+> anything, search the whole repo for how the same protocol/action is already done
+> in _other_ clients and copy that exact pattern (call shape, helpers, conditions,
+> comment style, address-key names): `grep -rn "<protocol>" clients` /
+> `grep -rn "allowAction.<protocol>" clients`. A reviewed precedent almost always
+> exists and beats writing a fresh scope. **The request's "Protocol" / "Category"
+> label can be misleading — let the repo precedent win over the literal label.**
+> _Example:_ a request tagged "CoW Swap" for `XDAI ↔ WXDAI` is really a plain
+> wrap/unwrap on the WXDAI contract — `allow.gnosis.wxdai.deposit({ send: true })`
+> + `allow.gnosis.wxdai.withdraw()`, the pattern used by other gnosis policies —
+> not a `cowswap.swap`. When the request and precedent disagree, surface it and ask.
 
 ---
 
@@ -201,7 +222,7 @@ Building blocks:
 Create the full structure mirroring an existing role:
 
 ```
-clients/<client>/<network>/roles/<ROLE>/
+clients/<client>[/<account>]/<network>/roles/<ROLE>/
   members.ts          # array of member EOAs/Safes that hold the role
   permissions/
     _actions.ts       # export default (parameters: Parameters) => []
@@ -210,9 +231,9 @@ clients/<client>/<network>/roles/<ROLE>/
 
 `members.ts` example: `export default ["0x…"]` (leave `[]` only if members are
 supplied later — confirm with the requester). A role also has to be wired into the
-client's instance(s) under `clients/<client>/<network>/instances/*.ts`; check how
-peer roles are referenced and replicate. If wiring is non-obvious, ask before
-inventing it.
+client's instance(s) under `clients/<client>[/<account>]/<network>/instances/*.ts`;
+check how peer roles are referenced and replicate. If wiring is non-obvious, ask
+before inventing it.
 
 ### 3d. Missing tokens or contracts
 
@@ -221,6 +242,11 @@ If an address isn't exported yet:
 - **Tokens / addresses** → add to `eth-sdk/addresses/<chain>.ts` (e.g. `eth.ts`).
 - **Contracts (with ABIs)** → register in `eth-sdk/config.ts` and run `yarn setup`
   to regenerate typings before referencing `contracts.<chain>.…`.
+- **DeFi-Kit target not recognized** — if a vault/market/pool that should be a
+  valid `targets:` value isn't accepted, the `defi-kit` package itself may need
+  bumping to the release that registers that target. Update `defi-kit` in
+  `package.json`, reinstall, and re-check. (A newly-listed Morpho vault, for
+  example, only resolves once `defi-kit` is on the version that registers it.)
 
 Keep additions minimal and alphabetically consistent with the surrounding entries.
 
@@ -265,17 +291,24 @@ withdrawals only ever go to the Avatar Safe?", "which tokens/pools are in scope?
 Run, in order, and fix anything that fails:
 
 ```bash
-yarn check:types                                   # tsc --noEmit
-yarn fix:prettier                                  # format (CI checks prettier)
-yarn apply <client> <network>(/<instance>) <ROLE>  # compile + preview in Roles app
+yarn check:types                                              # tsc --noEmit
+npx prettier --write <changed-files>                          # format ONLY what you touched
+yarn apply <client>(/<account>) <network>(/<instance>) <ROLE> # compile + preview in Roles app
 ```
 
 - `yarn apply …` compiles the policy and opens the **Zodiac Roles app** for a
   visual diff and the **transaction payload** — this is the deliverable the
   requester uses to test (Pilot Extension / Tenderly) and execute. Use
   `yarn apply:export …` to instead write the payload JSON to `./export/`.
-- Instance defaults to `main`; pass `<network>/<instance>` for others (e.g.
-  `mainnet/test`, `mainnet/sub_reth`). `yarn list-configs` shows valid instances.
+- The first arg carries the **account** layer when the client has one
+  (`cow/main`, `gnosis-dao/illiquid-assets`); the second is `<network>(/<instance>)`.
+  Instance defaults to `main` — pass `<network>/<instance>` for others (e.g.
+  `mainnet/test`, `mainnet/sub_reth`). `yarn list-configs` shows valid values.
+- **Format only the files you changed** (`npx prettier --write <files>`) — don't
+  reformat the whole repo, or you'll sweep unrelated churn into the PR.
+- `yarn check:types` may surface **pre-existing** errors in unrelated/untracked
+  helper scripts; those aren't yours — confirm only that the files you changed are
+  error-free.
 - If the role has a `permissions.test.ts`, run `yarn test` (spins up an anvil
   fork). Add/extend tests for non-trivial scoping when it makes sense.
 
@@ -290,12 +323,22 @@ Confirm the change with the user, then:
 
 ```bash
 git checkout main && git pull --ff-only
-git checkout -b <client>-<role>-<short-desc>      # e.g. ens-dao-manager-aave-usdc
-git add -A
+git checkout -b <client>-<short-desc>             # e.g. ens-dao-manager-aave-usdc
+# Stage ONLY the files this change touches (the permission policy + any
+# address/contract additions). Do NOT use `git add -A` — it would sweep in
+# unrelated working-tree changes (dependency manifests, lockfiles, local
+# scripts/config) that must not land in the PR.
+git add clients/<client>/.../permissions/*.ts     # + eth-sdk/addresses/<chain>.ts, etc.
 git commit            # see message format below
 git push -u origin HEAD
 gh pr create --base main --fill
 ```
+
+> A branch/PR for this work may already exist — check first
+> (`gh pr list --head <branch>`, `git ls-remote --heads origin`); if so, push to it
+> and update its description instead of opening a duplicate. One PR may also bundle
+> **multiple** related requests (different roles, networks, or accounts) — give
+> each change its own client / network / role / type block in the body.
 
 **Branch name:** `<client>-<short-description>` (kebab-case), matching repo
 convention (e.g. `usd-prime-fund-updates`, `renaissance-fund-instances`).
@@ -314,13 +357,54 @@ End the PR body with:
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 ```
 
-In the PR body, include:
+**PR body format.** Mirror the team's recent permission PRs. Lead with a
+`| Field | Value |` table, then group actions by the file they live in, then the
+removals, dependency changes, and validation. Use **one block per change** — a PR
+may bundle several (different roles / networks / accounts):
 
-- Client / network / role / change type.
-- The exact actions added, modified, or removed (and the lines, for Modify/Remove).
-- Any **Allowance** requested (amount + timeframe) for Transfers/Bridge.
-- Sample transactions (Etherscan/Tenderly) if the requester provided them.
-- A note that the payload from `yarn apply` still needs Pilot Extension / Tenderly testing before execution.
+```markdown
+## Permission Change Request — <account>/<network>
+
+| Field            | Value                                              |
+| ---------------- | -------------------------------------------------- |
+| **Client**       | <client>                                           |
+| **Account**      | <account> _(omit row if the client has no account layer)_ |
+| **Network**      | <network>                                          |
+| **Role**         | <ROLE>                                             |
+| **Avatar Safe**  | `0x…`                                              |
+| **Type**         | New / Modify / Remove (+ combos)                   |
+
+### Actions added
+
+**DeFi-Kit actions — `_actions.ts`**
+
+- **<Protocol>** — <action> (market / target / tokens), with the registry key or address.
+
+**Ad-hoc (typed-preset) — `calls.ts`**
+
+- **<Protocol>** — <function(s)>, noting which args are **pinned** (e.g. recipient = avatar Safe) vs left open.
+
+### Removed
+
+- **<entry>** — what and why (quote the exact line for Modify/Remove).
+
+### Address / dependency changes
+
+- New token/contract consts added to `eth-sdk/...`; any `defi-kit` version bump.
+
+### Validation
+
+- `yarn check:types` — passes (only pre-existing errors in unrelated scripts).
+
+> ⚠️ **Security review** — flag any new/hand-scoped contracts for Ops Engineering, with source/ABI/audit links.
+
+> The `yarn apply` payload still needs **Pilot Extension / Tenderly** testing before execution.
+```
+
+Also always include, when applicable: any **Allowance** (amount + timeframe) for
+Transfers/Bridge, and sample transactions (Etherscan/Tenderly) the requester
+provided. Keep the body to the public tooling vocabulary (the Zodiac Roles app,
+`yarn apply` / `yarn apply:export`) — don't document local environment specifics.
 
 > Only push and open the PR once the user has confirmed the change. Never execute
 > on-chain transactions — the skill stops at producing the PR + payload.
@@ -331,9 +415,9 @@ In the PR body, include:
 
 | Thing                      | Where                                                                        |
 | -------------------------- | ---------------------------------------------------------------------------- |
-| Permission files           | `clients/<client>/<network>/roles/<ROLE>/permissions/{_actions.ts,calls.ts}` |
-| Role members               | `clients/<client>/<network>/roles/<ROLE>/members.ts`                         |
-| Instances (wiring)         | `clients/<client>/<network>/instances/*.ts`                                  |
+| Permission files           | `clients/<client>[/<account>]/<network>/roles/<ROLE>/permissions/{_actions.ts,calls.ts}` |
+| Role members               | `clients/<client>[/<account>]/<network>/roles/<ROLE>/members.ts`             |
+| Instances (wiring)         | `clients/<client>[/<account>]/<network>/instances/*.ts`                      |
 | Token addresses            | `eth-sdk/addresses/<chain>.ts` (alias `@/addresses/*`)                       |
 | Contracts + ABIs           | `eth-sdk/config.ts` (alias `@/contracts`); `yarn setup` to regenerate        |
 | Helpers                    | `helpers/` (`allowErc20Approve`, `allowEthTransfer`) via `@/helpers`         |
@@ -341,6 +425,6 @@ In the PR body, include:
 | DeFi-Kit coverage          | https://kit.karpatkey.com/learn                                              |
 | Allowances                 | https://docs.roles.gnosisguild.org/general/allowances                        |
 | List configs               | `yarn list-configs`                                                          |
-| Compile + preview          | `yarn apply <client> <network>(/<instance>) <ROLE>`                          |
-| Export payload             | `yarn apply:export <client> <network>(/<instance>) <ROLE>`                   |
-| Type check / format / test | `yarn check:types` · `yarn fix:prettier` · `yarn test`                       |
+| Compile + preview          | `yarn apply <client>(/<account>) <network>(/<instance>) <ROLE>`              |
+| Export payload             | `yarn apply:export <client>(/<account>) <network>(/<instance>) <ROLE>`       |
+| Type check / format / test | `yarn check:types` · `npx prettier --write <files>` · `yarn test`            |

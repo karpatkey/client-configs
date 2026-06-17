@@ -78,6 +78,11 @@ DeFi-Kit actions are pre-audited; concentrate effort on the **ad-hoc `calls.ts`
 entries** and anything granting approvals, transfers, bridging, arbitrary
 calls/delegatecalls, or unbounded recipients.
 
+> 🧹 **PR scope hygiene.** Confirm the PR touches **only** permission policy files
+> (and any intended address/contract additions). Flag any unrelated files that
+> crept in — dependency manifests, lockfiles, build/config or local tooling
+> scripts — so they're removed before merge (`git diff --name-only main...`).
+
 ---
 
 ## 2. Pull and analyse the real contract code
@@ -150,7 +155,7 @@ Run it against the **target network** by forking the right chain:
 
 ```bash
 # Fork the network the policy targets (default fork RPC is mainnet)
-FORK_RPC=<archive-rpc-url-for-target-chain> yarn test clients/<client>/<network>/roles/<ROLE>/permissions.test.ts
+FORK_RPC=<archive-rpc-url-for-target-chain> yarn test clients/<client>[/<account>]/<network>/roles/<ROLE>/permissions.test.ts
 ```
 
 To reproduce the **user's live deployment** exactly, fork at their block and point
@@ -205,7 +210,7 @@ not verify or whose simulation you could not run — state what's missing instea
 | Execute through role         | `kit.asMember.<contract>.<fn>(...)` (`test/kit.ts`)                                    |
 | Matchers                     | `toRevert` · `toBeAllowed` · `toBeForbidden` (`test/setup-after-env.ts`)               |
 | Test wallets / impersonation | `test/wallets.ts` (`anvil_impersonateAccount`, `anvil_setBalance`)                     |
-| Run a single policy test     | `FORK_RPC=<rpc> yarn test clients/<client>/<network>/roles/<ROLE>/permissions.test.ts` |
+| Run a single policy test     | `FORK_RPC=<rpc> yarn test clients/<client>[/<account>]/<network>/roles/<ROLE>/permissions.test.ts` |
 | Fork RPC selection           | `FORK_RPC` env (defaults to mainnet)                                                   |
 | Export payload for Tenderly  | `yarn apply:export <client> <network>(/<instance>) <ROLE>`                             |
 | Compile + visual diff        | `yarn apply <client> <network>(/<instance>) <ROLE>`                                    |
