@@ -3,6 +3,7 @@ import {
   AAVE,
   COMP,
   DAI,
+  eETH,
   EURC,
   GHO,
   MORPHO,
@@ -10,6 +11,7 @@ import {
   POL,
   rETH,
   sDAI,
+  sGHO,
   stETH,
   stkGHO,
   sUSDe,
@@ -20,6 +22,7 @@ import {
   USDS,
   USDT,
   WBTC,
+  weETH,
   WETH,
   wstETH,
   morpho,
@@ -27,9 +30,6 @@ import {
 } from "@/addresses/eth"
 
 export default [
-  // Aave Safety Module - Stake GHO
-  allowAction.aave_v3.stake({ targets: ["GHO"] }),
-
   // Aave v3 Core Market - Deposit DAI
   allowAction.aave_v3.deposit({ market: "Core", targets: ["DAI"] }),
   // Aave v3 Core Market - Deposit EURC
@@ -69,8 +69,8 @@ export default [
     tokens: ["wstETH"],
   }),
 
-  // CowSwap - [DAI, ETH, EURC, GHO, sDAI, stkGHO, sUSDe, sUSDS, syrupUSDC, USDC, USDe, USDS, USDT, WETH] <->
-  // [DAI, ETH, EURC, GHO, sDAI, stkGHO, sUSDe, sUSDS, syrupUSDC, USDC, USDe, USDS, USDT, WETH]
+  // CowSwap - [DAI, ETH, EURC, GHO, sDAI, sGHO, stkGHO, sUSDe, sUSDS, syrupUSDC, USDC, USDe, USDS, USDT, WETH] <->
+  // [DAI, ETH, EURC, GHO, sDAI, sGHO, stkGHO, sUSDe, sUSDS, syrupUSDC, USDC, USDe, USDS, USDT, WETH]
   allowAction.cowswap.swap({
     sell: [
       "ETH",
@@ -78,6 +78,7 @@ export default [
       EURC,
       GHO,
       sDAI,
+      sGHO,
       stkGHO,
       sUSDe,
       sUSDS,
@@ -94,6 +95,7 @@ export default [
       EURC,
       GHO,
       sDAI,
+      sGHO,
       stkGHO,
       sUSDe,
       sUSDS,
@@ -106,11 +108,11 @@ export default [
     ],
   }),
 
-  // CowSwap - [ETH, osETH, rETH, stETH, WETH, wstETH] <->
-  // [ETH, osETH, rETH, stETH, WETH, wstETH]
+  // CowSwap - [eETH, ETH, osETH, rETH, stETH, weETH, WETH, wstETH] <->
+  // [eETH, ETH, osETH, rETH, stETH, weETH, WETH, wstETH]
   allowAction.cowswap.swap({
-    sell: ["ETH", osETH, rETH, stETH, WETH, wstETH],
-    buy: ["ETH", osETH, rETH, stETH, WETH, wstETH],
+    sell: ["ETH", eETH, osETH, rETH, stETH, weETH, WETH, wstETH],
+    buy: ["ETH", eETH, osETH, rETH, stETH, weETH, WETH, wstETH],
   }),
 
   // CowSwap - [AAVE, COMP, ETH, MORPHO, POL, USDC, USDT, WBTC, WETH] <->
