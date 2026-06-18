@@ -89,6 +89,7 @@ export const SAFE = "0x5aFE3855358E112B5647B952709E6165e1c1eEEe"
 export const SD = "0x30D20208d987713f46DFD34EF128Bb16C404D10f"
 export const sDAI = "0x83F20F44975D03b1b09e64809B757c47f942BEeA"
 export const sETH2 = "0xFe2e637202056d30016725477c5da089Ab0A043A"
+export const sGHO = "0xE1753F2e00940cC31213dd92013cF019DFE4ca1d" // Savings GHO (sGHO) — ERC-4626 vault
 export const SKY = "0x56072C95FAA701256059aa122697B133aDEd9279"
 export const SPK = "0xc20059e0317DE91738d13af027DfC4a50781b066"
 export const spWETH = "0x59cD1C87501baa753d0B5B5Ab5D8416A45cD71DB"
@@ -320,6 +321,7 @@ export const morpho = {
   kpkEthYieldV2: "0x5dbf760b4fd0cDdDe0366b33aEb338b2A6d77725", // kpk ETH Yield v2
   kpkUsdcPrimeV1: "0xe108fbc04852B5df72f9E44d7C29F47e7A993aDd", // kpk USDC Prime v1
   kpkUsdcPrimeV2: "0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6", // kpk USDC Prime v2
+  kpkUsdcPrimeCore: "0x1a1985F50352b58090eb36425AfdFacbaC7806F4", // kpk USDC Prime Core
   kpkUsdcYieldV1: "0x9178eBE0691593184c1D785a864B62a326cc3509", // kpk USDC Yield v1
   kpkUsdcYieldV2: "0xD5cCe260E7a755DDf0Fb9cdF06443d593AaeaA13", // kpk USDC Yield v2
   kpkEurcYieldV1: "0x0c6aec603d48eBf1cECc7b247a2c3DA08b398DC1", // kpk EURC Yield v1

@@ -3,6 +3,7 @@ import {
   AAVE,
   COMP,
   DAI,
+  eETH,
   EURC,
   GHO,
   MORPHO,
@@ -10,8 +11,8 @@ import {
   POL,
   rETH,
   sDAI,
+  sGHO,
   stETH,
-  stkGHO,
   sUSDe,
   sUSDS,
   syrupUSDC,
@@ -20,6 +21,7 @@ import {
   USDS,
   USDT,
   WBTC,
+  weETH,
   WETH,
   wstETH,
   morpho,
@@ -27,9 +29,6 @@ import {
 } from "@/addresses/eth"
 
 export default [
-  // Aave Safety Module - Stake GHO
-  allowAction.aave_v3.stake({ targets: ["GHO"] }),
-
   // Aave v3 Core Market - Deposit DAI
   allowAction.aave_v3.deposit({ market: "Core", targets: ["DAI"] }),
   // Aave v3 Core Market - Deposit EURC
@@ -69,8 +68,8 @@ export default [
     tokens: ["wstETH"],
   }),
 
-  // CowSwap - [DAI, ETH, EURC, GHO, sDAI, stkGHO, sUSDe, sUSDS, syrupUSDC, USDC, USDe, USDS, USDT, WETH] <->
-  // [DAI, ETH, EURC, GHO, sDAI, stkGHO, sUSDe, sUSDS, syrupUSDC, USDC, USDe, USDS, USDT, WETH]
+  // CowSwap - [DAI, ETH, EURC, GHO, sDAI, sGHO, sUSDe, sUSDS, syrupUSDC, USDC, USDe, USDS, USDT, WETH] <->
+  // [DAI, ETH, EURC, GHO, sDAI, sGHO, sUSDe, sUSDS, syrupUSDC, USDC, USDe, USDS, USDT, WETH]
   allowAction.cowswap.swap({
     sell: [
       "ETH",
@@ -78,7 +77,7 @@ export default [
       EURC,
       GHO,
       sDAI,
-      stkGHO,
+      sGHO,
       sUSDe,
       sUSDS,
       syrupUSDC,
@@ -94,7 +93,7 @@ export default [
       EURC,
       GHO,
       sDAI,
-      stkGHO,
+      sGHO,
       sUSDe,
       sUSDS,
       syrupUSDC,
@@ -106,11 +105,11 @@ export default [
     ],
   }),
 
-  // CowSwap - [ETH, osETH, rETH, stETH, WETH, wstETH] <->
-  // [ETH, osETH, rETH, stETH, WETH, wstETH]
+  // CowSwap - [eETH, ETH, osETH, rETH, stETH, weETH, WETH, wstETH] <->
+  // [eETH, ETH, osETH, rETH, stETH, weETH, WETH, wstETH]
   allowAction.cowswap.swap({
-    sell: ["ETH", osETH, rETH, stETH, WETH, wstETH],
-    buy: ["ETH", osETH, rETH, stETH, WETH, wstETH],
+    sell: ["ETH", eETH, osETH, rETH, stETH, weETH, WETH, wstETH],
+    buy: ["ETH", eETH, osETH, rETH, stETH, weETH, WETH, wstETH],
   }),
 
   // CowSwap - [AAVE, COMP, ETH, MORPHO, POL, USDC, USDT, WBTC, WETH] <->
@@ -156,6 +155,14 @@ export default [
   allowAction.morphoVaults.deposit({
     targets: [morpho.kpkUsdcPrimeV2],
   }),
+  // Morpho Vault - kpk USDC Prime Core
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkUsdcPrimeCore],
+  }),
+  // Morpho Vault - kpk USDT Prime v2
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkUsdtPrimeV2],
+  }),
 
   // Rocket Pool
   allowAction.rocket_pool.deposit(),
@@ -186,6 +193,6 @@ export default [
     targets: ["0x15639e82d2072fa510e5d2b5f0db361c823bcad3"],
   }),
 
-  // // Uniswap v3 - WETH + COW - NFT Id: 1129129
-  // allowAction.uniswap_v3.deposit({ targets: ["1129129"] }),
+  // Uniswap v3 - WETH/COW
+  allowAction.uniswap_v3.deposit({ tokens: ["WETH", "COW"] }),
 ]

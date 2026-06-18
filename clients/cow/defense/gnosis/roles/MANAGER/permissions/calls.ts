@@ -9,6 +9,10 @@ import { Parameters } from "../../../../../parameters"
 
 export default (parameters: Parameters) =>
   [
+    // Wrapping and unwrapping of XDAI, WXDAI
+    allow.gnosis.wxdai.deposit({ send: true }),
+    allow.gnosis.wxdai.withdraw(),
+
     /*********************************************
      * Transfers
      *********************************************/
