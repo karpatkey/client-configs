@@ -5,6 +5,7 @@ import {
   BAL,
   COMP,
   DAI,
+  eETH,
   GHO,
   GNO,
   GYD,
@@ -24,6 +25,7 @@ import {
   wstETH,
   aaveV3,
   balancerV2,
+  euler,
   pendle,
   siloV2,
 } from "@/addresses/eth"
@@ -160,6 +162,12 @@ export default (parameters: Parameters) =>
       "claimSelectedRewards(address,address[],address)"
     ](undefined, undefined, c.avatar),
 
+    // Aave v3 - sGHO (Savings GHO)
+    allowErc20Approve([GHO], [contracts.mainnet.aaveV3.sGho]),
+    allow.mainnet.aaveV3.sGho.deposit(undefined, c.avatar),
+    allow.mainnet.aaveV3.sGho.withdraw(undefined, c.avatar, c.avatar),
+    allow.mainnet.aaveV3.sGho.redeem(undefined, c.avatar, c.avatar),
+
     // Balancer v2 - BCoW-50WETH-50USDC - Withdraw
     allow.mainnet.balancerV2.bCow50Weth50Usdc.exitPool(),
 
@@ -239,6 +247,40 @@ export default (parameters: Parameters) =>
     // Ethena - Unstake USDe
     allow.mainnet.ethena.sUsde.cooldownShares(),
     allow.mainnet.ethena.sUsde.unstake(c.avatar),
+
+    // ether.fi - EigenLayer Restaking
+    // Stake ETH for eETH
+    allow.mainnet.etherfi.liquidityPool["deposit()"]({ send: true }),
+    // Request Withdrawal - A Withdraw Request NFT is issued
+    allowErc20Approve([eETH], [contracts.mainnet.etherfi.liquidityPool]),
+    allow.mainnet.etherfi.liquidityPool.requestWithdraw(c.avatar),
+    // Funds can be claimed once the request is finalized
+    allow.mainnet.etherfi.withdrawRequestNft.claimWithdraw(),
+    // Stake ETH for weETH
+    allow.mainnet.etherfi.depositAdapter.depositETHForWeETH(undefined, {
+      send: true,
+    }),
+    // ether.fi - Wrap/Unwrap
+    // Wrap eETH
+    allowErc20Approve([eETH], [contracts.mainnet.etherfi.weEth]),
+    allow.mainnet.etherfi.weEth.wrap(),
+    // Unwrap weETH
+    allow.mainnet.etherfi.weEth.unwrap(),
+
+    // Euler - kpk Securitize USDC/VBILL
+    allowErc20Approve([USDC], [euler.kpkSecuritizeUsdcVbill]),
+    {
+      ...allow.mainnet.euler.eVault.deposit(undefined, c.avatar),
+      targetAddress: euler.kpkSecuritizeUsdcVbill,
+    },
+    {
+      ...allow.mainnet.euler.eVault.withdraw(undefined, c.avatar, c.avatar),
+      targetAddress: euler.kpkSecuritizeUsdcVbill,
+    },
+    {
+      ...allow.mainnet.euler.eVault.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: euler.kpkSecuritizeUsdcVbill,
+    },
 
     // Merkl - Rewards
     allow.mainnet.merkl.angleDistributor.claim(

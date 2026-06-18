@@ -8,6 +8,8 @@ import {
   COMP,
   COW,
   DAI,
+  eETH,
+  ETHx,
   EURA,
   EURC,
   FJO,
@@ -18,6 +20,7 @@ import {
   OETH,
   rETH,
   sDAI,
+  sGHO,
   sUSDS,
   stEUR,
   stETH,
@@ -27,12 +30,15 @@ import {
   sUSDe,
   SWISE,
   SYRUP,
+  syrupUSDC,
+  syrupUSDT,
   USDA,
   USDe,
   USDC,
   USDS,
   USDT,
   WBTC,
+  weETH,
   WETH,
   wstETH,
   gearbox,
@@ -108,8 +114,8 @@ export default (parameters: Parameters) => [
     feeAmountBp: 200,
   }),
 
-  // CowSwap - [aEthEURC, DAI, EURA, EURC, GHO, GYD, sDAI, sUSDS, stEUR, stUSD, sUSDe, USDA, USDe, USDC, USDS, USDT] ->
-  // [aEthEURC, DAI, EURA, EURC, GHO, GYD, sDAI, stEUR, stUSD, sUSDe, sUSDS, USDA, USDe, USDC, USDT]
+  // CowSwap - [aEthEURC, DAI, EURA, EURC, GHO, GYD, sDAI, sGHO, sUSDS, stEUR, stUSD, sUSDe, syrupUSDC, syrupUSDT, USDA, USDe, USDC, USDS, USDT] <->
+  // [aEthEURC, DAI, EURA, EURC, GHO, GYD, sDAI, sGHO, sUSDS, stEUR, stUSD, sUSDe, syrupUSDC, syrupUSDT, USDA, USDe, USDC, USDS, USDT]
   allowAction.cowswap.swap({
     sell: [
       aEthEURC,
@@ -119,10 +125,13 @@ export default (parameters: Parameters) => [
       GHO,
       GYD,
       sDAI,
+      sGHO,
       sUSDS,
       stEUR,
       stUSD,
       sUSDe,
+      syrupUSDC,
+      syrupUSDT,
       USDA,
       USDe,
       USDC,
@@ -137,13 +146,17 @@ export default (parameters: Parameters) => [
       GHO,
       GYD,
       sDAI,
+      sGHO,
+      sUSDS,
       stEUR,
       stUSD,
       sUSDe,
-      sUSDS,
+      syrupUSDC,
+      syrupUSDT,
       USDA,
       USDe,
       USDC,
+      USDS,
       USDT,
     ],
     feeAmountBp: 200,
@@ -156,10 +169,10 @@ export default (parameters: Parameters) => [
     feeAmountBp: 200,
   }),
 
-  // CowSwap - OETH -> [ETH, rETH, stETH, WETH, wstETH]
+  // CowSwap - [eETH, ETH, ETHx, OETH, rETH, stETH, weETH, WETH, wstETH] <-> [eETH, ETH, ETHx, OETH, rETH, stETH, weETH, WETH, wstETH]
   allowAction.cowswap.swap({
-    sell: [OETH],
-    buy: ["ETH", rETH, stETH, WETH, wstETH],
+    sell: ["ETH", eETH, ETHx, OETH, rETH, stETH, weETH, WETH, wstETH],
+    buy: ["ETH", eETH, ETHx, OETH, rETH, stETH, weETH, WETH, wstETH],
     feeAmountBp: 200,
   }),
 
@@ -193,13 +206,29 @@ export default (parameters: Parameters) => [
   allowAction.morphoVaults.deposit({
     targets: [morpho.kpkEthPrimeV2],
   }),
+  // Morpho Vault - kpk ETH Yield v2
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkEthYieldV2],
+  }),
   // Morpho Vault - kpk EURC Yield v2
   allowAction.morphoVaults.deposit({
     targets: [morpho.kpkEurcYieldV2],
   }),
+  // Morpho Vault - kpk USDC Prime Core
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkUsdcPrimeCore],
+  }),
   // Morpho Vault - kpk USDC Prime v2
   allowAction.morphoVaults.deposit({
     targets: [morpho.kpkUsdcPrimeV2],
+  }),
+  // Morpho Vault - kpk USDC Yield v2
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkUsdcYieldV2],
+  }),
+  // Morpho Vault - kpk USDT Prime v2
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkUsdtPrimeV2],
   }),
 
   // Rocket Pool
@@ -217,6 +246,9 @@ export default (parameters: Parameters) => [
   allowAction.spark.deposit({ targets: ["SKY_sUSDS"] }),
   // Spark - SKY_spUSDT
   allowAction.spark.deposit({ targets: ["SKY_spUSDT"] }),
+
+  // Stader
+  allowAction.stader.deposit(),
 
   // StakeWise v3 - Genesis Vault
   allowAction.stakewise_v3.stake({ targets: ["Genesis"] }),
