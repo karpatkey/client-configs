@@ -116,6 +116,7 @@ export const contracts = {
       kingDistributor: "0x6Db24Ee656843E3fE03eb8762a54D86186bA6B64",
       redemptionManager: "0xDadEf1fFBFeaAB4f68A9fD181395F68b4e4E7Ae0",
       withdrawalAdapter: "0xFbfe6b9cEe0E555Bad7e2E7309EFFC75200cBE38",
+      assistant: "0xd45cB5B6791156f657D682b3c70689980f4fe8D5", // onchain-accounting exit assistant (delegatecall)
     },
     euler: {
       eVault: "0x8Ff1C814719096b61aBf00Bb46EAd0c9A529Dd7D",
@@ -214,9 +215,8 @@ export const contracts = {
       litePsmUsdcA: "0xf6e72Db5454dd049d0788e411b06CfAF16853042", // USDC <-> DAI
     },
     stakeWiseV3: {
-      ...deFiKitContracts.mainnet.stakeWiseV3,
-      chrorusOneMevMax: "0xe6d8d8aC54461b1C5eD15740EEe322043F696C08",
-      genesis: "0xAC0F906E433d58FA868F936E8A43230473652885",
+      ...deFiKitContracts.mainnet.stakeWiseV3, // generic `vault` contract; individual vaults are scoped via targetAddress using the addresses in @/addresses/eth
+      assistant: "0x13845Fc9DFfDf1AFb8B1Cf22eA298C01C8d7F71B", // onchain-accounting exit assistant (delegatecall)
     },
     stargate: {
       poolNative: "0x77b2043768d28E9C9aB44E1aBfC95944bcE57931",

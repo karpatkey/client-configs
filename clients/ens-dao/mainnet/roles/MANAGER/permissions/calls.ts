@@ -32,6 +32,7 @@ import {
   balancerV3,
   curve,
   fluid,
+  stakeWiseV3,
 } from "@/addresses/eth"
 import { zeroAddress, eAddress } from "@/addresses"
 import { contracts } from "@/contracts"
@@ -551,22 +552,43 @@ export default (parameters: Parameters) =>
     allow.mainnet.sky.dsrManager.exitAll(c.avatar),
 
     // StakeWise v3 - Genesis Vault
-    allow.mainnet.stakeWiseV3.genesis.deposit(c.avatar, undefined, {
-      send: true,
-    }),
-    allow.mainnet.stakeWiseV3.genesis.updateState(),
-    allow.mainnet.stakeWiseV3.genesis.updateStateAndDeposit(
-      c.avatar,
-      undefined,
-      undefined,
-      {
+    {
+      ...allow.mainnet.stakeWiseV3.vault.deposit(c.avatar, undefined, {
         send: true,
-      }
-    ),
-    allow.mainnet.stakeWiseV3.genesis.mintOsToken(c.avatar),
-    allow.mainnet.stakeWiseV3.genesis.burnOsToken(),
-    allow.mainnet.stakeWiseV3.genesis.enterExitQueue(undefined, c.avatar),
-    allow.mainnet.stakeWiseV3.genesis.claimExitedAssets(),
+      }),
+      targetAddress: stakeWiseV3.genesis,
+    },
+    {
+      ...allow.mainnet.stakeWiseV3.vault.updateState(),
+      targetAddress: stakeWiseV3.genesis,
+    },
+    {
+      ...allow.mainnet.stakeWiseV3.vault.updateStateAndDeposit(
+        c.avatar,
+        undefined,
+        undefined,
+        {
+          send: true,
+        }
+      ),
+      targetAddress: stakeWiseV3.genesis,
+    },
+    {
+      ...allow.mainnet.stakeWiseV3.vault.mintOsToken(c.avatar),
+      targetAddress: stakeWiseV3.genesis,
+    },
+    {
+      ...allow.mainnet.stakeWiseV3.vault.burnOsToken(),
+      targetAddress: stakeWiseV3.genesis,
+    },
+    {
+      ...allow.mainnet.stakeWiseV3.vault.enterExitQueue(undefined, c.avatar),
+      targetAddress: stakeWiseV3.genesis,
+    },
+    {
+      ...allow.mainnet.stakeWiseV3.vault.claimExitedAssets(),
+      targetAddress: stakeWiseV3.genesis,
+    },
 
     /*********************************************
      * SWAPS

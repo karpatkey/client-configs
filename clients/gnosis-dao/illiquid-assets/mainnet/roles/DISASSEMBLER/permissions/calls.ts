@@ -8,6 +8,7 @@ import {
   wstETH,
   aura,
   balancerV2,
+  stakeWiseV3,
 } from "@/addresses/eth"
 import { auraWithdrawBalancer } from "@/exit_strategies/aura"
 import {
@@ -153,10 +154,16 @@ export default [
   allow.mainnet.sommelier.turboDivEth.redeem(undefined, c.avatar, c.avatar),
 
   // StakeWise v3 - Chorus One - MEV Max
-  allow.mainnet.stakeWiseV3.chrorusOneMevMax.burnOsToken(),
-  allow.mainnet.stakeWiseV3.chrorusOneMevMax.enterExitQueue(
-    undefined,
-    c.avatar
-  ),
-  allow.mainnet.stakeWiseV3.chrorusOneMevMax.claimExitedAssets(),
+  {
+    ...allow.mainnet.stakeWiseV3.vault.burnOsToken(),
+    targetAddress: stakeWiseV3.chorusOneMaxVault,
+  },
+  {
+    ...allow.mainnet.stakeWiseV3.vault.enterExitQueue(undefined, c.avatar),
+    targetAddress: stakeWiseV3.chorusOneMaxVault,
+  },
+  {
+    ...allow.mainnet.stakeWiseV3.vault.claimExitedAssets(),
+    targetAddress: stakeWiseV3.chorusOneMaxVault,
+  },
 ] satisfies PermissionList
