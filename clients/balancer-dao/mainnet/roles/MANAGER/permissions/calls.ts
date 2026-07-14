@@ -5,6 +5,7 @@ import {
   BAL,
   COMP,
   DAI,
+  eETH,
   GHO,
   GNO,
   GYD,
@@ -24,7 +25,7 @@ import {
   wstETH,
   aaveV3,
   balancerV2,
-  pendle,
+  euler,
   siloV2,
 } from "@/addresses/eth"
 import { eAddress, zeroAddress } from "@/addresses"
@@ -160,6 +161,12 @@ export default (parameters: Parameters) =>
       "claimSelectedRewards(address,address[],address)"
     ](undefined, undefined, c.avatar),
 
+    // Aave v3 - sGHO (Savings GHO)
+    allowErc20Approve([GHO], [contracts.mainnet.aaveV3.sGho]),
+    allow.mainnet.aaveV3.sGho.deposit(undefined, c.avatar),
+    allow.mainnet.aaveV3.sGho.withdraw(undefined, c.avatar, c.avatar),
+    allow.mainnet.aaveV3.sGho.redeem(undefined, c.avatar, c.avatar),
+
     // Balancer v2 - BCoW-50WETH-50USDC - Withdraw
     allow.mainnet.balancerV2.bCow50Weth50Usdc.exitPool(),
 
@@ -239,6 +246,40 @@ export default (parameters: Parameters) =>
     // Ethena - Unstake USDe
     allow.mainnet.ethena.sUsde.cooldownShares(),
     allow.mainnet.ethena.sUsde.unstake(c.avatar),
+
+    // ether.fi - EigenLayer Restaking
+    // Stake ETH for eETH
+    allow.mainnet.etherfi.liquidityPool["deposit()"]({ send: true }),
+    // Request Withdrawal - A Withdraw Request NFT is issued
+    allowErc20Approve([eETH], [contracts.mainnet.etherfi.liquidityPool]),
+    allow.mainnet.etherfi.liquidityPool.requestWithdraw(c.avatar),
+    // Funds can be claimed once the request is finalized
+    allow.mainnet.etherfi.withdrawRequestNft.claimWithdraw(),
+    // Stake ETH for weETH
+    allow.mainnet.etherfi.depositAdapter.depositETHForWeETH(undefined, {
+      send: true,
+    }),
+    // ether.fi - Wrap/Unwrap
+    // Wrap eETH
+    allowErc20Approve([eETH], [contracts.mainnet.etherfi.weEth]),
+    allow.mainnet.etherfi.weEth.wrap(),
+    // Unwrap weETH
+    allow.mainnet.etherfi.weEth.unwrap(),
+
+    // Euler - kpk Securitize USDC/VBILL
+    allowErc20Approve([USDC], [euler.kpkSecuritizeUsdcVbill]),
+    {
+      ...allow.mainnet.euler.eVault.deposit(undefined, c.avatar),
+      targetAddress: euler.kpkSecuritizeUsdcVbill,
+    },
+    {
+      ...allow.mainnet.euler.eVault.withdraw(undefined, c.avatar, c.avatar),
+      targetAddress: euler.kpkSecuritizeUsdcVbill,
+    },
+    {
+      ...allow.mainnet.euler.eVault.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: euler.kpkSecuritizeUsdcVbill,
+    },
 
     // Merkl - Rewards
     allow.mainnet.merkl.angleDistributor.claim(
@@ -367,54 +408,6 @@ export default (parameters: Parameters) =>
       undefined,
       {
         send: true,
-      }
-    ),
-
-    // Pendle - USDe <-> PT-USDE-DDMMMYYYY
-    allowErc20Approve([USDe], [contracts.mainnet.pendle.routerV4]),
-    allow.mainnet.pendle.routerV4.swapExactTokenForPt(
-      c.avatar,
-      pendle.marketUsde05Feb2026,
-      undefined,
-      undefined,
-      {
-        tokenIn: USDe,
-        tokenMintSy: USDe,
-        pendleSwap: zeroAddress,
-        swapData: {
-          swapType: 0, // NONE: https://etherscan.io/address/0xd8d200d9a713a1c71cf1e7f694b14e5f1d948b15#code#F32#L18
-          extRouter: zeroAddress,
-          extCalldata: "0x",
-        },
-      },
-      {
-        limitRouter: zeroAddress,
-        normalFills: [],
-        flashFills: [],
-      }
-    ),
-    allowErc20Approve(
-      [pendle.ptUsde05Feb2026],
-      [contracts.mainnet.pendle.routerV4]
-    ),
-    allow.mainnet.pendle.routerV4.swapExactPtForToken(
-      c.avatar,
-      pendle.marketUsde05Feb2026,
-      undefined,
-      {
-        tokenOut: USDe,
-        tokenRedeemSy: USDe,
-        pendleSwap: zeroAddress,
-        swapData: {
-          swapType: 0, // NONE: https://etherscan.io/address/0xd8d200d9a713a1c71cf1e7f694b14e5f1d948b15#code#F32#L18
-          extRouter: zeroAddress,
-          extCalldata: "0x",
-        },
-      },
-      {
-        limitRouter: zeroAddress,
-        normalFills: [],
-        flashFills: [],
       }
     ),
 

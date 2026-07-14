@@ -108,6 +108,7 @@ export const SWPR = "0x6cAcDB97e3fC8136805a9E7c342d866ab77D0957"
 export const SYMM = "0x57dB3FfCa78dBbE0eFa0EC745D55f62aa0Cbd345"
 export const SYRUP = "0x643C4E15d7d62Ad0aBeC4a9BD4b001aA3Ef52d66"
 export const syrupUSDC = "0x80ac24aA929eaF5013f6436cdA2a7ba190f5Cc0b"
+export const syrupUSDT = "0x356B8d89c1e1239Cbbb9dE4815c39A1474d5BA7D"
 export const UNCX = "0xaDB2437e6F65682B85F814fBc12FeC0508A7B1D0"
 export const UNI = "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984"
 export const USDA = "0x0000206329b97DB379d5E1Bf586BbDB969C63274"
@@ -266,6 +267,7 @@ export const curve = {
 
 export const euler = {
   kpkRwaUsdc: "0x2B47c128b35DDDcB66Ce2FA5B33c95314a7de245",
+  kpkSecuritizeUsdcVbill: "0x2Ff596321782FE034102f55af5ad707A4Ce0d6a7", // kpk Securitize - USDC/VBILL Lend
 } as const
 
 export const fluid = {
