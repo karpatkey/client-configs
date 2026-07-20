@@ -161,8 +161,7 @@ export default (parameters: Parameters) => [
   // Spark - Borrow WETH
   allowAction.spark.borrow({ targets: ["WETH"] }),
 
-  // Stakewise v3 - Stake ETH
-  allowAction.stakewise_v3.stake({
-    targets: ["0x15639e82d2072fa510e5d2b5f0db361c823bcad3"],
-  }),
+  // StakeWise v3 - unbundled into calls.ts: deposit/mint/burn stay direct,
+  // enterExitQueue/claimExitedAssets route through the onchain-accounting
+  // assistant (delegatecall) so the exit ticket is tracked by NAV.
 ]

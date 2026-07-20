@@ -12,6 +12,7 @@ import {
   WETH,
   wstETH,
   convex,
+  stakeWiseV3,
 } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
@@ -102,9 +103,18 @@ export default [
   allow.mainnet.spark.sUsds.withdraw(undefined, c.avatar, c.avatar),
 
   // StakeWise v3 - Genesis Vault
-  allow.mainnet.stakeWiseV3.genesis.burnOsToken(),
-  allow.mainnet.stakeWiseV3.genesis.enterExitQueue(undefined, c.avatar),
-  allow.mainnet.stakeWiseV3.genesis.claimExitedAssets(),
+  {
+    ...allow.mainnet.stakeWiseV3.vault.burnOsToken(),
+    targetAddress: stakeWiseV3.genesis,
+  },
+  {
+    ...allow.mainnet.stakeWiseV3.vault.enterExitQueue(undefined, c.avatar),
+    targetAddress: stakeWiseV3.genesis,
+  },
+  {
+    ...allow.mainnet.stakeWiseV3.vault.claimExitedAssets(),
+    targetAddress: stakeWiseV3.genesis,
+  },
 
   // Uniswap v3 - WBTC + WETH
   allow.mainnet.uniswapV3.positionsNft.decreaseLiquidity(),

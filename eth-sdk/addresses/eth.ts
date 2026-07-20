@@ -306,6 +306,16 @@ export const maverickV2 = {
   ghoStkGhoPool: "0x9F274D28FedCe05153F9C810b8070277EAF8C031",
 } as const
 
+// StakeWise v3 vaults. Scoped via the generic `stakeWiseV3.vault` contract in
+// eth-sdk/config.ts + a targetAddress override (mirrors how DeFi-Kit does it).
+// Names are the ones StakeWise exposes on its subgraph; ethMetaVault is an
+// unnamed EthMetaVault (used by the StakeWise landing page to stake ETH).
+export const stakeWiseV3 = {
+  genesis: "0xAC0F906E433d58FA868F936E8A43230473652885", // Genesis
+  chorusOneMaxVault: "0xe6d8d8aC54461b1C5eD15740EEe322043F696C08", // Chorus One Max Vault
+  ethMetaVault: "0x15639e82d2072fa510e5d2b5f0db361c823bcad3", // unnamed EthMetaVault
+} as const
+
 export const morpho = {
   // Vaults
   gtWeth: "0x2371e134e3455e0593363cBF89d3b6cf53740618", // Gauntlet WETH Prime

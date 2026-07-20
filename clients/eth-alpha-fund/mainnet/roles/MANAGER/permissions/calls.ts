@@ -14,6 +14,7 @@ import {
   aura,
   balancerV3,
   kyberswap,
+  stakeWiseV3,
 } from "@/addresses/eth"
 import { WETH as WETH_arb1 } from "@/addresses/arb1"
 import { WETH as WETH_base } from "@/addresses/base"
@@ -145,10 +146,16 @@ export default (parameters: Parameters) =>
     // Stake ETH for eETH
     allow.mainnet.etherfi.liquidityPool["deposit()"]({ send: true }),
     // Request Withdrawal - A Withdraw Request NFT is issued
+    // Routed through the onchain-accounting assistant (delegatecall) so the
+    // Withdraw Request NFT id is fed to the balance adapter atomically.
     allowErc20Approve([eETH], [contracts.mainnet.etherfi.liquidityPool]),
-    allow.mainnet.etherfi.liquidityPool.requestWithdraw(c.avatar),
+    allow.mainnet.etherfi.assistant.requestWithdraw(undefined, {
+      delegatecall: true,
+    }),
     // Funds can be claimed once the request is finalized
-    allow.mainnet.etherfi.withdrawRequestNft.claimWithdraw(),
+    allow.mainnet.etherfi.assistant.claimWithdraw(undefined, {
+      delegatecall: true,
+    }),
     // Stake ETH for weETH
     allow.mainnet.etherfi.depositAdapter.depositETHForWeETH(undefined, {
       send: true,
@@ -161,6 +168,61 @@ export default (parameters: Parameters) =>
     allow.mainnet.etherfi.weEth.unwrap(),
     // ether.fi - Claim rewards
     allow.mainnet.etherfi.kingDistributor.claim(c.avatar),
+
+    // StakeWise v3 - EthMetaVault (used by the StakeWise landing page)
+    // (unbundled from allowAction.stakewise_v3.stake)
+    // Deposit / mint / burn stay direct on the vault, scoped via the generic
+    // vault contract + a targetAddress override.
+    {
+      ...allow.mainnet.stakeWiseV3.vault.deposit(c.avatar, undefined, {
+        send: true,
+      }),
+      targetAddress: stakeWiseV3.ethMetaVault,
+    },
+    {
+      ...allow.mainnet.stakeWiseV3.vault.depositAndMintOsToken(
+        c.avatar,
+        undefined,
+        undefined,
+        { send: true }
+      ),
+      targetAddress: stakeWiseV3.ethMetaVault,
+    },
+    {
+      ...allow.mainnet.stakeWiseV3.vault.updateStateAndDeposit(
+        c.avatar,
+        undefined,
+        undefined,
+        { send: true }
+      ),
+      targetAddress: stakeWiseV3.ethMetaVault,
+    },
+    {
+      ...allow.mainnet.stakeWiseV3.vault.updateState(),
+      targetAddress: stakeWiseV3.ethMetaVault,
+    },
+    {
+      ...allow.mainnet.stakeWiseV3.vault.mintOsToken(c.avatar),
+      targetAddress: stakeWiseV3.ethMetaVault,
+    },
+    {
+      ...allow.mainnet.stakeWiseV3.vault.burnOsToken(),
+      targetAddress: stakeWiseV3.ethMetaVault,
+    },
+    // Exit queue routed through the onchain-accounting assistant (delegatecall)
+    // so the exit position ticket is fed to the balance adapter atomically.
+    allow.mainnet.stakeWiseV3.assistant.enterExitQueue(
+      stakeWiseV3.ethMetaVault,
+      undefined,
+      { delegatecall: true }
+    ),
+    allow.mainnet.stakeWiseV3.assistant.claimExitedAssets(
+      stakeWiseV3.ethMetaVault,
+      undefined,
+      undefined,
+      undefined,
+      { delegatecall: true }
+    ),
 
     // Kelp - Stake/Unstake ETH and stETH
     allow.mainnet.kelp.lrtDepositPool.depositETH(undefined, undefined, {
