@@ -327,6 +327,9 @@ export const morpho = {
   usualUsdc: "0xd63070114470f685b75B74D60EEc7c1113d33a3D", // MEV Capital USDC
   bbqUsdc: "0xBEeFFF209270748ddd194831b3fa287a5386f5bC", // Smokehouse USDC
   steakUsdc: "0xBEEF01735c132Ada46AA9aA4c54623cAA92A64CB", // Steakhouse USDC
+  sentoraPyusdMain: "0xb576765fB15505433aF24FEe2c0325895C559FB2", // Sentora PYUSD Main
+  sentoraRlusdMain: "0x6dC58a0FdfC8D694e571DC59B9A52EEEa780E6bf", // Sentora RLUSD Main
+  steakhouseHighYieldUsdc: "0xbeeff2C5bF38f90e3482a8b19F12E5a6D2FCa757", // Steakhouse High Yield USDC (bbqUSDC, VaultV2)
   kpkEthPrimeV1: "0xd564F765F9aD3E7d2d6cA782100795a885e8e7C8", // kpk ETH Prime v1
   kpkEthPrimeV2: "0xBb50A5341368751024ddf33385BA8cf61fE65FF9", // kpk ETH Prime v2
   kpkEthYieldV1: "0xc88eFFD6e74D55c78290892809955463468E982A", // kpk ETH Yield v1
@@ -395,8 +398,12 @@ export const nexus = {
 export const pendle = {
   // Markets
   marketUsde05Feb2026: "0xAADBC004DAcF10e1fdbd87ca1a40ecAF77CC5B02",
+  marketSusds26Nov2026: "0x9c560ebaf78e596cbcc27411d633a74d628dd7dc",
   // PTs
   ptUsde05Feb2026: "0x1F84a51296691320478c98b8d77f2Bbd17D34350",
+  ptSusds26Nov2026: "0xdc169abe56461a2e0c034da431ac2a3ebf596094",
+  // YTs
+  ytSusds26Nov2026: "0xc7b8551c6b286ce0b44952320e940bd3dee58a09",
 } as const
 
 export const polygon = {
