@@ -37,9 +37,9 @@
         "payable": false
       },
       "contractInputsValues": {
-        "masterCopy": "0x9646fDAD06d3e24444381f44362a3B0eB343D337",
+        "masterCopy": "0xF2964CE6161ce0e75964Fe7927cE114cb0B283D5",
         "initializer": "0xa4f9edbf000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000600000000000000000000000004f2083f5fbede34c2714affb3105539775f7fe640000000000000000000000004f2083f5fbede34c2714affb3105539775f7fe640000000000000000000000004f2083f5fbede34c2714affb3105539775f7fe64",
-        "saltNonce": "1742396097152"
+        "saltNonce": "1785329888804"
       }
     },
     {
@@ -58,11 +58,11 @@
         "payable": false
       },
       "contractInputsValues": {
-        "module": "0x142A26C905e93E1d77bDdE7214F7750F2E32E64C"
+        "module": "0xa5dd28EC9C69627A96202897b35B88827854bd3b"
       }
     },
     {
-      "to": "0x142A26C905e93E1d77bDdE7214F7750F2E32E64C",
+      "to": "0xa5dd28EC9C69627A96202897b35B88827854bd3b",
       "value": "0",
       "data": null,
       "contractMethod": {
@@ -93,7 +93,7 @@
       }
     },
     {
-      "to": "0x142A26C905e93E1d77bDdE7214F7750F2E32E64C",
+      "to": "0xa5dd28EC9C69627A96202897b35B88827854bd3b",
       "value": "0",
       "data": null,
       "contractMethod": {
@@ -144,7 +144,7 @@
         "payable": false
       },
       "contractInputsValues": {
-        "module": "0x142A26C905e93E1d77bDdE7214F7750F2E32E64C",
+        "module": "0xa5dd28EC9C69627A96202897b35B88827854bd3b",
         "roleKey": "0x4d414e4147455200000000000000000000000000000000000000000000000000"
       }
     },
@@ -174,13 +174,13 @@
         "payable": false
       },
       "contractInputsValues": {
-        "module": "0x142A26C905e93E1d77bDdE7214F7750F2E32E64C",
+        "module": "0xa5dd28EC9C69627A96202897b35B88827854bd3b",
         "roleKeys": "[\"0x4d414e4147455200000000000000000000000000000000000000000000000000\"]",
         "memberOf": "[true]"
       }
     },
     {
-      "to": "0x142A26C905e93E1d77bDdE7214F7750F2E32E64C",
+      "to": "0xa5dd28EC9C69627A96202897b35B88827854bd3b",
       "value": "0",
       "data": null,
       "contractMethod": {
@@ -199,7 +199,7 @@
       }
     },
     {
-      "to": "0x142A26C905e93E1d77bDdE7214F7750F2E32E64C",
+      "to": "0xa5dd28EC9C69627A96202897b35B88827854bd3b",
       "value": "0",
       "data": null,
       "contractMethod": {
