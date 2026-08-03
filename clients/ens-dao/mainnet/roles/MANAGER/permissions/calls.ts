@@ -687,11 +687,11 @@ export default (parameters: Parameters) =>
     // vault's Authority (two-step: Rysk pushManager -> avatar pullManager).
     {
       ...allow.mainnet.rysk.vaultManager.pullManager(),
-      targetAddress: rysk.vaultManager1,
+      targetAddress: rysk.vaultManagerWethKpkUsdcCEth,
     },
     {
       ...allow.mainnet.rysk.vaultManager.pullManager(),
-      targetAddress: rysk.vaultManager2,
+      targetAddress: rysk.vaultManagerUsdcKpkWethPEth,
     },
 
     // Direct RFQ option-writing rails — approve spenders only. Writing options
