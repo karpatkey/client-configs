@@ -629,22 +629,14 @@ export default (parameters: Parameters) =>
     ),
 
     // Rysk V12 - Covered-call (WETH) & cash-secured-put (USDC) vaults
-    // Self-serve LP + curator rails. Deposits/withdrawals credit msg.sender
-    // (the avatar); none of these functions take a recipient arg to pin. Epoch
-    // settlement is run by Rysk's keeper (off-chain), not by this role.
-    // Approvals cover LP deposits (the vaults) plus the direct RFQ option-writing
-    // collateral (MarginPool) and settlement (MMarket) rails.
-    // NOTE: writing options directly via RFQ additionally requires an off-chain
-    // market-maker signature, which is out of scope of this whitelist; the
-    // MarginPool/MMarket approvals are standalone-safe (an allowance alone does
-    // nothing until such a signed trade is processed).
-    allowErc20Approve([WETH], [rysk.wethKpkUsdcCEth, rysk.marginPool]),
-    allowErc20Approve(
-      [USDC],
-      [rysk.usdcKpkWethPEth, rysk.marginPool, rysk.mMarket]
-    ),
-    allowErc20Approve([USDT], [rysk.marginPool, rysk.mMarket]),
-    // WETH-KPK-USDC-C-ETH Vault
+    // Self-serve LP + curator rails through the ZRM. Deposits/withdrawals credit
+    // msg.sender (the avatar); no recipient args to pin. Epoch settlement is run
+    // by Rysk's off-chain keeper, not by this role.
+
+    // WETH-KPK-USDC-C-ETH — WETH covered-call vault: deposit WETH to earn
+    // covered-call premium; redeem pending shares; initiate & complete the
+    // (epoch-settled) withdrawal; withdraw curator fees as vault curator.
+    allowErc20Approve([WETH], [rysk.wethKpkUsdcCEth]),
     {
       ...allow.mainnet.rysk.liquidityPool.deposit(),
       targetAddress: rysk.wethKpkUsdcCEth,
@@ -665,7 +657,11 @@ export default (parameters: Parameters) =>
       ...allow.mainnet.rysk.liquidityPool.withdrawCuratorFees(),
       targetAddress: rysk.wethKpkUsdcCEth,
     },
-    // USDC-KPK-WETH-P-ETH Vault
+
+    // USDC-KPK-WETH-P-ETH — USDC cash-secured-put vault: deposit USDC to earn
+    // cash-secured-put premium; redeem pending shares; initiate & complete the
+    // (epoch-settled) withdrawal; withdraw curator fees as vault curator.
+    allowErc20Approve([USDC], [rysk.usdcKpkWethPEth]),
     {
       ...allow.mainnet.rysk.liquidityPool.deposit(),
       targetAddress: rysk.usdcKpkWethPEth,
@@ -686,7 +682,9 @@ export default (parameters: Parameters) =>
       ...allow.mainnet.rysk.liquidityPool.withdrawCuratorFees(),
       targetAddress: rysk.usdcKpkWethPEth,
     },
-    // Curator seat - claim the manager role Rysk pushes to the avatar (two-step pull)
+
+    // Curator seat — claim the manager role Rysk pushes to the avatar on each
+    // vault's Authority (two-step: Rysk pushManager -> avatar pullManager).
     {
       ...allow.mainnet.rysk.vaultManager.pullManager(),
       targetAddress: rysk.vaultManager1,
@@ -695,6 +693,15 @@ export default (parameters: Parameters) =>
       ...allow.mainnet.rysk.vaultManager.pullManager(),
       targetAddress: rysk.vaultManager2,
     },
+
+    // Direct RFQ option-writing rails — approve spenders only. Writing options
+    // directly (covered calls / cash-secured puts) additionally needs an
+    // off-chain market-maker signature, which is out of scope of this whitelist;
+    // an allowance alone does nothing until such a signed trade is processed.
+    // MarginPool — posts WETH/USDC/USDT collateral backing directly-written options.
+    allowErc20Approve([WETH, USDC, USDT], [rysk.marginPool]),
+    // MMarket — settles / buys back directly-written option series (USDC/USDT).
+    allowErc20Approve([USDC, USDT], [rysk.mMarket]),
 
     // Sky - DSR (DAI Savings Rate)
     // The DsrManager provides an easy to use smart contract that allows
