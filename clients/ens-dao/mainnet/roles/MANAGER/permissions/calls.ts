@@ -35,6 +35,7 @@ import {
   euler,
   fluid,
   pendle,
+  rysk,
   stakeWiseV3,
 } from "@/addresses/eth"
 import { zeroAddress, eAddress } from "@/addresses"
@@ -626,6 +627,74 @@ export default (parameters: Parameters) =>
         },
       }
     ),
+
+    // Rysk V12 - Covered-call (WETH) & cash-secured-put (USDC) vaults
+    // Self-serve LP + curator rails. Deposits/withdrawals credit msg.sender
+    // (the avatar); none of these functions take a recipient arg to pin. Epoch
+    // settlement is run by Rysk's keeper (off-chain), not by this role.
+    // Approvals cover LP deposits (the vaults) plus the direct RFQ option-writing
+    // collateral (MarginPool) and settlement (MMarket) rails.
+    // NOTE: writing options directly via RFQ additionally requires an off-chain
+    // market-maker signature, which is out of scope of this whitelist; the
+    // MarginPool/MMarket approvals are standalone-safe (an allowance alone does
+    // nothing until such a signed trade is processed).
+    allowErc20Approve([WETH], [rysk.liquidityPoolCall, rysk.marginPool]),
+    allowErc20Approve(
+      [USDC],
+      [rysk.liquidityPoolPut, rysk.marginPool, rysk.mMarket]
+    ),
+    allowErc20Approve([USDT], [rysk.marginPool, rysk.mMarket]),
+    // CALL vault (WETH) - deposit / redeem / initiate & complete withdraw / curator fees
+    {
+      ...allow.mainnet.rysk.liquidityPool.deposit(),
+      targetAddress: rysk.liquidityPoolCall,
+    },
+    {
+      ...allow.mainnet.rysk.liquidityPool.redeem(),
+      targetAddress: rysk.liquidityPoolCall,
+    },
+    {
+      ...allow.mainnet.rysk.liquidityPool.initiateWithdraw(),
+      targetAddress: rysk.liquidityPoolCall,
+    },
+    {
+      ...allow.mainnet.rysk.liquidityPool.completeWithdraw(),
+      targetAddress: rysk.liquidityPoolCall,
+    },
+    {
+      ...allow.mainnet.rysk.liquidityPool.withdrawCuratorFees(),
+      targetAddress: rysk.liquidityPoolCall,
+    },
+    // PUT vault (USDC) - deposit / redeem / initiate & complete withdraw / curator fees
+    {
+      ...allow.mainnet.rysk.liquidityPool.deposit(),
+      targetAddress: rysk.liquidityPoolPut,
+    },
+    {
+      ...allow.mainnet.rysk.liquidityPool.redeem(),
+      targetAddress: rysk.liquidityPoolPut,
+    },
+    {
+      ...allow.mainnet.rysk.liquidityPool.initiateWithdraw(),
+      targetAddress: rysk.liquidityPoolPut,
+    },
+    {
+      ...allow.mainnet.rysk.liquidityPool.completeWithdraw(),
+      targetAddress: rysk.liquidityPoolPut,
+    },
+    {
+      ...allow.mainnet.rysk.liquidityPool.withdrawCuratorFees(),
+      targetAddress: rysk.liquidityPoolPut,
+    },
+    // Curator seat - claim the manager role Rysk pushes to the avatar (two-step pull)
+    {
+      ...allow.mainnet.rysk.vaultManager.pullManager(),
+      targetAddress: rysk.vaultManager1,
+    },
+    {
+      ...allow.mainnet.rysk.vaultManager.pullManager(),
+      targetAddress: rysk.vaultManager2,
+    },
 
     // Sky - DSR (DAI Savings Rate)
     // The DsrManager provides an easy to use smart contract that allows
