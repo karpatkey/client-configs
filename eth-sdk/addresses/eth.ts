@@ -406,6 +406,18 @@ export const pendle = {
   ytSusds26Nov2026: "0xc7b8551c6b286ce0b44952320e940bd3dee58a09",
 } as const
 
+export const rysk = {
+  // LiquidityPool vaults (targetAddress for the generic `rysk.liquidityPool` interface); keyed by vault symbol
+  wethKpkUsdcCEth: "0x06E6bc81c15a5D73FC35B79fF67ff57D258d77c8", // WETH-KPK-USDC-C-ETH — WETH covered-call vault
+  usdcKpkWethPEth: "0x1195826418541CB3E80A22ef5736A6794393C91A", // USDC-KPK-WETH-P-ETH — USDC cash-secured-put vault
+  // Vault managers / Authority — one per vault (targetAddress for the generic `rysk.vaultManager` interface; pullManager curator seat)
+  vaultManagerWethKpkUsdcCEth: "0xeCF8a8141919EEdff5F34D5CdFcC2120573950C4", // Authority of the WETH-KPK-USDC-C-ETH vault
+  vaultManagerUsdcKpkWethPEth: "0x59021A1aE23cc8B21c866d9C9eD1C4393C7CbBB4", // Authority of the USDC-KPK-WETH-P-ETH vault
+  // Direct RFQ option-writing rails — approve spenders only (the trade itself needs an off-chain market-maker signature)
+  marginPool: "0x684404F2AEBAD87a6803F13741B1d638Bfe2C671",
+  mMarket: "0xc01c9EF5de5862354adD9501a29e8765cFF01c32",
+} as const
+
 export const polygon = {
   posStakingContract: "0x5e3Ef299fDDf15eAa0432E6e66473ace8c13D908",
 } as const
