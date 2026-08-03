@@ -6,6 +6,7 @@ export const contracts = {
     ...deFiKitContracts.mainnet,
     aaveV3: {
       ...deFiKitContracts.mainnet.aaveV3,
+      poolHorizonV3: "0xAe05Cd22df81871bc7cC2a04BeCfb516bFe332C8", // Aave v3 Horizon (RWA market) Pool
       aaveCollectorV2: "0x464C71f6c2F760DdA6093dCB91C24c39e5d6e18c",
       umbrellaBatchHelper: "0xCe6Ced23118EDEb23054E06118a702797b13fc2F",
       stkwaEthToken: "0xaAFD07D53A7365D3e9fb6F3a3B09EC19676B73Ce", // stkwaEthWETH

@@ -215,6 +215,30 @@ export default (parameters: Parameters) => [
   allowAction.morphoVaults.deposit({
     targets: [morpho.kpkUsdtPrimeV2],
   }),
+  // Morpho Vault - kpk ETH Yield v2
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkEthYieldV2],
+  }),
+  // Morpho Vault - kpk USDC Yield v2
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkUsdcYieldV2],
+  }),
+  // Morpho Vault - Sentora PYUSD Main
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.sentoraPyusdMain],
+  }),
+  // Morpho Vault - Sentora RLUSD Main
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.sentoraRlusdMain],
+  }),
+  // Morpho Vault - Smokehouse USDC
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.bbqUsdc],
+  }),
+  // Morpho Vault - Steakhouse High Yield USDC
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.steakhouseHighYieldUsdc],
+  }),
 
   // Rocket Pool
   allowAction.rocket_pool.deposit(),

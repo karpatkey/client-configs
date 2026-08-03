@@ -15,6 +15,7 @@ import {
   OETH,
   osETH,
   rETH,
+  RLUSD,
   RPL,
   SPK,
   stETH,
@@ -31,7 +32,9 @@ import {
   balancerV2,
   balancerV3,
   curve,
+  euler,
   fluid,
+  pendle,
   stakeWiseV3,
 } from "@/addresses/eth"
 import { zeroAddress, eAddress } from "@/addresses"
@@ -53,6 +56,11 @@ export default (parameters: Parameters) =>
     allow.mainnet.weth.deposit({
       send: true,
     }),
+
+    // Aave v3 Horizon Market - RLUSD
+    allowErc20Approve([RLUSD], [contracts.mainnet.aaveV3.poolHorizonV3]),
+    allow.mainnet.aaveV3.poolHorizonV3.supply(RLUSD, undefined, c.avatar),
+    allow.mainnet.aaveV3.poolHorizonV3.withdraw(RLUSD, undefined, c.avatar),
 
     // Aura - Aave Lido Boosted WETH/wstETH
     allowErc20Approve(
@@ -491,6 +499,21 @@ export default (parameters: Parameters) =>
     // ether.fi - Claim rewards
     allow.mainnet.etherfi.kingDistributor.claim(c.avatar),
 
+    // Euler - KPK RWA USDC
+    allowErc20Approve([USDC], [euler.kpkRwaUsdc]),
+    {
+      ...allow.mainnet.euler.eVault.deposit(undefined, c.avatar),
+      targetAddress: euler.kpkRwaUsdc,
+    },
+    {
+      ...allow.mainnet.euler.eVault.withdraw(undefined, c.avatar, c.avatar),
+      targetAddress: euler.kpkRwaUsdc,
+    },
+    {
+      ...allow.mainnet.euler.eVault.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: euler.kpkRwaUsdc,
+    },
+
     // Fluid - FLUID Rewards
     {
       ...allow.mainnet.fluid.merkleDistributor.claim(c.avatar),
@@ -539,6 +562,70 @@ export default (parameters: Parameters) =>
     allow.mainnet.origin.oEthVault.requestWithdrawal(),
     allow.mainnet.origin.oEthVault.claimWithdrawal(),
     allow.mainnet.origin.oEthVault.claimWithdrawals(),
+
+    // Pendle - PT-sUSDS-26NOV2026: buy / sell / redeem at maturity (RouterV4)
+    // Aggregator-free routes only (pendleSwap = zeroAddress, swapType NONE) and
+    // no limit-order fills; recipient pinned to the avatar Safe.
+    allowErc20Approve(
+      [sUSDS, USDS, pendle.ptSusds26Nov2026],
+      [contracts.mainnet.pendle.routerV4]
+    ),
+    allow.mainnet.pendle.routerV4.swapExactTokenForPt(
+      c.avatar,
+      pendle.marketSusds26Nov2026,
+      undefined,
+      undefined,
+      {
+        tokenIn: c.or(sUSDS, USDS),
+        tokenMintSy: c.or(sUSDS, USDS),
+        pendleSwap: zeroAddress,
+        swapData: {
+          swapType: 0,
+          extRouter: zeroAddress,
+          extCalldata: "0x",
+        },
+      },
+      {
+        limitRouter: zeroAddress,
+        normalFills: [],
+        flashFills: [],
+      }
+    ),
+    allow.mainnet.pendle.routerV4.swapExactPtForToken(
+      c.avatar,
+      pendle.marketSusds26Nov2026,
+      undefined,
+      {
+        tokenOut: c.or(sUSDS, USDS),
+        tokenRedeemSy: c.or(sUSDS, USDS),
+        pendleSwap: zeroAddress,
+        swapData: {
+          swapType: 0,
+          extRouter: zeroAddress,
+          extCalldata: "0x",
+        },
+      },
+      {
+        limitRouter: zeroAddress,
+        normalFills: [],
+        flashFills: [],
+      }
+    ),
+    allow.mainnet.pendle.routerV4.redeemPyToToken(
+      c.avatar,
+      pendle.ytSusds26Nov2026,
+      undefined,
+      {
+        tokenOut: c.or(sUSDS, USDS),
+        tokenRedeemSy: c.or(sUSDS, USDS),
+        pendleSwap: zeroAddress,
+        swapData: {
+          swapType: 0,
+          extRouter: zeroAddress,
+          extCalldata: "0x",
+        },
+      }
+    ),
 
     // Sky - DSR (DAI Savings Rate)
     // The DsrManager provides an easy to use smart contract that allows
