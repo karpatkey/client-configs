@@ -638,53 +638,53 @@ export default (parameters: Parameters) =>
     // market-maker signature, which is out of scope of this whitelist; the
     // MarginPool/MMarket approvals are standalone-safe (an allowance alone does
     // nothing until such a signed trade is processed).
-    allowErc20Approve([WETH], [rysk.liquidityPoolCall, rysk.marginPool]),
+    allowErc20Approve([WETH], [rysk.wethKpkUsdcCEth, rysk.marginPool]),
     allowErc20Approve(
       [USDC],
-      [rysk.liquidityPoolPut, rysk.marginPool, rysk.mMarket]
+      [rysk.usdcKpkWethPEth, rysk.marginPool, rysk.mMarket]
     ),
     allowErc20Approve([USDT], [rysk.marginPool, rysk.mMarket]),
-    // CALL vault (WETH) - deposit / redeem / initiate & complete withdraw / curator fees
+    // WETH-KPK-USDC-C-ETH Vault
     {
       ...allow.mainnet.rysk.liquidityPool.deposit(),
-      targetAddress: rysk.liquidityPoolCall,
+      targetAddress: rysk.wethKpkUsdcCEth,
     },
     {
       ...allow.mainnet.rysk.liquidityPool.redeem(),
-      targetAddress: rysk.liquidityPoolCall,
+      targetAddress: rysk.wethKpkUsdcCEth,
     },
     {
       ...allow.mainnet.rysk.liquidityPool.initiateWithdraw(),
-      targetAddress: rysk.liquidityPoolCall,
+      targetAddress: rysk.wethKpkUsdcCEth,
     },
     {
       ...allow.mainnet.rysk.liquidityPool.completeWithdraw(),
-      targetAddress: rysk.liquidityPoolCall,
+      targetAddress: rysk.wethKpkUsdcCEth,
     },
     {
       ...allow.mainnet.rysk.liquidityPool.withdrawCuratorFees(),
-      targetAddress: rysk.liquidityPoolCall,
+      targetAddress: rysk.wethKpkUsdcCEth,
     },
-    // PUT vault (USDC) - deposit / redeem / initiate & complete withdraw / curator fees
+    // USDC-KPK-WETH-P-ETH Vault
     {
       ...allow.mainnet.rysk.liquidityPool.deposit(),
-      targetAddress: rysk.liquidityPoolPut,
+      targetAddress: rysk.usdcKpkWethPEth,
     },
     {
       ...allow.mainnet.rysk.liquidityPool.redeem(),
-      targetAddress: rysk.liquidityPoolPut,
+      targetAddress: rysk.usdcKpkWethPEth,
     },
     {
       ...allow.mainnet.rysk.liquidityPool.initiateWithdraw(),
-      targetAddress: rysk.liquidityPoolPut,
+      targetAddress: rysk.usdcKpkWethPEth,
     },
     {
       ...allow.mainnet.rysk.liquidityPool.completeWithdraw(),
-      targetAddress: rysk.liquidityPoolPut,
+      targetAddress: rysk.usdcKpkWethPEth,
     },
     {
       ...allow.mainnet.rysk.liquidityPool.withdrawCuratorFees(),
-      targetAddress: rysk.liquidityPoolPut,
+      targetAddress: rysk.usdcKpkWethPEth,
     },
     // Curator seat - claim the manager role Rysk pushes to the avatar (two-step pull)
     {
