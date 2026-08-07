@@ -21,6 +21,8 @@ import {
   sUSDS,
   stETH,
   SWISE,
+  syrupUSDC,
+  syrupUSDT,
   USDC,
   USDS,
   USDT,
@@ -148,6 +150,17 @@ export default (parameters: Parameters) => [
     buy: ["ETH", USDC, USDS, USDT],
     twap: true,
     receiver: parameters.avatar,
+  }),
+
+  // CowSwap - [USDC, syrupUSDC] <-> [USDC, syrupUSDC]
+  allowAction.cowswap.swap({
+    sell: [USDC, syrupUSDC],
+    buy: [USDC, syrupUSDC],
+  }),
+  // CowSwap - [USDT, syrupUSDT] <-> [USDT, syrupUSDT]
+  allowAction.cowswap.swap({
+    sell: [USDT, syrupUSDT],
+    buy: [USDT, syrupUSDT],
   }),
 
   // Fluid - Deposit GHO
