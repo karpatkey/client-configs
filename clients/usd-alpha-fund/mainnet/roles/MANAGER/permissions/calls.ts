@@ -1,6 +1,5 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { zeroAddress } from "@/addresses"
 import {
   crvUSD,
   GHO,
@@ -9,7 +8,6 @@ import {
   syrupUSDC,
   USDC,
   USDe,
-  USDS,
   USDT,
   balancerV3,
   morpho,
@@ -141,37 +139,6 @@ export default (parameters: Parameters) =>
     /*********************************************
      * Bridges
      *********************************************/
-    // Mainnet -> Gnosis
-    // GHO - Chainlink - transporter.io
-    allowErc20Approve([GHO], [contracts.mainnet.chainlink.router]),
-    allow.mainnet.chainlink.router.ccipSend(
-      "465200170687744372", // https://docs.chain.link/ccip/directory/mainnet/chain/xdai-mainnet
-      {
-        receiver: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-        data: "0x",
-        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#evmtokenamount
-        tokenAmounts: c.matches([
-          {
-            token: GHO,
-            amount: undefined,
-          },
-        ]),
-        feeToken: zeroAddress,
-        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#generic_extra_args_v2_tag
-        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#genericextraargsv2
-        extraArgs: c.or(
-          "0x",
-          "0x181dcf1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001"
-        ),
-      },
-      {
-        send: true,
-      }
-    ),
-
-    // USDS -> XDAI - Gnosis Bridge
-    allowErc20Approve([USDS], [contracts.mainnet.gnosisBridge.xdaiUsdsBridge]),
-    allow.mainnet.gnosisBridge.xdaiUsdsBridge.relayTokens(USDS, c.avatar),
     // Claim bridged XDAI from Gnosis
     allow.mainnet.gnosisBridge.xdaiUsdsBridge.executeSignatures(
       c.and(
@@ -203,14 +170,6 @@ export default (parameters: Parameters) =>
       )
     ),
 
-    // USDC -> USDC.e - Gnosis Bridge
-    allowErc20Approve([USDC], [contracts.mainnet.gnosisBridge.gnoOmnibridge]),
-    allow.mainnet.gnosisBridge.gnoOmnibridge.relayTokensAndCall(
-      USDC,
-      contracts.gnosis.gnosisBridge.usdcTransmuter,
-      undefined,
-      "0x" + parameters.avatar.slice(2).padStart(64, "0")
-    ),
     // Claim bridged USDC from Gnosis
     allow.mainnet.gnosisBridge.xdaiUsdsBridge.safeExecuteSignaturesWithAutoGasLimit(
       c.and(
@@ -301,202 +260,4 @@ export default (parameters: Parameters) =>
         })
       )
     ),
-
-    // USDC - Stargate
-    allow.mainnet.stargate.poolUsdc.send(
-      {
-        dstEid: "30145", // Gnosis Chain ID
-        to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-        // 0x = default / no LayerZero options
-        // 0x0003 = empty LayerZero TYPE_3 options container (OptionsBuilder.newOptions())
-        // https://github.com/LayerZero-Labs/LayerZero-v2/blob/9c741e7f9790639537b1710a203bcdfd73b0b9ac/packages/layerzero-v2/evm/oapp/contracts/oapp/libs/OptionsBuilder.sol#L22
-        extraOptions: c.or("0x", "0x0003"),
-        composeMsg: "0x",
-        oftCmd: c.or("0x", "0x01"), // https://docs.stargate.finance/developers/protocol-docs/transfer#sendparamoftcmd
-      },
-      undefined,
-      c.avatar,
-      {
-        send: true,
-      }
-    ),
-
-    // Mainnet -> Arbitrum
-    // GHO - Chainlink - transporter.io
-    allowErc20Approve([GHO], [contracts.mainnet.chainlink.router]),
-    allow.mainnet.chainlink.router.ccipSend(
-      "4949039107694359620", // https://docs.chain.link/ccip/directory/mainnet/chain/ethereum-mainnet-arbitrum-1
-      {
-        receiver: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-        data: "0x",
-        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#evmtokenamount
-        tokenAmounts: c.matches([
-          {
-            token: GHO,
-            amount: undefined,
-          },
-        ]),
-        feeToken: zeroAddress,
-        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#generic_extra_args_v2_tag
-        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#genericextraargsv2
-        extraArgs: c.or(
-          "0x",
-          "0x181dcf1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001"
-        ),
-      },
-      {
-        send: true,
-      }
-    ),
-
-    // USDC - Stargate
-    allowErc20Approve([USDC], [contracts.mainnet.stargate.poolUsdc]),
-    allow.mainnet.stargate.poolUsdc.send(
-      {
-        dstEid: "30110", // Arbitrum chain ID
-        to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-        // 0x = default / no LayerZero options
-        // 0x0003 = empty LayerZero TYPE_3 options container (OptionsBuilder.newOptions())
-        // https://github.com/LayerZero-Labs/LayerZero-v2/blob/9c741e7f9790639537b1710a203bcdfd73b0b9ac/packages/layerzero-v2/evm/oapp/contracts/oapp/libs/OptionsBuilder.sol#L22
-        extraOptions: c.or("0x", "0x0003"),
-        composeMsg: "0x",
-        oftCmd: c.or("0x", "0x01"), // https://docs.stargate.finance/developers/protocol-docs/transfer#sendparamoftcmd
-      },
-      undefined,
-      c.avatar,
-      {
-        send: true,
-      }
-    ),
-
-    // USDT - Stargate
-    {
-      ...allow.mainnet.stargate.poolUsdc.send(
-        {
-          dstEid: "30110", // Arbitrum chain ID
-          to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-          // 0x = default / no LayerZero options
-          // 0x0003 = empty LayerZero TYPE_3 options container (OptionsBuilder.newOptions())
-          // https://github.com/LayerZero-Labs/LayerZero-v2/blob/9c741e7f9790639537b1710a203bcdfd73b0b9ac/packages/layerzero-v2/evm/oapp/contracts/oapp/libs/OptionsBuilder.sol#L22
-          extraOptions: c.or("0x", "0x0003"),
-          composeMsg: "0x",
-          oftCmd: c.or("0x", "0x01"), // https://docs.stargate.finance/developers/protocol-docs/transfer#sendparamoftcmd,
-        },
-        undefined,
-        c.avatar,
-        {
-          send: true,
-        }
-      ),
-      targetAddress: contracts.mainnet.stargate.poolUsdt,
-    },
-
-    // Mainnet -> Base
-    // GHO - Chainlink - transporter.io
-    allowErc20Approve([GHO], [contracts.mainnet.chainlink.router]),
-    allow.mainnet.chainlink.router.ccipSend(
-      "15971525489660198786", // https://docs.chain.link/ccip/directory/mainnet/chain/ethereum-mainnet-base-1
-      {
-        receiver: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-        data: "0x",
-        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#evmtokenamount
-        tokenAmounts: c.matches([
-          {
-            token: GHO,
-            amount: undefined,
-          },
-        ]),
-        feeToken: zeroAddress,
-        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#generic_extra_args_v2_tag
-        // https://docs.chain.link/ccip/api-reference/evm/v1.6.1/client#genericextraargsv2
-        extraArgs: c.or(
-          "0x",
-          "0x181dcf1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001"
-        ),
-      },
-      {
-        send: true,
-      }
-    ),
-
-    // USDC - Stargate
-    allow.mainnet.stargate.poolUsdc.send(
-      {
-        dstEid: "30184", // Base chain ID
-        to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-        // 0x = default / no LayerZero options
-        // 0x0003 = empty LayerZero TYPE_3 options container (OptionsBuilder.newOptions())
-        // https://github.com/LayerZero-Labs/LayerZero-v2/blob/9c741e7f9790639537b1710a203bcdfd73b0b9ac/packages/layerzero-v2/evm/oapp/contracts/oapp/libs/OptionsBuilder.sol#L22
-        extraOptions: c.or("0x", "0x0003"),
-        composeMsg: "0x",
-        oftCmd: c.or("0x", "0x01"), // https://docs.stargate.finance/developers/protocol-docs/transfer#sendparamoftcmd
-      },
-      undefined,
-      c.avatar,
-      {
-        send: true,
-      }
-    ),
-
-    // Mainnet -> Optimism
-    // USDC - Stargate
-    allow.mainnet.stargate.poolUsdc.send(
-      {
-        dstEid: "30184", // Base chain ID
-        to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-        // 0x = default / no LayerZero options
-        // 0x0003 = empty LayerZero TYPE_3 options container (OptionsBuilder.newOptions())
-        // https://github.com/LayerZero-Labs/LayerZero-v2/blob/9c741e7f9790639537b1710a203bcdfd73b0b9ac/packages/layerzero-v2/evm/oapp/contracts/oapp/libs/OptionsBuilder.sol#L22
-        extraOptions: c.or("0x", "0x0003"),
-        composeMsg: "0x",
-        oftCmd: c.or("0x", "0x01"), // https://docs.stargate.finance/developers/protocol-docs/transfer#sendparamoftcmd
-      },
-      undefined,
-      c.avatar,
-      {
-        send: true,
-      }
-    ),
-
-    // USDC - Stargate
-    allow.mainnet.stargate.poolUsdc.send(
-      {
-        dstEid: "30111", // Optimism chain ID
-        to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-        // 0x = default / no LayerZero options
-        // 0x0003 = empty LayerZero TYPE_3 options container (OptionsBuilder.newOptions())
-        // https://github.com/LayerZero-Labs/LayerZero-v2/blob/9c741e7f9790639537b1710a203bcdfd73b0b9ac/packages/layerzero-v2/evm/oapp/contracts/oapp/libs/OptionsBuilder.sol#L22
-        extraOptions: c.or("0x", "0x0003"),
-        composeMsg: "0x",
-        oftCmd: c.or("0x", "0x01"), // https://docs.stargate.finance/developers/protocol-docs/transfer#sendparamoftcmd
-      },
-      undefined,
-      c.avatar,
-      {
-        send: true,
-      }
-    ),
-
-    // USDT - Stargate
-    allowErc20Approve([USDT], [contracts.mainnet.stargate.poolUsdt]),
-    {
-      ...allow.mainnet.stargate.poolUsdc.send(
-        {
-          dstEid: "30111", // Optimism chain ID
-          to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-          // 0x = default / no LayerZero options
-          // 0x0003 = empty LayerZero TYPE_3 options container (OptionsBuilder.newOptions())
-          // https://github.com/LayerZero-Labs/LayerZero-v2/blob/9c741e7f9790639537b1710a203bcdfd73b0b9ac/packages/layerzero-v2/evm/oapp/contracts/oapp/libs/OptionsBuilder.sol#L22
-          extraOptions: c.or("0x", "0x0003"),
-          composeMsg: "0x",
-          oftCmd: c.or("0x", "0x01"), // https://docs.stargate.finance/developers/protocol-docs/transfer#sendparamoftcmd
-        },
-        undefined,
-        c.avatar,
-        {
-          send: true,
-        }
-      ),
-      targetAddress: contracts.mainnet.stargate.poolUsdt,
-    },
   ] satisfies PermissionList
