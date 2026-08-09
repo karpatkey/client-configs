@@ -25,8 +25,6 @@ export default (parameters: Parameters) => [
    * Protocols
    *********************************************/
 
-  // Aave Safety Module - Stake GHO
-  allowAction.aave_v3.stake({ targets: ["GHO"] }),
   // Aave v3 Core Market - Deposit RLUSD
   allowAction.aave_v3.deposit({ market: "Core", targets: ["RLUSD"] }),
   // Aave v3 Core Market - Deposit sUSDe
@@ -78,17 +76,6 @@ export default (parameters: Parameters) => [
       "0x64d65c9a2d91c36d56fbc42d69e979335320169b3df63bf92789e2c8883fcc64",
     ],
   }),
-  // Morpho Market - USDC/syrupUSDC - id: 0x729badf297ee9f2f6b3f717b96fd355fc6ec00422284ce1968e76647b258cf44
-  allowAction.morphoMarkets.deposit({
-    targets: [
-      "0x729badf297ee9f2f6b3f717b96fd355fc6ec00422284ce1968e76647b258cf44",
-    ],
-  }),
-  allowAction.morphoMarkets.borrow({
-    targets: [
-      "0x729badf297ee9f2f6b3f717b96fd355fc6ec00422284ce1968e76647b258cf44",
-    ],
-  }),
   // Morpho Vault - kpk USDC Prime v1.1
   allowAction.morphoVaults.deposit({
     targets: [morpho.kpkUsdcPrimeV1],
@@ -120,7 +107,7 @@ export default (parameters: Parameters) => [
    *********************************************/
 
   // CowSwap - [AURA, BAL, crvUSD, DAI, GHO, MORPHO, RLUSD, SPK, sUSDe, sUSDS, stkGHO, syrupUSDC, USDC, USDe, USDS, USDT] <->
-  // [crvUSD, GHO, RLUSD, sUSDe, sUSDS, stkGHO, syrupUSDC, USDC, USDe, USDS, USDT]
+  // [crvUSD, GHO, RLUSD, sUSDe, sUSDS, USDC, USDe, USDS, USDT]
   allowAction.cowswap.swap({
     sell: [
       AURA,
@@ -140,19 +127,7 @@ export default (parameters: Parameters) => [
       USDS,
       USDT,
     ],
-    buy: [
-      crvUSD,
-      GHO,
-      RLUSD,
-      sUSDe,
-      sUSDS,
-      stkGHO,
-      syrupUSDC,
-      USDC,
-      USDe,
-      USDS,
-      USDT,
-    ],
+    buy: [crvUSD, GHO, RLUSD, sUSDe, sUSDS, USDC, USDe, USDS, USDT],
   }),
 
   /*********************************************
