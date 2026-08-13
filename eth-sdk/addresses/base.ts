@@ -4,6 +4,7 @@ export const BAL = "0x4158734D47Fc9692176B5085E0F52ee0Da5d47F1"
 export const cbETH = "0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22"
 export const cbBTC = "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf"
 export const COMP = "0x9e1028F5F1D5eDE59748FFceE5532509976840E0"
+export const COW = "0xc694a91e6b071bF030A18BD3053A7fE09B6DaE69"
 export const DAI = "0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb"
 export const GHO = "0x6Bb7a212910682DCFdbd5BCBb3e28FB4E8da10Ee"
 export const MORPHO = "0xBAa5CC21fd487B8Fcc2F632f3F4E8D37262a0842"
@@ -30,6 +31,10 @@ export const morpho = {
   oracleCbBtcUsdc: "0x663BECd10daE6C4A3Dcd89F1d76c1174199639B9",
   oraclePTUsde11Dec2025Usdc: "0x15af6e452Fe5C4B78c45f9DE02842a52E600A1cA",
   adaptativeCurveIrm: "0x46415998764C29aB2a25CbeA6254146D50D22687",
+} as const
+
+export const pancakeSwapV2 = {
+  wethCow: "0x8AD02D9Dd1705098cf22724390e62DfA6a2dce76",
 } as const
 
 export const pendle = {

@@ -1,6 +1,9 @@
 import { allow } from "zodiac-roles-sdk/kit"
 import { PermissionList } from "@/types"
 import { c } from "zodiac-roles-sdk"
+import { COW, WETH, uniswapV2 } from "@/addresses/arb1"
+import { contracts } from "@/contracts"
+import { allowErc20Approve } from "@/helpers"
 import { Parameters } from "../../../../../parameters"
 
 export default (parameters: Parameters) =>
@@ -11,34 +14,62 @@ export default (parameters: Parameters) =>
       send: true,
     }),
 
-    /*********************************************
-     * Bridge
-     *********************************************/
-    // Arbitrum -> Mainnet
-    // ETH - Arbitrum Bridge
-    allow.arbitrumOne.arbitrumBridge.arbSys.withdrawEth(
-      c.avatar, // Destination address
-      {
-        send: true,
-      }
+    // Uniswap v2 - Add/remove liquidity for the WETH/COW pool
+    allowErc20Approve([WETH, COW], [contracts.arbitrumOne.uniswapV2.router2]),
+    allow.arbitrumOne.uniswapV2.router2.addLiquidity(
+      c.or(WETH, COW),
+      c.or(WETH, COW),
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      c.avatar
+    ),
+    allowErc20Approve(
+      [uniswapV2.wethCow],
+      [contracts.arbitrumOne.uniswapV2.router2]
+    ),
+    allow.arbitrumOne.uniswapV2.router2.removeLiquidity(
+      c.or(WETH, COW),
+      c.or(WETH, COW),
+      undefined,
+      undefined,
+      undefined,
+      c.avatar
     ),
 
-    // ETH - Stargate
-    allow.arbitrumOne.stargate.poolNative.send(
-      {
-        dstEid: "30101", // Ethereum
-        to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-        // 0x = default / no LayerZero options
-        // 0x0003 = empty LayerZero TYPE_3 options container (OptionsBuilder.newOptions())
-        // https://github.com/LayerZero-Labs/LayerZero-v2/blob/9c741e7f9790639537b1710a203bcdfd73b0b9ac/packages/layerzero-v2/evm/oapp/contracts/oapp/libs/OptionsBuilder.sol#L22
-        extraOptions: c.or("0x", "0x0003"),
-        composeMsg: "0x",
-        oftCmd: c.or("0x", "0x01"), // https://docs.stargate.finance/developers/protocol-docs/transfer#sendparamoftcmd
-      },
-      undefined,
-      c.avatar,
-      {
-        send: true,
-      }
-    ),
+    // NOTE: Bridge permissions below are from a prior, non-production iteration
+    // that was never applied on-chain. Commented out for this first official
+    // request (keeping only ETH/WETH wrap-unwrap and the requested LP scope).
+    // Re-enable via a dedicated PUR when bridging is actually requested.
+    // /*********************************************
+    //  * Bridge
+    //  *********************************************/
+    // // Arbitrum -> Mainnet
+    // // ETH - Arbitrum Bridge
+    // allow.arbitrumOne.arbitrumBridge.arbSys.withdrawEth(
+    //   c.avatar, // Destination address
+    //   {
+    //     send: true,
+    //   }
+    // ),
+    //
+    // // ETH - Stargate
+    // allow.arbitrumOne.stargate.poolNative.send(
+    //   {
+    //     dstEid: "30101", // Ethereum
+    //     to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
+    //     // 0x = default / no LayerZero options
+    //     // 0x0003 = empty LayerZero TYPE_3 options container (OptionsBuilder.newOptions())
+    //     // https://github.com/LayerZero-Labs/LayerZero-v2/blob/9c741e7f9790639537b1710a203bcdfd73b0b9ac/packages/layerzero-v2/evm/oapp/contracts/oapp/libs/OptionsBuilder.sol#L22
+    //     extraOptions: c.or("0x", "0x0003"),
+    //     composeMsg: "0x",
+    //     oftCmd: c.or("0x", "0x01"), // https://docs.stargate.finance/developers/protocol-docs/transfer#sendparamoftcmd
+    //   },
+    //   undefined,
+    //   c.avatar,
+    //   {
+    //     send: true,
+    //   }
+    // ),
   ] satisfies PermissionList
