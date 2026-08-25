@@ -2,7 +2,6 @@ import { allow as allowAction } from "defi-kit/eth"
 import {
   AURA,
   BAL,
-  cbBTC,
   crvUSD,
   DAI,
   GHO,
@@ -16,9 +15,6 @@ import {
   USDe,
   USDS,
   USDT,
-  WBTC,
-  WETH,
-  wstETH,
   syrupUSDC,
   morpho,
 } from "@/addresses/eth"
@@ -44,10 +40,10 @@ export default (parameters: Parameters) => [
   // Aave v3 Core Market - Borrow USDC
   allowAction.aave_v3.borrow({ market: "Core", targets: ["USDC"] }),
 
-  // Compound v3 - Institutional Market (cinUSDC) - Deposit/withdraw USDC, WETH, wstETH, cbBTC, WBTC
+  // Compound v3 - Institutional Market (cinUSDC) - Deposit/withdraw USDC
   allowAction.compound_v3.deposit({
     targets: ["cinUSDC"],
-    tokens: ["USDC", "WETH", "wstETH", "cbBTC", "WBTC"],
+    tokens: ["USDC"],
   }),
 
   // Convex - crvUSD/USDC

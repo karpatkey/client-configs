@@ -1,14 +1,5 @@
 import { allow as allowAction } from "defi-kit/eth"
-import {
-  cbBTC,
-  GHO,
-  USDC,
-  USDS,
-  WBTC,
-  WETH,
-  wstETH,
-  morpho,
-} from "@/addresses/eth"
+import { GHO, USDC, USDS, morpho } from "@/addresses/eth"
 
 export default [
   /*********************************************
@@ -20,10 +11,10 @@ export default [
   // Aave v3 Core Market - Deposit/withdraw USDC
   allowAction.aave_v3.deposit({ market: "Core", targets: ["USDC"] }),
 
-  // Compound v3 - Institutional Market (cinUSDC) - Deposit/withdraw USDC, WETH, wstETH, cbBTC, WBTC
+  // Compound v3 - Institutional Market (cinUSDC) - Deposit/withdraw USDC
   allowAction.compound_v3.deposit({
     targets: ["cinUSDC"],
-    tokens: ["USDC", "WETH", "wstETH", "cbBTC", "WBTC"],
+    tokens: ["USDC"],
   }),
 
   // Morpho Vault - kpk USDC Prime v2
