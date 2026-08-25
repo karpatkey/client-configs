@@ -20,9 +20,9 @@ export default [
   // Aave v3 Core Market - Deposit/withdraw USDC
   allowAction.aave_v3.deposit({ market: "Core", targets: ["USDC"] }),
 
-  // Compound v3 - Institutional Market - Deposit/withdraw USDC, WETH, wstETH, cbBTC, WBTC
+  // Compound v3 - Institutional Market (cinUSDC) - Deposit/withdraw USDC, WETH, wstETH, cbBTC, WBTC
   allowAction.compound_v3.deposit({
-    targets: ["cUSDCInstitutionalv3"],
+    targets: ["cinUSDC"],
     tokens: ["USDC", "WETH", "wstETH", "cbBTC", "WBTC"],
   }),
 
