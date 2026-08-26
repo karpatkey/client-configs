@@ -1,14 +1,3 @@
-import { allow as allowAction } from "defi-kit/base"
 import { Parameters } from "../../../parameters"
 
-export default (parameters: Parameters) => [
-  /*********************************************
-   * Bridges
-   *********************************************/
-
-  // Circle v2 - Bridge USDC to Mainnet
-  allowAction.circle_v2.bridge({
-    targets: ["Ethereum"],
-    recipient: parameters.avatar,
-  }),
-]
+export default (parameters: Parameters) => []
