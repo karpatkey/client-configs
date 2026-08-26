@@ -45,10 +45,6 @@ export const contracts = {
     chainlink: {
       router: "0x80226fc0Ee2b096224EeAc085Bb9a8cba1146f7D",
     },
-    compoundV3: {
-      ...deFiKitContracts.mainnet.compoundV3,
-      cUsdcInstitutionalV3: "0xf5a628D53c47fBA2C062cd6F5B6D255cb05645Eb", // Compound Institutional Market - USDC base, WETH/wstETH/cbBTC/WBTC collateral
-    },
     convex: {
       ...deFiKitContracts.mainnet.convex,
       claimZap: "0x3f29cB4111CbdA8081642DA1f75B3c12DECf2516",
