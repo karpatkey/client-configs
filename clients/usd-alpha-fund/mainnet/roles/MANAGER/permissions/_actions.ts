@@ -40,6 +40,12 @@ export default (parameters: Parameters) => [
   // Aave v3 Core Market - Borrow USDC
   allowAction.aave_v3.borrow({ market: "Core", targets: ["USDC"] }),
 
+  // Compound v3 - Institutional Market (cinUSDC) - Deposit/withdraw USDC
+  allowAction.compound_v3.deposit({
+    targets: ["cinUSDC"],
+    tokens: ["USDC"],
+  }),
+
   // Convex - crvUSD/USDC
   allowAction.convex.deposit({ targets: ["182"] }),
   // Convex - crvUSD/USDT

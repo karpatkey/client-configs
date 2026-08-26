@@ -236,6 +236,11 @@ export const balancerV3 = {
   rEthWaEthWethGauge: "0x62A66eB9aBf7a788F48D0ce7C0C065df9e09dA19",
 } as const
 
+export const compoundV3 = {
+  // Compound v3 Institutional Market (cinUSDC)
+  cinUSDC: "0xf5a628D53c47fBA2C062cd6F5B6D255cb05645Eb",
+} as const
+
 export const convex = {
   // LPs
   cvxsteCrv: "0x9518c9063eB0262D791f38d8d6Eb0aca33c63ed0",

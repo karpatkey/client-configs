@@ -11,6 +11,12 @@ export default [
   // Aave v3 Core Market - Deposit/withdraw USDC
   allowAction.aave_v3.deposit({ market: "Core", targets: ["USDC"] }),
 
+  // Compound v3 - Institutional Market (cinUSDC) - Deposit/withdraw USDC
+  allowAction.compound_v3.deposit({
+    targets: ["cinUSDC"],
+    tokens: ["USDC"],
+  }),
+
   // Morpho Vault - kpk USDC Prime v2
   allowAction.morphoVaults.deposit({ targets: [morpho.kpkUsdcPrimeV2] }),
 

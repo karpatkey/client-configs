@@ -1,6 +1,6 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { morpho, USDC, USDT } from "@/addresses/eth"
+import { USDC, USDT, compoundV3, morpho } from "@/addresses/eth"
 import { PermissionList } from "@/types"
 import { Parameters } from "../../../parameters"
 
@@ -15,6 +15,12 @@ export default (parameters: Parameters) =>
 
     // Aave v3 - sGHO (Savings GHO) - Withdraw to the avatar Safe
     allow.mainnet.aaveV3.sGho.withdraw(undefined, c.avatar, c.avatar),
+
+    // Compound v3 - Institutional Market (cinUSDC) - Withdraw USDC
+    {
+      ...allow.mainnet.compoundV3.comet.withdraw(USDC),
+      targetAddress: compoundV3.cinUSDC,
+    },
 
     // Morpho Vault - kpk USDC Prime v2 - Withdraw to the avatar Safe
     {
