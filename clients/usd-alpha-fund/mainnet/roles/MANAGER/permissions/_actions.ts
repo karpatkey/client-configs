@@ -135,27 +135,4 @@ export default (parameters: Parameters) => [
     ],
     buy: [crvUSD, GHO, RLUSD, sUSDe, sUSDS, USDC, USDe, USDS, USDT],
   }),
-
-  /*********************************************
-   * Bridges
-   *********************************************/
-
-  // Circle v2 - Receive USDC from Arbitrum
-  allowAction.circle_v2.receive({
-    targets: ["Arbitrum"],
-    sender: parameters.avatar,
-    recipient: parameters.avatar,
-  }),
-  // Circle v2 - Receive USDC from Base
-  allowAction.circle_v2.receive({
-    targets: ["Base"],
-    sender: parameters.avatar,
-    recipient: parameters.avatar,
-  }),
-  // Circle v2 - Receive USDC from Optimism
-  allowAction.circle_v2.receive({
-    targets: ["Optimism"],
-    sender: parameters.avatar,
-    recipient: parameters.avatar,
-  }),
 ]
