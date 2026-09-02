@@ -2,6 +2,7 @@ import { allow } from "zodiac-roles-sdk/kit"
 import { PermissionList } from "@/types"
 import { c } from "zodiac-roles-sdk"
 import { COW, WETH, uniswapV2 } from "@/addresses/arb1"
+import { COW as COW_eth } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { Parameters } from "../../../../../parameters"
@@ -38,38 +39,20 @@ export default (parameters: Parameters) =>
       c.avatar
     ),
 
-    // NOTE: Bridge permissions below are from a prior, non-production iteration
-    // that was never applied on-chain. Commented out for this first official
-    // request (keeping only ETH/WETH wrap-unwrap and the requested LP scope).
-    // Re-enable via a dedicated PUR when bridging is actually requested.
-    // /*********************************************
-    //  * Bridge
-    //  *********************************************/
-    // // Arbitrum -> Mainnet
-    // // ETH - Arbitrum Bridge
-    // allow.arbitrumOne.arbitrumBridge.arbSys.withdrawEth(
-    //   c.avatar, // Destination address
-    //   {
-    //     send: true,
-    //   }
-    // ),
-    //
-    // // ETH - Stargate
-    // allow.arbitrumOne.stargate.poolNative.send(
-    //   {
-    //     dstEid: "30101", // Ethereum
-    //     to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-    //     // 0x = default / no LayerZero options
-    //     // 0x0003 = empty LayerZero TYPE_3 options container (OptionsBuilder.newOptions())
-    //     // https://github.com/LayerZero-Labs/LayerZero-v2/blob/9c741e7f9790639537b1710a203bcdfd73b0b9ac/packages/layerzero-v2/evm/oapp/contracts/oapp/libs/OptionsBuilder.sol#L22
-    //     extraOptions: c.or("0x", "0x0003"),
-    //     composeMsg: "0x",
-    //     oftCmd: c.or("0x", "0x01"), // https://docs.stargate.finance/developers/protocol-docs/transfer#sendparamoftcmd
-    //   },
-    //   undefined,
-    //   c.avatar,
-    //   {
-    //     send: true,
-    //   }
-    // ),
+    /*********************************************
+     * Bridges (Arbitrum -> Mainnet)
+     *********************************************/
+    // ETH - Arbitrum official bridge
+    allow.arbitrumOne.arbitrumBridge.arbSys.withdrawEth(
+      c.avatar, // Destination address
+      {
+        send: true,
+      }
+    ),
+
+    // COW - Arbitrum official bridge
+    // Token arg is the L1 (mainnet) token address; no approval needed (handled by the gateway)
+    allow.arbitrumOne.arbitrumBridge.gatewayRouter[
+      "outboundTransfer(address,address,uint256,bytes)"
+    ](COW_eth, c.avatar, undefined, "0x"),
   ] satisfies PermissionList
