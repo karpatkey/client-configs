@@ -864,7 +864,7 @@ export default (parameters: Parameters) =>
     // ),
 
     /*********************************************
-     * Bridges (Mainnet -> L2)
+     * Bridges (Mainnet <-> L2)
      *********************************************/
     // Mainnet -> Base
     // ETH - Stargate
@@ -895,6 +895,52 @@ export default (parameters: Parameters) =>
       // extraData marker: "" | brid.gg | superbridge
       c.or("0x", "0x6272696467670a", "0x7375706572627269646765")
     ),
+    // COW - Claim bridged from Base (prove + finalize the L2->L1 withdrawal)
+    allow.mainnet.baseBridge.basePortal.proveWithdrawalTransaction({
+      sender: contracts.base.baseBridge.l2CrossDomainMessengerProxy,
+      target: contracts.mainnet.baseBridge.resolvedDelegateProxy,
+      data: c.calldataMatches(
+        allow.mainnet.baseBridge.resolvedDelegateProxy.relayMessage(
+          undefined,
+          contracts.base.baseBridge.l2StandardBridgeProxy,
+          contracts.mainnet.baseBridge.baseBridge,
+          undefined,
+          undefined,
+          c.calldataMatches(
+            // No need to scope _amount / _extraData (extraData only used in the finalize event)
+            allow.mainnet.baseBridge.baseBridge.finalizeBridgeERC20(
+              COW, // local (L1) token
+              COW_base, // remote (L2) token
+              c.avatar, // from
+              c.avatar // to
+            )
+          )
+        )
+      ),
+    }),
+    allow.mainnet.baseBridge.basePortal.finalizeWithdrawalTransactionExternalProof(
+      {
+        sender: contracts.base.baseBridge.l2CrossDomainMessengerProxy,
+        target: contracts.mainnet.baseBridge.resolvedDelegateProxy,
+        data: c.calldataMatches(
+          allow.mainnet.baseBridge.resolvedDelegateProxy.relayMessage(
+            undefined,
+            contracts.base.baseBridge.l2StandardBridgeProxy,
+            contracts.mainnet.baseBridge.baseBridge,
+            undefined,
+            undefined,
+            c.calldataMatches(
+              allow.mainnet.baseBridge.baseBridge.finalizeBridgeERC20(
+                COW,
+                COW_base,
+                c.avatar,
+                c.avatar
+              )
+            )
+          )
+        ),
+      }
+    ),
 
     // Mainnet -> Arbitrum
     // ETH - Arbitrum official bridge
@@ -910,6 +956,28 @@ export default (parameters: Parameters) =>
       {
         send: true,
       }
+    ),
+    // ETH - Claim bridged from Arbitrum
+    // NOTE (Roles Modifier limitation): with multiple outbox4.executeTransaction
+    // permissions, scoping the final data param as plain "0x" (dynamic bytes)
+    // collides with the other executeTransaction permissions and payload apply
+    // fails. Workaround: scope data via calldataMatches(..., { selector: "0x00000000" }).
+    allow.mainnet.arbitrumBridge.outbox4.executeTransaction(
+      undefined,
+      undefined,
+      c.avatar, // Origin address (L2 sender)
+      c.avatar, // Destination address
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      c.calldataMatches(
+        [],
+        ["address", "address", "address", "uint256", "bytes"],
+        {
+          selector: "0x00000000",
+        }
+      )
     ),
 
     // COW - Arbitrum official bridge
@@ -928,5 +996,26 @@ export default (parameters: Parameters) =>
       {
         send: true,
       }
+    ),
+    // COW - Claim bridged from Arbitrum
+    allow.mainnet.arbitrumBridge.outbox4.executeTransaction(
+      undefined,
+      undefined,
+      contracts.arbitrumOne.arbitrumBridge.l2Erc20Gateway, // Origin address
+      contracts.mainnet.arbitrumBridge.l1Erc20Gateway, // Destination address
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      c.calldataMatches(
+        allow.mainnet.arbitrumBridge.l1Erc20Gateway.finalizeInboundTransfer(
+          COW,
+          c.avatar,
+          c.avatar,
+          undefined,
+          // callHookData scoped to 0x to prevent any unwanted data being included
+          c.or(c.abiEncodedMatches([undefined, "0x"], ["uint256", "bytes"]), "0x")
+        )
+      )
     ),
   ] satisfies PermissionList
