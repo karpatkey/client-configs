@@ -1014,7 +1014,10 @@ export default (parameters: Parameters) =>
           c.avatar,
           undefined,
           // callHookData scoped to 0x to prevent any unwanted data being included
-          c.or(c.abiEncodedMatches([undefined, "0x"], ["uint256", "bytes"]), "0x")
+          c.or(
+            c.abiEncodedMatches([undefined, "0x"], ["uint256", "bytes"]),
+            "0x"
+          )
         )
       )
     ),
