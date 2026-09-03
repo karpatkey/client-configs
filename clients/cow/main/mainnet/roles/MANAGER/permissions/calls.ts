@@ -17,6 +17,7 @@ import {
   wstETH,
   aaveV3,
 } from "@/addresses/eth"
+import { COW as COW_base } from "@/addresses/base"
 import { legalDefenseFund, twapAvatar } from "../../../../../addresses"
 import { PermissionList } from "@/types"
 import {
@@ -862,128 +863,70 @@ export default (parameters: Parameters) =>
     //   )
     // ),
 
-    // // Mainnet -> Arbitrum
-    // // ETH - Arbitrum Bridge
-    // allow.mainnet.arbitrumBridge.delayedInbox.createRetryableTicket(
-    //   c.avatar, // Destination address
-    //   undefined,
-    //   undefined,
-    //   c.avatar, // Origin address
-    //   c.avatar, // Destination address
-    //   undefined,
-    //   undefined,
-    //   "0x",
-    //   {
-    //     send: true,
-    //   }
-    // ),
-    // // Claim bridged ETH from Arbitrum
-    // allow.mainnet.arbitrumBridge.outbox4.executeTransaction(
-    //   undefined,
-    //   undefined,
-    //   c.avatar, // Origin address
-    //   c.avatar, // Destination address
-    //   undefined,
-    //   undefined,
-    //   undefined,
-    //   undefined,
-    //   "0x"
-    // ),
+    /*********************************************
+     * Bridges (Mainnet -> L2)
+     *********************************************/
+    // Mainnet -> Base
+    // ETH - Stargate
+    allow.mainnet.stargate.poolNative.send(
+      {
+        dstEid: "30184", // Base
+        to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
+        // 0x = default / no LayerZero options; 0x0003 = empty TYPE_3 options container
+        extraOptions: c.or("0x", "0x0003"),
+        composeMsg: "0x",
+        oftCmd: c.or("0x", "0x01"),
+      },
+      undefined,
+      c.avatar,
+      {
+        send: true,
+      }
+    ),
 
-    // // ETH - Stargate
-    // allow.mainnet.stargate.poolNative.send(
-    //   {
-    //     dstEid: "30110", // Arbitrum
-    //     to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-    //     // 0x = default / no LayerZero options
-    //    // 0x0003 = empty LayerZero TYPE_3 options container (OptionsBuilder.newOptions())
-    //    // https://github.com/LayerZero-Labs/LayerZero-v2/blob/9c741e7f9790639537b1710a203bcdfd73b0b9ac/packages/layerzero-v2/evm/oapp/contracts/oapp/libs/OptionsBuilder.sol#L22
-    //    extraOptions: c.or("0x", "0x0003"),
-    //    composeMsg: "0x",
-    //    oftCmd: c.or("0x", "0x01"), // https://docs.stargate.finance/developers/protocol-docs/transfer#sendparamoftcmd
-    //   },
-    //   undefined,
-    //   c.avatar,
-    //   {
-    //     send: true,
-    //   }
-    // ),
+    // COW - Superbridge (native Base bridge / L1StandardBridge depositERC20To)
+    allowErc20Approve([COW], [contracts.mainnet.baseBridge.baseBridge]),
+    allow.mainnet.baseBridge.baseBridge.depositERC20To(
+      COW, // L1 token
+      COW_base, // L2 token
+      c.avatar,
+      undefined,
+      undefined,
+      // extraData marker: "" | brid.gg | superbridge
+      c.or("0x", "0x6272696467670a", "0x7375706572627269646765")
+    ),
 
-    // // Mainnet -> Base
-    // // ETH - brid.gg or superbridge
-    // allow.mainnet.baseBridge.baseBridge.bridgeETHTo(
-    //   c.avatar,
-    //   undefined,
-    //   // 0x6272696467670a equals bridgg in hex and 0x7375706572627269646765 equals superbridge in hex
-    //   c.or("0x", "0x6272696467670a", "0x7375706572627269646765"),
-    //   {
-    //     send: true,
-    //   }
-    // ),
-    // // Claim bridged ETH from Base
-    // // Test txn: https://etherscan.io/tx/0x1c1a3ae0983253305fe3253b167683c7abe4f6f3ee70bc3259946ccf2e9c8150
-    // allow.mainnet.baseBridge.basePortal.proveWithdrawalTransaction({
-    //   sender: contracts.base.baseBridge.l2CrossDomainMessengerProxy,
-    //   target: contracts.mainnet.baseBridge.resolvedDelegateProxy,
-    //   data: c.calldataMatches(
-    //     allow.mainnet.baseBridge.resolvedDelegateProxy.relayMessage(
-    //       undefined,
-    //       contracts.base.baseBridge.l2StandardBridgeProxy,
-    //       contracts.mainnet.baseBridge.baseBridge,
-    //       undefined,
-    //       undefined,
-    //       c.calldataMatches(
-    //         // https://etherscan.io/address/0x0b09ba359a106c9ea3b181cbc5f394570c7d2a7a#code#F2#L239
-    //         // No need to scope _extraData since it’s only used in _emitETHBridgeFinalized
-    //         allow.mainnet.baseBridge.baseBridge.finalizeBridgeETH(
-    //           c.avatar,
-    //           c.avatar
-    //         )
-    //       )
-    //     )
-    //   ),
-    // }),
-    // // Test txn: https://etherscan.io/tx/0x5123d4c0401ef5c96f1094233c0f8daa4a819f714edf7e941af8c8a12a730534
-    // allow.mainnet.baseBridge.basePortal.finalizeWithdrawalTransactionExternalProof(
-    //   {
-    //     sender: contracts.base.baseBridge.l2CrossDomainMessengerProxy,
-    //     target: contracts.mainnet.baseBridge.resolvedDelegateProxy,
-    //     data: c.calldataMatches(
-    //       allow.mainnet.baseBridge.resolvedDelegateProxy.relayMessage(
-    //         undefined,
-    //         contracts.base.baseBridge.l2StandardBridgeProxy,
-    //         contracts.mainnet.baseBridge.baseBridge,
-    //         undefined,
-    //         undefined,
-    //         c.calldataMatches(
-    //           // https://etherscan.io/address/0x0b09ba359a106c9ea3b181cbc5f394570c7d2a7a#code#F2#L239
-    //           // No need to scope _extraData since it’s only used in _emitETHBridgeFinalized
-    //           allow.mainnet.baseBridge.baseBridge.finalizeBridgeETH(
-    //             c.avatar,
-    //             c.avatar
-    //           )
-    //         )
-    //       )
-    //     ),
-    //   }
-    // ),
+    // Mainnet -> Arbitrum
+    // ETH - Arbitrum official bridge
+    allow.mainnet.arbitrumBridge.delayedInbox.createRetryableTicket(
+      c.avatar, // Destination address
+      undefined,
+      undefined,
+      c.avatar, // Excess fee refund address
+      c.avatar, // Call value refund address
+      undefined,
+      undefined,
+      "0x",
+      {
+        send: true,
+      }
+    ),
 
-    // // ETH - Stargate
-    // allow.mainnet.stargate.poolNative.send(
-    //   {
-    //     dstEid: "30184", // Base
-    //     to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-    //     // 0x = default / no LayerZero options
-    //    // 0x0003 = empty LayerZero TYPE_3 options container (OptionsBuilder.newOptions())
-    //    // https://github.com/LayerZero-Labs/LayerZero-v2/blob/9c741e7f9790639537b1710a203bcdfd73b0b9ac/packages/layerzero-v2/evm/oapp/contracts/oapp/libs/OptionsBuilder.sol#L22
-    //    extraOptions: c.or("0x", "0x0003"),
-    //    composeMsg: "0x",
-    //    oftCmd: c.or("0x", "0x01"), // https://docs.stargate.finance/developers/protocol-docs/transfer#sendparamoftcmd
-    //   },
-    //   undefined,
-    //   c.avatar,
-    //   {
-    //     send: true,
-    //   }
-    // ),
+    // COW - Arbitrum official bridge
+    // arbL1GatewayRouter->getGateway(COW) -> contracts.mainnet.arbitrumBridge.arbErc20Gateway
+    allowErc20Approve(
+      [COW],
+      [contracts.mainnet.arbitrumBridge.arbErc20Gateway]
+    ),
+    allow.mainnet.arbitrumBridge.arbL1GatewayRouter.outboundTransfer(
+      COW,
+      c.avatar,
+      undefined,
+      undefined,
+      undefined,
+      c.or(c.abiEncodedMatches([undefined, "0x"], ["uint256", "bytes"]), "0x"),
+      {
+        send: true,
+      }
+    ),
   ] satisfies PermissionList

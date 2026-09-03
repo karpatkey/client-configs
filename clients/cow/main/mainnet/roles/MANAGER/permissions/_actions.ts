@@ -27,8 +27,9 @@ import {
   morpho,
   gearbox,
 } from "@/addresses/eth"
+import { Parameters } from "../../../../../parameters"
 
-export default [
+export default (parameters: Parameters) => [
   // Aave v3 Core Market - Deposit DAI
   allowAction.aave_v3.deposit({ market: "Core", targets: ["DAI"] }),
   // Aave v3 Core Market - Deposit EURC
@@ -195,4 +196,16 @@ export default [
 
   // Uniswap v3 - WETH/COW
   allowAction.uniswap_v3.deposit({ tokens: ["WETH", "COW"] }),
+
+  // Circle v2 (CCTP) - Bridge USDC to Base and Arbitrum
+  allowAction.circle_v2.bridge({
+    targets: ["Base", "Arbitrum"],
+    recipient: parameters.avatar,
+  }),
+  // Circle v2 (CCTP) - Receive USDC from Base and Arbitrum
+  allowAction.circle_v2.receive({
+    targets: ["Base", "Arbitrum"],
+    sender: parameters.avatar,
+    recipient: parameters.avatar,
+  }),
 ]
