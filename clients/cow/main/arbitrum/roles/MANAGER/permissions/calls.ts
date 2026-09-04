@@ -42,6 +42,12 @@ export default (parameters: Parameters) =>
     /*********************************************
      * Bridges (Arbitrum -> Mainnet)
      *********************************************/
+    // COW - Arbitrum Bridge
+    // Token arg is the L1 (mainnet) token address; no approval needed (handled by the gateway)
+    allow.arbitrumOne.arbitrumBridge.gatewayRouter[
+      "outboundTransfer(address,address,uint256,bytes)"
+    ](COW_eth, c.avatar, undefined, "0x"),
+
     // ETH - Arbitrum Bridge
     allow.arbitrumOne.arbitrumBridge.arbSys.withdrawEth(
       c.avatar, // Destination address
@@ -49,10 +55,4 @@ export default (parameters: Parameters) =>
         send: true,
       }
     ),
-
-    // COW - Arbitrum Bridge
-    // Token arg is the L1 (mainnet) token address; no approval needed (handled by the gateway)
-    allow.arbitrumOne.arbitrumBridge.gatewayRouter[
-      "outboundTransfer(address,address,uint256,bytes)"
-    ](COW_eth, c.avatar, undefined, "0x"),
   ] satisfies PermissionList

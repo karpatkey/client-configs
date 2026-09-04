@@ -197,14 +197,14 @@ export default (parameters: Parameters) => [
   // Uniswap v3 - WETH/COW
   allowAction.uniswap_v3.deposit({ tokens: ["WETH", "COW"] }),
 
-  // Circle v2 (CCTP) - Bridge USDC to Base and Arbitrum
+  // Circle v2 (CCTP) - Bridge USDC to Arbitrum and Base
   allowAction.circle_v2.bridge({
-    targets: ["Base", "Arbitrum"],
+    targets: ["Arbitrum", "Base"],
     recipient: parameters.avatar,
   }),
-  // Circle v2 (CCTP) - Receive USDC from Base and Arbitrum
+  // Circle v2 (CCTP) - Receive USDC from Arbitrum and Base
   allowAction.circle_v2.receive({
-    targets: ["Base", "Arbitrum"],
+    targets: ["Arbitrum", "Base"],
     sender: parameters.avatar,
     recipient: parameters.avatar,
   }),

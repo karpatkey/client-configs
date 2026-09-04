@@ -866,25 +866,88 @@ export default (parameters: Parameters) =>
     /*********************************************
      * Bridges (Mainnet <-> L2)
      *********************************************/
-    // Mainnet -> Base
-    // ETH - Stargate
-    allow.mainnet.stargate.poolNative.send(
-      {
-        dstEid: "30184", // Base
-        to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-        // 0x = default / no LayerZero options; 0x0003 = empty TYPE_3 options container
-        extraOptions: c.or("0x", "0x0003"),
-        composeMsg: "0x",
-        oftCmd: c.or("0x", "0x01"),
-      },
-      undefined,
+    // Mainnet -> Arbitrum
+    // COW - Arbitrum Bridge
+    // arbL1GatewayRouter->getGateway(COW) -> contracts.mainnet.arbitrumBridge.arbErc20Gateway
+    allowErc20Approve(
+      [COW],
+      [contracts.mainnet.arbitrumBridge.arbErc20Gateway]
+    ),
+    allow.mainnet.arbitrumBridge.arbL1GatewayRouter.outboundTransfer(
+      COW,
       c.avatar,
+      undefined,
+      undefined,
+      undefined,
+      c.or(c.abiEncodedMatches([undefined, "0x"], ["uint256", "bytes"]), "0x"),
       {
         send: true,
       }
     ),
+    // Claim bridged COW from Arbitrum
+    allow.mainnet.arbitrumBridge.outbox4.executeTransaction(
+      undefined,
+      undefined,
+      contracts.arbitrumOne.arbitrumBridge.l2Erc20Gateway, // Origin address
+      contracts.mainnet.arbitrumBridge.l1Erc20Gateway, // Destination address
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      c.calldataMatches(
+        allow.mainnet.arbitrumBridge.l1Erc20Gateway.finalizeInboundTransfer(
+          COW,
+          c.avatar,
+          c.avatar,
+          undefined,
+          // The callHookData should be scoped to 0x to prevent any unwanted data from being included
+          c.or(
+            c.abiEncodedMatches([undefined, "0x"], ["uint256", "bytes"]),
+            "0x"
+          )
+        )
+      )
+    ),
 
-    // COW - Superbridge (native Base bridge / L1StandardBridge depositERC20To)
+    // ETH - Arbitrum Bridge
+    allow.mainnet.arbitrumBridge.delayedInbox.createRetryableTicket(
+      c.avatar, // Destination address
+      undefined,
+      undefined,
+      c.avatar, // Excess fee refund address
+      c.avatar, // Call value refund address
+      undefined,
+      undefined,
+      "0x",
+      {
+        send: true,
+      }
+    ),
+    // Claim bridged ETH from Arbitrum
+    // NOTE (Roles Modifier limitation): with multiple outbox4.executeTransaction
+    // permissions, scoping the final data param as plain "0x" (dynamic bytes)
+    // collides with the other executeTransaction permissions and payload apply
+    // fails. Workaround: scope data via calldataMatches(..., { selector: "0x00000000" }).
+    allow.mainnet.arbitrumBridge.outbox4.executeTransaction(
+      undefined,
+      undefined,
+      c.avatar, // Origin address (L2 sender)
+      c.avatar, // Destination address
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      c.calldataMatches(
+        [],
+        ["address", "address", "address", "uint256", "bytes"],
+        {
+          selector: "0x00000000",
+        }
+      )
+    ),
+
+    // Mainnet -> Base
+    // COW - superbridge
     allowErc20Approve([COW], [contracts.mainnet.baseBridge.baseBridge]),
     allow.mainnet.baseBridge.baseBridge.depositERC20To(
       COW, // L1 token
@@ -892,10 +955,10 @@ export default (parameters: Parameters) =>
       c.avatar,
       undefined,
       undefined,
-      // extraData marker: "" | brid.gg | superbridge
-      c.or("0x", "0x6272696467670a", "0x7375706572627269646765")
+      // 0x7375706572627269646765 equals superbridge in hex
+      "0x7375706572627269646765"
     ),
-    // COW - Claim bridged from Base (prove + finalize the L2->L1 withdrawal)
+    // Claim bridged COW from Base
     allow.mainnet.baseBridge.basePortal.proveWithdrawalTransaction({
       sender: contracts.base.baseBridge.l2CrossDomainMessengerProxy,
       target: contracts.mainnet.baseBridge.resolvedDelegateProxy,
@@ -942,83 +1005,20 @@ export default (parameters: Parameters) =>
       }
     ),
 
-    // Mainnet -> Arbitrum
-    // ETH - Arbitrum official bridge
-    allow.mainnet.arbitrumBridge.delayedInbox.createRetryableTicket(
-      c.avatar, // Destination address
-      undefined,
-      undefined,
-      c.avatar, // Excess fee refund address
-      c.avatar, // Call value refund address
-      undefined,
-      undefined,
-      "0x",
+    // ETH - Stargate
+    allow.mainnet.stargate.poolNative.send(
       {
-        send: true,
-      }
-    ),
-    // ETH - Claim bridged from Arbitrum
-    // NOTE (Roles Modifier limitation): with multiple outbox4.executeTransaction
-    // permissions, scoping the final data param as plain "0x" (dynamic bytes)
-    // collides with the other executeTransaction permissions and payload apply
-    // fails. Workaround: scope data via calldataMatches(..., { selector: "0x00000000" }).
-    allow.mainnet.arbitrumBridge.outbox4.executeTransaction(
+        dstEid: "30184", // Base
+        to: "0x" + parameters.avatar.slice(2).padStart(64, "0"),
+        // 0x = default / no LayerZero options; 0x0003 = empty TYPE_3 options container
+        extraOptions: c.or("0x", "0x0003"),
+        composeMsg: "0x",
+        oftCmd: c.or("0x", "0x01"),
+      },
       undefined,
-      undefined,
-      c.avatar, // Origin address (L2 sender)
-      c.avatar, // Destination address
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      c.calldataMatches(
-        [],
-        ["address", "address", "address", "uint256", "bytes"],
-        {
-          selector: "0x00000000",
-        }
-      )
-    ),
-
-    // COW - Arbitrum official bridge
-    // arbL1GatewayRouter->getGateway(COW) -> contracts.mainnet.arbitrumBridge.arbErc20Gateway
-    allowErc20Approve(
-      [COW],
-      [contracts.mainnet.arbitrumBridge.arbErc20Gateway]
-    ),
-    allow.mainnet.arbitrumBridge.arbL1GatewayRouter.outboundTransfer(
-      COW,
       c.avatar,
-      undefined,
-      undefined,
-      undefined,
-      c.or(c.abiEncodedMatches([undefined, "0x"], ["uint256", "bytes"]), "0x"),
       {
         send: true,
       }
-    ),
-    // COW - Claim bridged from Arbitrum
-    allow.mainnet.arbitrumBridge.outbox4.executeTransaction(
-      undefined,
-      undefined,
-      contracts.arbitrumOne.arbitrumBridge.l2Erc20Gateway, // Origin address
-      contracts.mainnet.arbitrumBridge.l1Erc20Gateway, // Destination address
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      c.calldataMatches(
-        allow.mainnet.arbitrumBridge.l1Erc20Gateway.finalizeInboundTransfer(
-          COW,
-          c.avatar,
-          c.avatar,
-          undefined,
-          // callHookData scoped to 0x to prevent any unwanted data being included
-          c.or(
-            c.abiEncodedMatches([undefined, "0x"], ["uint256", "bytes"]),
-            "0x"
-          )
-        )
-      )
     ),
   ] satisfies PermissionList

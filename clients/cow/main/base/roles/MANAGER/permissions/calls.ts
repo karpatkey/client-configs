@@ -41,6 +41,16 @@ export default (parameters: Parameters) =>
     /*********************************************
      * Bridges (Base -> Mainnet)
      *********************************************/
+    // COW - superbridge
+    allow.base.baseBridge.l2StandardBridgeProxy.withdrawTo(
+      COW,
+      c.avatar,
+      undefined,
+      undefined,
+      // 0x7375706572627269646765 equals superbridge in hex
+      "0x7375706572627269646765"
+    ),
+
     // ETH - Stargate
     allow.base.stargate.poolNative.send(
       {
@@ -56,15 +66,5 @@ export default (parameters: Parameters) =>
       {
         send: true,
       }
-    ),
-
-    // COW - Superbridge (native Base bridge / L2StandardBridge withdrawTo)
-    allow.base.baseBridge.l2StandardBridgeProxy.withdrawTo(
-      COW,
-      c.avatar,
-      undefined,
-      undefined,
-      // extraData marker: "" | brid.gg | superbridge
-      c.or("0x", "0x6272696467670a", "0x7375706572627269646765")
     ),
   ] satisfies PermissionList
