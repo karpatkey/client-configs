@@ -238,8 +238,8 @@ export const balancerV3 = {
 } as const
 
 export const compoundV3 = {
-  // Compound v3 Institutional Market (cinUSDC)
-  cinUSDC: "0xf5a628D53c47fBA2C062cd6F5B6D255cb05645Eb",
+  // Compound v3 Institutional Market (ciUSDCv3)
+  ciUSDCv3: "0x207158a267CBD2598BB3d611D8CBdEE2709F2F8C",
 } as const
 
 export const convex = {

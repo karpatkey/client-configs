@@ -11,9 +11,9 @@ export default [
   // Aave v3 Core Market - Deposit/withdraw USDC
   allowAction.aave_v3.deposit({ market: "Core", targets: ["USDC"] }),
 
-  // Compound v3 - Institutional Market (cinUSDC) - Deposit/withdraw USDC
+  // Compound v3 - Institutional Market (ciUSDCv3) - Deposit/withdraw USDC
   allowAction.compound_v3.deposit({
-    targets: ["cinUSDC"],
+    targets: ["ciUSDCv3"],
     tokens: ["USDC"],
   }),
 
