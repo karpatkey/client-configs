@@ -762,12 +762,12 @@ export default (parameters: Parameters) =>
       }
     ),
 
-    // PancakeSwap - ETHx <-> WETH
+    // PancakeSwap V3 - ETHx <-> WETH
     allowErc20Approve(
       [ETHx, WETH],
-      [contracts.mainnet.pancakeSwap.smartRouter]
+      [contracts.mainnet.pancakeSwapV3.smartRouter]
     ),
-    allow.mainnet.pancakeSwap.smartRouter.exactInputSingle({
+    allow.mainnet.pancakeSwapV3.smartRouter.exactInputSingle({
       tokenIn: c.or(ETHx, WETH),
       tokenOut: c.or(ETHx, WETH),
       recipient: c.avatar,

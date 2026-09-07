@@ -177,7 +177,7 @@ export const contracts = {
       oEthVault: "0x39254033945AA2E4809Cc2977E7087BEE48bd7Ab",
       oEth: "0x856c4Efb76C1D1AE02e20CEB03A2A6a08b0b8dC3",
     },
-    pancakeSwap: {
+    pancakeSwapV3: {
       smartRouter: "0x13f4EA83D0bd40E75C8222255bc855a974568Dd4",
     },
     pendle: {
@@ -378,6 +378,9 @@ export const contracts = {
       poolUsdc: "0xe8CDF27AcD73a434D661C84887215F7598e7d0d3",
       poolUsdt: "0xcE8CcA271Ebc0533920C83d39F417ED6A0abB7D0",
     },
+    uniswapV2: {
+      router2: "0x4752ba5DBc23f44D87826276BF6Fd6b1C372aD24",
+    },
   },
   base: {
     ...deFiKitContracts.base,
@@ -395,6 +398,9 @@ export const contracts = {
     },
     oiv: {
       navCalculator: "0x7C90871c0bd3eb276712f9f783F30Bfaf215Be64", // prod navCalculator implementation
+    },
+    pancakeSwapV2: {
+      router: "0x8cFe327CEc66d1C090Dd72bd0FF11d690C33a2Eb",
     },
     stargate: {
       poolNative: "0xdc181Bd607330aeeBEF6ea62e03e5e1Fb4B6F7C7",

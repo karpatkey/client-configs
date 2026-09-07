@@ -107,3 +107,7 @@ export const pendle = {
   ptUsDai19Feb2026: "0x5B2C615E22272234AACF187632a0531cA1243279",
   ptsUsDai19Feb2026: "0x1BF1311FCF914A69Dd5805C9B06b72F80539cB3f",
 } as const
+
+export const uniswapV2 = {
+  wethCow: "0x10Cab08D1490a56bDa21A191C20771fcB5453F54",
+} as const
