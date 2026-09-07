@@ -16,10 +16,10 @@ export default (parameters: Parameters) =>
     // Aave v3 - sGHO (Savings GHO) - Withdraw to the avatar Safe
     allow.mainnet.aaveV3.sGho.withdraw(undefined, c.avatar, c.avatar),
 
-    // Compound v3 - Institutional Market (cinUSDC) - Withdraw USDC
+    // Compound v3 - Institutional Market (ciUSDCv3) - Withdraw USDC
     {
       ...allow.mainnet.compoundV3.comet.withdraw(USDC),
-      targetAddress: compoundV3.cinUSDC,
+      targetAddress: compoundV3.ciUSDCv3,
     },
 
     // Morpho Vault - kpk USDC Prime v2 - Withdraw to the avatar Safe
