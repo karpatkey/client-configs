@@ -22,21 +22,64 @@ export default (parameters: Parameters) =>
       targetAddress: compoundV3.ciUSDCv3,
     },
 
-    // Morpho Vault - kpk USDC Prime v2 - Withdraw to the avatar Safe
+    // Morpho Vault - kpk USDC Prime v2 - Withdraw/redeem to the avatar Safe
     {
       ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
       targetAddress: morpho.kpkUsdcPrimeV2,
     },
+    {
+      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkUsdcPrimeV2,
+    },
 
-    // Morpho Vault - kpk USDC Yield v2 - Withdraw to the avatar Safe
+    // Morpho Vault - kpk USDC Yield RWA - Withdraw/redeem to the avatar Safe
+    {
+      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkUsdcYieldRWA,
+    },
+    {
+      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkUsdcYieldRWA,
+    },
+
+    // Morpho Vault - kpk USDC Yield v2 - Withdraw/redeem to the avatar Safe
     {
       ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
       targetAddress: morpho.kpkUsdcYieldV2,
     },
+    {
+      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkUsdcYieldV2,
+    },
 
-    // Morpho Vault - kpk USDT Prime v2 - Withdraw to the avatar Safe
+    // Morpho Vault - kpk USDC Yield RWA / kpk USDC Yield v2 - Force deallocate (unlock liquidity
+    // across the vault's underlying markets before a withdrawal) - onBehalf pinned to the avatar Safe
+    {
+      ...allow.mainnet.morpho.vault.forceDeallocate(
+        undefined,
+        undefined,
+        undefined,
+        c.avatar
+      ),
+      targetAddress: morpho.kpkUsdcYieldRWA,
+    },
+    {
+      ...allow.mainnet.morpho.vault.forceDeallocate(
+        undefined,
+        undefined,
+        undefined,
+        c.avatar
+      ),
+      targetAddress: morpho.kpkUsdcYieldV2,
+    },
+
+    // Morpho Vault - kpk USDT Prime v2 - Withdraw/redeem to the avatar Safe
     {
       ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkUsdtPrimeV2,
+    },
+    {
+      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
       targetAddress: morpho.kpkUsdtPrimeV2,
     },
 
