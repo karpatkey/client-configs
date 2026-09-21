@@ -14,6 +14,11 @@ export const contracts = {
       stataTokenV2: "0x487c2C53c0866F0A73ae317bD1A28F63ADcD9aD1", // StataTokenV2 implementation — ERC-4626 wrapper for aTokens
       sGho: "0xE1753F2e00940cC31213dd92013cF019DFE4ca1d", // Savings GHO (sGHO) — ERC-4626 vault
     },
+    aaveV4: {
+      // Bluechip Spoke - WBTC/WETH/cbBTC/wstETH collateral (Prime Hub), stablecoin
+      // credit lines to Prime and Core Hubs
+      bluechipSpoke: "0x973a023A77420ba610f06b3858aD991Df6d85A08",
+    },
     across: {
       spokePoolV2: "0x5c7BCd6E7De5423a257D81B442095A1a6ced35C5",
     },
