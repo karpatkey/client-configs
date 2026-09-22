@@ -505,6 +505,7 @@ export default (parameters: Parameters) =>
         osETH,
         rETH,
         RPL,
+        RWIV,
         stETH,
         SWISE,
         USDC,
@@ -560,6 +561,14 @@ export default (parameters: Parameters) =>
       tokenOut: c.or(weETH, WETH),
       recipient: c.avatar,
       fee: c.or(100, 500),
+    }),
+
+    // Uniswap v3 - [RWIV <-> USDC], Fee: [0.05]
+    allow.mainnet.uniswapV3.router2.exactInputSingle({
+      tokenIn: c.or(RWIV, USDC),
+      tokenOut: c.or(RWIV, USDC),
+      recipient: c.avatar,
+      fee: 500,
     }),
 
     // Uniswap v3 - RWIV + USDC
