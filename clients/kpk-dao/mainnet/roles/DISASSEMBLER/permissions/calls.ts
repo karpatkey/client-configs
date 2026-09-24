@@ -315,4 +315,8 @@ export default [
   allow.mainnet.spark.stSpk.redeem(c.avatar),
   allow.mainnet.spark.stSpk.claim(c.avatar),
   allow.mainnet.spark.stSpk.claimBatch(c.avatar),
+
+  // SAFE - Unlock + Withdraw (exit locked SAFE; MANAGER only scopes lock())
+  allow.mainnet.safe.tokenLock.unlock(),
+  allow.mainnet.safe.tokenLock.withdraw(),
 ] satisfies PermissionList
