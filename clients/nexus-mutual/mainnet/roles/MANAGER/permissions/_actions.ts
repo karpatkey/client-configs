@@ -4,6 +4,7 @@ import {
   AURA,
   BAL,
   cbBTC,
+  COMP,
   CRV,
   CVX,
   DAI,
@@ -11,6 +12,7 @@ import {
   ETHPlus,
   ETHx,
   FLUID,
+  GEAR,
   GHO,
   LDO,
   MORPHO,
@@ -70,16 +72,18 @@ export default (parameters: Parameters) => [
   // Convex - ETH+/WETH
   allowAction.convex.deposit({ targets: ["470"] }),
 
-  // CowSwap - [AAVE, AURA, BAL, CRV, CVX, FLUID, LDO, MORPHO, RPL, SPK, SWISE, wNXM] ->
+  // CowSwap - [AAVE, AURA, BAL, COMP, CRV, CVX, FLUID, GEAR, LDO, MORPHO, RPL, SPK, SWISE, wNXM] ->
   // [DAI, ETH, GHO, USDC, USDS, USDT, WETH, wNXM, wstETH]
   allowAction.cowswap.swap({
     sell: [
       AAVE,
       AURA,
       BAL,
+      COMP,
       CRV,
       CVX,
       FLUID,
+      GEAR,
       LDO,
       MORPHO,
       RPL,
@@ -90,10 +94,10 @@ export default (parameters: Parameters) => [
     buy: ["ETH", DAI, GHO, USDC, USDS, USDT, WETH, wNXM, wstETH],
   }),
 
-  // CowSwap - [GHO, sUSDS, stETH, USDC, USDS, WETH, wNXM, wstETH] <-> [GHO, sUSDS, stETH, USDC, USDS, WETH, wNXM, wstETH]
+  // CowSwap - [GHO, sUSDS, stETH, USDC, USDS, USDT, WETH, wNXM, wstETH] <-> [GHO, sUSDS, stETH, USDC, USDS, USDT, WETH, wNXM, wstETH]
   allowAction.cowswap.swap({
-    sell: [GHO, sUSDS, stETH, USDC, USDS, WETH, wNXM, wstETH],
-    buy: [GHO, sUSDS, stETH, USDC, USDS, WETH, wNXM, wstETH],
+    sell: [GHO, sUSDS, stETH, USDC, USDS, USDT, WETH, wNXM, wstETH],
+    buy: [GHO, sUSDS, stETH, USDC, USDS, USDT, WETH, wNXM, wstETH],
   }),
 
   // CowSwap - [eETH, ETH, ETH+, ETHx, osETH, rETH, rsETH, stETH, weETH, WETH, wstETH] <-> [eETH, ETH, ETH+, ETHx, osETH, rETH, rsETH, stETH, weETH, WETH, wstETH]
