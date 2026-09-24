@@ -379,6 +379,9 @@ export default (parameters: Parameters) =>
     // SAFE - Lock
     allowErc20Approve([SAFE], [contracts.mainnet.safe.tokenLock]),
     allow.mainnet.safe.tokenLock.lock(),
+    // SAFE - Unlock + Withdraw
+    allow.mainnet.safe.tokenLock.unlock(),
+    allow.mainnet.safe.tokenLock.withdraw(),
 
     // Sky - DSR (DAI Savings Rate)
     // The DsrManager provides an easy to use smart contract that allows
