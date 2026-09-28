@@ -367,7 +367,13 @@ export const morpho = {
   oraclePTUsde25Sep2025Usdt: "0xe6aBD3B78Abbb1cc1Ee76c5c3689Aa9646481Fbb",
   oraclewstUSRUsdc: "0xDa850a72080024e17c1590fbf6ea7a826dB90760",
   oracleWethRsEth: "0x2A2658Fc208Ed00e11D96d3F7470618924466877",
+  oracleXautUsdt: "0xc7d1FE3fBe90e8f755250CA3Ce4d2aE50873d9dc",
+  oraclesyrupUsdtUsdt: "0x34e50151c21c5f3499AcE66c7157aA547892e997",
   adaptativeCurveIrm: "0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC",
+} as const
+
+export const maple = {
+  syrupUsdtRouter: "0xF007476Bb27430795138C511F18F821e8D1e5Ee2", // SyrupRouter (syrupUSDT)
 } as const
 
 export const nexus = {

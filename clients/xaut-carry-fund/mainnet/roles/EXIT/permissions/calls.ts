@@ -1,6 +1,6 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { morpho, USDC, XAUt } from "@/addresses/eth"
+import { maple, morpho, syrupUSDT, USDC, USDT, XAUt } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
@@ -47,4 +47,66 @@ export default (parameters: Parameters) =>
       ),
       targetAddress: morpho.kpkUsdcYieldRWA,
     },
+
+    // Morpho Blue - unwind the leveraged loop. Only the deleveraging half is scoped here:
+    // repay debt and pull collateral back to the avatar Safe. No borrow, no
+    // supplyCollateral - this role can shrink a position but never open or grow one.
+    allowErc20Approve([USDT], [contracts.mainnet.morpho.morphoBlue]),
+
+    // Leg 1 - USDT/XAUt, LLTV 77%
+    allow.mainnet.morpho.morphoBlue.repay(
+      {
+        loanToken: USDT,
+        collateralToken: XAUt,
+        oracle: morpho.oracleXautUsdt,
+        irm: morpho.adaptativeCurveIrm,
+        lltv: "770000000000000000",
+      },
+      undefined,
+      undefined,
+      c.avatar
+    ),
+    allow.mainnet.morpho.morphoBlue.withdrawCollateral(
+      {
+        loanToken: USDT,
+        collateralToken: XAUt,
+        oracle: morpho.oracleXautUsdt,
+        irm: morpho.adaptativeCurveIrm,
+        lltv: "770000000000000000",
+      },
+      undefined,
+      c.avatar,
+      c.avatar
+    ),
+
+    // Leg 2 - USDT/syrupUSDT, LLTV 91.5%
+    allow.mainnet.morpho.morphoBlue.repay(
+      {
+        loanToken: USDT,
+        collateralToken: syrupUSDT,
+        oracle: morpho.oraclesyrupUsdtUsdt,
+        irm: morpho.adaptativeCurveIrm,
+        lltv: "915000000000000000",
+      },
+      undefined,
+      undefined,
+      c.avatar
+    ),
+    allow.mainnet.morpho.morphoBlue.withdrawCollateral(
+      {
+        loanToken: USDT,
+        collateralToken: syrupUSDT,
+        oracle: morpho.oraclesyrupUsdtUsdt,
+        irm: morpho.adaptativeCurveIrm,
+        lltv: "915000000000000000",
+      },
+      undefined,
+      c.avatar,
+      c.avatar
+    ),
+
+    // Maple - redeem syrupUSDT back to USDT through the queue withdrawal manager.
+    // No deposit permission here: this role only unwinds.
+    allow.mainnet.maple.syrupPool.requestRedeem(undefined, c.avatar),
+    allow.mainnet.maple.syrupPool.removeShares(undefined, c.avatar),
   ] satisfies PermissionList
