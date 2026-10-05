@@ -54,7 +54,7 @@ Interim fix ("S1") for the OIV funds' `kpkShares.processRequests`: the settlemen
 - **Two calls, always:** the policy (`scopeFunction`) and the allowance (`setAllowance`). `yarn apply` never sets allowance amounts — without `setAllowance` every bot call reverts. In one Safe batch order doesn't matter; as separate transactions run `setAllowance` first.
 - **Tooling (local only, writes Safe Transaction Builder files to `./export/`):**
   - `yarn tsx scripts/settlementGuard.ts suggest <fund> --down <pct> --up <pct> [--write]`
-  - `yarn tsx scripts/settlementGuard.ts policy-tx <fund>` / `allowance-tx <fund>` (`--rolesMod <address>` targets another modifier owned by the same Safe)
+  - `yarn tsx scripts/settlementGuard.ts policy-tx <fund>` / `allowance-tx <fund>`
   - `yarn tsx scripts/settlementGuard.ts check <fund>`
   - every command takes `--instance` (default `manager_prod`).
 - **Re-centring:** a new band is one `scopeFunction` (`suggest` → `policy-tx`); no new `setAllowance`.

@@ -5,8 +5,8 @@
  *
  *   yarn tsx scripts/settlementGuard.ts suggest <client> --down <pct> --up <pct> [--write]
  *   yarn tsx scripts/settlementGuard.ts check <client>
- *   yarn tsx scripts/settlementGuard.ts allowance-tx <client> [--rolesMod <address>]
- *   yarn tsx scripts/settlementGuard.ts policy-tx <client> [--rolesMod <address>]
+ *   yarn tsx scripts/settlementGuard.ts allowance-tx <client>
+ *   yarn tsx scripts/settlementGuard.ts policy-tx <client>
  *
  * Every command takes `--instance` (default `manager_prod`). Reads the chain over RPC and
  * compiles policies locally; it never POSTs to a roles app and never sends a transaction.
@@ -456,14 +456,10 @@ const suggest = async (args: {
   )
 }
 
-const check = async (args: {
-  client: string
-  instance: string
-  rolesMod?: string
-}) => {
+const check = async (args: { client: string; instance: string }) => {
   const role = resolveRole(args.client)
   const inst = await loadInstance(args.client, args.instance)
-  const rolesMod = args.rolesMod ? getAddress(args.rolesMod) : inst.rolesMod
+  const rolesMod = inst.rolesMod
   const pin = await loadPin(args.client, role)
   console.log(
     `${args.client} ${args.instance} (${role}) — roles mod ${rolesMod}`
@@ -607,14 +603,10 @@ const writeExport = (file: string, json: unknown) => {
   return out
 }
 
-const allowanceTx = async (args: {
-  client: string
-  instance: string
-  rolesMod?: string
-}) => {
+const allowanceTx = async (args: { client: string; instance: string }) => {
   resolveRole(args.client)
   const inst = await loadInstance(args.client, args.instance)
-  const rolesMod = args.rolesMod ? getAddress(args.rolesMod) : inst.rolesMod
+  const rolesMod = inst.rolesMod
   const g = validateSettlementGuard(
     inst.guard,
     `${args.client} ${args.instance}`
@@ -662,14 +654,10 @@ const allowanceTx = async (args: {
   console.log(`wrote ${rel(out)} — Safe ${inst.avatar}`)
 }
 
-const policyTx = async (args: {
-  client: string
-  instance: string
-  rolesMod?: string
-}) => {
+const policyTx = async (args: { client: string; instance: string }) => {
   const role = resolveRole(args.client)
   const inst = await loadInstance(args.client, args.instance)
-  const rolesMod = args.rolesMod ? getAddress(args.rolesMod) : inst.rolesMod
+  const rolesMod = inst.rolesMod
   await assertOwner(rolesMod, inst.avatar)
   // Compiles the role exactly as `yarn apply` would, locally (no roles app, no indexer).
   const { targets, roleKey } = await compileApplyData({
@@ -776,51 +764,36 @@ yargs(process.argv.slice(2))
   .command(
     "check <client>",
     "band position and on-chain allowance vs the instance config",
-    (y) =>
-      withCommon(y).option("rolesMod", {
-        type: "string",
-        describe: "override the instance rolesMod",
-      }),
+    (y) => withCommon(y),
     (a) =>
       run(() =>
         check({
           client: a.client as string,
           instance: a.instance,
-          rolesMod: a.rolesMod,
         })
       )
   )
   .command(
     "allowance-tx <client>",
     "Safe Tx Builder JSON for setAllowance (./export/)",
-    (y) =>
-      withCommon(y).option("rolesMod", {
-        type: "string",
-        describe: "override the instance rolesMod",
-      }),
+    (y) => withCommon(y),
     (a) =>
       run(() =>
         allowanceTx({
           client: a.client as string,
           instance: a.instance,
-          rolesMod: a.rolesMod,
         })
       )
   )
   .command(
     "policy-tx <client>",
     "Safe Tx Builder JSON for the guarded policy, compiled locally (./export/)",
-    (y) =>
-      withCommon(y).option("rolesMod", {
-        type: "string",
-        describe: "override the instance rolesMod (e.g. the old Alpha mods)",
-      }),
+    (y) => withCommon(y),
     (a) =>
       run(() =>
         policyTx({
           client: a.client as string,
           instance: a.instance,
-          rolesMod: a.rolesMod,
         })
       )
   )

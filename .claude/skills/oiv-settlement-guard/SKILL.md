@@ -163,22 +163,15 @@ no new `setAllowance`.
 
 ### Alpha switch window (usd-alpha / eth-alpha)
 
-Until the v2.1.1 switch lands, the **old** Alpha manager mods
-(USD `0x988A15711CCDF16C06010bb41AaEBF39e407cD7F`, ETH
-`0x9Eaaa5d0C47b9510CddE65f2be516d3008A30f21`) are the live ones and a rollback
-re-enables them. Guard **both** old and new in the same Manager Safe batch:
-
-```bash
-yarn tsx scripts/settlementGuard.ts policy-tx    <fund> --rolesMod <old mod>
-yarn tsx scripts/settlementGuard.ts allowance-tx <fund> --rolesMod <old mod>
-```
-
-(Same policy and owner Safe; only `to` differs.) The bot's role lives on the
-**manager** modifier, so the manager-mod switch (`enableModule(new)` /
-`disableModule(old)` on the Manager Safe) must never run before the guard:
-either put it in the same batch after the guard calls, or execute it afterwards.
-The Main Roles Modifier switch (via the Security Council) does not touch the
-settlement role.
+The guard goes on the **new** v2.1.1 manager mods only (`manager_prod` on this
+branch); the old v2.1.0 mods stop being used once the manager-mod switch
+(`enableModule(new)` / `disableModule(old)` on the Manager Safe) executes, so
+they are not guarded. Ship the guard and the switch in the **same Manager Safe
+batch** (guard calls first) or run the guard before the switch, so the bot never
+settles through an unguarded new mod. Caveat: a rollback that re-enables an old
+mod would restore an unguarded settlement path — guard it first if that ever
+happens. The Main Roles Modifier switch (via the Security Council) does not touch
+the settlement role.
 
 ### Stage
 
