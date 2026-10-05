@@ -10,6 +10,8 @@ import {
   TODO_OPS,
 } from "@/helpers"
 import { WBTC } from "@/addresses/eth"
+// main_prod, not manager_prod: same `shares`, and manager_prod carries TODO_OPS placeholders
+// that ts-jest would reject until ops fill them. Only `shares` is used by the policy.
 import { parameters } from "../../instances/main_prod"
 import allowedCalls, { settlementAssets } from "./permissions/calls"
 import allowedActions from "./permissions/_actions"

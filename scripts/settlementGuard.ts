@@ -47,6 +47,7 @@ const CHAIN_ID = 1
 const PRICE_DECIMALS = 8
 const NEAR_EDGE_PCT = 1
 const LOGS_API = "https://eth.blockscout.com/api"
+const LOGS_PAGE = 1_000
 const CLIENTS_DIR = path.join(__dirname, "..", "clients")
 const EXPORT_DIR = path.join(__dirname, "..", "export")
 const provider = providers[CHAIN_ID]
@@ -223,8 +224,12 @@ const isUnset = (a: Allowance) =>
   a.refill === 0n && a.maxRefill === 0n && a.period === 0n && a.balance === 0n
 
 /** Mirrors the Roles modifier's accrual: balance + refill per elapsed period, capped. */
-const accrue = (a: Allowance, now: bigint) => {
-  if (a.period === 0n || now < a.timestamp + a.period)
+const accrue = (
+  a: Allowance,
+  now: bigint
+): { balance: bigint; nextRefill?: bigint } => {
+  if (a.period === 0n) return { balance: a.balance } // never refills
+  if (now < a.timestamp + a.period)
     return { balance: a.balance, nextRefill: a.timestamp + a.period }
   const elapsed = (now - a.timestamp) / a.period
   const cap = a.maxRefill // setAllowance stores maxRefill 0 as uint128.max
@@ -293,21 +298,36 @@ const settlementHistory = async (
       : 0
   const topics = [sub, red].filter((t): t is string => !!t)
   const txBlocks = new Map<string, number>()
-  const fetchLogs = async (topic: string) => {
-    const res = await fetch(
-      `${LOGS_API}?module=logs&action=getLogs&address=${shares}&fromBlock=${fromBlock}&toBlock=latest&topic0=${topic}`
-    )
-    const body = (await res.json()) as {
-      result?: { transactionHash: string; blockNumber: string }[] | null
+  type Log = { transactionHash: string; blockNumber: string }
+  const fetchPage = async (topic: string, from: number): Promise<Log[]> => {
+    let reason = ""
+    for (let attempt = 0; attempt < 2; attempt++) {
+      if (attempt > 0) await new Promise((r) => setTimeout(r, 2_000))
+      const res = await fetch(
+        `${LOGS_API}?module=logs&action=getLogs&address=${shares}&fromBlock=${from}&toBlock=latest&topic0=${topic}`
+      )
+      const body = (await res.json().catch(() => ({}))) as {
+        result?: Log[] | null
+        message?: string
+      }
+      if (Array.isArray(body.result)) return body.result
+      reason = `HTTP ${res.status}${body.message ? ` ${body.message}` : ""}`
     }
-    return Array.isArray(body.result) ? body.result : undefined
+    throw new Error(`logs API ${LOGS_API} failed twice (${reason})`)
   }
   for (const topic of topics) {
-    const logs = (await fetchLogs(topic)) ?? (await fetchLogs(topic))
-    if (!logs)
-      throw new Error(`logs API ${LOGS_API} returned no result (tried twice)`)
-    for (const l of logs)
-      txBlocks.set(l.transactionHash, Number(BigInt(l.blockNumber)))
+    // The API returns at most LOGS_PAGE logs per call: page with a block cursor
+    // (overlapping on the last block; duplicates collapse in the map).
+    let from = fromBlock
+    for (;;) {
+      const logs = await fetchPage(topic, from)
+      for (const l of logs)
+        txBlocks.set(l.transactionHash, Number(BigInt(l.blockNumber)))
+      if (logs.length < LOGS_PAGE) break
+      const last = Math.max(...logs.map((l) => Number(BigInt(l.blockNumber))))
+      if (last <= from) break
+      from = last
+    }
   }
   const txs = [...txBlocks.entries()].sort((a, b) => b[1] - a[1])
   const out: Settlement[] = []
@@ -361,6 +381,11 @@ const suggest = async (args: {
   const prices = await lastSettledPrices(inst.shares, pin)
   for (const p of prices)
     console.log(`last settled price ${p.asset}: ${fmt(p.price)} (${p.price})`)
+  const unsettled = prices.filter((p) => p.price === 0n)
+  if (unsettled.length)
+    throw new Error(
+      `${unsettled.map((p) => p.asset).join(", ")} never settled on-chain (last settled price 0) — settle it via the Manager Safe first, then anchor the band`
+    )
   const all = prices.map((p) => p.price)
   const low = all.reduce((a, b) => (a < b ? a : b))
   const high = all.reduce((a, b) => (a > b ? a : b))
@@ -490,7 +515,7 @@ const check = async (args: { client: string; instance: string }) => {
     for (const p of prices) console.log(`  ${p.asset} ${fmt(p.price)}`)
     if (inst.guard === undefined) {
       console.log(
-        `\n${args.client} ${args.instance} has no settlementGuard, so it is not guarded and there is no allowance to check (only manager instances carry it; eth-alpha manager_stage is excluded by decision).`
+        `\n${args.client} ${args.instance} has no settlementGuard, so it is not guarded and there is no allowance to check (only the settlement role's manager instances carry it${args.client === "eth-alpha-fund" && args.instance === "manager_stage" ? "; eth-alpha manager_stage is excluded by decision" : ""}).`
       )
       return
     }
@@ -511,7 +536,7 @@ const check = async (args: { client: string; instance: string }) => {
   const { balance, nextRefill } = accrue(a, now)
   if (balance === 0n)
     console.log(
-      `  ❌ EXHAUSTED — balance 0; next refill at ${new Date(Number(nextRefill) * 1000).toISOString()}`
+      `  ❌ EXHAUSTED — balance 0; next refill ${nextRefill === undefined ? "never (period 0)" : `at ${new Date(Number(nextRefill) * 1000).toISOString()}`}`
     )
   else console.log(`  available now: ${balance} call(s)`)
   if (g.ok) {

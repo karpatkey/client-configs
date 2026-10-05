@@ -107,8 +107,8 @@ Funds and roles: `usd-alpha-fund` / `eth-alpha-fund` → `REQUESTS`;
    yarn tsx scripts/settlementGuard.ts suggest <fund> --down <X> --up <Y> [--instance manager_prod]
    ```
    One anchoring rule: min from the **lowest** approved-asset last settled price,
-   max from the **highest**. It prints the last settlements (exact prices decoded
-   from the bot's txs), the current band, a re-centring-ratchet warning when the
+   max from the **highest**. It prints the last settlements (prices decoded
+   from the bot's txs; Safe-batched settlements show `n/a`), the current band, a re-centring-ratchet warning when the
    anchor sits within 1% of a current edge, and the per-cycle / per-period worst
    case for the configured budget. `--write` writes `sharesPriceMin/Max` into the
    instance file.
@@ -133,7 +133,9 @@ Funds and roles: `usd-alpha-fund` / `eth-alpha-fund` → `REQUESTS`;
    them as one Safe batch, merge their `transactions` arrays into a single file
    (same Safe, `meta.createdFromSafeAddress`). Once every value is set, delete the
    now-unused `TODO_OPS` import from the instance (`--write` does it when no
-   placeholder is left).
+   placeholder is left). `policy-tx` plans against an empty role, so it never
+   revokes other live permissions of the role: compare the live role (events or
+   the roles app) with the repo before executing.
 4. **Validate**:
    ```bash
    yarn check:types                       # only TODO_OPS errors may remain before ops fill values
