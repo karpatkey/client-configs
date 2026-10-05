@@ -69,6 +69,9 @@ export const validateSettlementGuard = (
   }
   if (BigInt(g.sharesPriceMin as string) >= BigInt(g.sharesPriceMax as string))
     fail(where, "sharesPriceMin must be lower than sharesPriceMax")
+  // `lte(max)` compiles to `max + 1`, which must still fit in a uint256.
+  if (BigInt(g.sharesPriceMax as string) >= (1n << 256n) - 1n)
+    fail(where, "sharesPriceMax must be below 2^256 - 1")
 
   const allowance = g.callAllowance
   if (typeof allowance !== "object" || allowance === null)
