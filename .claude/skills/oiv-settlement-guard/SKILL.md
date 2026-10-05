@@ -127,7 +127,13 @@ Funds and roles: `usd-alpha-fund` / `eth-alpha-fund` → `REQUESTS`;
    yarn tsx scripts/settlementGuard.ts allowance-tx <fund> --instance manager_prod   # setAllowance
    ```
    Both refuse a modifier not owned by the instance avatar. `allowance-tx` prints
-   the current on-chain allowance next to the new one.
+   the current on-chain allowance next to the new one. `policy-tx` re-issues a
+   harmless `scopeTarget` plus the full `scopeFunction`; it compiles and encodes
+   offline (no roles app, no indexer). Each command writes its own file: to send
+   them as one Safe batch, merge their `transactions` arrays into a single file
+   (same Safe, `meta.createdFromSafeAddress`). Once every value is set, delete the
+   now-unused `TODO_OPS` import from the instance (`--write` does it when no
+   placeholder is left).
 4. **Validate**:
    ```bash
    yarn check:types                       # only TODO_OPS errors may remain before ops fill values
@@ -137,9 +143,14 @@ Funds and roles: `usd-alpha-fund` / `eth-alpha-fund` → `REQUESTS`;
    On Windows the repo's `yarn test` cannot expand `${FORK_RPC:-…}`: start
    `anvil --silent --fork-url https://ethereum-rpc.publicnode.com` yourself and run
    `npx jest --runInBand clients/<fund>/mainnet/roles/<ROLE>`.
-5. **Fork-test the batch** before proposing: a legit settle at the live price
-   passes for every pinned asset; `min − 1` reverts `ConditionViolation` status 8
-   and `max + 1` status 9; with the budget spent, the next call reverts status 18.
+5. **Fork-test the batch** before proposing. The repo's Jest suites prove the
+   permission shape but never consume budget (their inner call reverts, which
+   rolls the consumption back), so test the real thing: on a fork, execute the
+   batch as the impersonated **Manager Safe**, then, as the real bot member:
+   - a legit settle at the live price succeeds for every pinned asset and emits
+     `ConsumeAllowance(processRequests-calls, 1, N − 1)`;
+   - `min − 1` reverts `ConditionViolation` status 8 and `max + 1` status 9;
+   - after `N` successful calls in one period, call `N + 1` reverts status 18.
 6. **Open the PR** in the `permission-update-request` format (`| Field | Value |`
    table per fund/instance; what changed; validation), then review it with
    `permission-review`. Attach nothing that contains real numbers ops have not
@@ -162,7 +173,12 @@ yarn tsx scripts/settlementGuard.ts policy-tx    <fund> --rolesMod <old mod>
 yarn tsx scripts/settlementGuard.ts allowance-tx <fund> --rolesMod <old mod>
 ```
 
-(Same policy and owner Safe; only `to` differs.)
+(Same policy and owner Safe; only `to` differs.) The bot's role lives on the
+**manager** modifier, so the manager-mod switch (`enableModule(new)` /
+`disableModule(old)` on the Manager Safe) must never run before the guard:
+either put it in the same batch after the guard calls, or execute it afterwards.
+The Main Roles Modifier switch (via the Security Council) does not touch the
+settlement role.
 
 ### Stage
 
