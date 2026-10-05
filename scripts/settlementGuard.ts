@@ -28,7 +28,11 @@ import {
   hexlify,
   isBytesLike,
 } from "ethers"
-import { planApplyRole, rolesAbi } from "zodiac-roles-sdk"
+import {
+  callsPlannedForApplyRole,
+  encodeCalls,
+  rolesAbi,
+} from "zodiac-roles-sdk"
 import { encodeBytes32String } from "defi-kit"
 import { compileApplyData } from "../helpers/apply"
 import { providers } from "../helpers/providers"
@@ -42,7 +46,6 @@ const ACCOUNT = "mainnet"
 const CHAIN_ID = 1
 const PRICE_DECIMALS = 8
 const NEAR_EDGE_PCT = 1
-const LOG_CHUNK_BLOCKS = 10_000
 const LOGS_API = "https://eth.blockscout.com/api"
 const CLIENTS_DIR = path.join(__dirname, "..", "clients")
 const EXPORT_DIR = path.join(__dirname, "..", "export")
@@ -155,6 +158,9 @@ const read = async <T>(c: Contract, fn: string, ...args: unknown[]) =>
 const sharesContract = (shares: string) =>
   new Contract(shares, sharesIface, provider)
 
+const rel = (p: string) =>
+  path.relative(process.cwd(), p).split(path.sep).join("/")
+
 const fmt = (x: bigint) => formatUnits(x, PRICE_DECIMALS)
 const pct = (num: bigint, den: bigint) => (Number(num) / Number(den)) * 100
 
@@ -221,7 +227,7 @@ const accrue = (a: Allowance, now: bigint) => {
   if (a.period === 0n || now < a.timestamp + a.period)
     return { balance: a.balance, nextRefill: a.timestamp + a.period }
   const elapsed = (now - a.timestamp) / a.period
-  const cap = a.maxRefill === 0n ? (1n << 128n) - 1n : a.maxRefill
+  const cap = a.maxRefill // setAllowance stores maxRefill 0 as uint128.max
   const balance =
     a.balance < cap
       ? a.balance + a.refill * elapsed > cap
@@ -277,40 +283,31 @@ const settlementHistory = async (
   lookbackBlocks: number,
   count: number
 ) => {
-  const latest = await provider.getBlockNumber()
   const sub = sharesIface.getEvent("SubscriptionApproval")?.topicHash
   const red = sharesIface.getEvent("RedemptionApproval")?.topicHash
-  const fromBlock = Math.max(0, latest - lookbackBlocks)
+  // 0 = from genesis. The repo's public RPC refuses historical eth_getLogs, so
+  // logs come from the Blockscout API (no key needed).
+  const fromBlock =
+    lookbackBlocks > 0
+      ? Math.max(0, (await provider.getBlockNumber()) - lookbackBlocks)
+      : 0
   const topics = [sub, red].filter((t): t is string => !!t)
   const txBlocks = new Map<string, number>()
-  try {
-    // Public RPCs often refuse historical eth_getLogs, so read logs from the
-    // Blockscout API first (no key needed) and fall back to the RPC.
-    for (const topic of topics) {
-      const res = await fetch(
-        `${LOGS_API}?module=logs&action=getLogs&address=${shares}&fromBlock=${fromBlock}&toBlock=latest&topic0=${topic}`
-      )
-      const body = (await res.json()) as {
-        result?: { transactionHash: string; blockNumber: string }[]
-      }
-      if (!Array.isArray(body.result))
-        throw new Error("unexpected logs API response")
-      for (const l of body.result)
-        txBlocks.set(l.transactionHash, Number(BigInt(l.blockNumber)))
-    }
-  } catch (e) {
-    console.log(
-      `  (logs API unavailable: ${(e as Error).message} — falling back to RPC)`
+  const fetchLogs = async (topic: string) => {
+    const res = await fetch(
+      `${LOGS_API}?module=logs&action=getLogs&address=${shares}&fromBlock=${fromBlock}&toBlock=latest&topic0=${topic}`
     )
-    for (let from = fromBlock; from <= latest; from += LOG_CHUNK_BLOCKS) {
-      const logs = await provider.getLogs({
-        address: shares,
-        topics: [topics],
-        fromBlock: from,
-        toBlock: Math.min(latest, from + LOG_CHUNK_BLOCKS - 1),
-      })
-      for (const l of logs) txBlocks.set(l.transactionHash, l.blockNumber)
+    const body = (await res.json()) as {
+      result?: { transactionHash: string; blockNumber: string }[] | null
     }
+    return Array.isArray(body.result) ? body.result : undefined
+  }
+  for (const topic of topics) {
+    const logs = (await fetchLogs(topic)) ?? (await fetchLogs(topic))
+    if (!logs)
+      throw new Error(`logs API ${LOGS_API} returned no result (tried twice)`)
+    for (const l of logs)
+      txBlocks.set(l.transactionHash, Number(BigInt(l.blockNumber)))
   }
   const txs = [...txBlocks.entries()].sort((a, b) => b[1] - a[1])
   const out: Settlement[] = []
@@ -377,8 +374,12 @@ const suggest = async (args: {
         args.history
       )
       console.log(
-        `\nlast ${settlements.length} settlements (of ${totalTxs} settlement txs in the last ${args.lookbackBlocks} blocks):`
+        `\nlast ${settlements.length} settlements (of ${totalTxs} settlement txs ${args.lookbackBlocks > 0 ? `in the last ${args.lookbackBlocks} blocks` : "since genesis"}):`
       )
+      if (totalTxs === 0)
+        console.log(
+          "  none found — widen --lookbackBlocks (0 = from genesis) before choosing the band"
+        )
       for (const s of settlements)
         console.log(
           `  block ${s.block}  ${s.price !== undefined ? fmt(s.price) : "n/a"}  ${s.asset ?? ""}  approve ${s.approve ?? "?"} / reject ${s.reject ?? "?"}  via ${s.via}  ${s.tx}`
@@ -426,8 +427,9 @@ const suggest = async (args: {
   )
   if (current.ok) {
     const n = current.guard.callAllowance.maxRefill
+    const cycles = Math.floor(n / 2)
     console.log(
-      `  per period with a full budget of ${n} calls (every ${current.guard.callAllowance.periodSeconds}s): ${((Math.pow(ratio, n / 2) - 1) * 100).toFixed(2)}%  = (max/min)^(N/2) - 1`
+      `  per period with a full budget of ${n} calls = ${cycles} cycles (every ${current.guard.callAllowance.periodSeconds}s): ${((Math.pow(ratio, cycles) - 1) * 100).toFixed(2)}%  = (max/min)^floor(N/2) - 1`
     )
     console.log(
       "  real cap: the cash an attacker can actually redeem — keep idle cash on the Portfolio Safe minimal"
@@ -447,9 +449,7 @@ const suggest = async (args: {
     if ((src.match(/TODO_OPS/g) ?? []).length === 1)
       src = src.replace(/import \{ TODO_OPS \} from "@\/helpers"\r?\n/, "")
     fs.writeFileSync(inst.file, src)
-    console.log(
-      `\nwrote sharesPriceMin/Max to ${path.relative(process.cwd(), inst.file)}`
-    )
+    console.log(`\nwrote sharesPriceMin/Max to ${rel(inst.file)}`)
   }
   console.log(
     `\nnext: yarn tsx scripts/settlementGuard.ts policy-tx ${args.client} --instance ${args.instance}`
@@ -492,6 +492,12 @@ const check = async (args: {
   } else {
     console.log(`\nband: not configured (${g.reason})`)
     for (const p of prices) console.log(`  ${p.asset} ${fmt(p.price)}`)
+    if (inst.guard === undefined) {
+      console.log(
+        `\n${args.client} ${args.instance} has no settlementGuard, so it is not guarded and there is no allowance to check (only manager instances carry it; eth-alpha manager_stage is excluded by decision).`
+      )
+      return
+    }
   }
 
   const a = await readAllowance(rolesMod)
@@ -562,12 +568,18 @@ const serialize = (result: Result, params: readonly ParamType[]) => {
 const toTxBuilder = (
   name: string,
   description: string,
+  safe: string,
   calls: { to: string; data: string }[]
 ) => ({
   version: "1.0",
   chainId: String(CHAIN_ID),
   createdAt: Date.now(),
-  meta: { name, description, txBuilderVersion: "1.16.2" },
+  meta: {
+    name,
+    description,
+    txBuilderVersion: "1.16.2",
+    createdFromSafeAddress: safe,
+  },
   transactions: calls.map((call) => {
     const parsed = rolesIface.parseTransaction({ data: call.data })
     if (!parsed) throw new Error(`cannot decode call to ${call.to}`)
@@ -622,6 +634,14 @@ const allowanceTx = async (args: {
   console.log(
     "  ⚠️  setAllowance overwrites the balance: it becomes the new `balance` immediately (an instant refill)."
   )
+  if (w.balance === 0)
+    console.log(
+      "  ⚠️  balance 0: the bot is blocked until the first refill, one full period after execution."
+    )
+  if (w.balance > w.maxRefill)
+    console.log(
+      "  ⚠️  balance > maxRefill: a one-off larger budget; refills only resume once the balance drops below maxRefill."
+    )
   const data = rolesIface.encodeFunctionData("setAllowance", [
     SETTLEMENT_GUARD_ALLOWANCE_KEY,
     w.balance,
@@ -635,12 +655,11 @@ const allowanceTx = async (args: {
     toTxBuilder(
       `${args.client} ${args.instance}: settlement guard call allowance`,
       `setAllowance(processRequests-calls) on ${rolesMod}`,
+      inst.avatar,
       [{ to: rolesMod, data }]
     )
   )
-  console.log(
-    `wrote ${path.relative(process.cwd(), out)} — Safe ${inst.avatar}`
-  )
+  console.log(`wrote ${rel(out)} — Safe ${inst.avatar}`)
 }
 
 const policyTx = async (args: {
@@ -659,19 +678,20 @@ const policyTx = async (args: {
     roleArg: role,
   })
   const key = encodeBytes32String(roleKey) as `0x${string}`
-  const calls = await planApplyRole(
-    { key, targets, annotations: [] },
-    {
-      chainId: CHAIN_ID,
-      address: rolesMod as `0x${string}`,
-      current: {
-        key,
-        members: [],
-        targets: [],
-        annotations: [],
-        lastUpdate: 0,
-      },
-    }
+  // Plan against an empty role and encode offline (planApplyRole would query the
+  // Roles indexer even with an explicit `current`). An empty `current` re-issues
+  // scopeTarget (harmless) and the full scopeFunction; members and annotations
+  // are not touched.
+  const empty = {
+    key,
+    members: [],
+    targets: [],
+    annotations: [],
+    lastUpdate: 0,
+  }
+  const calls = encodeCalls(
+    callsPlannedForApplyRole(empty, { ...empty, targets }),
+    rolesMod as `0x${string}`
   )
   for (const call of calls) {
     const p = rolesIface.parseTransaction({ data: call.data })
@@ -684,12 +704,11 @@ const policyTx = async (args: {
     toTxBuilder(
       `${args.client} ${args.instance}: ${role} policy with settlement guard`,
       `${role} on ${rolesMod}`,
+      inst.avatar,
       calls.map((c) => ({ to: rolesMod, data: c.data }))
     )
   )
-  console.log(
-    `wrote ${path.relative(process.cwd(), out)} — Safe ${inst.avatar}`
-  )
+  console.log(`wrote ${rel(out)} — Safe ${inst.avatar}`)
 }
 
 // ---------------------------------------------------------------- cli
@@ -738,8 +757,8 @@ yargs(process.argv.slice(2))
         })
         .option("lookbackBlocks", {
           type: "number",
-          default: 200_000,
-          describe: "blocks to scan for settlements",
+          default: 0,
+          describe: "blocks to scan for settlements (0 = from genesis)",
         }),
     (a) =>
       run(() =>
