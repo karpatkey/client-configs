@@ -45,3 +45,17 @@ For getting the update transaction payload directly, without depending on the Ro
 `yarn apply:export <client> <account>(/<instance>) <role>`
 
 This will write a JSON file to the ./export folder. This file can be uploaded to the Safe Transaction Builder app for execution.
+
+## OIV settlement guard
+
+Interim fix ("S1") for the OIV funds' `kpkShares.processRequests`: the settlement bot's permission (`REQUESTS` on usd-/eth-alpha, `APPROVER` on xaut-/wbtc-carry, on the fund's manager Roles Modifier) carries an inclusive **price band** on `sharesPriceInAsset` and a **call budget** (`CallWithinAllowance`, key `processRequests-calls`). Full procedure: `.claude/skills/oiv-settlement-guard/SKILL.md`.
+
+- **Where the numbers live:** `clients/<fund>/mainnet/instances/manager_prod.ts` (and `manager_stage.ts`) → `settlementGuard: { sharesPriceMin, sharesPriceMax, callAllowance: { balance, maxRefill, refill, periodSeconds } }`. Ops choose every value; the repo ships `TODO_OPS` placeholders that fail `yarn check:types` and throw when compiled.
+- **Two calls, always:** the policy (`scopeFunction`) and the allowance (`setAllowance`). `yarn apply` never sets allowance amounts — without `setAllowance` every bot call reverts. In one Safe batch order doesn't matter; as separate transactions run `setAllowance` first.
+- **Tooling (local only, writes Safe Transaction Builder files to `./export/`):**
+  - `yarn tsx scripts/settlementGuard.ts suggest <fund> --down <pct> --up <pct> [--write]`
+  - `yarn tsx scripts/settlementGuard.ts policy-tx <fund>` / `allowance-tx <fund>` (`--rolesMod <address>` targets another modifier owned by the same Safe)
+  - `yarn tsx scripts/settlementGuard.ts check <fund>`
+  - every command takes `--instance` (default `manager_prod`).
+- **Re-centring:** a new band is one `scopeFunction` (`suggest` → `policy-tx`); no new `setAllowance`.
+- **Monitoring:** bot `ConditionViolation` status 8 / 9 (below / above the band) or 18 (budget spent), the allowance reaching 0, the price nearing an edge (`check`, daily), and any unannounced `ScopeFunction` / `SetAllowance` / `AssignRoles` / `EnabledModule` on the manager modifier.
