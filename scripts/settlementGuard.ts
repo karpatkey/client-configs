@@ -29,7 +29,7 @@ import {
   hexlify,
   isBytesLike,
 } from "ethers"
-import { encodeCalls, rolesAbi } from "zodiac-roles-sdk"
+import { rolesAbi } from "zodiac-roles-sdk"
 import { encodeBytes32String } from "defi-kit"
 import { compileApplyData } from "../helpers/apply"
 import { providers } from "../helpers/providers"
@@ -73,7 +73,38 @@ const ALLOWANCES_ABI = [
   "function owner() view returns (address)",
 ]
 
-type EncodableCall = Parameters<typeof encodeCalls>[0][number]
+type ConditionTree = {
+  paramType: number
+  operator: number
+  compValue?: string
+  children?: readonly ConditionTree[]
+}
+
+/**
+ * Breadth-first flattening with parent indices — the on-chain `ConditionFlat[]`
+ * layout, as zodiac-roles-sdk's own encoder does (not exported by every version).
+ */
+const flattenCondition = (root: ConditionTree) => {
+  const out: {
+    parent: number
+    paramType: number
+    operator: number
+    compValue: string
+  }[] = []
+  const queue = [{ node: root, parent: 0 }]
+  for (let item = queue.shift(); item; item = queue.shift()) {
+    const { children, ...flat } = item.node
+    out.push({
+      ...flat,
+      parent: item.parent,
+      compValue: flat.compValue || "0x",
+    })
+    const index = out.length - 1
+    for (const child of children ?? [])
+      queue.push({ node: child, parent: index })
+  }
+  return out
+}
 
 // ---------------------------------------------------------------- discovery
 
@@ -183,8 +214,8 @@ const nearEdge = (
   max: bigint,
   fraction: number
 ) => {
-  const margin = (Number(max - min) * fraction) | 0
-  return price - min < BigInt(margin) || max - price < BigInt(margin)
+  const margin = BigInt(Math.trunc(Number(max - min) * fraction))
+  return price - min < margin || max - price < margin
 }
 
 /** Worst case for a leaked bot key, as a fraction of the attacker's capital. */
@@ -298,6 +329,10 @@ type ApiLog = {
   data: string
 }
 
+// The free tier allows short bursts only: keep at least this gap between requests.
+const LOGS_GAP_MS = 1_200
+let lastLogsRequest = 0
+
 const fetchLogPage = async (
   address: string,
   topic: string,
@@ -309,6 +344,9 @@ const fetchLogPage = async (
     if (wait) await new Promise((r) => setTimeout(r, wait))
     // Free tier rate-limits bursts (HTTP 429): back off 2s, 4s, 8s… or as told
     wait = 2_000 * 2 ** attempt
+    const gap = lastLogsRequest + LOGS_GAP_MS - Date.now()
+    if (gap > 0) await new Promise((r) => setTimeout(r, gap))
+    lastLogsRequest = Date.now()
     try {
       const res = await fetch(
         `${LOGS_API}?module=logs&action=getLogs&address=${address}&fromBlock=${from}&toBlock=latest&topic0=${topic}`,
@@ -728,7 +766,7 @@ const check = async (args: {
           ? `band [${fmt(live.min)}, ${fmt(live.max)}]`
           : "NO band"
       console.log(
-        `\nlive policy: scoped — ${band}, ${live.budget ? "budget node present" : "NO budget node"}${live.min === undefined || !live.budget ? "  ❌ not guarded" : "  ✅ guarded"}`
+        `\nlive policy: scoped — ${band}, ${live.budget ? "budget node present" : "NO budget node"}${live.min === undefined || live.max === undefined || !live.budget ? "  ❌ not guarded" : "  ✅ guarded"}`
       )
       if (g.ok && live.min !== undefined && live.max !== undefined) {
         const same =
@@ -970,32 +1008,32 @@ const policyTx = async (args: { client: string; instance: string }) => {
     accountArg: `${ACCOUNT}/${args.instance}`,
     roleArg: role,
   })
-  const key = encodeBytes32String(roleKey) as `0x${string}`
-  const planned: EncodableCall[] = []
+  const key = encodeBytes32String(roleKey)
+  const calls: { to: string; data: string }[] = []
   for (const t of targets) {
     if (!t.functions.length)
       throw new Error(`${t.address}: expected a function-scoped target`)
-    planned.push({
-      call: "scopeTarget",
-      roleKey: key,
-      targetAddress: t.address,
+    calls.push({
+      to: rolesMod,
+      data: rolesIface.encodeFunctionData("scopeTarget", [key, t.address]),
     })
     for (const f of t.functions) {
       if (f.wildcarded || !f.condition)
         throw new Error(
           `${t.address} ${f.selector}: the settlement role must be scoped, not wildcarded`
         )
-      planned.push({
-        call: "scopeFunction",
-        roleKey: key,
-        targetAddress: t.address,
-        selector: f.selector,
-        condition: f.condition,
-        executionOptions: f.executionOptions,
+      calls.push({
+        to: rolesMod,
+        data: rolesIface.encodeFunctionData("scopeFunction", [
+          key,
+          t.address,
+          f.selector,
+          flattenCondition(f.condition),
+          f.executionOptions,
+        ]),
       })
     }
   }
-  const calls = encodeCalls(planned, rolesMod as `0x${string}`)
   for (const call of calls) {
     const p = rolesIface.parseTransaction({ data: call.data })
     console.log(
@@ -1007,7 +1045,7 @@ const policyTx = async (args: { client: string; instance: string }) => {
     inst.avatar,
     `${args.client} ${args.instance}: ${role} policy with settlement guard`,
     `${role} on ${rolesMod}`,
-    calls.map((c) => ({ to: rolesMod, data: c.data }))
+    calls
   )
   console.log(
     `wrote ${rel(out.builder)} (Safe Tx Builder) + ${rel(out.raw)} (calldata) — Safe ${inst.avatar}`

@@ -134,6 +134,18 @@ export const settlementGuardScope = (guard: unknown, where: string) => {
         root.operator !== Operator.Matches
       )
         throw new Error(`${where}: expected a calldata Matches condition`)
+      // The budget never ships without the band: one parameter must be And(GreaterThan, LessThan).
+      type Node = { operator: number; children?: Node[] }
+      const hasBand = ((root.children ?? []) as Node[]).some(
+        (p) =>
+          p.operator === Operator.And &&
+          p.children?.some((x) => x.operator === Operator.GreaterThan) &&
+          p.children?.some((x) => x.operator === Operator.LessThan)
+      )
+      if (!hasBand)
+        throw new Error(
+          `${where}: no price band in the permission — pass guard.sharesPriceInAsset`
+        )
       return {
         ...permission,
         condition: {
