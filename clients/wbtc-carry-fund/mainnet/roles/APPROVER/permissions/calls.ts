@@ -13,15 +13,16 @@ export default (parameters: Parameters) => {
     parameters.settlementGuard,
     "wbtc-carry-fund APPROVER"
   )
-  return settlementAssets.map((asset) => ({
+  return [
     // OIV Shares - Approve/reject subscription and redemption requests settled in WBTC
-    ...allow.mainnet.oiv.shares.processRequests(
-      undefined,
-      undefined,
-      asset,
-      guard.sharesPriceInAsset,
-      guard.options
-    ),
-    targetAddress: parameters.shares,
-  })) satisfies PermissionList
+    guard.withCallBudget({
+      ...allow.mainnet.oiv.shares.processRequests(
+        undefined,
+        undefined,
+        guard.asset(settlementAssets),
+        guard.sharesPriceInAsset
+      ),
+      targetAddress: parameters.shares,
+    }),
+  ] satisfies PermissionList
 }

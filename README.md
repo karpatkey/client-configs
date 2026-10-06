@@ -52,10 +52,11 @@ Interim fix ("S1") for the OIV funds' `kpkShares.processRequests`: the settlemen
 
 - **Where the numbers live:** `clients/<fund>/mainnet/instances/manager_prod.ts` (and `manager_stage.ts`) → `settlementGuard: { sharesPriceMin, sharesPriceMax, callAllowance: { balance, maxRefill, refill, periodSeconds } }`. Ops choose every value; the repo ships `TODO_OPS` placeholders that fail `yarn check:types` and throw when compiled.
 - **Two calls, always:** the policy (`scopeFunction`) and the allowance (`setAllowance`). `yarn apply` never sets allowance amounts — without `setAllowance` every bot call reverts. In one Safe batch order doesn't matter; as separate transactions run `setAllowance` first.
-- **Tooling (local only, writes Safe Transaction Builder files to `./export/`):**
-  - `yarn tsx scripts/settlementGuard.ts suggest <fund> --down <pct> --up <pct> [--write]`
+- **Tooling (local only; writes a Safe Transaction Builder file plus a `.raw.json` with the calldata to `./export/`; never POSTs, never sends a transaction):**
+  - `yarn tsx scripts/settlementGuard.ts suggest <fund> --down <pct> --up <pct> [--anchorPrice <int>] [--write]`
   - `yarn tsx scripts/settlementGuard.ts policy-tx <fund>` / `allowance-tx <fund>`
-  - `yarn tsx scripts/settlementGuard.ts check <fund>`
-  - every command takes `--instance` (default `manager_prod`).
+  - `yarn tsx scripts/settlementGuard.ts check <fund>` (reads the live policy from the modifier's events)
+  - every command takes `--instance` (default `manager_prod`); `--help` lists the options.
 - **Re-centring:** a new band is one `scopeFunction` (`suggest` → `policy-tx`); no new `setAllowance`.
-- **Monitoring:** bot `ConditionViolation` status 8 / 9 (below / above the band) or 18 (budget spent), the allowance reaching 0, the price nearing an edge (`check`, daily), and any unannounced `ScopeFunction` / `SetAllowance` / `AssignRoles` / `EnabledModule` on the manager modifier.
+- **The repo follows the chain:** every band or budget executed on-chain lands in the repo as a PR (the instance file). Building the role from a ref without it would silently restore the old band.
+- **Monitoring:** bot `ConditionViolation` status 8 / 9 (below / above the band), 18 (budget spent), 5 / 7 (asset not pinned); the allowance reaching 0; the price nearing an edge (`check`, daily); any unannounced `ScopeFunction` / `AllowFunction` / `AllowTarget` / `RevokeFunction` / `RevokeTarget` / `SetAllowance` / `AssignRoles` / `SetUnwrapAdapter` / `OwnershipTransferred` / `EnabledModule` on the manager modifier; any new operator on the shares.

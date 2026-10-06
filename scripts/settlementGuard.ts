@@ -3,14 +3,15 @@
  * OIV settlement guard (S1 interim fix) — ops tooling. Mechanism only: ops choose every
  * number. See `.claude/skills/oiv-settlement-guard/SKILL.md`.
  *
- *   yarn tsx scripts/settlementGuard.ts suggest <client> --down <pct> --up <pct> [--write]
+ *   yarn tsx scripts/settlementGuard.ts suggest <client> --down <pct> --up <pct> [--anchorPrice <p>] [--write]
  *   yarn tsx scripts/settlementGuard.ts check <client>
  *   yarn tsx scripts/settlementGuard.ts allowance-tx <client>
  *   yarn tsx scripts/settlementGuard.ts policy-tx <client>
  *
  * Every command takes `--instance` (default `manager_prod`). Reads the chain over RPC and
- * compiles policies locally; it never POSTs to a roles app and never sends a transaction.
- * Safe Transaction Builder files are written to ./export/.
+ * the Blockscout logs API (GET), compiles and encodes policies locally; it never POSTs to
+ * a roles app or an indexer and never sends a transaction. Safe Transaction Builder files
+ * (plus a `.raw.json` with the calldata) are written to ./export/.
  */
 import fs from "node:fs"
 import path from "node:path"
@@ -28,11 +29,7 @@ import {
   hexlify,
   isBytesLike,
 } from "ethers"
-import {
-  callsPlannedForApplyRole,
-  encodeCalls,
-  rolesAbi,
-} from "zodiac-roles-sdk"
+import { encodeCalls, rolesAbi } from "zodiac-roles-sdk"
 import { encodeBytes32String } from "defi-kit"
 import { compileApplyData } from "../helpers/apply"
 import { providers } from "../helpers/providers"
@@ -45,17 +42,24 @@ import {
 const ACCOUNT = "mainnet"
 const CHAIN_ID = 1
 const PRICE_DECIMALS = 8
-const NEAR_EDGE_PCT = 1
+const PROCESS_REQUESTS = "0xd6fd0c57"
 const LOGS_API = "https://eth.blockscout.com/api"
 const LOGS_PAGE = 1_000
+const FETCH_TIMEOUT_MS = 20_000
+const LOGS_ATTEMPTS = 5
 const CLIENTS_DIR = path.join(__dirname, "..", "clients")
 const EXPORT_DIR = path.join(__dirname, "..", "export")
 const provider = providers[CHAIN_ID]
 
+// Roles v2 operators read back from on-chain conditions
+const OP_AND = 1
+const OP_GREATER_THAN = 17
+const OP_LESS_THAN = 18
+const OP_CALL_WITHIN_ALLOWANCE = 30
+
 const sharesIface = new Interface([
   "function getApprovedAssets() view returns (address[])",
   "function getLastSettledPrice(address asset) view returns (uint256)",
-  "function decimals() view returns (uint8)",
   "function processRequests(uint256[] approveRequests, uint256[] rejectRequests, address asset, uint256 sharesPriceInAsset)",
   "event SubscriptionApproval(uint256 requestId, uint256 assets, uint256 shares)",
   "event RedemptionApproval(uint256 requestId, uint256 assets, uint256 shares, uint256 redemptionFee)",
@@ -68,6 +72,8 @@ const ALLOWANCES_ABI = [
   "function allowances(bytes32 key) view returns (uint128 refill, uint128 maxRefill, uint64 period, uint128 balance, uint64 timestamp)",
   "function owner() view returns (address)",
 ]
+
+type EncodableCall = Parameters<typeof encodeCalls>[0][number]
 
 // ---------------------------------------------------------------- discovery
 
@@ -93,7 +99,7 @@ const resolveRole = (client: string) => {
   const role = roles[0]
   if (roles.length !== 1 || role === undefined)
     throw new Error(
-      `Unknown client "${client}": no single role with a settlement guard under clients/${client}/${ACCOUNT}/roles.\nClients with a settlement guard: ${listGuardedClients().join(", ") || "(none)"}`
+      `Unknown client "${client}": no single role with a settlement guard under clients/${client}/${ACCOUNT}/roles on this branch.\nClients with a settlement guard here: ${listGuardedClients().join(", ") || "(none)"}`
     )
   return role
 }
@@ -118,7 +124,7 @@ const loadInstance = async (client: string, instance: string) => {
   return {
     file,
     rolesMod: getAddress(mod.rolesMod as string),
-    chainId: Number(mod.chainId),
+    roleKeyPrefix: (mod.roleKeyPrefix as string | undefined) ?? "",
     avatar: getAddress(parameters.avatar),
     shares: getAddress(parameters.shares),
     guard: parameters.settlementGuard,
@@ -151,7 +157,7 @@ const tryGuard = (
   }
 }
 
-// ---------------------------------------------------------------- chain reads
+// ---------------------------------------------------------------- helpers
 
 const read = async <T>(c: Contract, fn: string, ...args: unknown[]) =>
   (await c.getFunction(fn).staticCall(...args)) as T
@@ -165,6 +171,33 @@ const rel = (p: string) =>
 const fmt = (x: bigint) => formatUnits(x, PRICE_DECIMALS)
 const pct = (num: bigint, den: bigint) => (Number(num) / Number(den)) * 100
 
+const isoOrSeconds = (seconds: bigint) =>
+  seconds < 8_640_000_000_000n
+    ? new Date(Number(seconds) * 1000).toISOString()
+    : `${seconds}s after the epoch`
+
+/** A price is "near an edge" when closer to it than `fraction` of the band width. */
+const nearEdge = (
+  price: bigint,
+  min: bigint,
+  max: bigint,
+  fraction: number
+) => {
+  const margin = (Number(max - min) * fraction) | 0
+  return price - min < BigInt(margin) || max - price < BigInt(margin)
+}
+
+/** Worst case for a leaked bot key, as a fraction of the attacker's capital. */
+const worstCase = (min: bigint, max: bigint, calls: number) =>
+  Math.pow(Number(max) / Number(min), Math.floor(calls / 2)) - 1
+
+/**
+ * Most calls a key can make within seconds: spend the whole bucket right before a
+ * refill boundary and the refill right after it.
+ */
+const burstCalls = (a: SettlementGuard["callAllowance"]) =>
+  Math.max(a.balance, a.maxRefill) + Math.min(a.refill, a.maxRefill)
+
 const approvedVsPin = async (shares: string, pin: readonly string[]) => {
   const approved = (
     await read<string[]>(sharesContract(shares), "getApprovedAssets")
@@ -175,11 +208,11 @@ const approvedVsPin = async (shares: string, pin: readonly string[]) => {
   console.log(`asset pin in calls.ts:     ${pin.join(", ")}`)
   if (notPinned.length)
     console.log(
-      `  ⚠️  approved but NOT pinned: ${notPinned.join(", ")} — settle it via the Manager Safe first, then extend settlementAssets`
+      `  ⚠️  approved but NOT pinned: ${notPinned.join(", ")} — the bot cannot settle it (ConditionViolation 7, or 5 with several pinned assets); settle it via the Manager Safe, then extend settlementAssets`
     )
   if (notApproved.length)
     console.log(
-      `  ⚠️  pinned but NOT approved on the shares: ${notApproved.join(", ")}`
+      `  ⚠️  pinned but NOT approved on the shares: ${notApproved.join(", ")} — ignored for anchoring`
     )
   if (!notPinned.length && !notApproved.length)
     console.log("  ✅ pin matches the approved assets")
@@ -188,13 +221,12 @@ const approvedVsPin = async (shares: string, pin: readonly string[]) => {
 
 const lastSettledPrices = async (shares: string, assets: readonly string[]) => {
   const c = sharesContract(shares)
-  const out: { asset: string; price: bigint }[] = []
-  for (const asset of assets)
-    out.push({
+  return Promise.all(
+    assets.map(async (asset) => ({
       asset,
       price: await read<bigint>(c, "getLastSettledPrice", asset),
-    })
-  return out
+    }))
+  )
 }
 
 type Allowance = {
@@ -256,6 +288,166 @@ const assertOwner = async (rolesMod: string, avatar: string) => {
   return owner
 }
 
+// ---------------------------------------------------------------- logs (Blockscout)
+
+type ApiLog = {
+  transactionHash: string
+  blockNumber: string
+  logIndex: string
+  topics: (string | null)[]
+  data: string
+}
+
+const fetchLogPage = async (
+  address: string,
+  topic: string,
+  from: number
+): Promise<ApiLog[]> => {
+  let reason = ""
+  let wait = 0
+  for (let attempt = 0; attempt < LOGS_ATTEMPTS; attempt++) {
+    if (wait) await new Promise((r) => setTimeout(r, wait))
+    // Free tier rate-limits bursts (HTTP 429): back off 2s, 4s, 8s… or as told
+    wait = 2_000 * 2 ** attempt
+    try {
+      const res = await fetch(
+        `${LOGS_API}?module=logs&action=getLogs&address=${address}&fromBlock=${from}&toBlock=latest&topic0=${topic}`,
+        { signal: AbortSignal.timeout(FETCH_TIMEOUT_MS) }
+      )
+      const retryAfter = Number(res.headers.get("retry-after"))
+      if (retryAfter > 0) wait = Math.min(retryAfter * 1_000, 30_000)
+      const body = (await res.json().catch(() => ({}))) as {
+        result?: ApiLog[] | null
+        message?: string
+      }
+      if (Array.isArray(body.result)) return body.result
+      reason = `HTTP ${res.status}${body.message ? ` ${body.message}` : ""}`
+    } catch (e) {
+      reason = (e as Error).message
+    }
+  }
+  throw new Error(
+    `logs API ${LOGS_API} failed ${LOGS_ATTEMPTS} times (${reason})`
+  )
+}
+
+/** All logs for one topic, paging past the API's per-call cap with a block cursor. */
+const fetchLogs = async (address: string, topic: string, fromBlock = 0) => {
+  const out = new Map<string, ApiLog>()
+  let from = fromBlock
+  for (;;) {
+    const logs = await fetchLogPage(address, topic, from)
+    for (const l of logs) out.set(`${l.transactionHash}:${l.logIndex}`, l)
+    if (logs.length < LOGS_PAGE) break
+    const last = Math.max(...logs.map((l) => Number(BigInt(l.blockNumber))))
+    if (last <= from) break
+    from = last
+  }
+  return [...out.values()]
+}
+
+const logOrder = (l: ApiLog) =>
+  BigInt(l.blockNumber) * 1_000_000n +
+  BigInt(l.logIndex === "0x" ? 0 : l.logIndex)
+
+// ---------------------------------------------------------------- live policy
+
+type LivePolicy =
+  | { state: "none" }
+  | { state: "wildcarded"; how: string }
+  | {
+      state: "scoped"
+      budget: boolean
+      min?: bigint
+      max?: bigint
+    }
+
+/** Replays the role's target/function events on the modifier for processRequests. */
+const readLivePolicy = async (
+  rolesMod: string,
+  roleKey: string,
+  shares: string
+): Promise<LivePolicy> => {
+  const names = [
+    "ScopeTarget",
+    "AllowTarget",
+    "RevokeTarget",
+    "ScopeFunction",
+    "AllowFunction",
+    "RevokeFunction",
+  ]
+  const logs: ApiLog[] = []
+  for (const name of names) {
+    const topic = rolesIface.getEvent(name)?.topicHash
+    if (topic) logs.push(...(await fetchLogs(rolesMod, topic)))
+  }
+  logs.sort((a, b) => (logOrder(a) < logOrder(b) ? -1 : 1))
+  let target: "none" | "scoped" | "allowed" = "none"
+  let fn: LivePolicy = { state: "none" }
+  for (const l of logs) {
+    const ev = rolesIface.parseLog({
+      topics: l.topics.filter((t): t is string => !!t),
+      data: l.data,
+    })
+    if (!ev || ev.args[0] !== roleKey) continue
+    if (getAddress(ev.args[1] as string) !== shares) continue
+    switch (ev.name) {
+      case "ScopeTarget":
+        target = "scoped"
+        break
+      case "AllowTarget":
+        target = "allowed"
+        break
+      case "RevokeTarget":
+        target = "none"
+        break
+      default: {
+        if (ev.args[2] !== PROCESS_REQUESTS) break
+        if (ev.name === "RevokeFunction") fn = { state: "none" }
+        else if (ev.name === "AllowFunction")
+          fn = { state: "wildcarded", how: "allowFunction (no conditions)" }
+        else {
+          const conds = ev.args[3] as unknown as [
+            bigint,
+            bigint,
+            bigint,
+            string,
+          ][]
+          const op = (c: [bigint, bigint, bigint, string]) => Number(c[2])
+          const ands = new Set(
+            conds
+              .map((c, i) => (op(c) === OP_AND ? i : -1))
+              .filter((i) => i >= 0)
+          )
+          const gt = conds.find(
+            (c) => op(c) === OP_GREATER_THAN && ands.has(Number(c[0]))
+          )
+          const lt = conds.find(
+            (c) => op(c) === OP_LESS_THAN && ands.has(Number(c[0]))
+          )
+          fn = {
+            state: "scoped",
+            budget: conds.some(
+              (c, i) =>
+                op(c) === OP_CALL_WITHIN_ALLOWANCE &&
+                Number(c[0]) === 0 &&
+                i !== 0 &&
+                c[3].toLowerCase() ===
+                  SETTLEMENT_GUARD_ALLOWANCE_KEY.toLowerCase()
+            ),
+            min: gt ? BigInt(gt[3]) + 1n : undefined,
+            max: lt ? BigInt(lt[3]) - 1n : undefined,
+          }
+        }
+      }
+    }
+  }
+  if (target === "allowed")
+    return { state: "wildcarded", how: "allowTarget (whole contract)" }
+  if (target === "none") return { state: "none" }
+  return fn
+}
+
 // ---------------------------------------------------------------- history
 
 type Settlement = {
@@ -288,47 +480,24 @@ const settlementHistory = async (
   lookbackBlocks: number,
   count: number
 ) => {
-  const sub = sharesIface.getEvent("SubscriptionApproval")?.topicHash
-  const red = sharesIface.getEvent("RedemptionApproval")?.topicHash
-  // 0 = from genesis. The repo's public RPC refuses historical eth_getLogs, so
-  // logs come from the Blockscout API (no key needed).
+  // 0 = from genesis. The repo's public RPC refuses historical eth_getLogs, so logs
+  // come from the Blockscout API (no key needed).
   const fromBlock =
     lookbackBlocks > 0
       ? Math.max(0, (await provider.getBlockNumber()) - lookbackBlocks)
       : 0
-  const topics = [sub, red].filter((t): t is string => !!t)
   const txBlocks = new Map<string, number>()
-  type Log = { transactionHash: string; blockNumber: string }
-  const fetchPage = async (topic: string, from: number): Promise<Log[]> => {
-    let reason = ""
-    for (let attempt = 0; attempt < 2; attempt++) {
-      if (attempt > 0) await new Promise((r) => setTimeout(r, 2_000))
-      const res = await fetch(
-        `${LOGS_API}?module=logs&action=getLogs&address=${shares}&fromBlock=${from}&toBlock=latest&topic0=${topic}`
-      )
-      const body = (await res.json().catch(() => ({}))) as {
-        result?: Log[] | null
-        message?: string
-      }
-      if (Array.isArray(body.result)) return body.result
-      reason = `HTTP ${res.status}${body.message ? ` ${body.message}` : ""}`
-    }
-    throw new Error(`logs API ${LOGS_API} failed twice (${reason})`)
+  for (const name of ["SubscriptionApproval", "RedemptionApproval"]) {
+    const topic = sharesIface.getEvent(name)?.topicHash
+    if (!topic) continue
+    for (const l of await fetchLogs(shares, topic, fromBlock))
+      txBlocks.set(l.transactionHash, Number(BigInt(l.blockNumber)))
   }
-  for (const topic of topics) {
-    // The API returns at most LOGS_PAGE logs per call: page with a block cursor
-    // (overlapping on the last block; duplicates collapse in the map).
-    let from = fromBlock
-    for (;;) {
-      const logs = await fetchPage(topic, from)
-      for (const l of logs)
-        txBlocks.set(l.transactionHash, Number(BigInt(l.blockNumber)))
-      if (logs.length < LOGS_PAGE) break
-      const last = Math.max(...logs.map((l) => Number(BigInt(l.blockNumber))))
-      if (last <= from) break
-      from = last
-    }
-  }
+  const viaRole = [
+    rolesIface.getFunction("execTransactionWithRole"),
+    rolesIface.getFunction("execTransactionWithRoleReturnData"),
+  ]
+  const viaSafe = safeIface.getFunction("execTransaction")
   const txs = [...txBlocks.entries()].sort((a, b) => b[1] - a[1])
   const out: Settlement[] = []
   for (const [hash, block] of txs.slice(0, count)) {
@@ -336,15 +505,17 @@ const settlementHistory = async (
     let found: Settlement = { block, tx: hash, via: "unrecognised" }
     if (tx?.to) {
       const sel = tx.data.slice(0, 10)
-      const viaRole = rolesIface.getFunction("execTransactionWithRole")
-      if (viaRole && sel === viaRole.selector) {
-        const d = rolesIface.decodeFunctionData(viaRole, tx.data)
+      const role = viaRole.find((f) => f?.selector === sel)
+      if (role) {
+        const d = rolesIface.decodeFunctionData(role, tx.data)
         const p = decodeProcessRequests(shares, d[0] as string, d[2] as string)
         if (p) found = { block, tx: hash, via: "bot (role)", ...p }
-      } else if (sel === safeIface.getFunction("execTransaction")?.selector) {
-        const d = safeIface.decodeFunctionData("execTransaction", tx.data)
+      } else if (viaSafe && sel === viaSafe.selector) {
+        const d = safeIface.decodeFunctionData(viaSafe, tx.data)
         const p = decodeProcessRequests(shares, d[0] as string, d[2] as string)
-        if (p) found = { block, tx: hash, via: "Safe direct", ...p }
+        found = p
+          ? { block, tx: hash, via: "Safe direct", ...p }
+          : { block, tx: hash, via: "Safe batch (n/a)" }
       }
     }
     out.push(found)
@@ -359,9 +530,11 @@ const suggest = async (args: {
   instance: string
   down: number
   up: number
+  anchorPrice?: string
   write: boolean
   history: number
   lookbackBlocks: number
+  nearEdge: number
 }) => {
   const role = resolveRole(args.client)
   const inst = await loadInstance(args.client, args.instance)
@@ -369,26 +542,44 @@ const suggest = async (args: {
   const toBps = (p: number, name: string, max: number) => {
     const b = Math.round(p * 100)
     if (!Number.isFinite(p) || b <= 0 || b >= max)
-      throw new Error(`--${name} must be a percentage > 0 and < ${max / 100}`)
+      throw new Error(
+        `--${name} must be a percentage > 0 and < ${max / 100} (two decimals)`
+      )
     return BigInt(b)
   }
   const downBps = toBps(args.down, "down", 10_000)
   const upBps = toBps(args.up, "up", 1_000_000)
 
   console.log(`${args.client} ${args.instance} (${role}) shares ${inst.shares}`)
-  await approvedVsPin(inst.shares, pin)
+  const approved = await approvedVsPin(inst.shares, pin)
+  const anchorAssets = pin.filter((a) => approved.includes(a))
+  if (!anchorAssets.length)
+    throw new Error("no pinned asset is approved on the shares")
 
-  const prices = await lastSettledPrices(inst.shares, pin)
+  const prices = await lastSettledPrices(inst.shares, anchorAssets)
   for (const p of prices)
     console.log(`last settled price ${p.asset}: ${fmt(p.price)} (${p.price})`)
-  const unsettled = prices.filter((p) => p.price === 0n)
-  if (unsettled.length)
-    throw new Error(
-      `${unsettled.map((p) => p.asset).join(", ")} never settled on-chain (last settled price 0) — settle it via the Manager Safe first, then anchor the band`
-    )
-  const all = prices.map((p) => p.price)
-  const low = all.reduce((a, b) => (a < b ? a : b))
-  const high = all.reduce((a, b) => (a > b ? a : b))
+  console.log(
+    "  note: the bot can move getLastSettledPrice anywhere inside the live band (even with empty arrays), and it freezes when the real price leaves the band — compare with the fund's NAV and pass --anchorPrice when they differ"
+  )
+
+  let low: bigint
+  let high: bigint
+  if (args.anchorPrice !== undefined) {
+    if (!/^[1-9][0-9]*$/.test(args.anchorPrice))
+      throw new Error("--anchorPrice must be a positive integer (8 decimals)")
+    low = high = BigInt(args.anchorPrice)
+    console.log(`anchor: --anchorPrice ${fmt(low)} (ops-supplied)`)
+  } else {
+    const unsettled = prices.filter((p) => p.price === 0n)
+    if (unsettled.length)
+      throw new Error(
+        `${unsettled.map((p) => p.asset).join(", ")} never settled on-chain (last settled price 0) — settle it via the Manager Safe first, or pass --anchorPrice`
+      )
+    const all = prices.map((p) => p.price)
+    low = all.reduce((a, b) => (a < b ? a : b))
+    high = all.reduce((a, b) => (a > b ? a : b))
+  }
 
   if (args.history > 0) {
     // History is informational: a failing logs source must not block the suggestion.
@@ -399,7 +590,7 @@ const suggest = async (args: {
         args.history
       )
       console.log(
-        `\nlast ${settlements.length} settlements (of ${totalTxs} settlement txs ${args.lookbackBlocks > 0 ? `in the last ${args.lookbackBlocks} blocks` : "since genesis"}):`
+        `\nlast ${settlements.length} settlements (of ${totalTxs} txs that approved requests ${args.lookbackBlocks > 0 ? `in the last ${args.lookbackBlocks} blocks` : "since genesis"}):`
       )
       if (totalTxs === 0)
         console.log(
@@ -409,6 +600,9 @@ const suggest = async (args: {
         console.log(
           `  block ${s.block}  ${s.price !== undefined ? fmt(s.price) : "n/a"}  ${s.asset ?? ""}  approve ${s.approve ?? "?"} / reject ${s.reject ?? "?"}  via ${s.via}  ${s.tx}`
         )
+      console.log(
+        "  note: only calls that approved a request appear here; reject-only and empty calls also spend the call budget"
+      )
     } catch (e) {
       console.log(
         `\n⚠️  settlement history unavailable (${(e as Error).message.split("\n")[0]}) — check it on a block explorer before choosing the band`
@@ -416,11 +610,10 @@ const suggest = async (args: {
     }
   }
 
-  // One anchoring rule: min from the lowest approved-asset price, max from the highest.
   const min = (low * (10_000n - downBps)) / 10_000n
   const max = (high * (10_000n + upBps) + 9_999n) / 10_000n
   console.log(
-    `\nproposed band (-${args.down}% from the lowest, +${args.up}% from the highest last settled price):`
+    `\nproposed band (-${args.down}% from the ${args.anchorPrice ? "anchor" : "lowest last settled price"}, +${args.up}% from the ${args.anchorPrice ? "anchor" : "highest"}):`
   )
   console.log(`  sharesPriceMin: "${min}"  (${fmt(min)})`)
   console.log(`  sharesPriceMax: "${max}"  (${fmt(max)})`)
@@ -429,45 +622,53 @@ const suggest = async (args: {
   if (current.ok) {
     const cMin = BigInt(current.guard.sharesPriceMin)
     const cMax = BigInt(current.guard.sharesPriceMax)
-    console.log(`current band: [${fmt(cMin)}, ${fmt(cMax)}]`)
+    console.log(`current band (instance file): [${fmt(cMin)}, ${fmt(cMax)}]`)
     if (low < cMin || high > cMax)
-      console.log(
-        "  ❌ a live price is OUTSIDE the current band — the bot is blocked"
-      )
+      console.log("  ❌ the anchor is OUTSIDE the current band")
     else if (
-      pct(low - cMin, low) < NEAR_EDGE_PCT ||
-      pct(cMax - high, high) < NEAR_EDGE_PCT
+      nearEdge(low, cMin, cMax, args.nearEdge) ||
+      nearEdge(high, cMin, cMax, args.nearEdge)
     )
       console.log(
-        `  ⚠️  the anchor is within ${NEAR_EDGE_PCT}% of a current edge — re-centring now ratchets the band in the direction of the drift; check the history above first`
+        "  ⚠️  the anchor sits near a current edge — re-centring on it ratchets the band in the direction of the drift; check the history and the NAV first"
       )
   } else console.log(`current band: not configured (${current.reason})`)
 
-  const ratio = Number(max) / Number(min)
   console.log(
     `\nworst case for a leaked bot key, as a share of the attacker's capital:`
   )
   console.log(
-    `  per subscribe+redeem cycle (2 calls): ${((ratio - 1) * 100).toFixed(2)}%`
+    `  per subscribe+redeem cycle (2 calls): ${(worstCase(min, max, 2) * 100).toFixed(2)}%`
   )
   if (current.ok) {
-    const n = current.guard.callAllowance.maxRefill
-    const cycles = Math.floor(n / 2)
+    const a = current.guard.callAllowance
+    const burst = burstCalls(a)
     console.log(
-      `  per period with a full budget of ${n} calls = ${cycles} cycles (every ${current.guard.callAllowance.periodSeconds}s): ${((Math.pow(ratio, cycles) - 1) * 100).toFixed(2)}%  = (max/min)^floor(N/2) - 1`
+      `  burst — ${burst} calls within seconds (bucket spent just before a refill + the refill): ${(worstCase(min, max, burst) * 100).toFixed(2)}%  = (max/min)^floor(N/2) - 1`
     )
     console.log(
-      "  real cap: the cash an attacker can actually redeem — keep idle cash on the Portfolio Safe minimal"
+      `  sustained — ${a.refill} calls every ${a.periodSeconds}s after that: ${(worstCase(min, max, a.refill) * 100).toFixed(2)}% per period`
     )
   } else
-    console.log("  per period: set callAllowance in the instance to see it")
+    console.log(
+      "  burst / sustained: set callAllowance in the instance to see them"
+    )
+  console.log(
+    "  real cap: the cash an attacker can actually redeem — keep idle cash on the Portfolio Safe minimal"
+  )
 
   if (args.write) {
     let src = fs.readFileSync(inst.file, "utf8")
+    const block = src.indexOf("settlementGuard:")
+    if (block < 0) throw new Error(`no settlementGuard block in ${inst.file}`)
     const set = (field: string, value: bigint) => {
-      const re = new RegExp(`(${field}:\\s*)(TODO_OPS|"[0-9]+")`)
-      if (!re.test(src)) throw new Error(`${field} not found in ${inst.file}`)
-      src = src.replace(re, `$1"${value}"`)
+      const re = new RegExp(`^(\\s*${field}:\\s*)(TODO_OPS|"[0-9]+")`, "m")
+      const tail = src.slice(block)
+      if (!re.test(tail))
+        throw new Error(
+          `${field} not found in the settlementGuard block of ${inst.file}`
+        )
+      src = src.slice(0, block) + tail.replace(re, `$1"${value}"`)
     }
     set("sharesPriceMin", min)
     set("sharesPriceMax", max)
@@ -481,65 +682,128 @@ const suggest = async (args: {
   )
 }
 
-const check = async (args: { client: string; instance: string }) => {
+const check = async (args: {
+  client: string
+  instance: string
+  nearEdge: number
+}) => {
   const role = resolveRole(args.client)
   const inst = await loadInstance(args.client, args.instance)
   const rolesMod = inst.rolesMod
+  const roleKey = encodeBytes32String(inst.roleKeyPrefix + role)
   const pin = await loadPin(args.client, role)
   console.log(
     `${args.client} ${args.instance} (${role}) — roles mod ${rolesMod}`
   )
   await approvedVsPin(inst.shares, pin)
 
+  if (inst.guard === undefined) {
+    console.log(
+      `\n${args.client} ${args.instance} has no settlementGuard, so it is not guarded here (only the settlement role's manager instances carry it${args.client === "eth-alpha-fund" && args.instance === "manager_stage" ? "; eth-alpha manager_stage is excluded by decision" : ""}).`
+    )
+    return
+  }
   const g = tryGuard(inst.guard, `${args.client} ${args.instance}`)
-  const prices = await lastSettledPrices(inst.shares, pin)
-  if (g.ok) {
-    const min = BigInt(g.guard.sharesPriceMin)
-    const max = BigInt(g.guard.sharesPriceMax)
-    console.log(`\nband [${fmt(min)}, ${fmt(max)}]`)
-    for (const p of prices) {
-      const toFloor = pct(p.price - min, p.price)
-      const toCeil = pct(max - p.price, p.price)
-      const flag =
-        p.price < min || p.price > max
-          ? "❌ OUTSIDE — the bot is blocked"
-          : toFloor < NEAR_EDGE_PCT || toCeil < NEAR_EDGE_PCT
-            ? `⚠️ within ${NEAR_EDGE_PCT}% of an edge — plan a re-centre`
-            : "✅"
+  if (!g.ok) console.log(`\ninstance band: not configured (${g.reason})`)
+
+  // 1. what is live on-chain
+  let live: LivePolicy | undefined
+  try {
+    live = await readLivePolicy(rolesMod, roleKey, inst.shares)
+  } catch (e) {
+    console.log(`\n⚠️  live policy unavailable (${(e as Error).message})`)
+  }
+  if (live) {
+    if (live.state === "none")
       console.log(
-        `  ${p.asset} ${fmt(p.price)}  ${toFloor.toFixed(2)}% above floor, ${toCeil.toFixed(2)}% below ceiling  ${flag}`
+        `\nlive policy: ${role} cannot call processRequests on ${inst.shares}`
       )
-    }
-  } else {
-    console.log(`\nband: not configured (${g.reason})`)
-    for (const p of prices) console.log(`  ${p.asset} ${fmt(p.price)}`)
-    if (inst.guard === undefined) {
+    else if (live.state === "wildcarded")
       console.log(
-        `\n${args.client} ${args.instance} has no settlementGuard, so it is not guarded and there is no allowance to check (only the settlement role's manager instances carry it${args.client === "eth-alpha-fund" && args.instance === "manager_stage" ? "; eth-alpha manager_stage is excluded by decision" : ""}).`
+        `\n❌ live policy: processRequests is ${live.how} — NO band, NO budget (the guard has been removed)`
       )
-      return
+    else {
+      const band =
+        live.min !== undefined && live.max !== undefined
+          ? `band [${fmt(live.min)}, ${fmt(live.max)}]`
+          : "NO band"
+      console.log(
+        `\nlive policy: scoped — ${band}, ${live.budget ? "budget node present" : "NO budget node"}${live.min === undefined || !live.budget ? "  ❌ not guarded" : "  ✅ guarded"}`
+      )
+      if (g.ok && live.min !== undefined && live.max !== undefined) {
+        const same =
+          live.min === BigInt(g.guard.sharesPriceMin) &&
+          live.max === BigInt(g.guard.sharesPriceMax)
+        console.log(
+          same
+            ? "  ✅ live band matches the instance file"
+            : "  ⚠️  live band differs from the instance file (pending policy-tx, or drift)"
+        )
+      }
     }
   }
+  const liveBand =
+    live?.state === "scoped" && live.min !== undefined && live.max !== undefined
+      ? { min: live.min, max: live.max }
+      : g.ok
+        ? {
+            min: BigInt(g.guard.sharesPriceMin),
+            max: BigInt(g.guard.sharesPriceMax),
+          }
+        : undefined
 
+  // 2. last settled prices vs the band
+  const prices = await lastSettledPrices(inst.shares, pin)
+  console.log(
+    `\nlast settled prices${liveBand ? ` vs ${live?.state === "scoped" && live.min !== undefined ? "the live" : "the instance"} band [${fmt(liveBand.min)}, ${fmt(liveBand.max)}]` : ""}:`
+  )
+  for (const p of prices) {
+    if (!liveBand) {
+      console.log(`  ${p.asset} ${fmt(p.price)}`)
+      continue
+    }
+    const { min, max } = liveBand
+    const flag =
+      p.price === 0n
+        ? "never settled"
+        : p.price < min || p.price > max
+          ? "❌ OUTSIDE"
+          : nearEdge(p.price, min, max, args.nearEdge)
+            ? "⚠️ near an edge — plan a re-centre"
+            : "✅"
+    console.log(
+      `  ${p.asset} ${fmt(p.price)}  ${pct(p.price - min, p.price).toFixed(2)}% above floor, ${pct(max - p.price, p.price).toFixed(2)}% below ceiling  ${flag}`
+    )
+  }
+  console.log(
+    "  note: inside a live band the last settled price can only be in-band; if the bot reverts with ConditionViolation 8/9 the real price is outside — use the bot's attempted price / the NAV, not these numbers"
+  )
+
+  // 3. the call budget
   const a = await readAllowance(rolesMod)
   const block = await provider.getBlock("latest")
   const now = BigInt(block?.timestamp ?? Math.floor(Date.now() / 1000))
+  const guarded = live?.state === "scoped" && live.budget
   console.log(
     `\nallowance "processRequests-calls" on ${rolesMod}: refill ${a.refill}, maxRefill ${a.maxRefill}, period ${a.period}s, stored balance ${a.balance}, timestamp ${a.timestamp}`
   )
   if (isUnset(a)) {
     console.log(
-      "  ❌ UNSET — every bot call reverts (CallAllowanceExceeded). Run allowance-tx."
+      guarded
+        ? "  ❌ UNSET while the live policy requires it — every bot call reverts (CallAllowanceExceeded). Run allowance-tx."
+        : "  UNSET — expected until the guard batch (policy + allowance) is executed."
     )
-    return
+  } else {
+    const { balance, nextRefill } = accrue(a, now)
+    if (balance === 0n)
+      console.log(
+        `  ${guarded ? "❌" : "⚠️"} EXHAUSTED — balance 0; next refill ${nextRefill === undefined ? "never (period 0)" : `at ${isoOrSeconds(nextRefill)}`}`
+      )
+    else console.log(`  available now: ${balance} call(s)`)
+    if (!guarded)
+      console.log("  ⚠️  allowance is set but the live policy does not use it")
   }
-  const { balance, nextRefill } = accrue(a, now)
-  if (balance === 0n)
-    console.log(
-      `  ❌ EXHAUSTED — balance 0; next refill ${nextRefill === undefined ? "never (period 0)" : `at ${new Date(Number(nextRefill) * 1000).toISOString()}`}`
-    )
-  else console.log(`  available now: ${balance} call(s)`)
-  if (g.ok) {
+  if (g.ok && !isUnset(a)) {
     const w = g.guard.callAllowance
     const same =
       a.refill === BigInt(w.refill) &&
@@ -553,7 +817,8 @@ const check = async (args: { client: string; instance: string }) => {
   }
 }
 
-// Safe Transaction Builder JSON, same shape as scripts/applyExport.ts (+ `data`).
+// Safe Transaction Builder JSON in the scripts/applyExport.ts shape (no `data`, so
+// signers see decoded arguments), plus a raw sidecar with the calldata for fork tests.
 const mapInputs = (
   inputs: readonly JsonFragmentType[] | undefined
 ): unknown[] | undefined =>
@@ -610,7 +875,6 @@ const toTxBuilder = (
     return {
       to: call.to,
       value: "0",
-      data: call.data,
       contractMethod: {
         inputs: mapInputs(abiEntry?.inputs) ?? [],
         name: parsed.name,
@@ -621,11 +885,25 @@ const toTxBuilder = (
   }),
 })
 
-const writeExport = (file: string, json: unknown) => {
+const writeExport = (
+  base: string,
+  safe: string,
+  name: string,
+  description: string,
+  calls: { to: string; data: string }[]
+) => {
   fs.mkdirSync(EXPORT_DIR, { recursive: true })
-  const out = path.join(EXPORT_DIR, file)
-  fs.writeFileSync(out, JSON.stringify(json, null, 2))
-  return out
+  const builder = path.join(EXPORT_DIR, `${base}.json`)
+  const raw = path.join(EXPORT_DIR, `${base}.raw.json`)
+  fs.writeFileSync(
+    builder,
+    JSON.stringify(toTxBuilder(name, description, safe, calls), null, 2)
+  )
+  fs.writeFileSync(
+    raw,
+    JSON.stringify({ chainId: CHAIN_ID, safe, transactions: calls }, null, 2)
+  )
+  return { builder, raw }
 }
 
 const allowanceTx = async (args: { client: string; instance: string }) => {
@@ -668,15 +946,15 @@ const allowanceTx = async (args: { client: string; instance: string }) => {
     0,
   ])
   const out = writeExport(
-    `${args.client}_${args.instance}_${rolesMod.slice(0, 10)}_setAllowance.json`,
-    toTxBuilder(
-      `${args.client} ${args.instance}: settlement guard call allowance`,
-      `setAllowance(processRequests-calls) on ${rolesMod}`,
-      inst.avatar,
-      [{ to: rolesMod, data }]
-    )
+    `${args.client}_${args.instance}_${rolesMod.slice(0, 10)}_setAllowance`,
+    inst.avatar,
+    `${args.client} ${args.instance}: settlement guard call allowance`,
+    `setAllowance(processRequests-calls) on ${rolesMod}`,
+    [{ to: rolesMod, data }]
   )
-  console.log(`wrote ${rel(out)} — Safe ${inst.avatar}`)
+  console.log(
+    `wrote ${rel(out.builder)} (Safe Tx Builder) + ${rel(out.raw)} (calldata) — Safe ${inst.avatar}`
+  )
 }
 
 const policyTx = async (args: { client: string; instance: string }) => {
@@ -684,28 +962,40 @@ const policyTx = async (args: { client: string; instance: string }) => {
   const inst = await loadInstance(args.client, args.instance)
   const rolesMod = inst.rolesMod
   await assertOwner(rolesMod, inst.avatar)
-  // Compiles the role exactly as `yarn apply` would, locally (no roles app, no indexer).
+  // Compile the role exactly as `yarn apply` would, then encode it locally: one
+  // scopeTarget + one scopeFunction per function. No planning against the live role
+  // (no indexer, no roles app), so nothing else of the role is revoked.
   const { targets, roleKey } = await compileApplyData({
     clientArg: args.client,
     accountArg: `${ACCOUNT}/${args.instance}`,
     roleArg: role,
   })
   const key = encodeBytes32String(roleKey) as `0x${string}`
-  // Plan against an empty role and encode offline (planApplyRole would query the
-  // Roles indexer even with an explicit `current`). An empty `current` re-issues
-  // scopeTarget (harmless) and the full scopeFunction; members and annotations
-  // are not touched.
-  const empty = {
-    key,
-    members: [],
-    targets: [],
-    annotations: [],
-    lastUpdate: 0,
+  const planned: EncodableCall[] = []
+  for (const t of targets) {
+    if (!t.functions.length)
+      throw new Error(`${t.address}: expected a function-scoped target`)
+    planned.push({
+      call: "scopeTarget",
+      roleKey: key,
+      targetAddress: t.address,
+    })
+    for (const f of t.functions) {
+      if (f.wildcarded || !f.condition)
+        throw new Error(
+          `${t.address} ${f.selector}: the settlement role must be scoped, not wildcarded`
+        )
+      planned.push({
+        call: "scopeFunction",
+        roleKey: key,
+        targetAddress: t.address,
+        selector: f.selector,
+        condition: f.condition,
+        executionOptions: f.executionOptions,
+      })
+    }
   }
-  const calls = encodeCalls(
-    callsPlannedForApplyRole(empty, { ...empty, targets }),
-    rolesMod as `0x${string}`
-  )
+  const calls = encodeCalls(planned, rolesMod as `0x${string}`)
   for (const call of calls) {
     const p = rolesIface.parseTransaction({ data: call.data })
     console.log(
@@ -713,15 +1003,15 @@ const policyTx = async (args: { client: string; instance: string }) => {
     )
   }
   const out = writeExport(
-    `${args.client}_${args.instance}_${rolesMod.slice(0, 10)}_${role}_policy.json`,
-    toTxBuilder(
-      `${args.client} ${args.instance}: ${role} policy with settlement guard`,
-      `${role} on ${rolesMod}`,
-      inst.avatar,
-      calls.map((c) => ({ to: rolesMod, data: c.data }))
-    )
+    `${args.client}_${args.instance}_${rolesMod.slice(0, 10)}_${role}_policy`,
+    inst.avatar,
+    `${args.client} ${args.instance}: ${role} policy with settlement guard`,
+    `${role} on ${rolesMod}`,
+    calls.map((c) => ({ to: rolesMod, data: c.data }))
   )
-  console.log(`wrote ${rel(out)} — Safe ${inst.avatar}`)
+  console.log(
+    `wrote ${rel(out.builder)} (Safe Tx Builder) + ${rel(out.raw)} (calldata) — Safe ${inst.avatar}`
+  )
 }
 
 // ---------------------------------------------------------------- cli
@@ -735,6 +1025,13 @@ const withCommon = <T>(y: yargs.Argv<T>) =>
       describe: "instance file under clients/<client>/mainnet/instances",
     })
 
+const nearEdgeOption = {
+  type: "number" as const,
+  default: 0.1,
+  describe:
+    "warn when a price is closer to an edge than this fraction of the band width",
+}
+
 const run = (fn: () => Promise<void>) =>
   fn().catch((e: Error) => {
     console.error(`\n❌ ${e.message}`)
@@ -745,18 +1042,23 @@ yargs(process.argv.slice(2))
   .scriptName("yarn tsx scripts/settlementGuard.ts")
   .command(
     "suggest <client>",
-    "propose a band from the last settled prices",
+    "propose a band from the last settled prices (or an ops-supplied anchor)",
     (y) =>
       withCommon(y)
         .option("down", {
           type: "number",
           demandOption: true,
-          describe: "% below the lowest last settled price",
+          describe: "% below the anchor (lowest last settled price)",
         })
         .option("up", {
           type: "number",
           demandOption: true,
-          describe: "% above the highest last settled price",
+          describe: "% above the anchor (highest last settled price)",
+        })
+        .option("anchorPrice", {
+          type: "string",
+          describe:
+            "ops-supplied anchor (integer, 8 decimals) instead of the last settled prices",
         })
         .option("write", {
           type: "boolean",
@@ -772,7 +1074,8 @@ yargs(process.argv.slice(2))
           type: "number",
           default: 0,
           describe: "blocks to scan for settlements (0 = from genesis)",
-        }),
+        })
+        .option("nearEdge", nearEdgeOption),
     (a) =>
       run(() =>
         suggest({
@@ -780,27 +1083,30 @@ yargs(process.argv.slice(2))
           instance: a.instance,
           down: a.down,
           up: a.up,
+          anchorPrice: a.anchorPrice,
           write: a.write,
           history: a.history,
           lookbackBlocks: a.lookbackBlocks,
+          nearEdge: a.nearEdge,
         })
       )
   )
   .command(
     "check <client>",
-    "band position and on-chain allowance vs the instance config",
-    (y) => withCommon(y),
+    "live policy, band position and call budget vs the instance config",
+    (y) => withCommon(y).option("nearEdge", nearEdgeOption),
     (a) =>
       run(() =>
         check({
           client: a.client as string,
           instance: a.instance,
+          nearEdge: a.nearEdge,
         })
       )
   )
   .command(
     "allowance-tx <client>",
-    "Safe Tx Builder JSON for setAllowance (./export/)",
+    "setAllowance for the call budget (./export/)",
     (y) => withCommon(y),
     (a) =>
       run(() =>
@@ -812,7 +1118,7 @@ yargs(process.argv.slice(2))
   )
   .command(
     "policy-tx <client>",
-    "Safe Tx Builder JSON for the guarded policy, compiled locally (./export/)",
+    "the guarded policy, compiled and encoded locally (./export/)",
     (y) => withCommon(y),
     (a) =>
       run(() =>

@@ -1,4 +1,4 @@
-import { c } from "zodiac-roles-sdk"
+import { c, Operator, ParameterType } from "zodiac-roles-sdk"
 import { encodeBytes32String } from "defi-kit"
 
 /**
@@ -99,9 +99,16 @@ export const validateSettlementGuard = (
 }
 
 /**
- * Builds the guarded part of the `processRequests` permission: the inclusive band on
- * `sharesPriceInAsset` and the `callWithinAllowance` option. Throws on a missing or
- * invalid config, so a role can never be compiled without its guard.
+ * Builds the guarded part of the `processRequests` permission. Throws on a missing or
+ * invalid config, so a settlement role can never be compiled without its guard.
+ *
+ * - `sharesPriceInAsset`: inclusive band `c.and(c.gte(min), c.lte(max))`.
+ * - `asset(assets)`: the asset pin as one condition (`c.or` for several assets), so the
+ *   role compiles to a single permission whatever the SDK's merge logic.
+ * - `withCallBudget(permission)`: appends `CallWithinAllowance("processRequests-calls")`
+ *   to the root calldata `Matches` node, as `helpers/allowEthTransfer.ts` does for
+ *   `EtherWithinAllowance`. Built by hand on purpose: the kit's `callWithinAllowance`
+ *   option is not encoded correctly by every published zodiac-roles-sdk version.
  */
 export const settlementGuardScope = (guard: unknown, where: string) => {
   const g = validateSettlementGuard(guard, where)
@@ -110,6 +117,37 @@ export const settlementGuardScope = (guard: unknown, where: string) => {
       c.gte(BigInt(g.sharesPriceMin)),
       c.lte(BigInt(g.sharesPriceMax))
     ),
-    options: { callWithinAllowance: SETTLEMENT_GUARD_ALLOWANCE_KEY },
+    asset: (assets: readonly `0x${string}`[]) => {
+      const [first, ...rest] = assets
+      if (first === undefined) throw new Error(`${where}: empty asset pin`)
+      type Many = [`0x${string}`, `0x${string}`, ...`0x${string}`[]]
+      return rest.length === 0 ? first : c.or(...([first, ...rest] as Many))
+    },
+    withCallBudget: <P extends { condition?: unknown }>(permission: P): P => {
+      const root = (permission.condition ?? {
+        paramType: ParameterType.Calldata,
+        operator: Operator.Matches,
+        children: [],
+      }) as { paramType: number; operator: number; children?: unknown[] }
+      if (
+        root.paramType !== ParameterType.Calldata ||
+        root.operator !== Operator.Matches
+      )
+        throw new Error(`${where}: expected a calldata Matches condition`)
+      return {
+        ...permission,
+        condition: {
+          ...root,
+          children: [
+            ...(root.children ?? []),
+            {
+              paramType: ParameterType.None,
+              operator: Operator.CallWithinAllowance,
+              compValue: SETTLEMENT_GUARD_ALLOWANCE_KEY,
+            },
+          ],
+        },
+      }
+    },
   }
 }
