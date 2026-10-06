@@ -9,7 +9,8 @@
  *   yarn tsx scripts/settlementGuard.ts policy-tx <client>
  *
  * Every command takes `--instance` (default `manager_prod`). Reads the chain over RPC and
- * the Blockscout logs API (GET), compiles and encodes policies locally; it never POSTs to
+ * a logs API (GET: Etherscan with ETHERSCAN_API_KEY set, else keyless Blockscout),
+ * compiles and encodes policies locally; it never POSTs to
  * a roles app or an indexer and never sends a transaction. Safe Transaction Builder files
  * (plus a `.raw.json` with the calldata) are written to ./export/.
  */
@@ -319,7 +320,7 @@ const assertOwner = async (rolesMod: string, avatar: string) => {
   return owner
 }
 
-// ---------------------------------------------------------------- logs (Blockscout)
+// ---------------------------------------------------------------- logs (Etherscan / Blockscout)
 
 type ApiLog = {
   transactionHash: string
@@ -329,48 +330,71 @@ type ApiLog = {
   data: string
 }
 
-// The free tier allows short bursts only: keep at least this gap between requests.
-const LOGS_GAP_MS = 1_200
+// With ETHERSCAN_API_KEY in the environment, logs come from Etherscan (free key:
+// 100k calls/day); without it from Blockscout's keyless API (about 10 calls per
+// ~10 minutes). The key is only ever sent to Etherscan, never printed.
+const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY?.trim() || undefined
+const LOGS_SOURCE = ETHERSCAN_API_KEY
+  ? {
+      name: "Etherscan",
+      base: `https://api.etherscan.io/v2/api?chainid=${CHAIN_ID}&`,
+      gapMs: 400,
+    }
+  : { name: "Blockscout (no API key)", base: `${LOGS_API}?`, gapMs: 1_200 }
 let lastLogsRequest = 0
 
 const fetchLogPage = async (
   address: string,
-  topic: string,
+  topic: string | undefined,
   from: number
 ): Promise<ApiLog[]> => {
+  const query =
+    `module=logs&action=getLogs&address=${address}&fromBlock=${from}&toBlock=latest` +
+    (topic ? `&topic0=${topic}` : "")
   let reason = ""
   let wait = 0
   for (let attempt = 0; attempt < LOGS_ATTEMPTS; attempt++) {
     if (wait) await new Promise((r) => setTimeout(r, wait))
-    // Free tier rate-limits bursts (HTTP 429): back off 2s, 4s, 8s… or as told
+    // Rate limits (HTTP 429 / "Max rate limit"): back off 2s, 4s, 8s… or as told
     wait = 2_000 * 2 ** attempt
-    const gap = lastLogsRequest + LOGS_GAP_MS - Date.now()
+    const gap = lastLogsRequest + LOGS_SOURCE.gapMs - Date.now()
     if (gap > 0) await new Promise((r) => setTimeout(r, gap))
     lastLogsRequest = Date.now()
     try {
       const res = await fetch(
-        `${LOGS_API}?module=logs&action=getLogs&address=${address}&fromBlock=${from}&toBlock=latest&topic0=${topic}`,
+        LOGS_SOURCE.base +
+          query +
+          (ETHERSCAN_API_KEY ? `&apikey=${ETHERSCAN_API_KEY}` : ""),
         { signal: AbortSignal.timeout(FETCH_TIMEOUT_MS) }
       )
       const retryAfter = Number(res.headers.get("retry-after"))
       if (retryAfter > 0) wait = Math.min(retryAfter * 1_000, 30_000)
       const body = (await res.json().catch(() => ({}))) as {
-        result?: ApiLog[] | null
+        result?: ApiLog[] | string | null
         message?: string
       }
       if (Array.isArray(body.result)) return body.result
-      reason = `HTTP ${res.status}${body.message ? ` ${body.message}` : ""}`
+      // Etherscan puts the error text in `result`; never echo anything URL-like
+      const detail =
+        typeof body.result === "string" && !body.result.includes("http")
+          ? body.result
+          : body.message
+      reason = `HTTP ${res.status}${detail ? ` ${detail}` : ""}`
     } catch (e) {
-      reason = (e as Error).message
+      reason = (e as Error).name
     }
   }
   throw new Error(
-    `logs API ${LOGS_API} failed ${LOGS_ATTEMPTS} times (${reason})`
+    `logs API ${LOGS_SOURCE.name} failed ${LOGS_ATTEMPTS} times (${reason})${ETHERSCAN_API_KEY ? "" : " — set ETHERSCAN_API_KEY in the environment for a higher limit"}`
   )
 }
 
-/** All logs for one topic, paging past the API's per-call cap with a block cursor. */
-const fetchLogs = async (address: string, topic: string, fromBlock = 0) => {
+/** All logs (of one topic, or all of them), paging past the per-call cap with a block cursor. */
+const fetchLogs = async (
+  address: string,
+  topic: string | undefined,
+  fromBlock = 0
+) => {
   const out = new Map<string, ApiLog>()
   let from = fromBlock
   for (;;) {
@@ -414,11 +438,11 @@ const readLivePolicy = async (
     "AllowFunction",
     "RevokeFunction",
   ]
-  const logs: ApiLog[] = []
-  for (const name of names) {
-    const topic = rolesIface.getEvent(name)?.topicHash
-    if (topic) logs.push(...(await fetchLogs(rolesMod, topic)))
-  }
+  // One query for all of the modifier's logs (the limit is per request), filtered here
+  const topics = new Set(names.map((n) => rolesIface.getEvent(n)?.topicHash))
+  const logs = (await fetchLogs(rolesMod, undefined)).filter((l) =>
+    topics.has(l.topics[0] ?? undefined)
+  )
   logs.sort((a, b) => (logOrder(a) < logOrder(b) ? -1 : 1))
   let target: "none" | "scoped" | "allowed" = "none"
   let fn: LivePolicy = { state: "none" }
@@ -519,7 +543,7 @@ const settlementHistory = async (
   count: number
 ) => {
   // 0 = from genesis. The repo's public RPC refuses historical eth_getLogs, so logs
-  // come from the Blockscout API (no key needed).
+  // come from a logs API (see LOGS_SOURCE).
   const fromBlock =
     lookbackBlocks > 0
       ? Math.max(0, (await provider.getBlockNumber()) - lookbackBlocks)

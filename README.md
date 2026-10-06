@@ -57,6 +57,7 @@ Interim fix ("S1") for the OIV funds' `kpkShares.processRequests`: the settlemen
   - `yarn tsx scripts/settlementGuard.ts policy-tx <fund>` / `allowance-tx <fund>`
   - `yarn tsx scripts/settlementGuard.ts check <fund>` (reads the live policy from the modifier's events)
   - every command takes `--instance` (default `manager_prod`); `--help` lists the options.
+  - set `ETHERSCAN_API_KEY` in the environment for the log lookups (`suggest` history, `check` live policy); without it they use Blockscout's keyless API (about 10 calls per ~10 minutes). Never commit the key.
 - **Re-centring:** a new band is one `scopeFunction` (`suggest` → `policy-tx`); no new `setAllowance`.
 - **The repo follows the chain:** every band or budget executed on-chain lands in the repo as a PR (the instance file). Building the role from a ref without it would silently restore the old band.
 - **Monitoring:** bot `ConditionViolation` status 8 / 9 (below / above the band), 18 (budget spent), 5 / 7 (asset not pinned); the allowance reaching 0; the price nearing an edge (`check`, daily); any unannounced `ScopeFunction` / `AllowFunction` / `AllowTarget` / `RevokeFunction` / `RevokeTarget` / `SetAllowance` / `AssignRoles` / `SetUnwrapAdapter` / `OwnershipTransferred` / `EnabledModule` on the manager modifier; any new operator on the shares.
