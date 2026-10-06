@@ -13,15 +13,16 @@ export default (parameters: Parameters) => {
     parameters.settlementGuard,
     "usd-alpha-fund REQUESTS"
   )
-  return settlementAssets.map((asset) => ({
-    // OIV Shares - Approve/reject subscription and redemption requests settled in the pinned asset
-    ...allow.mainnet.oiv.shares.processRequests(
-      undefined,
-      undefined,
-      asset,
-      guard.sharesPriceInAsset,
-      guard.options
-    ),
-    targetAddress: parameters.shares,
-  })) satisfies PermissionList
+  return [
+    // OIV Shares - Approve/reject subscription and redemption requests settled in USDC or USDT
+    guard.withCallBudget({
+      ...allow.mainnet.oiv.shares.processRequests(
+        undefined,
+        undefined,
+        guard.asset(settlementAssets),
+        guard.sharesPriceInAsset
+      ),
+      targetAddress: parameters.shares,
+    }),
+  ] satisfies PermissionList
 }
