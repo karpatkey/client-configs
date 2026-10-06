@@ -201,8 +201,8 @@ no new `setAllowance`. **Budget only**: edit `callAllowance`, then
 
 ### Alpha switch window (usd-alpha / eth-alpha)
 
-The guard goes on the **new** v2.1.1 manager mods only (the `manager_*` instance
-files point at them); the old v2.1.0 mods stop being used once the manager-mod
+In production the guard goes on the **new** v2.1.1 manager mods only (the
+`manager_prod` instance files point at them); the old v2.1.0 mods stop being used once the manager-mod
 switch (`enableModule(new)` / `disableModule(old)` on the Manager Safe) executes,
 so they are not guarded. Ship the guard and the switch **in the same Manager Safe
 batch**, guard calls first — never the switch alone, so the bot never settles
@@ -214,6 +214,8 @@ settlement role.
 ### Stage
 
 `--instance manager_stage` works end to end for **usd-alpha** (guard + budget).
+Its stage modifier is still a v2.1.0 proxy (not redeployed); the guard works the
+same there, but it carries the v2.1.0 caveats of the redeploy work.
 **eth-alpha stage is excluded**: on-chain it settles through an unscoped
 `PROCESS_SUBSCRIPTIONS_AGENT` role, not the repo's `REQUESTS`, so its instance has
 no `settlementGuard` and compiling it throws. Reconcile that modifier first.
@@ -228,10 +230,11 @@ from the modifier's events first. Build the `processRequests` condition with
 assets), price `c.and(c.gte(min), c.lte(max))` — and append the
 budget node to the root `Matches` by hand exactly as `withCallBudget` in
 `helpers/settlementGuard.ts` does (`{ paramType: None, operator:
-CallWithinAllowance, compValue: SETTLEMENT_GUARD_ALLOWANCE_KEY }`). Encode with
-`encodeCalls([{ call: "scopeFunction", roleKey, targetAddress: shares, selector:
-"0xd6fd0c57", condition, executionOptions: 0 }], rolesMod)` — no `planApplyRole`,
-no indexer — and add the `setAllowance`. Fork-test as in step 5. If a repo folder
+CallWithinAllowance, compValue: SETTLEMENT_GUARD_ALLOWANCE_KEY }`). Encode
+`scopeFunction(roleKey, shares, 0xd6fd0c57, flattenCondition(condition), 0)`
+with the Roles ABI, as `policy-tx` does (breadth-first flattening; the published
+SDK does not export its encoder) — no `planApplyRole`, no indexer — and add the
+`setAllowance`. Fork-test as in step 5. If a repo folder
 for that fund exists but nobody applies from it, onboard it instead — a later
 apply from a stale folder would drop the guard.
 
