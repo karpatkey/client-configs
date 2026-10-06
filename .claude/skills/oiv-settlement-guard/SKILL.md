@@ -126,6 +126,13 @@ Funds and roles: `usd-alpha-fund` / `eth-alpha-fund` → `REQUESTS`;
 All are `yarn tsx scripts/settlementGuard.ts <command> <fund> [options]`; every
 command takes `--instance <name>` (default `manager_prod`); `--help` lists the rest.
 
+`suggest` (history) and `check` (live policy) read logs from an explorer API. Set
+`ETHERSCAN_API_KEY` in the shell (free key, 100k calls/day) — e.g. PowerShell
+`$env:ETHERSCAN_API_KEY = "<key>"`, bash `export ETHERSCAN_API_KEY=<key>`.
+Without it they fall back to Blockscout's keyless API, which allows only about 10
+calls per ~10 minutes; when that runs out they print "unavailable" and carry on.
+Never commit the key or paste it into PRs, logs or chat.
+
 | Command        | Does                                                                                                                                                                                                                                                                                                                                                                                                           |
 | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `suggest`      | `--down <pct> --up <pct>` (required). Anchors on the last settled prices of the assets that are both approved and pinned (min from the lowest, max from the highest), or on `--anchorPrice`. Prints the history (`--history`, `--lookbackBlocks`), the current band, a ratchet warning (`--nearEdge`, fraction of the band width), the worst cases. `--write` fills `sharesPriceMin/Max` in the instance file. |
