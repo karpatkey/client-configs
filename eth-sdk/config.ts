@@ -152,6 +152,10 @@ export const contracts = {
       vestingEscrow: "0x484FD04c598A095360DF89bF85AB34c37127AA39",
       aragonVoting: "0x2e59A20f205bB85a89C53f1936454680651E618e",
     },
+    maple: {
+      syrupRouter: "0xF007476Bb27430795138C511F18F821e8D1e5Ee2", // SyrupRouter (syrupUSDT)
+      syrupPool: "0x356B8d89c1e1239Cbbb9dE4815c39A1474d5BA7D", // syrupUSDT Maple Pool
+    },
     maverickV2: {
       rewardRouter: "0xc0C3BC532690af8922a2f260c6e1dEb6CFaB45A0",
       position: "0x116193c58B40D50687c0433B2aa0cC4AE00bC32c",
