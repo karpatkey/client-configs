@@ -1,13 +1,25 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { cbBTC, morpho, USDC, WBTC } from "@/addresses/eth"
+import {
+  cbBTC,
+  maple,
+  morpho,
+  syrupUSDG,
+  USDC,
+  USDG,
+  WBTC,
+} from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
-import { aaveV4BluechipReserve as reserve } from "../../../addresses"
+import {
+  aaveV4BluechipReserve as reserve,
+  aaveV4MapleReserve as mapleReserve,
+} from "../../../addresses"
 import { Parameters } from "../../../parameters"
 
 const bluechipSpoke = contracts.mainnet.aaveV4.bluechipSpoke
+const mapleSpoke = contracts.mainnet.aaveV4.mapleSpoke
 
 export default (parameters: Parameters) =>
   [
@@ -146,5 +158,114 @@ export default (parameters: Parameters) =>
           parameters.avatar,
         ]
       )
+    ),
+
+    // ---------------------------------------------------------------------------------
+    // syrupUSDG loop on Aave v4: USDG borrowed against BTC on the Bluechip Spoke seeds
+    // syrupUSDG (Maple), which is supplied as collateral on the Maple SyrupUSDG Spoke to
+    // borrow more USDG, and so on.
+    // ---------------------------------------------------------------------------------
+
+    // Aave v4 Bluechip Spoke - Borrow/repay USDG through the Core Hub credit line
+    // (reserve 11). The Spoke pulls the asset on repay, hence the approval.
+    allow.mainnet.aaveV4.bluechipSpoke.borrow(
+      reserve.usdgCore,
+      undefined,
+      c.avatar
+    ),
+    allowErc20Approve([USDG], [bluechipSpoke]),
+    allow.mainnet.aaveV4.bluechipSpoke.repay(
+      reserve.usdgCore,
+      undefined,
+      c.avatar
+    ),
+
+    // Maple - Mint syrupUSDG through its SyrupRouter. The pool is permissioned at
+    // function level by the PoolPermissionManager
+    // (0xBe10aDcE8B6E3E02Db384E7FaDA5395DD113D8b3): `deposit` needs lender bitmap 16,
+    // and the avatar's bitmap is 0. The router pulls USDG from the caller, hence the
+    // approval.
+    allowErc20Approve([USDG], [maple.syrupUsdgRouter]),
+    // One-time onboarding. The avatar Safe's only owner is a contract whose fallback
+    // always reverts, so it can only act through Roles. Maple signs
+    // (router, msg.sender, nonce, bitmap, deadline) for THIS Safe; the router sets the
+    // lender bitmap and deposits in the same call. Arguments are left open on purpose:
+    // they are only valid as a tuple signed by a Maple permission admin. Can be revoked
+    // once the bitmap is set.
+    {
+      ...allow.mainnet.maple.syrupRouter.authorizeAndDeposit(),
+      targetAddress: maple.syrupUsdgRouter,
+    },
+    // Ongoing deposits once the bitmap is set. No receiver parameter: the router mints
+    // to itself and forwards the shares to msg.sender. The bytes32 is an offchain tag.
+    {
+      ...allow.mainnet.maple.syrupRouter.deposit(),
+      targetAddress: maple.syrupUsdgRouter,
+    },
+
+    // Maple - Exit syrupUSDG through the queue withdrawal manager. requestRedeem
+    // enqueues shares (paid out in USDG to the owner when processed), removeShares
+    // cancels a pending request, redeem collects a processed request if the Safe is ever
+    // switched to manual withdrawals. Owner and receiver pinned to the avatar. `withdraw`
+    // and `requestWithdraw` are not scoped: the PoolManager reverts them
+    // (PM:PW:NOT_ENABLED / PM:RW:NOT_ENABLED).
+    {
+      ...allow.mainnet.maple.syrupPool.requestRedeem(undefined, c.avatar),
+      targetAddress: syrupUSDG,
+    },
+    {
+      ...allow.mainnet.maple.syrupPool.removeShares(undefined, c.avatar),
+      targetAddress: syrupUSDG,
+    },
+    {
+      ...allow.mainnet.maple.syrupPool.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: syrupUSDG,
+    },
+
+    // Aave v4 Maple SyrupUSDG Spoke - Supply/withdraw syrupUSDG collateral (reserve 1,
+    // Global Dollar Hub). The Spoke pulls the asset from the caller, hence the approval.
+    allowErc20Approve([syrupUSDG], [mapleSpoke]),
+    allow.mainnet.aaveV4.mapleSpoke.supply(
+      mapleReserve.syrupUsdg,
+      undefined,
+      c.avatar
+    ),
+    allow.mainnet.aaveV4.mapleSpoke.withdraw(
+      mapleReserve.syrupUsdg,
+      undefined,
+      c.avatar
+    ),
+    // `supply` does not enable the reserve as collateral, it has to be set explicitly
+    allow.mainnet.aaveV4.mapleSpoke.setUsingAsCollateral(
+      mapleReserve.syrupUsdg,
+      undefined,
+      c.avatar
+    ),
+
+    // Aave v4 Maple SyrupUSDG Spoke - Borrow USDG through the Global Dollar Hub
+    // (reserve 0) and Core Hub (reserve 3) credit lines
+    allow.mainnet.aaveV4.mapleSpoke.borrow(
+      mapleReserve.usdgGlobalDollar,
+      undefined,
+      c.avatar
+    ),
+    allow.mainnet.aaveV4.mapleSpoke.borrow(
+      mapleReserve.usdgCore,
+      undefined,
+      c.avatar
+    ),
+
+    // Aave v4 Maple SyrupUSDG Spoke - Repay USDG. The Spoke pulls the asset from the
+    // caller, hence the approval.
+    allowErc20Approve([USDG], [mapleSpoke]),
+    allow.mainnet.aaveV4.mapleSpoke.repay(
+      mapleReserve.usdgGlobalDollar,
+      undefined,
+      c.avatar
+    ),
+    allow.mainnet.aaveV4.mapleSpoke.repay(
+      mapleReserve.usdgCore,
+      undefined,
+      c.avatar
     ),
   ] satisfies PermissionList

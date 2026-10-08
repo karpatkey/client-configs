@@ -4,8 +4,16 @@ import { avatar } from "@/test/wallets"
 import kit from "@/test/kit"
 import { Status } from "@/test/types"
 import { contracts } from "@/contracts"
-import { cbBTC, cowSwap, USDC, WBTC } from "@/addresses/eth"
-import { aaveV4BluechipReserve } from "../../addresses"
+import {
+  cbBTC,
+  cowSwap,
+  maple,
+  syrupUSDG,
+  USDC,
+  USDG,
+  WBTC,
+} from "@/addresses/eth"
+import { aaveV4BluechipReserve, aaveV4MapleReserve } from "../../addresses"
 import { parameters } from "../../instances/main_prod"
 import allowedCalls from "./permissions/calls"
 import allowedActions from "./permissions/_actions"
@@ -100,6 +108,114 @@ describe("wbtc-carry-fund mainnet MANAGER", () => {
           0
         )
       ).toBeAllowed()
+    })
+  })
+
+  describe("B - syrupUSDG loop on Aave v4", () => {
+    const bluechipSpoke = contracts.mainnet.aaveV4.bluechipSpoke
+    const mapleSpoke = contracts.mainnet.aaveV4.mapleSpoke
+    const router = () =>
+      kit.asMember.maple.syrupRouter.attach(maple.syrupUsdgRouter)
+    const pool = () => kit.asMember.maple.syrupPool.attach(syrupUSDG)
+
+    it("borrows and repays USDG on the Bluechip Spoke Core Hub line (reserve 11)", async () => {
+      const r = aaveV4BluechipReserve.usdgCore
+      await expect(
+        kit.asMember.aaveV4.bluechipSpoke.borrow(r, 1n, avatar.address)
+      ).toBeAllowed()
+      await expect(
+        erc20().attach(USDG).approve(bluechipSpoke, parseUnits("1", 6))
+      ).toBeAllowed()
+      await expect(
+        kit.asMember.aaveV4.bluechipSpoke.repay(r, 1n, avatar.address)
+      ).toBeAllowed()
+    })
+
+    it("forbids borrowing USDG on behalf of a third party", async () => {
+      await expect(
+        kit.asMember.aaveV4.bluechipSpoke.borrow(
+          aaveV4BluechipReserve.usdgCore,
+          1n,
+          stranger
+        )
+      ).toBeForbidden(Status.ParameterNotAllowed)
+    })
+
+    it("deposits USDG into syrupUSDG through its SyrupRouter", async () => {
+      await expect(
+        erc20().attach(USDG).approve(maple.syrupUsdgRouter, parseUnits("1", 6))
+      ).toBeAllowed()
+      await expect(
+        router().deposit(parseUnits("1", 6), id("kpk"))
+      ).toBeAllowed()
+      await expect(
+        router().authorizeAndDeposit(
+          16n,
+          0n,
+          27,
+          id("r"),
+          id("s"),
+          parseUnits("1", 6),
+          id("kpk")
+        )
+      ).toBeAllowed()
+    })
+
+    it("requests, cancels and redeems syrupUSDG for the avatar only", async () => {
+      await expect(pool().requestRedeem(1n, avatar.address)).toBeAllowed()
+      await expect(pool().removeShares(1n, avatar.address)).toBeAllowed()
+      await expect(
+        pool().redeem(1n, avatar.address, avatar.address)
+      ).toBeAllowed()
+      await expect(pool().redeem(1n, stranger, avatar.address)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+      await expect(
+        pool().withdraw(1n, avatar.address, avatar.address)
+      ).toBeForbidden(Status.FunctionNotAllowed)
+    })
+
+    it("supplies syrupUSDG as collateral on the Maple Spoke (reserve 1)", async () => {
+      const r = aaveV4MapleReserve.syrupUsdg
+      await expect(
+        erc20().attach(syrupUSDG).approve(mapleSpoke, parseUnits("1", 6))
+      ).toBeAllowed()
+      await expect(
+        kit.asMember.aaveV4.mapleSpoke.supply(r, 1n, avatar.address)
+      ).toBeAllowed()
+      await expect(
+        kit.asMember.aaveV4.mapleSpoke.setUsingAsCollateral(
+          r,
+          true,
+          avatar.address
+        )
+      ).toBeAllowed()
+      await expect(
+        kit.asMember.aaveV4.mapleSpoke.withdraw(r, 1n, avatar.address)
+      ).toBeAllowed()
+    })
+
+    it("borrows and repays USDG on the Maple Spoke (reserves 0 and 3)", async () => {
+      await expect(
+        erc20().attach(USDG).approve(mapleSpoke, parseUnits("1", 6))
+      ).toBeAllowed()
+      for (const r of [
+        aaveV4MapleReserve.usdgGlobalDollar,
+        aaveV4MapleReserve.usdgCore,
+      ]) {
+        await expect(
+          kit.asMember.aaveV4.mapleSpoke.borrow(r, 1n, avatar.address)
+        ).toBeAllowed()
+        await expect(
+          kit.asMember.aaveV4.mapleSpoke.repay(r, 1n, avatar.address)
+        ).toBeAllowed()
+      }
+    })
+
+    it("forbids borrowing the Maple Spoke USDC reserve (2)", async () => {
+      await expect(
+        kit.asMember.aaveV4.mapleSpoke.borrow(2, 1n, avatar.address)
+      ).toBeForbidden()
     })
   })
 })

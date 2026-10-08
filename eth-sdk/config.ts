@@ -18,6 +18,9 @@ export const contracts = {
       // Bluechip Spoke - WBTC/WETH/cbBTC/wstETH collateral (Prime Hub), stablecoin
       // credit lines to Prime and Core Hubs
       bluechipSpoke: "0x973a023A77420ba610f06b3858aD991Df6d85A08",
+      // Maple SyrupUSDG Spoke - syrupUSDG collateral, USDG credit lines to the Global
+      // Dollar and Core Hubs. Same Spoke ABI as the Bluechip Spoke.
+      mapleSpoke: "0x774b9655413c34809c1f1b16b654465A89EBE989",
     },
     across: {
       spokePoolV2: "0x5c7BCd6E7De5423a257D81B442095A1a6ced35C5",

@@ -108,12 +108,14 @@ export const SWPR = "0x6cAcDB97e3fC8136805a9E7c342d866ab77D0957"
 export const SYMM = "0x57dB3FfCa78dBbE0eFa0EC745D55f62aa0Cbd345"
 export const SYRUP = "0x643C4E15d7d62Ad0aBeC4a9BD4b001aA3Ef52d66"
 export const syrupUSDC = "0x80ac24aA929eaF5013f6436cdA2a7ba190f5Cc0b"
+export const syrupUSDG = "0x87b65C4aAFFA76881f9E96F3e7ED945ddFC3Cd7A"
 export const syrupUSDT = "0x356B8d89c1e1239Cbbb9dE4815c39A1474d5BA7D"
 export const UNCX = "0xaDB2437e6F65682B85F814fBc12FeC0508A7B1D0"
 export const UNI = "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984"
 export const USDA = "0x0000206329b97DB379d5E1Bf586BbDB969C63274"
 export const USDC = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
 export const USDe = "0x4c9EDD5852cd905f086C759E8383e09bff1E68B3"
+export const USDG = "0xe343167631d89B6Ffc58B88d6b7fB0228795491D" // Global Dollar (Paxos)
 export const USDM = "0x59d9356e565ab3a36dd77763fc0d87feaf85508c"
 export const USDP = "0x1456688345527bE1f37E9e627DA0837D6f08C925"
 export const USDS = "0xdC035D45d973E3EC169d2276DDab16f1e407384F"
@@ -374,6 +376,7 @@ export const morpho = {
 
 export const maple = {
   syrupUsdtRouter: "0xF007476Bb27430795138C511F18F821e8D1e5Ee2", // SyrupRouter (syrupUSDT)
+  syrupUsdgRouter: "0x191ac16255f49F7C6cB2e3b2502064A805943849", // SyrupRouter (syrupUSDG)
 } as const
 
 export const nexus = {
