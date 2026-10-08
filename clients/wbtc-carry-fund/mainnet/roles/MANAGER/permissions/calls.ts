@@ -1,6 +1,6 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { morpho, USDC, WBTC } from "@/addresses/eth"
+import { cbBTC, morpho, USDC, WBTC } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
@@ -30,6 +30,33 @@ export default (parameters: Parameters) =>
       undefined,
       c.avatar
     ),
+
+    // Aave v4 Bluechip Spoke - Supply/withdraw cbBTC as a second BTC collateral (Prime
+    // Hub, reserve id 2), same shape as WBTC. The Spoke pulls the asset from the caller,
+    // hence the approval.
+    allowErc20Approve([cbBTC], [bluechipSpoke]),
+    allow.mainnet.aaveV4.bluechipSpoke.supply(
+      reserve.cbbtcPrime,
+      undefined,
+      c.avatar
+    ),
+    allow.mainnet.aaveV4.bluechipSpoke.withdraw(
+      reserve.cbbtcPrime,
+      undefined,
+      c.avatar
+    ),
+    allow.mainnet.aaveV4.bluechipSpoke.setUsingAsCollateral(
+      reserve.cbbtcPrime,
+      undefined,
+      c.avatar
+    ),
+
+    // Shares contract - Redemptions are paid out by the shares contract pulling the asset from
+    // the avatar Safe (safeTransferFrom(avatar, receiver)), so it needs an allowance on
+    // every asset the fund may settle in. The WBTC allowance was set at deploy outside
+    // this role; cbBTC has none. Both are scoped so the allowance can be topped up or
+    // reset to 0 through the role.
+    allowErc20Approve([WBTC, cbBTC], [parameters.shares]),
 
     // Aave v4 Bluechip Spoke - Borrow USDC through the Prime and Core Hub credit lines
     allow.mainnet.aaveV4.bluechipSpoke.borrow(

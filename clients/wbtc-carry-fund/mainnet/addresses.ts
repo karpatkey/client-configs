@@ -6,6 +6,7 @@
 // that is added later is not reachable by the role.
 export const aaveV4BluechipReserve = {
   wbtcPrime: 1, // WBTC, Prime Hub 0x943827DCA022D0F354a8a8c332dA1e5Eb9f9F931 - collateral only
+  cbbtcPrime: 2, // cbBTC, Prime Hub - collateral only
   usdcPrime: 4, // USDC, Prime Hub - borrowable
   usdcCore: 7, // USDC, Core Hub 0xCca852Bc40e560adC3b1Cc58CA5b55638ce826c9 - borrowable
 } as const
