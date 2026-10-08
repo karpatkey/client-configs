@@ -86,6 +86,7 @@ export const gmx = {
 
 export const morpho = {
   // Vaults
+  kpkEureYieldV2: "0x7bfdE3A7bd346Da92521D384563F89BB45dE1f60", // kpk EURe Yield v2
   kpkUsdcYieldV1: "0x2C609d9CfC9dda2dB5C128B2a665D921ec53579d", // kpk USDC Yield v1
   kpkUsdcYieldV2: "0x5837e4189819637853a357aF36650902347F5e73", // kpk USDC Yield v2
 

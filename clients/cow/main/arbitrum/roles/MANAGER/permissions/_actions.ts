@@ -1,5 +1,5 @@
 import { allow as allowAction } from "defi-kit/arb1"
-import { USDC, USDS, USDT, WETH } from "@/addresses/arb1"
+import { USDC, USDS, USDT, WETH, morpho } from "@/addresses/arb1"
 import { Parameters } from "../../../../../parameters"
 
 export default (parameters: Parameters) => [
@@ -19,5 +19,10 @@ export default (parameters: Parameters) => [
     targets: ["Ethereum"],
     sender: parameters.avatar,
     recipient: parameters.avatar,
+  }),
+
+  // Morpho Vault - kpk EURe Yield v2
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkEureYieldV2],
   }),
 ]
