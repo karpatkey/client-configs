@@ -5,8 +5,10 @@ import {
   maple,
   morpho,
   syrupUSDG,
+  syrupUSDT,
   USDC,
   USDG,
+  USDT,
   WBTC,
 } from "@/addresses/eth"
 import { contracts } from "@/contracts"
@@ -15,11 +17,13 @@ import { PermissionList } from "@/types"
 import {
   aaveV4BluechipReserve as reserve,
   aaveV4MapleReserve as mapleReserve,
+  morphoSyrupUsdtUsdtMarket,
 } from "../../../addresses"
 import { Parameters } from "../../../parameters"
 
 const bluechipSpoke = contracts.mainnet.aaveV4.bluechipSpoke
 const mapleSpoke = contracts.mainnet.aaveV4.mapleSpoke
+const morphoBlue = contracts.mainnet.morpho.morphoBlue
 
 export default (parameters: Parameters) =>
   [
@@ -267,5 +271,59 @@ export default (parameters: Parameters) =>
       mapleReserve.usdgCore,
       undefined,
       c.avatar
+    ),
+    // ---------------------------------------------------------------------------------
+    // syrupUSDT loop on Morpho Blue: USDT (swapped from the USDC borrowed on Aave v4)
+    // mints syrupUSDT (Maple), which is supplied as collateral on the syrupUSDT/USDT
+    // market (LLTV 91.5%) to borrow more USDT, and so on. Mirrors the XAUt fund's leg 2
+    // in #263.
+    // ---------------------------------------------------------------------------------
+
+    // Maple - Mint syrupUSDT through its SyrupRouter. Same permissioning as syrupUSDG
+    // above: lender bitmap 16 needed for `deposit`, avatar's bitmap is 0, hence
+    // `authorizeAndDeposit` for the one-time Maple-signed onboarding (arguments open on
+    // purpose, see above). The router pulls USDT from the caller, hence the approval.
+    // USDT only accepts a new non-zero allowance from 0; `allowErc20Approve` leaves the
+    // amount open, so resetting to 0 is allowed.
+    allowErc20Approve([USDT], [maple.syrupUsdtRouter]),
+    allow.mainnet.maple.syrupRouter.authorizeAndDeposit(),
+    allow.mainnet.maple.syrupRouter.deposit(),
+
+    // Maple - Exit syrupUSDT through the queue withdrawal manager: request, cancel, or
+    // collect a processed request in manual mode. Owner and receiver pinned to the avatar.
+    allow.mainnet.maple.syrupPool.requestRedeem(undefined, c.avatar),
+    allow.mainnet.maple.syrupPool.removeShares(undefined, c.avatar),
+    allow.mainnet.maple.syrupPool.redeem(undefined, c.avatar, c.avatar),
+
+    // Morpho Blue - syrupUSDT/USDT market only (full MarketParams pinned). Supply and
+    // withdraw syrupUSDT collateral, borrow and repay USDT; onBehalf and receiver pinned
+    // to the avatar, callback data pinned to empty. Morpho pulls both tokens from the
+    // caller, hence the approvals.
+    allowErc20Approve([syrupUSDT, USDT], [morphoBlue]),
+    allow.mainnet.morpho.morphoBlue.supplyCollateral(
+      morphoSyrupUsdtUsdtMarket,
+      undefined,
+      c.avatar,
+      "0x"
+    ),
+    allow.mainnet.morpho.morphoBlue.withdrawCollateral(
+      morphoSyrupUsdtUsdtMarket,
+      undefined,
+      c.avatar,
+      c.avatar
+    ),
+    allow.mainnet.morpho.morphoBlue.borrow(
+      morphoSyrupUsdtUsdtMarket,
+      undefined,
+      undefined,
+      c.avatar,
+      c.avatar
+    ),
+    allow.mainnet.morpho.morphoBlue.repay(
+      morphoSyrupUsdtUsdtMarket,
+      undefined,
+      undefined,
+      c.avatar,
+      "0x"
     ),
   ] satisfies PermissionList

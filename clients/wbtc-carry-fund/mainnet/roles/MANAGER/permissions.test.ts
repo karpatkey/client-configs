@@ -9,11 +9,17 @@ import {
   cowSwap,
   maple,
   syrupUSDG,
+  syrupUSDT,
   USDC,
   USDG,
+  USDT,
   WBTC,
 } from "@/addresses/eth"
-import { aaveV4BluechipReserve, aaveV4MapleReserve } from "../../addresses"
+import {
+  aaveV4BluechipReserve,
+  aaveV4MapleReserve,
+  morphoSyrupUsdtUsdtMarket,
+} from "../../addresses"
 import { parameters } from "../../instances/main_prod"
 import allowedCalls from "./permissions/calls"
 import allowedActions from "./permissions/_actions"
@@ -22,6 +28,26 @@ import allowedActions from "./permissions/_actions"
 const stranger = "0x000000000000000000000000000000000000dEaD"
 
 const erc20 = () => kit.asMember.weth
+
+const cowOrder = (sellToken: string, buyToken: string) =>
+  kit.asMember.cowSwap.orderSigner.signOrder.delegateCall(
+    {
+      sellToken,
+      buyToken,
+      sellAmount: 1000000n,
+      buyAmount: 1n,
+      feeAmount: 0n,
+      receiver: avatar.address,
+      validTo: Math.round(Date.now() / 1000) + 30 * 60,
+      kind: id("sell"),
+      partiallyFillable: false,
+      sellTokenBalance: id("erc20"),
+      buyTokenBalance: id("erc20"),
+      appData: keccak256(toUtf8Bytes("TEST")),
+    },
+    30 * 60,
+    0
+  )
 
 describe("wbtc-carry-fund mainnet MANAGER", () => {
   beforeAll(async () => {
@@ -215,6 +241,123 @@ describe("wbtc-carry-fund mainnet MANAGER", () => {
     it("forbids borrowing the Maple Spoke USDC reserve (2)", async () => {
       await expect(
         kit.asMember.aaveV4.mapleSpoke.borrow(2, 1n, avatar.address)
+      ).toBeForbidden()
+    })
+  })
+
+  describe("C - syrupUSDT loop on Morpho Blue", () => {
+    const morphoBlue = contracts.mainnet.morpho.morphoBlue
+    const market = morphoSyrupUsdtUsdtMarket
+
+    it("swaps USDC <-> USDT on CowSwap, approving USDT from 0", async () => {
+      await expect(
+        erc20().attach(USDT).approve(cowSwap.gpv2VaultRelayer, 0n)
+      ).toBeAllowed()
+      await expect(cowOrder(USDC, USDT)).toBeAllowed()
+      await expect(cowOrder(USDT, USDC)).toBeAllowed()
+    })
+
+    it("does not make USDT tradable against the BTC collateral", async () => {
+      await expect(cowOrder(USDT, cbBTC)).toBeForbidden()
+      await expect(cowOrder(WBTC, USDT)).toBeForbidden()
+    })
+
+    it("deposits USDT into syrupUSDT through its SyrupRouter and exits", async () => {
+      await expect(
+        erc20().attach(USDT).approve(maple.syrupUsdtRouter, 0n)
+      ).toBeAllowed()
+      await expect(
+        kit.asMember.maple.syrupRouter.deposit(1000000n, id("kpk"))
+      ).toBeAllowed()
+      await expect(
+        kit.asMember.maple.syrupRouter.authorizeAndDeposit(
+          16n,
+          0n,
+          27,
+          id("r"),
+          id("s"),
+          1000000n,
+          id("kpk")
+        )
+      ).toBeAllowed()
+      await expect(
+        kit.asMember.maple.syrupPool.requestRedeem(1n, avatar.address)
+      ).toBeAllowed()
+      await expect(
+        kit.asMember.maple.syrupPool.removeShares(1n, avatar.address)
+      ).toBeAllowed()
+      await expect(
+        kit.asMember.maple.syrupPool.redeem(1n, avatar.address, avatar.address)
+      ).toBeAllowed()
+    })
+
+    it("supplies/withdraws syrupUSDT and borrows/repays USDT on the pinned market", async () => {
+      await expect(
+        erc20().attach(syrupUSDT).approve(morphoBlue, 1n)
+      ).toBeAllowed()
+      await expect(erc20().attach(USDT).approve(morphoBlue, 0n)).toBeAllowed()
+      await expect(
+        kit.asMember.morpho.morphoBlue.supplyCollateral(
+          market,
+          1n,
+          avatar.address,
+          "0x"
+        )
+      ).toBeAllowed()
+      await expect(
+        kit.asMember.morpho.morphoBlue.borrow(
+          market,
+          1n,
+          0n,
+          avatar.address,
+          avatar.address
+        )
+      ).toBeAllowed()
+      await expect(
+        kit.asMember.morpho.morphoBlue.repay(
+          market,
+          1n,
+          0n,
+          avatar.address,
+          "0x"
+        )
+      ).toBeAllowed()
+      await expect(
+        kit.asMember.morpho.morphoBlue.withdrawCollateral(
+          market,
+          1n,
+          avatar.address,
+          avatar.address
+        )
+      ).toBeAllowed()
+    })
+
+    it("forbids another market, a third-party receiver, and callback data", async () => {
+      await expect(
+        kit.asMember.morpho.morphoBlue.borrow(
+          { ...market, lltv: "860000000000000000" },
+          1n,
+          0n,
+          avatar.address,
+          avatar.address
+        )
+      ).toBeForbidden()
+      await expect(
+        kit.asMember.morpho.morphoBlue.borrow(
+          market,
+          1n,
+          0n,
+          avatar.address,
+          stranger
+        )
+      ).toBeForbidden(Status.ParameterNotAllowed)
+      await expect(
+        kit.asMember.morpho.morphoBlue.supplyCollateral(
+          market,
+          1n,
+          avatar.address,
+          "0x01"
+        )
       ).toBeForbidden()
     })
   })

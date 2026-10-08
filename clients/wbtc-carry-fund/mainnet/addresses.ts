@@ -1,3 +1,5 @@
+import { morpho, syrupUSDT, USDT } from "@/addresses/eth"
+
 // Aave v4 - Bluechip Spoke (0x973a023A77420ba610f06b3858aD991Df6d85A08) reserve ids.
 //
 // The v4 Spoke identifies reserves by a positional `uint256 reserveId`, not by token
@@ -19,4 +21,16 @@ export const aaveV4MapleReserve = {
   usdgGlobalDollar: 0, // USDG, Global Dollar Hub 0x62d63197660c080236193CA60b70E49A08E90368 - borrowable
   syrupUsdg: 1, // syrupUSDG, Global Dollar Hub - collateral only
   usdgCore: 3, // USDG, Core Hub 0xCca852Bc40e560adC3b1Cc58CA5b55638ce826c9 - borrowable
+} as const
+
+// Morpho Blue - syrupUSDT/USDT market
+// 0xa4774e3e693fff2ebd1dcbbd69b1b0a5b9bb0ccc753bfda5dd07bdac97c4818a. Params read onchain
+// with `idToMarketParams(bytes32)` on the Morpho singleton; keccak256(abi.encode(params))
+// matches the id.
+export const morphoSyrupUsdtUsdtMarket = {
+  loanToken: USDT,
+  collateralToken: syrupUSDT,
+  oracle: morpho.oraclesyrupUsdtUsdt,
+  irm: morpho.adaptativeCurveIrm,
+  lltv: "915000000000000000", // 91.5%
 } as const
