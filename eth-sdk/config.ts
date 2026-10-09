@@ -18,6 +18,9 @@ export const contracts = {
       // Bluechip Spoke - WBTC/WETH/cbBTC/wstETH collateral (Prime Hub), stablecoin
       // credit lines to Prime and Core Hubs
       bluechipSpoke: "0x973a023A77420ba610f06b3858aD991Df6d85A08",
+      // Maple SyrupUSDG Spoke - syrupUSDG collateral, USDG credit lines to the Global
+      // Dollar and Core Hubs. Same Spoke ABI as the Bluechip Spoke.
+      mapleSpoke: "0x774b9655413c34809c1f1b16b654465A89EBE989",
     },
     across: {
       spokePoolV2: "0x5c7BCd6E7De5423a257D81B442095A1a6ced35C5",
@@ -151,6 +154,10 @@ export const contracts = {
       ...deFiKitContracts.mainnet.lido,
       vestingEscrow: "0x484FD04c598A095360DF89bF85AB34c37127AA39",
       aragonVoting: "0x2e59A20f205bB85a89C53f1936454680651E618e",
+    },
+    maple: {
+      syrupRouter: "0xF007476Bb27430795138C511F18F821e8D1e5Ee2", // SyrupRouter (syrupUSDT)
+      syrupPool: "0x356B8d89c1e1239Cbbb9dE4815c39A1474d5BA7D", // syrupUSDT Maple Pool
     },
     maverickV2: {
       rewardRouter: "0xc0C3BC532690af8922a2f260c6e1dEb6CFaB45A0",
