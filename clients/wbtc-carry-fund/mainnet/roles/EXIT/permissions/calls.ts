@@ -50,9 +50,8 @@ export default (parameters: Parameters) =>
       c.avatar
     ),
 
-    // syrupUSDG loop unwind - repay USDG on the Maple Spoke (reserves 0 and 3), withdraw the
-    // syrupUSDG collateral (reserve 1), and queue it for redemption at Maple. Owner and
-    // receiver pinned to the avatar.
+    // Aave v4 Maple Spoke - syrupUSDG loop unwind: repay USDG (reserves 0 and 3) and withdraw
+    // the syrupUSDG collateral (reserve 1) to the avatar Safe
     allowErc20Approve([USDG], [mapleSpoke]),
     allow.mainnet.aaveV4.mapleSpoke.repay(
       mapleReserve.usdgGlobalDollar,
@@ -69,12 +68,15 @@ export default (parameters: Parameters) =>
       undefined,
       c.avatar
     ),
+
+    // Maple - syrupUSDG: queue the withdrawn collateral for redemption and collect it. Owner
+    // and receiver pinned to the avatar.
     {
-      ...allow.mainnet.maple.syrupPool.requestRedeem(undefined, c.avatar),
+      ...allow.mainnet.maple.syrupPool.redeem(undefined, c.avatar, c.avatar),
       targetAddress: syrupUSDG,
     },
     {
-      ...allow.mainnet.maple.syrupPool.redeem(undefined, c.avatar, c.avatar),
+      ...allow.mainnet.maple.syrupPool.requestRedeem(undefined, c.avatar),
       targetAddress: syrupUSDG,
     },
 

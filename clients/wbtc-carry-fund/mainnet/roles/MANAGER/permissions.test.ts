@@ -11,6 +11,7 @@ import {
   cowSwap,
   GHO,
   maple,
+  morpho,
   syrupUSDC,
   syrupUSDG,
   syrupUSDT,
@@ -20,18 +21,43 @@ import {
   WBTC,
   WETH,
 } from "@/addresses/eth"
-import {
-  aaveV4BluechipReserve,
-  aaveV4MapleReserve,
-  morphoBackupMarkets,
-  morphoSyrupUsdtUsdtMarket,
-} from "../../addresses"
+import { aaveV4BluechipReserve, aaveV4MapleReserve } from "../../addresses"
 import { parameters } from "../../instances/main_prod"
 import allowedCalls from "./permissions/calls"
 import allowedActions from "./permissions/_actions"
 
 // An address that is neither the avatar nor a scoped spender
 const stranger = "0x000000000000000000000000000000000000dEaD"
+
+// MarketParams of the Morpho Blue markets the tests call. The policy pins them by id through
+// defi-kit (`morphoMarkets.borrow` in _actions.ts), so a call is allowed only if these
+// params hash to a whitelisted id.
+const morphoMarkets = {
+  // 0x64d65c9a2d91c36d56fbc42d69e979335320169b3df63bf92789e2c8883fcc64
+  cbBtcUsdc: {
+    loanToken: USDC,
+    collateralToken: cbBTC,
+    oracle: morpho.oracleCbBtcUsdc,
+    irm: morpho.adaptativeCurveIrm,
+    lltv: "860000000000000000",
+  },
+  // 0x729badf297ee9f2f6b3f717b96fd355fc6ec00422284ce1968e76647b258cf44
+  syrupUsdcUsdc: {
+    loanToken: USDC,
+    collateralToken: syrupUSDC,
+    oracle: morpho.oraclesyrupUsdcUsdc,
+    irm: morpho.adaptativeCurveIrm,
+    lltv: "915000000000000000",
+  },
+  // 0xa4774e3e693fff2ebd1dcbbd69b1b0a5b9bb0ccc753bfda5dd07bdac97c4818a
+  syrupUsdtUsdt: {
+    loanToken: USDT,
+    collateralToken: syrupUSDT,
+    oracle: morpho.oraclesyrupUsdtUsdt,
+    irm: morpho.adaptativeCurveIrm,
+    lltv: "915000000000000000",
+  },
+}
 
 const erc20 = () => kit.asMember.weth
 
@@ -259,7 +285,7 @@ describe("wbtc-carry-fund mainnet MANAGER", () => {
 
   describe("C - syrupUSDT loop on Morpho Blue", () => {
     const morphoBlue = contracts.mainnet.morpho.morphoBlue
-    const market = morphoSyrupUsdtUsdtMarket
+    const market = morphoMarkets.syrupUsdtUsdt
 
     it("swaps USDC <-> USDT on CowSwap, approving USDT from 0", async () => {
       await expect(
@@ -489,7 +515,7 @@ describe("wbtc-carry-fund mainnet MANAGER", () => {
 
   describe("G - Morpho Blue backup markets and the syrupUSDC loop", () => {
     it("borrows USDC against cbBTC on the pinned market, for the avatar only", async () => {
-      const m = morphoBackupMarkets.cbBtcUsdc
+      const m = morphoMarkets.cbBtcUsdc
       await expect(
         kit.asMember.morpho.morphoBlue.supplyCollateral(
           m,
@@ -529,7 +555,7 @@ describe("wbtc-carry-fund mainnet MANAGER", () => {
       ).toBeAllowed()
       await expect(
         kit.asMember.morpho.morphoBlue.supplyCollateral(
-          morphoBackupMarkets.syrupUsdcUsdc,
+          morphoMarkets.syrupUsdcUsdc,
           1n,
           avatar.address,
           "0x"

@@ -6,5 +6,5 @@ export default [
   allowAction.cowswap.swap({ sell: [USDC, USDG], buy: [USDC, USDG] }),
 
   // CowSwap - sell-only emergency exit for the loop collateral when Maple's queue is too slow
-  allowAction.cowswap.swap({ sell: [syrupUSDG], buy: [USDG, USDC] }),
+  allowAction.cowswap.swap({ sell: [syrupUSDG], buy: [USDC, USDG] }),
 ]

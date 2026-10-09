@@ -367,8 +367,6 @@ export const morpho = {
   oracleWbtcUsdt: "0x008bF4B1cDA0cc9f0e882E0697f036667652E1ef",
   oracleSusdsUsdt: "0x0C426d174FC88B7A25d59945Ab2F7274Bf7B4C79",
   oraclesyrupUsdcUsdc: "0x80032f4cb6E3573b9ed61E888AF658E48Fb790cC",
-  oraclesyrupUsdcUsdc2: "0x4F570BcEaC722f277c5BAAA374D4D69AC095Cd46", // second syrupUSDC/USDC 91.5% market
-  oracleCbBtcUsdt: "0x9F983115741D0F7F2EAE07831415057AD3de34d2",
   oraclePTSusde27Nov2025Usdc: "0x639c6f403822E1bDA434BEb2034Beb54f725BA0c",
   oraclePTUsde27Nov2025Usdc: "0x0beC5A0f7Bea1D14efC2663054D6D1E2B764b630",
   oraclePTUsde25Sep2025Usdc: "0xe6aBD3B78Abbb1cc1Ee76c5c3689Aa9646481Fbb",
@@ -386,25 +384,25 @@ export const morpho = {
 // updateUserRiskPremium / updateUserDynamicConfig), checked against each implementation's
 // bytecode.
 export const aaveV4Spokes = {
-  main: "0x94e7A5dCbE816e498b89aB752661904E2F56c485",
   bluechip: "0x973a023A77420ba610f06b3858aD991Df6d85A08",
-  gold: "0x65407b940966954b23dfA3caA5C0702bB42984DC",
-  forex: "0xD8B93635b8C6d0fF98CbE90b5988E3F2d1Cd9da1",
-  ethenaEcosystem: "0xba1B3D55D249692b669A164024A838309B7508AF",
   ethenaCorrelated: "0x58131E79531caB1d52301228d1f7b842F26B9649",
-  mapleSyrupUsdg: "0x774b9655413c34809c1f1b16b654465A89EBE989",
-  usdgPendle: "0x956d8e0A89cfa3744428C4641b5a53B56167a7f9",
-  paxgGold: "0xAD75cE6354f87F3135cE10621d385d8D1e2562C2",
-  lombard: "0x7EC68b5695e803e98a21a9A05d744F28b0a7753D",
-  kelp: "0x3131FE68C4722e726fe6B2819ED68e514395B9a4", // rsETH / WETH
+  ethenaEcosystem: "0xba1B3D55D249692b669A164024A838309B7508AF",
   etherFi: "0xbF10BDfE177dE0336aFD7fcCF80A904E15386219", // weETH / WETH
+  forex: "0xD8B93635b8C6d0fF98CbE90b5988E3F2d1Cd9da1",
+  gold: "0x65407b940966954b23dfA3caA5C0702bB42984DC",
+  kelp: "0x3131FE68C4722e726fe6B2819ED68e514395B9a4", // rsETH / WETH
   lido: "0xe1900480ac69f0B296841Cd01cC37546d92F35Cd", // wstETH / WETH
+  lombard: "0x7EC68b5695e803e98a21a9A05d744F28b0a7753D",
+  main: "0x94e7A5dCbE816e498b89aB752661904E2F56c485",
+  mapleSyrupUsdg: "0x774b9655413c34809c1f1b16b654465A89EBE989",
+  paxgGold: "0xAD75cE6354f87F3135cE10621d385d8D1e2562C2",
+  usdgPendle: "0x956d8e0A89cfa3744428C4641b5a53B56167a7f9",
 } as const
 
 export const maple = {
-  syrupUsdtRouter: "0xF007476Bb27430795138C511F18F821e8D1e5Ee2", // SyrupRouter (syrupUSDT)
-  syrupUsdgRouter: "0x191ac16255f49F7C6cB2e3b2502064A805943849", // SyrupRouter (syrupUSDG)
   syrupUsdcRouter: "0x134cCaaA4F1e4552eC8aEcb9E4A2360dDcF8df76", // SyrupRouter (syrupUSDC)
+  syrupUsdgRouter: "0x191ac16255f49F7C6cB2e3b2502064A805943849", // SyrupRouter (syrupUSDG)
+  syrupUsdtRouter: "0xF007476Bb27430795138C511F18F821e8D1e5Ee2", // SyrupRouter (syrupUSDT)
 } as const
 
 export const nexus = {
