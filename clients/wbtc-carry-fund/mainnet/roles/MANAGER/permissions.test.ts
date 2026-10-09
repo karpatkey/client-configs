@@ -5,19 +5,25 @@ import kit from "@/test/kit"
 import { Status } from "@/test/types"
 import { contracts } from "@/contracts"
 import {
+  aaveV4Spokes,
   cbBTC,
+  cirBTC,
   cowSwap,
+  GHO,
   maple,
+  syrupUSDC,
   syrupUSDG,
   syrupUSDT,
   USDC,
   USDG,
   USDT,
   WBTC,
+  WETH,
 } from "@/addresses/eth"
 import {
   aaveV4BluechipReserve,
   aaveV4MapleReserve,
+  morphoBackupMarkets,
   morphoSyrupUsdtUsdtMarket,
 } from "../../addresses"
 import { parameters } from "../../instances/main_prod"
@@ -90,10 +96,13 @@ describe("wbtc-carry-fund mainnet MANAGER", () => {
       ).toBeForbidden(Status.ParameterNotAllowed)
     })
 
-    it("forbids supplying an unscoped reserve (3 = wstETH)", async () => {
+    it("supplies any Bluechip reserve (3 = wstETH) for the avatar, not for a third party", async () => {
       await expect(
         kit.asMember.aaveV4.bluechipSpoke.supply(3, 1n, avatar.address)
-      ).toBeForbidden()
+      ).toBeAllowed()
+      await expect(
+        kit.asMember.aaveV4.bluechipSpoke.supply(3, 1n, stranger)
+      ).toBeForbidden(Status.ParameterNotAllowed)
     })
 
     it("approves WBTC and cbBTC to the shares contract, including a reset to 0", async () => {
@@ -238,10 +247,13 @@ describe("wbtc-carry-fund mainnet MANAGER", () => {
       }
     })
 
-    it("forbids borrowing the Maple Spoke USDC reserve (2)", async () => {
+    it("borrows the Maple Spoke USDC reserve (2) for the avatar only", async () => {
       await expect(
         kit.asMember.aaveV4.mapleSpoke.borrow(2, 1n, avatar.address)
-      ).toBeForbidden()
+      ).toBeAllowed()
+      await expect(
+        kit.asMember.aaveV4.mapleSpoke.borrow(2, 1n, stranger)
+      ).toBeForbidden(Status.ParameterNotAllowed)
     })
   })
 
@@ -359,6 +371,175 @@ describe("wbtc-carry-fund mainnet MANAGER", () => {
           "0x01"
         )
       ).toBeForbidden()
+    })
+  })
+
+  describe("D - Aave v4: any reserve on every Spoke, for the avatar only", () => {
+    const spoke = (address: string) =>
+      kit.asMember.aaveV4.bluechipSpoke.attach(address)
+
+    it("supplies, withdraws, borrows, repays and sets collateral on every Spoke", async () => {
+      for (const address of Object.values(aaveV4Spokes)) {
+        await expect(spoke(address).supply(0, 1n, avatar.address)).toBeAllowed()
+        await expect(
+          spoke(address).withdraw(0, 1n, avatar.address)
+        ).toBeAllowed()
+        await expect(spoke(address).borrow(0, 1n, avatar.address)).toBeAllowed()
+        await expect(spoke(address).repay(0, 1n, avatar.address)).toBeAllowed()
+        await expect(
+          spoke(address).setUsingAsCollateral(0, true, avatar.address)
+        ).toBeAllowed()
+      }
+    })
+
+    it("refreshes the avatar's own risk premium and dynamic config", async () => {
+      await expect(
+        spoke(aaveV4Spokes.main).updateUserRiskPremium(avatar.address)
+      ).toBeAllowed()
+      await expect(
+        spoke(aaveV4Spokes.main).updateUserDynamicConfig(avatar.address)
+      ).toBeAllowed()
+      await expect(
+        spoke(aaveV4Spokes.main).updateUserRiskPremium(stranger)
+      ).toBeForbidden(Status.ParameterNotAllowed)
+    })
+
+    it("forbids acting for a third party on any Spoke", async () => {
+      await expect(
+        spoke(aaveV4Spokes.main).borrow(7, 1n, stranger)
+      ).toBeForbidden(Status.ParameterNotAllowed)
+      await expect(
+        spoke(aaveV4Spokes.kelp).supply(1, 1n, stranger)
+      ).toBeForbidden(Status.ParameterNotAllowed)
+    })
+
+    it("forbids position managers and multicall", async () => {
+      await expect(
+        spoke(aaveV4Spokes.main).setUserPositionManager(stranger, true)
+      ).toBeForbidden()
+      await expect(
+        spoke(aaveV4Spokes.main).renouncePositionManagerRole(avatar.address)
+      ).toBeForbidden()
+      await expect(spoke(aaveV4Spokes.main).multicall([])).toBeForbidden()
+    })
+
+    it("approves Aave v4 tokens to the Spokes only", async () => {
+      await expect(
+        erc20().attach(USDG).approve(aaveV4Spokes.main, parseUnits("1", 6))
+      ).toBeAllowed()
+      await expect(
+        erc20().attach(cirBTC).approve(aaveV4Spokes.main, parseUnits("1", 8))
+      ).toBeAllowed()
+      await expect(
+        erc20().attach(WETH).approve(aaveV4Spokes.lido, parseUnits("1", 18))
+      ).toBeAllowed()
+      await expect(
+        erc20().attach(USDG).approve(stranger, parseUnits("1", 6))
+      ).toBeForbidden()
+    })
+  })
+
+  describe("E - CowSwap sets", () => {
+    it("swaps USDG <-> USDC both ways (borrow USDG, deploy USDC, swap back to repay)", async () => {
+      await expect(cowOrder(USDG, USDC)).toBeAllowed()
+      await expect(cowOrder(USDC, USDG)).toBeAllowed()
+      await expect(cowOrder(GHO, USDT)).toBeAllowed()
+    })
+
+    it("keeps stablecoins other than USDC away from the BTC collateral", async () => {
+      await expect(cowOrder(USDG, WBTC)).toBeForbidden()
+      await expect(cowOrder(WBTC, USDT)).toBeForbidden()
+    })
+
+    it("swaps between WBTC, cbBTC and cirBTC", async () => {
+      await expect(cowOrder(cirBTC, WBTC)).toBeAllowed()
+      await expect(cowOrder(cbBTC, cirBTC)).toBeAllowed()
+    })
+
+    it("sells syrup tokens for stablecoins, but never buys them on CowSwap", async () => {
+      await expect(cowOrder(syrupUSDG, USDG)).toBeAllowed()
+      await expect(cowOrder(syrupUSDT, USDT)).toBeAllowed()
+      await expect(cowOrder(syrupUSDC, USDC)).toBeAllowed()
+      await expect(cowOrder(USDC, syrupUSDC)).toBeForbidden()
+    })
+  })
+
+  describe("F - Aave v3 Core: backup borrow venue, syrupUSDT loop, cirBTC", () => {
+    const pool = () => kit.asMember.aaveV3.poolCoreV3
+
+    it("supplies WBTC and syrupUSDT and borrows USDG for the avatar", async () => {
+      await expect(pool().supply(WBTC, 1n, avatar.address, 0)).toBeAllowed()
+      await expect(
+        pool().supply(syrupUSDT, 1n, avatar.address, 0)
+      ).toBeAllowed()
+      await expect(pool().borrow(USDG, 1n, 2, 0, avatar.address)).toBeAllowed()
+      await expect(pool().supply(WBTC, 1n, stranger, 0)).toBeForbidden()
+    })
+
+    it("switches e-mode (33 = syrupUSDT stablecoins)", async () => {
+      await expect(pool().setUserEMode(33)).toBeAllowed()
+    })
+
+    it("supplies and withdraws cirBTC once listed", async () => {
+      await expect(pool().supply(cirBTC, 1n, avatar.address, 0)).toBeAllowed()
+      await expect(pool().withdraw(cirBTC, 1n, avatar.address)).toBeAllowed()
+      await expect(pool().withdraw(cirBTC, 1n, stranger)).toBeForbidden()
+    })
+  })
+
+  describe("G - Morpho Blue backup markets and the syrupUSDC loop", () => {
+    it("borrows USDC against cbBTC on the pinned market, for the avatar only", async () => {
+      const m = morphoBackupMarkets.cbBtcUsdc
+      await expect(
+        kit.asMember.morpho.morphoBlue.supplyCollateral(
+          m,
+          1n,
+          avatar.address,
+          "0x"
+        )
+      ).toBeAllowed()
+      await expect(
+        kit.asMember.morpho.morphoBlue.borrow(
+          m,
+          1n,
+          0n,
+          avatar.address,
+          avatar.address
+        )
+      ).toBeAllowed()
+      await expect(
+        kit.asMember.morpho.morphoBlue.borrow(
+          m,
+          1n,
+          0n,
+          avatar.address,
+          stranger
+        )
+      ).toBeForbidden()
+    })
+
+    it("loops syrupUSDC: router deposit and the 91.5% syrupUSDC/USDC market", async () => {
+      await expect(
+        erc20().attach(USDC).approve(maple.syrupUsdcRouter, parseUnits("1", 6))
+      ).toBeAllowed()
+      await expect(
+        kit.asMember.maple.syrupRouter
+          .attach(maple.syrupUsdcRouter)
+          .deposit(parseUnits("1", 6), id("kpk"))
+      ).toBeAllowed()
+      await expect(
+        kit.asMember.morpho.morphoBlue.supplyCollateral(
+          morphoBackupMarkets.syrupUsdcUsdc,
+          1n,
+          avatar.address,
+          "0x"
+        )
+      ).toBeAllowed()
+      await expect(
+        kit.asMember.maple.syrupPool
+          .attach(syrupUSDC)
+          .requestRedeem(1n, avatar.address)
+      ).toBeAllowed()
     })
   })
 })

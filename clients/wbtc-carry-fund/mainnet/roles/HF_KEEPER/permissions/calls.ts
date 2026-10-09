@@ -1,6 +1,6 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { morpho, USDC } from "@/addresses/eth"
+import { morpho, USDC, USDG } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
@@ -33,6 +33,22 @@ export default (parameters: Parameters) =>
     ),
     allow.mainnet.aaveV4.bluechipSpoke.repay(
       reserve.usdcCore,
+      undefined,
+      c.avatar
+    ),
+
+    // Aave v4 Bluechip Spoke - Borrow/repay USDG through the Core Hub line (reserve 11):
+    // the cheaper, deeper debt route (3.9% on 9 Oct 2026 vs USDC above its kink). The
+    // borrowed USDG is swapped to USDC on CowSwap (_actions.ts) before it goes into the
+    // vaults, and USDC is swapped back to USDG to repay.
+    allow.mainnet.aaveV4.bluechipSpoke.borrow(
+      reserve.usdgCore,
+      undefined,
+      c.avatar
+    ),
+    allowErc20Approve([USDG], [bluechipSpoke]),
+    allow.mainnet.aaveV4.bluechipSpoke.repay(
+      reserve.usdgCore,
       undefined,
       c.avatar
     ),

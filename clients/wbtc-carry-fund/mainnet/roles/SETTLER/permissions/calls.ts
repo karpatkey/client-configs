@@ -1,6 +1,6 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { WBTC } from "@/addresses/eth"
+import { cbBTC, WBTC } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
@@ -28,6 +28,25 @@ export default (parameters: Parameters) =>
     // `supply` does not enable the reserve as collateral, it has to be set explicitly
     allow.mainnet.aaveV4.bluechipSpoke.setUsingAsCollateral(
       reserve.wbtcPrime,
+      undefined,
+      c.avatar
+    ),
+
+    // Aave v4 Bluechip Spoke - Post/pull cbBTC collateral (Prime Hub, reserve 2) when the
+    // APPROVER settles a cbBTC subscription or redemption. Same shape as WBTC.
+    allowErc20Approve([cbBTC], [bluechipSpoke]),
+    allow.mainnet.aaveV4.bluechipSpoke.supply(
+      reserve.cbbtcPrime,
+      undefined,
+      c.avatar
+    ),
+    allow.mainnet.aaveV4.bluechipSpoke.withdraw(
+      reserve.cbbtcPrime,
+      undefined,
+      c.avatar
+    ),
+    allow.mainnet.aaveV4.bluechipSpoke.setUsingAsCollateral(
+      reserve.cbbtcPrime,
       undefined,
       c.avatar
     ),

@@ -12,6 +12,7 @@ export const auraBAL = "0x616e8BfA43F920657B3497DBf40D6b1A02D4608d"
 export const BAL = "0xba100000625a3754423978a60c9317c58a424e3D"
 export const BOB = "0xB0B195aEFA3650A6908f15CdaC7D92F8a5791B0B"
 export const cbBTC = "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf"
+export const cirBTC = "0x72DFB2E44f59C5AD2bAFE84314E5b99a7cd5075E" // Circle BTC
 export const cbETH = "0xBe9895146f7AF43049ca1c1AE358B0541Ea49704"
 export const COMP = "0xc00e94Cb662C3520282E6f5717214004A7f26888"
 export const COW = "0xDEf1CA1fb7FBcDC777520aa7f396b4E015F497aB"
@@ -43,6 +44,7 @@ export const FXS = "0x3432B6A60D23Ca0dFCa7761B7ab56459D9C964D0"
 export const GEAR = "0xBa3335588D9403515223F109EdC4eB7269a9Ab5D"
 export const GEN = "0x543Ff227F64Aa17eA132Bf9886cAb5DB55DCAddf"
 export const GYD = "0xe07F9D810a48ab5c3c914BA3cA53AF14E4491e8A"
+export const frxUSD = "0xCAcd6fd266aF91b8AeD52aCCc382b4e165586E29" // Frax USD
 export const GHO = "0x40D16FC0246aD3160Ccc09B8D0D3A2cD28aE6C2f"
 export const GIV = "0xf6537FE0df7F0Cc0985Cf00792CC98249E73EFa0"
 export const GNO = "0x6810e776880C02933D47DB1b9fc05908e5386b96"
@@ -54,6 +56,7 @@ export const IDLE = "0x875773784Af8135eA0ef43b5a374AaD105c5D39e"
 export const INST = "0x6f40d4A6237C257fff2dB00FA0510DeEECd303eb"
 export const KERNEL = "0x3f80B1c54Ae920Be41a77f8B902259D48cf24cCf"
 export const KING = "0x8F08B70456eb22f6109F57b8fafE862ED28E6040"
+export const LBTC = "0x8236a87084f8B84306f72007F36F2618A5634494" // Lombard BTC
 export const LDO = "0x5A98FcBEA516Cf06857215779Fd812CA3beF1B32"
 export const LINK = "0x514910771AF9Ca656af840dff83E8264EcF986CA"
 export const liquidETH = "0xf0bb20865277aBd641a307eCe5Ee04E79073416C"
@@ -70,6 +73,7 @@ export const OGN = "0x8207c1FfC5B6804F6024322CcF34F29c3541Ae26"
 export const OLAS = "0x0001A500A6B18995B03f44bb040A5fFc28E45CB0"
 export const ONDO = "0xfAbA6f8e4a5E8Ab82F62fe7C39859FA577269BE3"
 export const osETH = "0xf1C9acDc66974dFB6dEcB12aA385b9cD01190E38"
+export const PAXG = "0x45804880De22913dAFE09f4980848ECE6EcbAf78" // Paxos Gold
 export const PENDLE = "0x808507121B80c02388fAd14726482e061B8da827"
 export const PNK = "0x93ED3FBe21207Ec2E8f2d3c3de6e058Cb73Bc04d"
 export const POL = "0x455e53CBB86018Ac2B8092FdCd39d8444aFFC3F6"
@@ -363,6 +367,8 @@ export const morpho = {
   oracleWbtcUsdt: "0x008bF4B1cDA0cc9f0e882E0697f036667652E1ef",
   oracleSusdsUsdt: "0x0C426d174FC88B7A25d59945Ab2F7274Bf7B4C79",
   oraclesyrupUsdcUsdc: "0x80032f4cb6E3573b9ed61E888AF658E48Fb790cC",
+  oraclesyrupUsdcUsdc2: "0x4F570BcEaC722f277c5BAAA374D4D69AC095Cd46", // second syrupUSDC/USDC 91.5% market
+  oracleCbBtcUsdt: "0x9F983115741D0F7F2EAE07831415057AD3de34d2",
   oraclePTSusde27Nov2025Usdc: "0x639c6f403822E1bDA434BEb2034Beb54f725BA0c",
   oraclePTUsde27Nov2025Usdc: "0x0beC5A0f7Bea1D14efC2663054D6D1E2B764b630",
   oraclePTUsde25Sep2025Usdc: "0xe6aBD3B78Abbb1cc1Ee76c5c3689Aa9646481Fbb",
@@ -374,9 +380,31 @@ export const morpho = {
   adaptativeCurveIrm: "0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC",
 } as const
 
+// Aave v4 - every mainnet Spoke that lists reserves, read on 9 Oct 2026 from the four Hubs
+// (getSpokeAddress for every asset). Each Spoke is its own proxy, but all of them expose the
+// same user functions (supply / withdraw / borrow / repay / setUsingAsCollateral /
+// updateUserRiskPremium / updateUserDynamicConfig), checked against each implementation's
+// bytecode.
+export const aaveV4Spokes = {
+  main: "0x94e7A5dCbE816e498b89aB752661904E2F56c485",
+  bluechip: "0x973a023A77420ba610f06b3858aD991Df6d85A08",
+  gold: "0x65407b940966954b23dfA3caA5C0702bB42984DC",
+  forex: "0xD8B93635b8C6d0fF98CbE90b5988E3F2d1Cd9da1",
+  ethenaEcosystem: "0xba1B3D55D249692b669A164024A838309B7508AF",
+  ethenaCorrelated: "0x58131E79531caB1d52301228d1f7b842F26B9649",
+  mapleSyrupUsdg: "0x774b9655413c34809c1f1b16b654465A89EBE989",
+  usdgPendle: "0x956d8e0A89cfa3744428C4641b5a53B56167a7f9",
+  paxgGold: "0xAD75cE6354f87F3135cE10621d385d8D1e2562C2",
+  lombard: "0x7EC68b5695e803e98a21a9A05d744F28b0a7753D",
+  kelp: "0x3131FE68C4722e726fe6B2819ED68e514395B9a4", // rsETH / WETH
+  etherFi: "0xbF10BDfE177dE0336aFD7fcCF80A904E15386219", // weETH / WETH
+  lido: "0xe1900480ac69f0B296841Cd01cC37546d92F35Cd", // wstETH / WETH
+} as const
+
 export const maple = {
   syrupUsdtRouter: "0xF007476Bb27430795138C511F18F821e8D1e5Ee2", // SyrupRouter (syrupUSDT)
   syrupUsdgRouter: "0x191ac16255f49F7C6cB2e3b2502064A805943849", // SyrupRouter (syrupUSDG)
+  syrupUsdcRouter: "0x134cCaaA4F1e4552eC8aEcb9E4A2360dDcF8df76", // SyrupRouter (syrupUSDC)
 } as const
 
 export const nexus = {
