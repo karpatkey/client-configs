@@ -48,6 +48,15 @@ const morphoMarkets = {
     irm: morpho.adaptativeCurveIrm,
     lltv: "915000000000000000",
   },
+  // 0x7ddde63e40deefdd5940120f58f88be7a4d11e709335a2024e3b616afbdf7120 - NOT whitelisted: its
+  // oracle samples 1 wei of syrupUSDC, so it prices syrupUSDC at exactly 1.00 instead of ~1.19
+  syrupUsdcUsdcParOracle: {
+    loanToken: USDC,
+    collateralToken: syrupUSDC,
+    oracle: "0x4F570BcEaC722f277c5BAAA374D4D69AC095Cd46",
+    irm: morpho.adaptativeCurveIrm,
+    lltv: "915000000000000000",
+  },
   // 0xa4774e3e693fff2ebd1dcbbd69b1b0a5b9bb0ccc753bfda5dd07bdac97c4818a
   syrupUsdtUsdt: {
     loanToken: USDT,
@@ -605,6 +614,26 @@ describe("wbtc-carry-fund mainnet MANAGER", () => {
           .attach(syrupUSDC)
           .requestRedeem(1n, avatar.address)
       ).toBeAllowed()
+    })
+
+    it("forbids the second syrupUSDC/USDC market (oracle pinned at 1.00)", async () => {
+      await expect(
+        kit.asMember.morpho.morphoBlue.supplyCollateral(
+          morphoMarkets.syrupUsdcUsdcParOracle,
+          1n,
+          avatar.address,
+          "0x"
+        )
+      ).toBeForbidden()
+      await expect(
+        kit.asMember.morpho.morphoBlue.borrow(
+          morphoMarkets.syrupUsdcUsdcParOracle,
+          1n,
+          0n,
+          avatar.address,
+          avatar.address
+        )
+      ).toBeForbidden()
     })
   })
 })
