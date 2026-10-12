@@ -5,10 +5,10 @@ import kit from "@/test/kit"
 import { Status } from "@/test/types"
 import { contracts } from "@/contracts"
 import {
-  aaveV4Spokes,
   cbBTC,
   cirBTC,
   cowSwap,
+  frxUSD,
   GHO,
   maple,
   morpho,
@@ -19,7 +19,6 @@ import {
   USDG,
   USDT,
   WBTC,
-  WETH,
 } from "@/addresses/eth"
 import { aaveV4BluechipReserve, aaveV4MapleReserve } from "../../addresses"
 import { parameters } from "../../instances/main_prod"
@@ -122,13 +121,10 @@ describe("wbtc-carry-fund mainnet MANAGER", () => {
       ).toBeForbidden(Status.ParameterNotAllowed)
     })
 
-    it("supplies any Bluechip reserve (3 = wstETH) for the avatar, not for a third party", async () => {
+    it("forbids supplying an unpinned Bluechip reserve (3 = wstETH)", async () => {
       await expect(
         kit.asMember.aaveV4.bluechipSpoke.supply(3, 1n, avatar.address)
-      ).toBeAllowed()
-      await expect(
-        kit.asMember.aaveV4.bluechipSpoke.supply(3, 1n, stranger)
-      ).toBeForbidden(Status.ParameterNotAllowed)
+      ).toBeForbidden()
     })
 
     it("approves WBTC and cbBTC to the shares contract, including a reset to 0", async () => {
@@ -273,13 +269,20 @@ describe("wbtc-carry-fund mainnet MANAGER", () => {
       }
     })
 
-    it("borrows the Maple Spoke USDC reserve (2) for the avatar only", async () => {
+    it("forbids the Maple Spoke USDC reserve (2) and borrowing syrupUSDG (1)", async () => {
       await expect(
         kit.asMember.aaveV4.mapleSpoke.borrow(2, 1n, avatar.address)
-      ).toBeAllowed()
+      ).toBeForbidden()
       await expect(
-        kit.asMember.aaveV4.mapleSpoke.borrow(2, 1n, stranger)
-      ).toBeForbidden(Status.ParameterNotAllowed)
+        kit.asMember.aaveV4.mapleSpoke.supply(2, 1n, avatar.address)
+      ).toBeForbidden()
+      await expect(
+        kit.asMember.aaveV4.mapleSpoke.borrow(
+          aaveV4MapleReserve.syrupUsdg,
+          1n,
+          avatar.address
+        )
+      ).toBeForbidden()
     })
   })
 
@@ -400,65 +403,101 @@ describe("wbtc-carry-fund mainnet MANAGER", () => {
     })
   })
 
-  describe("D - Aave v4: any reserve on every Spoke, for the avatar only", () => {
-    const spoke = (address: string) =>
-      kit.asMember.aaveV4.bluechipSpoke.attach(address)
+  describe("D - Aave v4: pinned reserves on the Bluechip and Maple Spokes only", () => {
+    const bluechipSpoke = contracts.mainnet.aaveV4.bluechipSpoke
+    const mapleSpoke = contracts.mainnet.aaveV4.mapleSpoke
+    // Aave v4 Main Spoke, not scoped: stands in for every other Spoke
+    const mainSpoke = "0x94e7A5dCbE816e498b89aB752661904E2F56c485"
+    const bluechip = () => kit.asMember.aaveV4.bluechipSpoke
 
-    it("supplies, withdraws, borrows, repays and sets collateral on every Spoke", async () => {
-      for (const address of Object.values(aaveV4Spokes)) {
-        await expect(spoke(address).supply(0, 1n, avatar.address)).toBeAllowed()
-        await expect(
-          spoke(address).withdraw(0, 1n, avatar.address)
-        ).toBeAllowed()
-        await expect(spoke(address).borrow(0, 1n, avatar.address)).toBeAllowed()
-        await expect(spoke(address).repay(0, 1n, avatar.address)).toBeAllowed()
-        await expect(
-          spoke(address).setUsingAsCollateral(0, true, avatar.address)
-        ).toBeAllowed()
+    it("borrows and repays USDC Prime (4), USDC Core (7) and frxUSD Core (8) on Bluechip", async () => {
+      await expect(
+        erc20().attach(USDC).approve(bluechipSpoke, parseUnits("1", 6))
+      ).toBeAllowed()
+      await expect(
+        erc20().attach(frxUSD).approve(bluechipSpoke, parseUnits("1", 18))
+      ).toBeAllowed()
+      for (const r of [
+        aaveV4BluechipReserve.usdcPrime,
+        aaveV4BluechipReserve.usdcCore,
+        aaveV4BluechipReserve.frxusdCore,
+      ]) {
+        await expect(bluechip().borrow(r, 1n, avatar.address)).toBeAllowed()
+        await expect(bluechip().repay(r, 1n, avatar.address)).toBeAllowed()
       }
     })
 
-    it("refreshes the avatar's own risk premium and dynamic config", async () => {
-      await expect(
-        spoke(aaveV4Spokes.main).updateUserRiskPremium(avatar.address)
-      ).toBeAllowed()
-      await expect(
-        spoke(aaveV4Spokes.main).updateUserDynamicConfig(avatar.address)
-      ).toBeAllowed()
-      await expect(
-        spoke(aaveV4Spokes.main).updateUserRiskPremium(stranger)
-      ).toBeForbidden(Status.ParameterNotAllowed)
+    it("forbids borrowing BTC and any unpinned Bluechip reserve", async () => {
+      for (const r of [
+        aaveV4BluechipReserve.wbtcPrime,
+        aaveV4BluechipReserve.cbbtcPrime,
+        3, // wstETH
+        10, // USDT Core
+      ]) {
+        await expect(bluechip().borrow(r, 1n, avatar.address)).toBeForbidden()
+      }
     })
 
-    it("forbids acting for a third party on any Spoke", async () => {
+    it("forbids supplying a stablecoin or enabling it as collateral", async () => {
       await expect(
-        spoke(aaveV4Spokes.main).borrow(7, 1n, stranger)
-      ).toBeForbidden(Status.ParameterNotAllowed)
+        bluechip().supply(aaveV4BluechipReserve.usdcCore, 1n, avatar.address)
+      ).toBeForbidden()
       await expect(
-        spoke(aaveV4Spokes.kelp).supply(1, 1n, stranger)
-      ).toBeForbidden(Status.ParameterNotAllowed)
+        bluechip().setUsingAsCollateral(
+          aaveV4BluechipReserve.usdgCore,
+          true,
+          avatar.address
+        )
+      ).toBeForbidden()
+    })
+
+    it("forbids acting for a third party", async () => {
+      await expect(
+        bluechip().borrow(aaveV4BluechipReserve.usdcCore, 1n, stranger)
+      ).toBeForbidden()
+      await expect(
+        bluechip().repay(aaveV4BluechipReserve.frxusdCore, 1n, stranger)
+      ).toBeForbidden()
+    })
+
+    it("refreshes the avatar's own risk premium and dynamic config on both Spokes", async () => {
+      for (const spoke of [bluechip(), kit.asMember.aaveV4.mapleSpoke]) {
+        await expect(spoke.updateUserRiskPremium(avatar.address)).toBeAllowed()
+        await expect(
+          spoke.updateUserDynamicConfig(avatar.address)
+        ).toBeAllowed()
+        await expect(spoke.updateUserRiskPremium(stranger)).toBeForbidden(
+          Status.ParameterNotAllowed
+        )
+      }
+    })
+
+    it("forbids every other Spoke", async () => {
+      const other = bluechip().attach(mainSpoke)
+      await expect(other.supply(0, 1n, avatar.address)).toBeForbidden()
+      await expect(other.borrow(7, 1n, avatar.address)).toBeForbidden()
+      await expect(
+        erc20().attach(USDG).approve(mainSpoke, parseUnits("1", 6))
+      ).toBeForbidden()
     })
 
     it("forbids position managers and multicall", async () => {
       await expect(
-        spoke(aaveV4Spokes.main).setUserPositionManager(stranger, true)
+        bluechip().setUserPositionManager(stranger, true)
       ).toBeForbidden()
       await expect(
-        spoke(aaveV4Spokes.main).renouncePositionManagerRole(avatar.address)
+        bluechip().renouncePositionManagerRole(avatar.address)
       ).toBeForbidden()
-      await expect(spoke(aaveV4Spokes.main).multicall([])).toBeForbidden()
+      await expect(bluechip().multicall([])).toBeForbidden()
     })
 
-    it("approves Aave v4 tokens to the Spokes only", async () => {
+    it("approves only the pinned tokens to each Spoke", async () => {
       await expect(
-        erc20().attach(USDG).approve(aaveV4Spokes.main, parseUnits("1", 6))
-      ).toBeAllowed()
+        erc20().attach(cirBTC).approve(bluechipSpoke, parseUnits("1", 8))
+      ).toBeForbidden()
       await expect(
-        erc20().attach(cirBTC).approve(aaveV4Spokes.main, parseUnits("1", 8))
-      ).toBeAllowed()
-      await expect(
-        erc20().attach(WETH).approve(aaveV4Spokes.lido, parseUnits("1", 18))
-      ).toBeAllowed()
+        erc20().attach(USDC).approve(mapleSpoke, parseUnits("1", 6))
+      ).toBeForbidden()
       await expect(
         erc20().attach(USDG).approve(stranger, parseUnits("1", 6))
       ).toBeForbidden()

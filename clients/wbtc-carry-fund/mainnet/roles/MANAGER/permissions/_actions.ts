@@ -29,13 +29,6 @@ export default [
     targets: ["cbBTC", "syrupUSDT", "USDC", "USDG", "USDT", "WBTC"],
   }),
 
-  // Compound v3 - lowest-priority backup borrow venue
-  allowAction.compound_v3.borrow({ targets: ["USDC", "USDT"] }),
-  allowAction.compound_v3.deposit({
-    targets: ["cUSDCv3", "cUSDTv3"],
-    tokens: ["cbBTC", "WBTC"],
-  }),
-
   // CowSwap - the BTC set: WBTC / cbBTC / cirBTC between themselves and against USDC
   // (deposit-asset conversions, and selling collateral to repay in an emergency).
   allowAction.cowswap.swap({

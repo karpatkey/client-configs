@@ -1,102 +1,55 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import {
-  AAVE,
-  aaveV4Spokes,
   cbBTC,
   cirBTC,
-  EURC,
   frxUSD,
-  GHO,
-  LBTC,
-  LINK,
   maple,
   morpho,
-  PAXG,
-  RLUSD,
-  rsETH,
-  sUSDe,
   syrupUSDC,
   syrupUSDG,
   syrupUSDT,
   USDC,
-  USDe,
   USDG,
   USDT,
   WBTC,
-  weETH,
-  WETH,
-  wstETH,
-  XAUt,
 } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
+import {
+  aaveV4BluechipReserve as reserve,
+  aaveV4MapleReserve as mapleReserve,
+} from "../../../addresses"
 import { Parameters } from "../../../parameters"
 
+const bluechipSpoke = contracts.mainnet.aaveV4.bluechipSpoke
+const mapleSpoke = contracts.mainnet.aaveV4.mapleSpoke
 const poolCoreV3 = contracts.mainnet.aaveV3.poolCoreV3
 
 // ---------------------------------------------------------------------------------------
-// Aave v4 - everything a position holder can do, on every Spoke, for the avatar only.
+// Aave v4 - two Spokes, every reserve pinned by id (addresses.ts), for the avatar only.
 //
-// Policy (Giel, 9 Oct 2026): any Aave v4 strategy should be possible without another
-// Security Council round, so the reserve id is left open on every Spoke. That also covers
-// reserves listed later (e.g. cirBTC). What stays closed: acting for anyone but the avatar
-// (onBehalfOf pinned), position managers (setUserPositionManager, the WithSig variant,
-// renouncePositionManagerRole), multicall, permitReserve, liquidationCall and every admin
-// function. All Spokes share these user functions; checked against each implementation's
-// bytecode on 9 Oct 2026. The Bluechip Spoke ABI is used with each Spoke as target.
-// Aave v4 is not in defi-kit, hence hand-scoped here.
+// BTC is collateral only: no BTC reserve can be borrowed, and no stablecoin reserve can be
+// supplied. A reserve listed later is not reachable. What stays closed: acting for anyone
+// but the avatar (onBehalfOf pinned), every other Spoke, position managers
+// (setUserPositionManager, the WithSig variant, renouncePositionManagerRole), multicall,
+// permitReserve, liquidationCall and every admin function. Aave v4 is not in defi-kit, hence
+// hand-scoped here.
 // ---------------------------------------------------------------------------------------
 
-const spokes = Object.values(aaveV4Spokes)
-const spokeAbi = allow.mainnet.aaveV4.bluechipSpoke
-
-const onEverySpoke = (permission: { targetAddress: string }) =>
-  spokes.map((spoke) => ({ ...permission, targetAddress: spoke }))
-
-// Every underlying listed on a mainnet Spoke on 9 Oct 2026 (expired PTs left out), plus
-// cirBTC, whose Aave listing is expected. A Spoke pulls the asset on supply and repay, hence
-// the approvals. Approving a Spoke that does not list a token is harmless.
-const aaveV4Tokens = [
-  AAVE,
-  cbBTC,
-  cirBTC,
-  EURC,
-  frxUSD,
-  GHO,
-  LBTC,
-  LINK,
-  PAXG,
-  RLUSD,
-  rsETH,
-  sUSDe,
-  syrupUSDG,
-  USDC,
-  USDe,
-  USDG,
-  USDT,
-  WBTC,
-  weETH,
-  WETH,
-  wstETH,
-  XAUt,
-] as const
-
-const aaveV4 = [
-  allowErc20Approve(aaveV4Tokens, spokes),
-  ...onEverySpoke(spokeAbi.borrow(undefined, undefined, c.avatar)),
-  ...onEverySpoke(spokeAbi.repay(undefined, undefined, c.avatar)),
-  // `supply` does not enable a reserve as collateral, it has to be set explicitly
-  ...onEverySpoke(
-    spokeAbi.setUsingAsCollateral(undefined, undefined, c.avatar)
-  ),
-  ...onEverySpoke(spokeAbi.supply(undefined, undefined, c.avatar)),
-  // Refresh the avatar's own dynamic config / risk premium after collateral changes
-  ...onEverySpoke(spokeAbi.updateUserDynamicConfig(c.avatar)),
-  ...onEverySpoke(spokeAbi.updateUserRiskPremium(c.avatar)),
-  ...onEverySpoke(spokeAbi.withdraw(undefined, undefined, c.avatar)),
-]
+// Bluechip Spoke - WBTC (1) and cbBTC (2), Prime Hub
+const bluechipCollateral = c.or(reserve.wbtcPrime, reserve.cbbtcPrime)
+// Bluechip Spoke - the stablecoin credit lines: USDC Prime (4), USDC Core (7), frxUSD Core (8)
+// and USDG Core (11)
+const bluechipDebt = c.or(
+  reserve.usdcPrime,
+  reserve.usdcCore,
+  reserve.frxusdCore,
+  reserve.usdgCore
+)
+// Maple Spoke - USDG on the Global Dollar Hub (0) and the Core Hub (3)
+const mapleDebt = c.or(mapleReserve.usdgGlobalDollar, mapleReserve.usdgCore)
 
 // Maple - one syrup pool and its SyrupRouter. The pools are permissioned at function level by
 // the PoolPermissionManager (0xBe10aDcE8B6E3E02Db384E7FaDA5395DD113D8b3): `deposit` needs
@@ -145,8 +98,63 @@ export default (parameters: Parameters) =>
     allow.mainnet.aaveV3.poolCoreV3.supply(cirBTC, undefined, c.avatar),
     allow.mainnet.aaveV3.poolCoreV3.withdraw(cirBTC, undefined, c.avatar),
 
-    // Aave v4 - every Spoke, see above
-    ...aaveV4,
+    // Aave v4 Bluechip Spoke - The Spoke pulls the asset on supply (cbBTC, WBTC) and on repay
+    // (frxUSD, USDC, USDG), hence the approvals.
+    allowErc20Approve([cbBTC, frxUSD, USDC, USDG, WBTC], [bluechipSpoke]),
+
+    // Aave v4 Bluechip Spoke - WBTC and cbBTC as collateral only. `supply` does not enable a
+    // reserve as collateral, it has to be set explicitly.
+    allow.mainnet.aaveV4.bluechipSpoke.setUsingAsCollateral(
+      bluechipCollateral,
+      undefined,
+      c.avatar
+    ),
+    allow.mainnet.aaveV4.bluechipSpoke.supply(
+      bluechipCollateral,
+      undefined,
+      c.avatar
+    ),
+    allow.mainnet.aaveV4.bluechipSpoke.withdraw(
+      bluechipCollateral,
+      undefined,
+      c.avatar
+    ),
+
+    // Aave v4 Bluechip Spoke - Borrow / repay the stablecoin credit lines only
+    allow.mainnet.aaveV4.bluechipSpoke.borrow(
+      bluechipDebt,
+      undefined,
+      c.avatar
+    ),
+    allow.mainnet.aaveV4.bluechipSpoke.repay(bluechipDebt, undefined, c.avatar),
+
+    // Aave v4 Maple Spoke - the syrupUSDG loop: syrupUSDG (reserve 1) as collateral, USDG
+    // borrowed on the Global Dollar and Core Hub lines
+    allowErc20Approve([syrupUSDG, USDG], [mapleSpoke]),
+    allow.mainnet.aaveV4.mapleSpoke.setUsingAsCollateral(
+      mapleReserve.syrupUsdg,
+      undefined,
+      c.avatar
+    ),
+    allow.mainnet.aaveV4.mapleSpoke.supply(
+      mapleReserve.syrupUsdg,
+      undefined,
+      c.avatar
+    ),
+    allow.mainnet.aaveV4.mapleSpoke.withdraw(
+      mapleReserve.syrupUsdg,
+      undefined,
+      c.avatar
+    ),
+    allow.mainnet.aaveV4.mapleSpoke.borrow(mapleDebt, undefined, c.avatar),
+    allow.mainnet.aaveV4.mapleSpoke.repay(mapleDebt, undefined, c.avatar),
+
+    // Aave v4 - Refresh the avatar's own dynamic config / risk premium after collateral
+    // changes, on both Spokes
+    allow.mainnet.aaveV4.bluechipSpoke.updateUserDynamicConfig(c.avatar),
+    allow.mainnet.aaveV4.bluechipSpoke.updateUserRiskPremium(c.avatar),
+    allow.mainnet.aaveV4.mapleSpoke.updateUserDynamicConfig(c.avatar),
+    allow.mainnet.aaveV4.mapleSpoke.updateUserRiskPremium(c.avatar),
 
     // Maple - syrupUSDC (USDC router, whose pool() is syrupUSDC, checked onchain 9 Oct 2026)
     ...maplePool(USDC, maple.syrupUsdcRouter, syrupUSDC),
