@@ -65,12 +65,6 @@ export default [
       "0x729badf297ee9f2f6b3f717b96fd355fc6ec00422284ce1968e76647b258cf44",
     ],
   }),
-  // Morpho Market - Borrow USDC/syrupUSDC (91.5%, second oracle) - syrupUSDC loop - id: 0x7ddde63e40deefdd5940120f58f88be7a4d11e709335a2024e3b616afbdf7120
-  allowAction.morphoMarkets.borrow({
-    targets: [
-      "0x7ddde63e40deefdd5940120f58f88be7a4d11e709335a2024e3b616afbdf7120",
-    ],
-  }),
   // Morpho Market - Borrow USDC/WBTC (86%) - backup borrow venue for the BTC leg - id: 0x3a85e619751152991742810df6ec69ce473daef99e28a64ab2340d7b7ccfee49
   allowAction.morphoMarkets.borrow({
     targets: [
