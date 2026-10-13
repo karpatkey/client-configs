@@ -24,6 +24,7 @@ import {
 import { Parameters } from "../../../parameters"
 
 const bluechipSpoke = contracts.mainnet.aaveV4.bluechipSpoke
+const curveUsdgUsdcPool = contracts.mainnet.curve.usdgUsdcPool
 const mapleSpoke = contracts.mainnet.aaveV4.mapleSpoke
 const poolCoreV3 = contracts.mainnet.aaveV3.poolCoreV3
 
@@ -155,6 +156,21 @@ export default (parameters: Parameters) =>
     allow.mainnet.aaveV4.bluechipSpoke.updateUserRiskPremium(c.avatar),
     allow.mainnet.aaveV4.mapleSpoke.updateUserDynamicConfig(c.avatar),
     allow.mainnet.aaveV4.mapleSpoke.updateUserRiskPremium(c.avatar),
+
+    // Curve - USDG/USDC StableSwap-NG pool (coins(0) USDG, coins(1) USDC): atomic swap both
+    // ways, for a same-transaction repay of the USDG debt. Also needed here because every call
+    // of the Sub roles (HF_KEEPER, EXIT, CARRY_TRADE_MANAGER) passes this role too. The
+    // 4-argument `exchange` pays msg.sender (the avatar); the 5-argument variant with a receiver
+    // stays closed. Roles cannot bound `min_dy`, the caller sets it.
+    allowErc20Approve([USDC, USDG], [curveUsdgUsdcPool]),
+    allow.mainnet.curve.usdgUsdcPool["exchange(int128,int128,uint256,uint256)"](
+      0,
+      1
+    ),
+    allow.mainnet.curve.usdgUsdcPool["exchange(int128,int128,uint256,uint256)"](
+      1,
+      0
+    ),
 
     // Maple - syrupUSDC (USDC router, whose pool() is syrupUSDC, checked onchain 9 Oct 2026)
     ...maplePool(USDC, maple.syrupUsdcRouter, syrupUSDC),
