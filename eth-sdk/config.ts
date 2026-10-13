@@ -103,6 +103,8 @@ export const contracts = {
       rlUsdUsdcPool: "0xD001aE433f254283FeCE51d4ACcE8c53263aa186",
       rlUsdUsdcGauge: "0xFc3212Bd9Ad9A28Da6B2bd50a2918969C126894F",
       ethPlusEthPool: "0x2c683fAd51da2cd17793219CC86439C1875c353e",
+      // USDG/USDC CurveStableSwapNG pool: coins(0) USDG, coins(1) USDC
+      usdgUsdcPool: "0xc061caa073f3d95F80f8e5428d32D2d76F5e1622",
     },
     enzyme: {
       depositWrapper2: "0x65BbAD6545B7ac9C30Fb0f07e64e25106Bf05eEc",
