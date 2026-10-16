@@ -23,7 +23,7 @@ describe("wbtc-carry-fund mainnet SETTLER", () => {
   })
 
   describe("Aave v3 Core: WBTC collateral for subscriptions and redemptions", () => {
-    it("approves WBTC to the Pool, and to no one else", async () => {
+    it("approves WBTC to the Pool, not to a stranger", async () => {
       await expect(
         erc20().attach(WBTC).approve(poolCoreV3, parseUnits("1", 8))
       ).toBeAllowed()
@@ -47,9 +47,14 @@ describe("wbtc-carry-fund mainnet SETTLER", () => {
       )
     })
 
-    it("enables WBTC as collateral", async () => {
+    // The defi-kit deposit action leaves the flag unpinned (as on the XAUt SETTLER), so the role
+    // can also turn WBTC off as collateral. Aave refuses that if it would push the HF below 1.
+    it("toggles WBTC as collateral either way, and no other reserve", async () => {
       await expect(
         pool().setUserUseReserveAsCollateral(WBTC, true)
+      ).toBeAllowed()
+      await expect(
+        pool().setUserUseReserveAsCollateral(WBTC, false)
       ).toBeAllowed()
       await expect(
         pool().setUserUseReserveAsCollateral(USDC, true)

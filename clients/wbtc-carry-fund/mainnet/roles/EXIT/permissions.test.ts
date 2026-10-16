@@ -23,7 +23,7 @@ describe("wbtc-carry-fund mainnet EXIT", () => {
   })
 
   describe("Aave v3 Core: loan_position_exit unwind", () => {
-    it("approves USDC to the Pool, and to no one else", async () => {
+    it("approves USDC to the Pool, not to a stranger", async () => {
       await expect(
         erc20().attach(USDC).approve(poolCoreV3, parseUnits("1", 6))
       ).toBeAllowed()

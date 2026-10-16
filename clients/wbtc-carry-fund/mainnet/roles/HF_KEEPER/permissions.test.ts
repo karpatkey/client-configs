@@ -23,7 +23,7 @@ describe("wbtc-carry-fund mainnet HF_KEEPER", () => {
   })
 
   describe("Aave v3 Core: USDC debt leg of aave_v3_health_factor_manager", () => {
-    it("approves USDC to the Pool, and to no one else", async () => {
+    it("approves USDC to the Pool, not to a stranger", async () => {
       await expect(
         erc20().attach(USDC).approve(poolCoreV3, parseUnits("1", 6))
       ).toBeAllowed()
