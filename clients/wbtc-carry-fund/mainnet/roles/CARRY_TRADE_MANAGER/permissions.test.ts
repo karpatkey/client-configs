@@ -14,10 +14,12 @@ import allowedActions from "./permissions/_actions"
 const stranger = "0x000000000000000000000000000000000000dEaD"
 
 const bluechipSpoke = contracts.mainnet.aaveV4.bluechipSpoke
+const poolCoreV3 = contracts.mainnet.aaveV3.poolCoreV3
 const curvePool = contracts.mainnet.curve.usdgUsdcPool
 
 const erc20 = () => kit.asMember.weth
 const bluechip = () => kit.asMember.aaveV4.bluechipSpoke
+const pool = () => kit.asMember.aaveV3.poolCoreV3
 const curve = () => kit.asMember.curve.usdgUsdcPool
 const vault = (address: string) => kit.asMember.morpho.vault.attach(address)
 
@@ -249,6 +251,62 @@ describe("wbtc-carry-fund mainnet CARRY_TRADE_MANAGER", () => {
       await expect(cowOrder(USDG, WBTC)).toBeForbidden()
       await expect(cowOrder(WBTC, USDC)).toBeForbidden()
       await expect(cowOrder(USDC, USDT)).toBeForbidden()
+    })
+  })
+
+  describe("F - Aave v3 Core (venue_kind: aave_v3): WBTC collateral, USDC debt", () => {
+    it("approves WBTC and USDC to the Pool, and to no one else", async () => {
+      await expect(
+        erc20().attach(WBTC).approve(poolCoreV3, parseUnits("1", 8))
+      ).toBeAllowed()
+      await expect(
+        erc20().attach(USDC).approve(poolCoreV3, parseUnits("1", 6))
+      ).toBeAllowed()
+      await expect(
+        erc20().attach(WBTC).approve(stranger, parseUnits("1", 8))
+      ).toBeForbidden()
+    })
+
+    it("supplies, enables as collateral and withdraws WBTC for the avatar", async () => {
+      await expect(pool().supply(WBTC, 1n, avatar.address, 0)).toBeAllowed()
+      await expect(
+        pool().setUserUseReserveAsCollateral(WBTC, true)
+      ).toBeAllowed()
+      await expect(pool().withdraw(WBTC, 1n, avatar.address)).toBeAllowed()
+    })
+
+    it("forbids disabling WBTC as collateral, cbBTC and acting for a third party", async () => {
+      await expect(
+        pool().setUserUseReserveAsCollateral(WBTC, false)
+      ).toBeForbidden(Status.ParameterNotAllowed)
+      await expect(pool().supply(cbBTC, 1n, avatar.address, 0)).toBeForbidden()
+      await expect(pool().supply(WBTC, 1n, stranger, 0)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+      await expect(pool().withdraw(WBTC, 1n, stranger)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+    })
+
+    it("borrows and repays USDC for the avatar", async () => {
+      await expect(pool().borrow(USDC, 1n, 2, 0, avatar.address)).toBeAllowed()
+      await expect(pool().repay(USDC, 1n, 2, avatar.address)).toBeAllowed()
+    })
+
+    it("forbids other debt assets, supplying a stablecoin and borrowing or repaying for a third party", async () => {
+      await expect(
+        pool().borrow(USDT, 1n, 2, 0, avatar.address)
+      ).toBeForbidden()
+      await expect(
+        pool().borrow(USDG, 1n, 2, 0, avatar.address)
+      ).toBeForbidden()
+      await expect(pool().supply(USDC, 1n, avatar.address, 0)).toBeForbidden()
+      await expect(pool().borrow(USDC, 1n, 2, 0, stranger)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+      await expect(pool().repay(USDC, 1n, 2, stranger)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
     })
   })
 })

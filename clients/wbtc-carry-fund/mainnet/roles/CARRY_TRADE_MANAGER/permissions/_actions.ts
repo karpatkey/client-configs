@@ -2,6 +2,10 @@ import { allow as allowAction } from "defi-kit/eth"
 import { morpho, USDC, USDG } from "@/addresses/eth"
 
 export default [
+  // Aave v3 Core Market (venue_kind: aave_v3) - Borrow/repay USDC for the avatar (onBehalfOf
+  // pinned): the debt leg when the fund runs on Aave v3 Core instead of the v4 Core Hub lines
+  allowAction.aave_v3.borrow({ market: "Core", targets: ["USDC"] }),
+
   // CowSwap - USDG <-> USDC both ways (sell and buy orders): USDG borrowed on the Aave v4 Core
   // Hub line is sold for USDC before it goes into the vaults, and USDC is swapped back to USDG
   // to repay. Same scope as HF_KEEPER.
