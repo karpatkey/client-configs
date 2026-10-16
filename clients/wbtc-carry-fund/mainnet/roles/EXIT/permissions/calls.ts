@@ -1,6 +1,6 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { morpho, syrupUSDG, USDC, USDG } from "@/addresses/eth"
+import { morpho, syrupUSDG, USDC, USDG, WBTC } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
@@ -12,9 +12,18 @@ import { Parameters } from "../../../parameters"
 
 const bluechipSpoke = contracts.mainnet.aaveV4.bluechipSpoke
 const mapleSpoke = contracts.mainnet.aaveV4.mapleSpoke
+const poolCoreV3 = contracts.mainnet.aaveV3.poolCoreV3
 
 export default (parameters: Parameters) =>
   [
+    // Aave v3 Core Market - Repay USDC debt for the avatar (onBehalfOf pinned). The Pool pulls
+    // the asset from the caller, hence the approval.
+    allowErc20Approve([USDC], [poolCoreV3]),
+    allow.mainnet.aaveV3.poolCoreV3.repay(USDC, undefined, undefined, c.avatar),
+
+    // Aave v3 Core Market - Withdraw WBTC collateral to the avatar Safe
+    allow.mainnet.aaveV3.poolCoreV3.withdraw(WBTC, undefined, c.avatar),
+
     // Aave v4 Bluechip Spoke - Repay USDC debt on both credit lines. The Spoke pulls
     // the asset from the caller, hence the approval.
     allowErc20Approve([USDC], [bluechipSpoke]),
