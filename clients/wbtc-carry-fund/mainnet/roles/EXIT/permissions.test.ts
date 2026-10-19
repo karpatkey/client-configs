@@ -45,7 +45,14 @@ describe("wbtc-carry-fund mainnet EXIT", () => {
       await expect(pool().withdraw(WBTC, 1n, stranger)).toBeForbidden(
         Status.ParameterNotAllowed
       )
-      await expect(pool().withdraw(cbBTC, 1n, avatar.address)).toBeForbidden()
+      await expect(pool().withdraw(USDT, 1n, avatar.address)).toBeForbidden()
+    })
+
+    it("withdraws cbBTC to the avatar only", async () => {
+      await expect(pool().withdraw(cbBTC, 1n, avatar.address)).toBeAllowed()
+      await expect(pool().withdraw(cbBTC, 1n, stranger)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
     })
 
     it("never borrows or supplies", async () => {
@@ -53,6 +60,9 @@ describe("wbtc-carry-fund mainnet EXIT", () => {
         Status.FunctionNotAllowed
       )
       await expect(pool().supply(WBTC, 1n, avatar.address, 0)).toBeForbidden(
+        Status.FunctionNotAllowed
+      )
+      await expect(pool().supply(cbBTC, 1n, avatar.address, 0)).toBeForbidden(
         Status.FunctionNotAllowed
       )
     })
