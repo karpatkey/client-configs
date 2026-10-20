@@ -45,4 +45,7 @@ export default [
   allowAction.spark.deposit({ targets: ["USDC.e"] }),
   // Spark - DSR_sDAI
   allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
+
+  // Uniswap v3 / Oku Trade - COW + WETH
+  allowAction.uniswap_v3.deposit({ tokens: [COW, WETH] }),
 ]

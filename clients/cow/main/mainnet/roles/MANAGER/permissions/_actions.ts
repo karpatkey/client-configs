@@ -5,6 +5,7 @@ import {
   DAI,
   eETH,
   EURC,
+  GEAR,
   GHO,
   MORPHO,
   osETH,
@@ -113,11 +114,11 @@ export default (parameters: Parameters) => [
     buy: ["ETH", eETH, osETH, rETH, stETH, weETH, WETH, wstETH],
   }),
 
-  // CowSwap - [AAVE, COMP, ETH, MORPHO, POL, USDC, USDT, WBTC, WETH] <->
-  // [AAVE, COMP, ETH, MORPHO, POL, USDC, USDT, WBTC, WETH]
+  // CowSwap - [AAVE, COMP, ETH, GEAR, MORPHO, POL, USDC, USDT, WBTC, WETH] <->
+  // [AAVE, COMP, ETH, GEAR, MORPHO, POL, USDC, USDT, WBTC, WETH]
   allowAction.cowswap.swap({
-    sell: ["ETH", AAVE, COMP, MORPHO, POL, USDC, USDT, WBTC, WETH],
-    buy: ["ETH", AAVE, COMP, MORPHO, POL, USDC, USDT, WBTC, WETH],
+    sell: ["ETH", AAVE, COMP, GEAR, MORPHO, POL, USDC, USDT, WBTC, WETH],
+    buy: ["ETH", AAVE, COMP, GEAR, MORPHO, POL, USDC, USDT, WBTC, WETH],
   }),
 
   // Gearbox - ETH v3 - Curator: kpk
