@@ -11,11 +11,16 @@ import {
   USDT,
   balancerV3,
   morpho,
+  symbiotic,
 } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
+import { aaveV4BluechipReserve, aaveV4MainReserve } from "../../../addresses"
 import { Parameters } from "../../../parameters"
+
+const bluechipSpoke = contracts.mainnet.aaveV4.bluechipSpoke
+const mainSpoke = contracts.mainnet.aaveV4.mainSpoke
 
 export default (parameters: Parameters) =>
   [
@@ -28,6 +33,34 @@ export default (parameters: Parameters) =>
     allow.mainnet.aaveV3.sGho.deposit(undefined, c.avatar),
     allow.mainnet.aaveV3.sGho.withdraw(undefined, c.avatar, c.avatar),
     allow.mainnet.aaveV3.sGho.redeem(undefined, c.avatar, c.avatar),
+
+    // Aave v4 - USDC supply only, on two pinned reserves: Bluechip Spoke reserve 4 (Prime Hub)
+    // and Main Spoke reserve 7 (Core Hub), onBehalfOf pinned to the avatar. The Spoke pulls
+    // USDC on supply, hence the approvals; withdraw pays the caller (the avatar). What stays
+    // closed: borrow, repay, setUsingAsCollateral, every other reserve and Spoke, position
+    // managers and multicall. Aave v4 is not in defi-kit, hence hand-scoped here (same pattern
+    // as wbtc-carry-fund).
+    allowErc20Approve([USDC], [bluechipSpoke, mainSpoke]),
+    allow.mainnet.aaveV4.bluechipSpoke.supply(
+      aaveV4BluechipReserve.usdcPrime,
+      undefined,
+      c.avatar
+    ),
+    allow.mainnet.aaveV4.bluechipSpoke.withdraw(
+      aaveV4BluechipReserve.usdcPrime,
+      undefined,
+      c.avatar
+    ),
+    allow.mainnet.aaveV4.mainSpoke.supply(
+      aaveV4MainReserve.usdcCore,
+      undefined,
+      c.avatar
+    ),
+    allow.mainnet.aaveV4.mainSpoke.withdraw(
+      aaveV4MainReserve.usdcCore,
+      undefined,
+      c.avatar
+    ),
 
     // Balancer v3 - Aave Boosted USDT/GHO/USDC
     allowErc20Approve([GHO, USDC, USDT], [contracts.mainnet.uniswap.permit2]),
@@ -138,7 +171,21 @@ export default (parameters: Parameters) =>
       ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
       targetAddress: morpho.kpkUsdcYieldRWA,
     },
-    // Morpho Vault - kpk USDC Yield RWA / kpk USDC Yield v2 - Force deallocate (unlock liquidity
+    // Morpho Vault - kpk YO Ecosystem
+    allowErc20Approve([USDC], [morpho.kpkYoEcosystem]),
+    {
+      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
+      targetAddress: morpho.kpkYoEcosystem,
+    },
+    {
+      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkYoEcosystem,
+    },
+    {
+      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkYoEcosystem,
+    },
+    // Morpho Vault - kpk USDC Yield RWA / kpk USDC Yield v2 / kpk YO Ecosystem - Force deallocate (unlock liquidity
     // across the vault's underlying markets before a withdrawal) - onBehalf pinned to the avatar Safe
     {
       ...allow.mainnet.morpho.vault.forceDeallocate(
@@ -157,5 +204,30 @@ export default (parameters: Parameters) =>
         c.avatar
       ),
       targetAddress: morpho.kpkUsdcYieldV2,
+    },
+    {
+      ...allow.mainnet.morpho.vault.forceDeallocate(
+        undefined,
+        undefined,
+        undefined,
+        c.avatar
+      ),
+      targetAddress: morpho.kpkYoEcosystem,
+    },
+
+    // Symbiotic - KPK USDC LiquidLane (RWA Liquidity) - ERC-4626 vault, scoped via the generic
+    // Morpho vault ABI + a targetAddress override (same deposit / withdraw / redeem selectors)
+    allowErc20Approve([USDC], [symbiotic.kpkUsdcLiquidLane]),
+    {
+      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
+      targetAddress: symbiotic.kpkUsdcLiquidLane,
+    },
+    {
+      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+      targetAddress: symbiotic.kpkUsdcLiquidLane,
+    },
+    {
+      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: symbiotic.kpkUsdcLiquidLane,
     },
   ] satisfies PermissionList
