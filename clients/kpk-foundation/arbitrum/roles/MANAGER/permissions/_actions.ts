@@ -1,5 +1,6 @@
 import { allow as allowAction } from "defi-kit/arb1"
-import { ARB, MORPHO, USDC, morpho } from "@/addresses/arb1"
+import { ARB, EURe, MORPHO, USDC, morpho } from "@/addresses/arb1"
+import { kpkFoundationBase } from "../../../../addresses"
 import { Parameters } from "../../../parameters"
 
 export default (parameters: Parameters) => [
@@ -14,20 +15,26 @@ export default (parameters: Parameters) => [
     sender: parameters.avatar,
     recipient: parameters.avatar,
   }),
+  // Circle v2 - Bridge USDC to Base
+  allowAction.circle_v2.bridge({
+    targets: ["Base"],
+    recipient: kpkFoundationBase,
+  }),
+  // Circle v2 - Receive USDC from Base
+  allowAction.circle_v2.receive({
+    targets: ["Base"],
+    sender: kpkFoundationBase,
+    recipient: parameters.avatar,
+  }),
 
-  // CowSwap - [ARB, MORPHO] -> [USDC]
+  // CowSwap - [USDC, EURe, MORPHO, ARB] -> [USDC, EURe]
   allowAction.cowswap.swap({
-    sell: [ARB, MORPHO],
-    buy: [USDC],
+    sell: [USDC, EURe, MORPHO, ARB],
+    buy: [USDC, EURe],
   }),
 
-  // Morpho Vault - kpk USDC Yield v1.1
+  // Morpho Vault - kpk EURe Yield v2
   allowAction.morphoVaults.deposit({
-    targets: [morpho.kpkUsdcYieldV1],
-  }),
-
-  // Morpho Vault - kpk USDC Yield v2
-  allowAction.morphoVaults.deposit({
-    targets: [morpho.kpkUsdcYieldV2],
+    targets: [morpho.kpkEureYieldV2],
   }),
 ]
