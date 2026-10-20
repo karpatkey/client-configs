@@ -60,6 +60,7 @@ export const LDO = "0x5A98FcBEA516Cf06857215779Fd812CA3beF1B32"
 export const LINK = "0x514910771AF9Ca656af840dff83E8264EcF986CA"
 export const liquidETH = "0xf0bb20865277aBd641a307eCe5Ee04E79073416C"
 export const liquidUSD = "0x08c6F91e2B681FaF5e17227F2a44C307b3C1364C"
+export const LsETH = "0x8c1BEd5b9a0928467c9B1341Da1D7BD5e10b6549" // Liquid Collective Liquid Staked ETH
 export const LUSD = "0x5f98805A4E8be255a32880FDeC7F6728C6568bA0"
 export const MTA = "0xa3BeD4E1c75D00fa6f4E5E6922DB7261B5E9AcD2"
 export const MKR = "0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2"
@@ -304,6 +305,8 @@ export const kpk = {
   renaissanceFundShares: "0x8a1c05BD2bC8E6E78Afc9753aB5b377391aF43B2",
   ethAlphaFundShares: "0xED01a1Fe4e020Ca901F43E17B6203A7e0cEa818C",
   usdAlphaFundShares: "0x6D1a4C0878aD24793b1655ae1f78Cfa4522Ba765",
+  wbtcCarryFundShares: "0xf180800f239f0ea0ED2F8156581fac2984cEe389",
+  xautCarryFundShares: "0xDa35793Dc733fEFfb294938F95ff3B593170f9F8",
 } as const
 
 export const kyberswap = {

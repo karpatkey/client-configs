@@ -2,116 +2,58 @@ import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import {
   eETH,
-  GHO,
-  liquidETH,
-  rsETH,
   USDC,
   USDT,
+  WBTC,
   weETH,
   WETH,
-  aura,
-  balancerV2,
-  convex,
-  euler,
+  XAUt,
   fluid,
   gearbox,
   kpk,
   morpho,
 } from "@/addresses/eth"
+import { eAddress } from "@/addresses"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
-import { auraWithdrawBalancer } from "@/exit_strategies/aura"
-import { convexWithdraw } from "@/exit_strategies/convex"
 
 export default [
-  // Unwrap ETH
+  // Wrapping and unwrapping of ETH, WETH
   allow.mainnet.weth.withdraw(),
+  allow.mainnet.weth.deposit({
+    send: true,
+  }),
 
-  // Aave v3 Prime Market - Withdraw GHO
-  allow.mainnet.aaveV3.poolPrimeV3.withdraw(GHO, undefined, c.avatar),
-  // Aave v3 Core Market - Withdraw USDC
-  allow.mainnet.aaveV3.poolCoreV3.withdraw(USDC, undefined, c.avatar),
-  // Aave Safety Module - Unstake AAVE and GHO
-  allow.mainnet.aaveV3.stkAave.redeem(c.avatar),
+  // Aave Safety Module - Unstake AAVE
   allow.mainnet.aaveV3.stkAave.cooldown(),
-  allow.mainnet.aaveV3.stkGho.redeem(c.avatar),
-  allow.mainnet.aaveV3.stkGho.cooldown(),
+  allow.mainnet.aaveV3.stkAave.redeem(c.avatar),
 
-  // Aura + Balancer - Unstake + Withdraw rETH/WETH
-  auraWithdrawBalancer(aura.auraBrEthStableRewarder, balancerV2.bREthStablePid),
-  {
-    ...allow.mainnet.balancerV2.gauge["withdraw(uint256)"](),
-    targetAddress: balancerV2.bREthStableGauge,
-  },
-  // Aura + Balancer - Unstake + Withdraw wstETH/WETH
-  auraWithdrawBalancer(
-    aura.auraBstEthStableRewarder,
-    balancerV2.bStEthStablePid
-  ),
-  {
-    ...allow.mainnet.balancerV2.gauge["withdraw(uint256)"](),
-    targetAddress: balancerV2.bStEthStableGauge,
-  },
-  // Aura - Unlock
-  allow.mainnet.aura.vlAura.processExpiredLocks(false),
-  // Aura - Unstake
-  allow.mainnet.aura.auraBalStakingRewarder.withdraw(),
-  allow.mainnet.aura.stkauraBal.withdraw(undefined, c.avatar, c.avatar),
-  allow.mainnet.aura.stkauraBal.redeem(undefined, c.avatar, c.avatar),
-
-  // Compound v3 - Withdraw USDC
-  allow.mainnet.compoundV3.cUsdcV3.withdraw(USDC),
-
-  // Convex - USDT/WBTC/WETH
-  convexWithdraw(convex.cvxcrvUsdtWbtcWethRewarder),
-  // Convex - GHO/cbBTC/WETH
-  convexWithdraw(convex.cvxBtcGhoEthRewarder),
-  // Convex - Unstake cvxCRV
-  allow.mainnet.convex.stkCvxCrv.withdraw(),
-
-  // Curve - USDT/WBTC/WETH
-  allow.mainnet.curve.crvUsdtWbtcWethPool[
-    "remove_liquidity(uint256,uint256[3],bool)"
-  ](),
-  allow.mainnet.curve.crvUsdtWbtcWethPool[
-    "remove_liquidity_one_coin(uint256,uint256,uint256,bool)"
-  ](),
-  allow.mainnet.curve.crvUsdtWbtcWethGauge["withdraw(uint256)"](),
-  // Curve - Tricrypto GHO (GHO/cbBTC/WETH)
-  allow.mainnet.curve.btcGhoEthPool[
-    "remove_liquidity(uint256,uint256[3],bool)"
-  ](),
-  allow.mainnet.curve.btcGhoEthPool[
-    "remove_liquidity_one_coin(uint256,uint256,uint256,bool)"
-  ](),
-  allow.mainnet.curve.btcGhoEthGauge["withdraw(uint256)"](),
-
-  // ether.fi - Liquid ETH Yield Vault - Withdraw
-  // https://help.ether.fi/en/articles/284654-how-to-withdraw-from-liquid-vaults
-  allowErc20Approve([liquidETH], [contracts.mainnet.etherfi.atomicQueue]),
-  allow.mainnet.etherfi.atomicQueue.updateAtomicRequest(
-    liquidETH,
-    c.or(eETH, weETH)
-  ),
-  // ether.fi - EigenLayer Restaking
-  // Request Withdrawal - A Withdraw Request NFT is issued
+  // ether.fi - Unstake
+  // Standard unstaking eETH -> ETH - A Withdraw Request NFT is issued
   allowErc20Approve([eETH], [contracts.mainnet.etherfi.liquidityPool]),
   allow.mainnet.etherfi.liquidityPool.requestWithdraw(c.avatar),
+  // Standard unstaking weETH -> ETH - A Withdraw Request NFT is issued
+  allowErc20Approve([weETH], [contracts.mainnet.etherfi.withdrawalAdapter]),
+  allow.mainnet.etherfi.withdrawalAdapter.requestWithdraw(undefined, c.avatar),
   // Funds can be claimed once the request is finalized
   allow.mainnet.etherfi.withdrawRequestNft.claimWithdraw(),
+  // Express (instant) unstaking eETH -> ETH
+  allowErc20Approve([eETH], [contracts.mainnet.etherfi.redemptionManager]),
+  allow.mainnet.etherfi.redemptionManager.redeemEEth(
+    undefined,
+    c.avatar,
+    eAddress
+  ),
+  // Express (instant) unstaking weETH -> ETH
+  allowErc20Approve([weETH], [contracts.mainnet.etherfi.redemptionManager]),
+  allow.mainnet.etherfi.redemptionManager.redeemWeEth(
+    undefined,
+    c.avatar,
+    eAddress
+  ),
   // Unwrap weETH
   allow.mainnet.etherfi.weEth.unwrap(),
-
-  // Euler - KPK RWA USDC
-  {
-    ...allow.mainnet.euler.eVault.withdraw(undefined, c.avatar, c.avatar),
-    targetAddress: euler.kpkRwaUsdc,
-  },
-  {
-    ...allow.mainnet.euler.eVault.redeem(undefined, c.avatar, c.avatar),
-    targetAddress: euler.kpkRwaUsdc,
-  },
 
   // Fluid - Withdraw wstETH
   {
@@ -133,25 +75,23 @@ export default [
 
   // Gearbox - ETH v3 - Curator: kpk
   {
+    ...allow.mainnet.gearbox.vault.withdraw(undefined, c.avatar, c.avatar),
+    targetAddress: gearbox.kpkWeth,
+  },
+  {
     ...allow.mainnet.gearbox.vault.redeem(undefined, c.avatar, c.avatar),
     targetAddress: gearbox.kpkWeth,
   },
   // Gearbox - wstETH v3 - Curator: kpk
   {
+    ...allow.mainnet.gearbox.vault.withdraw(undefined, c.avatar, c.avatar),
+    targetAddress: gearbox.kpkWstEth,
+  },
+  {
     ...allow.mainnet.gearbox.vault.redeem(undefined, c.avatar, c.avatar),
     targetAddress: gearbox.kpkWstEth,
   },
 
-  // kpk - USD Prime Fund
-  {
-    ...allow.mainnet.kpk.shares.requestRedeem(undefined, undefined, c.avatar),
-    targetAddress: kpk.usdPrimeFundShares,
-  },
-  // kpk - Renaissance Fund
-  {
-    ...allow.mainnet.kpk.shares.requestRedeem(undefined, undefined, c.avatar),
-    targetAddress: kpk.renaissanceFundShares,
-  },
   // KPK - ETH Alpha Fund
   {
     ...allow.mainnet.oiv.shares.requestRedemption(
@@ -172,38 +112,32 @@ export default [
     ),
     targetAddress: kpk.usdAlphaFundShares,
   },
+  // KPK - WBTC Carry Fund
+  {
+    ...allow.mainnet.oiv.shares.requestRedemption(
+      undefined,
+      undefined,
+      WBTC,
+      c.avatar
+    ),
+    targetAddress: kpk.wbtcCarryFundShares,
+  },
+  // KPK - XAUt Carry Fund
+  {
+    ...allow.mainnet.oiv.shares.requestRedemption(
+      undefined,
+      undefined,
+      XAUt,
+      c.avatar
+    ),
+    targetAddress: kpk.xautCarryFundShares,
+  },
 
-  // Lido
+  // Lido - Unwrap wstETH + request withdrawals (stETH and wstETH)
   allow.mainnet.lido.wstEth.unwrap(),
   allow.mainnet.lido.unstEth.requestWithdrawals(undefined, c.avatar),
   allow.mainnet.lido.unstEth.requestWithdrawalsWstETH(undefined, c.avatar),
-  allow.mainnet.lido.unstEth.claimWithdrawal(),
-  allow.mainnet.lido.unstEth.claimWithdrawals(),
 
-  // Morpho Market - Withdraw WETH/rsETH - id: 0xba761af4134efb0855adfba638945f454f0a704af11fc93439e20c7c5ebab942
-  allow.mainnet.morpho.morphoBlue.withdraw(
-    {
-      loanToken: WETH,
-      collateralToken: rsETH,
-      oracle: morpho.oracleWethRsEth,
-      irm: morpho.adaptativeCurveIrm,
-      lltv: "945000000000000000",
-    },
-    undefined,
-    undefined,
-    c.avatar,
-    c.avatar
-  ),
-
-  // Morpho Vault - kpk ETH Prime v1.1
-  {
-    ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-    targetAddress: morpho.kpkEthPrimeV1,
-  },
-  {
-    ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-    targetAddress: morpho.kpkEthPrimeV1,
-  },
   // Morpho Vault - kpk ETH Prime v2
   {
     ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
@@ -212,15 +146,6 @@ export default [
   {
     ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
     targetAddress: morpho.kpkEthPrimeV2,
-  },
-  // Morpho Vault - kpk ETH Yield v1.1
-  {
-    ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-    targetAddress: morpho.kpkEthYieldV1,
-  },
-  {
-    ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-    targetAddress: morpho.kpkEthYieldV1,
   },
   // Morpho Vault - kpk ETH Yield v2
   {
@@ -231,92 +156,12 @@ export default [
     ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
     targetAddress: morpho.kpkEthYieldV2,
   },
-  // Morpho Vault - kpk EURC Yield v1.1
-  {
-    ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-    targetAddress: morpho.kpkEurcYieldV1,
-  },
-  {
-    ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-    targetAddress: morpho.kpkEurcYieldV1,
-  },
-  // Morpho Vault - kpk EURC Yield v2
-  {
-    ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-    targetAddress: morpho.kpkEurcYieldV2,
-  },
-  {
-    ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-    targetAddress: morpho.kpkEurcYieldV2,
-  },
-  // Morpho Vault - kpk USDC Prime v1.1
-  {
-    ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-    targetAddress: morpho.kpkUsdcPrimeV1,
-  },
-  {
-    ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-    targetAddress: morpho.kpkUsdcPrimeV1,
-  },
-  // Morpho Vault - kpk USDC Prime v2
-  {
-    ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-    targetAddress: morpho.kpkUsdcPrimeV2,
-  },
-  {
-    ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-    targetAddress: morpho.kpkUsdcPrimeV2,
-  },
-  // Morpho Vault - kpk USDC Yield v1.1
-  {
-    ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-    targetAddress: morpho.kpkUsdcYieldV1,
-  },
-  {
-    ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-    targetAddress: morpho.kpkUsdcYieldV1,
-  },
-  // Morpho Vault - kpk USDC Yield v2
-  {
-    ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-    targetAddress: morpho.kpkUsdcYieldV2,
-  },
-  {
-    ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-    targetAddress: morpho.kpkUsdcYieldV2,
-  },
-  // Morpho Vault - kpk USDT Prime v1.1
-  {
-    ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-    targetAddress: morpho.kpkUsdtPrimeV1,
-  },
-  {
-    ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-    targetAddress: morpho.kpkUsdtPrimeV1,
-  },
-  // Morpho Vault - kpk USDT Prime v2
-  {
-    ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-    targetAddress: morpho.kpkUsdtPrimeV2,
-  },
-  {
-    ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-    targetAddress: morpho.kpkUsdtPrimeV2,
-  },
 
-  // Spark - DSR_sDAI
-  allow.mainnet.spark.sDai.redeem(undefined, c.avatar, c.avatar),
-  allow.mainnet.spark.sDai.withdraw(undefined, c.avatar, c.avatar),
-  // Spark - SKY_sUSDS
-  allow.mainnet.spark.sUsds.withdraw(undefined, c.avatar, c.avatar),
-  allow.mainnet.spark.sUsds.redeem(undefined, c.avatar, c.avatar),
+  // Rocket Pool - Unstake rETH
+  allow.mainnet.rocketPool.rEth.burn(),
+  allow.mainnet.rocketPool.swapRouter.swapFrom(),
+
   // Spark - Unstake SPK
   allow.mainnet.spark.stSpk.withdraw(c.avatar),
   allow.mainnet.spark.stSpk.redeem(c.avatar),
-  allow.mainnet.spark.stSpk.claim(c.avatar),
-  allow.mainnet.spark.stSpk.claimBatch(c.avatar),
-
-  // SAFE - Unlock + Withdraw (exit locked SAFE)
-  allow.mainnet.safe.tokenLock.unlock(),
-  allow.mainnet.safe.tokenLock.withdraw(),
 ] satisfies PermissionList
