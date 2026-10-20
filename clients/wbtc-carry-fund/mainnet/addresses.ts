@@ -6,6 +6,18 @@
 // that is added later is not reachable by the role.
 export const aaveV4BluechipReserve = {
   wbtcPrime: 1, // WBTC, Prime Hub 0x943827DCA022D0F354a8a8c332dA1e5Eb9f9F931 - collateral only
+  cbbtcPrime: 2, // cbBTC, Prime Hub - collateral only
   usdcPrime: 4, // USDC, Prime Hub - borrowable
   usdcCore: 7, // USDC, Core Hub 0xCca852Bc40e560adC3b1Cc58CA5b55638ce826c9 - borrowable
+  frxusdCore: 8, // frxUSD, Core Hub - borrowable
+  usdgCore: 11, // USDG, Core Hub - borrowable
+} as const
+
+// Aave v4 - Maple SyrupUSDG Spoke (0x774b9655413c34809c1f1b16b654465A89EBE989) reserve ids,
+// read onchain with `getReserve(uint256)` the same way. Only the reserves the roles pin are
+// listed (reserve 2, USDC on the Global Dollar Hub, is not).
+export const aaveV4MapleReserve = {
+  usdgGlobalDollar: 0, // USDG, Global Dollar Hub 0x62d63197660c080236193CA60b70E49A08E90368 - borrowable
+  syrupUsdg: 1, // syrupUSDG, Global Dollar Hub - collateral only
+  usdgCore: 3, // USDG, Core Hub 0xCca852Bc40e560adC3b1Cc58CA5b55638ce826c9 - borrowable
 } as const

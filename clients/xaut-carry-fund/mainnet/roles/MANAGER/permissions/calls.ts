@@ -45,4 +45,29 @@ export default (parameters: Parameters) =>
       ),
       targetAddress: morpho.kpkUsdcYieldRWA,
     },
+
+    // Merkl - Claim USDC incentives accrued by the kpk USDC Yield RWA vault position.
+    // `users` is pinned to the avatar Safe so the role can never claim to a third party;
+    // `tokens`/`amounts`/`proofs` stay open because the merkle proof binds them. One `c.or`
+    // branch per array length: arity == number of reward tokens settled in a single claim.
+    allow.mainnet.merkl.angleDistributor.claim(
+      c.or(
+        [parameters.avatar],
+        [parameters.avatar, parameters.avatar],
+        [parameters.avatar, parameters.avatar, parameters.avatar],
+        [
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+        ],
+        [
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+        ]
+      )
+    ),
   ] satisfies PermissionList
