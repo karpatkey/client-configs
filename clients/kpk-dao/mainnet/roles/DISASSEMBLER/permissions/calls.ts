@@ -12,6 +12,8 @@ import {
   gearbox,
   kpk,
   morpho,
+  safe,
+  upshift,
 } from "@/addresses/eth"
 import { eAddress } from "@/addresses"
 import { contracts } from "@/contracts"
@@ -160,6 +162,30 @@ export default [
   // Rocket Pool - Unstake rETH
   allow.mainnet.rocketPool.rEth.burn(),
   allow.mainnet.rocketPool.swapRouter.swapFrom(),
+
+  // Safenet - Staked SAFE - unstake + withdraw
+  allow.mainnet.safe.safenetStaking.initiateWithdrawal(
+    c.or(
+      safe.safenetValidator1,
+      safe.safenetValidator2,
+      safe.safenetValidator3,
+      safe.safenetValidator4,
+      safe.safenetValidator5,
+      safe.safenetValidator6
+    )
+  ),
+  allow.mainnet.safe.safenetStaking.claimWithdrawal(),
+
+  // Upshift - KPK LsETH vault - redeem (instant or lagged request + claim)
+  allow.mainnet.upshift.kpkLsEth.instantRedeem(undefined, c.avatar),
+  allowErc20Approve([upshift.kpkLsEthLp], [contracts.mainnet.upshift.kpkLsEth]),
+  allow.mainnet.upshift.kpkLsEth.requestRedeem(undefined, c.avatar),
+  allow.mainnet.upshift.kpkLsEth.claim(
+    undefined,
+    undefined,
+    undefined,
+    c.avatar
+  ),
 
   // Spark - Unstake SPK
   allow.mainnet.spark.stSpk.withdraw(c.avatar),

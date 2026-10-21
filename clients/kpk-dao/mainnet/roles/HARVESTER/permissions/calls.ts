@@ -41,6 +41,9 @@ export default (parameters: Parameters) =>
       )
     ),
 
+    // Safenet - Claim staking rewards - account pinned to the avatar
+    allow.mainnet.safe.safenetRewards.claim(c.avatar),
+
     // Spark - Claim stkSPK rewards
     allow.mainnet.spark.stSpk.claim(c.avatar),
     allow.mainnet.spark.stSpk.claimBatch(c.avatar),

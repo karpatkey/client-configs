@@ -436,6 +436,21 @@ export const siloV2 = {
   balSilo: "0x92E7E77163FFed918421E3CB6e0A22F2Fe8B37FA",
 } as const
 
+// Safe - Safenet active validators (Staking ValidatorUpdated events)
+export const safe = {
+  safenetValidator1: "0x3D58a5475c1336b0A755c3aBd298CeB9b7BB9CDe",
+  safenetValidator2: "0x7B0A8EFA45dE81F11F2846EC28259B62155a2b37",
+  safenetValidator3: "0xb0E735D4a3b70195420E0ae933689A55750CFcd2",
+  safenetValidator4: "0xCc00DE0eA14c08669b26DcBFE365dBD9890B04D9",
+  safenetValidator5: "0xD8997c2a94052C4FB79B53b3e255c1F07c99305B",
+  safenetValidator6: "0xF6EA21D702983c443f58A267265912FE03D2FF0b",
+} as const
+
+// Upshift vault share (LP) tokens
+export const upshift = {
+  kpkLsEthLp: "0x2eC25d8Bf3aB320b71B7b4D27C9F7d6d72Fb6f62", // KPK LsETH (KPK_LsETH) - LP token of the KPK LsETH vault
+} as const
+
 export const uniswapV2 = {
   safeEth: "0x2e7e978da0c53404a8cf66ed4ba2c7706c07b62a",
   usdcEth: "0xB4e16d0168e52d35CaCD2c6185b44281Ec28C9Dc",

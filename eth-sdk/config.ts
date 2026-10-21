@@ -211,6 +211,8 @@ export const contracts = {
       ecosystemAirdrop: "0x29067F28306419923BCfF96E37F95E0f58ABdBBe",
       userAirdrop: "0xA0b937D5c8E32a80E3a8ed4227CD020221544ee6",
       userAirdropSep5: "0xC0fde70A65C7569Fe919bE57492228DEE8cDb585",
+      safenetStaking: "0x115E78f160e1E3eF163B05C84562Fa16fA338509", // Safenet - SAFE staking
+      safenetRewards: "0xe5139Fc0FB8eae81e30d8a85C22E88c6757120f2", // Safenet - staking rewards (CumulativeMerkleDrop)
     },
     siloV2: {
       router: "0x8658047e48CC09161f4152c79155Dac1d710Ff0a",
@@ -257,6 +259,7 @@ export const contracts = {
     },
     upshift: {
       maxiUsr: "0xdA89af5bF2eb0B225d787aBfA9095610f2E79e7D",
+      kpkLsEth: "0x00E95754322D15aB8765961c6Ac5682B9282F54F", // KPK LsETH TokenizedVault (proxy; ABI = impl 0xeb5f80ac)
     },
     votium: {
       bribe: "0x19BBC3463Dd8d07f55438014b021Fb457EBD4595",

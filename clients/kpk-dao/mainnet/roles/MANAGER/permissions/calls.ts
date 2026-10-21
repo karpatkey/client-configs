@@ -3,6 +3,8 @@ import { allow } from "zodiac-roles-sdk/kit"
 import {
   eETH,
   GNO,
+  LsETH,
+  SAFE,
   SPK,
   USDC,
   USDT,
@@ -13,6 +15,8 @@ import {
   XAUt,
   fluid,
   kpk,
+  safe,
+  upshift,
 } from "@/addresses/eth"
 import { eAddress } from "@/addresses"
 import { contracts } from "@/contracts"
@@ -194,6 +198,50 @@ export default (parameters: Parameters) =>
     allow.mainnet.spark.stSpk.redeem(c.avatar),
     allow.mainnet.spark.stSpk.claim(c.avatar),
     allow.mainnet.spark.stSpk.claimBatch(c.avatar),
+
+    // Safenet - Staked SAFE (stake with any of the 6 active validators, unstake, withdraw, claim rewards)
+    allowErc20Approve([SAFE], [contracts.mainnet.safe.safenetStaking]),
+    allow.mainnet.safe.safenetStaking.stake(
+      c.or(
+        safe.safenetValidator1,
+        safe.safenetValidator2,
+        safe.safenetValidator3,
+        safe.safenetValidator4,
+        safe.safenetValidator5,
+        safe.safenetValidator6
+      )
+    ),
+    allow.mainnet.safe.safenetStaking.initiateWithdrawal(
+      c.or(
+        safe.safenetValidator1,
+        safe.safenetValidator2,
+        safe.safenetValidator3,
+        safe.safenetValidator4,
+        safe.safenetValidator5,
+        safe.safenetValidator6
+      )
+    ),
+    // Withdraw after the withdrawal delay - pays msg.sender (the avatar)
+    allow.mainnet.safe.safenetStaking.claimWithdrawal(),
+    // Rewards (CumulativeMerkleDrop) - account pinned to the avatar
+    allow.mainnet.safe.safenetRewards.claim(c.avatar),
+
+    // Upshift - KPK LsETH vault
+    allowErc20Approve([LsETH], [contracts.mainnet.upshift.kpkLsEth]),
+    allow.mainnet.upshift.kpkLsEth.deposit(LsETH, undefined, c.avatar),
+    allow.mainnet.upshift.kpkLsEth.instantRedeem(undefined, c.avatar),
+    // Lagged redemption (only when the vault has a time-lock): request (LP escrowed) + claim
+    allowErc20Approve(
+      [upshift.kpkLsEthLp],
+      [contracts.mainnet.upshift.kpkLsEth]
+    ),
+    allow.mainnet.upshift.kpkLsEth.requestRedeem(undefined, c.avatar),
+    allow.mainnet.upshift.kpkLsEth.claim(
+      undefined,
+      undefined,
+      undefined,
+      c.avatar
+    ),
 
     /*********************************************
      * Bridge
