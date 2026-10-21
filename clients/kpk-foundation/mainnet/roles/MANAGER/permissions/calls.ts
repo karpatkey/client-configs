@@ -7,6 +7,7 @@ import {
   frxUSD,
   GHO,
   USDC,
+  USDG,
   USDT,
   XAUt,
   euler,
@@ -15,9 +16,11 @@ import {
   kpk,
   symbiotic,
 } from "@/addresses/eth"
+import { USDG as USDG_RH } from "@/addresses/robinhood"
 import { contracts } from "@/contracts"
 import {
   kpkFoundationGc,
+  kpkFoundationRh,
   fundReapGeneralEth,
   kfPaymentsEth,
   kpkEth,
@@ -300,6 +303,25 @@ export default (parameters: Parameters) =>
           value: "0x" + parameters.avatar.slice(22, 42), // Last 10 bytes of the avatar address
         })
       )
+    ),
+
+    // Mainnet -> Robinhood
+    // USDG - LiFi (Glacis -> Paxos USDG OFT), native USDG minted to the Foundation Safe on Robinhood
+    allowErc20Approve([USDG], [contracts.mainnet.lifi.diamond]),
+    allow.mainnet.lifi.diamond.startBridgeTokensViaGlacis(
+      {
+        sendingAssetId: USDG,
+        receiver: kpkFoundationRh,
+        destinationChainId: 4663,
+        hasSourceSwaps: false,
+        hasDestinationCall: false,
+      },
+      {
+        receiverAddress: "0x" + kpkFoundationRh.slice(2).padStart(64, "0"),
+        refundAddress: c.avatar,
+        outputToken: "0x" + USDG_RH.slice(2).padStart(64, "0"),
+      },
+      { send: true }
     ),
 
     /*********************************************

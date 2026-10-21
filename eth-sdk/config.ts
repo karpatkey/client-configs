@@ -150,6 +150,11 @@ export const contracts = {
     kyberswap: {
       metaAggregationRouterV2: "0x6131B5fae19EA4f9D964eAc0408E4408b66337b5",
     },
+    lifi: {
+      // LiFi Diamond - only the Glacis facet entrypoint is in the hand-maintained ABI
+      // (abis/mainnet/lifi/diamond.json); yarn setup cannot fetch facet functions of a diamond
+      diamond: "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE",
+    },
     lido: {
       ...deFiKitContracts.mainnet.lido,
       vestingEscrow: "0x484FD04c598A095360DF89bF85AB34c37127AA39",
