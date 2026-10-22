@@ -26,48 +26,48 @@ export default [
   // Aave Safety Module - Stake AAVE (stake, cooldown, redeem, claim, claim and restake)
   allowAction.aave_v3.stake({ targets: ["AAVE"] }),
 
-  // CowSwap - [ETH, WETH, stETH, wstETH, eETH, weETH, rETH, LsETH, USDC, XAUt, WBTC, cbBTC, SPK, MORPHO, GEAR, ETH+, FLUID, COMP] ->
-  // [ETH, WETH, stETH, wstETH, eETH, weETH, rETH, LsETH, USDC, XAUt, WBTC, cbBTC]
+  // CowSwap - [cbBTC, COMP, eETH, ETH, ETH+, FLUID, GEAR, LsETH, MORPHO, rETH, SPK, stETH, USDC, WBTC, weETH, WETH, wstETH, XAUt] ->
+  // [cbBTC, eETH, ETH, LsETH, rETH, stETH, USDC, WBTC, weETH, WETH, wstETH, XAUt]
   allowAction.cowswap.swap({
     sell: [
       "ETH",
-      WETH,
-      stETH,
-      wstETH,
-      eETH,
-      weETH,
-      rETH,
-      LsETH,
-      USDC,
-      XAUt,
-      WBTC,
       cbBTC,
-      SPK,
-      MORPHO,
-      GEAR,
+      COMP,
+      eETH,
       ETHPlus,
       FLUID,
-      COMP,
+      GEAR,
+      LsETH,
+      MORPHO,
+      rETH,
+      SPK,
+      stETH,
+      USDC,
+      WBTC,
+      weETH,
+      WETH,
+      wstETH,
+      XAUt,
     ],
     buy: [
       "ETH",
-      WETH,
-      stETH,
-      wstETH,
-      eETH,
-      weETH,
-      rETH,
-      LsETH,
-      USDC,
-      XAUt,
-      WBTC,
       cbBTC,
+      eETH,
+      LsETH,
+      rETH,
+      stETH,
+      USDC,
+      WBTC,
+      weETH,
+      WETH,
+      wstETH,
+      XAUt,
     ],
   }),
-  // CowSwap - GNO -> [ETH, WETH, stETH, wstETH]
+  // CowSwap - GNO -> [ETH, stETH, WETH, wstETH]
   allowAction.cowswap.swap({
     sell: [GNO],
-    buy: ["ETH", WETH, stETH, wstETH],
+    buy: ["ETH", stETH, WETH, wstETH],
   }),
 
   // Fluid - Deposit wstETH
