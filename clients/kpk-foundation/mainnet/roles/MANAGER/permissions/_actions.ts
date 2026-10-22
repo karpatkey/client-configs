@@ -48,25 +48,25 @@ export default (parameters: Parameters) => [
   // Compound v3 - Deposit USDC (includes claiming rewards)
   allowAction.compound_v3.deposit({ targets: ["cUSDCv3"], tokens: ["USDC"] }),
 
-  // CowSwap - [USDC, DAI, USDS, sUSDS, USDT, GHO, sGHO, EURC, EURe, USDG, frxUSD, MORPHO, COMP] ->
-  // [USDC, DAI, USDS, sUSDS, USDT, GHO, sGHO, EURC, EURe, USDG, frxUSD]
+  // CowSwap - [COMP, DAI, EURC, EURe, frxUSD, GHO, MORPHO, sGHO, sUSDS, USDC, USDG, USDS, USDT] ->
+  // [DAI, EURC, EURe, frxUSD, GHO, sGHO, sUSDS, USDC, USDG, USDS, USDT]
   allowAction.cowswap.swap({
     sell: [
-      USDC,
+      COMP,
       DAI,
-      USDS,
-      sUSDS,
-      USDT,
-      GHO,
-      sGHO,
       EURC,
       EURe,
-      USDG,
       frxUSD,
+      GHO,
       MORPHO,
-      COMP,
+      sGHO,
+      sUSDS,
+      USDC,
+      USDG,
+      USDS,
+      USDT,
     ],
-    buy: [USDC, DAI, USDS, sUSDS, USDT, GHO, sGHO, EURC, EURe, USDG, frxUSD],
+    buy: [DAI, EURC, EURe, frxUSD, GHO, sGHO, sUSDS, USDC, USDG, USDS, USDT],
   }),
 
   // Fluid - Deposit USDC

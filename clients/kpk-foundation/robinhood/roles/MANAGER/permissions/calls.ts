@@ -8,8 +8,8 @@ import { eAddress } from "@/addresses"
 import { kpkFoundationEth } from "../../../../addresses"
 
 export default [
-  // KPK OIVs on Robinhood - kRHUSD and kRHETH (USDG), kRHSPY (SPY)
-  allowErc20Approve([USDG], [kpk.kRhUsdShares, kpk.kRhEthShares]),
+  // KPK OIVs on Robinhood - kRHETH and kRHUSD (USDG), kRHSPY (SPY)
+  allowErc20Approve([USDG], [kpk.kRhEthShares, kpk.kRhUsdShares]),
   allowErc20Approve([SPY], [kpk.kRhSpyShares]),
   {
     ...allow.mainnet.oiv.shares.requestSubscription(
@@ -69,17 +69,17 @@ export default [
   /*********************************************
    * Swaps
    *********************************************/
-  // KyberSwap - [ETH, WETH, USDG, SPY] <-> [ETH, WETH, USDG, SPY]
+  // KyberSwap - [ETH, SPY, USDG, WETH] <-> [ETH, SPY, USDG, WETH]
   // Same scoping as the repo precedent (tokens, receiver = avatar, no permit), tightened: the input
   // tokens can only go to Kyber's executor and no fee receivers are allowed.
-  allowErc20Approve([USDG, SPY, WETH], [kyberswap.metaAggregationRouterV2]),
+  allowErc20Approve([SPY, USDG, WETH], [kyberswap.metaAggregationRouterV2]),
   {
     ...allow.mainnet.kyberswap.metaAggregationRouterV2.swap(
       {
         callTarget: kyberswap.aggregatorExecutor,
         desc: {
-          srcToken: c.or(eAddress, WETH, USDG, SPY),
-          dstToken: c.or(eAddress, WETH, USDG, SPY),
+          srcToken: c.or(eAddress, SPY, USDG, WETH),
+          dstToken: c.or(eAddress, SPY, USDG, WETH),
           srcReceivers: [kyberswap.aggregatorExecutor],
           feeReceivers: [],
           dstReceiver: c.avatar,

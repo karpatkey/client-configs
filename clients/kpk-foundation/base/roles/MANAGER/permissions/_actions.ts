@@ -4,14 +4,14 @@ import { kpkFoundationEth } from "../../../../addresses"
 import { Parameters } from "../../../parameters"
 
 export default (parameters: Parameters) => [
-  // Circle v2 - Bridge USDC to Ethereum and Arbitrum (Foundation Safe 0x17bC... on both)
+  // Circle v2 - Bridge USDC to Arbitrum and Ethereum (Foundation Safe 0x17bC... on both)
   allowAction.circle_v2.bridge({
-    targets: ["Ethereum", "Arbitrum"],
+    targets: ["Arbitrum", "Ethereum"],
     recipient: kpkFoundationEth,
   }),
-  // Circle v2 - Receive USDC from Ethereum and Arbitrum
+  // Circle v2 - Receive USDC from Arbitrum and Ethereum
   allowAction.circle_v2.receive({
-    targets: ["Ethereum", "Arbitrum"],
+    targets: ["Arbitrum", "Ethereum"],
     sender: kpkFoundationEth,
     recipient: parameters.avatar,
   }),

@@ -27,10 +27,10 @@ export default (parameters: Parameters) => [
     recipient: parameters.avatar,
   }),
 
-  // CowSwap - [USDC, EURe, MORPHO, ARB] -> [USDC, EURe]
+  // CowSwap - [ARB, EURe, MORPHO, USDC] -> [EURe, USDC]
   allowAction.cowswap.swap({
-    sell: [USDC, EURe, MORPHO, ARB],
-    buy: [USDC, EURe],
+    sell: [ARB, EURe, MORPHO, USDC],
+    buy: [EURe, USDC],
   }),
 
   // Morpho Vault - kpk EURe Yield v2
