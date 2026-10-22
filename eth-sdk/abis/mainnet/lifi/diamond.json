@@ -1,0 +1,38 @@
+[
+  {
+    "type": "function",
+    "name": "startBridgeTokensViaGlacis",
+    "stateMutability": "payable",
+    "inputs": [
+      {
+        "name": "_bridgeData",
+        "type": "tuple",
+        "internalType": "struct ILiFi.BridgeData",
+        "components": [
+          { "name": "transactionId", "type": "bytes32", "internalType": "bytes32" },
+          { "name": "bridge", "type": "string", "internalType": "string" },
+          { "name": "integrator", "type": "string", "internalType": "string" },
+          { "name": "referrer", "type": "address", "internalType": "address" },
+          { "name": "sendingAssetId", "type": "address", "internalType": "address" },
+          { "name": "receiver", "type": "address", "internalType": "address" },
+          { "name": "minAmount", "type": "uint256", "internalType": "uint256" },
+          { "name": "destinationChainId", "type": "uint256", "internalType": "uint256" },
+          { "name": "hasSourceSwaps", "type": "bool", "internalType": "bool" },
+          { "name": "hasDestinationCall", "type": "bool", "internalType": "bool" }
+        ]
+      },
+      {
+        "name": "_glacisData",
+        "type": "tuple",
+        "internalType": "struct GlacisFacet.GlacisData",
+        "components": [
+          { "name": "receiverAddress", "type": "bytes32", "internalType": "bytes32" },
+          { "name": "refundAddress", "type": "address", "internalType": "address" },
+          { "name": "nativeFee", "type": "uint256", "internalType": "uint256" },
+          { "name": "outputToken", "type": "bytes32", "internalType": "bytes32" }
+        ]
+      }
+    ],
+    "outputs": []
+  }
+]

@@ -29,6 +29,10 @@ export const balancerV3 = {
 } as const
 
 export const morpho = {
+  // Vaults
+  kpkUsdcYieldV2: "0x392B3CCf36C8adB8094F45573346B457414cD752", // kpk USDC Yield v2
+
+  // Oracles
   oracleCbEthUsdc: "0xb40d93F44411D8C09aD17d7F88195eF9b05cCD96",
   oracleCbBtcUsdc: "0x663BECd10daE6C4A3Dcd89F1d76c1174199639B9",
   oraclePTUsde11Dec2025Usdc: "0x15af6e452Fe5C4B78c45f9DE02842a52E600A1cA",

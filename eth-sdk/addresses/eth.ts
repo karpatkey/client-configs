@@ -34,6 +34,7 @@ export const ETHx = "0xA35b1B31Ce002FBF2058D22F30f95D405200A15b"
 export const EUL = "0xd9Fcd98c322942075A5C3860693e9f4f03AAE07b"
 export const EURA = "0x1a7e4e63778B4f12a199C062f3eFdD288afCBce8"
 export const EURC = "0x1aBaEA1f7C830bD89Acc67eC4af516284b1bC33c"
+export const EURe = "0x3231Cb76718CDeF2155FC47b5286d82e6eDA273f" // Monerium EUR emoney
 export const ezETH = "0xbf5495Efe5DB9ce00f80364C8B423567e58d2110"
 export const FIS = "0xef3A930e1FfFFAcd2fc13434aC81bD278B0ecC8d"
 export const FJO = "0x69457A1C9Ec492419344DA01Daf0DF0e0369d5D0"
@@ -297,6 +298,7 @@ export const gearbox = {
   dcp0xLrt: "0x72CCB97cbdC40f8fb7FFA42Ed93AE74923547200", // Underlying token: wstETH - Curator: cp0x
   kpkWeth: "0x9396DCbf78fc526bb003665337C5E73b699571EF", // Underlying token: WETH - Curator: kpk
   kpkWstEth: "0xA9d17f6D3285208280a1Fd9B94479c62e0AABa64", // Underlying token: wstETH - Curator: kpk
+  kpkFrxUsd: "0xBd8Ec7444dB271635584Cc38F5d06C72eAB762f5", // Underlying token: frxUSD - Curator: kpk (frxUSD RWA Vault)
 } as const
 
 export const kpk = {
@@ -304,6 +306,8 @@ export const kpk = {
   renaissanceFundShares: "0x8a1c05BD2bC8E6E78Afc9753aB5b377391aF43B2",
   ethAlphaFundShares: "0xED01a1Fe4e020Ca901F43E17B6203A7e0cEa818C",
   usdAlphaFundShares: "0x6D1a4C0878aD24793b1655ae1f78Cfa4522Ba765",
+  wbtcCarryFundShares: "0xf180800f239f0ea0ED2F8156581fac2984cEe389",
+  xautCarryFundShares: "0xDa35793Dc733fEFfb294938F95ff3B593170f9F8",
 } as const
 
 export const kyberswap = {
@@ -431,6 +435,11 @@ export const polygon = {
 
 export const siloV2 = {
   balSilo: "0x92E7E77163FFed918421E3CB6e0A22F2Fe8B37FA",
+} as const
+
+// Symbiotic vaults (ERC-4626 deposit / withdraw / redeem)
+export const symbiotic = {
+  kpkUsdcLiquidLane: "0x8BcD746976885b5832bAD07B4921E3f2dD1D3703", // KPK USDC LiquidLane (RWA Liquidity)
 } as const
 
 export const uniswapV2 = {
