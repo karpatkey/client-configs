@@ -4,7 +4,15 @@ import { avatar } from "@/test/wallets"
 import kit from "@/test/kit"
 import { Status } from "@/test/types"
 import { contracts } from "@/contracts"
-import { cbBTC, compoundV3, USDC, USDG, USDT, WBTC, WETH } from "@/addresses/eth"
+import {
+  cbBTC,
+  compoundV3,
+  USDC,
+  USDG,
+  USDT,
+  WBTC,
+  WETH,
+} from "@/addresses/eth"
 import { aaveV4BluechipReserve } from "../../addresses"
 import { parameters } from "../../instances/sub_prod"
 import allowedCalls from "./permissions/calls"
