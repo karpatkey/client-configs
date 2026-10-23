@@ -8,6 +8,7 @@ import { aaveV4BluechipReserve as reserve } from "../../../addresses"
 import { Parameters } from "../../../parameters"
 
 const bluechipSpoke = contracts.mainnet.aaveV4.bluechipSpoke
+const curveUsdgUsdcPool = contracts.mainnet.curve.usdgUsdcPool
 
 export default (parameters: Parameters) =>
   [
@@ -51,6 +52,20 @@ export default (parameters: Parameters) =>
       reserve.usdgCore,
       undefined,
       c.avatar
+    ),
+
+    // Curve - USDG/USDC StableSwap-NG pool (coins(0) USDG, coins(1) USDC): atomic swap both
+    // ways, for a same-transaction repay of the USDG debt. The 4-argument `exchange` pays
+    // msg.sender (the avatar); the 5-argument variant with a receiver stays closed. Roles
+    // cannot bound `min_dy`, the caller sets it.
+    allowErc20Approve([USDC, USDG], [curveUsdgUsdcPool]),
+    allow.mainnet.curve.usdgUsdcPool["exchange(int128,int128,uint256,uint256)"](
+      0,
+      1
+    ),
+    allow.mainnet.curve.usdgUsdcPool["exchange(int128,int128,uint256,uint256)"](
+      1,
+      0
     ),
 
     // Morpho Vault - kpk USDC Yield RWA
