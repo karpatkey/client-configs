@@ -1,6 +1,6 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { cbBTC, WBTC } from "@/addresses/eth"
+import { cbBTC, compoundV3, WBTC } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
@@ -50,4 +50,19 @@ export default (parameters: Parameters) =>
       undefined,
       c.avatar
     ),
+
+    // Compound v3 - Institutional Market (ciUSDCv3) - Post/pull WBTC and cbBTC collateral when
+    // the APPROVER settles a subscription or a redemption and the fund borrows on Comet. Both
+    // act for msg.sender (the avatar); Comet counts supplied collateral without a separate
+    // flag. USDC is not scoped, so SETTLER cannot borrow or repay. The Comet pulls the asset
+    // from the caller, hence the approval.
+    allowErc20Approve([cbBTC, WBTC], [compoundV3.ciUSDCv3]),
+    {
+      ...allow.mainnet.compoundV3.comet.supply(c.or(cbBTC, WBTC)),
+      targetAddress: compoundV3.ciUSDCv3,
+    },
+    {
+      ...allow.mainnet.compoundV3.comet.withdraw(c.or(cbBTC, WBTC)),
+      targetAddress: compoundV3.ciUSDCv3,
+    },
   ] satisfies PermissionList

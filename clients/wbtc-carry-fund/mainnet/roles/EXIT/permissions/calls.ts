@@ -1,6 +1,14 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { cbBTC, morpho, syrupUSDG, USDC, USDG, WBTC } from "@/addresses/eth"
+import {
+  cbBTC,
+  compoundV3,
+  morpho,
+  syrupUSDG,
+  USDC,
+  USDG,
+  WBTC,
+} from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
@@ -80,6 +88,20 @@ export default (parameters: Parameters) =>
       undefined,
       c.avatar
     ),
+
+    // Compound v3 - Institutional Market (ciUSDCv3) - loan exit: repay USDC (supply USDC) and
+    // withdraw the WBTC / cbBTC collateral, both for msg.sender (the avatar). withdraw is not
+    // scoped for USDC, so EXIT cannot borrow. The Comet pulls the asset from the caller, hence
+    // the approval.
+    allowErc20Approve([USDC], [compoundV3.ciUSDCv3]),
+    {
+      ...allow.mainnet.compoundV3.comet.supply(USDC),
+      targetAddress: compoundV3.ciUSDCv3,
+    },
+    {
+      ...allow.mainnet.compoundV3.comet.withdraw(c.or(cbBTC, WBTC)),
+      targetAddress: compoundV3.ciUSDCv3,
+    },
 
     // Curve - USDG/USDC StableSwap-NG pool (coins(0) USDG, coins(1) USDC): atomic swap both
     // ways, for a same-transaction repay of the USDG debt. The 4-argument `exchange` pays

@@ -7,6 +7,7 @@ import { contracts } from "@/contracts"
 import {
   cbBTC,
   cirBTC,
+  compoundV3,
   cowSwap,
   frxUSD,
   GHO,
@@ -19,6 +20,8 @@ import {
   USDG,
   USDT,
   WBTC,
+  WETH,
+  wstETH,
 } from "@/addresses/eth"
 import { aaveV4BluechipReserve, aaveV4MapleReserve } from "../../addresses"
 import { parameters } from "../../instances/main_prod"
@@ -68,6 +71,7 @@ const morphoMarkets = {
 }
 
 const erc20 = () => kit.asMember.weth
+const comet = () => kit.asMember.compoundV3.comet.attach(compoundV3.ciUSDCv3)
 
 const cowOrder = (sellToken: string, buyToken: string) =>
   kit.asMember.cowSwap.orderSigner.signOrder.delegateCall(
@@ -637,7 +641,73 @@ describe("wbtc-carry-fund mainnet MANAGER", () => {
     })
   })
 
-  describe("H - Curve USDG/USDC atomic swap", () => {
+  describe("H - Compound v3 Institutional (ciUSDCv3): WBTC / cbBTC collateral, USDC debt", () => {
+    it("approves WBTC, cbBTC and USDC to the Comet only", async () => {
+      for (const [token, unit] of [
+        [WBTC, parseUnits("1", 8)],
+        [cbBTC, parseUnits("1", 8)],
+        [USDC, parseUnits("1", 6)],
+      ] as const) {
+        await expect(
+          erc20().attach(token).approve(compoundV3.ciUSDCv3, unit)
+        ).toBeAllowed()
+        await expect(
+          erc20().attach(token).approve(stranger, unit)
+        ).toBeForbidden()
+      }
+    })
+
+    it("supplies collateral and repays: supply(WBTC / cbBTC / USDC)", async () => {
+      await expect(comet().supply(WBTC, 1n)).toBeAllowed()
+      await expect(comet().supply(cbBTC, 1n)).toBeAllowed()
+      await expect(comet().supply(USDC, parseUnits("1", 6))).toBeAllowed()
+    })
+
+    it("withdraws collateral and borrows: withdraw(WBTC / cbBTC / USDC)", async () => {
+      await expect(comet().withdraw(WBTC, 1n)).toBeAllowed()
+      await expect(comet().withdraw(cbBTC, 1n)).toBeAllowed()
+      await expect(comet().withdraw(USDC, parseUnits("1", 6))).toBeAllowed()
+    })
+
+    it("forbids WETH / wstETH collateral", async () => {
+      await expect(comet().supply(WETH, 1n)).toBeForbidden(Status.OrViolation)
+      await expect(comet().withdraw(wstETH, 1n)).toBeForbidden(
+        Status.OrViolation
+      )
+    })
+
+    it("forbids the To / From variants, manager delegation and transfers", async () => {
+      await expect(comet().supplyTo(stranger, WBTC, 1n)).toBeForbidden(
+        Status.FunctionNotAllowed
+      )
+      await expect(
+        comet().supplyFrom(avatar.address, stranger, WBTC, 1n)
+      ).toBeForbidden(Status.FunctionNotAllowed)
+      await expect(comet().withdrawTo(stranger, USDC, 1n)).toBeForbidden(
+        Status.FunctionNotAllowed
+      )
+      await expect(
+        comet().withdrawFrom(avatar.address, stranger, USDC, 1n)
+      ).toBeForbidden(Status.FunctionNotAllowed)
+      await expect(comet().allow(stranger, true)).toBeForbidden(
+        Status.FunctionNotAllowed
+      )
+      await expect(comet().transfer(stranger, 1n)).toBeForbidden(
+        Status.FunctionNotAllowed
+      )
+      await expect(comet().transferAsset(stranger, WBTC, 1n)).toBeForbidden(
+        Status.FunctionNotAllowed
+      )
+    })
+
+    it("forbids the Comet on the main cUSDCv3 market", async () => {
+      await expect(
+        kit.asMember.compoundV3.comet.supply(WBTC, 1n)
+      ).toBeForbidden(Status.TargetAddressNotAllowed)
+    })
+  })
+
+  describe("I - Curve USDG/USDC atomic swap", () => {
     const curvePool = contracts.mainnet.curve.usdgUsdcPool
     const curve = () => kit.asMember.curve.usdgUsdcPool
 

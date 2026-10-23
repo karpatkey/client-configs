@@ -4,7 +4,7 @@ import { avatar } from "@/test/wallets"
 import kit from "@/test/kit"
 import { Status } from "@/test/types"
 import { contracts } from "@/contracts"
-import { cbBTC, USDC, USDG, USDT, WBTC } from "@/addresses/eth"
+import { cbBTC, compoundV3, USDC, USDG, USDT, WBTC, WETH } from "@/addresses/eth"
 import { aaveV4BluechipReserve } from "../../addresses"
 import { parameters } from "../../instances/sub_prod"
 import allowedCalls from "./permissions/calls"
@@ -17,6 +17,7 @@ const curvePool = contracts.mainnet.curve.usdgUsdcPool
 const poolCoreV3 = contracts.mainnet.aaveV3.poolCoreV3
 const curve = () => kit.asMember.curve.usdgUsdcPool
 const erc20 = () => kit.asMember.weth
+const comet = () => kit.asMember.compoundV3.comet.attach(compoundV3.ciUSDCv3)
 const pool = () => kit.asMember.aaveV3.poolCoreV3
 
 describe("wbtc-carry-fund mainnet EXIT", () => {
@@ -65,6 +66,40 @@ describe("wbtc-carry-fund mainnet EXIT", () => {
         Status.FunctionNotAllowed
       )
       await expect(pool().supply(cbBTC, 1n, avatar.address, 0)).toBeForbidden(
+        Status.FunctionNotAllowed
+      )
+    })
+  })
+
+  describe("Compound v3 Institutional (ciUSDCv3): loan_position_exit unwind", () => {
+    it("approves USDC to the Comet, not to a stranger", async () => {
+      await expect(
+        erc20().attach(USDC).approve(compoundV3.ciUSDCv3, parseUnits("1", 6))
+      ).toBeAllowed()
+      await expect(
+        erc20().attach(USDC).approve(stranger, parseUnits("1", 6))
+      ).toBeForbidden()
+    })
+
+    it("repays USDC (supply)", async () => {
+      await expect(comet().supply(USDC, parseUnits("1", 6))).toBeAllowed()
+    })
+
+    it("withdraws WBTC and cbBTC collateral", async () => {
+      await expect(comet().withdraw(WBTC, 1n)).toBeAllowed()
+      await expect(comet().withdraw(cbBTC, 1n)).toBeAllowed()
+    })
+
+    it("cannot borrow, add collateral, use other assets or the To / allow variants", async () => {
+      await expect(comet().withdraw(USDC, 1n)).toBeForbidden(Status.OrViolation)
+      await expect(comet().supply(WBTC, 1n)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+      await expect(comet().withdraw(WETH, 1n)).toBeForbidden(Status.OrViolation)
+      await expect(comet().withdrawTo(stranger, WBTC, 1n)).toBeForbidden(
+        Status.FunctionNotAllowed
+      )
+      await expect(comet().allow(stranger, true)).toBeForbidden(
         Status.FunctionNotAllowed
       )
     })
