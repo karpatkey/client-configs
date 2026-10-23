@@ -37,7 +37,7 @@ describe("wbtc-carry-fund mainnet SETTLER", () => {
       await expect(pool().supply(WBTC, 1n, stranger, 0)).toBeForbidden(
         Status.ParameterNotAllowed
       )
-      await expect(pool().supply(cbBTC, 1n, avatar.address, 0)).toBeForbidden()
+      await expect(pool().supply(USDC, 1n, avatar.address, 0)).toBeForbidden()
     })
 
     it("withdraws WBTC to the avatar only", async () => {
@@ -78,6 +78,40 @@ describe("wbtc-carry-fund mainnet SETTLER", () => {
       await expect(pool().repay(USDC, 1n, 2, avatar.address)).toBeForbidden(
         Status.FunctionNotAllowed
       )
+    })
+  })
+
+  describe("Aave v3 Core: cbBTC collateral for subscriptions and redemptions", () => {
+    it("approves cbBTC to the Pool, not to a stranger", async () => {
+      await expect(
+        erc20().attach(cbBTC).approve(poolCoreV3, parseUnits("1", 8))
+      ).toBeAllowed()
+      await expect(
+        erc20().attach(cbBTC).approve(stranger, parseUnits("1", 8))
+      ).toBeForbidden()
+    })
+
+    it("supplies cbBTC for the avatar only", async () => {
+      await expect(pool().supply(cbBTC, 1n, avatar.address, 0)).toBeAllowed()
+      await expect(pool().supply(cbBTC, 1n, stranger, 0)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+    })
+
+    it("withdraws cbBTC to the avatar only", async () => {
+      await expect(pool().withdraw(cbBTC, 1n, avatar.address)).toBeAllowed()
+      await expect(pool().withdraw(cbBTC, 1n, stranger)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+    })
+
+    it("toggles cbBTC as collateral either way", async () => {
+      await expect(
+        pool().setUserUseReserveAsCollateral(cbBTC, true)
+      ).toBeAllowed()
+      await expect(
+        pool().setUserUseReserveAsCollateral(cbBTC, false)
+      ).toBeAllowed()
     })
   })
 
