@@ -4,7 +4,7 @@ import { avatar } from "@/test/wallets"
 import kit from "@/test/kit"
 import { Status } from "@/test/types"
 import { contracts } from "@/contracts"
-import { USDC, USDG, USDT, WBTC } from "@/addresses/eth"
+import { cbBTC, compoundV3, USDC, USDG, USDT, WBTC } from "@/addresses/eth"
 import { aaveV4BluechipReserve } from "../../addresses"
 import { parameters } from "../../instances/sub_prod"
 import allowedCalls from "./permissions/calls"
@@ -17,6 +17,7 @@ const curvePool = contracts.mainnet.curve.usdgUsdcPool
 const poolCoreV3 = contracts.mainnet.aaveV3.poolCoreV3
 const curve = () => kit.asMember.curve.usdgUsdcPool
 const erc20 = () => kit.asMember.weth
+const comet = () => kit.asMember.compoundV3.comet.attach(compoundV3.ciUSDCv3)
 const pool = () => kit.asMember.aaveV3.poolCoreV3
 
 describe("wbtc-carry-fund mainnet HF_KEEPER", () => {
@@ -54,6 +55,43 @@ describe("wbtc-carry-fund mainnet HF_KEEPER", () => {
       ).toBeForbidden()
       await expect(pool().supply(WBTC, 1n, avatar.address, 0)).toBeForbidden()
       await expect(pool().withdraw(WBTC, 1n, avatar.address)).toBeForbidden()
+    })
+  })
+
+  describe("Compound v3 Institutional (ciUSDCv3): USDC debt leg", () => {
+    it("approves USDC to the Comet, not to a stranger or for collateral", async () => {
+      await expect(
+        erc20().attach(USDC).approve(compoundV3.ciUSDCv3, parseUnits("1", 6))
+      ).toBeAllowed()
+      await expect(
+        erc20().attach(USDC).approve(stranger, parseUnits("1", 6))
+      ).toBeForbidden()
+      await expect(
+        erc20().attach(WBTC).approve(compoundV3.ciUSDCv3, parseUnits("1", 8))
+      ).toBeForbidden()
+    })
+
+    it("borrows (withdraw) and repays (supply) USDC", async () => {
+      await expect(comet().withdraw(USDC, parseUnits("1", 6))).toBeAllowed()
+      await expect(comet().supply(USDC, parseUnits("1", 6))).toBeAllowed()
+    })
+
+    it("forbids collateral movement and the To / allow variants", async () => {
+      await expect(comet().supply(WBTC, 1n)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+      await expect(comet().withdraw(cbBTC, 1n)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+      await expect(comet().withdrawTo(stranger, USDC, 1n)).toBeForbidden(
+        Status.FunctionNotAllowed
+      )
+      await expect(comet().supplyTo(avatar.address, USDC, 1n)).toBeForbidden(
+        Status.FunctionNotAllowed
+      )
+      await expect(comet().allow(stranger, true)).toBeForbidden(
+        Status.FunctionNotAllowed
+      )
     })
   })
 

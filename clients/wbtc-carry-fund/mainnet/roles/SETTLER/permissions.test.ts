@@ -4,7 +4,7 @@ import { avatar } from "@/test/wallets"
 import kit from "@/test/kit"
 import { Status } from "@/test/types"
 import { contracts } from "@/contracts"
-import { cbBTC, USDC, WBTC } from "@/addresses/eth"
+import { cbBTC, compoundV3, USDC, WBTC, WETH } from "@/addresses/eth"
 import { aaveV4BluechipReserve } from "../../addresses"
 import { parameters } from "../../instances/sub_prod"
 import allowedCalls from "./permissions/calls"
@@ -15,6 +15,7 @@ const stranger = "0x000000000000000000000000000000000000dEaD"
 
 const poolCoreV3 = contracts.mainnet.aaveV3.poolCoreV3
 const erc20 = () => kit.asMember.weth
+const comet = () => kit.asMember.compoundV3.comet.attach(compoundV3.ciUSDCv3)
 const pool = () => kit.asMember.aaveV3.poolCoreV3
 
 describe("wbtc-carry-fund mainnet SETTLER", () => {
@@ -112,6 +113,45 @@ describe("wbtc-carry-fund mainnet SETTLER", () => {
       await expect(
         pool().setUserUseReserveAsCollateral(cbBTC, false)
       ).toBeAllowed()
+    })
+  })
+
+  describe("Compound v3 Institutional (ciUSDCv3): WBTC and cbBTC collateral", () => {
+    it("approves WBTC and cbBTC to the Comet, not to a stranger or USDC", async () => {
+      await expect(
+        erc20().attach(WBTC).approve(compoundV3.ciUSDCv3, parseUnits("1", 8))
+      ).toBeAllowed()
+      await expect(
+        erc20().attach(cbBTC).approve(compoundV3.ciUSDCv3, parseUnits("1", 8))
+      ).toBeAllowed()
+      await expect(
+        erc20().attach(WBTC).approve(stranger, parseUnits("1", 8))
+      ).toBeForbidden()
+      await expect(
+        erc20().attach(USDC).approve(compoundV3.ciUSDCv3, parseUnits("1", 6))
+      ).toBeForbidden()
+    })
+
+    it("supplies and withdraws WBTC and cbBTC", async () => {
+      await expect(comet().supply(WBTC, 1n)).toBeAllowed()
+      await expect(comet().supply(cbBTC, 1n)).toBeAllowed()
+      await expect(comet().withdraw(WBTC, 1n)).toBeAllowed()
+      await expect(comet().withdraw(cbBTC, 1n)).toBeAllowed()
+    })
+
+    it("cannot borrow, repay, use other collateral or the To / allow variants", async () => {
+      await expect(comet().withdraw(USDC, 1n)).toBeForbidden(Status.OrViolation)
+      await expect(comet().supply(USDC, 1n)).toBeForbidden(Status.OrViolation)
+      await expect(comet().supply(WETH, 1n)).toBeForbidden(Status.OrViolation)
+      await expect(comet().supplyTo(stranger, WBTC, 1n)).toBeForbidden(
+        Status.FunctionNotAllowed
+      )
+      await expect(comet().withdrawTo(stranger, WBTC, 1n)).toBeForbidden(
+        Status.FunctionNotAllowed
+      )
+      await expect(comet().allow(stranger, true)).toBeForbidden(
+        Status.FunctionNotAllowed
+      )
     })
   })
 
