@@ -636,4 +636,42 @@ describe("wbtc-carry-fund mainnet MANAGER", () => {
       ).toBeForbidden()
     })
   })
+
+  describe("H - Curve USDG/USDC atomic swap", () => {
+    const curvePool = contracts.mainnet.curve.usdgUsdcPool
+    const curve = () => kit.asMember.curve.usdgUsdcPool
+
+    it("approves USDC and USDG to the pool and swaps both ways", async () => {
+      await expect(
+        erc20().attach(USDC).approve(curvePool, parseUnits("1", 6))
+      ).toBeAllowed()
+      await expect(
+        erc20().attach(USDG).approve(curvePool, parseUnits("1", 6))
+      ).toBeAllowed()
+      await expect(
+        curve()["exchange(int128,int128,uint256,uint256)"](0, 1, 1000000n, 0n)
+      ).toBeAllowed()
+      await expect(
+        curve()["exchange(int128,int128,uint256,uint256)"](1, 0, 1000000n, 0n)
+      ).toBeAllowed()
+    })
+
+    it("forbids other coin indices, the receiver variant and other tokens", async () => {
+      await expect(
+        curve()["exchange(int128,int128,uint256,uint256)"](0, 0, 1n, 0n)
+      ).toBeForbidden()
+      await expect(
+        curve()["exchange(int128,int128,uint256,uint256,address)"](
+          0,
+          1,
+          1n,
+          0n,
+          avatar.address
+        )
+      ).toBeForbidden(Status.FunctionNotAllowed)
+      await expect(
+        erc20().attach(USDT).approve(curvePool, parseUnits("1", 6))
+      ).toBeForbidden()
+    })
+  })
 })
