@@ -554,6 +554,10 @@ describe("wbtc-carry-fund mainnet MANAGER", () => {
       await expect(pool().supply(WBTC, 1n, stranger, 0)).toBeForbidden()
     })
 
+    it("does not supply cbBTC (cbBTC gets its own fund)", async () => {
+      await expect(pool().supply(cbBTC, 1n, avatar.address, 0)).toBeForbidden()
+    })
+
     it("switches e-mode (33 = syrupUSDT stablecoins)", async () => {
       await expect(pool().setUserEMode(33)).toBeAllowed()
     })
@@ -641,11 +645,10 @@ describe("wbtc-carry-fund mainnet MANAGER", () => {
     })
   })
 
-  describe("H - Compound v3 Institutional (ciUSDCv3): WBTC / cbBTC collateral, USDC debt", () => {
-    it("approves WBTC, cbBTC and USDC to the Comet only", async () => {
+  describe("H - Compound v3 Institutional (ciUSDCv3): WBTC collateral, USDC debt", () => {
+    it("approves WBTC and USDC to the Comet only", async () => {
       for (const [token, unit] of [
         [WBTC, parseUnits("1", 8)],
-        [cbBTC, parseUnits("1", 8)],
         [USDC, parseUnits("1", 6)],
       ] as const) {
         await expect(
@@ -657,19 +660,24 @@ describe("wbtc-carry-fund mainnet MANAGER", () => {
       }
     })
 
-    it("supplies collateral and repays: supply(WBTC / cbBTC / USDC)", async () => {
+    it("supplies collateral and repays: supply(WBTC / USDC)", async () => {
       await expect(comet().supply(WBTC, 1n)).toBeAllowed()
-      await expect(comet().supply(cbBTC, 1n)).toBeAllowed()
       await expect(comet().supply(USDC, parseUnits("1", 6))).toBeAllowed()
     })
 
-    it("withdraws collateral and borrows: withdraw(WBTC / cbBTC / USDC)", async () => {
+    it("withdraws collateral and borrows: withdraw(WBTC / USDC)", async () => {
       await expect(comet().withdraw(WBTC, 1n)).toBeAllowed()
-      await expect(comet().withdraw(cbBTC, 1n)).toBeAllowed()
       await expect(comet().withdraw(USDC, parseUnits("1", 6))).toBeAllowed()
     })
 
-    it("forbids WETH / wstETH collateral", async () => {
+    it("forbids cbBTC / WETH / wstETH collateral", async () => {
+      await expect(
+        erc20().attach(cbBTC).approve(compoundV3.ciUSDCv3, parseUnits("1", 8))
+      ).toBeForbidden()
+      await expect(comet().supply(cbBTC, 1n)).toBeForbidden(Status.OrViolation)
+      await expect(comet().withdraw(cbBTC, 1n)).toBeForbidden(
+        Status.OrViolation
+      )
       await expect(comet().supply(WETH, 1n)).toBeForbidden(Status.OrViolation)
       await expect(comet().withdraw(wstETH, 1n)).toBeForbidden(
         Status.OrViolation

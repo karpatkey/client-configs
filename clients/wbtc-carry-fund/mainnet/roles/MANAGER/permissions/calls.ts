@@ -158,24 +158,24 @@ export default (parameters: Parameters) =>
     allow.mainnet.aaveV4.mapleSpoke.updateUserDynamicConfig(c.avatar),
     allow.mainnet.aaveV4.mapleSpoke.updateUserRiskPremium(c.avatar),
 
-    // Compound v3 - Institutional Market (ciUSDCv3) - borrow venue for the BTC leg: WBTC and
-    // cbBTC as collateral, USDC debt. Comet keys every leg on supply / withdraw(asset, amount),
-    // which always act for msg.sender, the avatar: supply WBTC / cbBTC adds collateral and
-    // supply USDC repays; withdraw WBTC / cbBTC removes collateral and withdraw USDC borrows
+    // Compound v3 - Institutional Market (ciUSDCv3) - borrow venue for the BTC leg: WBTC as
+    // collateral, USDC debt. Comet keys every leg on supply / withdraw(asset, amount), which
+    // always act for msg.sender, the avatar: supply WBTC adds collateral and supply USDC
+    // repays; withdraw WBTC removes collateral and withdraw USDC borrows
     // once no USDC is supplied (minimum borrow 1 USDC, `baseBorrowMin`). USDC supplied past the
     // debt stays a USDC supply position of the avatar. The Comet pulls the asset from the
     // caller, hence the approvals. Not scoped: supplyTo / supplyFrom / withdrawTo /
     // withdrawFrom, allow / allowBySig (manager delegation), transfer / transferFrom /
-    // transferAsset, buyCollateral, absorb, and the WETH / wstETH collateral. Hand-scoped:
+    // transferAsset, buyCollateral, absorb, and the cbBTC / WETH / wstETH collateral. Hand-scoped:
     // defi-kit's compound_v3 `borrow` resolves USDC to the main cUSDCv3 market, and its
     // `deposit` adds a claim on the main CometRewards, which has no config for this market.
-    allowErc20Approve([cbBTC, USDC, WBTC], [compoundV3.ciUSDCv3]),
+    allowErc20Approve([USDC, WBTC], [compoundV3.ciUSDCv3]),
     {
-      ...allow.mainnet.compoundV3.comet.supply(c.or(cbBTC, USDC, WBTC)),
+      ...allow.mainnet.compoundV3.comet.supply(c.or(USDC, WBTC)),
       targetAddress: compoundV3.ciUSDCv3,
     },
     {
-      ...allow.mainnet.compoundV3.comet.withdraw(c.or(cbBTC, USDC, WBTC)),
+      ...allow.mainnet.compoundV3.comet.withdraw(c.or(USDC, WBTC)),
       targetAddress: compoundV3.ciUSDCv3,
     },
 

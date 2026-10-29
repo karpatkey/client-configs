@@ -26,7 +26,7 @@ export default [
   }),
   allowAction.aave_v3.deposit({
     market: "Core",
-    targets: ["cbBTC", "syrupUSDT", "USDC", "USDG", "USDT", "WBTC"],
+    targets: ["syrupUSDT", "USDC", "USDG", "USDT", "WBTC"],
   }),
 
   // CowSwap - the BTC set: WBTC / cbBTC / cirBTC between themselves and against USDC
