@@ -22,22 +22,13 @@ export default [
     c.avatar
   ),
 
-  // Morpho Vault - kpk USDC Yield v1.1
+  // Morpho Vault - kpk EURe Yield v2
   {
     ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-    targetAddress: morpho.kpkUsdcYieldV1,
+    targetAddress: morpho.kpkEureYieldV2,
   },
   {
     ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-    targetAddress: morpho.kpkUsdcYieldV1,
-  },
-  // Morpho Vault - kpk USDC Yield v2
-  {
-    ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-    targetAddress: morpho.kpkUsdcYieldV2,
-  },
-  {
-    ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-    targetAddress: morpho.kpkUsdcYieldV2,
+    targetAddress: morpho.kpkEureYieldV2,
   },
 ] satisfies PermissionList
