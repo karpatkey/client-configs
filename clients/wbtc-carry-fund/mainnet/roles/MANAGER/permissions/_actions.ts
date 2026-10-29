@@ -1,6 +1,5 @@
 import { allow as allowAction } from "defi-kit/eth"
 import {
-  cbBTC,
   cirBTC,
   frxUSD,
   GHO,
@@ -29,11 +28,12 @@ export default [
     targets: ["syrupUSDT", "USDC", "USDG", "USDT", "WBTC"],
   }),
 
-  // CowSwap - the BTC set: WBTC / cbBTC / cirBTC between themselves and against USDC
-  // (deposit-asset conversions, and selling collateral to repay in an emergency).
+  // CowSwap - the BTC set: WBTC / cirBTC between themselves and against USDC
+  // (deposit-asset conversions, and selling collateral to repay in an emergency). No cbBTC:
+  // it gets its own fund.
   allowAction.cowswap.swap({
-    sell: [cbBTC, cirBTC, USDC, WBTC],
-    buy: [cbBTC, cirBTC, USDC, WBTC],
+    sell: [cirBTC, USDC, WBTC],
+    buy: [cirBTC, USDC, WBTC],
   }),
 
   // CowSwap - the stablecoin set, kept apart from the BTC set so no stablecoin besides USDC
@@ -53,12 +53,6 @@ export default [
     buy: [USDC, USDG, USDT],
   }),
 
-  // Morpho Market - Borrow USDC/cbBTC (86%) - backup borrow venue for the BTC leg - id: 0x64d65c9a2d91c36d56fbc42d69e979335320169b3df63bf92789e2c8883fcc64
-  allowAction.morphoMarkets.borrow({
-    targets: [
-      "0x64d65c9a2d91c36d56fbc42d69e979335320169b3df63bf92789e2c8883fcc64",
-    ],
-  }),
   // Morpho Market - Borrow USDC/syrupUSDC (91.5%) - syrupUSDC loop - id: 0x729badf297ee9f2f6b3f717b96fd355fc6ec00422284ce1968e76647b258cf44
   allowAction.morphoMarkets.borrow({
     targets: [
@@ -69,12 +63,6 @@ export default [
   allowAction.morphoMarkets.borrow({
     targets: [
       "0x3a85e619751152991742810df6ec69ce473daef99e28a64ab2340d7b7ccfee49",
-    ],
-  }),
-  // Morpho Market - Borrow USDT/cbBTC (86%) - backup borrow venue for the BTC leg - id: 0x4fe72543c5c95cd6b5f3cb516cd235ba882e2e705fe3424db6f99dfe5811d0d3
-  allowAction.morphoMarkets.borrow({
-    targets: [
-      "0x4fe72543c5c95cd6b5f3cb516cd235ba882e2e705fe3424db6f99dfe5811d0d3",
     ],
   }),
   // Morpho Market - Borrow USDT/syrupUSDT (91.5%) - syrupUSDT loop, as in the XAUt fund's leg 2 (#263) - id: 0xa4774e3e693fff2ebd1dcbbd69b1b0a5b9bb0ccc753bfda5dd07bdac97c4818a
@@ -102,5 +90,5 @@ export default [
 
   // Spark - backstop borrow venue at scale (USDS, then USDS -> USDC on CowSwap)
   allowAction.spark.borrow({ targets: ["USDC", "USDS", "USDT"] }),
-  allowAction.spark.deposit({ targets: ["cbBTC", "WBTC"] }),
+  allowAction.spark.deposit({ targets: ["WBTC"] }),
 ]

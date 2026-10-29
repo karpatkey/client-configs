@@ -1,7 +1,6 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import {
-  cbBTC,
   cirBTC,
   compoundV3,
   frxUSD,
@@ -40,8 +39,8 @@ const poolCoreV3 = contracts.mainnet.aaveV3.poolCoreV3
 // hand-scoped here.
 // ---------------------------------------------------------------------------------------
 
-// Bluechip Spoke - WBTC (1) and cbBTC (2), Prime Hub
-const bluechipCollateral = c.or(reserve.wbtcPrime, reserve.cbbtcPrime)
+// Bluechip Spoke - WBTC (1), Prime Hub. cbBTC (2) is not scoped: cbBTC gets its own fund.
+const bluechipCollateral = reserve.wbtcPrime
 // Bluechip Spoke - the stablecoin credit lines: USDC Prime (4), USDC Core (7), frxUSD Core (8)
 // and USDG Core (11)
 const bluechipDebt = c.or(
@@ -100,11 +99,11 @@ export default (parameters: Parameters) =>
     allow.mainnet.aaveV3.poolCoreV3.supply(cirBTC, undefined, c.avatar),
     allow.mainnet.aaveV3.poolCoreV3.withdraw(cirBTC, undefined, c.avatar),
 
-    // Aave v4 Bluechip Spoke - The Spoke pulls the asset on supply (cbBTC, WBTC) and on repay
+    // Aave v4 Bluechip Spoke - The Spoke pulls the asset on supply (WBTC) and on repay
     // (frxUSD, USDC, USDG), hence the approvals.
-    allowErc20Approve([cbBTC, frxUSD, USDC, USDG, WBTC], [bluechipSpoke]),
+    allowErc20Approve([frxUSD, USDC, USDG, WBTC], [bluechipSpoke]),
 
-    // Aave v4 Bluechip Spoke - WBTC and cbBTC as collateral only. `supply` does not enable a
+    // Aave v4 Bluechip Spoke - WBTC as collateral only. `supply` does not enable a
     // reserve as collateral, it has to be set explicitly.
     allow.mainnet.aaveV4.bluechipSpoke.setUsingAsCollateral(
       bluechipCollateral,
@@ -269,7 +268,7 @@ export default (parameters: Parameters) =>
     // Shares contract - Redemptions are paid out by the shares contract pulling the asset from
     // the avatar Safe (safeTransferFrom(avatar, receiver)), so it needs an allowance on
     // every asset the fund may settle in. The WBTC allowance was set at deploy outside
-    // this role; cbBTC and cirBTC have none. Scoped so the allowance can be topped up or
-    // reset to 0 through the role.
-    allowErc20Approve([cbBTC, cirBTC, WBTC], [parameters.shares]),
+    // this role; cirBTC has none. Scoped so the allowance can be topped up or reset to 0
+    // through the role.
+    allowErc20Approve([cirBTC, WBTC], [parameters.shares]),
   ] satisfies PermissionList

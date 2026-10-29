@@ -54,16 +54,11 @@ export default (parameters: Parameters) =>
       c.avatar
     ),
 
-    // Aave v4 Bluechip Spoke - Repay USDG debt (Core Hub line, reserve 11) and withdraw cbBTC
-    // collateral (reserve 2): the same exit for the USDG debt route and the second BTC.
+    // Aave v4 Bluechip Spoke - Repay USDG debt (Core Hub line, reserve 11): the same exit
+    // for the USDG debt route.
     allowErc20Approve([USDG], [bluechipSpoke]),
     allow.mainnet.aaveV4.bluechipSpoke.repay(
       reserve.usdgCore,
-      undefined,
-      c.avatar
-    ),
-    allow.mainnet.aaveV4.bluechipSpoke.withdraw(
-      reserve.cbbtcPrime,
       undefined,
       c.avatar
     ),
