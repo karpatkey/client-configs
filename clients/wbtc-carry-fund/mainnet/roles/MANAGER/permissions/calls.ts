@@ -1,8 +1,6 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import {
-  cbBTC,
-  cirBTC,
   compoundV3,
   frxUSD,
   maple,
@@ -27,7 +25,6 @@ import { Parameters } from "../../../parameters"
 const bluechipSpoke = contracts.mainnet.aaveV4.bluechipSpoke
 const curveUsdgUsdcPool = contracts.mainnet.curve.usdgUsdcPool
 const mapleSpoke = contracts.mainnet.aaveV4.mapleSpoke
-const poolCoreV3 = contracts.mainnet.aaveV3.poolCoreV3
 
 // ---------------------------------------------------------------------------------------
 // Aave v4 - two Spokes, every reserve pinned by id (addresses.ts), for the avatar only.
@@ -40,8 +37,8 @@ const poolCoreV3 = contracts.mainnet.aaveV3.poolCoreV3
 // hand-scoped here.
 // ---------------------------------------------------------------------------------------
 
-// Bluechip Spoke - WBTC (1) and cbBTC (2), Prime Hub
-const bluechipCollateral = c.or(reserve.wbtcPrime, reserve.cbbtcPrime)
+// Bluechip Spoke - WBTC (1), Prime Hub. cbBTC (2) is not scoped: cbBTC gets its own fund.
+const bluechipCollateral = reserve.wbtcPrime
 // Bluechip Spoke - the stablecoin credit lines: USDC Prime (4), USDC Core (7), frxUSD Core (8)
 // and USDG Core (11)
 const bluechipDebt = c.or(
@@ -92,19 +89,14 @@ export default (parameters: Parameters) =>
   [
     // Aave v3 Core - backup borrow venue and the syrupUSDT loop (e-mode 33). Supply,
     // withdraw, collateral and borrow / repay come from defi-kit in _actions.ts. Added here:
-    // cirBTC, which defi-kit does not list yet (Aave v3 keys reserves by token address, so
-    // this works from the day it is listed), and e-mode switching.
-    allowErc20Approve([cirBTC], [poolCoreV3]),
+    // e-mode switching.
     allow.mainnet.aaveV3.poolCoreV3.setUserEMode(),
-    allow.mainnet.aaveV3.poolCoreV3.setUserUseReserveAsCollateral(cirBTC),
-    allow.mainnet.aaveV3.poolCoreV3.supply(cirBTC, undefined, c.avatar),
-    allow.mainnet.aaveV3.poolCoreV3.withdraw(cirBTC, undefined, c.avatar),
 
-    // Aave v4 Bluechip Spoke - The Spoke pulls the asset on supply (cbBTC, WBTC) and on repay
+    // Aave v4 Bluechip Spoke - The Spoke pulls the asset on supply (WBTC) and on repay
     // (frxUSD, USDC, USDG), hence the approvals.
-    allowErc20Approve([cbBTC, frxUSD, USDC, USDG, WBTC], [bluechipSpoke]),
+    allowErc20Approve([frxUSD, USDC, USDG, WBTC], [bluechipSpoke]),
 
-    // Aave v4 Bluechip Spoke - WBTC and cbBTC as collateral only. `supply` does not enable a
+    // Aave v4 Bluechip Spoke - WBTC as collateral only. `supply` does not enable a
     // reserve as collateral, it has to be set explicitly.
     allow.mainnet.aaveV4.bluechipSpoke.setUsingAsCollateral(
       bluechipCollateral,
@@ -158,24 +150,24 @@ export default (parameters: Parameters) =>
     allow.mainnet.aaveV4.mapleSpoke.updateUserDynamicConfig(c.avatar),
     allow.mainnet.aaveV4.mapleSpoke.updateUserRiskPremium(c.avatar),
 
-    // Compound v3 - Institutional Market (ciUSDCv3) - borrow venue for the BTC leg: WBTC and
-    // cbBTC as collateral, USDC debt. Comet keys every leg on supply / withdraw(asset, amount),
-    // which always act for msg.sender, the avatar: supply WBTC / cbBTC adds collateral and
-    // supply USDC repays; withdraw WBTC / cbBTC removes collateral and withdraw USDC borrows
+    // Compound v3 - Institutional Market (ciUSDCv3) - borrow venue for the BTC leg: WBTC as
+    // collateral, USDC debt. Comet keys every leg on supply / withdraw(asset, amount), which
+    // always act for msg.sender, the avatar: supply WBTC adds collateral and supply USDC
+    // repays; withdraw WBTC removes collateral and withdraw USDC borrows
     // once no USDC is supplied (minimum borrow 1 USDC, `baseBorrowMin`). USDC supplied past the
     // debt stays a USDC supply position of the avatar. The Comet pulls the asset from the
     // caller, hence the approvals. Not scoped: supplyTo / supplyFrom / withdrawTo /
     // withdrawFrom, allow / allowBySig (manager delegation), transfer / transferFrom /
-    // transferAsset, buyCollateral, absorb, and the WETH / wstETH collateral. Hand-scoped:
+    // transferAsset, buyCollateral, absorb, and the cbBTC / WETH / wstETH collateral. Hand-scoped:
     // defi-kit's compound_v3 `borrow` resolves USDC to the main cUSDCv3 market, and its
     // `deposit` adds a claim on the main CometRewards, which has no config for this market.
-    allowErc20Approve([cbBTC, USDC, WBTC], [compoundV3.ciUSDCv3]),
+    allowErc20Approve([USDC, WBTC], [compoundV3.ciUSDCv3]),
     {
-      ...allow.mainnet.compoundV3.comet.supply(c.or(cbBTC, USDC, WBTC)),
+      ...allow.mainnet.compoundV3.comet.supply(c.or(USDC, WBTC)),
       targetAddress: compoundV3.ciUSDCv3,
     },
     {
-      ...allow.mainnet.compoundV3.comet.withdraw(c.or(cbBTC, USDC, WBTC)),
+      ...allow.mainnet.compoundV3.comet.withdraw(c.or(USDC, WBTC)),
       targetAddress: compoundV3.ciUSDCv3,
     },
 
@@ -268,8 +260,7 @@ export default (parameters: Parameters) =>
 
     // Shares contract - Redemptions are paid out by the shares contract pulling the asset from
     // the avatar Safe (safeTransferFrom(avatar, receiver)), so it needs an allowance on
-    // every asset the fund may settle in. The WBTC allowance was set at deploy outside
-    // this role; cbBTC and cirBTC have none. Scoped so the allowance can be topped up or
-    // reset to 0 through the role.
-    allowErc20Approve([cbBTC, cirBTC, WBTC], [parameters.shares]),
+    // every asset the fund may settle in: WBTC only. The allowance was set at deploy outside
+    // this role. Scoped so it can be topped up or reset to 0 through the role.
+    allowErc20Approve([WBTC], [parameters.shares]),
   ] satisfies PermissionList

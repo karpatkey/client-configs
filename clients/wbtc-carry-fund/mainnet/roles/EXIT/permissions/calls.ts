@@ -1,7 +1,6 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import {
-  cbBTC,
   compoundV3,
   morpho,
   syrupUSDG,
@@ -30,9 +29,8 @@ export default (parameters: Parameters) =>
     allowErc20Approve([USDC], [poolCoreV3]),
     allow.mainnet.aaveV3.poolCoreV3.repay(USDC, undefined, undefined, c.avatar),
 
-    // Aave v3 Core Market - Withdraw cbBTC and WBTC collateral to the avatar Safe: a full
-    // loan_position_exit releases every BTC collateral once the USDC debt is repaid
-    allow.mainnet.aaveV3.poolCoreV3.withdraw(cbBTC, undefined, c.avatar),
+    // Aave v3 Core Market - Withdraw WBTC collateral to the avatar Safe: a full
+    // loan_position_exit releases the BTC collateral once the USDC debt is repaid
     allow.mainnet.aaveV3.poolCoreV3.withdraw(WBTC, undefined, c.avatar),
 
     // Aave v4 Bluechip Spoke - Repay USDC debt on both credit lines. The Spoke pulls
@@ -56,16 +54,11 @@ export default (parameters: Parameters) =>
       c.avatar
     ),
 
-    // Aave v4 Bluechip Spoke - Repay USDG debt (Core Hub line, reserve 11) and withdraw cbBTC
-    // collateral (reserve 2): the same exit for the USDG debt route and the second BTC.
+    // Aave v4 Bluechip Spoke - Repay USDG debt (Core Hub line, reserve 11): the same exit
+    // for the USDG debt route.
     allowErc20Approve([USDG], [bluechipSpoke]),
     allow.mainnet.aaveV4.bluechipSpoke.repay(
       reserve.usdgCore,
-      undefined,
-      c.avatar
-    ),
-    allow.mainnet.aaveV4.bluechipSpoke.withdraw(
-      reserve.cbbtcPrime,
       undefined,
       c.avatar
     ),
@@ -90,7 +83,7 @@ export default (parameters: Parameters) =>
     ),
 
     // Compound v3 - Institutional Market (ciUSDCv3) - loan exit: repay USDC (supply USDC) and
-    // withdraw the WBTC / cbBTC collateral, both for msg.sender (the avatar). withdraw is not
+    // withdraw the WBTC collateral, both for msg.sender (the avatar). withdraw is not
     // scoped for USDC, so EXIT cannot borrow. The Comet pulls the asset from the caller, hence
     // the approval.
     allowErc20Approve([USDC], [compoundV3.ciUSDCv3]),
@@ -99,7 +92,7 @@ export default (parameters: Parameters) =>
       targetAddress: compoundV3.ciUSDCv3,
     },
     {
-      ...allow.mainnet.compoundV3.comet.withdraw(c.or(cbBTC, WBTC)),
+      ...allow.mainnet.compoundV3.comet.withdraw(WBTC),
       targetAddress: compoundV3.ciUSDCv3,
     },
 

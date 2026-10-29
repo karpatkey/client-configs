@@ -35,7 +35,8 @@ const stranger = "0x000000000000000000000000000000000000dEaD"
 // defi-kit (`morphoMarkets.borrow` in _actions.ts), so a call is allowed only if these
 // params hash to a whitelisted id.
 const morphoMarkets = {
-  // 0x64d65c9a2d91c36d56fbc42d69e979335320169b3df63bf92789e2c8883fcc64
+  // 0x64d65c9a2d91c36d56fbc42d69e979335320169b3df63bf92789e2c8883fcc64 - NOT whitelisted:
+  // cbBTC gets its own fund
   cbBtcUsdc: {
     loanToken: USDC,
     collateralToken: cbBTC,
@@ -98,40 +99,42 @@ describe("wbtc-carry-fund mainnet MANAGER", () => {
     await applyPermissions({ allowedActions, allowedCalls }, parameters)
   })
 
-  describe("A - cbBTC as second collateral on the Aave v4 Bluechip Spoke", () => {
+  describe("A - no cbBTC (cbBTC gets its own fund)", () => {
     const spoke = contracts.mainnet.aaveV4.bluechipSpoke
 
-    it("approves cbBTC to the Bluechip Spoke", async () => {
+    it("does not approve cirBTC to the shares contract", async () => {
       await expect(
-        erc20().attach(cbBTC).approve(spoke, parseUnits("1", 8))
-      ).toBeAllowed()
+        erc20().attach(cirBTC).approve(parameters.shares, parseUnits("1", 8))
+      ).toBeForbidden()
     })
 
-    it("supplies, withdraws and enables cbBTC (reserve 2) for the avatar", async () => {
+    it("does not approve cbBTC to the Bluechip Spoke, the shares contract or CowSwap", async () => {
+      for (const spender of [
+        spoke,
+        parameters.shares,
+        cowSwap.gpv2VaultRelayer,
+      ]) {
+        await expect(
+          erc20().attach(cbBTC).approve(spender, parseUnits("1", 8))
+        ).toBeForbidden()
+      }
+    })
+
+    it("does not supply, withdraw or enable cbBTC (reserve 2) on the Bluechip Spoke", async () => {
       const r = aaveV4BluechipReserve.cbbtcPrime
       await expect(
         kit.asMember.aaveV4.bluechipSpoke.supply(r, 1n, avatar.address)
-      ).toBeAllowed()
+      ).toBeForbidden()
       await expect(
         kit.asMember.aaveV4.bluechipSpoke.withdraw(r, 1n, avatar.address)
-      ).toBeAllowed()
+      ).toBeForbidden()
       await expect(
         kit.asMember.aaveV4.bluechipSpoke.setUsingAsCollateral(
           r,
           true,
           avatar.address
         )
-      ).toBeAllowed()
-    })
-
-    it("forbids cbBTC supply on behalf of a third party", async () => {
-      await expect(
-        kit.asMember.aaveV4.bluechipSpoke.supply(
-          aaveV4BluechipReserve.cbbtcPrime,
-          1n,
-          stranger
-        )
-      ).toBeForbidden(Status.ParameterNotAllowed)
+      ).toBeForbidden()
     })
 
     it("forbids supplying an unpinned Bluechip reserve (3 = wstETH)", async () => {
@@ -140,44 +143,21 @@ describe("wbtc-carry-fund mainnet MANAGER", () => {
       ).toBeForbidden()
     })
 
-    it("approves WBTC and cbBTC to the shares contract, including a reset to 0", async () => {
+    it("approves WBTC to the shares contract, including a reset to 0", async () => {
       await expect(
-        erc20().attach(cbBTC).approve(parameters.shares, 0n)
+        erc20().attach(WBTC).approve(parameters.shares, 0n)
       ).toBeAllowed()
       await expect(
         erc20().attach(WBTC).approve(parameters.shares, parseUnits("1", 8))
       ).toBeAllowed()
       await expect(
-        erc20().attach(cbBTC).approve(stranger, parseUnits("1", 8))
+        erc20().attach(WBTC).approve(stranger, parseUnits("1", 8))
       ).toBeForbidden()
     })
 
-    it("swaps cbBTC to USDC on CowSwap", async () => {
-      await expect(
-        erc20()
-          .attach(cbBTC)
-          .approve(cowSwap.gpv2VaultRelayer, parseUnits("1", 8))
-      ).toBeAllowed()
-      await expect(
-        kit.asMember.cowSwap.orderSigner.signOrder.delegateCall(
-          {
-            sellToken: cbBTC,
-            buyToken: USDC,
-            sellAmount: parseUnits("1", 8),
-            buyAmount: parseUnits("1", 6),
-            feeAmount: 0n,
-            receiver: avatar.address,
-            validTo: Math.round(Date.now() / 1000) + 30 * 60,
-            kind: id("sell"),
-            partiallyFillable: false,
-            sellTokenBalance: id("erc20"),
-            buyTokenBalance: id("erc20"),
-            appData: keccak256(toUtf8Bytes("TEST")),
-          },
-          30 * 60,
-          0
-        )
-      ).toBeAllowed()
+    it("does not swap cbBTC on CowSwap", async () => {
+      await expect(cowOrder(cbBTC, USDC)).toBeForbidden()
+      await expect(cowOrder(WBTC, cbBTC)).toBeForbidden()
     })
   })
 
@@ -529,9 +509,12 @@ describe("wbtc-carry-fund mainnet MANAGER", () => {
       await expect(cowOrder(WBTC, USDT)).toBeForbidden()
     })
 
-    it("swaps between WBTC, cbBTC and cirBTC", async () => {
-      await expect(cowOrder(cirBTC, WBTC)).toBeAllowed()
-      await expect(cowOrder(cbBTC, cirBTC)).toBeAllowed()
+    it("swaps WBTC <-> USDC, but into no other BTC wrapper", async () => {
+      await expect(cowOrder(WBTC, USDC)).toBeAllowed()
+      await expect(cowOrder(USDC, WBTC)).toBeAllowed()
+      await expect(cowOrder(WBTC, cirBTC)).toBeForbidden()
+      await expect(cowOrder(cirBTC, WBTC)).toBeForbidden()
+      await expect(cowOrder(cbBTC, cirBTC)).toBeForbidden()
     })
 
     it("sells syrup tokens for stablecoins, but never buys them on CowSwap", async () => {
@@ -542,7 +525,7 @@ describe("wbtc-carry-fund mainnet MANAGER", () => {
     })
   })
 
-  describe("F - Aave v3 Core: backup borrow venue, syrupUSDT loop, cirBTC", () => {
+  describe("F - Aave v3 Core: backup borrow venue, syrupUSDT loop", () => {
     const pool = () => kit.asMember.aaveV3.poolCoreV3
 
     it("supplies WBTC and syrupUSDT and borrows USDG for the avatar", async () => {
@@ -554,19 +537,27 @@ describe("wbtc-carry-fund mainnet MANAGER", () => {
       await expect(pool().supply(WBTC, 1n, stranger, 0)).toBeForbidden()
     })
 
+    it("does not supply cbBTC (cbBTC gets its own fund)", async () => {
+      await expect(pool().supply(cbBTC, 1n, avatar.address, 0)).toBeForbidden()
+    })
+
     it("switches e-mode (33 = syrupUSDT stablecoins)", async () => {
       await expect(pool().setUserEMode(33)).toBeAllowed()
     })
 
-    it("supplies and withdraws cirBTC once listed", async () => {
-      await expect(pool().supply(cirBTC, 1n, avatar.address, 0)).toBeAllowed()
-      await expect(pool().withdraw(cirBTC, 1n, avatar.address)).toBeAllowed()
-      await expect(pool().withdraw(cirBTC, 1n, stranger)).toBeForbidden()
+    it("does not approve, supply or withdraw cirBTC", async () => {
+      await expect(
+        erc20()
+          .attach(cirBTC)
+          .approve(contracts.mainnet.aaveV3.poolCoreV3, parseUnits("1", 8))
+      ).toBeForbidden()
+      await expect(pool().supply(cirBTC, 1n, avatar.address, 0)).toBeForbidden()
+      await expect(pool().withdraw(cirBTC, 1n, avatar.address)).toBeForbidden()
     })
   })
 
   describe("G - Morpho Blue backup markets and the syrupUSDC loop", () => {
-    it("borrows USDC against cbBTC on the pinned market, for the avatar only", async () => {
+    it("does not use the USDC/cbBTC market (cbBTC gets its own fund)", async () => {
       const m = morphoMarkets.cbBtcUsdc
       await expect(
         kit.asMember.morpho.morphoBlue.supplyCollateral(
@@ -575,7 +566,7 @@ describe("wbtc-carry-fund mainnet MANAGER", () => {
           avatar.address,
           "0x"
         )
-      ).toBeAllowed()
+      ).toBeForbidden()
       await expect(
         kit.asMember.morpho.morphoBlue.borrow(
           m,
@@ -583,15 +574,6 @@ describe("wbtc-carry-fund mainnet MANAGER", () => {
           0n,
           avatar.address,
           avatar.address
-        )
-      ).toBeAllowed()
-      await expect(
-        kit.asMember.morpho.morphoBlue.borrow(
-          m,
-          1n,
-          0n,
-          avatar.address,
-          stranger
         )
       ).toBeForbidden()
     })
@@ -641,11 +623,10 @@ describe("wbtc-carry-fund mainnet MANAGER", () => {
     })
   })
 
-  describe("H - Compound v3 Institutional (ciUSDCv3): WBTC / cbBTC collateral, USDC debt", () => {
-    it("approves WBTC, cbBTC and USDC to the Comet only", async () => {
+  describe("H - Compound v3 Institutional (ciUSDCv3): WBTC collateral, USDC debt", () => {
+    it("approves WBTC and USDC to the Comet only", async () => {
       for (const [token, unit] of [
         [WBTC, parseUnits("1", 8)],
-        [cbBTC, parseUnits("1", 8)],
         [USDC, parseUnits("1", 6)],
       ] as const) {
         await expect(
@@ -657,19 +638,24 @@ describe("wbtc-carry-fund mainnet MANAGER", () => {
       }
     })
 
-    it("supplies collateral and repays: supply(WBTC / cbBTC / USDC)", async () => {
+    it("supplies collateral and repays: supply(WBTC / USDC)", async () => {
       await expect(comet().supply(WBTC, 1n)).toBeAllowed()
-      await expect(comet().supply(cbBTC, 1n)).toBeAllowed()
       await expect(comet().supply(USDC, parseUnits("1", 6))).toBeAllowed()
     })
 
-    it("withdraws collateral and borrows: withdraw(WBTC / cbBTC / USDC)", async () => {
+    it("withdraws collateral and borrows: withdraw(WBTC / USDC)", async () => {
       await expect(comet().withdraw(WBTC, 1n)).toBeAllowed()
-      await expect(comet().withdraw(cbBTC, 1n)).toBeAllowed()
       await expect(comet().withdraw(USDC, parseUnits("1", 6))).toBeAllowed()
     })
 
-    it("forbids WETH / wstETH collateral", async () => {
+    it("forbids cbBTC / WETH / wstETH collateral", async () => {
+      await expect(
+        erc20().attach(cbBTC).approve(compoundV3.ciUSDCv3, parseUnits("1", 8))
+      ).toBeForbidden()
+      await expect(comet().supply(cbBTC, 1n)).toBeForbidden(Status.OrViolation)
+      await expect(comet().withdraw(cbBTC, 1n)).toBeForbidden(
+        Status.OrViolation
+      )
       await expect(comet().supply(WETH, 1n)).toBeForbidden(Status.OrViolation)
       await expect(comet().withdraw(wstETH, 1n)).toBeForbidden(
         Status.OrViolation

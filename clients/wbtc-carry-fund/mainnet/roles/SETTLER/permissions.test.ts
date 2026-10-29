@@ -82,48 +82,27 @@ describe("wbtc-carry-fund mainnet SETTLER", () => {
     })
   })
 
-  describe("Aave v3 Core: cbBTC collateral for subscriptions and redemptions", () => {
-    it("approves cbBTC to the Pool, not to a stranger", async () => {
+  describe("Aave v3 Core: no cbBTC (cbBTC gets its own fund)", () => {
+    it("does not approve, supply, withdraw or toggle cbBTC", async () => {
       await expect(
         erc20().attach(cbBTC).approve(poolCoreV3, parseUnits("1", 8))
-      ).toBeAllowed()
-      await expect(
-        erc20().attach(cbBTC).approve(stranger, parseUnits("1", 8))
       ).toBeForbidden()
-    })
-
-    it("supplies cbBTC for the avatar only", async () => {
-      await expect(pool().supply(cbBTC, 1n, avatar.address, 0)).toBeAllowed()
-      await expect(pool().supply(cbBTC, 1n, stranger, 0)).toBeForbidden(
-        Status.ParameterNotAllowed
-      )
-    })
-
-    it("withdraws cbBTC to the avatar only", async () => {
-      await expect(pool().withdraw(cbBTC, 1n, avatar.address)).toBeAllowed()
-      await expect(pool().withdraw(cbBTC, 1n, stranger)).toBeForbidden(
-        Status.ParameterNotAllowed
-      )
-    })
-
-    it("toggles cbBTC as collateral either way", async () => {
+      await expect(pool().supply(cbBTC, 1n, avatar.address, 0)).toBeForbidden()
+      await expect(pool().withdraw(cbBTC, 1n, avatar.address)).toBeForbidden()
       await expect(
         pool().setUserUseReserveAsCollateral(cbBTC, true)
-      ).toBeAllowed()
-      await expect(
-        pool().setUserUseReserveAsCollateral(cbBTC, false)
-      ).toBeAllowed()
+      ).toBeForbidden()
     })
   })
 
-  describe("Compound v3 Institutional (ciUSDCv3): WBTC and cbBTC collateral", () => {
-    it("approves WBTC and cbBTC to the Comet, not to a stranger or USDC", async () => {
+  describe("Compound v3 Institutional (ciUSDCv3): WBTC collateral", () => {
+    it("approves WBTC to the Comet, not cbBTC, a stranger or USDC", async () => {
       await expect(
         erc20().attach(WBTC).approve(compoundV3.ciUSDCv3, parseUnits("1", 8))
       ).toBeAllowed()
       await expect(
         erc20().attach(cbBTC).approve(compoundV3.ciUSDCv3, parseUnits("1", 8))
-      ).toBeAllowed()
+      ).toBeForbidden()
       await expect(
         erc20().attach(WBTC).approve(stranger, parseUnits("1", 8))
       ).toBeForbidden()
@@ -132,17 +111,23 @@ describe("wbtc-carry-fund mainnet SETTLER", () => {
       ).toBeForbidden()
     })
 
-    it("supplies and withdraws WBTC and cbBTC", async () => {
+    it("supplies and withdraws WBTC, not cbBTC", async () => {
       await expect(comet().supply(WBTC, 1n)).toBeAllowed()
-      await expect(comet().supply(cbBTC, 1n)).toBeAllowed()
       await expect(comet().withdraw(WBTC, 1n)).toBeAllowed()
-      await expect(comet().withdraw(cbBTC, 1n)).toBeAllowed()
+      await expect(comet().supply(cbBTC, 1n)).toBeForbidden()
+      await expect(comet().withdraw(cbBTC, 1n)).toBeForbidden()
     })
 
     it("cannot borrow, repay, use other collateral or the To / allow variants", async () => {
-      await expect(comet().withdraw(USDC, 1n)).toBeForbidden(Status.OrViolation)
-      await expect(comet().supply(USDC, 1n)).toBeForbidden(Status.OrViolation)
-      await expect(comet().supply(WETH, 1n)).toBeForbidden(Status.OrViolation)
+      await expect(comet().withdraw(USDC, 1n)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+      await expect(comet().supply(USDC, 1n)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+      await expect(comet().supply(WETH, 1n)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
       await expect(comet().supplyTo(stranger, WBTC, 1n)).toBeForbidden(
         Status.FunctionNotAllowed
       )

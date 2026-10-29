@@ -20,11 +20,8 @@ describe("wbtc-carry-fund mainnet APPROVER", () => {
       await expect(shares().processRequests([], [], WBTC, 1n)).toBeAllowed()
     })
 
-    it("processes requests settled in cbBTC", async () => {
-      await expect(shares().processRequests([], [], cbBTC, 1n)).toBeAllowed()
-    })
-
-    it("does not process requests settled in any other asset", async () => {
+    it("does not process requests settled in any other asset, cbBTC included", async () => {
+      await expect(shares().processRequests([], [], cbBTC, 1n)).toBeForbidden()
       await expect(shares().processRequests([], [], USDC, 1n)).toBeForbidden()
     })
 
