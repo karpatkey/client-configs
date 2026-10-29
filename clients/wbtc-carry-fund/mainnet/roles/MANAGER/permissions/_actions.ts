@@ -1,6 +1,5 @@
 import { allow as allowAction } from "defi-kit/eth"
 import {
-  cirBTC,
   frxUSD,
   GHO,
   morpho,
@@ -28,12 +27,12 @@ export default [
     targets: ["syrupUSDT", "USDC", "USDG", "USDT", "WBTC"],
   }),
 
-  // CowSwap - the BTC set: WBTC / cirBTC between themselves and against USDC
-  // (deposit-asset conversions, and selling collateral to repay in an emergency). No cbBTC:
-  // it gets its own fund.
+  // CowSwap - WBTC <-> USDC only (selling collateral to repay in an emergency, and buying
+  // it back). No other BTC wrapper (cbBTC, cirBTC): swapping into one would move the fund
+  // off its deposit asset, and each wrapper gets its own fund.
   allowAction.cowswap.swap({
-    sell: [cirBTC, USDC, WBTC],
-    buy: [cirBTC, USDC, WBTC],
+    sell: [USDC, WBTC],
+    buy: [USDC, WBTC],
   }),
 
   // CowSwap - the stablecoin set, kept apart from the BTC set so no stablecoin besides USDC

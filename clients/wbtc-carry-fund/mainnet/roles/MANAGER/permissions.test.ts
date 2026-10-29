@@ -503,8 +503,11 @@ describe("wbtc-carry-fund mainnet MANAGER", () => {
       await expect(cowOrder(WBTC, USDT)).toBeForbidden()
     })
 
-    it("swaps between WBTC and cirBTC, not cbBTC", async () => {
-      await expect(cowOrder(cirBTC, WBTC)).toBeAllowed()
+    it("swaps WBTC <-> USDC, but into no other BTC wrapper", async () => {
+      await expect(cowOrder(WBTC, USDC)).toBeAllowed()
+      await expect(cowOrder(USDC, WBTC)).toBeAllowed()
+      await expect(cowOrder(WBTC, cirBTC)).toBeForbidden()
+      await expect(cowOrder(cirBTC, WBTC)).toBeForbidden()
       await expect(cowOrder(cbBTC, cirBTC)).toBeForbidden()
     })
 
