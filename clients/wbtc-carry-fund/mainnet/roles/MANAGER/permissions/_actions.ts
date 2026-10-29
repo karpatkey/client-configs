@@ -16,8 +16,7 @@ import {
 
 export default [
   // Aave v3 Core - backup borrow venue for the BTC leg, and the syrupUSDT loop (e-mode 33,
-  // set through `setUserEMode` in calls.ts). cirBTC is scoped in calls.ts until defi-kit
-  // lists it.
+  // set through `setUserEMode` in calls.ts).
   allowAction.aave_v3.borrow({
     market: "Core",
     targets: ["GHO", "RLUSD", "USDC", "USDG", "USDT"],

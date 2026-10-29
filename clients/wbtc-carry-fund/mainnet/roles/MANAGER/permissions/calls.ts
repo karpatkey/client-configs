@@ -1,7 +1,6 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import {
-  cirBTC,
   compoundV3,
   frxUSD,
   maple,
@@ -26,7 +25,6 @@ import { Parameters } from "../../../parameters"
 const bluechipSpoke = contracts.mainnet.aaveV4.bluechipSpoke
 const curveUsdgUsdcPool = contracts.mainnet.curve.usdgUsdcPool
 const mapleSpoke = contracts.mainnet.aaveV4.mapleSpoke
-const poolCoreV3 = contracts.mainnet.aaveV3.poolCoreV3
 
 // ---------------------------------------------------------------------------------------
 // Aave v4 - two Spokes, every reserve pinned by id (addresses.ts), for the avatar only.
@@ -91,13 +89,8 @@ export default (parameters: Parameters) =>
   [
     // Aave v3 Core - backup borrow venue and the syrupUSDT loop (e-mode 33). Supply,
     // withdraw, collateral and borrow / repay come from defi-kit in _actions.ts. Added here:
-    // cirBTC, which defi-kit does not list yet (Aave v3 keys reserves by token address, so
-    // this works from the day it is listed), and e-mode switching.
-    allowErc20Approve([cirBTC], [poolCoreV3]),
+    // e-mode switching.
     allow.mainnet.aaveV3.poolCoreV3.setUserEMode(),
-    allow.mainnet.aaveV3.poolCoreV3.setUserUseReserveAsCollateral(cirBTC),
-    allow.mainnet.aaveV3.poolCoreV3.supply(cirBTC, undefined, c.avatar),
-    allow.mainnet.aaveV3.poolCoreV3.withdraw(cirBTC, undefined, c.avatar),
 
     // Aave v4 Bluechip Spoke - The Spoke pulls the asset on supply (WBTC) and on repay
     // (frxUSD, USDC, USDG), hence the approvals.
@@ -267,8 +260,7 @@ export default (parameters: Parameters) =>
 
     // Shares contract - Redemptions are paid out by the shares contract pulling the asset from
     // the avatar Safe (safeTransferFrom(avatar, receiver)), so it needs an allowance on
-    // every asset the fund may settle in. The WBTC allowance was set at deploy outside
-    // this role; cirBTC has none. Scoped so the allowance can be topped up or reset to 0
-    // through the role.
-    allowErc20Approve([cirBTC, WBTC], [parameters.shares]),
+    // every asset the fund may settle in: WBTC only. The allowance was set at deploy outside
+    // this role. Scoped so it can be topped up or reset to 0 through the role.
+    allowErc20Approve([WBTC], [parameters.shares]),
   ] satisfies PermissionList

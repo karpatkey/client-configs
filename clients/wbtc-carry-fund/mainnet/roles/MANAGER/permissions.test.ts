@@ -102,6 +102,12 @@ describe("wbtc-carry-fund mainnet MANAGER", () => {
   describe("A - no cbBTC (cbBTC gets its own fund)", () => {
     const spoke = contracts.mainnet.aaveV4.bluechipSpoke
 
+    it("does not approve cirBTC to the shares contract", async () => {
+      await expect(
+        erc20().attach(cirBTC).approve(parameters.shares, parseUnits("1", 8))
+      ).toBeForbidden()
+    })
+
     it("does not approve cbBTC to the Bluechip Spoke, the shares contract or CowSwap", async () => {
       for (const spender of [
         spoke,
@@ -519,7 +525,7 @@ describe("wbtc-carry-fund mainnet MANAGER", () => {
     })
   })
 
-  describe("F - Aave v3 Core: backup borrow venue, syrupUSDT loop, cirBTC", () => {
+  describe("F - Aave v3 Core: backup borrow venue, syrupUSDT loop", () => {
     const pool = () => kit.asMember.aaveV3.poolCoreV3
 
     it("supplies WBTC and syrupUSDT and borrows USDG for the avatar", async () => {
@@ -539,10 +545,14 @@ describe("wbtc-carry-fund mainnet MANAGER", () => {
       await expect(pool().setUserEMode(33)).toBeAllowed()
     })
 
-    it("supplies and withdraws cirBTC once listed", async () => {
-      await expect(pool().supply(cirBTC, 1n, avatar.address, 0)).toBeAllowed()
-      await expect(pool().withdraw(cirBTC, 1n, avatar.address)).toBeAllowed()
-      await expect(pool().withdraw(cirBTC, 1n, stranger)).toBeForbidden()
+    it("does not approve, supply or withdraw cirBTC", async () => {
+      await expect(
+        erc20()
+          .attach(cirBTC)
+          .approve(contracts.mainnet.aaveV3.poolCoreV3, parseUnits("1", 8))
+      ).toBeForbidden()
+      await expect(pool().supply(cirBTC, 1n, avatar.address, 0)).toBeForbidden()
+      await expect(pool().withdraw(cirBTC, 1n, avatar.address)).toBeForbidden()
     })
   })
 
