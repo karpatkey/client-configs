@@ -72,26 +72,14 @@ describe("cbbtc-carry-fund mainnet HF_KEEPER", () => {
     })
   })
 
-  describe("Aave v4 Bluechip: frxUSD repay only (reserve 8)", () => {
-    it("approves frxUSD to the Spoke, not to a stranger", async () => {
+  describe("Aave v4 Bluechip: frxUSD not scoped (reserve 8)", () => {
+    it("does not approve, repay or borrow frxUSD", async () => {
       await expect(
         erc20().attach(frxUSD).approve(bluechipSpoke, parseUnits("1", 18))
-      ).toBeAllowed()
-      await expect(
-        erc20().attach(frxUSD).approve(stranger, parseUnits("1", 18))
       ).toBeForbidden()
-    })
-
-    it("repays frxUSD for the avatar only", async () => {
       await expect(
         bluechip().repay(aaveV4BluechipReserve.frxusdCore, 1n, avatar.address)
-      ).toBeAllowed()
-      await expect(
-        bluechip().repay(aaveV4BluechipReserve.frxusdCore, 1n, stranger)
-      ).toBeForbidden(Status.ParameterNotAllowed)
-    })
-
-    it("never borrows frxUSD", async () => {
+      ).toBeForbidden()
       await expect(
         bluechip().borrow(aaveV4BluechipReserve.frxusdCore, 1n, avatar.address)
       ).toBeForbidden()

@@ -1,6 +1,6 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { frxUSD, morpho, USDC, USDG } from "@/addresses/eth"
+import { morpho, USDC, USDG } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
@@ -50,16 +50,6 @@ export default (parameters: Parameters) =>
     allowErc20Approve([USDG], [bluechipSpoke]),
     allow.mainnet.aaveV4.bluechipSpoke.repay(
       reserve.usdgCore,
-      undefined,
-      c.avatar
-    ),
-
-    // Aave v4 Bluechip Spoke - Repay frxUSD debt (Core Hub line, reserve 8). MANAGER can
-    // borrow frxUSD, so the HF manager must be able to repay it to deleverage. Repay only:
-    // the HF manager does not open a frxUSD borrow.
-    allowErc20Approve([frxUSD], [bluechipSpoke]),
-    allow.mainnet.aaveV4.bluechipSpoke.repay(
-      reserve.frxusdCore,
       undefined,
       c.avatar
     ),
