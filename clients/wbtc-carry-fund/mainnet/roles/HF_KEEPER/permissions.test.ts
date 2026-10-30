@@ -4,7 +4,15 @@ import { avatar } from "@/test/wallets"
 import kit from "@/test/kit"
 import { Status } from "@/test/types"
 import { contracts } from "@/contracts"
-import { cbBTC, compoundV3, USDC, USDG, USDT, WBTC } from "@/addresses/eth"
+import {
+  cbBTC,
+  compoundV3,
+  frxUSD,
+  USDC,
+  USDG,
+  USDT,
+  WBTC,
+} from "@/addresses/eth"
 import { aaveV4BluechipReserve } from "../../addresses"
 import { parameters } from "../../instances/sub_prod"
 import allowedCalls from "./permissions/calls"
@@ -13,6 +21,7 @@ import allowedActions from "./permissions/_actions"
 // An address that is neither the avatar nor a scoped spender
 const stranger = "0x000000000000000000000000000000000000dEaD"
 
+const bluechipSpoke = contracts.mainnet.aaveV4.bluechipSpoke
 const curvePool = contracts.mainnet.curve.usdgUsdcPool
 const poolCoreV3 = contracts.mainnet.aaveV3.poolCoreV3
 const curve = () => kit.asMember.curve.usdgUsdcPool
@@ -55,6 +64,30 @@ describe("wbtc-carry-fund mainnet HF_KEEPER", () => {
       ).toBeForbidden()
       await expect(pool().supply(WBTC, 1n, avatar.address, 0)).toBeForbidden()
       await expect(pool().withdraw(WBTC, 1n, avatar.address)).toBeForbidden()
+    })
+  })
+
+  describe("Aave v4 Bluechip: frxUSD repay only (reserve 8)", () => {
+    it("approves frxUSD to the Spoke, not to a stranger", async () => {
+      await expect(
+        erc20().attach(frxUSD).approve(bluechipSpoke, parseUnits("1", 18))
+      ).toBeAllowed()
+      await expect(
+        erc20().attach(frxUSD).approve(stranger, parseUnits("1", 18))
+      ).toBeForbidden()
+    })
+
+    it("repays frxUSD for the avatar only, and never borrows it", async () => {
+      const bluechip = () => kit.asMember.aaveV4.bluechipSpoke
+      await expect(
+        bluechip().repay(aaveV4BluechipReserve.frxusdCore, 1n, avatar.address)
+      ).toBeAllowed()
+      await expect(
+        bluechip().repay(aaveV4BluechipReserve.frxusdCore, 1n, stranger)
+      ).toBeForbidden(Status.ParameterNotAllowed)
+      await expect(
+        bluechip().borrow(aaveV4BluechipReserve.frxusdCore, 1n, avatar.address)
+      ).toBeForbidden()
     })
   })
 

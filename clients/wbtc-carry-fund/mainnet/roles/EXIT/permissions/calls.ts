@@ -2,6 +2,7 @@ import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import {
   compoundV3,
+  frxUSD,
   morpho,
   syrupUSDG,
   USDC,
@@ -59,6 +60,15 @@ export default (parameters: Parameters) =>
     allowErc20Approve([USDG], [bluechipSpoke]),
     allow.mainnet.aaveV4.bluechipSpoke.repay(
       reserve.usdgCore,
+      undefined,
+      c.avatar
+    ),
+
+    // Aave v4 Bluechip Spoke - Repay frxUSD debt (Core Hub line, reserve 8): MANAGER can
+    // borrow frxUSD, so a full exit must be able to repay it before the WBTC is withdrawn.
+    allowErc20Approve([frxUSD], [bluechipSpoke]),
+    allow.mainnet.aaveV4.bluechipSpoke.repay(
+      reserve.frxusdCore,
       undefined,
       c.avatar
     ),

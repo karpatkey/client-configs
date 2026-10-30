@@ -7,6 +7,7 @@ import { contracts } from "@/contracts"
 import {
   cbBTC,
   compoundV3,
+  frxUSD,
   USDC,
   USDG,
   USDT,
@@ -21,6 +22,7 @@ import allowedActions from "./permissions/_actions"
 // An address that is neither the avatar nor a scoped spender
 const stranger = "0x000000000000000000000000000000000000dEaD"
 
+const bluechipSpoke = contracts.mainnet.aaveV4.bluechipSpoke
 const curvePool = contracts.mainnet.curve.usdgUsdcPool
 const poolCoreV3 = contracts.mainnet.aaveV3.poolCoreV3
 const curve = () => kit.asMember.curve.usdgUsdcPool
@@ -73,6 +75,30 @@ describe("wbtc-carry-fund mainnet EXIT", () => {
       await expect(pool().supply(cbBTC, 1n, avatar.address, 0)).toBeForbidden(
         Status.FunctionNotAllowed
       )
+    })
+  })
+
+  describe("Aave v4 Bluechip: frxUSD repay (reserve 8)", () => {
+    it("approves frxUSD to the Spoke, not to a stranger", async () => {
+      await expect(
+        erc20().attach(frxUSD).approve(bluechipSpoke, parseUnits("1", 18))
+      ).toBeAllowed()
+      await expect(
+        erc20().attach(frxUSD).approve(stranger, parseUnits("1", 18))
+      ).toBeForbidden()
+    })
+
+    it("repays frxUSD for the avatar only, and never borrows it", async () => {
+      const bluechip = () => kit.asMember.aaveV4.bluechipSpoke
+      await expect(
+        bluechip().repay(aaveV4BluechipReserve.frxusdCore, 1n, avatar.address)
+      ).toBeAllowed()
+      await expect(
+        bluechip().repay(aaveV4BluechipReserve.frxusdCore, 1n, stranger)
+      ).toBeForbidden(Status.ParameterNotAllowed)
+      await expect(
+        bluechip().borrow(aaveV4BluechipReserve.frxusdCore, 1n, avatar.address)
+      ).toBeForbidden()
     })
   })
 
