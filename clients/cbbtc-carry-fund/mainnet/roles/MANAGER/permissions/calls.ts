@@ -161,13 +161,13 @@ export default (parameters: Parameters) =>
     // transferAsset, buyCollateral, absorb, and the WBTC / WETH / wstETH collateral. Hand-scoped:
     // defi-kit's compound_v3 `borrow` resolves USDC to the main cUSDCv3 market, and its
     // `deposit` adds a claim on the main CometRewards, which has no config for this market.
-    allowErc20Approve([USDC, cbBTC], [compoundV3.ciUSDCv3]),
+    allowErc20Approve([cbBTC, USDC], [compoundV3.ciUSDCv3]),
     {
-      ...allow.mainnet.compoundV3.comet.supply(c.or(USDC, cbBTC)),
+      ...allow.mainnet.compoundV3.comet.supply(c.or(cbBTC, USDC)),
       targetAddress: compoundV3.ciUSDCv3,
     },
     {
-      ...allow.mainnet.compoundV3.comet.withdraw(c.or(USDC, cbBTC)),
+      ...allow.mainnet.compoundV3.comet.withdraw(c.or(cbBTC, USDC)),
       targetAddress: compoundV3.ciUSDCv3,
     },
 

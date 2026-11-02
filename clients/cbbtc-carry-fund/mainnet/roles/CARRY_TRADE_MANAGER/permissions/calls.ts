@@ -28,23 +28,6 @@ export default (parameters: Parameters) =>
     allow.mainnet.aaveV3.poolCoreV3.supply(cbBTC, undefined, c.avatar),
     allow.mainnet.aaveV3.poolCoreV3.withdraw(cbBTC, undefined, c.avatar),
 
-    // Compound v3 - Institutional Market (ciUSDCv3) - the Aave v3 Core legs on Comet: cbBTC
-    // collateral, USDC debt. supply / withdraw(asset, amount) always act for msg.sender, the
-    // avatar: supply cbBTC adds collateral and supply USDC repays; withdraw cbBTC removes
-    // collateral and withdraw USDC borrows. USDC supplied past the debt stays a USDC supply
-    // position of the avatar. The Comet pulls the asset from the caller, hence the approvals.
-    // No WBTC, no To / From variants, allow / allowBySig, transfers or buyCollateral. Same
-    // hand-scoping as MANAGER.
-    allowErc20Approve([USDC, cbBTC], [compoundV3.ciUSDCv3]),
-    {
-      ...allow.mainnet.compoundV3.comet.supply(c.or(USDC, cbBTC)),
-      targetAddress: compoundV3.ciUSDCv3,
-    },
-    {
-      ...allow.mainnet.compoundV3.comet.withdraw(c.or(USDC, cbBTC)),
-      targetAddress: compoundV3.ciUSDCv3,
-    },
-
     // Aave v4 Bluechip Spoke - The Spoke pulls the asset on supply (cbBTC) and on repay (USDC,
     // USDG), hence the approvals.
     allowErc20Approve([cbBTC, USDC, USDG], [bluechipSpoke]),
@@ -88,6 +71,23 @@ export default (parameters: Parameters) =>
       undefined,
       c.avatar
     ),
+
+    // Compound v3 - Institutional Market (ciUSDCv3) - the Aave v3 Core legs on Comet: cbBTC
+    // collateral, USDC debt. supply / withdraw(asset, amount) always act for msg.sender, the
+    // avatar: supply cbBTC adds collateral and supply USDC repays; withdraw cbBTC removes
+    // collateral and withdraw USDC borrows. USDC supplied past the debt stays a USDC supply
+    // position of the avatar. The Comet pulls the asset from the caller, hence the approvals.
+    // No WBTC, no To / From variants, allow / allowBySig, transfers or buyCollateral. Same
+    // hand-scoping as MANAGER.
+    allowErc20Approve([cbBTC, USDC], [compoundV3.ciUSDCv3]),
+    {
+      ...allow.mainnet.compoundV3.comet.supply(c.or(cbBTC, USDC)),
+      targetAddress: compoundV3.ciUSDCv3,
+    },
+    {
+      ...allow.mainnet.compoundV3.comet.withdraw(c.or(cbBTC, USDC)),
+      targetAddress: compoundV3.ciUSDCv3,
+    },
 
     // Curve - USDG/USDC StableSwap-NG pool (coins(0) USDG, coins(1) USDC): atomic swap both
     // ways, for a same-transaction repay of the USDG debt. The 4-argument `exchange` pays
