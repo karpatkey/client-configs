@@ -13,8 +13,9 @@ const curveUsdgUsdcPool = contracts.mainnet.curve.usdgUsdcPool
 
 // The kpk-agents carry-trade manager for this fund, on its own signer: cbBTC collateral on the
 // Bluechip Spoke (reserve 2, Prime Hub), debt on the Core Hub USDC (7) and USDG (11) lines, the
-// borrowed stablecoin deployed into the two kpk USDC vaults. Only the calls the manager signs:
-// no other reserve, no WBTC, no stablecoin supply, nothing on behalf of or to a third party.
+// borrowed stablecoin deployed into the two kpk USDC vaults and the KPK-curated YO Ecosystem
+// Vault. Only the calls the manager signs: no other reserve, no WBTC, no stablecoin supply,
+// nothing on behalf of or to a third party.
 // The same legs exist on the Aave v3 Core pool (cbBTC collateral, USDC debt) for `venue_kind:
 // aave_v3`, and on the Compound v3 Institutional Market (ciUSDCv3, same assets).
 export default (parameters: Parameters) =>
@@ -118,9 +119,9 @@ export default (parameters: Parameters) =>
       targetAddress: morpho.kpkUsdcYieldRWA,
     },
 
-    // Morpho Vault - kpk USDC Yield v2 / kpk USDC Yield RWA - Force deallocate (unlock
-    // liquidity across the vault's underlying markets before a withdrawal) - onBehalf
-    // pinned to the avatar Safe
+    // Morpho Vault - kpk USDC Yield v2 / kpk USDC Yield RWA / YO Ecosystem - Force
+    // deallocate (unlock liquidity across the vault's underlying markets before a
+    // withdrawal) - onBehalf pinned to the avatar Safe
     {
       ...allow.mainnet.morpho.vault.forceDeallocate(
         undefined,
@@ -138,5 +139,14 @@ export default (parameters: Parameters) =>
         c.avatar
       ),
       targetAddress: morpho.kpkUsdcYieldRWA,
+    },
+    {
+      ...allow.mainnet.morpho.vault.forceDeallocate(
+        undefined,
+        undefined,
+        undefined,
+        c.avatar
+      ),
+      targetAddress: morpho.kpkYoEcosystem,
     },
   ] satisfies PermissionList

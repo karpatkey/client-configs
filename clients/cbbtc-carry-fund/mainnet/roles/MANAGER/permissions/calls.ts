@@ -236,9 +236,9 @@ export default (parameters: Parameters) =>
       targetAddress: morpho.kpkUsdcYieldRWA,
     },
 
-    // Morpho Vault - kpk USDC Yield v2 / kpk USDC Yield RWA - Force deallocate (unlock
-    // liquidity across the vault's underlying markets before a withdrawal) - onBehalf
-    // pinned to the avatar Safe
+    // Morpho Vault - kpk USDC Yield v2 / kpk USDC Yield RWA / YO Ecosystem - Force
+    // deallocate (unlock liquidity across the vault's underlying markets before a
+    // withdrawal) - onBehalf pinned to the avatar Safe
     {
       ...allow.mainnet.morpho.vault.forceDeallocate(
         undefined,
@@ -256,6 +256,15 @@ export default (parameters: Parameters) =>
         c.avatar
       ),
       targetAddress: morpho.kpkUsdcYieldRWA,
+    },
+    {
+      ...allow.mainnet.morpho.vault.forceDeallocate(
+        undefined,
+        undefined,
+        undefined,
+        c.avatar
+      ),
+      targetAddress: morpho.kpkYoEcosystem,
     },
 
     // Shares contract - Redemptions are paid out by the shares contract pulling the asset from
