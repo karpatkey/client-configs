@@ -86,16 +86,39 @@ describe("cbbtc-carry-fund mainnet HF_KEEPER", () => {
     })
   })
 
-  describe("Compound v3 Institutional (ciUSDCv3): not scoped (does not take cbBTC)", () => {
-    it("does not approve, borrow or repay on the Comet", async () => {
+  describe("Compound v3 Institutional (ciUSDCv3): USDC debt leg", () => {
+    it("approves USDC to the Comet, not to a stranger or for collateral", async () => {
       await expect(
         erc20().attach(USDC).approve(compoundV3.ciUSDCv3, parseUnits("1", 6))
+      ).toBeAllowed()
+      await expect(
+        erc20().attach(USDC).approve(stranger, parseUnits("1", 6))
       ).toBeForbidden()
-      await expect(comet().withdraw(USDC, parseUnits("1", 6))).toBeForbidden(
-        Status.TargetAddressNotAllowed
+      await expect(
+        erc20().attach(cbBTC).approve(compoundV3.ciUSDCv3, parseUnits("1", 8))
+      ).toBeForbidden()
+    })
+
+    it("borrows (withdraw) and repays (supply) USDC", async () => {
+      await expect(comet().withdraw(USDC, parseUnits("1", 6))).toBeAllowed()
+      await expect(comet().supply(USDC, parseUnits("1", 6))).toBeAllowed()
+    })
+
+    it("forbids collateral movement and the To / allow variants", async () => {
+      await expect(comet().supply(cbBTC, 1n)).toBeForbidden(
+        Status.ParameterNotAllowed
       )
-      await expect(comet().supply(USDC, parseUnits("1", 6))).toBeForbidden(
-        Status.TargetAddressNotAllowed
+      await expect(comet().withdraw(WBTC, 1n)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+      await expect(comet().withdrawTo(stranger, USDC, 1n)).toBeForbidden(
+        Status.FunctionNotAllowed
+      )
+      await expect(comet().supplyTo(avatar.address, USDC, 1n)).toBeForbidden(
+        Status.FunctionNotAllowed
+      )
+      await expect(comet().allow(stranger, true)).toBeForbidden(
+        Status.FunctionNotAllowed
       )
     })
   })

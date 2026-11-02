@@ -12,6 +12,7 @@ import {
   USDG,
   USDT,
   WBTC,
+  WETH,
 } from "@/addresses/eth"
 import { aaveV4BluechipReserve } from "../../addresses"
 import { parameters } from "../../instances/sub_prod"
@@ -95,19 +96,40 @@ describe("cbbtc-carry-fund mainnet EXIT", () => {
     })
   })
 
-  describe("Compound v3 Institutional (ciUSDCv3): not scoped (does not take cbBTC)", () => {
-    it("does not approve, supply or withdraw on the Comet", async () => {
+  describe("Compound v3 Institutional (ciUSDCv3): loan_position_exit unwind", () => {
+    it("approves USDC to the Comet, not to a stranger", async () => {
       await expect(
         erc20().attach(USDC).approve(compoundV3.ciUSDCv3, parseUnits("1", 6))
+      ).toBeAllowed()
+      await expect(
+        erc20().attach(USDC).approve(stranger, parseUnits("1", 6))
       ).toBeForbidden()
-      await expect(comet().supply(USDC, parseUnits("1", 6))).toBeForbidden(
-        Status.TargetAddressNotAllowed
+    })
+
+    it("repays USDC (supply)", async () => {
+      await expect(comet().supply(USDC, parseUnits("1", 6))).toBeAllowed()
+    })
+
+    it("withdraws cbBTC collateral, not WBTC", async () => {
+      await expect(comet().withdraw(cbBTC, 1n)).toBeAllowed()
+      await expect(comet().withdraw(WBTC, 1n)).toBeForbidden()
+    })
+
+    it("cannot borrow, add collateral, use other assets or the To / allow variants", async () => {
+      await expect(comet().withdraw(USDC, 1n)).toBeForbidden(
+        Status.ParameterNotAllowed
       )
-      await expect(comet().withdraw(cbBTC, 1n)).toBeForbidden(
-        Status.TargetAddressNotAllowed
+      await expect(comet().supply(cbBTC, 1n)).toBeForbidden(
+        Status.ParameterNotAllowed
       )
-      await expect(comet().withdraw(WBTC, 1n)).toBeForbidden(
-        Status.TargetAddressNotAllowed
+      await expect(comet().withdraw(WETH, 1n)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+      await expect(comet().withdrawTo(stranger, cbBTC, 1n)).toBeForbidden(
+        Status.FunctionNotAllowed
+      )
+      await expect(comet().allow(stranger, true)).toBeForbidden(
+        Status.FunctionNotAllowed
       )
     })
   })

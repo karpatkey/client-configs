@@ -1,6 +1,6 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { cbBTC, morpho, USDC, USDG } from "@/addresses/eth"
+import { cbBTC, compoundV3, morpho, USDC, USDG } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
@@ -16,7 +16,7 @@ const curveUsdgUsdcPool = contracts.mainnet.curve.usdgUsdcPool
 // borrowed stablecoin deployed into the two kpk USDC vaults. Only the calls the manager signs:
 // no other reserve, no WBTC, no stablecoin supply, nothing on behalf of or to a third party.
 // The same legs exist on the Aave v3 Core pool (cbBTC collateral, USDC debt) for `venue_kind:
-// aave_v3`. No Compound v3 leg: the Institutional Market (ciUSDCv3) does not take cbBTC.
+// aave_v3`, and on the Compound v3 Institutional Market (ciUSDCv3, same assets).
 export default (parameters: Parameters) =>
   [
     // Aave v3 Core Market (venue_kind: aave_v3) - cbBTC collateral: supply for the avatar, enable
@@ -27,6 +27,23 @@ export default (parameters: Parameters) =>
     allow.mainnet.aaveV3.poolCoreV3.setUserUseReserveAsCollateral(cbBTC, true),
     allow.mainnet.aaveV3.poolCoreV3.supply(cbBTC, undefined, c.avatar),
     allow.mainnet.aaveV3.poolCoreV3.withdraw(cbBTC, undefined, c.avatar),
+
+    // Compound v3 - Institutional Market (ciUSDCv3) - the Aave v3 Core legs on Comet: cbBTC
+    // collateral, USDC debt. supply / withdraw(asset, amount) always act for msg.sender, the
+    // avatar: supply cbBTC adds collateral and supply USDC repays; withdraw cbBTC removes
+    // collateral and withdraw USDC borrows. USDC supplied past the debt stays a USDC supply
+    // position of the avatar. The Comet pulls the asset from the caller, hence the approvals.
+    // No WBTC, no To / From variants, allow / allowBySig, transfers or buyCollateral. Same
+    // hand-scoping as MANAGER.
+    allowErc20Approve([USDC, cbBTC], [compoundV3.ciUSDCv3]),
+    {
+      ...allow.mainnet.compoundV3.comet.supply(c.or(USDC, cbBTC)),
+      targetAddress: compoundV3.ciUSDCv3,
+    },
+    {
+      ...allow.mainnet.compoundV3.comet.withdraw(c.or(USDC, cbBTC)),
+      targetAddress: compoundV3.ciUSDCv3,
+    },
 
     // Aave v4 Bluechip Spoke - The Spoke pulls the asset on supply (cbBTC) and on repay (USDC,
     // USDG), hence the approvals.

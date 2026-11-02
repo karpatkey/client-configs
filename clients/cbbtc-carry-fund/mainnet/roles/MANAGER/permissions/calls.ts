@@ -2,6 +2,7 @@ import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import {
   cbBTC,
+  compoundV3,
   frxUSD,
   maple,
   morpho,
@@ -148,6 +149,27 @@ export default (parameters: Parameters) =>
     allow.mainnet.aaveV4.bluechipSpoke.updateUserRiskPremium(c.avatar),
     allow.mainnet.aaveV4.mapleSpoke.updateUserDynamicConfig(c.avatar),
     allow.mainnet.aaveV4.mapleSpoke.updateUserRiskPremium(c.avatar),
+
+    // Compound v3 - Institutional Market (ciUSDCv3) - borrow venue for the BTC leg: cbBTC as
+    // collateral, USDC debt. Comet keys every leg on supply / withdraw(asset, amount), which
+    // always act for msg.sender, the avatar: supply cbBTC adds collateral and supply USDC
+    // repays; withdraw cbBTC removes collateral and withdraw USDC borrows
+    // once no USDC is supplied (minimum borrow 1 USDC, `baseBorrowMin`). USDC supplied past the
+    // debt stays a USDC supply position of the avatar. The Comet pulls the asset from the
+    // caller, hence the approvals. Not scoped: supplyTo / supplyFrom / withdrawTo /
+    // withdrawFrom, allow / allowBySig (manager delegation), transfer / transferFrom /
+    // transferAsset, buyCollateral, absorb, and the WBTC / WETH / wstETH collateral. Hand-scoped:
+    // defi-kit's compound_v3 `borrow` resolves USDC to the main cUSDCv3 market, and its
+    // `deposit` adds a claim on the main CometRewards, which has no config for this market.
+    allowErc20Approve([USDC, cbBTC], [compoundV3.ciUSDCv3]),
+    {
+      ...allow.mainnet.compoundV3.comet.supply(c.or(USDC, cbBTC)),
+      targetAddress: compoundV3.ciUSDCv3,
+    },
+    {
+      ...allow.mainnet.compoundV3.comet.withdraw(c.or(USDC, cbBTC)),
+      targetAddress: compoundV3.ciUSDCv3,
+    },
 
     // Curve - USDG/USDC StableSwap-NG pool (coins(0) USDG, coins(1) USDC): atomic swap both
     // ways, for a same-transaction repay of the USDG debt. Also needed here because every call
