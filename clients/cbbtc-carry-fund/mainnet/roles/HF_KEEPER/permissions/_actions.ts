@@ -10,6 +10,8 @@ export default [
   // USDC vaults, and USDC from the vaults is swapped back to USDG to repay.
   allowAction.cowswap.swap({ sell: [USDC, USDG], buy: [USDC, USDG] }),
 
-  // Morpho Vault - kpk USDC Yield v2
-  allowAction.morphoVaults.deposit({ targets: [morpho.kpkUsdcYieldV2] }),
+  // Morpho Vaults - kpk USDC Yield v2 and the KPK-curated YO Ecosystem Vault (USDC)
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkUsdcYieldV2, morpho.kpkYoEcosystem],
+  }),
 ]

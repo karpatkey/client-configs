@@ -92,6 +92,7 @@ const morphoMarkets = {
 
 const erc20 = () => kit.asMember.weth
 const comet = () => kit.asMember.compoundV3.comet.attach(compoundV3.ciUSDCv3)
+const vault = (address: string) => kit.asMember.morpho.vault.attach(address)
 
 const cowOrder = (sellToken: string, buyToken: string) =>
   kit.asMember.cowSwap.orderSigner.signOrder.delegateCall(
@@ -827,6 +828,62 @@ describe("cbbtc-carry-fund mainnet MANAGER", () => {
       await expect(
         erc20().attach(USDT).approve(curvePool, parseUnits("1", 6))
       ).toBeForbidden()
+    })
+  })
+
+  describe("J - KPK-curated YO Ecosystem Vault (Morpho V2, USDC)", () => {
+    const yo = () => vault(morpho.kpkYoEcosystem)
+
+    it("approves USDC to the vault, not to a stranger", async () => {
+      await expect(
+        erc20().attach(USDC).approve(morpho.kpkYoEcosystem, parseUnits("1", 6))
+      ).toBeAllowed()
+      await expect(
+        erc20().attach(USDC).approve(stranger, parseUnits("1", 6))
+      ).toBeForbidden()
+    })
+
+    it("deposits, withdraws and redeems for the avatar", async () => {
+      await expect(yo().deposit(1n, avatar.address)).toBeAllowed()
+      await expect(
+        yo().withdraw(1n, avatar.address, avatar.address)
+      ).toBeAllowed()
+      await expect(
+        yo().redeem(1n, avatar.address, avatar.address)
+      ).toBeAllowed()
+    })
+
+    it("forbids a stranger receiver or owner", async () => {
+      await expect(yo().deposit(1n, stranger)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+      await expect(yo().withdraw(1n, stranger, avatar.address)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+      await expect(yo().withdraw(1n, avatar.address, stranger)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+      await expect(yo().redeem(1n, stranger, avatar.address)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+      await expect(yo().redeem(1n, avatar.address, stranger)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+    })
+
+    it("force deallocates on behalf of the avatar only", async () => {
+      await expect(
+        yo().forceDeallocate(stranger, "0x", 1n, avatar.address)
+      ).toBeAllowed()
+      await expect(
+        yo().forceDeallocate(stranger, "0x", 1n, stranger)
+      ).toBeForbidden(Status.ParameterNotAllowed)
+    })
+
+    it("forbids a stranger vault", async () => {
+      await expect(vault(stranger).deposit(1n, avatar.address)).toBeForbidden(
+        Status.TargetAddressNotAllowed
+      )
     })
   })
 })

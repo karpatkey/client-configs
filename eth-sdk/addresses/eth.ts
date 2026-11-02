@@ -350,6 +350,7 @@ export const morpho = {
   kpkUsdcYieldV1: "0x9178eBE0691593184c1D785a864B62a326cc3509", // kpk USDC Yield v1
   kpkUsdcYieldV2: "0xD5cCe260E7a755DDf0Fb9cdF06443d593AaeaA13", // kpk USDC Yield v2
   kpkUsdcYieldRWA: "0x7a72bcD2c3F7F7e4D6679170a0625bAB15D7DDa1", // kpk USDC Yield RWA
+  kpkYoEcosystem: "0x355A1c6A3f1946d4DbD7cE932492925AB9F261a7", // YO Ecosystem Vault (Morpho V2, USDC)
   kpkEurcYieldV1: "0x0c6aec603d48eBf1cECc7b247a2c3DA08b398DC1", // kpk EURC Yield v1
   kpkEurcYieldV2: "0xa877D5bb0274dcCbA8556154A30E1Ca4021a275f", // kpk EURC Yield v2
   kpkUsdtPrimeV1: "0xdaD4e51d64c3B65A9d27aD9F3185B09449712065", // kpk USDT Prime v1
