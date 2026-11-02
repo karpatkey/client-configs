@@ -8,8 +8,8 @@ description: >
   kUSD", "re-centre the band", "the settlement bot reverts with
   ConditionViolation", "change the processRequests call limit", "check the guard
   on XAUt", or to build the Manager Safe payload for any of that — for funds in
-  this repo (usd-alpha, eth-alpha, xaut-carry, wbtc-carry) or, exceptionally,
-  for a fund truly outside it.
+  this repo (usd-alpha, eth-alpha, xaut-carry, wbtc-carry, cbbtc-carry) or,
+  exceptionally, for a fund truly outside it.
 ---
 
 # OIV Settlement Guard
@@ -119,7 +119,7 @@ Be honest with ops about what this does and doesn't bound:
 | Tests                                | `clients/<fund>/mainnet/roles/<ROLE>/permissions.test.ts`                                       |
 
 Funds and roles: `usd-alpha-fund` / `eth-alpha-fund` → `REQUESTS`;
-`xaut-carry-fund` / `wbtc-carry-fund` → `APPROVER`.
+`xaut-carry-fund` / `wbtc-carry-fund` / `cbbtc-carry-fund` → `APPROVER`.
 
 ## Commands
 

@@ -48,7 +48,7 @@ This will write a JSON file to the ./export folder. This file can be uploaded to
 
 ## OIV settlement guard
 
-Interim fix ("S1") for the OIV funds' `kpkShares.processRequests`: the settlement bot's permission (`REQUESTS` on usd-/eth-alpha, `APPROVER` on xaut-/wbtc-carry, on the fund's manager Roles Modifier) carries an inclusive **price band** on `sharesPriceInAsset` and a **call budget** (`CallWithinAllowance`, key `processRequests-calls`). Full procedure: `.claude/skills/oiv-settlement-guard/SKILL.md`.
+Interim fix ("S1") for the OIV funds' `kpkShares.processRequests`: the settlement bot's permission (`REQUESTS` on usd-/eth-alpha, `APPROVER` on xaut-/wbtc-/cbbtc-carry, on the fund's manager Roles Modifier) carries an inclusive **price band** on `sharesPriceInAsset` and a **call budget** (`CallWithinAllowance`, key `processRequests-calls`). Full procedure: `.claude/skills/oiv-settlement-guard/SKILL.md`.
 
 - **Where the numbers live:** `clients/<fund>/mainnet/instances/manager_prod.ts` (and `manager_stage.ts`) → `settlementGuard: { sharesPriceMin, sharesPriceMax, callAllowance: { balance, maxRefill, refill, periodSeconds } }`. Ops choose every value; the repo ships `TODO_OPS` placeholders that fail `yarn check:types` and throw when compiled.
 - **Two calls, always:** the policy (`scopeFunction`) and the allowance (`setAllowance`). `yarn apply` never sets allowance amounts — without `setAllowance` every bot call reverts. In one Safe batch order doesn't matter; as separate transactions run `setAllowance` first.
