@@ -1,7 +1,7 @@
 import type { Permission, PermissionSet } from "zodiac-roles-sdk"
 
 type Parameters = {
-  [key: string]: string
+  [key: string]: unknown
 }
 
 export type PermissionList = (
