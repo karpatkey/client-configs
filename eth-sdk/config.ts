@@ -135,6 +135,10 @@ export const contracts = {
     euler: {
       eVault: "0x8Ff1C814719096b61aBf00Bb46EAd0c9A529Dd7D",
     },
+    fluid: {
+      ...deFiKitContracts.mainnet.fluid,
+      iEthV2: "0xA0D3707c569ff8C87FA923d3823eC5D81c98Be78", // Instadapp ETH v2 (Fluid Lite iETHv2) — ERC-4626 on stETH
+    },
     gyroscope: {
       sGyd: "0xeA50f402653c41cAdbaFD1f788341dB7B7F37816",
     },
@@ -227,6 +231,10 @@ export const contracts = {
     },
     siloV2: {
       router: "0x8658047e48CC09161f4152c79155Dac1d710Ff0a",
+    },
+    sky: {
+      ...deFiKitContracts.mainnet.sky,
+      stUsds: "0x99CD4Ec3f88A45940936F469E4bB72A2A701EEB9", // Sky stUSDS (Chainlog STUSDS)
     },
     snapshot: {
       delegation: "0x469788fE6E9E9681C6ebF3bF78e7Fd26Fc015446",

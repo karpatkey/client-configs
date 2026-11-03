@@ -15,7 +15,10 @@ import {
   MORPHO,
   OETH,
   osETH,
+  PENDLE,
+  PYUSD,
   rETH,
+  RLUSD,
   RPL,
   SPK,
   sUSDS,
@@ -77,6 +80,8 @@ export default (parameters: Parameters) => [
   allowAction.compound_v3.deposit({ targets: ["cUSDSv3"], tokens: ["USDS"] }),
   // Compound v3 - Deposit USDT
   allowAction.compound_v3.deposit({ targets: ["cUSDTv3"], tokens: ["USDT"] }),
+  // Compound v3 - Institutional USDC market (ciUSDCv3) - Deposit USDC
+  allowAction.compound_v3.deposit({ targets: ["ciUSDCv3"], tokens: ["USDC"] }),
 
   // Convex - ETH/stETH - steCRV
   allowAction.convex.deposit({ targets: ["25"] }),
@@ -152,15 +157,68 @@ export default (parameters: Parameters) => [
     receiver: parameters.avatar,
   }),
 
-  // CowSwap - [USDC, syrupUSDC] <-> [USDC, syrupUSDC]
+  // CowSwap - Stablecoins - [DAI, GHO, PYUSD, RLUSD, sUSDS, USDC, USDS, USDT] <->
+  // [DAI, GHO, PYUSD, RLUSD, sUSDS, USDC, USDS, USDT]
   allowAction.cowswap.swap({
-    sell: [USDC, syrupUSDC],
-    buy: [USDC, syrupUSDC],
+    sell: [DAI, GHO, PYUSD, RLUSD, sUSDS, USDC, USDS, USDT],
+    buy: [DAI, GHO, PYUSD, RLUSD, sUSDS, USDC, USDS, USDT],
   }),
-  // CowSwap - [USDT, syrupUSDT] <-> [USDT, syrupUSDT]
+
+  // CowSwap - [syrupUSDC, syrupUSDT] ->
+  // [DAI, eETH, ETH, ETHx, GHO, OETH, osETH, PYUSD, rETH, RLUSD, stETH, sUSDS, USDC, USDS, USDT, weETH, WETH, wstETH]
   allowAction.cowswap.swap({
-    sell: [USDT, syrupUSDT],
-    buy: [USDT, syrupUSDT],
+    sell: [syrupUSDC, syrupUSDT],
+    buy: [
+      "ETH",
+      DAI,
+      eETH,
+      ETHx,
+      GHO,
+      OETH,
+      osETH,
+      PYUSD,
+      rETH,
+      RLUSD,
+      stETH,
+      sUSDS,
+      USDC,
+      USDS,
+      USDT,
+      weETH,
+      WETH,
+      wstETH,
+    ],
+  }),
+  // CowSwap - [DAI, eETH, ETH, ETHx, GHO, OETH, osETH, PYUSD, rETH, RLUSD, stETH, sUSDS, USDC, USDS, USDT, weETH, WETH, wstETH] ->
+  // [syrupUSDC, syrupUSDT]
+  allowAction.cowswap.swap({
+    sell: [
+      "ETH",
+      DAI,
+      eETH,
+      ETHx,
+      GHO,
+      OETH,
+      osETH,
+      PYUSD,
+      rETH,
+      RLUSD,
+      stETH,
+      sUSDS,
+      USDC,
+      USDS,
+      USDT,
+      weETH,
+      WETH,
+      wstETH,
+    ],
+    buy: [syrupUSDC, syrupUSDT],
+  }),
+
+  // CowSwap - [PENDLE] -> [DAI, GHO, PYUSD, RLUSD, sUSDS, USDC, USDS, USDT]
+  allowAction.cowswap.swap({
+    sell: [PENDLE],
+    buy: [DAI, GHO, PYUSD, RLUSD, sUSDS, USDC, USDS, USDT],
   }),
 
   // Fluid - Deposit GHO
@@ -235,6 +293,10 @@ export default (parameters: Parameters) => [
   // Morpho Vault - kpk USDC Yield v2
   allowAction.morphoVaults.deposit({
     targets: [morpho.kpkUsdcYieldV2],
+  }),
+  // Morpho Vault - Pendle Ecosystem USDC
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.pendleEcosystemUsdc],
   }),
   // Morpho Vault - Sentora PYUSD Main
   allowAction.morphoVaults.deposit({
