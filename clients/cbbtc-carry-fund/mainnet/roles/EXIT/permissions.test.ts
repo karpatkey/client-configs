@@ -8,10 +8,12 @@ import {
   cbBTC,
   compoundV3,
   frxUSD,
+  morpho,
   USDC,
   USDG,
   USDT,
   WBTC,
+  WETH,
 } from "@/addresses/eth"
 import { aaveV4BluechipReserve } from "../../addresses"
 import { parameters } from "../../instances/sub_prod"
@@ -32,6 +34,7 @@ const curve = () => kit.asMember.curve.usdgUsdcPool
 const erc20 = () => kit.asMember.weth
 const comet = () => kit.asMember.compoundV3.comet.attach(compoundV3.ciUSDCv3)
 const pool = () => kit.asMember.aaveV3.poolCoreV3
+const vault = (address: string) => kit.asMember.morpho.vault.attach(address)
 
 describe("cbbtc-carry-fund mainnet EXIT", () => {
   beforeAll(async () => {
@@ -95,19 +98,40 @@ describe("cbbtc-carry-fund mainnet EXIT", () => {
     })
   })
 
-  describe("Compound v3 Institutional (ciUSDCv3): not scoped (does not take cbBTC)", () => {
-    it("does not approve, supply or withdraw on the Comet", async () => {
+  describe("Compound v3 Institutional (ciUSDCv3): loan_position_exit unwind", () => {
+    it("approves USDC to the Comet, not to a stranger", async () => {
       await expect(
         erc20().attach(USDC).approve(compoundV3.ciUSDCv3, parseUnits("1", 6))
+      ).toBeAllowed()
+      await expect(
+        erc20().attach(USDC).approve(stranger, parseUnits("1", 6))
       ).toBeForbidden()
-      await expect(comet().supply(USDC, parseUnits("1", 6))).toBeForbidden(
-        Status.TargetAddressNotAllowed
+    })
+
+    it("repays USDC (supply)", async () => {
+      await expect(comet().supply(USDC, parseUnits("1", 6))).toBeAllowed()
+    })
+
+    it("withdraws cbBTC collateral, not WBTC", async () => {
+      await expect(comet().withdraw(cbBTC, 1n)).toBeAllowed()
+      await expect(comet().withdraw(WBTC, 1n)).toBeForbidden()
+    })
+
+    it("cannot borrow, add collateral, use other assets or the To / allow variants", async () => {
+      await expect(comet().withdraw(USDC, 1n)).toBeForbidden(
+        Status.ParameterNotAllowed
       )
-      await expect(comet().withdraw(cbBTC, 1n)).toBeForbidden(
-        Status.TargetAddressNotAllowed
+      await expect(comet().supply(cbBTC, 1n)).toBeForbidden(
+        Status.ParameterNotAllowed
       )
-      await expect(comet().withdraw(WBTC, 1n)).toBeForbidden(
-        Status.TargetAddressNotAllowed
+      await expect(comet().withdraw(WETH, 1n)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+      await expect(comet().withdrawTo(stranger, cbBTC, 1n)).toBeForbidden(
+        Status.FunctionNotAllowed
+      )
+      await expect(comet().allow(stranger, true)).toBeForbidden(
+        Status.FunctionNotAllowed
       )
     })
   })
@@ -180,6 +204,58 @@ describe("cbbtc-carry-fund mainnet EXIT", () => {
       await expect(
         bluechip().borrow(aaveV4BluechipReserve.usdgCore, 1n, avatar.address)
       ).toBeForbidden()
+    })
+  })
+
+  describe("KPK-curated YO Ecosystem Vault (Morpho V2, USDC): unwind only", () => {
+    const yo = () => vault(morpho.kpkYoEcosystem)
+
+    it("withdraws and redeems to the avatar", async () => {
+      await expect(
+        yo().withdraw(1n, avatar.address, avatar.address)
+      ).toBeAllowed()
+      await expect(
+        yo().redeem(1n, avatar.address, avatar.address)
+      ).toBeAllowed()
+    })
+
+    it("forbids a stranger receiver or owner", async () => {
+      await expect(yo().withdraw(1n, stranger, avatar.address)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+      await expect(yo().withdraw(1n, avatar.address, stranger)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+      await expect(yo().redeem(1n, stranger, avatar.address)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+      await expect(yo().redeem(1n, avatar.address, stranger)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+    })
+
+    it("cannot deposit or approve USDC to the vault", async () => {
+      await expect(yo().deposit(1n, avatar.address)).toBeForbidden(
+        Status.FunctionNotAllowed
+      )
+      await expect(
+        erc20().attach(USDC).approve(morpho.kpkYoEcosystem, parseUnits("1", 6))
+      ).toBeForbidden()
+    })
+
+    it("force deallocates on behalf of the avatar only", async () => {
+      await expect(
+        yo().forceDeallocate(stranger, "0x", 1n, avatar.address)
+      ).toBeAllowed()
+      await expect(
+        yo().forceDeallocate(stranger, "0x", 1n, stranger)
+      ).toBeForbidden(Status.ParameterNotAllowed)
+    })
+
+    it("forbids a stranger vault", async () => {
+      await expect(
+        vault(stranger).withdraw(1n, avatar.address, avatar.address)
+      ).toBeForbidden(Status.TargetAddressNotAllowed)
     })
   })
 })

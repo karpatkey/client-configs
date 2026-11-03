@@ -77,12 +77,13 @@ export default [
   }),
 
   // Morpho Vaults - the liquid sleeve: kpk USDC Yield v2, and kpk USDC / USDT Prime v2 as
-  // more liquid alternatives
+  // more liquid alternatives, plus the KPK-curated YO Ecosystem Vault (USDC)
   allowAction.morphoVaults.deposit({
     targets: [
       morpho.kpkUsdcPrimeV2,
       morpho.kpkUsdcYieldV2,
       morpho.kpkUsdtPrimeV2,
+      morpho.kpkYoEcosystem,
     ],
   }),
 

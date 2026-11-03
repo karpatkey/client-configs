@@ -4,7 +4,7 @@ import { avatar } from "@/test/wallets"
 import kit from "@/test/kit"
 import { Status } from "@/test/types"
 import { contracts } from "@/contracts"
-import { cbBTC, compoundV3, USDC, WBTC } from "@/addresses/eth"
+import { cbBTC, compoundV3, USDC, WBTC, WETH } from "@/addresses/eth"
 import { aaveV4BluechipReserve } from "../../addresses"
 import { parameters } from "../../instances/sub_prod"
 import allowedCalls from "./permissions/calls"
@@ -100,22 +100,47 @@ describe("cbbtc-carry-fund mainnet SETTLER", () => {
     })
   })
 
-  describe("Compound v3 Institutional (ciUSDCv3): not scoped (does not take cbBTC)", () => {
-    it("does not approve, supply or withdraw on the Comet", async () => {
+  describe("Compound v3 Institutional (ciUSDCv3): cbBTC collateral", () => {
+    it("approves cbBTC to the Comet, not WBTC, a stranger or USDC", async () => {
       await expect(
         erc20().attach(cbBTC).approve(compoundV3.ciUSDCv3, parseUnits("1", 8))
-      ).toBeForbidden()
+      ).toBeAllowed()
       await expect(
         erc20().attach(WBTC).approve(compoundV3.ciUSDCv3, parseUnits("1", 8))
       ).toBeForbidden()
-      await expect(comet().supply(cbBTC, 1n)).toBeForbidden(
-        Status.TargetAddressNotAllowed
+      await expect(
+        erc20().attach(cbBTC).approve(stranger, parseUnits("1", 8))
+      ).toBeForbidden()
+      await expect(
+        erc20().attach(USDC).approve(compoundV3.ciUSDCv3, parseUnits("1", 6))
+      ).toBeForbidden()
+    })
+
+    it("supplies and withdraws cbBTC, not WBTC", async () => {
+      await expect(comet().supply(cbBTC, 1n)).toBeAllowed()
+      await expect(comet().withdraw(cbBTC, 1n)).toBeAllowed()
+      await expect(comet().supply(WBTC, 1n)).toBeForbidden()
+      await expect(comet().withdraw(WBTC, 1n)).toBeForbidden()
+    })
+
+    it("cannot borrow, repay, use other collateral or the To / allow variants", async () => {
+      await expect(comet().withdraw(USDC, 1n)).toBeForbidden(
+        Status.ParameterNotAllowed
       )
-      await expect(comet().withdraw(cbBTC, 1n)).toBeForbidden(
-        Status.TargetAddressNotAllowed
+      await expect(comet().supply(USDC, 1n)).toBeForbidden(
+        Status.ParameterNotAllowed
       )
-      await expect(comet().supply(WBTC, 1n)).toBeForbidden(
-        Status.TargetAddressNotAllowed
+      await expect(comet().supply(WETH, 1n)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+      await expect(comet().supplyTo(stranger, cbBTC, 1n)).toBeForbidden(
+        Status.FunctionNotAllowed
+      )
+      await expect(comet().withdrawTo(stranger, cbBTC, 1n)).toBeForbidden(
+        Status.FunctionNotAllowed
+      )
+      await expect(comet().allow(stranger, true)).toBeForbidden(
+        Status.FunctionNotAllowed
       )
     })
   })

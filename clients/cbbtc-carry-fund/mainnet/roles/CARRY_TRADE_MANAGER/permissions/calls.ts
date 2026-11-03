@@ -1,6 +1,6 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { cbBTC, morpho, USDC, USDG } from "@/addresses/eth"
+import { cbBTC, compoundV3, morpho, USDC, USDG } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
@@ -13,10 +13,11 @@ const curveUsdgUsdcPool = contracts.mainnet.curve.usdgUsdcPool
 
 // The kpk-agents carry-trade manager for this fund, on its own signer: cbBTC collateral on the
 // Bluechip Spoke (reserve 2, Prime Hub), debt on the Core Hub USDC (7) and USDG (11) lines, the
-// borrowed stablecoin deployed into the two kpk USDC vaults. Only the calls the manager signs:
-// no other reserve, no WBTC, no stablecoin supply, nothing on behalf of or to a third party.
+// borrowed stablecoin deployed into the two kpk USDC vaults and the KPK-curated YO Ecosystem
+// Vault. Only the calls the manager signs: no other reserve, no WBTC, no stablecoin supply,
+// nothing on behalf of or to a third party.
 // The same legs exist on the Aave v3 Core pool (cbBTC collateral, USDC debt) for `venue_kind:
-// aave_v3`. No Compound v3 leg: the Institutional Market (ciUSDCv3) does not take cbBTC.
+// aave_v3`, and on the Compound v3 Institutional Market (ciUSDCv3, same assets).
 export default (parameters: Parameters) =>
   [
     // Aave v3 Core Market (venue_kind: aave_v3) - cbBTC collateral: supply for the avatar, enable
@@ -72,6 +73,23 @@ export default (parameters: Parameters) =>
       c.avatar
     ),
 
+    // Compound v3 - Institutional Market (ciUSDCv3) - the Aave v3 Core legs on Comet: cbBTC
+    // collateral, USDC debt. supply / withdraw(asset, amount) always act for msg.sender, the
+    // avatar: supply cbBTC adds collateral and supply USDC repays; withdraw cbBTC removes
+    // collateral and withdraw USDC borrows. USDC supplied past the debt stays a USDC supply
+    // position of the avatar. The Comet pulls the asset from the caller, hence the approvals.
+    // No WBTC, no To / From variants, allow / allowBySig, transfers or buyCollateral. Same
+    // hand-scoping as MANAGER.
+    allowErc20Approve([cbBTC, USDC], [compoundV3.ciUSDCv3]),
+    {
+      ...allow.mainnet.compoundV3.comet.supply(c.or(cbBTC, USDC)),
+      targetAddress: compoundV3.ciUSDCv3,
+    },
+    {
+      ...allow.mainnet.compoundV3.comet.withdraw(c.or(cbBTC, USDC)),
+      targetAddress: compoundV3.ciUSDCv3,
+    },
+
     // Curve - USDG/USDC StableSwap-NG pool (coins(0) USDG, coins(1) USDC): atomic swap both
     // ways, for a same-transaction repay of the USDG debt. The 4-argument `exchange` pays
     // msg.sender (the avatar); the 5-argument variant with a receiver stays closed. Roles
@@ -101,9 +119,9 @@ export default (parameters: Parameters) =>
       targetAddress: morpho.kpkUsdcYieldRWA,
     },
 
-    // Morpho Vault - kpk USDC Yield v2 / kpk USDC Yield RWA - Force deallocate (unlock
-    // liquidity across the vault's underlying markets before a withdrawal) - onBehalf
-    // pinned to the avatar Safe
+    // Morpho Vault - kpk USDC Yield v2 / kpk USDC Yield RWA / YO Ecosystem - Force
+    // deallocate (unlock liquidity across the vault's underlying markets before a
+    // withdrawal) - onBehalf pinned to the avatar Safe
     {
       ...allow.mainnet.morpho.vault.forceDeallocate(
         undefined,
@@ -121,5 +139,14 @@ export default (parameters: Parameters) =>
         c.avatar
       ),
       targetAddress: morpho.kpkUsdcYieldRWA,
+    },
+    {
+      ...allow.mainnet.morpho.vault.forceDeallocate(
+        undefined,
+        undefined,
+        undefined,
+        c.avatar
+      ),
+      targetAddress: morpho.kpkYoEcosystem,
     },
   ] satisfies PermissionList

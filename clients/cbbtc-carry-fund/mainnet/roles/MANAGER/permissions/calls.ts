@@ -2,6 +2,7 @@ import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import {
   cbBTC,
+  compoundV3,
   frxUSD,
   maple,
   morpho,
@@ -149,6 +150,27 @@ export default (parameters: Parameters) =>
     allow.mainnet.aaveV4.mapleSpoke.updateUserDynamicConfig(c.avatar),
     allow.mainnet.aaveV4.mapleSpoke.updateUserRiskPremium(c.avatar),
 
+    // Compound v3 - Institutional Market (ciUSDCv3) - borrow venue for the BTC leg: cbBTC as
+    // collateral, USDC debt. Comet keys every leg on supply / withdraw(asset, amount), which
+    // always act for msg.sender, the avatar: supply cbBTC adds collateral and supply USDC
+    // repays; withdraw cbBTC removes collateral and withdraw USDC borrows
+    // once no USDC is supplied (minimum borrow 1 USDC, `baseBorrowMin`). USDC supplied past the
+    // debt stays a USDC supply position of the avatar. The Comet pulls the asset from the
+    // caller, hence the approvals. Not scoped: supplyTo / supplyFrom / withdrawTo /
+    // withdrawFrom, allow / allowBySig (manager delegation), transfer / transferFrom /
+    // transferAsset, buyCollateral, absorb, and the WBTC / WETH / wstETH collateral. Hand-scoped:
+    // defi-kit's compound_v3 `borrow` resolves USDC to the main cUSDCv3 market, and its
+    // `deposit` adds a claim on the main CometRewards, which has no config for this market.
+    allowErc20Approve([cbBTC, USDC], [compoundV3.ciUSDCv3]),
+    {
+      ...allow.mainnet.compoundV3.comet.supply(c.or(cbBTC, USDC)),
+      targetAddress: compoundV3.ciUSDCv3,
+    },
+    {
+      ...allow.mainnet.compoundV3.comet.withdraw(c.or(cbBTC, USDC)),
+      targetAddress: compoundV3.ciUSDCv3,
+    },
+
     // Curve - USDG/USDC StableSwap-NG pool (coins(0) USDG, coins(1) USDC): atomic swap both
     // ways, for a same-transaction repay of the USDG debt. Also needed here because every call
     // of the Sub roles (HF_KEEPER, EXIT, CARRY_TRADE_MANAGER) passes this role too. The
@@ -214,9 +236,9 @@ export default (parameters: Parameters) =>
       targetAddress: morpho.kpkUsdcYieldRWA,
     },
 
-    // Morpho Vault - kpk USDC Yield v2 / kpk USDC Yield RWA - Force deallocate (unlock
-    // liquidity across the vault's underlying markets before a withdrawal) - onBehalf
-    // pinned to the avatar Safe
+    // Morpho Vault - kpk USDC Yield v2 / kpk USDC Yield RWA / YO Ecosystem - Force
+    // deallocate (unlock liquidity across the vault's underlying markets before a
+    // withdrawal) - onBehalf pinned to the avatar Safe
     {
       ...allow.mainnet.morpho.vault.forceDeallocate(
         undefined,
@@ -234,6 +256,15 @@ export default (parameters: Parameters) =>
         c.avatar
       ),
       targetAddress: morpho.kpkUsdcYieldRWA,
+    },
+    {
+      ...allow.mainnet.morpho.vault.forceDeallocate(
+        undefined,
+        undefined,
+        undefined,
+        c.avatar
+      ),
+      targetAddress: morpho.kpkYoEcosystem,
     },
 
     // Shares contract - Redemptions are paid out by the shares contract pulling the asset from
