@@ -730,6 +730,43 @@ export default (parameters: Parameters) =>
       targetAddress: morpho.pendleEcosystemUsdc,
     },
 
+    // MYSO v3 - RFQ option writing (covered calls on WETH / cash-secured puts on
+    // USDC) through takeQuote, and post-expiry withdrawal from the escrow.
+    // Structural scoping only: escrow owner = avatar (strike proceeds and leftover
+    // collateral), call (WETH -> USDC) or put (USDC -> WETH), oracle = 0x0
+    // (physical settlement only), no delegate registry, no distribution partner;
+    // withdraw only to the avatar (the Router also requires caller = escrow owner).
+    // Strike, premium, size and expiry are NOT scoped: the signer chooses them
+    // (see the PR description for the residual risk).
+    allowErc20Approve([USDC, WETH], [contracts.mainnet.myso.router]),
+    allow.mainnet.myso.router.takeQuote(
+      c.avatar,
+      c.or(
+        {
+          optionInfo: {
+            underlyingToken: USDC,
+            settlementToken: WETH,
+            advancedSettings: {
+              oracle: zeroAddress,
+              allowedDelegateRegistry: zeroAddress,
+            },
+          },
+        },
+        {
+          optionInfo: {
+            underlyingToken: WETH,
+            settlementToken: USDC,
+            advancedSettings: {
+              oracle: zeroAddress,
+              allowedDelegateRegistry: zeroAddress,
+            },
+          },
+        }
+      ),
+      zeroAddress
+    ),
+    allow.mainnet.myso.router.withdraw(undefined, c.avatar),
+
     // Origin - Mint OETH
     allow.mainnet.origin.oEthZapper.deposit({ send: true }),
     // Opt into yield

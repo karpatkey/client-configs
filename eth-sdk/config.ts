@@ -175,6 +175,9 @@ export const contracts = {
     merkl: {
       angleDistributor: "0x3Ef3D8bA38EBe18DB133cEc108f4D14CE00Dd9Ae",
     },
+    myso: {
+      router: "0xB0095dcEd6D81d341e798f92E1Ea84968842BDF2", // MYSO v3 Router
+    },
     mStableV2: {
       stkMta: "0x8f2326316eC696F6d023E37A9931c2b2C177a3D7",
     },
