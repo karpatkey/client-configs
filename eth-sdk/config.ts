@@ -207,6 +207,14 @@ export const contracts = {
     resolv: {
       wstUsr: "0x1202F5C7b4B9E47a1A484E8B270be34dbbC75055",
     },
+    rysk: {
+      // Generic ABIs reused for the concrete vaults/managers via targetAddress in
+      // the policy (see @/addresses/eth `rysk`). Both LP proxies expose the same
+      // LiquidityPool interface (call vault impl 0x65F9…6569, put vault impl
+      // 0x6ca8…9741) and both managers the same Authority interface.
+      liquidityPool: "0x65F923c857822964047914886326dEA2Af386569", // Rysk V12 LiquidityPool implementation
+      vaultManager: "0x2D5Bf4C17FA65fAcba0ac8F24F0a9888018Da4AB", // Rysk vault manager / Authority implementation
+    },
     sablier: {
       v2LockUpDyn: "0x7CC7e125d83A581ff438608490Cc0f7bDff79127",
     },
