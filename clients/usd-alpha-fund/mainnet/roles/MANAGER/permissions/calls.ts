@@ -11,6 +11,7 @@ import {
   USDT,
   balancerV3,
   morpho,
+  symbiotic,
 } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
@@ -138,7 +139,21 @@ export default (parameters: Parameters) =>
       ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
       targetAddress: morpho.kpkUsdcYieldRWA,
     },
-    // Morpho Vault - kpk USDC Yield RWA / kpk USDC Yield v2 - Force deallocate (unlock liquidity
+    // Morpho Vault - kpk YO Ecosystem
+    allowErc20Approve([USDC], [morpho.kpkYoEcosystem]),
+    {
+      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
+      targetAddress: morpho.kpkYoEcosystem,
+    },
+    {
+      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkYoEcosystem,
+    },
+    {
+      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: morpho.kpkYoEcosystem,
+    },
+    // Morpho Vault - kpk USDC Yield RWA / kpk USDC Yield v2 / kpk YO Ecosystem - Force deallocate (unlock liquidity
     // across the vault's underlying markets before a withdrawal) - onBehalf pinned to the avatar Safe
     {
       ...allow.mainnet.morpho.vault.forceDeallocate(
@@ -157,5 +172,30 @@ export default (parameters: Parameters) =>
         c.avatar
       ),
       targetAddress: morpho.kpkUsdcYieldV2,
+    },
+    {
+      ...allow.mainnet.morpho.vault.forceDeallocate(
+        undefined,
+        undefined,
+        undefined,
+        c.avatar
+      ),
+      targetAddress: morpho.kpkYoEcosystem,
+    },
+
+    // Symbiotic - KPK USDC LiquidLane (RWA Liquidity) - ERC-4626 vault, scoped via the generic
+    // Morpho vault ABI + a targetAddress override (same deposit / withdraw / redeem selectors)
+    allowErc20Approve([USDC], [symbiotic.kpkUsdcLiquidLane]),
+    {
+      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
+      targetAddress: symbiotic.kpkUsdcLiquidLane,
+    },
+    {
+      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+      targetAddress: symbiotic.kpkUsdcLiquidLane,
+    },
+    {
+      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
+      targetAddress: symbiotic.kpkUsdcLiquidLane,
     },
   ] satisfies PermissionList
