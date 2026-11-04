@@ -289,6 +289,10 @@ export default (parameters: Parameters) => [
   allowAction.morphoVaults.deposit({
     targets: [morpho.kpkUsdcYieldV2],
   }),
+  // Morpho Vault - Pendle Ecosystem High Yield USDC
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.pendleEcosystemHighYieldUsdc],
+  }),
   // Morpho Vault - Pendle Ecosystem USDC
   allowAction.morphoVaults.deposit({
     targets: [morpho.pendleEcosystemUsdc],

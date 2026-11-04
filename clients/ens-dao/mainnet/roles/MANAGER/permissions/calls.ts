@@ -690,21 +690,6 @@ export default (parameters: Parameters) =>
       )
     ),
 
-    // Morpho Vault - Pendle Ecosystem High Yield USDC (VaultV2; not in the
-    // defi-kit vault list, so scoped via the generic `morpho.vault` interface)
-    allowErc20Approve([USDC], [morpho.pendleEcosystemHighYieldUsdc]),
-    {
-      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
-      targetAddress: morpho.pendleEcosystemHighYieldUsdc,
-    },
-    {
-      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.pendleEcosystemHighYieldUsdc,
-    },
-    {
-      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.pendleEcosystemHighYieldUsdc,
-    },
     // Morpho Vault - Pendle Ecosystem High Yield USDC / Pendle Ecosystem USDC -
     // Force deallocate (emergency exit: pull liquidity from a specific market
     // before a withdrawal) - onBehalf pinned to the avatar, which pays any penalty.
