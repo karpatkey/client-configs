@@ -69,8 +69,6 @@ export default [
   // Spark - Deposit USDC
   allowAction.spark.deposit({ targets: ["USDC"] }),
 
-  // StakeWise v3 - Axol.io
-  allowAction.stakewise_v3.stake({ targets: ["Axol.io"] }),
   // StakeWise v3 - IP Stake
   allowAction.stakewise_v3.stake({ targets: ["IP Stake"] }),
   // StakeWise v3 - Genesis

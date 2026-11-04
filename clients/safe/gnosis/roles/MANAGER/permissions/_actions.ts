@@ -70,10 +70,6 @@ export default [
   allowAction.stakewise_v3.stake({ targets: ["NEDO"] }),
   // StakeWise v3 - Serenita
   allowAction.stakewise_v3.stake({ targets: ["Serenita"] }),
-  // StakeWise v3 - Chorus One
-  allowAction.stakewise_v3.stake({ targets: ["Chorus One"] }),
-  // StakeWise v3 - Axol.io
-  allowAction.stakewise_v3.stake({ targets: ["Axol.io"] }),
   // StakeWise v3 - Stakecat
   allowAction.stakewise_v3.stake({ targets: ["Stakecat"] }),
 
