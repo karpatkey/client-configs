@@ -18,6 +18,9 @@ export const contracts = {
       // Bluechip Spoke - WBTC/WETH/cbBTC/wstETH collateral (Prime Hub), stablecoin
       // credit lines to Prime and Core Hubs
       bluechipSpoke: "0x973a023A77420ba610f06b3858aD991Df6d85A08",
+      // Main Spoke - USDC supply to the Core Hub (reserve 7), among others. Same function set
+      // as the Bluechip Spoke (implementation 0xABd0E26FE17BDe4F1f1187Ed8aA80C274E03D8b5).
+      mainSpoke: "0x94e7A5dCbE816e498b89aB752661904E2F56c485",
       // Maple SyrupUSDG Spoke - syrupUSDG collateral, USDG credit lines to the Global
       // Dollar and Core Hubs. Same Spoke ABI as the Bluechip Spoke.
       mapleSpoke: "0x774b9655413c34809c1f1b16b654465A89EBE989",
