@@ -62,15 +62,9 @@ export default (parameters: Parameters) =>
       send: true,
     }),
 
-    // Aave v3 Horizon Market - RLUSD
-    allowErc20Approve([RLUSD], [contracts.mainnet.aaveV3.poolHorizonV3]),
-    allow.mainnet.aaveV3.poolHorizonV3.supply(RLUSD, undefined, c.avatar),
-    allow.mainnet.aaveV3.poolHorizonV3.withdraw(RLUSD, undefined, c.avatar),
-
-    // Aave Umbrella Staking - USDC (stkwaEthUSDC): direct path
-    // USDC / aEthUSDC -> waEthUSDC (static aToken) -> stkwaEthUSDC, and back.
-    // Receivers / owners pinned to the avatar.
-    allowErc20Approve([USDC, aaveV3.aEthUsdc], [waEthUsdc]),
+    // Aave Umbrella Staking - USDC
+    // Direct path: USDC / aEthUSDC -> waEthUSDC -> stkwaEthUSDC, receivers / owners = avatar
+    allowErc20Approve([aaveV3.aEthUsdc, USDC], [waEthUsdc]),
     {
       ...allow.mainnet.aaveV3.stataTokenV2.deposit(undefined, c.avatar),
       targetAddress: waEthUsdc,
@@ -129,10 +123,9 @@ export default (parameters: Parameters) =>
       targetAddress: aaveV3.stkEthUSDC,
     },
 
-    // Aave Umbrella Staking - WETH (stkwaEthWETH): direct path
-    // WETH / aEthWETH -> waEthWETH (static aToken) -> stkwaEthWETH, and back.
-    // Receivers / owners pinned to the avatar.
-    allowErc20Approve([WETH, aaveV3.aEthWeth], [waEthWeth]),
+    // Aave Umbrella Staking - WETH
+    // Direct path: WETH / aEthWETH -> waEthWETH -> stkwaEthWETH, receivers / owners = avatar
+    allowErc20Approve([aaveV3.aEthWeth, WETH], [waEthWeth]),
     {
       ...allow.mainnet.aaveV3.stataTokenV2.deposit(undefined, c.avatar),
       targetAddress: waEthWeth,
@@ -191,14 +184,18 @@ export default (parameters: Parameters) =>
       targetAddress: aaveV3.stkEthWETH,
     },
 
-    // Aave Umbrella - Claim staking rewards (paid in aEthUSDC / aEthWETH);
-    // asset limited to the two stake tokens, receiver pinned to the avatar.
+    // Claim Umbrella Staking Rewards - asset limited to stkwaEthUSDC / stkwaEthWETH
     allow.mainnet.aaveV3.umbrellaRewardsController[
       "claimAllRewards(address,address)"
     ](c.or(aaveV3.stkEthUSDC, aaveV3.stkEthWETH), c.avatar),
     allow.mainnet.aaveV3.umbrellaRewardsController[
       "claimSelectedRewards(address,address[],address)"
     ](c.or(aaveV3.stkEthUSDC, aaveV3.stkEthWETH), undefined, c.avatar),
+
+    // Aave v3 Horizon Market - RLUSD
+    allowErc20Approve([RLUSD], [contracts.mainnet.aaveV3.poolHorizonV3]),
+    allow.mainnet.aaveV3.poolHorizonV3.supply(RLUSD, undefined, c.avatar),
+    allow.mainnet.aaveV3.poolHorizonV3.withdraw(RLUSD, undefined, c.avatar),
 
     // Aura - Aave Lido Boosted WETH/wstETH
     allowErc20Approve(
@@ -710,7 +707,10 @@ export default (parameters: Parameters) =>
     },
     // Morpho Vault - Pendle Ecosystem High Yield USDC / Pendle Ecosystem USDC -
     // Force deallocate (emergency exit: pull liquidity from a specific market
-    // before a withdrawal) - onBehalf pinned to the avatar, which pays any penalty
+    // before a withdrawal) - onBehalf pinned to the avatar, which pays any penalty.
+    // Size `assets` to what will be withdrawn (the penalty is charged on `assets`)
+    // and batch it with the withdraw in the same transaction, so the freed
+    // liquidity can't be taken by other depositors first.
     {
       ...allow.mainnet.morpho.vault.forceDeallocate(
         undefined,
@@ -846,16 +846,9 @@ export default (parameters: Parameters) =>
       }
     ),
 
-    // Rysk V12 - Covered-call (WETH) & cash-secured-put (USDC) vaults
-    // Self-serve LP + curator rails through the ZRM. Deposits/withdrawals credit
-    // msg.sender (the avatar); no recipient args to pin. Epoch settlement is run
-    // by Rysk's off-chain keeper, not by this role. No MarginPool / MMarket
-    // approvals: only Rysk's operator can call those, and a standing approval
-    // would let it pull Endowment funds.
-
-    // USDC-KPK-WETH-P-ETH — USDC cash-secured-put vault: deposit USDC to earn
-    // cash-secured-put premium; redeem pending shares; initiate & complete the
-    // (epoch-settled) withdrawal; withdraw curator fees as vault curator.
+    // Rysk V12 - KPK USDC cash-secured-put vault (USDC-KPK-WETH-P-ETH)
+    // Functions act on msg.sender (no recipient args). No MarginPool / MMarket
+    // approvals: only Rysk's operator can call them.
     allowErc20Approve([USDC], [rysk.usdcKpkWethPEth]),
     {
       ...allow.mainnet.rysk.liquidityPool.deposit(),
@@ -878,9 +871,7 @@ export default (parameters: Parameters) =>
       targetAddress: rysk.usdcKpkWethPEth,
     },
 
-    // WETH-KPK-USDC-C-ETH — WETH covered-call vault: deposit WETH to earn
-    // covered-call premium; redeem pending shares; initiate & complete the
-    // (epoch-settled) withdrawal; withdraw curator fees as vault curator.
+    // Rysk V12 - KPK WETH covered-call vault (WETH-KPK-USDC-C-ETH)
     allowErc20Approve([WETH], [rysk.wethKpkUsdcCEth]),
     {
       ...allow.mainnet.rysk.liquidityPool.deposit(),
@@ -903,8 +894,7 @@ export default (parameters: Parameters) =>
       targetAddress: rysk.wethKpkUsdcCEth,
     },
 
-    // Curator seat — claim the manager role Rysk pushes to the avatar on each
-    // vault's Authority (two-step: Rysk pushManager -> avatar pullManager).
+    // Rysk V12 - Accept the curator seat (pullManager) on each vault's Authority
     {
       ...allow.mainnet.rysk.vaultManager.pullManager(),
       targetAddress: rysk.vaultManagerUsdcKpkWethPEth,

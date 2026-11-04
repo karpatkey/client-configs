@@ -74,14 +74,14 @@ export default (parameters: Parameters) => [
   allowAction.balancer_v2.deposit({ targets: ["osETH/wETH-BPT"] }),
   allowAction.balancer_v2.stake({ targets: ["osETH/wETH-BPT"] }),
 
+  // Compound v3 - Institutional Market (ciUSDCv3) - Deposit/withdraw USDC
+  allowAction.compound_v3.deposit({ targets: ["ciUSDCv3"], tokens: ["USDC"] }),
   // Compound v3 - Deposit USDC
   allowAction.compound_v3.deposit({ targets: ["cUSDCv3"], tokens: ["USDC"] }),
   // Compound v3 - Deposit USDS
   allowAction.compound_v3.deposit({ targets: ["cUSDSv3"], tokens: ["USDS"] }),
   // Compound v3 - Deposit USDT
   allowAction.compound_v3.deposit({ targets: ["cUSDTv3"], tokens: ["USDT"] }),
-  // Compound v3 - Institutional USDC market (ciUSDCv3) - Deposit USDC
-  allowAction.compound_v3.deposit({ targets: ["ciUSDCv3"], tokens: ["USDC"] }),
 
   // Convex - ETH/stETH - steCRV
   allowAction.convex.deposit({ targets: ["25"] }),
@@ -157,10 +157,11 @@ export default (parameters: Parameters) => [
     receiver: parameters.avatar,
   }),
 
-  // CowSwap - Stablecoins - [DAI, GHO, PYUSD, RLUSD, sUSDS, USDC, USDS, USDT] <->
+  // CowSwap - Stablecoins (+ PENDLE rewards, sell only) -
+  // [DAI, GHO, PENDLE, PYUSD, RLUSD, sUSDS, USDC, USDS, USDT] ->
   // [DAI, GHO, PYUSD, RLUSD, sUSDS, USDC, USDS, USDT]
   allowAction.cowswap.swap({
-    sell: [DAI, GHO, PYUSD, RLUSD, sUSDS, USDC, USDS, USDT],
+    sell: [DAI, GHO, PENDLE, PYUSD, RLUSD, sUSDS, USDC, USDS, USDT],
     buy: [DAI, GHO, PYUSD, RLUSD, sUSDS, USDC, USDS, USDT],
   }),
 
@@ -213,12 +214,6 @@ export default (parameters: Parameters) => [
       wstETH,
     ],
     buy: [syrupUSDC, syrupUSDT],
-  }),
-
-  // CowSwap - [PENDLE] -> [DAI, GHO, PYUSD, RLUSD, sUSDS, USDC, USDS, USDT]
-  allowAction.cowswap.swap({
-    sell: [PENDLE],
-    buy: [DAI, GHO, PYUSD, RLUSD, sUSDS, USDC, USDS, USDT],
   }),
 
   // Fluid - Deposit GHO
