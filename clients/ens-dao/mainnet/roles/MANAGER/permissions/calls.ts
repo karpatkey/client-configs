@@ -24,17 +24,22 @@ import {
   USDC,
   USDS,
   USDT,
+  waEthUsdc,
+  waEthWeth,
   weETH,
   WETH,
   wstETH,
   x3CRV,
+  aaveV3,
   aura,
   balancerV2,
   balancerV3,
   curve,
   euler,
   fluid,
+  morpho,
   pendle,
+  rysk,
   stakeWiseV3,
 } from "@/addresses/eth"
 import { zeroAddress, eAddress } from "@/addresses"
@@ -56,6 +61,136 @@ export default (parameters: Parameters) =>
     allow.mainnet.weth.deposit({
       send: true,
     }),
+
+    // Aave Umbrella Staking - USDC
+    // Direct path: USDC / aEthUSDC -> waEthUSDC -> stkwaEthUSDC, receivers / owners = avatar
+    allowErc20Approve([aaveV3.aEthUsdc, USDC], [waEthUsdc]),
+    {
+      ...allow.mainnet.aaveV3.stataTokenV2.deposit(undefined, c.avatar),
+      targetAddress: waEthUsdc,
+    },
+    {
+      ...allow.mainnet.aaveV3.stataTokenV2.depositATokens(undefined, c.avatar),
+      targetAddress: waEthUsdc,
+    },
+    {
+      ...allow.mainnet.aaveV3.stataTokenV2.redeem(
+        undefined,
+        c.avatar,
+        c.avatar
+      ),
+      targetAddress: waEthUsdc,
+    },
+    {
+      ...allow.mainnet.aaveV3.stataTokenV2.redeemATokens(
+        undefined,
+        c.avatar,
+        c.avatar
+      ),
+      targetAddress: waEthUsdc,
+    },
+    {
+      ...allow.mainnet.aaveV3.stataTokenV2.withdraw(
+        undefined,
+        c.avatar,
+        c.avatar
+      ),
+      targetAddress: waEthUsdc,
+    },
+    allowErc20Approve([waEthUsdc], [aaveV3.stkEthUSDC]),
+    {
+      ...allow.mainnet.aaveV3.stkwaEthToken.deposit(undefined, c.avatar),
+      targetAddress: aaveV3.stkEthUSDC,
+    },
+    {
+      ...allow.mainnet.aaveV3.stkwaEthToken.cooldown(),
+      targetAddress: aaveV3.stkEthUSDC,
+    },
+    {
+      ...allow.mainnet.aaveV3.stkwaEthToken.redeem(
+        undefined,
+        c.avatar,
+        c.avatar
+      ),
+      targetAddress: aaveV3.stkEthUSDC,
+    },
+    {
+      ...allow.mainnet.aaveV3.stkwaEthToken.withdraw(
+        undefined,
+        c.avatar,
+        c.avatar
+      ),
+      targetAddress: aaveV3.stkEthUSDC,
+    },
+
+    // Aave Umbrella Staking - WETH
+    // Direct path: WETH / aEthWETH -> waEthWETH -> stkwaEthWETH, receivers / owners = avatar
+    allowErc20Approve([aaveV3.aEthWeth, WETH], [waEthWeth]),
+    {
+      ...allow.mainnet.aaveV3.stataTokenV2.deposit(undefined, c.avatar),
+      targetAddress: waEthWeth,
+    },
+    {
+      ...allow.mainnet.aaveV3.stataTokenV2.depositATokens(undefined, c.avatar),
+      targetAddress: waEthWeth,
+    },
+    {
+      ...allow.mainnet.aaveV3.stataTokenV2.redeem(
+        undefined,
+        c.avatar,
+        c.avatar
+      ),
+      targetAddress: waEthWeth,
+    },
+    {
+      ...allow.mainnet.aaveV3.stataTokenV2.redeemATokens(
+        undefined,
+        c.avatar,
+        c.avatar
+      ),
+      targetAddress: waEthWeth,
+    },
+    {
+      ...allow.mainnet.aaveV3.stataTokenV2.withdraw(
+        undefined,
+        c.avatar,
+        c.avatar
+      ),
+      targetAddress: waEthWeth,
+    },
+    allowErc20Approve([waEthWeth], [aaveV3.stkEthWETH]),
+    {
+      ...allow.mainnet.aaveV3.stkwaEthToken.deposit(undefined, c.avatar),
+      targetAddress: aaveV3.stkEthWETH,
+    },
+    {
+      ...allow.mainnet.aaveV3.stkwaEthToken.cooldown(),
+      targetAddress: aaveV3.stkEthWETH,
+    },
+    {
+      ...allow.mainnet.aaveV3.stkwaEthToken.redeem(
+        undefined,
+        c.avatar,
+        c.avatar
+      ),
+      targetAddress: aaveV3.stkEthWETH,
+    },
+    {
+      ...allow.mainnet.aaveV3.stkwaEthToken.withdraw(
+        undefined,
+        c.avatar,
+        c.avatar
+      ),
+      targetAddress: aaveV3.stkEthWETH,
+    },
+
+    // Claim Umbrella Staking Rewards - asset limited to stkwaEthUSDC / stkwaEthWETH
+    allow.mainnet.aaveV3.umbrellaRewardsController[
+      "claimAllRewards(address,address)"
+    ](c.or(aaveV3.stkEthUSDC, aaveV3.stkEthWETH), c.avatar),
+    allow.mainnet.aaveV3.umbrellaRewardsController[
+      "claimSelectedRewards(address,address[],address)"
+    ](c.or(aaveV3.stkEthUSDC, aaveV3.stkEthWETH), undefined, c.avatar),
 
     // Aave v3 Horizon Market - RLUSD
     allowErc20Approve([RLUSD], [contracts.mainnet.aaveV3.poolHorizonV3]),
@@ -526,6 +661,13 @@ export default (parameters: Parameters) =>
       targetAddress: fluid.ghoRewards,
     },
 
+    // Fluid Lite - Instadapp ETH v2 (iETHv2): ERC-4626 on stETH
+    allowErc20Approve([stETH], [contracts.mainnet.fluid.iEthV2]),
+    allow.mainnet.fluid.iEthV2.deposit(undefined, c.avatar),
+    allow.mainnet.fluid.iEthV2.mint(undefined, c.avatar),
+    allow.mainnet.fluid.iEthV2.withdraw(undefined, c.avatar, c.avatar),
+    allow.mainnet.fluid.iEthV2.redeem(undefined, c.avatar, c.avatar),
+
     // Merkl - Rewards
     allow.mainnet.merkl.angleDistributor.claim(
       c.or(
@@ -547,6 +689,68 @@ export default (parameters: Parameters) =>
         ]
       )
     ),
+
+    // Morpho Vault - Pendle Ecosystem High Yield USDC / Pendle Ecosystem USDC -
+    // Force deallocate (emergency exit: pull liquidity from a specific market
+    // before a withdrawal) - onBehalf pinned to the avatar, which pays any penalty.
+    // Size `assets` to what will be withdrawn (the penalty is charged on `assets`)
+    // and batch it with the withdraw in the same transaction, so the freed
+    // liquidity can't be taken by other depositors first.
+    {
+      ...allow.mainnet.morpho.vault.forceDeallocate(
+        undefined,
+        undefined,
+        undefined,
+        c.avatar
+      ),
+      targetAddress: morpho.pendleEcosystemHighYieldUsdc,
+    },
+    {
+      ...allow.mainnet.morpho.vault.forceDeallocate(
+        undefined,
+        undefined,
+        undefined,
+        c.avatar
+      ),
+      targetAddress: morpho.pendleEcosystemUsdc,
+    },
+
+    // MYSO v3 - RFQ option writing (covered calls on WETH / cash-secured puts on
+    // USDC) through takeQuote, and post-expiry withdrawal from the escrow.
+    // Structural scoping only: escrow owner = avatar (strike proceeds and leftover
+    // collateral), call (WETH -> USDC) or put (USDC -> WETH), oracle = 0x0
+    // (physical settlement only), no delegate registry, no distribution partner;
+    // withdraw only to the avatar (the Router also requires caller = escrow owner).
+    // Strike, premium, size and expiry are NOT scoped: the signer chooses them
+    // (see the PR description for the residual risk).
+    allowErc20Approve([USDC, WETH], [contracts.mainnet.myso.router]),
+    allow.mainnet.myso.router.takeQuote(
+      c.avatar,
+      c.or(
+        {
+          optionInfo: {
+            underlyingToken: USDC,
+            settlementToken: WETH,
+            advancedSettings: {
+              oracle: zeroAddress,
+              allowedDelegateRegistry: zeroAddress,
+            },
+          },
+        },
+        {
+          optionInfo: {
+            underlyingToken: WETH,
+            settlementToken: USDC,
+            advancedSettings: {
+              oracle: zeroAddress,
+              allowedDelegateRegistry: zeroAddress,
+            },
+          },
+        }
+      ),
+      zeroAddress
+    ),
+    allow.mainnet.myso.router.withdraw(undefined, c.avatar),
 
     // Origin - Mint OETH
     allow.mainnet.origin.oEthZapper.deposit({ send: true }),
@@ -627,6 +831,64 @@ export default (parameters: Parameters) =>
       }
     ),
 
+    // Rysk V12 - KPK USDC cash-secured-put vault (USDC-KPK-WETH-P-ETH)
+    // Functions act on msg.sender (no recipient args). No MarginPool / MMarket
+    // approvals: only Rysk's operator can call them.
+    allowErc20Approve([USDC], [rysk.usdcKpkWethPEth]),
+    {
+      ...allow.mainnet.rysk.liquidityPool.deposit(),
+      targetAddress: rysk.usdcKpkWethPEth,
+    },
+    {
+      ...allow.mainnet.rysk.liquidityPool.redeem(),
+      targetAddress: rysk.usdcKpkWethPEth,
+    },
+    {
+      ...allow.mainnet.rysk.liquidityPool.initiateWithdraw(),
+      targetAddress: rysk.usdcKpkWethPEth,
+    },
+    {
+      ...allow.mainnet.rysk.liquidityPool.completeWithdraw(),
+      targetAddress: rysk.usdcKpkWethPEth,
+    },
+    {
+      ...allow.mainnet.rysk.liquidityPool.withdrawCuratorFees(),
+      targetAddress: rysk.usdcKpkWethPEth,
+    },
+
+    // Rysk V12 - KPK WETH covered-call vault (WETH-KPK-USDC-C-ETH)
+    allowErc20Approve([WETH], [rysk.wethKpkUsdcCEth]),
+    {
+      ...allow.mainnet.rysk.liquidityPool.deposit(),
+      targetAddress: rysk.wethKpkUsdcCEth,
+    },
+    {
+      ...allow.mainnet.rysk.liquidityPool.redeem(),
+      targetAddress: rysk.wethKpkUsdcCEth,
+    },
+    {
+      ...allow.mainnet.rysk.liquidityPool.initiateWithdraw(),
+      targetAddress: rysk.wethKpkUsdcCEth,
+    },
+    {
+      ...allow.mainnet.rysk.liquidityPool.completeWithdraw(),
+      targetAddress: rysk.wethKpkUsdcCEth,
+    },
+    {
+      ...allow.mainnet.rysk.liquidityPool.withdrawCuratorFees(),
+      targetAddress: rysk.wethKpkUsdcCEth,
+    },
+
+    // Rysk V12 - Accept the curator seat (pullManager) on each vault's Authority
+    {
+      ...allow.mainnet.rysk.vaultManager.pullManager(),
+      targetAddress: rysk.vaultManagerUsdcKpkWethPEth,
+    },
+    {
+      ...allow.mainnet.rysk.vaultManager.pullManager(),
+      targetAddress: rysk.vaultManagerWethKpkUsdcCEth,
+    },
+
     // Sky - DSR (DAI Savings Rate)
     // The DsrManager provides an easy to use smart contract that allows
     // service providers to deposit/withdraw dai into the DSR contract pot,
@@ -637,6 +899,15 @@ export default (parameters: Parameters) =>
     allow.mainnet.sky.dsrManager.join(c.avatar),
     allow.mainnet.sky.dsrManager.exit(c.avatar),
     allow.mainnet.sky.dsrManager.exitAll(c.avatar),
+
+    // Sky - stUSDS (USDS lent into SKY-backed borrowing)
+    allowErc20Approve([USDS], [contracts.mainnet.sky.stUsds]),
+    allow.mainnet.sky.stUsds["deposit(uint256,address,uint16)"](
+      undefined,
+      c.avatar
+    ),
+    allow.mainnet.sky.stUsds.withdraw(undefined, c.avatar, c.avatar),
+    allow.mainnet.sky.stUsds.redeem(undefined, c.avatar, c.avatar),
 
     // StakeWise v3 - Genesis Vault
     {
@@ -675,6 +946,46 @@ export default (parameters: Parameters) =>
     {
       ...allow.mainnet.stakeWiseV3.vault.claimExitedAssets(),
       targetAddress: stakeWiseV3.genesis,
+    },
+
+    // StakeWise v3 - KPK ETH Vault (EthVault v5, same function set as Genesis).
+    // burnOsToken needs no osETH allowance (burned through the controller).
+    {
+      ...allow.mainnet.stakeWiseV3.vault.deposit(c.avatar, undefined, {
+        send: true,
+      }),
+      targetAddress: stakeWiseV3.kpkEthVault,
+    },
+    {
+      ...allow.mainnet.stakeWiseV3.vault.updateState(),
+      targetAddress: stakeWiseV3.kpkEthVault,
+    },
+    {
+      ...allow.mainnet.stakeWiseV3.vault.updateStateAndDeposit(
+        c.avatar,
+        undefined,
+        undefined,
+        {
+          send: true,
+        }
+      ),
+      targetAddress: stakeWiseV3.kpkEthVault,
+    },
+    {
+      ...allow.mainnet.stakeWiseV3.vault.mintOsToken(c.avatar),
+      targetAddress: stakeWiseV3.kpkEthVault,
+    },
+    {
+      ...allow.mainnet.stakeWiseV3.vault.burnOsToken(),
+      targetAddress: stakeWiseV3.kpkEthVault,
+    },
+    {
+      ...allow.mainnet.stakeWiseV3.vault.enterExitQueue(undefined, c.avatar),
+      targetAddress: stakeWiseV3.kpkEthVault,
+    },
+    {
+      ...allow.mainnet.stakeWiseV3.vault.claimExitedAssets(),
+      targetAddress: stakeWiseV3.kpkEthVault,
     },
 
     /*********************************************
