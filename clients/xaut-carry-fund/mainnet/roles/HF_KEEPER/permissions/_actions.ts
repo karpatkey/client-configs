@@ -7,4 +7,6 @@ export default [
 
   // Morpho Vault - kpk USDC Yield v2
   allowAction.morphoVaults.deposit({ targets: [morpho.kpkUsdcYieldV2] }),
+  // Morpho Vault - YO Ecosystem Vault
+  allowAction.morphoVaults.deposit({ targets: [morpho.kpkYoEcosystem] }),
 ]
