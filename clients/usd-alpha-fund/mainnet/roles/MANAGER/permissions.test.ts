@@ -1,8 +1,11 @@
-import { concat, toBeHex, zeroPadValue } from "ethers"
+import { concat, parseUnits, toBeHex, zeroPadValue } from "ethers"
 import { applyPermissions } from "@/test/helpers"
 import kit from "@/test/kit"
+import { Status } from "@/test/types"
+import { avatar as testAvatar } from "@/test/wallets"
 import { contracts } from "@/contracts"
 import { GHO, USDC, USDS, USDT } from "@/addresses/eth"
+import { aaveV4BluechipReserve, aaveV4MainReserve } from "../../addresses"
 import { parameters as usdAlphaFundParameters } from "../../instances/main_prod"
 import allowedCalls from "./permissions/calls"
 import allowedActions from "./permissions/_actions"
@@ -274,5 +277,83 @@ describe.skip("usd-alpha-fund mainnet MANAGER - scope reduced to mainnet-only", 
         )
       ).toBeAllowed()
     })
+  })
+})
+
+describe("usd-alpha-fund mainnet MANAGER - Aave v4 USDC supply", () => {
+  // An address that is neither the avatar nor a scoped spender
+  const stranger = "0x000000000000000000000000000000000000dEaD"
+  const bluechipSpoke = contracts.mainnet.aaveV4.bluechipSpoke
+  const mainSpoke = contracts.mainnet.aaveV4.mainSpoke
+  const usdc = () => kit.asMember.weth.attach(USDC)
+
+  beforeAll(async () => {
+    await applyPermissions(
+      { allowedActions, allowedCalls },
+      usdAlphaFundParameters
+    )
+  })
+
+  it("approves USDC to the Bluechip and Main Spokes", async () => {
+    await expect(
+      usdc().approve(bluechipSpoke, parseUnits("1", 6))
+    ).toBeAllowed()
+    await expect(usdc().approve(mainSpoke, parseUnits("1", 6))).toBeAllowed()
+  })
+
+  it("supplies and withdraws USDC Prime (Bluechip Spoke reserve 4) for the avatar", async () => {
+    const r = aaveV4BluechipReserve.usdcPrime
+    await expect(
+      kit.asMember.aaveV4.bluechipSpoke.supply(r, 1n, testAvatar.address)
+    ).toBeAllowed()
+    await expect(
+      kit.asMember.aaveV4.bluechipSpoke.withdraw(r, 1n, testAvatar.address)
+    ).toBeAllowed()
+  })
+
+  it("supplies and withdraws USDC Core (Main Spoke reserve 7) for the avatar", async () => {
+    const r = aaveV4MainReserve.usdcCore
+    await expect(
+      kit.asMember.aaveV4.mainSpoke.supply(r, 1n, testAvatar.address)
+    ).toBeAllowed()
+    await expect(
+      kit.asMember.aaveV4.mainSpoke.withdraw(r, 1n, testAvatar.address)
+    ).toBeAllowed()
+  })
+
+  it("forbids supplying on behalf of a third party", async () => {
+    await expect(
+      kit.asMember.aaveV4.mainSpoke.supply(
+        aaveV4MainReserve.usdcCore,
+        1n,
+        stranger
+      )
+    ).toBeForbidden(Status.ParameterNotAllowed)
+  })
+
+  it("forbids unpinned reserves (Bluechip 7, Main 4)", async () => {
+    await expect(
+      kit.asMember.aaveV4.bluechipSpoke.supply(7, 1n, testAvatar.address)
+    ).toBeForbidden()
+    await expect(
+      kit.asMember.aaveV4.mainSpoke.supply(4, 1n, testAvatar.address)
+    ).toBeForbidden()
+  })
+
+  it("forbids borrowing and collateral toggles", async () => {
+    await expect(
+      kit.asMember.aaveV4.mainSpoke.borrow(
+        aaveV4MainReserve.usdcCore,
+        1n,
+        testAvatar.address
+      )
+    ).toBeForbidden()
+    await expect(
+      kit.asMember.aaveV4.bluechipSpoke.setUsingAsCollateral(
+        aaveV4BluechipReserve.usdcPrime,
+        true,
+        testAvatar.address
+      )
+    ).toBeForbidden()
   })
 })

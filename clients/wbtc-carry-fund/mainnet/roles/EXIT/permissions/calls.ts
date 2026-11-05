@@ -1,6 +1,13 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { morpho, syrupUSDG, USDC, USDG, WBTC } from "@/addresses/eth"
+import {
+  compoundV3,
+  morpho,
+  syrupUSDG,
+  USDC,
+  USDG,
+  WBTC,
+} from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
@@ -11,6 +18,7 @@ import {
 import { Parameters } from "../../../parameters"
 
 const bluechipSpoke = contracts.mainnet.aaveV4.bluechipSpoke
+const curveUsdgUsdcPool = contracts.mainnet.curve.usdgUsdcPool
 const mapleSpoke = contracts.mainnet.aaveV4.mapleSpoke
 const poolCoreV3 = contracts.mainnet.aaveV3.poolCoreV3
 
@@ -21,7 +29,8 @@ export default (parameters: Parameters) =>
     allowErc20Approve([USDC], [poolCoreV3]),
     allow.mainnet.aaveV3.poolCoreV3.repay(USDC, undefined, undefined, c.avatar),
 
-    // Aave v3 Core Market - Withdraw WBTC collateral to the avatar Safe
+    // Aave v3 Core Market - Withdraw WBTC collateral to the avatar Safe: a full
+    // loan_position_exit releases the BTC collateral once the USDC debt is repaid
     allow.mainnet.aaveV3.poolCoreV3.withdraw(WBTC, undefined, c.avatar),
 
     // Aave v4 Bluechip Spoke - Repay USDC debt on both credit lines. The Spoke pulls
@@ -45,16 +54,11 @@ export default (parameters: Parameters) =>
       c.avatar
     ),
 
-    // Aave v4 Bluechip Spoke - Repay USDG debt (Core Hub line, reserve 11) and withdraw cbBTC
-    // collateral (reserve 2): the same exit for the USDG debt route and the second BTC.
+    // Aave v4 Bluechip Spoke - Repay USDG debt (Core Hub line, reserve 11): the same exit
+    // for the USDG debt route.
     allowErc20Approve([USDG], [bluechipSpoke]),
     allow.mainnet.aaveV4.bluechipSpoke.repay(
       reserve.usdgCore,
-      undefined,
-      c.avatar
-    ),
-    allow.mainnet.aaveV4.bluechipSpoke.withdraw(
-      reserve.cbbtcPrime,
       undefined,
       c.avatar
     ),
@@ -76,6 +80,34 @@ export default (parameters: Parameters) =>
       mapleReserve.syrupUsdg,
       undefined,
       c.avatar
+    ),
+
+    // Compound v3 - Institutional Market (ciUSDCv3) - loan exit: repay USDC (supply USDC) and
+    // withdraw the WBTC collateral, both for msg.sender (the avatar). withdraw is not
+    // scoped for USDC, so EXIT cannot borrow. The Comet pulls the asset from the caller, hence
+    // the approval.
+    allowErc20Approve([USDC], [compoundV3.ciUSDCv3]),
+    {
+      ...allow.mainnet.compoundV3.comet.supply(USDC),
+      targetAddress: compoundV3.ciUSDCv3,
+    },
+    {
+      ...allow.mainnet.compoundV3.comet.withdraw(WBTC),
+      targetAddress: compoundV3.ciUSDCv3,
+    },
+
+    // Curve - USDG/USDC StableSwap-NG pool (coins(0) USDG, coins(1) USDC): atomic swap both
+    // ways, for a same-transaction repay of the USDG debt. The 4-argument `exchange` pays
+    // msg.sender (the avatar); the 5-argument variant with a receiver stays closed. Roles
+    // cannot bound `min_dy`, the caller sets it.
+    allowErc20Approve([USDC, USDG], [curveUsdgUsdcPool]),
+    allow.mainnet.curve.usdgUsdcPool["exchange(int128,int128,uint256,uint256)"](
+      0,
+      1
+    ),
+    allow.mainnet.curve.usdgUsdcPool["exchange(int128,int128,uint256,uint256)"](
+      1,
+      0
     ),
 
     // Maple - syrupUSDG: queue the withdrawn collateral for redemption and collect it. Owner

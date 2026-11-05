@@ -251,7 +251,9 @@ export default (parameters: Parameters) => [
   allowAction.stader.deposit(),
 
   // StakeWise v3 - Genesis Vault
-  allowAction.stakewise_v3.stake({ targets: ["Genesis"] }),
+  allowAction.stakewise_v3.stake({
+    targets: ["0xac0f906e433d58fa868f936e8a43230473652885"],
+  }),
 
   // Uniswap v3 - WBTC + WETH, Range: 11.786 - 15.082. Fee: 0.3%.
   // allowAction.uniswap_v3.deposit({ tokens: ["WBTC", "WETH"], fees: ["0.3%"] }),

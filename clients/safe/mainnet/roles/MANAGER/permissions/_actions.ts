@@ -188,10 +188,14 @@ export default [
   // Stader
   allowAction.stader.deposit(),
 
-  // StakeWise v3 - Genesis
-  allowAction.stakewise_v3.stake({ targets: ["Genesis"] }),
-  // StakeWise v3 - Chorus One Max Vault
-  allowAction.stakewise_v3.stake({ targets: ["Chorus One Max Vault"] }),
+  // StakeWise v3 - Genesis Vault
+  allowAction.stakewise_v3.stake({
+    targets: ["0xac0f906e433d58fa868f936e8a43230473652885"],
+  }),
+  // StakeWise v3 - Bitwise Vault (fka Chorus One)
+  allowAction.stakewise_v3.stake({
+    targets: ["0xe6d8d8ac54461b1c5ed15740eee322043f696c08"],
+  }),
 
   // Uniswap v3 - SAFE + WETH - Fees [0.3%, 1%]
   allowAction.uniswap_v3.deposit({

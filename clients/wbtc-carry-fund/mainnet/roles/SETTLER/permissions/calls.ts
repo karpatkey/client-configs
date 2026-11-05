@@ -1,6 +1,6 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { cbBTC, WBTC } from "@/addresses/eth"
+import { compoundV3, WBTC } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
@@ -11,25 +11,6 @@ const bluechipSpoke = contracts.mainnet.aaveV4.bluechipSpoke
 
 export default (parameters: Parameters) =>
   [
-    // Aave v4 Bluechip Spoke - Post/pull cbBTC collateral (Prime Hub, reserve 2) when the
-    // APPROVER settles a cbBTC subscription or redemption. Same shape as WBTC below.
-    allowErc20Approve([cbBTC], [bluechipSpoke]),
-    allow.mainnet.aaveV4.bluechipSpoke.setUsingAsCollateral(
-      reserve.cbbtcPrime,
-      undefined,
-      c.avatar
-    ),
-    allow.mainnet.aaveV4.bluechipSpoke.supply(
-      reserve.cbbtcPrime,
-      undefined,
-      c.avatar
-    ),
-    allow.mainnet.aaveV4.bluechipSpoke.withdraw(
-      reserve.cbbtcPrime,
-      undefined,
-      c.avatar
-    ),
-
     // Aave v4 Bluechip Spoke - Post/pull WBTC collateral (Prime Hub) when the APPROVER
     // settles a subscription or a redemption. The Spoke pulls the asset from the
     // caller, hence the approval.
@@ -50,4 +31,19 @@ export default (parameters: Parameters) =>
       undefined,
       c.avatar
     ),
+
+    // Compound v3 - Institutional Market (ciUSDCv3) - Post/pull WBTC collateral when
+    // the APPROVER settles a subscription or a redemption and the fund borrows on Comet. Both
+    // act for msg.sender (the avatar); Comet counts supplied collateral without a separate
+    // flag. USDC is not scoped, so SETTLER cannot borrow or repay. The Comet pulls the asset
+    // from the caller, hence the approval.
+    allowErc20Approve([WBTC], [compoundV3.ciUSDCv3]),
+    {
+      ...allow.mainnet.compoundV3.comet.supply(WBTC),
+      targetAddress: compoundV3.ciUSDCv3,
+    },
+    {
+      ...allow.mainnet.compoundV3.comet.withdraw(WBTC),
+      targetAddress: compoundV3.ciUSDCv3,
+    },
   ] satisfies PermissionList
