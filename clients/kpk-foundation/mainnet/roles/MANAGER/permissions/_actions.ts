@@ -3,19 +3,23 @@ import {
   COMP,
   DAI,
   EURC,
+  EURe,
+  frxUSD,
+  GHO,
   MORPHO,
-  sDAI,
+  sGHO,
   sUSDS,
   USDC,
+  USDG,
   USDS,
   USDT,
-  gearbox,
   morpho,
 } from "@/addresses/eth"
+import { kpkFoundationBase } from "../../../../addresses"
 import { Parameters } from "../../../parameters"
 
 export default (parameters: Parameters) => [
-  // Aave v3 - Deposit USDC
+  // Aave v3 - Deposit USDC (includes claiming incentives)
   allowAction.aave_v3.deposit({ market: "Core", targets: ["USDC"] }),
 
   // Circle v2 - Bridge USDC to Arbitrum
@@ -29,76 +33,70 @@ export default (parameters: Parameters) => [
     sender: parameters.avatar,
     recipient: parameters.avatar,
   }),
+  // Circle v2 - Bridge USDC to Base
+  allowAction.circle_v2.bridge({
+    targets: ["Base"],
+    recipient: kpkFoundationBase,
+  }),
+  // Circle v2 - Receive USDC from Base
+  allowAction.circle_v2.receive({
+    targets: ["Base"],
+    sender: kpkFoundationBase,
+    recipient: parameters.avatar,
+  }),
 
-  // Compound v3 - Deposit USDC
+  // Compound v3 - Deposit USDC (includes claiming rewards)
   allowAction.compound_v3.deposit({ targets: ["cUSDCv3"], tokens: ["USDC"] }),
 
-  // CowSwap - [COMP, DAI, EURC, MORPHO, sDAI, sUSDS, USDC, USDS, USDT] -> [DAI, EURC, sDAI, sUSDS, USDC, USDS, USDT]
+  // CowSwap - [COMP, DAI, EURC, EURe, frxUSD, GHO, MORPHO, sGHO, sUSDS, USDC, USDG, USDS, USDT] ->
+  // [DAI, EURC, EURe, frxUSD, GHO, sGHO, sUSDS, USDC, USDG, USDS, USDT]
   allowAction.cowswap.swap({
-    sell: [COMP, DAI, EURC, MORPHO, sDAI, sUSDS, USDC, USDS, USDT],
-    buy: [DAI, EURC, sDAI, sUSDS, USDC, USDS, USDT],
+    sell: [
+      COMP,
+      DAI,
+      EURC,
+      EURe,
+      frxUSD,
+      GHO,
+      MORPHO,
+      sGHO,
+      sUSDS,
+      USDC,
+      USDG,
+      USDS,
+      USDT,
+    ],
+    buy: [DAI, EURC, EURe, frxUSD, GHO, sGHO, sUSDS, USDC, USDG, USDS, USDT],
   }),
 
-  // Gearbox - ETH v3 - Curator: kpk
-  allowAction.gearbox.deposit({
-    targets: [gearbox.kpkWeth],
-  }),
-  // Gearbox - wstETH v3 - Curator: kpk
-  allowAction.gearbox.deposit({
-    targets: [gearbox.kpkWstEth],
-  }),
+  // Fluid - Deposit USDC
+  allowAction.fluid.deposit({ targets: ["USDC"] }),
 
-  // Morpho Vault - kpk ETH Prime v1.1
-  allowAction.morphoVaults.deposit({
-    targets: [morpho.kpkEthPrimeV1],
-  }),
-  // Morpho Vault - kpk ETH Prime v2
-  allowAction.morphoVaults.deposit({
-    targets: [morpho.kpkEthPrimeV2],
-  }),
-  // Morpho Vault - kpk ETH Yield v1.1
-  allowAction.morphoVaults.deposit({
-    targets: [morpho.kpkEthYieldV1],
-  }),
-  // Morpho Vault - kpk ETH Yield v2
-  allowAction.morphoVaults.deposit({
-    targets: [morpho.kpkEthYieldV2],
-  }),
-  // Morpho Vault - kpk EURC Yield v1.1
-  allowAction.morphoVaults.deposit({
-    targets: [morpho.kpkEurcYieldV1],
-  }),
-  // Morpho Vault - kpk EURC Yield v2
-  allowAction.morphoVaults.deposit({
-    targets: [morpho.kpkEurcYieldV2],
-  }),
-  // Morpho Vault - kpk USDC Prime v1.1
-  allowAction.morphoVaults.deposit({
-    targets: [morpho.kpkUsdcPrimeV1],
-  }),
   // Morpho Vault - kpk USDC Prime v2
   allowAction.morphoVaults.deposit({
     targets: [morpho.kpkUsdcPrimeV2],
-  }),
-  // Morpho Vault - kpk USDC Yield v1.1
-  allowAction.morphoVaults.deposit({
-    targets: [morpho.kpkUsdcYieldV1],
   }),
   // Morpho Vault - kpk USDC Yield v2
   allowAction.morphoVaults.deposit({
     targets: [morpho.kpkUsdcYieldV2],
   }),
-  // Morpho Vault - kpk USDT Prime v1.1
+  // Morpho Vault - kpk USDC Yield RWA
   allowAction.morphoVaults.deposit({
-    targets: [morpho.kpkUsdtPrimeV1],
+    targets: [morpho.kpkUsdcYieldRWA],
+  }),
+  // Morpho Vault - kpk USDC Prime Core
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkUsdcPrimeCore],
+  }),
+  // Morpho Vault - kpk EURC Yield v2
+  allowAction.morphoVaults.deposit({
+    targets: [morpho.kpkEurcYieldV2],
   }),
   // Morpho Vault - kpk USDT Prime v2
   allowAction.morphoVaults.deposit({
     targets: [morpho.kpkUsdtPrimeV2],
   }),
 
-  // Spark - Deposit DSR_sDAI
-  allowAction.spark.deposit({ targets: ["DSR_sDAI"] }),
-  // Spark - Deposit SKY_sUSDS
+  // Sky / Spark - Deposit SKY_sUSDS (also covers USDC <-> USDS and DAI <-> USDS)
   allowAction.spark.deposit({ targets: ["SKY_sUSDS"] }),
 ]
