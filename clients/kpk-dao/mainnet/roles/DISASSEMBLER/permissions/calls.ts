@@ -21,11 +21,8 @@ import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
 
 export default [
-  // Wrapping and unwrapping of ETH, WETH
+  // Unwrap ETH
   allow.mainnet.weth.withdraw(),
-  allow.mainnet.weth.deposit({
-    send: true,
-  }),
 
   // Aave Safety Module - Unstake AAVE
   allow.mainnet.aaveV3.stkAave.cooldown(),
