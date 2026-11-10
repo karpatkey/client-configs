@@ -1,6 +1,7 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import {
+  cbBTC,
   eETH,
   GNO,
   LsETH,
@@ -88,6 +89,26 @@ export default (parameters: Parameters) =>
       targetAddress: fluid.fluidRewardsDec2024,
     },
 
+    // KPK - cbBTC Carry Fund
+    allowErc20Approve([cbBTC], [kpk.cbBtcCarryFundShares]),
+    {
+      ...allow.mainnet.oiv.shares.requestSubscription(
+        undefined,
+        undefined,
+        cbBTC,
+        c.avatar
+      ),
+      targetAddress: kpk.cbBtcCarryFundShares,
+    },
+    {
+      ...allow.mainnet.oiv.shares.requestRedemption(
+        undefined,
+        undefined,
+        cbBTC,
+        c.avatar
+      ),
+      targetAddress: kpk.cbBtcCarryFundShares,
+    },
     // KPK - ETH Alpha Fund
     allowErc20Approve([WETH], [kpk.ethAlphaFundShares]),
     {

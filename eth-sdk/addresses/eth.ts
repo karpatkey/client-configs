@@ -307,6 +307,7 @@ export const kpk = {
   usdAlphaFundShares: "0x6D1a4C0878aD24793b1655ae1f78Cfa4522Ba765",
   wbtcCarryFundShares: "0xf180800f239f0ea0ED2F8156581fac2984cEe389",
   xautCarryFundShares: "0xDa35793Dc733fEFfb294938F95ff3B593170f9F8",
+  cbBtcCarryFundShares: "0xA9F836AfefAc083262113A7EF1FD01051Cd579bc",
 } as const
 
 export const kyberswap = {

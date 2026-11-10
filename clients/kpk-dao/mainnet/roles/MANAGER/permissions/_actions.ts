@@ -13,6 +13,7 @@ import {
   SPK,
   stETH,
   USDC,
+  USDT,
   WBTC,
   weETH,
   WETH,
@@ -26,8 +27,8 @@ export default [
   // Aave Safety Module - Stake AAVE (stake, cooldown, redeem, claim, claim and restake)
   allowAction.aave_v3.stake({ targets: ["AAVE"] }),
 
-  // CowSwap - [cbBTC, COMP, eETH, ETH, ETH+, FLUID, GEAR, LsETH, MORPHO, rETH, SPK, stETH, USDC, WBTC, weETH, WETH, wstETH, XAUt] ->
-  // [cbBTC, eETH, ETH, LsETH, rETH, stETH, USDC, WBTC, weETH, WETH, wstETH, XAUt]
+  // CowSwap - [cbBTC, COMP, eETH, ETH, ETH+, FLUID, GEAR, LsETH, MORPHO, rETH, SPK, stETH, USDC, USDT, WBTC, weETH, WETH, wstETH, XAUt] ->
+  // [cbBTC, eETH, ETH, LsETH, rETH, stETH, USDC, USDT, WBTC, weETH, WETH, wstETH, XAUt]
   allowAction.cowswap.swap({
     sell: [
       "ETH",
@@ -43,6 +44,7 @@ export default [
       SPK,
       stETH,
       USDC,
+      USDT,
       WBTC,
       weETH,
       WETH,
@@ -57,6 +59,7 @@ export default [
       rETH,
       stETH,
       USDC,
+      USDT,
       WBTC,
       weETH,
       WETH,

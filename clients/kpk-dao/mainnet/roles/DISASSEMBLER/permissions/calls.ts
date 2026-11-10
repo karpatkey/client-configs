@@ -1,6 +1,7 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import {
+  cbBTC,
   eETH,
   USDC,
   USDT,
@@ -91,6 +92,16 @@ export default [
     targetAddress: gearbox.kpkWstEth,
   },
 
+  // KPK - cbBTC Carry Fund
+  {
+    ...allow.mainnet.oiv.shares.requestRedemption(
+      undefined,
+      undefined,
+      cbBTC,
+      c.avatar
+    ),
+    targetAddress: kpk.cbBtcCarryFundShares,
+  },
   // KPK - ETH Alpha Fund
   {
     ...allow.mainnet.oiv.shares.requestRedemption(
