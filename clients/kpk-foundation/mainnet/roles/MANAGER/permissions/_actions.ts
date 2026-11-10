@@ -4,7 +4,9 @@ import {
   DAI,
   EURC,
   EURe,
+  FLUID,
   frxUSD,
+  GEAR,
   GHO,
   MORPHO,
   sGHO,
@@ -13,6 +15,7 @@ import {
   USDG,
   USDS,
   USDT,
+  XAUt,
   morpho,
 } from "@/addresses/eth"
 import { kpkFoundationBase } from "../../../../addresses"
@@ -48,15 +51,17 @@ export default (parameters: Parameters) => [
   // Compound v3 - Deposit USDC (includes claiming rewards)
   allowAction.compound_v3.deposit({ targets: ["cUSDCv3"], tokens: ["USDC"] }),
 
-  // CowSwap - [COMP, DAI, EURC, EURe, frxUSD, GHO, MORPHO, sGHO, sUSDS, USDC, USDG, USDS, USDT] ->
-  // [DAI, EURC, EURe, frxUSD, GHO, sGHO, sUSDS, USDC, USDG, USDS, USDT]
+  // CowSwap - [COMP, DAI, EURC, EURe, FLUID, frxUSD, GEAR, GHO, MORPHO, sGHO, sUSDS, USDC, USDG, USDS, USDT, XAUt] ->
+  // [DAI, EURC, EURe, frxUSD, GHO, sGHO, sUSDS, USDC, USDG, USDS, USDT, XAUt]
   allowAction.cowswap.swap({
     sell: [
       COMP,
       DAI,
       EURC,
       EURe,
+      FLUID,
       frxUSD,
+      GEAR,
       GHO,
       MORPHO,
       sGHO,
@@ -65,8 +70,22 @@ export default (parameters: Parameters) => [
       USDG,
       USDS,
       USDT,
+      XAUt,
     ],
-    buy: [DAI, EURC, EURe, frxUSD, GHO, sGHO, sUSDS, USDC, USDG, USDS, USDT],
+    buy: [
+      DAI,
+      EURC,
+      EURe,
+      frxUSD,
+      GHO,
+      sGHO,
+      sUSDS,
+      USDC,
+      USDG,
+      USDS,
+      USDT,
+      XAUt,
+    ],
   }),
 
   // Fluid - Deposit USDC

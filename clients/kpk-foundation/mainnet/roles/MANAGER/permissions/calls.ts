@@ -36,6 +36,10 @@ export default (parameters: Parameters) =>
       send: true,
     }),
 
+    // Aave v3 - Claim all incentives rewards (dashboard "Claim all"; claimRewards
+    // comes with the DeFi-Kit deposit action)
+    allow.mainnet.aaveV3.incentivesV3.claimAllRewards(undefined, c.avatar),
+
     // Aave v3 - sGHO
     allowErc20Approve([GHO], [contracts.mainnet.aaveV3.sGho]),
     allow.mainnet.aaveV3.sGho.deposit(undefined, c.avatar),
