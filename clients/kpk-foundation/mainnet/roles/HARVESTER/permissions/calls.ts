@@ -13,6 +13,8 @@ export default (parameters: Parameters) =>
       undefined,
       c.avatar
     ),
+    // Aave Incentives rewards - Claim all
+    allow.mainnet.aaveV3.incentivesV3.claimAllRewards(undefined, c.avatar),
 
     // Compound v3 - cUSDCv3 - Claim rewards
     allow.mainnet.compoundV3.cometRewards.claim(
