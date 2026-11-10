@@ -240,8 +240,10 @@ export default (parameters: Parameters) => [
   // Spark - Deposit wstETH
   allowAction.spark.deposit({ targets: ["wstETH"] }),
 
-  // StakeWise v3 - Genesis
-  allowAction.stakewise_v3.stake({ targets: ["Genesis"] }),
+  // StakeWise v3 - Genesis Vault
+  allowAction.stakewise_v3.stake({
+    targets: ["0xac0f906e433d58fa868f936e8a43230473652885"],
+  }),
 
   // Uniswap v3 - wNXN/WETH
   allowAction.uniswap_v3.deposit({ tokens: ["wNXM", "WETH"] }),

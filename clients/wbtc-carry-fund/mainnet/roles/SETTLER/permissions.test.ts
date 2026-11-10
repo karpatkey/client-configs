@@ -4,7 +4,7 @@ import { avatar } from "@/test/wallets"
 import kit from "@/test/kit"
 import { Status } from "@/test/types"
 import { contracts } from "@/contracts"
-import { cbBTC, USDC, WBTC } from "@/addresses/eth"
+import { cbBTC, compoundV3, USDC, WBTC, WETH } from "@/addresses/eth"
 import { aaveV4BluechipReserve } from "../../addresses"
 import { parameters } from "../../instances/sub_prod"
 import allowedCalls from "./permissions/calls"
@@ -15,6 +15,7 @@ const stranger = "0x000000000000000000000000000000000000dEaD"
 
 const poolCoreV3 = contracts.mainnet.aaveV3.poolCoreV3
 const erc20 = () => kit.asMember.weth
+const comet = () => kit.asMember.compoundV3.comet.attach(compoundV3.ciUSDCv3)
 const pool = () => kit.asMember.aaveV3.poolCoreV3
 
 describe("wbtc-carry-fund mainnet SETTLER", () => {
@@ -37,7 +38,7 @@ describe("wbtc-carry-fund mainnet SETTLER", () => {
       await expect(pool().supply(WBTC, 1n, stranger, 0)).toBeForbidden(
         Status.ParameterNotAllowed
       )
-      await expect(pool().supply(cbBTC, 1n, avatar.address, 0)).toBeForbidden()
+      await expect(pool().supply(USDC, 1n, avatar.address, 0)).toBeForbidden()
     })
 
     it("withdraws WBTC to the avatar only", async () => {
@@ -76,6 +77,64 @@ describe("wbtc-carry-fund mainnet SETTLER", () => {
         Status.FunctionNotAllowed
       )
       await expect(pool().repay(USDC, 1n, 2, avatar.address)).toBeForbidden(
+        Status.FunctionNotAllowed
+      )
+    })
+  })
+
+  describe("Aave v3 Core: no cbBTC (cbBTC gets its own fund)", () => {
+    it("does not approve, supply, withdraw or toggle cbBTC", async () => {
+      await expect(
+        erc20().attach(cbBTC).approve(poolCoreV3, parseUnits("1", 8))
+      ).toBeForbidden()
+      await expect(pool().supply(cbBTC, 1n, avatar.address, 0)).toBeForbidden()
+      await expect(pool().withdraw(cbBTC, 1n, avatar.address)).toBeForbidden()
+      await expect(
+        pool().setUserUseReserveAsCollateral(cbBTC, true)
+      ).toBeForbidden()
+    })
+  })
+
+  describe("Compound v3 Institutional (ciUSDCv3): WBTC collateral", () => {
+    it("approves WBTC to the Comet, not cbBTC, a stranger or USDC", async () => {
+      await expect(
+        erc20().attach(WBTC).approve(compoundV3.ciUSDCv3, parseUnits("1", 8))
+      ).toBeAllowed()
+      await expect(
+        erc20().attach(cbBTC).approve(compoundV3.ciUSDCv3, parseUnits("1", 8))
+      ).toBeForbidden()
+      await expect(
+        erc20().attach(WBTC).approve(stranger, parseUnits("1", 8))
+      ).toBeForbidden()
+      await expect(
+        erc20().attach(USDC).approve(compoundV3.ciUSDCv3, parseUnits("1", 6))
+      ).toBeForbidden()
+    })
+
+    it("supplies and withdraws WBTC, not cbBTC", async () => {
+      await expect(comet().supply(WBTC, 1n)).toBeAllowed()
+      await expect(comet().withdraw(WBTC, 1n)).toBeAllowed()
+      await expect(comet().supply(cbBTC, 1n)).toBeForbidden()
+      await expect(comet().withdraw(cbBTC, 1n)).toBeForbidden()
+    })
+
+    it("cannot borrow, repay, use other collateral or the To / allow variants", async () => {
+      await expect(comet().withdraw(USDC, 1n)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+      await expect(comet().supply(USDC, 1n)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+      await expect(comet().supply(WETH, 1n)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+      await expect(comet().supplyTo(stranger, WBTC, 1n)).toBeForbidden(
+        Status.FunctionNotAllowed
+      )
+      await expect(comet().withdrawTo(stranger, WBTC, 1n)).toBeForbidden(
+        Status.FunctionNotAllowed
+      )
+      await expect(comet().allow(stranger, true)).toBeForbidden(
         Status.FunctionNotAllowed
       )
     })
