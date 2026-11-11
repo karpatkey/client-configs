@@ -14,6 +14,7 @@ import {
   USDT,
   WBTC,
   WETH,
+  yo,
 } from "@/addresses/eth"
 import { aaveV4BluechipReserve } from "../../addresses"
 import { parameters } from "../../instances/sub_prod"
@@ -256,6 +257,49 @@ describe("cbbtc-carry-fund mainnet EXIT", () => {
       await expect(
         vault(stranger).withdraw(1n, avatar.address, avatar.address)
       ).toBeForbidden(Status.TargetAddressNotAllowed)
+    })
+  })
+
+  describe("yoUSD Edge (YO Protocol, USDC): exit only", () => {
+    const edge = () => kit.asMember.yo.edgeVault.attach(yo.usdEdge)
+
+    it("requests a redeem and redeems to the avatar", async () => {
+      await expect(
+        edge().requestRedeem(1n, avatar.address, avatar.address)
+      ).toBeAllowed()
+      await expect(
+        edge().redeem(1n, avatar.address, avatar.address)
+      ).toBeAllowed()
+    })
+
+    it("forbids a stranger receiver or owner", async () => {
+      await expect(
+        edge().requestRedeem(1n, stranger, avatar.address)
+      ).toBeForbidden(Status.ParameterNotAllowed)
+      await expect(
+        edge().requestRedeem(1n, avatar.address, stranger)
+      ).toBeForbidden(Status.ParameterNotAllowed)
+      await expect(edge().redeem(1n, stranger, avatar.address)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+      await expect(edge().redeem(1n, avatar.address, stranger)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+    })
+
+    it("cannot deposit, mint, withdraw or approve USDC to the vault", async () => {
+      await expect(edge().deposit(1n, avatar.address)).toBeForbidden(
+        Status.FunctionNotAllowed
+      )
+      await expect(edge().mint(1n, avatar.address)).toBeForbidden(
+        Status.FunctionNotAllowed
+      )
+      await expect(
+        edge().withdraw(1n, avatar.address, avatar.address)
+      ).toBeForbidden(Status.FunctionNotAllowed)
+      await expect(
+        erc20().attach(USDC).approve(yo.usdEdge, parseUnits("1", 6))
+      ).toBeForbidden()
     })
   })
 })

@@ -13,6 +13,7 @@ import {
   USDG,
   USDT,
   WBTC,
+  yo,
 } from "@/addresses/eth"
 import { aaveV4BluechipReserve } from "../../addresses"
 import { parameters } from "../../instances/sub_prod"
@@ -245,6 +246,25 @@ describe("cbbtc-carry-fund mainnet HF_KEEPER", () => {
       await expect(vault(stranger).deposit(1n, avatar.address)).toBeForbidden(
         Status.TargetAddressNotAllowed
       )
+    })
+  })
+
+  describe("yoUSD Edge (YO Protocol, USDC): nothing for HF_KEEPER", () => {
+    const edge = () => kit.asMember.yo.edgeVault.attach(yo.usdEdge)
+
+    it("cannot reach the Edge vault: its job is repaying from the liquid sleeve", async () => {
+      await expect(edge().deposit(1n, avatar.address)).toBeForbidden(
+        Status.TargetAddressNotAllowed
+      )
+      await expect(
+        edge().requestRedeem(1n, avatar.address, avatar.address)
+      ).toBeForbidden(Status.TargetAddressNotAllowed)
+      await expect(
+        edge().redeem(1n, avatar.address, avatar.address)
+      ).toBeForbidden(Status.TargetAddressNotAllowed)
+      await expect(
+        erc20().attach(USDC).approve(yo.usdEdge, parseUnits("1", 6))
+      ).toBeForbidden()
     })
   })
 })
