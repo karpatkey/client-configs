@@ -2,7 +2,11 @@ import { allow } from "zodiac-roles-sdk/kit"
 import { DAI, USDC, USDS, USDT, WETH } from "@/addresses/eth"
 import { mainTreasury } from "../../../../../addresses"
 import { PermissionList } from "@/types"
-import { allowErc20Approve, allowErc20Transfer } from "@/helpers"
+import {
+  allowAssistedBalanceRecoveryMainnet,
+  allowErc20Approve,
+  allowErc20Transfer,
+} from "@/helpers"
 import { c } from "zodiac-roles-sdk"
 import { contracts } from "@/contracts"
 import { Parameters } from "../../../../../parameters"
@@ -359,4 +363,8 @@ export default (parameters: Parameters) =>
         })
       )
     ),
+
+    // onchain-accounting - Assisted balance adapters (ADR 0030): Safe-side
+    // evict / submit / remove of its own entries
+    ...allowAssistedBalanceRecoveryMainnet(),
   ] satisfies PermissionList
