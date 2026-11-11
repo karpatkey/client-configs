@@ -130,7 +130,7 @@ export const contracts = {
       kingDistributor: "0x6Db24Ee656843E3fE03eb8762a54D86186bA6B64",
       redemptionManager: "0xDadEf1fFBFeaAB4f68A9fD181395F68b4e4E7Ae0",
       withdrawalAdapter: "0xFbfe6b9cEe0E555Bad7e2E7309EFFC75200cBE38",
-      assistant: "0xd45cB5B6791156f657D682b3c70689980f4fe8D5", // onchain-accounting exit assistant (delegatecall)
+      assistant: "0xD2EA372e6c1bA08cE3d20F4Ce69d68f13E1F92c4", // onchain-accounting withdrawal-queue assistant (delegatecall, ADR 0030)
       assistedBalanceAdapter: "0xd074FAf8D8f2909BE3E6D51c219916065c5d870A", // onchain-accounting withdrawal-queue adapter (ADR 0030)
     },
     euler: {
@@ -181,6 +181,7 @@ export const contracts = {
       stakingPool: "0xF3745f76C137738b0371a820A098fC678672660a", // Pool #2 (used as a general case)
       tokenController: "0x5407381b6c251cFd498ccD4A1d877739CB7960B8",
       rwiv: "0xcAFeAA466736ac01e0AC9Ca72644beF348694731",
+      assistant: "0x35cd6EA4e28001FCA5E718De1D1c70Ac3A79E3DE", // onchain-accounting staking-pools assistant (delegatecall, ADR 0030)
       assistedBalanceAdapter: "0x535861D4f3AE8eC84d0aEd11134fF5F992b47F8D", // onchain-accounting staking-pools adapter (ADR 0030)
     },
     notionalV3: {
@@ -236,7 +237,7 @@ export const contracts = {
     },
     stakeWiseV3: {
       ...deFiKitContracts.mainnet.stakeWiseV3, // generic `vault` contract; individual vaults are scoped via targetAddress using the addresses in @/addresses/eth
-      assistant: "0x13845Fc9DFfDf1AFb8B1Cf22eA298C01C8d7F71B", // onchain-accounting exit assistant (delegatecall)
+      assistant: "0xc020E93CA7BFB23E63aDeE13b2bB97ABc78db13d", // onchain-accounting exit-queue assistant (delegatecall, ADR 0030)
       assistedBalanceAdapter: "0x662F43D46b10D57C5F1970684BD0e35CD3e5DFa7", // onchain-accounting exit-queue adapter (ADR 0030)
     },
     stargate: {

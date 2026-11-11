@@ -149,9 +149,9 @@ export default (parameters: Parameters) =>
     // Stake ETH for eETH
     allow.mainnet.etherfi.liquidityPool["deposit()"]({ send: true }),
     // Request Withdrawal - A Withdraw Request NFT is issued
-    // Routed through the onchain-accounting assistant (delegatecall) so the
-    // Withdraw Request NFT id is fed to the balance adapter atomically.
-    allowErc20Approve([eETH], [contracts.mainnet.etherfi.liquidityPool]),
+    // Routed through the onchain-accounting assistant (delegatecall, ADR 0030)
+    // so the NFT id is fed to the balance adapter atomically; the assistant
+    // approves eETH to the LiquidityPool itself (no approve needed here).
     allow.mainnet.etherfi.assistant.requestWithdraw(undefined, {
       delegatecall: true,
     }),

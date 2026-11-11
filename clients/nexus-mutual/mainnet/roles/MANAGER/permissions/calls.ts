@@ -2,20 +2,28 @@ import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import {
   AAVE,
+  aaveV3,
   AURA,
+  aura,
   BAL,
+  balancerV2,
+  balancerV3,
   CRV,
+  curve,
   CVX,
   DAI,
   eETH,
   ETHPlus,
+  fluid,
   GHO,
   LDO,
+  nexus,
   NXM,
   osETH,
   rETH,
   RPL,
   RWIV,
+  stakeWiseV3,
   stETH,
   SWISE,
   USDC,
@@ -27,15 +35,7 @@ import {
   WETH,
   wNXM,
   wstETH,
-  aaveV3,
-  aura,
-  balancerV2,
-  balancerV3,
-  curve,
-  fluid,
-  nexus,
 } from "@/addresses/eth"
-import { zeroAddress } from "@/addresses"
 import { contracts } from "@/contracts"
 import {
   allowAssistedBalanceRecoveryMainnet,
@@ -44,6 +44,12 @@ import {
 import { PermissionList } from "@/types"
 import { balancerV2Swap } from "@/exit_strategies/balancerV2"
 import { Parameters } from "../../../parameters"
+
+const nexusPools = nexus.pools as unknown as [
+  `0x${string}`,
+  `0x${string}`,
+  ...`0x${string}`[],
+]
 
 export default (parameters: Parameters) =>
   [
@@ -385,10 +391,16 @@ export default (parameters: Parameters) =>
     // Stake ETH for eETH
     allow.mainnet.etherfi.liquidityPool["deposit()"]({ send: true }),
     // Request Withdrawal - A Withdraw Request NFT is issued
-    allowErc20Approve([eETH], [contracts.mainnet.etherfi.liquidityPool]),
-    allow.mainnet.etherfi.liquidityPool.requestWithdraw(c.avatar),
+    // Routed through the onchain-accounting assistant (delegatecall, ADR 0030)
+    // so the NFT id is fed to the balance adapter atomically; the assistant
+    // approves eETH to the LiquidityPool itself (no approve needed here).
+    allow.mainnet.etherfi.assistant.requestWithdraw(undefined, {
+      delegatecall: true,
+    }),
     // Funds can be claimed once the request is finalized
-    allow.mainnet.etherfi.withdrawRequestNft.claimWithdraw(),
+    allow.mainnet.etherfi.assistant.claimWithdraw(undefined, {
+      delegatecall: true,
+    }),
     // Stake ETH for weETH
     allow.mainnet.etherfi.depositAdapter.depositETHForWeETH(undefined, {
       send: true,
@@ -442,31 +454,36 @@ export default (parameters: Parameters) =>
     allow.mainnet.nexus.wNxm.wrap(),
     // Unwrap WNXM
     allow.mainnet.nexus.wNxm.unwrap(),
-    // Claim NXM rewards
-    allow.mainnet.nexus.tokenController.withdrawNXM(),
-    // Approval of NXM with the TokenController as spender was already included
-    // TokenController manages the approvals for all pools
+    // NXM approval to the TokenController (it manages the approvals for all
+    // pools); needed for the direct extendDeposit top-ups below
     allowErc20Approve([NXM], [contracts.mainnet.nexus.tokenController]),
-    // Allows users to deposit NXM into the pool, creating stake and rewards shares in return
-    // Supports deposits to specific tranches and allows reusing the same nft for deposits in multiple tranches to an existing deposit
-    ...nexus.pools.map((pool) => ({
-      ...allow.mainnet.nexus.stakingPool.depositTo(
-        undefined,
-        undefined,
-        undefined,
-        zeroAddress
-      ),
-      targetAddress: pool,
-    })),
+    // Staking: deposit NXM into an allowed pool (stake + rewards shares, new NFT
+    // or top-up of an existing one) and withdraw stake/rewards, routed through
+    // the onchain-accounting assistant (delegatecall, ADR 0030) so the staking
+    // NFT is fed to the balance adapter atomically. The assistant forces the
+    // destination to the Safe and approves NXM to the TokenController itself.
+    allow.mainnet.nexus.assistant.depositTo(
+      c.or(...nexusPools),
+      undefined,
+      undefined,
+      undefined,
+      {
+        delegatecall: true,
+      }
+    ),
+    allow.mainnet.nexus.assistant.withdraw(
+      c.or(...nexusPools),
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      {
+        delegatecall: true,
+      }
+    ),
     // Extends the duration of a deposit by moving it from an tranche to a future tranche
     ...nexus.pools.map((pool) => ({
       ...allow.mainnet.nexus.stakingPool.extendDeposit(),
-      targetAddress: pool,
-    })),
-    // Allows users to withdraw their stake and/or rewards from specific tranches
-    // Withdrawing the stakes can be done only on expired tranches
-    ...nexus.pools.map((pool) => ({
-      ...allow.mainnet.nexus.stakingPool.withdraw(),
       targetAddress: pool,
     })),
 
@@ -578,6 +595,63 @@ export default (parameters: Parameters) =>
     allow.mainnet.uniswapV3.positionsNft.createAndInitializePoolIfNecessary(
       c.or(RWIV, USDC),
       c.or(RWIV, USDC)
+    ),
+
+    // StakeWise v3 - Genesis Vault
+    // (unbundled from allowAction.stakewise_v3.stake, ADR 0030)
+    // Deposit / mint / burn stay direct on the vault, scoped via the generic
+    // vault contract + a targetAddress override.
+    {
+      ...allow.mainnet.stakeWiseV3.vault.deposit(c.avatar, undefined, {
+        send: true,
+      }),
+      targetAddress: stakeWiseV3.genesis,
+    },
+    {
+      ...allow.mainnet.stakeWiseV3.vault.depositAndMintOsToken(
+        c.avatar,
+        undefined,
+        undefined,
+        { send: true }
+      ),
+      targetAddress: stakeWiseV3.genesis,
+    },
+    {
+      ...allow.mainnet.stakeWiseV3.vault.updateStateAndDeposit(
+        c.avatar,
+        undefined,
+        undefined,
+        { send: true }
+      ),
+      targetAddress: stakeWiseV3.genesis,
+    },
+    {
+      ...allow.mainnet.stakeWiseV3.vault.updateState(),
+      targetAddress: stakeWiseV3.genesis,
+    },
+    {
+      ...allow.mainnet.stakeWiseV3.vault.mintOsToken(c.avatar),
+      targetAddress: stakeWiseV3.genesis,
+    },
+    {
+      ...allow.mainnet.stakeWiseV3.vault.burnOsToken(),
+      targetAddress: stakeWiseV3.genesis,
+    },
+    // Exit queue routed through the onchain-accounting assistant (delegatecall)
+    // so the exit position ticket is fed to the balance adapter atomically.
+    allow.mainnet.stakeWiseV3.assistant.enterExitQueue(
+      stakeWiseV3.genesis,
+      undefined,
+      {
+        delegatecall: true,
+      }
+    ),
+    allow.mainnet.stakeWiseV3.assistant.claimExitedAssets(
+      stakeWiseV3.genesis,
+      undefined,
+      undefined,
+      undefined,
+      { delegatecall: true }
     ),
 
     // onchain-accounting - Assisted balance adapters (ADR 0030): Safe-side

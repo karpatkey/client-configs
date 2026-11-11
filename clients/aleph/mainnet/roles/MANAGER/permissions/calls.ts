@@ -2,18 +2,19 @@ import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { contracts } from "@/contracts"
 import {
+  aura,
+  balancerV3,
   eETH,
   GHO,
+  kpk,
+  kyberswap,
   rETH,
   rsETH,
+  stakeWiseV3,
   stETH,
   weETH,
   WETH,
   wstETH,
-  aura,
-  balancerV3,
-  kpk,
-  kyberswap,
 } from "@/addresses/eth"
 import {
   allowAssistedBalanceRecoveryMainnet,
@@ -169,10 +170,16 @@ export default (parameters: Parameters) =>
     // Stake ETH for eETH
     allow.mainnet.etherfi.liquidityPool["deposit()"]({ send: true }),
     // Request Withdrawal - A Withdraw Request NFT is issued
-    allowErc20Approve([eETH], [contracts.mainnet.etherfi.liquidityPool]),
-    allow.mainnet.etherfi.liquidityPool.requestWithdraw(c.avatar),
+    // Routed through the onchain-accounting assistant (delegatecall, ADR 0030)
+    // so the NFT id is fed to the balance adapter atomically; the assistant
+    // approves eETH to the LiquidityPool itself (no approve needed here).
+    allow.mainnet.etherfi.assistant.requestWithdraw(undefined, {
+      delegatecall: true,
+    }),
     // Funds can be claimed once the request is finalized
-    allow.mainnet.etherfi.withdrawRequestNft.claimWithdraw(),
+    allow.mainnet.etherfi.assistant.claimWithdraw(undefined, {
+      delegatecall: true,
+    }),
     // Stake ETH for weETH
     allow.mainnet.etherfi.depositAdapter.depositETHForWeETH(undefined, {
       send: true,
@@ -240,6 +247,63 @@ export default (parameters: Parameters) =>
 
     // Transfer stETH to Aleph's stETH Vault
     allowErc20Transfer([stETH], [stEthVault]),
+
+    // StakeWise v3 - EthMetaVault
+    // (unbundled from allowAction.stakewise_v3.stake, ADR 0030)
+    // Deposit / mint / burn stay direct on the vault, scoped via the generic
+    // vault contract + a targetAddress override.
+    {
+      ...allow.mainnet.stakeWiseV3.vault.deposit(c.avatar, undefined, {
+        send: true,
+      }),
+      targetAddress: stakeWiseV3.ethMetaVault,
+    },
+    {
+      ...allow.mainnet.stakeWiseV3.vault.depositAndMintOsToken(
+        c.avatar,
+        undefined,
+        undefined,
+        { send: true }
+      ),
+      targetAddress: stakeWiseV3.ethMetaVault,
+    },
+    {
+      ...allow.mainnet.stakeWiseV3.vault.updateStateAndDeposit(
+        c.avatar,
+        undefined,
+        undefined,
+        { send: true }
+      ),
+      targetAddress: stakeWiseV3.ethMetaVault,
+    },
+    {
+      ...allow.mainnet.stakeWiseV3.vault.updateState(),
+      targetAddress: stakeWiseV3.ethMetaVault,
+    },
+    {
+      ...allow.mainnet.stakeWiseV3.vault.mintOsToken(c.avatar),
+      targetAddress: stakeWiseV3.ethMetaVault,
+    },
+    {
+      ...allow.mainnet.stakeWiseV3.vault.burnOsToken(),
+      targetAddress: stakeWiseV3.ethMetaVault,
+    },
+    // Exit queue routed through the onchain-accounting assistant (delegatecall)
+    // so the exit position ticket is fed to the balance adapter atomically.
+    allow.mainnet.stakeWiseV3.assistant.enterExitQueue(
+      stakeWiseV3.ethMetaVault,
+      undefined,
+      {
+        delegatecall: true,
+      }
+    ),
+    allow.mainnet.stakeWiseV3.assistant.claimExitedAssets(
+      stakeWiseV3.ethMetaVault,
+      undefined,
+      undefined,
+      undefined,
+      { delegatecall: true }
+    ),
 
     // onchain-accounting - Assisted balance adapters (ADR 0030): Safe-side
     // evict / submit / remove of its own entries

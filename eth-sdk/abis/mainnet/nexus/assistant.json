@@ -1,0 +1,185 @@
+[
+  {
+    "type": "constructor",
+    "inputs": [
+      {
+        "name": "adapter_",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "nxm_",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "tokenController_",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "name": "InvalidArguments",
+    "type": "error",
+    "inputs": []
+  },
+  {
+    "name": "NotAContract",
+    "type": "error",
+    "inputs": [
+      {
+        "name": "name",
+        "type": "string",
+        "internalType": "string"
+      }
+    ]
+  },
+  {
+    "name": "NotDelegateCall",
+    "type": "error",
+    "inputs": []
+  },
+  {
+    "name": "SafeERC20FailedOperation",
+    "type": "error",
+    "inputs": [
+      {
+        "name": "token",
+        "type": "address",
+        "internalType": "address"
+      }
+    ]
+  },
+  {
+    "name": "ADAPTER",
+    "type": "function",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "name": "NXM",
+    "type": "function",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "name": "SELF",
+    "type": "function",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "name": "TOKEN_CONTROLLER",
+    "type": "function",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "name": "depositTo",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "poolAddress",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "amount",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "trancheId",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "requestTokenId",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "tokenId",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "name": "withdraw",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "poolAddress",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "tokenId",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "withdrawStake",
+        "type": "bool",
+        "internalType": "bool"
+      },
+      {
+        "name": "withdrawRewards",
+        "type": "bool",
+        "internalType": "bool"
+      },
+      {
+        "name": "trancheIds",
+        "type": "uint256[]",
+        "internalType": "uint256[]"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "withdrawnStake",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "withdrawnRewards",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "nonpayable"
+  }
+]
