@@ -76,6 +76,7 @@ export const PENDLE = "0x808507121B80c02388fAd14726482e061B8da827"
 export const PNK = "0x93ED3FBe21207Ec2E8f2d3c3de6e058Cb73Bc04d"
 export const POL = "0x455e53CBB86018Ac2B8092FdCd39d8444aFFC3F6"
 export const PYTH = "0xeFc0CED4B3D536103e76a1c4c74F0385C8F4Bdd3"
+export const PYUSD = "0x6c3ea9036406852006290770BEdFcAbA0e23A0e8"
 export const RAD = "0x31c8EAcBFFdD875c74b94b077895Bd78CF1E64A3"
 export const RAI = "0x03ab458634910AaD20eF5f1C8ee96F1D6ac54919"
 export const RLUSD = "0x8292Bb45bf1Ee4d140127049757C2E0fF06317eD"
@@ -126,6 +127,7 @@ export const USR = "0x66a1E37c9b0eAddca17d3662D6c05F4DECf3e110"
 export const waEthLidoGho = "0xC71Ea051a5F82c67ADcF634c36FFE6334793D24C"
 export const waEthUsdc = "0xD4fa2D31b7968E448877f69A96DE69f5de8cD23E"
 export const waEthUsdt = "0x7Bc3485026Ac48b6cf9BaF0A377477Fff5703Af8"
+export const waEthWeth = "0x0bfc9d54Fc184518A81162F8fB99c2eACa081202"
 export const WBTC = "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599"
 export const weETH = "0xCd5fE23C85820F7B72D0926FC9b05b43E359b7ee"
 export const WETH = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
@@ -138,6 +140,7 @@ export const wstUSR = "0x1202F5C7b4B9E47a1A484E8B270be34dbbC75055"
 
 // Protocols
 export const aaveV3 = {
+  aEthUsdc: "0x98C23E9d8f34FEFb1B7BD6a91B7FF122F4e16F5c",
   aEthWeth: "0x4d5F47FA6A74757f35C14fD3a6Ef8E3C9BC514E8",
   stkEthGHO: "0x4f827A63755855cDf3e8f3bcD20265C833f15033",
   stkEthUSDC: "0x6bf183243FdD1e306ad2C4450BC7dcf6f0bf8Aa6",
@@ -324,6 +327,7 @@ export const stakeWiseV3 = {
   genesis: "0xAC0F906E433d58FA868F936E8A43230473652885", // Genesis
   chorusOneMaxVault: "0xe6d8d8aC54461b1C5eD15740EEe322043F696C08", // Chorus One Max Vault
   ethMetaVault: "0x15639e82d2072fa510e5d2b5f0db361c823bcad3", // unnamed EthMetaVault
+  kpkEthVault: "0xd93ce3b1610edb3b168c1195efa6600dc194821f", // KPK ETH StakeWise vault (EthVault v5)
 } as const
 
 export const morpho = {
@@ -340,6 +344,8 @@ export const morpho = {
   sentoraPyusdMain: "0xb576765fB15505433aF24FEe2c0325895C559FB2", // Sentora PYUSD Main
   sentoraRlusdMain: "0x6dC58a0FdfC8D694e571DC59B9A52EEEa780E6bf", // Sentora RLUSD Main
   steakhouseHighYieldUsdc: "0xbeeff2C5bF38f90e3482a8b19F12E5a6D2FCa757", // Steakhouse High Yield USDC (bbqUSDC, VaultV2)
+  pendleEcosystemUsdc: "0x55C1B6e461a6334B567bAF0FEb5D728715446f05", // Pendle Ecosystem USDC (VaultV2, curator Armitage)
+  pendleEcosystemHighYieldUsdc: "0xcf609F8327E68b42AF54F9D529b9f65d68038435", // Pendle Ecosystem High Yield USDC (VaultV2, curator Armitage)
   kpkEthPrimeV1: "0xd564F765F9aD3E7d2d6cA782100795a885e8e7C8", // kpk ETH Prime v1
   kpkEthPrimeV2: "0xBb50A5341368751024ddf33385BA8cf61fE65FF9", // kpk ETH Prime v2
   kpkEthYieldV1: "0xc88eFFD6e74D55c78290892809955463468E982A", // kpk ETH Yield v1
@@ -428,6 +434,15 @@ export const pendle = {
 
 export const polygon = {
   posStakingContract: "0x5e3Ef299fDDf15eAa0432E6e66473ace8c13D908",
+} as const
+
+export const rysk = {
+  // LiquidityPool vaults (targetAddress for `rysk.liquidityPool`), keyed by vault symbol
+  usdcKpkWethPEth: "0x1195826418541CB3E80A22ef5736A6794393C91A", // USDC-KPK-WETH-P-ETH, USDC cash-secured-put vault
+  wethKpkUsdcCEth: "0x06E6bc81c15a5D73FC35B79fF67ff57D258d77c8", // WETH-KPK-USDC-C-ETH, WETH covered-call vault
+  // Authority of each vault (targetAddress for `rysk.vaultManager`, curator seat)
+  vaultManagerUsdcKpkWethPEth: "0x59021A1aE23cc8B21c866d9C9eD1C4393C7CbBB4", // Authority of the USDC-KPK-WETH-P-ETH vault
+  vaultManagerWethKpkUsdcCEth: "0xeCF8a8141919EEdff5F34D5CdFcC2120573950C4", // Authority of the WETH-KPK-USDC-C-ETH vault
 } as const
 
 export const siloV2 = {
