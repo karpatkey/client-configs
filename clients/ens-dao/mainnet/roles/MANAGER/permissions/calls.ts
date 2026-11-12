@@ -456,8 +456,12 @@ export default (parameters: Parameters) =>
     // Standard unstaking eETH -> ETH - A Withdraw Request NFT is issued
     // Routed through the onchain-accounting assistant (delegatecall, ADR 0030)
     // so the NFT id is fed to the balance adapter atomically; the assistant
-    // approves eETH to the LiquidityPool itself (no approve needed here).
-    // weETH -> ETH = unwrap weETH (below) + this request (no WithdrawAdapter).
+    // approves eETH to the LiquidityPool itself; the direct approves are kept
+    // so app batches that include them still pass (only the direct request/claim
+    // entrypoints are replaced). weETH -> ETH = unwrap weETH (below) + this
+    // request (the direct WithdrawAdapter request is not granted).
+    allowErc20Approve([eETH], [contracts.mainnet.etherfi.liquidityPool]),
+    allowErc20Approve([weETH], [contracts.mainnet.etherfi.withdrawalAdapter]),
     allow.mainnet.etherfi.assistant.requestWithdraw(undefined, {
       delegatecall: true,
     }),

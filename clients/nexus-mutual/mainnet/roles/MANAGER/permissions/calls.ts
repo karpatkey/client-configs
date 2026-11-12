@@ -393,7 +393,10 @@ export default (parameters: Parameters) =>
     // Request Withdrawal - A Withdraw Request NFT is issued
     // Routed through the onchain-accounting assistant (delegatecall, ADR 0030)
     // so the NFT id is fed to the balance adapter atomically; the assistant
-    // approves eETH to the LiquidityPool itself (no approve needed here).
+    // approves eETH to the LiquidityPool itself; the direct approve is kept so
+    // app batches that include it still pass (only the direct request/claim
+    // entrypoints are replaced).
+    allowErc20Approve([eETH], [contracts.mainnet.etherfi.liquidityPool]),
     allow.mainnet.etherfi.assistant.requestWithdraw(undefined, {
       delegatecall: true,
     }),
@@ -454,6 +457,8 @@ export default (parameters: Parameters) =>
     allow.mainnet.nexus.wNxm.wrap(),
     // Unwrap WNXM
     allow.mainnet.nexus.wNxm.unwrap(),
+    // Claim NXM rewards
+    allow.mainnet.nexus.tokenController.withdrawNXM(),
     // NXM approval to the TokenController (it manages the approvals for all
     // pools); needed for the direct extendDeposit top-ups below
     allowErc20Approve([NXM], [contracts.mainnet.nexus.tokenController]),
