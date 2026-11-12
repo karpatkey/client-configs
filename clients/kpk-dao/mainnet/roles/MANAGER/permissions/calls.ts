@@ -22,6 +22,7 @@ import {
 import { eAddress } from "@/addresses"
 import { contracts } from "@/contracts"
 import {
+  allowAssistedBalanceRecoveryMainnet,
   allowErc20Approve,
   allowEthTransfer,
   allowErc20Transfer,
@@ -557,4 +558,8 @@ export default (parameters: Parameters) =>
 
     // Transfer up to 500K USDC per month to kpkFoundationEth
     allowErc20Transfer([USDC], [kpkFoundationEth], "USDC_KPK_FOUNDATION-ETH"),
+
+    // onchain-accounting - Assisted balance adapters (ADR 0030): Safe-side
+    // evict / submit / remove of its own entries
+    ...allowAssistedBalanceRecoveryMainnet(),
   ] satisfies PermissionList

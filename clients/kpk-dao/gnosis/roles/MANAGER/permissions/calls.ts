@@ -2,6 +2,7 @@ import { PermissionList } from "@/types"
 import { allow } from "zodiac-roles-sdk/kit"
 import { contracts } from "@/contracts"
 import { WETH, wstETH } from "@/addresses/gno"
+import { allowAssistedBalanceRecoveryGnosis } from "@/helpers"
 import { kpkEth } from "../../../../addresses"
 
 export default [
@@ -39,4 +40,8 @@ export default [
     ),
     targetAddress: wstETH,
   },
+
+  // onchain-accounting - Assisted balance adapters (ADR 0030): Safe-side
+  // evict / submit / remove of its own entries
+  ...allowAssistedBalanceRecoveryGnosis(),
 ] satisfies PermissionList
