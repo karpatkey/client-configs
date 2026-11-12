@@ -15,7 +15,11 @@ import {
   kpk,
   kyberswap,
 } from "@/addresses/eth"
-import { allowErc20Approve, allowErc20Transfer } from "@/helpers"
+import {
+  allowAssistedBalanceRecoveryMainnet,
+  allowErc20Approve,
+  allowErc20Transfer,
+} from "@/helpers"
 import { eAddress } from "@/addresses"
 import { PermissionList } from "@/types"
 import { Parameters } from "../../../parameters"
@@ -236,4 +240,8 @@ export default (parameters: Parameters) =>
 
     // Transfer stETH to Aleph's stETH Vault
     allowErc20Transfer([stETH], [stEthVault]),
+
+    // onchain-accounting - Assisted balance adapters (ADR 0030): Safe-side
+    // evict / submit / remove of its own entries
+    ...allowAssistedBalanceRecoveryMainnet(),
   ] satisfies PermissionList

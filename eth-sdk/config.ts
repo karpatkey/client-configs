@@ -131,6 +131,7 @@ export const contracts = {
       redemptionManager: "0xDadEf1fFBFeaAB4f68A9fD181395F68b4e4E7Ae0",
       withdrawalAdapter: "0xFbfe6b9cEe0E555Bad7e2E7309EFFC75200cBE38",
       assistant: "0xd45cB5B6791156f657D682b3c70689980f4fe8D5", // onchain-accounting exit assistant (delegatecall)
+      assistedBalanceAdapter: "0xd074FAf8D8f2909BE3E6D51c219916065c5d870A", // onchain-accounting withdrawal-queue adapter (ADR 0030)
     },
     euler: {
       eVault: "0x8Ff1C814719096b61aBf00Bb46EAd0c9A529Dd7D",
@@ -180,6 +181,7 @@ export const contracts = {
       stakingPool: "0xF3745f76C137738b0371a820A098fC678672660a", // Pool #2 (used as a general case)
       tokenController: "0x5407381b6c251cFd498ccD4A1d877739CB7960B8",
       rwiv: "0xcAFeAA466736ac01e0AC9Ca72644beF348694731",
+      assistedBalanceAdapter: "0x535861D4f3AE8eC84d0aEd11134fF5F992b47F8D", // onchain-accounting staking-pools adapter (ADR 0030)
     },
     notionalV3: {
       nProxy: "0x6e7058c91F85E0F6db4fc9da2CA41241f5e4263f",
@@ -235,6 +237,7 @@ export const contracts = {
     stakeWiseV3: {
       ...deFiKitContracts.mainnet.stakeWiseV3, // generic `vault` contract; individual vaults are scoped via targetAddress using the addresses in @/addresses/eth
       assistant: "0x13845Fc9DFfDf1AFb8B1Cf22eA298C01C8d7F71B", // onchain-accounting exit assistant (delegatecall)
+      assistedBalanceAdapter: "0x662F43D46b10D57C5F1970684BD0e35CD3e5DFa7", // onchain-accounting exit-queue adapter (ADR 0030)
     },
     stargate: {
       poolNative: "0x77b2043768d28E9C9aB44E1aBfC95944bcE57931",
@@ -308,6 +311,7 @@ export const contracts = {
     },
     stakeWiseV3: {
       ...deFiKitContracts.gnosis.stakeWiseV3,
+      assistedBalanceAdapter: "0x6E23b1f1447c95E50e06c0F40C64F3f7ff717Eea", // onchain-accounting exit-queue adapter (ADR 0030)
       genesis: "0x4b4406Ed8659D03423490D8b62a1639206dA0A7a",
       serenita: "0x00025C729A3364FaEf02c7D1F577068d87E90ba6",
       nedo: "0x2Cd404D9d75436e7d6dDbCcc2fB9cF7C06941BF1",

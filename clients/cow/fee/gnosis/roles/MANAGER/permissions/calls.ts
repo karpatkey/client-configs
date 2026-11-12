@@ -1,6 +1,10 @@
 import { allow } from "zodiac-roles-sdk/kit"
 import { PermissionList } from "@/types"
-import { allowErc20Transfer, allowEthTransfer } from "@/helpers"
+import {
+  allowAssistedBalanceRecoveryGnosis,
+  allowErc20Transfer,
+  allowEthTransfer,
+} from "@/helpers"
 import { GNO, sDAI, WETH, WXDAI } from "@/addresses/gno"
 import { mainTreasury } from "../../../../../addresses"
 
@@ -17,4 +21,8 @@ export default [
 
   // Transfer [GNO, sDAI, WETH, WXDAI] to Main Treasury
   allowErc20Transfer([GNO, sDAI, WETH, WXDAI], [mainTreasury]),
+
+  // onchain-accounting - Assisted balance adapters (ADR 0030): Safe-side
+  // evict / submit / remove of its own entries
+  ...allowAssistedBalanceRecoveryGnosis(),
 ] satisfies PermissionList

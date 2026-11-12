@@ -21,6 +21,7 @@ import { COW as COW_base } from "@/addresses/base"
 import { legalDefenseFund, twapAvatar } from "../../../../../addresses"
 import { PermissionList } from "@/types"
 import {
+  allowAssistedBalanceRecoveryMainnet,
   allowErc20Approve,
   allowErc20Transfer,
   allowEthTransfer,
@@ -1021,4 +1022,8 @@ export default (parameters: Parameters) =>
         send: true,
       }
     ),
+
+    // onchain-accounting - Assisted balance adapters (ADR 0030): Safe-side
+    // evict / submit / remove of its own entries
+    ...allowAssistedBalanceRecoveryMainnet(),
   ] satisfies PermissionList
