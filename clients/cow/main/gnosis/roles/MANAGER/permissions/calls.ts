@@ -14,7 +14,11 @@ import {
   x3CRV,
   curve,
 } from "@/addresses/gno"
-import { allowErc20Approve, allowEthTransfer } from "@/helpers"
+import {
+  allowAssistedBalanceRecoveryGnosis,
+  allowErc20Approve,
+  allowEthTransfer,
+} from "@/helpers"
 import { legalDefenseFund } from "../../../../../addresses"
 import { Parameters } from "../../../../../parameters"
 
@@ -149,4 +153,8 @@ export default (parameters: Parameters) =>
 
     // XDAI -> USDS - Gnosis Bridge
     allow.gnosis.gnosisBridge.usdsDeposit.relayTokens(c.avatar, { send: true }),
+
+    // onchain-accounting - Assisted balance adapters (ADR 0030): Safe-side
+    // evict / submit / remove of its own entries
+    ...allowAssistedBalanceRecoveryGnosis(),
   ] satisfies PermissionList

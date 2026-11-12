@@ -14,7 +14,10 @@ import {
   USDT,
 } from "@/addresses/eth"
 import { contracts } from "@/contracts"
-import { allowErc20Approve } from "@/helpers"
+import {
+  allowAssistedBalanceRecoveryMainnet,
+  allowErc20Approve,
+} from "@/helpers"
 import { PermissionList } from "@/types"
 import {
   aaveV4BluechipReserve as reserve,
@@ -272,4 +275,8 @@ export default (parameters: Parameters) =>
     // every asset the fund may settle in: cbBTC only. The allowance was set at deploy outside
     // this role. Scoped so it can be topped up or reset to 0 through the role.
     allowErc20Approve([cbBTC], [parameters.shares]),
+
+    // onchain-accounting - Assisted balance adapters (ADR 0030): Safe-side
+    // evict / submit / remove of its own entries
+    ...allowAssistedBalanceRecoveryMainnet(),
   ] satisfies PermissionList

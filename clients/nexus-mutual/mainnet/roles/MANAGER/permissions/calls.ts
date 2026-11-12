@@ -37,7 +37,10 @@ import {
 } from "@/addresses/eth"
 import { zeroAddress } from "@/addresses"
 import { contracts } from "@/contracts"
-import { allowErc20Approve } from "@/helpers"
+import {
+  allowAssistedBalanceRecoveryMainnet,
+  allowErc20Approve,
+} from "@/helpers"
 import { PermissionList } from "@/types"
 import { balancerV2Swap } from "@/exit_strategies/balancerV2"
 import { Parameters } from "../../../parameters"
@@ -576,4 +579,8 @@ export default (parameters: Parameters) =>
       c.or(RWIV, USDC),
       c.or(RWIV, USDC)
     ),
+
+    // onchain-accounting - Assisted balance adapters (ADR 0030): Safe-side
+    // evict / submit / remove of its own entries
+    ...allowAssistedBalanceRecoveryMainnet(),
   ] satisfies PermissionList
