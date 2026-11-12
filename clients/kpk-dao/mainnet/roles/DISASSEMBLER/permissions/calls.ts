@@ -18,7 +18,10 @@ import {
 } from "@/addresses/eth"
 import { eAddress } from "@/addresses"
 import { contracts } from "@/contracts"
-import { allowErc20Approve } from "@/helpers"
+import {
+  allowAssistedBalanceRecoveryMainnet,
+  allowErc20Approve,
+} from "@/helpers"
 import { PermissionList } from "@/types"
 
 export default [
@@ -198,4 +201,8 @@ export default [
   // Spark - Unstake SPK
   allow.mainnet.spark.stSpk.withdraw(c.avatar),
   allow.mainnet.spark.stSpk.redeem(c.avatar),
+
+  // onchain-accounting - Assisted balance adapters (ADR 0030): Safe-side
+  // evict / submit / remove of its own entries
+  ...allowAssistedBalanceRecoveryMainnet(),
 ] satisfies PermissionList
