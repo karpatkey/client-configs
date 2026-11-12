@@ -1,4 +1,1 @@
-// PLACEHOLDER - HF_KEEPER_SIGNER_EOA: the cbBTC fund's HF_KEEPER signer EOA does not exist yet (Portal
-// creates the automation signers). It is added here once created; the Manager Safe then assigns
-// it with assignRoles. Until then the role has no member, so nothing can call through it.
-export default []
+export default ["0x4447B7dbAa4BE312a480571bbe9E7b2e85D0102C"]
