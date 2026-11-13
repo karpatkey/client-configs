@@ -7,3 +7,4 @@ export
 !.yarn/versions
 .idea/
 .vscode/
+.tenderly.env
