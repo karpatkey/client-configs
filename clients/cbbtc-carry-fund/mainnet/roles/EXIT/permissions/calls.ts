@@ -7,6 +7,7 @@ import {
   syrupUSDG,
   USDC,
   USDG,
+  yo,
 } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
@@ -182,4 +183,11 @@ export default (parameters: Parameters) =>
       ),
       targetAddress: morpho.kpkYoEcosystem,
     },
+
+    // yoUSD Edge (YO Protocol, USDC) - exit only: queue the shares for redemption. Instant
+    // when the vault has idle USDC, otherwise YO fulfils later and pushes the USDC to
+    // `receiver`. Receiver and owner pinned to the avatar. No deposit, no `withdraw` (always
+    // reverts), no `mint`.
+    allow.mainnet.yo.edgeVault.requestRedeem(undefined, c.avatar, c.avatar),
+    allow.mainnet.yo.edgeVault.redeem(undefined, c.avatar, c.avatar),
   ] satisfies PermissionList
