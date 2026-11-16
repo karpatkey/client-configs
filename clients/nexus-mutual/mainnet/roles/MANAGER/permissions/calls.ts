@@ -38,8 +38,10 @@ import {
 } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import {
-  allowAssistedBalanceRecoveryMainnet,
   allowErc20Approve,
+  allowEtherfiAssistedBalanceRecovery,
+  allowNexusAssistedBalanceRecovery,
+  allowStakeWiseV3AssistedBalanceRecovery,
 } from "@/helpers"
 import { PermissionList } from "@/types"
 import { balancerV2Swap } from "@/exit_strategies/balancerV2"
@@ -660,6 +662,9 @@ export default (parameters: Parameters) =>
     ),
 
     // onchain-accounting - Assisted balance adapters (ADR 0030): Safe-side
-    // evict / submit / remove of its own entries
-    ...allowAssistedBalanceRecoveryMainnet(),
+    // evict / submit / remove of its own entries, only on the adapters of
+    // the protocols this policy uses
+    ...allowEtherfiAssistedBalanceRecovery(),
+    ...allowNexusAssistedBalanceRecovery(),
+    ...allowStakeWiseV3AssistedBalanceRecovery(),
   ] satisfies PermissionList

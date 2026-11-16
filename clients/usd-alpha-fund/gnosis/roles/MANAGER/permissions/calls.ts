@@ -1,10 +1,7 @@
 import { allow } from "zodiac-roles-sdk/kit"
 import { USDC, USDCe } from "@/addresses/gno"
 import { contracts } from "@/contracts"
-import {
-  allowAssistedBalanceRecoveryGnosis,
-  allowErc20Approve,
-} from "@/helpers"
+import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
 import { Parameters } from "../../../parameters"
 
@@ -20,8 +17,4 @@ export default (parameters: Parameters) =>
     // Swap USDC -> USDC.e
     allowErc20Approve([USDC], [contracts.gnosis.gnosisBridge.usdcTransmuter]),
     allow.gnosis.gnosisBridge.usdcTransmuter.deposit(),
-
-    // onchain-accounting - Assisted balance adapters (ADR 0030): Safe-side
-    // evict / submit / remove of its own entries
-    ...allowAssistedBalanceRecoveryGnosis(),
   ] satisfies PermissionList

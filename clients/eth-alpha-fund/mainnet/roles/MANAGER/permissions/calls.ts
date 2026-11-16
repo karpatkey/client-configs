@@ -20,8 +20,9 @@ import { WETH as WETH_arb1 } from "@/addresses/arb1"
 import { WETH as WETH_base } from "@/addresses/base"
 import { WETH as WETH_oeth } from "@/addresses/oeth"
 import {
-  allowAssistedBalanceRecoveryMainnet,
   allowErc20Approve,
+  allowEtherfiAssistedBalanceRecovery,
+  allowStakeWiseV3AssistedBalanceRecovery,
 } from "@/helpers"
 import { PermissionList } from "@/types"
 import { Parameters } from "../../../parameters"
@@ -787,6 +788,8 @@ export default (parameters: Parameters) =>
     ),
 
     // onchain-accounting - Assisted balance adapters (ADR 0030): Safe-side
-    // evict / submit / remove of its own entries
-    ...allowAssistedBalanceRecoveryMainnet(),
+    // evict / submit / remove of its own entries, only on the adapters of
+    // the protocols this policy uses
+    ...allowEtherfiAssistedBalanceRecovery(),
+    ...allowStakeWiseV3AssistedBalanceRecovery(),
   ] satisfies PermissionList

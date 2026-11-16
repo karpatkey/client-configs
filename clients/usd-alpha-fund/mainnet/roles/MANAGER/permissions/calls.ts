@@ -14,10 +14,7 @@ import {
   symbiotic,
 } from "@/addresses/eth"
 import { contracts } from "@/contracts"
-import {
-  allowAssistedBalanceRecoveryMainnet,
-  allowErc20Approve,
-} from "@/helpers"
+import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
 import { aaveV4BluechipReserve, aaveV4MainReserve } from "../../../addresses"
 import { Parameters } from "../../../parameters"
@@ -233,8 +230,4 @@ export default (parameters: Parameters) =>
       ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
       targetAddress: symbiotic.kpkUsdcLiquidLane,
     },
-
-    // onchain-accounting - Assisted balance adapters (ADR 0030): Safe-side
-    // evict / submit / remove of its own entries
-    ...allowAssistedBalanceRecoveryMainnet(),
   ] satisfies PermissionList

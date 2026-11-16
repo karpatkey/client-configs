@@ -40,10 +40,11 @@ import {
 import { zeroAddress, eAddress } from "@/addresses"
 import { contracts } from "@/contracts"
 import {
-  allowAssistedBalanceRecoveryMainnet,
   allowErc20Approve,
   allowErc20Transfer,
+  allowEtherfiAssistedBalanceRecovery,
   allowEthTransfer,
+  allowStakeWiseV3AssistedBalanceRecovery,
 } from "@/helpers"
 import { PermissionList } from "@/types"
 import { balancerV2Swap } from "@/exit_strategies/balancerV2"
@@ -896,6 +897,8 @@ export default (parameters: Parameters) =>
     allowErc20Transfer([USDC], [timeLock]),
 
     // onchain-accounting - Assisted balance adapters (ADR 0030): Safe-side
-    // evict / submit / remove of its own entries
-    ...allowAssistedBalanceRecoveryMainnet(),
+    // evict / submit / remove of its own entries, only on the adapters of
+    // the protocols this policy uses
+    ...allowEtherfiAssistedBalanceRecovery(),
+    ...allowStakeWiseV3AssistedBalanceRecovery(),
   ] satisfies PermissionList
