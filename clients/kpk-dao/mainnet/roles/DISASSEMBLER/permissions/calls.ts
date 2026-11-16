@@ -20,7 +20,7 @@ import { eAddress } from "@/addresses"
 import { contracts } from "@/contracts"
 import {
   allowErc20Approve,
-  allowEtherfiAssistedBalanceRecovery,
+  allowEtherfiAssistedBalanceRecoveryMainnet,
 } from "@/helpers"
 import { PermissionList } from "@/types"
 
@@ -57,6 +57,9 @@ export default [
   ),
   // Unwrap weETH
   allow.mainnet.etherfi.weEth.unwrap(),
+  // ether.fi - Withdrawal queue adapter (ADR 0030): Safe-side recovery
+  // (evict / submit / remove of its own onchain-accounting entries)
+  ...allowEtherfiAssistedBalanceRecoveryMainnet(),
 
   // Fluid - Withdraw wstETH
   {
@@ -201,9 +204,4 @@ export default [
   // Spark - Unstake SPK
   allow.mainnet.spark.stSpk.withdraw(c.avatar),
   allow.mainnet.spark.stSpk.redeem(c.avatar),
-
-  // onchain-accounting - Assisted balance adapters (ADR 0030): Safe-side
-  // evict / submit / remove of its own entries, only on the adapters of
-  // the protocols this policy uses
-  ...allowEtherfiAssistedBalanceRecovery(),
 ] satisfies PermissionList

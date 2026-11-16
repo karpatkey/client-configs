@@ -24,7 +24,7 @@ import { contracts } from "@/contracts"
 import {
   allowErc20Approve,
   allowErc20Transfer,
-  allowEtherfiAssistedBalanceRecovery,
+  allowEtherfiAssistedBalanceRecoveryMainnet,
   allowEthTransfer,
 } from "@/helpers"
 import { PermissionList } from "@/types"
@@ -83,6 +83,9 @@ export default (parameters: Parameters) =>
     allow.mainnet.etherfi.weEth.wrap(),
     // Unwrap weETH
     allow.mainnet.etherfi.weEth.unwrap(),
+    // ether.fi - Withdrawal queue adapter (ADR 0030): Safe-side recovery
+    // (evict / submit / remove of its own onchain-accounting entries)
+    ...allowEtherfiAssistedBalanceRecoveryMainnet(),
 
     // Fluid - FLUID Rewards
     {
@@ -558,9 +561,4 @@ export default (parameters: Parameters) =>
 
     // Transfer up to 500K USDC per month to kpkFoundationEth
     allowErc20Transfer([USDC], [kpkFoundationEth], "USDC_KPK_FOUNDATION-ETH"),
-
-    // onchain-accounting - Assisted balance adapters (ADR 0030): Safe-side
-    // evict / submit / remove of its own entries, only on the adapters of
-    // the protocols this policy uses
-    ...allowEtherfiAssistedBalanceRecovery(),
   ] satisfies PermissionList
