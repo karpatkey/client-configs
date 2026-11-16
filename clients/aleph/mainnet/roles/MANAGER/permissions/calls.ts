@@ -19,8 +19,8 @@ import {
 import {
   allowErc20Approve,
   allowErc20Transfer,
-  allowEtherfiAssistedBalanceRecovery,
-  allowStakeWiseV3AssistedBalanceRecovery,
+  allowEtherfiAssistedBalanceRecoveryMainnet,
+  allowStakeWiseV3AssistedBalanceRecoveryMainnet,
 } from "@/helpers"
 import { eAddress } from "@/addresses"
 import { PermissionList } from "@/types"
@@ -196,6 +196,9 @@ export default (parameters: Parameters) =>
     allow.mainnet.etherfi.weEth.unwrap(),
     // ether.fi - Claim rewards
     allow.mainnet.etherfi.kingDistributor.claim(c.avatar),
+    // ether.fi - Withdrawal queue adapter (ADR 0030): Safe-side recovery
+    // (evict / submit / remove of its own onchain-accounting entries)
+    ...allowEtherfiAssistedBalanceRecoveryMainnet(),
 
     // Kelp - Stake/Unstake ETH and stETH
     allow.mainnet.kelp.lrtDepositPool.depositETH(undefined, undefined, {
@@ -308,10 +311,7 @@ export default (parameters: Parameters) =>
       undefined,
       { delegatecall: true }
     ),
-
-    // onchain-accounting - Assisted balance adapters (ADR 0030): Safe-side
-    // evict / submit / remove of its own entries, only on the adapters of
-    // the protocols this policy uses
-    ...allowEtherfiAssistedBalanceRecovery(),
-    ...allowStakeWiseV3AssistedBalanceRecovery(),
+    // StakeWise v3 - Exit queue adapter (ADR 0030): Safe-side recovery
+    // (evict / submit / remove of its own onchain-accounting entries)
+    ...allowStakeWiseV3AssistedBalanceRecoveryMainnet(),
   ] satisfies PermissionList

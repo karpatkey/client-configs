@@ -21,8 +21,8 @@ import { WETH as WETH_base } from "@/addresses/base"
 import { WETH as WETH_oeth } from "@/addresses/oeth"
 import {
   allowErc20Approve,
-  allowEtherfiAssistedBalanceRecovery,
-  allowStakeWiseV3AssistedBalanceRecovery,
+  allowEtherfiAssistedBalanceRecoveryMainnet,
+  allowStakeWiseV3AssistedBalanceRecoveryMainnet,
 } from "@/helpers"
 import { PermissionList } from "@/types"
 import { Parameters } from "../../../parameters"
@@ -175,6 +175,9 @@ export default (parameters: Parameters) =>
     allow.mainnet.etherfi.weEth.unwrap(),
     // ether.fi - Claim rewards
     allow.mainnet.etherfi.kingDistributor.claim(c.avatar),
+    // ether.fi - Withdrawal queue adapter (ADR 0030): Safe-side recovery
+    // (evict / submit / remove of its own onchain-accounting entries)
+    ...allowEtherfiAssistedBalanceRecoveryMainnet(),
 
     // StakeWise v3 - EthMetaVault (used by the StakeWise landing page)
     // (unbundled from allowAction.stakewise_v3.stake)
@@ -230,6 +233,9 @@ export default (parameters: Parameters) =>
       undefined,
       { delegatecall: true }
     ),
+    // StakeWise v3 - Exit queue adapter (ADR 0030): Safe-side recovery
+    // (evict / submit / remove of its own onchain-accounting entries)
+    ...allowStakeWiseV3AssistedBalanceRecoveryMainnet(),
 
     // Kelp - Stake/Unstake ETH and stETH
     allow.mainnet.kelp.lrtDepositPool.depositETH(undefined, undefined, {
@@ -786,10 +792,4 @@ export default (parameters: Parameters) =>
       undefined,
       "0x"
     ),
-
-    // onchain-accounting - Assisted balance adapters (ADR 0030): Safe-side
-    // evict / submit / remove of its own entries, only on the adapters of
-    // the protocols this policy uses
-    ...allowEtherfiAssistedBalanceRecovery(),
-    ...allowStakeWiseV3AssistedBalanceRecovery(),
   ] satisfies PermissionList
