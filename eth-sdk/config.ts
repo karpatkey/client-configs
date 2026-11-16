@@ -311,7 +311,6 @@ export const contracts = {
     },
     stakeWiseV3: {
       ...deFiKitContracts.gnosis.stakeWiseV3,
-      assistedBalanceAdapter: "0x6E23b1f1447c95E50e06c0F40C64F3f7ff717Eea", // onchain-accounting exit-queue adapter (ADR 0030)
       genesis: "0x4b4406Ed8659D03423490D8b62a1639206dA0A7a",
       serenita: "0x00025C729A3364FaEf02c7D1F577068d87E90ba6",
       nedo: "0x2Cd404D9d75436e7d6dDbCcc2fB9cF7C06941BF1",

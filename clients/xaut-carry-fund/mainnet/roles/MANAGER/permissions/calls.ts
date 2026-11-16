@@ -1,10 +1,7 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
 import { morpho, USDC } from "@/addresses/eth"
-import {
-  allowAssistedBalanceRecoveryMainnet,
-  allowErc20Approve,
-} from "@/helpers"
+import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
 import { Parameters } from "../../../parameters"
 
@@ -82,8 +79,4 @@ export default (parameters: Parameters) =>
         ]
       )
     ),
-
-    // onchain-accounting - Assisted balance adapters (ADR 0030): Safe-side
-    // evict / submit / remove of its own entries
-    ...allowAssistedBalanceRecoveryMainnet(),
   ] satisfies PermissionList
