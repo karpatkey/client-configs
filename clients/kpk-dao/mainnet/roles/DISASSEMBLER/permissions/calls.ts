@@ -19,8 +19,8 @@ import {
 import { eAddress } from "@/addresses"
 import { contracts } from "@/contracts"
 import {
-  allowAssistedBalanceRecoveryMainnet,
   allowErc20Approve,
+  allowEtherfiAssistedBalanceRecovery,
 } from "@/helpers"
 import { PermissionList } from "@/types"
 
@@ -203,6 +203,7 @@ export default [
   allow.mainnet.spark.stSpk.redeem(c.avatar),
 
   // onchain-accounting - Assisted balance adapters (ADR 0030): Safe-side
-  // evict / submit / remove of its own entries
-  ...allowAssistedBalanceRecoveryMainnet(),
+  // evict / submit / remove of its own entries, only on the adapters of
+  // the protocols this policy uses
+  ...allowEtherfiAssistedBalanceRecovery(),
 ] satisfies PermissionList
