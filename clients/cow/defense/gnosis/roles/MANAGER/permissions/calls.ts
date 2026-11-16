@@ -3,11 +3,7 @@ import { c } from "zodiac-roles-sdk"
 import { USDC, USDT, WETH } from "@/addresses/gno"
 import { mainTreasury } from "../../../../../addresses"
 import { PermissionList } from "@/types"
-import {
-  allowAssistedBalanceRecoveryGnosis,
-  allowErc20Transfer,
-  allowEthTransfer,
-} from "@/helpers"
+import { allowEthTransfer, allowErc20Transfer } from "@/helpers"
 import { contracts } from "@/contracts"
 import { Parameters } from "../../../../../parameters"
 
@@ -64,8 +60,4 @@ export default (parameters: Parameters) =>
 
     // XDAI -> USDS - Gnosis Bridge
     allow.gnosis.gnosisBridge.usdsDeposit.relayTokens(c.avatar, { send: true }),
-
-    // onchain-accounting - Assisted balance adapters (ADR 0030): Safe-side
-    // evict / submit / remove of its own entries
-    ...allowAssistedBalanceRecoveryGnosis(),
   ] satisfies PermissionList

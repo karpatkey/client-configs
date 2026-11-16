@@ -21,10 +21,11 @@ import { COW as COW_base } from "@/addresses/base"
 import { legalDefenseFund, twapAvatar } from "../../../../../addresses"
 import { PermissionList } from "@/types"
 import {
-  allowAssistedBalanceRecoveryMainnet,
   allowErc20Approve,
   allowErc20Transfer,
+  allowEtherfiAssistedBalanceRecovery,
   allowEthTransfer,
+  allowStakeWiseV3AssistedBalanceRecovery,
 } from "@/helpers"
 import { c } from "zodiac-roles-sdk"
 import { contracts } from "@/contracts"
@@ -1024,6 +1025,8 @@ export default (parameters: Parameters) =>
     ),
 
     // onchain-accounting - Assisted balance adapters (ADR 0030): Safe-side
-    // evict / submit / remove of its own entries
-    ...allowAssistedBalanceRecoveryMainnet(),
+    // evict / submit / remove of its own entries, only on the adapters of
+    // the protocols this policy uses
+    ...allowEtherfiAssistedBalanceRecovery(),
+    ...allowStakeWiseV3AssistedBalanceRecovery(),
   ] satisfies PermissionList
