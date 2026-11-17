@@ -8,9 +8,13 @@ import {
   cbBTC,
   compoundV3,
   cowSwap,
+  GHO,
   morpho,
+  RLUSD,
+  syrupUSDC,
   USDC,
   USDG,
+  USDS,
   USDT,
   WBTC,
 } from "@/addresses/eth"
@@ -96,7 +100,7 @@ describe("wbtc-carry-fund mainnet CARRY_TRADE_MANAGER", () => {
     })
   })
 
-  describe("B - USDC (7) and USDG (11) debt on the Core Hub lines", () => {
+  describe("B - USDC Prime (4), USDC Core (7) and USDG Core (11) debt", () => {
     it("borrows and repays USDC Core (7) and USDG Core (11) for the avatar", async () => {
       await expect(
         erc20().attach(USDC).approve(bluechipSpoke, parseUnits("1", 6))
@@ -113,18 +117,27 @@ describe("wbtc-carry-fund mainnet CARRY_TRADE_MANAGER", () => {
       }
     })
 
-    it("forbids every other reserve: USDC Prime (4), frxUSD (8), BTC", async () => {
+    it("forbids every other reserve: frxUSD (8), BTC", async () => {
       for (const r of [
-        aaveV4BluechipReserve.usdcPrime,
         aaveV4BluechipReserve.frxusdCore,
         aaveV4BluechipReserve.wbtcPrime,
         aaveV4BluechipReserve.cbbtcPrime,
       ]) {
         await expect(bluechip().borrow(r, 1n, avatar.address)).toBeForbidden()
+        await expect(bluechip().repay(r, 1n, avatar.address)).toBeForbidden()
       }
-      await expect(
-        bluechip().repay(aaveV4BluechipReserve.usdcPrime, 1n, avatar.address)
-      ).toBeForbidden()
+    })
+
+    it("borrows and repays USDC Prime (4) for the avatar, not for a third party", async () => {
+      const r = aaveV4BluechipReserve.usdcPrime
+      await expect(bluechip().borrow(r, 1n, avatar.address)).toBeAllowed()
+      await expect(bluechip().repay(r, 1n, avatar.address)).toBeAllowed()
+      await expect(bluechip().borrow(r, 1n, stranger)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+      await expect(bluechip().repay(r, 1n, stranger)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
     })
 
     it("forbids supplying a stablecoin and borrowing for a third party", async () => {
@@ -234,9 +247,9 @@ describe("wbtc-carry-fund mainnet CARRY_TRADE_MANAGER", () => {
       }
     })
 
-    it("forbids any other vault", async () => {
+    it("forbids the Prime v1 vaults, which are not scoped", async () => {
       await expect(
-        vault(morpho.kpkUsdcPrimeV2).deposit(1n, avatar.address)
+        vault(morpho.kpkUsdcPrimeV1).deposit(1n, avatar.address)
       ).toBeForbidden(Status.TargetAddressNotAllowed)
     })
   })
@@ -264,8 +277,8 @@ describe("wbtc-carry-fund mainnet CARRY_TRADE_MANAGER", () => {
     })
   })
 
-  describe("F - Aave v3 Core (venue_kind: aave_v3): WBTC collateral, USDC debt", () => {
-    it("approves WBTC and USDC to the Pool, and to no one else", async () => {
+  describe("F - Aave v3 Core (venue_kind: aave_v3): WBTC collateral, USDC and USDT debt, USDC yield supply", () => {
+    it("approves WBTC, USDC and USDT to the Pool, and to no one else", async () => {
       await expect(
         erc20().attach(WBTC).approve(poolCoreV3, parseUnits("1", 8))
       ).toBeAllowed()
@@ -273,7 +286,14 @@ describe("wbtc-carry-fund mainnet CARRY_TRADE_MANAGER", () => {
         erc20().attach(USDC).approve(poolCoreV3, parseUnits("1", 6))
       ).toBeAllowed()
       await expect(
+        erc20().attach(USDT).approve(poolCoreV3, parseUnits("1", 6))
+      ).toBeAllowed()
+      await expect(erc20().attach(USDT).approve(poolCoreV3, 0n)).toBeAllowed()
+      await expect(
         erc20().attach(WBTC).approve(stranger, parseUnits("1", 8))
+      ).toBeForbidden()
+      await expect(
+        erc20().attach(USDT).approve(stranger, parseUnits("1", 6))
       ).toBeForbidden()
     })
 
@@ -288,7 +308,7 @@ describe("wbtc-carry-fund mainnet CARRY_TRADE_MANAGER", () => {
     it("forbids disabling WBTC as collateral, cbBTC and acting for a third party", async () => {
       await expect(
         pool().setUserUseReserveAsCollateral(WBTC, false)
-      ).toBeForbidden(Status.ParameterNotAllowed)
+      ).toBeForbidden(Status.OrViolation)
       await expect(pool().supply(cbBTC, 1n, avatar.address, 0)).toBeForbidden()
       await expect(pool().supply(WBTC, 1n, stranger, 0)).toBeForbidden(
         Status.ParameterNotAllowed
@@ -298,25 +318,60 @@ describe("wbtc-carry-fund mainnet CARRY_TRADE_MANAGER", () => {
       )
     })
 
-    it("borrows and repays USDC for the avatar", async () => {
-      await expect(pool().borrow(USDC, 1n, 2, 0, avatar.address)).toBeAllowed()
-      await expect(pool().repay(USDC, 1n, 2, avatar.address)).toBeAllowed()
+    it("borrows and repays USDC and USDT for the avatar", async () => {
+      for (const asset of [USDC, USDT]) {
+        await expect(
+          pool().borrow(asset, 1n, 2, 0, avatar.address)
+        ).toBeAllowed()
+        await expect(pool().repay(asset, 1n, 2, avatar.address)).toBeAllowed()
+      }
     })
 
-    it("forbids other debt assets, supplying a stablecoin and borrowing or repaying for a third party", async () => {
-      await expect(
-        pool().borrow(USDT, 1n, 2, 0, avatar.address)
-      ).toBeForbidden()
-      await expect(
-        pool().borrow(USDG, 1n, 2, 0, avatar.address)
-      ).toBeForbidden()
-      await expect(pool().supply(USDC, 1n, avatar.address, 0)).toBeForbidden()
+    it("forbids GHO, USDG, RLUSD and other debt assets, and borrowing or repaying for a third party", async () => {
+      for (const asset of [GHO, USDG, RLUSD, WBTC]) {
+        await expect(
+          pool().borrow(asset, 1n, 2, 0, avatar.address)
+        ).toBeForbidden()
+        await expect(pool().repay(asset, 1n, 2, avatar.address)).toBeForbidden()
+      }
       await expect(pool().borrow(USDC, 1n, 2, 0, stranger)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+      await expect(pool().borrow(USDT, 1n, 2, 0, stranger)).toBeForbidden(
         Status.ParameterNotAllowed
       )
       await expect(pool().repay(USDC, 1n, 2, stranger)).toBeForbidden(
         Status.ParameterNotAllowed
       )
+      await expect(pool().repay(USDT, 1n, 2, stranger)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+    })
+
+    it("supplies and withdraws USDC for the avatar as a yield position, never as collateral", async () => {
+      await expect(pool().supply(USDC, 1n, avatar.address, 0)).toBeAllowed()
+      await expect(pool().withdraw(USDC, 1n, avatar.address)).toBeAllowed()
+      await expect(
+        pool().setUserUseReserveAsCollateral(USDC, false)
+      ).toBeAllowed()
+      await expect(
+        pool().setUserUseReserveAsCollateral(USDC, true)
+      ).toBeForbidden(Status.OrViolation)
+      await expect(pool().supply(USDC, 1n, stranger, 0)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+      await expect(pool().withdraw(USDC, 1n, stranger)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+    })
+
+    it("forbids supplying any other stablecoin", async () => {
+      for (const asset of [USDT, USDG, GHO]) {
+        await expect(
+          pool().supply(asset, 1n, avatar.address, 0)
+        ).toBeForbidden()
+        await expect(pool().withdraw(asset, 1n, avatar.address)).toBeForbidden()
+      }
     })
   })
 
@@ -375,6 +430,293 @@ describe("wbtc-carry-fund mainnet CARRY_TRADE_MANAGER", () => {
       await expect(
         kit.asMember.compoundV3.comet.supply(WBTC, 1n)
       ).toBeForbidden(Status.TargetAddressNotAllowed)
+    })
+  })
+
+  describe("H - Spark (venue_kind: spark): WBTC collateral, USDC and USDT debt", () => {
+    const spark = () => kit.asMember.spark.poolV3
+    const sparkPool = contracts.mainnet.spark.poolV3
+
+    it("approves WBTC, USDC and USDT to the Pool, and to no one else", async () => {
+      for (const [token, decimals] of [
+        [WBTC, 8],
+        [USDC, 6],
+        [USDT, 6],
+      ] as const) {
+        await expect(
+          erc20().attach(token).approve(sparkPool, parseUnits("1", decimals))
+        ).toBeAllowed()
+        await expect(erc20().attach(token).approve(sparkPool, 0n)).toBeAllowed()
+        await expect(
+          erc20().attach(token).approve(stranger, parseUnits("1", decimals))
+        ).toBeForbidden()
+      }
+      await expect(
+        erc20().attach(USDS).approve(sparkPool, parseUnits("1", 18))
+      ).toBeForbidden()
+    })
+
+    it("supplies, enables as collateral and withdraws WBTC for the avatar", async () => {
+      await expect(spark().supply(WBTC, 1n, avatar.address, 0)).toBeAllowed()
+      await expect(
+        spark().setUserUseReserveAsCollateral(WBTC, true)
+      ).toBeAllowed()
+      await expect(spark().withdraw(WBTC, 1n, avatar.address)).toBeAllowed()
+    })
+
+    it("forbids disabling WBTC as collateral, other collateral and a third party", async () => {
+      await expect(
+        spark().setUserUseReserveAsCollateral(WBTC, false)
+      ).toBeForbidden(Status.ParameterNotAllowed)
+      await expect(
+        spark().setUserUseReserveAsCollateral(USDC, true)
+      ).toBeForbidden(Status.ParameterNotAllowed)
+      await expect(spark().supply(cbBTC, 1n, avatar.address, 0)).toBeForbidden()
+      await expect(spark().supply(USDC, 1n, avatar.address, 0)).toBeForbidden()
+      await expect(spark().supply(WBTC, 1n, stranger, 0)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+      await expect(spark().withdraw(WBTC, 1n, stranger)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+    })
+
+    it("borrows and repays USDC and USDT for the avatar", async () => {
+      for (const asset of [USDC, USDT]) {
+        await expect(
+          spark().borrow(asset, 1n, 2, 0, avatar.address)
+        ).toBeAllowed()
+        await expect(spark().repay(asset, 1n, 2, avatar.address)).toBeAllowed()
+      }
+    })
+
+    it("forbids USDS and other debt assets, and borrowing or repaying for a third party", async () => {
+      for (const asset of [USDS, USDG, WBTC]) {
+        await expect(
+          spark().borrow(asset, 1n, 2, 0, avatar.address)
+        ).toBeForbidden()
+        await expect(
+          spark().repay(asset, 1n, 2, avatar.address)
+        ).toBeForbidden()
+      }
+      await expect(spark().borrow(USDC, 1n, 2, 0, stranger)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+      await expect(spark().repay(USDT, 1n, 2, stranger)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+    })
+
+    it("forbids e-mode switching", async () => {
+      await expect(spark().setUserEMode(1)).toBeForbidden(
+        Status.FunctionNotAllowed
+      )
+    })
+  })
+
+  describe("I - Morpho Blue (venue_kind: morpho_market): the USDC/WBTC and USDT/WBTC 86% markets", () => {
+    const morphoBlue = contracts.mainnet.morpho.morphoBlue
+    const blue = () => kit.asMember.morpho.morphoBlue
+    const usdcWbtc = {
+      // 0x3a85e619751152991742810df6ec69ce473daef99e28a64ab2340d7b7ccfee49
+      loanToken: USDC,
+      collateralToken: WBTC,
+      oracle: morpho.oracleWbtcUsdc,
+      irm: morpho.adaptativeCurveIrm,
+      lltv: "860000000000000000",
+    }
+    const usdtWbtc = {
+      // 0xa921ef34e2fc7a27ccc50ae7e4b154e16c9799d3387076c421423ef52ac4df99
+      loanToken: USDT,
+      collateralToken: WBTC,
+      oracle: morpho.oracleWbtcUsdt,
+      irm: morpho.adaptativeCurveIrm,
+      lltv: "860000000000000000",
+    }
+
+    it("approves WBTC, USDC and USDT to Morpho Blue, and to no one else", async () => {
+      for (const [token, decimals] of [
+        [WBTC, 8],
+        [USDC, 6],
+        [USDT, 6],
+      ] as const) {
+        await expect(
+          erc20().attach(token).approve(morphoBlue, parseUnits("1", decimals))
+        ).toBeAllowed()
+        await expect(
+          erc20().attach(token).approve(morphoBlue, 0n)
+        ).toBeAllowed()
+        await expect(
+          erc20().attach(token).approve(stranger, parseUnits("1", decimals))
+        ).toBeForbidden()
+      }
+    })
+
+    it("supplies / withdraws WBTC and borrows / repays on both markets for the avatar", async () => {
+      for (const m of [usdcWbtc, usdtWbtc]) {
+        await expect(
+          blue().supplyCollateral(m, 1n, avatar.address, "0x")
+        ).toBeAllowed()
+        await expect(
+          blue().borrow(m, 1n, 0n, avatar.address, avatar.address)
+        ).toBeAllowed()
+        // repay by assets, and by shares (the automation names the borrow shares for a full repay)
+        await expect(
+          blue().repay(m, 1n, 0n, avatar.address, "0x")
+        ).toBeAllowed()
+        await expect(
+          blue().repay(m, 0n, 1n, avatar.address, "0x")
+        ).toBeAllowed()
+        await expect(
+          blue().withdrawCollateral(m, 1n, avatar.address, avatar.address)
+        ).toBeAllowed()
+      }
+    })
+
+    it("forbids a third-party onBehalf or receiver, and callback data", async () => {
+      for (const m of [usdcWbtc, usdtWbtc]) {
+        await expect(
+          blue().borrow(m, 1n, 0n, stranger, avatar.address)
+        ).toBeForbidden(Status.ParameterNotAllowed)
+        await expect(
+          blue().borrow(m, 1n, 0n, avatar.address, stranger)
+        ).toBeForbidden(Status.ParameterNotAllowed)
+        await expect(
+          blue().withdrawCollateral(m, 1n, avatar.address, stranger)
+        ).toBeForbidden(Status.ParameterNotAllowed)
+        await expect(
+          blue().withdrawCollateral(m, 1n, stranger, avatar.address)
+        ).toBeForbidden(Status.ParameterNotAllowed)
+        await expect(
+          blue().supplyCollateral(m, 1n, stranger, "0x")
+        ).toBeForbidden(Status.ParameterNotAllowed)
+        await expect(blue().repay(m, 1n, 0n, stranger, "0x")).toBeForbidden(
+          Status.ParameterNotAllowed
+        )
+        await expect(
+          blue().supplyCollateral(m, 1n, avatar.address, "0x01")
+        ).toBeForbidden()
+        await expect(
+          blue().repay(m, 1n, 0n, avatar.address, "0x01")
+        ).toBeForbidden()
+      }
+    })
+
+    it("forbids any other market: the syrupUSDC loop, a wrong oracle, LLTV or loan token", async () => {
+      const others = [
+        // USDC/syrupUSDC (91.5%): MANAGER allows it, this role does not
+        {
+          loanToken: USDC,
+          collateralToken: syrupUSDC,
+          oracle: morpho.oraclesyrupUsdcUsdc,
+          irm: morpho.adaptativeCurveIrm,
+          lltv: "915000000000000000",
+        },
+        { ...usdcWbtc, lltv: "915000000000000000" },
+        { ...usdcWbtc, oracle: morpho.oracleWbtcUsdt },
+        { ...usdtWbtc, loanToken: USDC },
+        { ...usdtWbtc, collateralToken: cbBTC },
+      ]
+      for (const m of others) {
+        await expect(
+          blue().supplyCollateral(m, 1n, avatar.address, "0x")
+        ).toBeForbidden()
+        await expect(
+          blue().borrow(m, 1n, 0n, avatar.address, avatar.address)
+        ).toBeForbidden()
+        await expect(
+          blue().repay(m, 1n, 0n, avatar.address, "0x")
+        ).toBeForbidden()
+        await expect(
+          blue().withdrawCollateral(m, 1n, avatar.address, avatar.address)
+        ).toBeForbidden()
+      }
+    })
+
+    it("forbids the other Morpho Blue calls: supply, withdraw and authorization", async () => {
+      await expect(
+        blue().supply(usdcWbtc, 1n, 0n, avatar.address, "0x")
+      ).toBeForbidden(Status.FunctionNotAllowed)
+      await expect(
+        blue().withdraw(usdcWbtc, 1n, 0n, avatar.address, avatar.address)
+      ).toBeForbidden(Status.FunctionNotAllowed)
+      await expect(blue().setAuthorization(stranger, true)).toBeForbidden(
+        Status.FunctionNotAllowed
+      )
+    })
+  })
+
+  describe("J - kpk USDC Prime v2 and kpk USDT Prime v2: where a borrowed stablecoin is parked", () => {
+    const primeVaults = [
+      [morpho.kpkUsdcPrimeV2, USDC],
+      [morpho.kpkUsdtPrimeV2, USDT],
+    ] as const
+
+    it("approves the vault's own asset to it, including a reset to 0", async () => {
+      for (const [v, asset] of primeVaults) {
+        await expect(
+          erc20().attach(asset).approve(v, parseUnits("1", 6))
+        ).toBeAllowed()
+        await expect(erc20().attach(asset).approve(v, 0n)).toBeAllowed()
+      }
+    })
+
+    it("deposits, withdraws and redeems for the avatar", async () => {
+      for (const [v] of primeVaults) {
+        await expect(vault(v).deposit(1n, avatar.address)).toBeAllowed()
+        await expect(
+          vault(v).withdraw(1n, avatar.address, avatar.address)
+        ).toBeAllowed()
+        await expect(
+          vault(v).redeem(1n, avatar.address, avatar.address)
+        ).toBeAllowed()
+      }
+    })
+
+    it("forbids a third-party receiver or owner", async () => {
+      for (const [v] of primeVaults) {
+        await expect(vault(v).deposit(1n, stranger)).toBeForbidden(
+          Status.ParameterNotAllowed
+        )
+        await expect(
+          vault(v).withdraw(1n, stranger, avatar.address)
+        ).toBeForbidden(Status.ParameterNotAllowed)
+        await expect(
+          vault(v).withdraw(1n, avatar.address, stranger)
+        ).toBeForbidden(Status.ParameterNotAllowed)
+        await expect(
+          vault(v).redeem(1n, stranger, avatar.address)
+        ).toBeForbidden(Status.ParameterNotAllowed)
+        await expect(
+          vault(v).redeem(1n, avatar.address, stranger)
+        ).toBeForbidden(Status.ParameterNotAllowed)
+      }
+    })
+
+    it("forbids force deallocate on the Prime vaults", async () => {
+      for (const [v] of primeVaults) {
+        await expect(
+          vault(v).forceDeallocate(stranger, "0x", 1n, avatar.address)
+        ).toBeForbidden(Status.FunctionNotAllowed)
+      }
+    })
+
+    it("forbids the other vault's asset, and every other kpk vault", async () => {
+      await expect(
+        erc20().attach(USDT).approve(morpho.kpkUsdcPrimeV2, 1n)
+      ).toBeForbidden()
+      await expect(
+        erc20().attach(USDC).approve(morpho.kpkUsdtPrimeV2, 1n)
+      ).toBeForbidden()
+      for (const v of [
+        morpho.kpkUsdcPrimeV1,
+        morpho.kpkUsdtPrimeV1,
+        morpho.kpkUsdcYieldV1,
+      ]) {
+        await expect(vault(v).deposit(1n, avatar.address)).toBeForbidden(
+          Status.TargetAddressNotAllowed
+        )
+      }
     })
   })
 })
