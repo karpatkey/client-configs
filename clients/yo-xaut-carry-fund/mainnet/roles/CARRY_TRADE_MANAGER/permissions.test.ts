@@ -147,7 +147,7 @@ describe("yo-xaut-carry-fund mainnet CARRY_TRADE_MANAGER", () => {
     })
   })
 
-  describe("yoUSD Edge (YO Protocol): deposit only", () => {
+  describe("yoUSD Edge (YO Protocol): deposit and exit", () => {
     const edge = () => kit.asMember.yo.edgeVault.attach(yo.usdEdge)
 
     it("approves USDC to the Edge vault, not to a stranger or another token", async () => {
@@ -169,13 +169,31 @@ describe("yo-xaut-carry-fund mainnet CARRY_TRADE_MANAGER", () => {
       )
     })
 
-    it("cannot requestRedeem, redeem, withdraw or mint on the Edge vault", async () => {
+    it("requests a redeem and redeems with receiver and owner pinned to the avatar", async () => {
       await expect(
         edge().requestRedeem(1n, avatar.address, avatar.address)
-      ).toBeForbidden(Status.FunctionNotAllowed)
+      ).toBeAllowed()
       await expect(
         edge().redeem(1n, avatar.address, avatar.address)
-      ).toBeForbidden(Status.FunctionNotAllowed)
+      ).toBeAllowed()
+    })
+
+    it("forbids a stranger controller/receiver or owner on requestRedeem and redeem", async () => {
+      await expect(
+        edge().requestRedeem(1n, stranger, avatar.address)
+      ).toBeForbidden(Status.ParameterNotAllowed)
+      await expect(
+        edge().requestRedeem(1n, avatar.address, stranger)
+      ).toBeForbidden(Status.ParameterNotAllowed)
+      await expect(edge().redeem(1n, stranger, avatar.address)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+      await expect(edge().redeem(1n, avatar.address, stranger)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+    })
+
+    it("cannot withdraw (it always reverts) or mint on the Edge vault", async () => {
       await expect(
         edge().withdraw(1n, avatar.address, avatar.address)
       ).toBeForbidden(Status.FunctionNotAllowed)
