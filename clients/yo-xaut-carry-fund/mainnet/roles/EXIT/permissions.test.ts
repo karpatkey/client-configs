@@ -68,12 +68,17 @@ describe("yo-xaut-carry-fund mainnet EXIT", () => {
   })
 
   describe("Compound v3 ciUSDCv3: USDC", () => {
-    it("approves USDC to the Comet, supplies and withdraws USDC", async () => {
+    it("withdraws USDC", async () => {
+      await expect(comet().withdraw(USDC, 1n)).toBeAllowed()
+    })
+
+    it("cannot deposit: supply(USDC) and the USDC approval to the Comet are forbidden", async () => {
+      await expect(comet().supply(USDC, 1n)).toBeForbidden(
+        Status.FunctionNotAllowed
+      )
       await expect(
         erc20().attach(USDC).approve(compoundV3.ciUSDCv3, parseUnits("1", 6))
-      ).toBeAllowed()
-      await expect(comet().supply(USDC, 1n)).toBeAllowed()
-      await expect(comet().withdraw(USDC, 1n)).toBeAllowed()
+      ).toBeForbidden()
     })
 
     it("does not scope collateral or third-party variants", async () => {

@@ -47,15 +47,8 @@ export default (parameters: Parameters) =>
 
     // Compound v3 - Institutional Market (ciUSDCv3) - USDC supply position exit: withdraw(USDC)
     // for msg.sender (the avatar). XAUt is not a Comet collateral and no collateral is scoped,
-    // so `withdraw(USDC)` can only pull supplied USDC, it cannot borrow. `supply(USDC)` (the
-    // repay form, inherited from the cbBTC fund's EXIT) is kept for parity: it only adds to
-    // the avatar's own USDC supply. The Comet pulls the asset from the caller, hence the
-    // approval.
-    allowErc20Approve([USDC], [compoundV3.ciUSDCv3]),
-    {
-      ...allow.mainnet.compoundV3.comet.supply(USDC),
-      targetAddress: compoundV3.ciUSDCv3,
-    },
+    // so `withdraw(USDC)` can only pull supplied USDC, it cannot borrow. EXIT never deposits:
+    // no `supply` and no USDC approval to the Comet.
     {
       ...allow.mainnet.compoundV3.comet.withdraw(USDC),
       targetAddress: compoundV3.ciUSDCv3,
