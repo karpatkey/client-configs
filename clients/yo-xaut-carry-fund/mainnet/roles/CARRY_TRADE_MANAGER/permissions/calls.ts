@@ -1,6 +1,6 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { compoundV3, morpho, USDC, XAUt } from "@/addresses/eth"
+import { compoundV3, morpho, USDC, XAUt, yo } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
@@ -11,8 +11,9 @@ const poolCoreV3 = contracts.mainnet.aaveV3.poolCoreV3
 // The kpk-agents carry-trade manager for this fund, on its own signer (replaces the HF
 // keeper): XAUt collateral on Aave v3 Core, USDC debt, the borrowed USDC deployed into the
 // USDC menu (kpk USDC Yield v2 / Yield RWA / Prime v2, YO Ecosystem Vault, Aave v3 Core USDC
-// supply, Compound v3 ciUSDCv3 USDC supply). Only the calls the manager signs: no eMode switch
-// (the MANAGER sets category 43), no yoUSD Edge (async exit), no swaps, nothing on behalf of
+// supply, Compound v3 ciUSDCv3 USDC supply, yoUSD Edge deposit). Only the calls the manager signs:
+// no eMode switch (the MANAGER sets category 43), no Edge exit (requestRedeem / redeem stay with
+// EXIT: the CTM refuses async redeems), no swaps, nothing on behalf of
 // or to a third party.
 export default (parameters: Parameters) =>
   [
@@ -100,4 +101,10 @@ export default (parameters: Parameters) =>
       ),
       targetAddress: morpho.kpkYoEcosystem,
     },
+
+    // yoUSD Edge (YO Protocol, USDC) - deposit only, for the avatar. A subset of the MANAGER's
+    // Edge scope. No `requestRedeem` / `redeem` / `withdraw` / `mint`: Edge exits stay with
+    // EXIT (async vault).
+    allowErc20Approve([USDC], [yo.usdEdge]),
+    allow.mainnet.yo.edgeVault.deposit(undefined, c.avatar),
   ] satisfies PermissionList

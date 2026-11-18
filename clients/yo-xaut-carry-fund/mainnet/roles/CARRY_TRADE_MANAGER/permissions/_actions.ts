@@ -7,8 +7,7 @@ export default [
   allowAction.aave_v3.borrow({ market: "Core", targets: ["USDC"] }),
 
   // Morpho Vaults - the USDC menu: kpk USDC Yield v2, kpk USDC Prime v2 and the KPK-curated YO
-  // Ecosystem Vault. yoUSD Edge is not scoped: it is an async-exit vault, the manager does not
-  // use it.
+  // Ecosystem Vault. yoUSD Edge (deposit only) is hand-scoped in calls.ts.
   allowAction.morphoVaults.deposit({
     targets: [
       morpho.kpkUsdcPrimeV2,

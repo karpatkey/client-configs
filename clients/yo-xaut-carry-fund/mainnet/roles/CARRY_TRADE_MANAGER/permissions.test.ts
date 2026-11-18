@@ -137,19 +137,51 @@ describe("yo-xaut-carry-fund mainnet CARRY_TRADE_MANAGER", () => {
       }
     )
 
-    it("forbids mint, a USDT vault and yoUSD Edge", async () => {
+    it("forbids mint and a USDT vault", async () => {
       await expect(
         vault(morpho.kpkYoEcosystem).mint(1n, avatar.address)
       ).toBeForbidden(Status.FunctionNotAllowed)
       await expect(
         vault(morpho.kpkUsdtPrimeV2).deposit(1n, avatar.address)
       ).toBeForbidden(Status.TargetAddressNotAllowed)
-      await expect(
-        kit.asMember.yo.edgeVault.attach(yo.usdEdge).deposit(1n, avatar.address)
-      ).toBeForbidden(Status.TargetAddressNotAllowed)
+    })
+  })
+
+  describe("yoUSD Edge (YO Protocol): deposit only", () => {
+    const edge = () => kit.asMember.yo.edgeVault.attach(yo.usdEdge)
+
+    it("approves USDC to the Edge vault, not to a stranger or another token", async () => {
       await expect(
         erc20().attach(USDC).approve(yo.usdEdge, parseUnits("1", 6))
+      ).toBeAllowed()
+      await expect(
+        erc20().attach(USDC).approve(stranger, parseUnits("1", 6))
       ).toBeForbidden()
+      await expect(
+        erc20().attach(USDT).approve(yo.usdEdge, parseUnits("1", 6))
+      ).toBeForbidden()
+    })
+
+    it("deposits for the avatar only", async () => {
+      await expect(edge().deposit(1n, avatar.address)).toBeAllowed()
+      await expect(edge().deposit(1n, stranger)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+    })
+
+    it("cannot requestRedeem, redeem, withdraw or mint on the Edge vault", async () => {
+      await expect(
+        edge().requestRedeem(1n, avatar.address, avatar.address)
+      ).toBeForbidden(Status.FunctionNotAllowed)
+      await expect(
+        edge().redeem(1n, avatar.address, avatar.address)
+      ).toBeForbidden(Status.FunctionNotAllowed)
+      await expect(
+        edge().withdraw(1n, avatar.address, avatar.address)
+      ).toBeForbidden(Status.FunctionNotAllowed)
+      await expect(edge().mint(1n, avatar.address)).toBeForbidden(
+        Status.FunctionNotAllowed
+      )
     })
   })
 
