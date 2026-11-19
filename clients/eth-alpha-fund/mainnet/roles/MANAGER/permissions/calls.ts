@@ -179,6 +179,52 @@ export default (parameters: Parameters) =>
     // (evict / submit / remove of its own onchain-accounting entries)
     ...allowEtherfiAssistedBalanceRecoveryMainnet(),
 
+    // Kelp - Stake/Unstake ETH and stETH
+    allow.mainnet.kelp.lrtDepositPool.depositETH(undefined, undefined, {
+      send: true,
+    }),
+    allowErc20Approve([stETH], [contracts.mainnet.kelp.lrtDepositPool]),
+    allow.mainnet.kelp.lrtDepositPool.depositAsset(stETH),
+    // Standard Withdrawal
+    allowErc20Approve([rsETH], [contracts.mainnet.kelp.lrtWithdrawalManager]),
+    allow.mainnet.kelp.lrtWithdrawalManager.initiateWithdrawal(
+      c.or(eAddress, stETH)
+    ),
+    allow.mainnet.kelp.lrtWithdrawalManager.completeWithdrawal(
+      c.or(eAddress, stETH)
+    ),
+    // Instant Withdrawal
+    allow.mainnet.kelp.lrtWithdrawalManager.instantWithdrawal(
+      c.or(eAddress, stETH)
+    ),
+    // Kelp - Claim EIGEN rewards (Merkl)
+    allow.mainnet.kelp.merklDistributor.claim(undefined, c.avatar),
+
+    // Merkl - Rewards
+    allow.mainnet.merkl.angleDistributor.claim(
+      c.or(
+        [parameters.avatar],
+        [parameters.avatar, parameters.avatar],
+        [parameters.avatar, parameters.avatar, parameters.avatar],
+        [
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+        ],
+        [
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+          parameters.avatar,
+        ]
+      )
+    ),
+
+    // Spark - Enable/Disable E-Mode
+    allow.mainnet.spark.poolV3.setUserEMode(),
+
     // StakeWise v3 - EthMetaVault (used by the StakeWise landing page)
     // (unbundled from allowAction.stakewise_v3.stake)
     // Deposit / mint / burn stay direct on the vault, scoped via the generic
@@ -236,52 +282,6 @@ export default (parameters: Parameters) =>
     // StakeWise v3 - Exit queue adapter (ADR 0030): Safe-side recovery
     // (evict / submit / remove of its own onchain-accounting entries)
     ...allowStakeWiseV3AssistedBalanceRecoveryMainnet(),
-
-    // Kelp - Stake/Unstake ETH and stETH
-    allow.mainnet.kelp.lrtDepositPool.depositETH(undefined, undefined, {
-      send: true,
-    }),
-    allowErc20Approve([stETH], [contracts.mainnet.kelp.lrtDepositPool]),
-    allow.mainnet.kelp.lrtDepositPool.depositAsset(stETH),
-    // Standard Withdrawal
-    allowErc20Approve([rsETH], [contracts.mainnet.kelp.lrtWithdrawalManager]),
-    allow.mainnet.kelp.lrtWithdrawalManager.initiateWithdrawal(
-      c.or(eAddress, stETH)
-    ),
-    allow.mainnet.kelp.lrtWithdrawalManager.completeWithdrawal(
-      c.or(eAddress, stETH)
-    ),
-    // Instant Withdrawal
-    allow.mainnet.kelp.lrtWithdrawalManager.instantWithdrawal(
-      c.or(eAddress, stETH)
-    ),
-    // Kelp - Claim EIGEN rewards (Merkl)
-    allow.mainnet.kelp.merklDistributor.claim(undefined, c.avatar),
-
-    // Merkl - Rewards
-    allow.mainnet.merkl.angleDistributor.claim(
-      c.or(
-        [parameters.avatar],
-        [parameters.avatar, parameters.avatar],
-        [parameters.avatar, parameters.avatar, parameters.avatar],
-        [
-          parameters.avatar,
-          parameters.avatar,
-          parameters.avatar,
-          parameters.avatar,
-        ],
-        [
-          parameters.avatar,
-          parameters.avatar,
-          parameters.avatar,
-          parameters.avatar,
-          parameters.avatar,
-        ]
-      )
-    ),
-
-    // Spark - Enable/Disable E-Mode
-    allow.mainnet.spark.poolV3.setUserEMode(),
 
     /*********************************************
      * Bridge
