@@ -223,6 +223,66 @@ export default (parameters: Parameters) =>
       )
     ),
 
+    // StakeWise v3 - EthMetaVault
+    // (unbundled from allowAction.stakewise_v3.stake, ADR 0030)
+    // Deposit / mint / burn stay direct on the vault, scoped via the generic
+    // vault contract + a targetAddress override.
+    {
+      ...allow.mainnet.stakeWiseV3.vault.deposit(c.avatar, undefined, {
+        send: true,
+      }),
+      targetAddress: stakeWiseV3.ethMetaVault,
+    },
+    {
+      ...allow.mainnet.stakeWiseV3.vault.depositAndMintOsToken(
+        c.avatar,
+        undefined,
+        undefined,
+        { send: true }
+      ),
+      targetAddress: stakeWiseV3.ethMetaVault,
+    },
+    {
+      ...allow.mainnet.stakeWiseV3.vault.updateStateAndDeposit(
+        c.avatar,
+        undefined,
+        undefined,
+        { send: true }
+      ),
+      targetAddress: stakeWiseV3.ethMetaVault,
+    },
+    {
+      ...allow.mainnet.stakeWiseV3.vault.updateState(),
+      targetAddress: stakeWiseV3.ethMetaVault,
+    },
+    {
+      ...allow.mainnet.stakeWiseV3.vault.mintOsToken(c.avatar),
+      targetAddress: stakeWiseV3.ethMetaVault,
+    },
+    {
+      ...allow.mainnet.stakeWiseV3.vault.burnOsToken(),
+      targetAddress: stakeWiseV3.ethMetaVault,
+    },
+    // Exit queue routed through the onchain-accounting assistant (delegatecall)
+    // so the exit position ticket is fed to the balance adapter atomically.
+    allow.mainnet.stakeWiseV3.assistant.enterExitQueue(
+      stakeWiseV3.ethMetaVault,
+      undefined,
+      {
+        delegatecall: true,
+      }
+    ),
+    allow.mainnet.stakeWiseV3.assistant.claimExitedAssets(
+      stakeWiseV3.ethMetaVault,
+      undefined,
+      undefined,
+      undefined,
+      { delegatecall: true }
+    ),
+    // StakeWise v3 - Exit queue adapter (ADR 0030): Safe-side recovery
+    // (evict / submit / remove of its own onchain-accounting entries)
+    ...allowStakeWiseV3AssistedBalanceRecoveryMainnet(),
+
     // Uniswap v3 - WETH + COW
     allow.mainnet.uniswapV3.positionsNft.createAndInitializePoolIfNecessary(
       c.or(WETH, COW),
@@ -1036,64 +1096,4 @@ export default (parameters: Parameters) =>
         send: true,
       }
     ),
-
-    // StakeWise v3 - EthMetaVault
-    // (unbundled from allowAction.stakewise_v3.stake, ADR 0030)
-    // Deposit / mint / burn stay direct on the vault, scoped via the generic
-    // vault contract + a targetAddress override.
-    {
-      ...allow.mainnet.stakeWiseV3.vault.deposit(c.avatar, undefined, {
-        send: true,
-      }),
-      targetAddress: stakeWiseV3.ethMetaVault,
-    },
-    {
-      ...allow.mainnet.stakeWiseV3.vault.depositAndMintOsToken(
-        c.avatar,
-        undefined,
-        undefined,
-        { send: true }
-      ),
-      targetAddress: stakeWiseV3.ethMetaVault,
-    },
-    {
-      ...allow.mainnet.stakeWiseV3.vault.updateStateAndDeposit(
-        c.avatar,
-        undefined,
-        undefined,
-        { send: true }
-      ),
-      targetAddress: stakeWiseV3.ethMetaVault,
-    },
-    {
-      ...allow.mainnet.stakeWiseV3.vault.updateState(),
-      targetAddress: stakeWiseV3.ethMetaVault,
-    },
-    {
-      ...allow.mainnet.stakeWiseV3.vault.mintOsToken(c.avatar),
-      targetAddress: stakeWiseV3.ethMetaVault,
-    },
-    {
-      ...allow.mainnet.stakeWiseV3.vault.burnOsToken(),
-      targetAddress: stakeWiseV3.ethMetaVault,
-    },
-    // Exit queue routed through the onchain-accounting assistant (delegatecall)
-    // so the exit position ticket is fed to the balance adapter atomically.
-    allow.mainnet.stakeWiseV3.assistant.enterExitQueue(
-      stakeWiseV3.ethMetaVault,
-      undefined,
-      {
-        delegatecall: true,
-      }
-    ),
-    allow.mainnet.stakeWiseV3.assistant.claimExitedAssets(
-      stakeWiseV3.ethMetaVault,
-      undefined,
-      undefined,
-      undefined,
-      { delegatecall: true }
-    ),
-    // StakeWise v3 - Exit queue adapter (ADR 0030): Safe-side recovery
-    // (evict / submit / remove of its own onchain-accounting entries)
-    ...allowStakeWiseV3AssistedBalanceRecoveryMainnet(),
   ] satisfies PermissionList

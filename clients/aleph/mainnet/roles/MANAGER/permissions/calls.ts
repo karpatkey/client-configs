@@ -246,15 +246,6 @@ export default (parameters: Parameters) =>
     // Spark - Enable/Disable E-Mode
     allow.mainnet.spark.poolV3.setUserEMode(),
 
-    /*********************************************
-     * Transfers
-     *********************************************/
-    // Transfer rETH to Aleph's rETH Vault
-    allowErc20Transfer([rETH], [rEthVault]),
-
-    // Transfer stETH to Aleph's stETH Vault
-    allowErc20Transfer([stETH], [stEthVault]),
-
     // StakeWise v3 - EthMetaVault
     // (unbundled from allowAction.stakewise_v3.stake, ADR 0030)
     // Deposit / mint / burn stay direct on the vault, scoped via the generic
@@ -314,4 +305,13 @@ export default (parameters: Parameters) =>
     // StakeWise v3 - Exit queue adapter (ADR 0030): Safe-side recovery
     // (evict / submit / remove of its own onchain-accounting entries)
     ...allowStakeWiseV3AssistedBalanceRecoveryMainnet(),
+
+    /*********************************************
+     * Transfers
+     *********************************************/
+    // Transfer rETH to Aleph's rETH Vault
+    allowErc20Transfer([rETH], [rEthVault]),
+
+    // Transfer stETH to Aleph's stETH Vault
+    allowErc20Transfer([stETH], [stEthVault]),
   ] satisfies PermissionList
