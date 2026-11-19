@@ -309,6 +309,8 @@ export const kpk = {
 export const kyberswap = {
   metaAggregationRouterV2: "0x6131B5fae19EA4f9D964eAc0408E4408b66337b5",
   aggregatorExecutorV3: "0x63242A4Ea82847b20E506b63B0e2e2eFF0CC6cB0",
+  // Executor used as callTarget by every MetaAggregationRouterV2.swap route sampled on 2026-11-16 (187/187)
+  executor: "0x8F10B468b06c6FD214B65F87778827F7D113f996",
   feeReceiver: "0x55602F3057be52BFB6F98fFE799CFDec58Af5130",
 } as const
 

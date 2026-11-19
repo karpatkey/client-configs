@@ -1,9 +1,5 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { contracts } from "@/contracts"
-import { WETH } from "@/addresses/base"
-import { WETH as WETH_eth } from "@/addresses/eth"
-import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
 import { Parameters } from "../../../parameters"
 
@@ -28,25 +24,5 @@ export default (parameters: Parameters) =>
       {
         send: true,
       }
-    ),
-
-    // WETH - Across
-    allowErc20Approve([WETH], [contracts.base.across.spokePool]),
-    allow.base.across.spokePool.deposit(
-      "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-      "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-      "0x" + WETH.slice(2).padStart(64, "0"),
-      "0x" + WETH_eth.slice(2).padStart(64, "0"),
-      undefined,
-      undefined,
-      1,
-      // Relayer exclusivity is dynamically set by the Across API per quote
-      // and must not be hardcoded.
-      // https://docs.across.to/relayers/relayer-nomination
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      "0x"
     ),
   ] satisfies PermissionList

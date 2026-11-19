@@ -16,9 +16,6 @@ import {
   kyberswap,
   stakeWiseV3,
 } from "@/addresses/eth"
-import { WETH as WETH_arb1 } from "@/addresses/arb1"
-import { WETH as WETH_base } from "@/addresses/base"
-import { WETH as WETH_oeth } from "@/addresses/oeth"
 import {
   allowErc20Approve,
   allowEtherfiAssistedBalanceRecoveryMainnet,
@@ -50,13 +47,23 @@ export default (parameters: Parameters) =>
       ),
       c.or(rsETH, weETH, wstETH),
       undefined,
-      undefined,
+      // maxSwapPriceImpact (WAD): the leverage contract's only on-chain guard on the swap output.
+      // Its NatSpec requires Roles to cap it. 5% (ops, 2026-11-17): emergency exit path for large
+      // positions, a tighter cap could block the deleverage.
+      c.lte(50000000000000000n),
       kyberswap.metaAggregationRouterV2,
       c.calldataMatches(
         allow.mainnet.kyberswap.metaAggregationRouterV2.swap({
+          // Kyber's own executor only, no fee receivers. The input must go to the executor too
+          // (srcReceivers): otherwise a caller could send up to the cap of the collateral to
+          // any address. Kyber's routes for these LST -> WETH swaps start at the executor.
+          callTarget: kyberswap.executor,
           desc: {
+            srcReceivers: [kyberswap.executor],
             srcToken: c.or(rsETH, weETH, wstETH),
             dstToken: WETH,
+            feeReceivers: [],
+            feeAmounts: [],
             dstReceiver: contracts.mainnet.oiv.leverage,
             permit: "0x",
           },
@@ -371,26 +378,6 @@ export default (parameters: Parameters) =>
       )
     ),
 
-    // WETH - Across
-    allowErc20Approve([WETH], [contracts.mainnet.across.spokePoolV2]),
-    allow.mainnet.across.spokePoolV2.deposit(
-      "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-      "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-      "0x" + WETH.slice(2).padStart(64, "0"),
-      "0x" + WETH_arb1.slice(2).padStart(64, "0"),
-      undefined,
-      undefined,
-      42161,
-      // Relayer exclusivity is dynamically set by the Across API per quote
-      // and must not be hardcoded.
-      // https://docs.across.to/relayers/relayer-nomination
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      "0x"
-    ),
-
     // wstETH - Arbitrum Bridge
     allowErc20Approve(
       [wstETH],
@@ -491,26 +478,6 @@ export default (parameters: Parameters) =>
           )
         ),
       }
-    ),
-
-    // WETH - Across
-    allowErc20Approve([WETH], [contracts.mainnet.across.spokePoolV2]),
-    allow.mainnet.across.spokePoolV2.deposit(
-      "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-      "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-      "0x" + WETH.slice(2).padStart(64, "0"),
-      "0x" + WETH_base.slice(2).padStart(64, "0"),
-      undefined,
-      undefined,
-      8453,
-      // Relayer exclusivity is dynamically set by the Across API per quote
-      // and must not be hardcoded.
-      // https://docs.across.to/relayers/relayer-nomination
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      "0x"
     ),
 
     // Mainnet -> Gnosis
@@ -768,25 +735,5 @@ export default (parameters: Parameters) =>
           )
         ),
       }
-    ),
-
-    // WETH - Across
-    allowErc20Approve([WETH], [contracts.mainnet.across.spokePoolV2]),
-    allow.mainnet.across.spokePoolV2.deposit(
-      "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-      "0x" + parameters.avatar.slice(2).padStart(64, "0"),
-      "0x" + WETH.slice(2).padStart(64, "0"),
-      "0x" + WETH_oeth.slice(2).padStart(64, "0"),
-      undefined,
-      undefined,
-      10,
-      // Relayer exclusivity is dynamically set by the Across API per quote
-      // and must not be hardcoded.
-      // https://docs.across.to/relayers/relayer-nomination
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      "0x"
     ),
   ] satisfies PermissionList
