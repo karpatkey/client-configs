@@ -21,6 +21,7 @@ import { contracts } from "@/contracts"
 import {
   allowErc20Approve,
   allowEtherfiAssistedBalanceRecoveryMainnet,
+  allowStakeWiseV3AssistedBalanceRecoveryMainnet,
 } from "@/helpers"
 import { PermissionList } from "@/types"
 
@@ -189,6 +190,12 @@ export default [
     )
   ),
   allow.mainnet.safe.safenetStaking.claimWithdrawal(),
+
+  // StakeWise v3 - KPK ETH Vault: exits go through the onchain-accounting
+  // assistant, added with the ADR 0030 §4.1 switch.
+  // StakeWise v3 - Exit queue adapter (ADR 0030): Safe-side recovery
+  // (evict / submit / remove of its own onchain-accounting entries)
+  ...allowStakeWiseV3AssistedBalanceRecoveryMainnet(),
 
   // Upshift - KPK LsETH vault - redeem (instant or lagged request + claim)
   allow.mainnet.upshift.kpkLsEth.instantRedeem(undefined, c.avatar),
