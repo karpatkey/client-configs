@@ -328,6 +328,7 @@ export const stakeWiseV3 = {
   genesis: "0xAC0F906E433d58FA868F936E8A43230473652885", // Genesis
   chorusOneMaxVault: "0xe6d8d8aC54461b1C5eD15740EEe322043F696C08", // Chorus One Max Vault
   ethMetaVault: "0x15639e82d2072fa510e5d2b5f0db361c823bcad3", // unnamed EthMetaVault
+  kpkEthVault: "0xd93ce3b1610edb3b168c1195efa6600dc194821f", // KPK ETH StakeWise vault (EthVault v5)
 } as const
 
 export const morpho = {

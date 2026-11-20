@@ -17,6 +17,7 @@ import {
   fluid,
   kpk,
   safe,
+  stakeWiseV3,
   upshift,
 } from "@/addresses/eth"
 import { eAddress } from "@/addresses"
@@ -26,6 +27,7 @@ import {
   allowErc20Transfer,
   allowEtherfiAssistedBalanceRecoveryMainnet,
   allowEthTransfer,
+  allowStakeWiseV3AssistedBalanceRecoveryMainnet,
 } from "@/helpers"
 import { PermissionList } from "@/types"
 import { Parameters } from "../../../parameters"
@@ -250,6 +252,34 @@ export default (parameters: Parameters) =>
     allow.mainnet.safe.safenetStaking.claimWithdrawal(),
     // Rewards (CumulativeMerkleDrop) - account pinned to the avatar
     allow.mainnet.safe.safenetRewards.claim(c.avatar),
+
+    // StakeWise v3 - KPK ETH Vault (EthVault v5): stake ETH, shares to the
+    // avatar. No osETH mint/burn (not requested). Exits go through the
+    // onchain-accounting assistant, added with the ADR 0030 §4.1 switch.
+    {
+      ...allow.mainnet.stakeWiseV3.vault.deposit(c.avatar, undefined, {
+        send: true,
+      }),
+      targetAddress: stakeWiseV3.kpkEthVault,
+    },
+    {
+      ...allow.mainnet.stakeWiseV3.vault.updateState(),
+      targetAddress: stakeWiseV3.kpkEthVault,
+    },
+    {
+      ...allow.mainnet.stakeWiseV3.vault.updateStateAndDeposit(
+        c.avatar,
+        undefined,
+        undefined,
+        {
+          send: true,
+        }
+      ),
+      targetAddress: stakeWiseV3.kpkEthVault,
+    },
+    // StakeWise v3 - Exit queue adapter (ADR 0030): Safe-side recovery
+    // (evict / submit / remove of its own onchain-accounting entries)
+    ...allowStakeWiseV3AssistedBalanceRecoveryMainnet(),
 
     // Upshift - KPK LsETH vault
     allowErc20Approve([LsETH], [contracts.mainnet.upshift.kpkLsEth]),
