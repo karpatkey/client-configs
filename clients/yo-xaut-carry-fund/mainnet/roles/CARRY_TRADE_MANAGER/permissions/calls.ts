@@ -61,46 +61,6 @@ export default (parameters: Parameters) =>
       targetAddress: morpho.kpkUsdcYieldRWA,
     },
 
-    // Morpho Vault - kpk USDC Yield v2 / kpk USDC Yield RWA / kpk USDC Prime v2 / YO
-    // Ecosystem Vault - Force deallocate (unlock liquidity across the vault's underlying
-    // markets before a withdrawal) - onBehalf pinned to the avatar Safe
-    {
-      ...allow.mainnet.morpho.vault.forceDeallocate(
-        undefined,
-        undefined,
-        undefined,
-        c.avatar
-      ),
-      targetAddress: morpho.kpkUsdcPrimeV2,
-    },
-    {
-      ...allow.mainnet.morpho.vault.forceDeallocate(
-        undefined,
-        undefined,
-        undefined,
-        c.avatar
-      ),
-      targetAddress: morpho.kpkUsdcYieldV2,
-    },
-    {
-      ...allow.mainnet.morpho.vault.forceDeallocate(
-        undefined,
-        undefined,
-        undefined,
-        c.avatar
-      ),
-      targetAddress: morpho.kpkUsdcYieldRWA,
-    },
-    {
-      ...allow.mainnet.morpho.vault.forceDeallocate(
-        undefined,
-        undefined,
-        undefined,
-        c.avatar
-      ),
-      targetAddress: morpho.kpkYoEcosystem,
-    },
-
     // yoUSD Edge (YO Protocol, USDC) - deposit for the avatar, and exit through `requestRedeem`
     // / `redeem` (an alias of it) with receiver and owner pinned to the avatar. A subset of the
     // MANAGER's Edge scope, same legs as EXIT. Not scoped: `withdraw` (always reverts), `mint`,

@@ -126,14 +126,14 @@ describe("yo-xaut-carry-fund mainnet CARRY_TRADE_MANAGER", () => {
     )
 
     it.each(vaults)(
-      "force deallocates on %s on behalf of the avatar only",
+      "forbids force deallocate on %s (a plain withdraw pulls through the liquidity adapter)",
       async (v) => {
         await expect(
           vault(v).forceDeallocate(stranger, "0x", 1n, avatar.address)
-        ).toBeAllowed()
+        ).toBeForbidden(Status.FunctionNotAllowed)
         await expect(
           vault(v).forceDeallocate(stranger, "0x", 1n, stranger)
-        ).toBeForbidden(Status.ParameterNotAllowed)
+        ).toBeForbidden(Status.FunctionNotAllowed)
       }
     )
 
