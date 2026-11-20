@@ -1,5 +1,6 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
+import { fluid } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { PermissionList } from "@/types"
 import { Parameters } from "../../../parameters"
@@ -12,12 +13,20 @@ export default (parameters: Parameters) =>
       undefined,
       c.avatar
     ),
+    // Aave Incentives rewards - Claim all
+    allow.mainnet.aaveV3.incentivesV3.claimAllRewards(undefined, c.avatar),
 
     // Compound v3 - cUSDCv3 - Claim rewards
     allow.mainnet.compoundV3.cometRewards.claim(
       contracts.mainnet.compoundV3.cUsdcV3,
       c.avatar
     ),
+
+    // Fluid - Claim rewards
+    {
+      ...allow.mainnet.fluid.merkleDistributor.claim(c.avatar),
+      targetAddress: fluid.fluidRewardsDec2024,
+    },
 
     // Merkl - Rewards
     allow.mainnet.merkl.angleDistributor.claim(
