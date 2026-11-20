@@ -383,6 +383,12 @@ export const maple = {
   syrupUsdtRouter: "0xF007476Bb27430795138C511F18F821e8D1e5Ee2", // SyrupRouter (syrupUSDT)
 } as const
 
+export const yo = {
+  // yoUSD Edge - oracle-priced ERC-4626 with async exit: `redeem` is `requestRedeem`,
+  // `withdraw` always reverts, and YO pushes the USDC to `receiver` when it fulfils
+  usdEdge: "0x5DD8BFa6C5C68D05d25EF6143E05C11E26c4cDB7",
+} as const
+
 export const nexus = {
   pools: [
     "0x4AB04d7333293ab5E752fD4D2dE0c0E88c2cA0F8", // Pool #1

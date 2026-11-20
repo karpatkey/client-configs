@@ -266,6 +266,9 @@ export const contracts = {
     votium: {
       bribe: "0x19BBC3463Dd8d07f55438014b021Fb457EBD4595",
     },
+    yo: {
+      edgeVault: "0x5DD8BFa6C5C68D05d25EF6143E05C11E26c4cDB7", // yoUSD Edge (USDC) - TransparentUpgradeableProxy, impl YoVault 0xc84a6E01BFF58996540F1ABC22355A9DFE0d78DC. ABI is the subset in use, not the full YoVault ABI
+    },
   },
   gnosis: {
     ...deFiKitContracts.gnosis,
