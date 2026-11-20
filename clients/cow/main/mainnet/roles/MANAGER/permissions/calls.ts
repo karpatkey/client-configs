@@ -23,7 +23,9 @@ import { PermissionList } from "@/types"
 import {
   allowErc20Approve,
   allowErc20Transfer,
+  allowEtherfiAssistedBalanceRecoveryMainnet,
   allowEthTransfer,
+  allowStakeWiseV3AssistedBalanceRecoveryMainnet,
 } from "@/helpers"
 import { c } from "zodiac-roles-sdk"
 import { contracts } from "@/contracts"
@@ -185,6 +187,9 @@ export default (parameters: Parameters) =>
     allow.mainnet.etherfi.weEth.wrap(),
     // Unwrap weETH
     allow.mainnet.etherfi.weEth.unwrap(),
+    // ether.fi - Withdrawal queue adapter (ADR 0030): Safe-side recovery
+    // (evict / submit / remove of its own onchain-accounting entries)
+    ...allowEtherfiAssistedBalanceRecoveryMainnet(),
 
     // Merkl - Rewards
     allow.mainnet.merkl.angleDistributor.claim(
@@ -207,6 +212,9 @@ export default (parameters: Parameters) =>
         ]
       )
     ),
+    // StakeWise v3 - Exit queue adapter (ADR 0030): Safe-side recovery
+    // (evict / submit / remove of its own onchain-accounting entries)
+    ...allowStakeWiseV3AssistedBalanceRecoveryMainnet(),
 
     // Uniswap v3 - WETH + COW
     allow.mainnet.uniswapV3.positionsNft.createAndInitializePoolIfNecessary(

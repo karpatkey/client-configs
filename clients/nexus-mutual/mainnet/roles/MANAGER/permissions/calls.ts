@@ -37,7 +37,12 @@ import {
 } from "@/addresses/eth"
 import { zeroAddress } from "@/addresses"
 import { contracts } from "@/contracts"
-import { allowErc20Approve } from "@/helpers"
+import {
+  allowErc20Approve,
+  allowEtherfiAssistedBalanceRecoveryMainnet,
+  allowNexusAssistedBalanceRecoveryMainnet,
+  allowStakeWiseV3AssistedBalanceRecoveryMainnet,
+} from "@/helpers"
 import { PermissionList } from "@/types"
 import { balancerV2Swap } from "@/exit_strategies/balancerV2"
 import { Parameters } from "../../../parameters"
@@ -395,6 +400,9 @@ export default (parameters: Parameters) =>
     allow.mainnet.etherfi.weEth.wrap(),
     // Unwrap weETH
     allow.mainnet.etherfi.weEth.unwrap(),
+    // ether.fi - Withdrawal queue adapter (ADR 0030): Safe-side recovery
+    // (evict / submit / remove of its own onchain-accounting entries)
+    ...allowEtherfiAssistedBalanceRecoveryMainnet(),
 
     // Fluid - FLUID Rewards
     {
@@ -466,6 +474,9 @@ export default (parameters: Parameters) =>
       ...allow.mainnet.nexus.stakingPool.withdraw(),
       targetAddress: pool,
     })),
+    // Nexus Mutual - Staking pools adapter (ADR 0030): Safe-side recovery
+    // (evict / submit / remove of its own onchain-accounting entries)
+    ...allowNexusAssistedBalanceRecoveryMainnet(),
 
     // Nexus Mutual - RWIV Vault interaction
     allowErc20Approve([USDC], [contracts.mainnet.nexus.rwiv]),
@@ -484,6 +495,10 @@ export default (parameters: Parameters) =>
     allow.mainnet.sky.dsrManager.join(c.avatar),
     allow.mainnet.sky.dsrManager.exit(c.avatar),
     allow.mainnet.sky.dsrManager.exitAll(c.avatar),
+
+    // StakeWise v3 - Exit queue adapter (ADR 0030): Safe-side recovery
+    // (evict / submit / remove of its own onchain-accounting entries)
+    ...allowStakeWiseV3AssistedBalanceRecoveryMainnet(),
 
     /*********************************************
      * Swaps

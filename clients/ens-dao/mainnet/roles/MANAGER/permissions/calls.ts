@@ -42,7 +42,9 @@ import { contracts } from "@/contracts"
 import {
   allowErc20Approve,
   allowErc20Transfer,
+  allowEtherfiAssistedBalanceRecoveryMainnet,
   allowEthTransfer,
+  allowStakeWiseV3AssistedBalanceRecoveryMainnet,
 } from "@/helpers"
 import { PermissionList } from "@/types"
 import { balancerV2Swap } from "@/exit_strategies/balancerV2"
@@ -498,6 +500,9 @@ export default (parameters: Parameters) =>
     allow.mainnet.etherfi.weEth.unwrap(),
     // ether.fi - Claim rewards
     allow.mainnet.etherfi.kingDistributor.claim(c.avatar),
+    // ether.fi - Withdrawal queue adapter (ADR 0030): Safe-side recovery
+    // (evict / submit / remove of its own onchain-accounting entries)
+    ...allowEtherfiAssistedBalanceRecoveryMainnet(),
 
     // Euler - KPK RWA USDC
     allowErc20Approve([USDC], [euler.kpkRwaUsdc]),
@@ -676,6 +681,9 @@ export default (parameters: Parameters) =>
       ...allow.mainnet.stakeWiseV3.vault.claimExitedAssets(),
       targetAddress: stakeWiseV3.genesis,
     },
+    // StakeWise v3 - Exit queue adapter (ADR 0030): Safe-side recovery
+    // (evict / submit / remove of its own onchain-accounting entries)
+    ...allowStakeWiseV3AssistedBalanceRecoveryMainnet(),
 
     /*********************************************
      * SWAPS
