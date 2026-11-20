@@ -192,10 +192,9 @@ export default (parameters: Parameters) => [
   // Spark - SKY_spUSDT
   allowAction.spark.deposit({ targets: ["SKY_spUSDT"] }),
 
-  // Stakewise v3 - Stake/Unstake ETH
-  allowAction.stakewise_v3.stake({
-    targets: ["0x15639e82d2072fa510e5d2b5f0db361c823bcad3"],
-  }),
+  // StakeWise v3 - unbundled into calls.ts (ADR 0030): deposit/mint/burn stay
+  // direct, enterExitQueue/claimExitedAssets route through the onchain-accounting
+  // assistant (delegatecall) so the exit ticket is tracked by NAV.
 
   // Uniswap v3 - WETH/COW
   allowAction.uniswap_v3.deposit({ tokens: ["WETH", "COW"] }),
