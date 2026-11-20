@@ -1,6 +1,6 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { compoundV3, morpho, USDC, USDG } from "@/addresses/eth"
+import { compoundV3, morpho, USDC, USDG, yo } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
@@ -96,6 +96,17 @@ export default (parameters: Parameters) =>
       ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
       targetAddress: morpho.kpkUsdcYieldRWA,
     },
+
+    // yoUSD Edge (YO Protocol, USDC) - same scope as MANAGER: oracle-priced ERC-4626 with an
+    // async exit. Deposit is synchronous; `requestRedeem` and `redeem` (an alias of it) pay at
+    // once when the vault has idle USDC, otherwise they escrow the shares until YO fulfils and
+    // pushes the USDC to `receiver`. Receiver and owner pinned to the avatar. Not scoped:
+    // `mint`, `withdraw` (always reverts), `cancelRedeem` and `fulfillRedeem` (YO only).
+    // Hand-scoped, defi-kit has no action for this vault.
+    allowErc20Approve([USDC], [yo.usdEdge]),
+    allow.mainnet.yo.edgeVault.deposit(undefined, c.avatar),
+    allow.mainnet.yo.edgeVault.requestRedeem(undefined, c.avatar, c.avatar),
+    allow.mainnet.yo.edgeVault.redeem(undefined, c.avatar, c.avatar),
 
     // Morpho Vault - kpk USDC Yield v2 / kpk USDC Yield RWA / YO Ecosystem - Force
     // deallocate (unlock liquidity across the vault's underlying markets before a

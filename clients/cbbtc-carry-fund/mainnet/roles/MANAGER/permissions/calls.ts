@@ -12,6 +12,7 @@ import {
   USDC,
   USDG,
   USDT,
+  yo,
 } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
@@ -266,6 +267,18 @@ export default (parameters: Parameters) =>
       ),
       targetAddress: morpho.kpkYoEcosystem,
     },
+
+    // yoUSD Edge (YO Protocol, USDC) - oracle-priced ERC-4626 with an async exit. Deposit is
+    // synchronous; `requestRedeem` and `redeem` (an alias of it) pay at once when the vault has
+    // idle USDC, otherwise they escrow the shares until YO fulfils and pushes the USDC to
+    // `receiver`: there is no claim call to scope, so pinning receiver and owner to the avatar
+    // is the control. Not scoped: `mint`, `withdraw` (always reverts), `cancelRedeem` and
+    // `fulfillRedeem` (YO only), share `transfer` / `approve`. Hand-scoped, defi-kit has no
+    // action for this vault.
+    allowErc20Approve([USDC], [yo.usdEdge]),
+    allow.mainnet.yo.edgeVault.deposit(undefined, c.avatar),
+    allow.mainnet.yo.edgeVault.requestRedeem(undefined, c.avatar, c.avatar),
+    allow.mainnet.yo.edgeVault.redeem(undefined, c.avatar, c.avatar),
 
     // Shares contract - Redemptions are paid out by the shares contract pulling the asset from
     // the avatar Safe (safeTransferFrom(avatar, receiver)), so it needs an allowance on

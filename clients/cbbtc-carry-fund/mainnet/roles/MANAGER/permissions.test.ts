@@ -22,6 +22,7 @@ import {
   WBTC,
   WETH,
   wstETH,
+  yo,
 } from "@/addresses/eth"
 import { aaveV4BluechipReserve, aaveV4MapleReserve } from "../../addresses"
 import { parameters } from "../../instances/main_prod"
@@ -883,6 +884,65 @@ describe("cbbtc-carry-fund mainnet MANAGER", () => {
     it("forbids a stranger vault", async () => {
       await expect(vault(stranger).deposit(1n, avatar.address)).toBeForbidden(
         Status.TargetAddressNotAllowed
+      )
+    })
+  })
+
+  describe("K - yoUSD Edge (YO Protocol, USDC): async-exit ERC-4626", () => {
+    const edge = () => kit.asMember.yo.edgeVault.attach(yo.usdEdge)
+
+    it("approves USDC to the Edge vault, not to a stranger", async () => {
+      await expect(
+        erc20().attach(USDC).approve(yo.usdEdge, parseUnits("1", 6))
+      ).toBeAllowed()
+      await expect(
+        erc20().attach(USDC).approve(stranger, parseUnits("1", 6))
+      ).toBeForbidden()
+    })
+
+    it("does not approve any other token to the Edge vault", async () => {
+      await expect(
+        erc20().attach(USDT).approve(yo.usdEdge, parseUnits("1", 6))
+      ).toBeForbidden()
+    })
+
+    it("deposits for the avatar only", async () => {
+      await expect(edge().deposit(1n, avatar.address)).toBeAllowed()
+      await expect(edge().deposit(1n, stranger)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+    })
+
+    it("requests a redeem and redeems with receiver and owner pinned to the avatar", async () => {
+      await expect(
+        edge().requestRedeem(1n, avatar.address, avatar.address)
+      ).toBeAllowed()
+      await expect(
+        edge().redeem(1n, avatar.address, avatar.address)
+      ).toBeAllowed()
+    })
+
+    it("forbids a stranger receiver or owner on requestRedeem and redeem", async () => {
+      await expect(
+        edge().requestRedeem(1n, stranger, avatar.address)
+      ).toBeForbidden(Status.ParameterNotAllowed)
+      await expect(
+        edge().requestRedeem(1n, avatar.address, stranger)
+      ).toBeForbidden(Status.ParameterNotAllowed)
+      await expect(edge().redeem(1n, stranger, avatar.address)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+      await expect(edge().redeem(1n, avatar.address, stranger)).toBeForbidden(
+        Status.ParameterNotAllowed
+      )
+    })
+
+    it("does not scope withdraw (it always reverts) or mint", async () => {
+      await expect(
+        edge().withdraw(1n, avatar.address, avatar.address)
+      ).toBeForbidden(Status.FunctionNotAllowed)
+      await expect(edge().mint(1n, avatar.address)).toBeForbidden(
+        Status.FunctionNotAllowed
       )
     })
   })
