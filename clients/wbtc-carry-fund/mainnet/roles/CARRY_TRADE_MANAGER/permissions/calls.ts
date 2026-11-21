@@ -9,14 +9,18 @@ import { Parameters } from "../../../parameters"
 
 const bluechipSpoke = contracts.mainnet.aaveV4.bluechipSpoke
 const poolCoreV3 = contracts.mainnet.aaveV3.poolCoreV3
+const sparkPool = contracts.mainnet.spark.poolV3
 const curveUsdgUsdcPool = contracts.mainnet.curve.usdgUsdcPool
 
 // The kpk-agents carry-trade manager for this fund, on its own signer: WBTC collateral on the
-// Bluechip Spoke (reserve 1, Prime Hub), debt on the Core Hub USDC (7) and USDG (11) lines, the
-// borrowed stablecoin deployed into the two kpk USDC vaults. Only the calls the manager signs:
-// no other reserve, no cbBTC, no stablecoin supply, nothing on behalf of or to a third party.
-// The same legs exist on the Aave v3 Core pool (WBTC collateral, USDC debt) for `venue_kind:
-// aave_v3`, and on the Compound v3 Institutional Market (ciUSDCv3, same assets).
+// Bluechip Spoke (reserve 1, Prime Hub), debt on the USDC Prime (4), USDC Core (7) and USDG Core
+// (11) lines, the borrowed stablecoin deployed into the kpk USDC / USDT vaults. Only the calls
+// the manager signs: no other reserve, no cbBTC, nothing on behalf of or to a third party.
+// The same legs exist on the Aave v3 Core pool (WBTC collateral, USDC / USDT debt) for
+// `venue_kind: aave_v3`, on Spark (WBTC collateral, USDC / USDT debt, `venue_kind: spark`), on
+// Morpho Blue (the USDC/WBTC and USDT/WBTC 86% markets, `venue_kind: morpho_market`; _actions.ts)
+// and on the Compound v3 Institutional Market (ciUSDCv3, WBTC collateral, USDC debt). A USDC
+// supply on Aave v3 Core is a yield position (`aave_v3_supply`), never collateral.
 export default (parameters: Parameters) =>
   [
     // Aave v3 Core Market (venue_kind: aave_v3) - WBTC collateral: supply for the avatar, enable
@@ -27,6 +31,26 @@ export default (parameters: Parameters) =>
     allow.mainnet.aaveV3.poolCoreV3.setUserUseReserveAsCollateral(WBTC, true),
     allow.mainnet.aaveV3.poolCoreV3.supply(WBTC, undefined, c.avatar),
     allow.mainnet.aaveV3.poolCoreV3.withdraw(WBTC, undefined, c.avatar),
+
+    // Aave v3 Core Market (position kind: aave_v3_supply) - USDC yield supply: supply for the
+    // avatar, withdraw to the avatar, and switch USDC off as collateral (only ever `false`: a
+    // first supply is followed by it so the supply never counts toward the health factor, and
+    // WBTC stays enabled only). The Pool pulls USDC on supply: the approval is in _actions.ts
+    // (borrow). Hand-scoped rather than defi-kit's aave_v3.deposit, which would also let the
+    // role turn USDC on as collateral and claim rewards.
+    allow.mainnet.aaveV3.poolCoreV3.setUserUseReserveAsCollateral(USDC, false),
+    allow.mainnet.aaveV3.poolCoreV3.supply(USDC, undefined, c.avatar),
+    allow.mainnet.aaveV3.poolCoreV3.withdraw(USDC, undefined, c.avatar),
+
+    // Spark (venue_kind: spark) - WBTC collateral: supply for the avatar, enable as collateral
+    // (only ever `true`), withdraw to the avatar. The Pool pulls WBTC on supply, hence the
+    // approval. Borrow / repay USDC and USDT and their approvals are in _actions.ts. Hand-scoped
+    // rather than defi-kit's spark.deposit, which would also let the role disable WBTC as
+    // collateral.
+    allowErc20Approve([WBTC], [sparkPool]),
+    allow.mainnet.spark.poolV3.setUserUseReserveAsCollateral(WBTC, true),
+    allow.mainnet.spark.poolV3.supply(WBTC, undefined, c.avatar),
+    allow.mainnet.spark.poolV3.withdraw(WBTC, undefined, c.avatar),
 
     // Compound v3 - Institutional Market (ciUSDCv3) - the Aave v3 Core legs on Comet: WBTC
     // collateral, USDC debt. supply / withdraw(asset, amount) always act for msg.sender, the
@@ -67,7 +91,13 @@ export default (parameters: Parameters) =>
       c.avatar
     ),
 
-    // Aave v4 Bluechip Spoke - Borrow / repay the USDC (7) and USDG (11) Core Hub lines
+    // Aave v4 Bluechip Spoke - Borrow / repay the USDC Prime (4), USDC Core (7) and USDG Core
+    // (11) lines
+    allow.mainnet.aaveV4.bluechipSpoke.borrow(
+      reserve.usdcPrime,
+      undefined,
+      c.avatar
+    ),
     allow.mainnet.aaveV4.bluechipSpoke.borrow(
       reserve.usdcCore,
       undefined,
@@ -75,6 +105,11 @@ export default (parameters: Parameters) =>
     ),
     allow.mainnet.aaveV4.bluechipSpoke.borrow(
       reserve.usdgCore,
+      undefined,
+      c.avatar
+    ),
+    allow.mainnet.aaveV4.bluechipSpoke.repay(
+      reserve.usdcPrime,
       undefined,
       c.avatar
     ),
