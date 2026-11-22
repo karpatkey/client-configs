@@ -1,11 +1,16 @@
-import { parseUnits } from "ethers"
+import { MaxUint256, parseUnits } from "ethers"
+import { Clearance, processPermissions } from "zodiac-roles-sdk"
 import { applyPermissions } from "@/test/helpers"
+import { preprocessPermissions } from "../../../../../helpers/apply"
 import { avatar } from "@/test/wallets"
 import kit from "@/test/kit"
 import { Status } from "@/test/types"
 import { contracts } from "@/contracts"
 import { compoundV3, morpho, USDC, USDG, USDT, XAUt, yo } from "@/addresses/eth"
 import { parameters } from "../../instances/sub_prod"
+import { parameters as mainParameters } from "../../instances/main_prod"
+import managerCalls from "../MANAGER/permissions/calls"
+import managerActions from "../MANAGER/permissions/_actions"
 import allowedCalls from "./permissions/calls"
 import allowedActions from "./permissions/_actions"
 
@@ -41,6 +46,9 @@ describe("yo-xaut-carry-fund mainnet CARRY_TRADE_MANAGER", () => {
       ).toBeAllowed()
       await expect(pool().withdraw(XAUt, 1n, avatar.address)).toBeAllowed()
       await expect(
+        pool().withdraw(XAUt, MaxUint256, avatar.address)
+      ).toBeAllowed()
+      await expect(
         pool().setUserUseReserveAsCollateral(XAUt, false)
       ).toBeForbidden(Status.ParameterNotAllowed)
       await expect(pool().supply(XAUt, 1n, stranger, 0)).toBeForbidden(
@@ -58,7 +66,14 @@ describe("yo-xaut-carry-fund mainnet CARRY_TRADE_MANAGER", () => {
     })
   })
 
-  describe("Aave v3 Core: USDC debt and supply", () => {
+  describe("Aave v3 Core: USDC debt", () => {
+    it("approves USDC to the Pool, including a reset to 0", async () => {
+      await expect(erc20().attach(USDC).approve(poolCoreV3, 0n)).toBeAllowed()
+      await expect(
+        erc20().attach(USDC).approve(poolCoreV3, parseUnits("1", 6))
+      ).toBeAllowed()
+    })
+
     it("borrows and repays USDC for the avatar only", async () => {
       await expect(pool().borrow(USDC, 1n, 2, 0, avatar.address)).toBeAllowed()
       await expect(pool().repay(USDC, 1n, 2, avatar.address)).toBeAllowed()
@@ -79,19 +94,13 @@ describe("yo-xaut-carry-fund mainnet CARRY_TRADE_MANAGER", () => {
       ).toBeForbidden()
     })
 
-    it("supplies and withdraws USDC for the avatar only", async () => {
-      await expect(
-        erc20().attach(USDC).approve(poolCoreV3, parseUnits("1", 6))
-      ).toBeAllowed()
-      await expect(pool().supply(USDC, 1n, avatar.address, 0)).toBeAllowed()
-      await expect(pool().withdraw(USDC, 1n, avatar.address)).toBeAllowed()
-      await expect(pool().supply(USDC, 1n, stranger, 0)).toBeForbidden(
+    it("does not supply or withdraw USDC on the Pool", async () => {
+      await expect(pool().supply(USDC, 1n, avatar.address, 0)).toBeForbidden(
         Status.ParameterNotAllowed
       )
-      await expect(pool().withdraw(USDC, 1n, stranger)).toBeForbidden(
+      await expect(pool().withdraw(USDC, 1n, avatar.address)).toBeForbidden(
         Status.ParameterNotAllowed
       )
-      await expect(pool().supply(USDT, 1n, avatar.address, 0)).toBeForbidden()
     })
   })
 
@@ -99,13 +108,13 @@ describe("yo-xaut-carry-fund mainnet CARRY_TRADE_MANAGER", () => {
     const vaults = [
       morpho.kpkUsdcYieldV2,
       morpho.kpkUsdcYieldRWA,
-      morpho.kpkUsdcPrimeV2,
       morpho.kpkYoEcosystem,
     ]
 
     it.each(vaults)(
-      "approves, deposits, withdraws and redeems on %s (avatar only)",
+      "approves, deposits and withdraws on %s (avatar only)",
       async (v) => {
+        await expect(erc20().attach(USDC).approve(v, 0n)).toBeAllowed()
         await expect(
           erc20().attach(USDC).approve(v, parseUnits("1", 6))
         ).toBeAllowed()
@@ -113,21 +122,27 @@ describe("yo-xaut-carry-fund mainnet CARRY_TRADE_MANAGER", () => {
         await expect(
           vault(v).withdraw(1n, avatar.address, avatar.address)
         ).toBeAllowed()
-        await expect(
-          vault(v).redeem(1n, avatar.address, avatar.address)
-        ).toBeAllowed()
         await expect(vault(v).deposit(1n, stranger)).toBeForbidden(
           Status.ParameterNotAllowed
         )
         await expect(
           vault(v).withdraw(1n, stranger, avatar.address)
         ).toBeForbidden(Status.ParameterNotAllowed)
+        await expect(
+          vault(v).withdraw(1n, avatar.address, stranger)
+        ).toBeForbidden(Status.ParameterNotAllowed)
       }
     )
 
     it.each(vaults)(
-      "forbids force deallocate on %s (a plain withdraw pulls through the liquidity adapter)",
+      "forbids redeem, mint and force deallocate on %s (a plain withdraw pulls through the liquidity adapter)",
       async (v) => {
+        await expect(
+          vault(v).redeem(1n, avatar.address, avatar.address)
+        ).toBeForbidden(Status.FunctionNotAllowed)
+        await expect(vault(v).mint(1n, avatar.address)).toBeForbidden(
+          Status.FunctionNotAllowed
+        )
         await expect(
           vault(v).forceDeallocate(stranger, "0x", 1n, avatar.address)
         ).toBeForbidden(Status.FunctionNotAllowed)
@@ -137,90 +152,96 @@ describe("yo-xaut-carry-fund mainnet CARRY_TRADE_MANAGER", () => {
       }
     )
 
-    it("forbids mint and a USDT vault", async () => {
+    it("does not touch kpk USDC Prime v2 or a USDT vault", async () => {
+      const prime = morpho.kpkUsdcPrimeV2
       await expect(
-        vault(morpho.kpkYoEcosystem).mint(1n, avatar.address)
-      ).toBeForbidden(Status.FunctionNotAllowed)
+        erc20().attach(USDC).approve(prime, parseUnits("1", 6))
+      ).toBeForbidden()
+      await expect(vault(prime).deposit(1n, avatar.address)).toBeForbidden(
+        Status.TargetAddressNotAllowed
+      )
+      await expect(
+        vault(prime).withdraw(1n, avatar.address, avatar.address)
+      ).toBeForbidden(Status.TargetAddressNotAllowed)
       await expect(
         vault(morpho.kpkUsdtPrimeV2).deposit(1n, avatar.address)
       ).toBeForbidden(Status.TargetAddressNotAllowed)
     })
   })
 
-  describe("yoUSD Edge (YO Protocol): deposit and exit", () => {
+  describe("yoUSD Edge (YO Protocol): not scoped, the MANAGER enters and exits it", () => {
     const edge = () => kit.asMember.yo.edgeVault.attach(yo.usdEdge)
 
-    it("approves USDC to the Edge vault, not to a stranger or another token", async () => {
+    it("does not approve USDC to the Edge vault", async () => {
       await expect(
         erc20().attach(USDC).approve(yo.usdEdge, parseUnits("1", 6))
-      ).toBeAllowed()
-      await expect(
-        erc20().attach(USDC).approve(stranger, parseUnits("1", 6))
-      ).toBeForbidden()
-      await expect(
-        erc20().attach(USDT).approve(yo.usdEdge, parseUnits("1", 6))
       ).toBeForbidden()
     })
 
-    it("deposits for the avatar only", async () => {
-      await expect(edge().deposit(1n, avatar.address)).toBeAllowed()
-      await expect(edge().deposit(1n, stranger)).toBeForbidden(
-        Status.ParameterNotAllowed
+    it("cannot deposit, request a redeem or redeem", async () => {
+      await expect(edge().deposit(1n, avatar.address)).toBeForbidden(
+        Status.TargetAddressNotAllowed
       )
-    })
-
-    it("requests a redeem and redeems with receiver and owner pinned to the avatar", async () => {
       await expect(
         edge().requestRedeem(1n, avatar.address, avatar.address)
-      ).toBeAllowed()
+      ).toBeForbidden(Status.TargetAddressNotAllowed)
       await expect(
         edge().redeem(1n, avatar.address, avatar.address)
-      ).toBeAllowed()
+      ).toBeForbidden(Status.TargetAddressNotAllowed)
     })
+  })
 
-    it("forbids a stranger controller/receiver or owner on requestRedeem and redeem", async () => {
+  describe("Compound v3 ciUSDCv3: not scoped", () => {
+    it("does not approve USDC, supply or withdraw", async () => {
       await expect(
-        edge().requestRedeem(1n, stranger, avatar.address)
-      ).toBeForbidden(Status.ParameterNotAllowed)
-      await expect(
-        edge().requestRedeem(1n, avatar.address, stranger)
-      ).toBeForbidden(Status.ParameterNotAllowed)
-      await expect(edge().redeem(1n, stranger, avatar.address)).toBeForbidden(
-        Status.ParameterNotAllowed
+        erc20().attach(USDC).approve(compoundV3.ciUSDCv3, parseUnits("1", 6))
+      ).toBeForbidden()
+      await expect(comet().supply(USDC, 1n)).toBeForbidden(
+        Status.TargetAddressNotAllowed
       )
-      await expect(edge().redeem(1n, avatar.address, stranger)).toBeForbidden(
-        Status.ParameterNotAllowed
-      )
-    })
-
-    it("cannot withdraw (it always reverts) or mint on the Edge vault", async () => {
-      await expect(
-        edge().withdraw(1n, avatar.address, avatar.address)
-      ).toBeForbidden(Status.FunctionNotAllowed)
-      await expect(edge().mint(1n, avatar.address)).toBeForbidden(
-        Status.FunctionNotAllowed
+      await expect(comet().withdraw(USDC, 1n)).toBeForbidden(
+        Status.TargetAddressNotAllowed
       )
     })
   })
 
-  describe("Compound v3 ciUSDCv3: USDC supply only", () => {
-    it("approves USDC, supplies and withdraws USDC", async () => {
-      await expect(
-        erc20().attach(USDC).approve(compoundV3.ciUSDCv3, parseUnits("1", 6))
-      ).toBeAllowed()
-      await expect(comet().supply(USDC, 1n)).toBeAllowed()
-      await expect(comet().withdraw(USDC, 1n)).toBeAllowed()
-    })
+  describe("MANAGER superset", () => {
+    // The Sub modifier calls through MANAGER on the Exec modifier: a (target, selector) the
+    // MANAGER lacks would revert in production.
+    const expand = async (
+      actions: any,
+      calls: any,
+      params: typeof parameters
+    ) =>
+      processPermissions(
+        await preprocessPermissions(
+          { allowedActions: actions, allowedCalls: calls },
+          params
+        )
+      ).targets
 
-    it("does not scope collateral or third-party variants", async () => {
-      await expect(comet().supply(XAUt, 1n)).toBeForbidden()
-      await expect(comet().withdraw(XAUt, 1n)).toBeForbidden()
-      await expect(comet().supplyTo(stranger, USDC, 1n)).toBeForbidden(
-        Status.FunctionNotAllowed
+    it("allows every (target, selector) of CARRY_TRADE_MANAGER", async () => {
+      const carry = await expand(allowedActions, allowedCalls, parameters)
+      const manager = await expand(managerActions, managerCalls, mainParameters)
+      const managerKeys = new Set(
+        manager.flatMap((t) =>
+          t.clearance === Clearance.Target
+            ? [`${t.address.toLowerCase()}:*`]
+            : (t.functions ?? []).map(
+                (f) => `${t.address.toLowerCase()}:${f.selector}`
+              )
+        )
       )
-      await expect(comet().withdrawTo(stranger, USDC, 1n)).toBeForbidden(
-        Status.FunctionNotAllowed
+      const missing = carry.flatMap((t) =>
+        (t.functions ?? [])
+          .map((f) => `${t.address.toLowerCase()}:${f.selector}`)
+          .filter(
+            (k) =>
+              !managerKeys.has(k) && !managerKeys.has(`${k.split(":")[0]}:*`)
+          )
       )
+      expect(carry.length).toBeGreaterThan(0)
+      expect(missing).toEqual([])
     })
   })
 })

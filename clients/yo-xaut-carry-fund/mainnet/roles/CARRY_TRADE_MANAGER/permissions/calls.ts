@@ -1,6 +1,6 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { compoundV3, morpho, USDC, XAUt, yo } from "@/addresses/eth"
+import { morpho, USDC, XAUt } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
@@ -8,12 +8,21 @@ import { Parameters } from "../../../parameters"
 
 const poolCoreV3 = contracts.mainnet.aaveV3.poolCoreV3
 
+// The USDC vaults the manager deploys the borrowed USDC into.
+const usdcVaults = [
+  morpho.kpkUsdcYieldV2,
+  morpho.kpkUsdcYieldRWA,
+  morpho.kpkYoEcosystem,
+]
+
 // The kpk-agents carry-trade manager for this fund, on its own signer (replaces the HF
-// keeper): XAUt collateral on Aave v3 Core, USDC debt, the borrowed USDC deployed into the
-// USDC menu (kpk USDC Yield v2 / Yield RWA / Prime v2, YO Ecosystem Vault, Aave v3 Core USDC
-// supply, Compound v3 ciUSDCv3 USDC supply, yoUSD Edge deposit and exit). Only the calls the
-// manager signs: no eMode switch (the MANAGER sets category 43), no swaps, nothing on behalf of
-// or to a third party.
+// keeper). Only the calls the manager signs: XAUt collateral on Aave v3 Core (supply, enable as
+// collateral, withdraw), USDC debt (borrow / repay, in _actions.ts), and the borrowed USDC
+// deposited into and withdrawn from kpk USDC Yield v2, kpk USDC Yield RWA and the YO Ecosystem
+// Vault, always for the avatar. A vault is drained with `withdraw` by amount, never `redeem`,
+// `mint` or `forceDeallocate`. No USDC supply on Aave (the manager does not supply its own
+// borrow venue), no Compound v3, no yoUSD Edge (entered and exited by the MANAGER), no eMode
+// switch (the MANAGER sets category 43), no swaps, nothing on behalf of or to a third party.
 export default (parameters: Parameters) =>
   [
     // Aave v3 Core Market - XAUt collateral: supply for the avatar, enable as collateral (only
@@ -25,48 +34,17 @@ export default (parameters: Parameters) =>
     allow.mainnet.aaveV3.poolCoreV3.supply(XAUt, undefined, c.avatar),
     allow.mainnet.aaveV3.poolCoreV3.withdraw(XAUt, undefined, c.avatar),
 
-    // Aave v3 Core Market - USDC supply as a yield venue (`aave_v3_supply` position kind), for
-    // the avatar. The Pool pulls USDC on supply and on repay, hence the approval.
-    allowErc20Approve([USDC], [poolCoreV3]),
-    allow.mainnet.aaveV3.poolCoreV3.supply(USDC, undefined, c.avatar),
-    allow.mainnet.aaveV3.poolCoreV3.withdraw(USDC, undefined, c.avatar),
-
-    // Compound v3 - Institutional Market (ciUSDCv3) - USDC supply as a yield venue. supply /
-    // withdraw(asset, amount) always act for msg.sender, the avatar. No collateral leg (XAUt is
-    // not a Comet collateral), no To / From variants, allow / allowBySig, transfers or
-    // buyCollateral. Same hand-scoping as MANAGER. Selectable by the manager only once
-    // kpk-agents has a Comet yield position kind.
-    allowErc20Approve([USDC], [compoundV3.ciUSDCv3]),
-    {
-      ...allow.mainnet.compoundV3.comet.supply(USDC),
-      targetAddress: compoundV3.ciUSDCv3,
-    },
-    {
-      ...allow.mainnet.compoundV3.comet.withdraw(USDC),
-      targetAddress: compoundV3.ciUSDCv3,
-    },
-
-    // Morpho Vault - kpk USDC Yield RWA
-    allowErc20Approve([USDC], [morpho.kpkUsdcYieldRWA]),
-    {
-      ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
-      targetAddress: morpho.kpkUsdcYieldRWA,
-    },
-    {
-      ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kpkUsdcYieldRWA,
-    },
-    {
-      ...allow.mainnet.morpho.vault.redeem(undefined, c.avatar, c.avatar),
-      targetAddress: morpho.kpkUsdcYieldRWA,
-    },
-
-    // yoUSD Edge (YO Protocol, USDC) - deposit for the avatar, and exit through `requestRedeem`
-    // / `redeem` (an alias of it) with receiver and owner pinned to the avatar. A subset of the
-    // MANAGER's Edge scope, same legs as EXIT. Not scoped: `withdraw` (always reverts), `mint`,
-    // `cancelRedeem`, share `transfer` / `approve`.
-    allowErc20Approve([USDC], [yo.usdEdge]),
-    allow.mainnet.yo.edgeVault.deposit(undefined, c.avatar),
-    allow.mainnet.yo.edgeVault.requestRedeem(undefined, c.avatar, c.avatar),
-    allow.mainnet.yo.edgeVault.redeem(undefined, c.avatar, c.avatar),
+    // Morpho Vaults - USDC approval, deposit and withdraw for the avatar, per vault.
+    // Hand-scoped rather than defi-kit's morphoVaults.deposit, which would also grant `redeem`.
+    allowErc20Approve([USDC], usdcVaults),
+    ...usdcVaults.flatMap((vault) => [
+      {
+        ...allow.mainnet.morpho.vault.deposit(undefined, c.avatar),
+        targetAddress: vault,
+      },
+      {
+        ...allow.mainnet.morpho.vault.withdraw(undefined, c.avatar, c.avatar),
+        targetAddress: vault,
+      },
+    ]),
   ] satisfies PermissionList
