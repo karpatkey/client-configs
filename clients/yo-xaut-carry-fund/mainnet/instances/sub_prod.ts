@@ -1,7 +1,7 @@
 import { Parameters } from "../parameters"
 
 // Sub-Roles Modifier (owner: Manager Safe; target: Exec Roles Modifier). The Sub roles live
-// here: CARRY_TRADE_MANAGER, EXIT, SETTLER, HARVESTER.
+// here: CARRY_TRADE_MANAGER.
 export const rolesMod = "0x89B6d20D9A91d8dd3a5214f819F99755F40bB6a3"
 export const chainId = 1
 
