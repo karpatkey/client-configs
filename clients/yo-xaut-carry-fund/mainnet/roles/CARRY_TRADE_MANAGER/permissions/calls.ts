@@ -1,6 +1,6 @@
 import { c } from "zodiac-roles-sdk"
 import { allow } from "zodiac-roles-sdk/kit"
-import { morpho, USDC, XAUt } from "@/addresses/eth"
+import { morpho, USDC, XAUt, yo } from "@/addresses/eth"
 import { contracts } from "@/contracts"
 import { allowErc20Approve } from "@/helpers"
 import { PermissionList } from "@/types"
@@ -20,9 +20,10 @@ const usdcVaults = [
 // collateral, withdraw), USDC debt (borrow / repay, in _actions.ts), and the borrowed USDC
 // deposited into and withdrawn from kpk USDC Yield v2, kpk USDC Yield RWA and the YO Ecosystem
 // Vault, always for the avatar. A vault is drained with `withdraw` by amount, never `redeem`,
-// `mint` or `forceDeallocate`. No USDC supply on Aave (the manager does not supply its own
-// borrow venue), no Compound v3, no yoUSD Edge (entered and exited by the MANAGER), no eMode
-// switch (the MANAGER sets category 43), no swaps, nothing on behalf of or to a third party.
+// `mint` or `forceDeallocate`. yoUSD Edge (YO Protocol) takes a deposit for the avatar and exits
+// through `requestRedeem` with receiver and owner pinned to the avatar. No USDC supply on Aave
+// (the manager does not supply its own borrow venue), no Compound v3, no eMode switch (the
+// MANAGER sets category 43), no swaps, nothing on behalf of or to a third party.
 export default (parameters: Parameters) =>
   [
     // Aave v3 Core Market - XAUt collateral: supply for the avatar, enable as collateral (only
@@ -47,4 +48,14 @@ export default (parameters: Parameters) =>
         targetAddress: vault,
       },
     ]),
+
+    // yoUSD Edge (YO Protocol, USDC) - oracle-priced ERC-4626 with an async exit: the
+    // `yo_vault` supply position kind. Deposit for the avatar; exit through `requestRedeem`
+    // with receiver and owner pinned to the avatar (the USDC is pushed to the avatar, at once
+    // or when YO fulfils). Not scoped: `redeem` (an alias of `requestRedeem` the manager never
+    // sends), `withdraw` (always reverts), `mint`, share `transfer` / `approve`. Same legs as
+    // the MANAGER's Edge scope, hand-scoped as defi-kit has no action for this vault.
+    allowErc20Approve([USDC], [yo.usdEdge]),
+    allow.mainnet.yo.edgeVault.deposit(undefined, c.avatar),
+    allow.mainnet.yo.edgeVault.requestRedeem(undefined, c.avatar, c.avatar),
   ] satisfies PermissionList

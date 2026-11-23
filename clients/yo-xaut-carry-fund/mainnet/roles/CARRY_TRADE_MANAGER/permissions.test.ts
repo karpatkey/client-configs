@@ -169,25 +169,63 @@ describe("yo-xaut-carry-fund mainnet CARRY_TRADE_MANAGER", () => {
     })
   })
 
-  describe("yoUSD Edge (YO Protocol): not scoped, the MANAGER enters and exits it", () => {
+  describe("yoUSD Edge (YO Protocol): deposit and requestRedeem", () => {
     const edge = () => kit.asMember.yo.edgeVault.attach(yo.usdEdge)
 
-    it("does not approve USDC to the Edge vault", async () => {
+    it("approves USDC to the Edge vault, including a reset to 0", async () => {
+      await expect(erc20().attach(USDC).approve(yo.usdEdge, 0n)).toBeAllowed()
       await expect(
         erc20().attach(USDC).approve(yo.usdEdge, parseUnits("1", 6))
+      ).toBeAllowed()
+    })
+
+    it("does not approve USDT to the Edge vault or USDC to a stranger", async () => {
+      await expect(
+        erc20().attach(USDT).approve(yo.usdEdge, parseUnits("1", 6))
+      ).toBeForbidden()
+      await expect(
+        erc20().attach(USDC).approve(stranger, parseUnits("1", 6))
       ).toBeForbidden()
     })
 
-    it("cannot deposit, request a redeem or redeem", async () => {
-      await expect(edge().deposit(1n, avatar.address)).toBeForbidden(
-        Status.TargetAddressNotAllowed
+    it("deposits for the avatar only", async () => {
+      await expect(edge().deposit(1n, avatar.address)).toBeAllowed()
+      await expect(edge().deposit(1n, stranger)).toBeForbidden(
+        Status.ParameterNotAllowed
       )
+    })
+
+    it("requests a redeem with receiver and owner pinned to the avatar", async () => {
       await expect(
         edge().requestRedeem(1n, avatar.address, avatar.address)
-      ).toBeForbidden(Status.TargetAddressNotAllowed)
+      ).toBeAllowed()
+      await expect(
+        edge().requestRedeem(1n, stranger, avatar.address)
+      ).toBeForbidden(Status.ParameterNotAllowed)
+      await expect(
+        edge().requestRedeem(1n, avatar.address, stranger)
+      ).toBeForbidden(Status.ParameterNotAllowed)
+    })
+
+    it("does not redeem, withdraw or mint", async () => {
       await expect(
         edge().redeem(1n, avatar.address, avatar.address)
-      ).toBeForbidden(Status.TargetAddressNotAllowed)
+      ).toBeForbidden(Status.FunctionNotAllowed)
+      await expect(
+        edge().withdraw(1n, avatar.address, avatar.address)
+      ).toBeForbidden(Status.FunctionNotAllowed)
+      await expect(edge().mint(1n, avatar.address)).toBeForbidden(
+        Status.FunctionNotAllowed
+      )
+    })
+
+    it("does not approve or transfer the Edge share token", async () => {
+      await expect(
+        erc20().attach(yo.usdEdge).approve(stranger, 1n)
+      ).toBeForbidden(Status.FunctionNotAllowed)
+      await expect(
+        erc20().attach(yo.usdEdge).transfer(stranger, 1n)
+      ).toBeForbidden(Status.FunctionNotAllowed)
     })
   })
 
