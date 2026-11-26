@@ -436,6 +436,18 @@ export const polygon = {
   posStakingContract: "0x5e3Ef299fDDf15eAa0432E6e66473ace8c13D908",
 } as const
 
+// Rysk physically settled vaults (targetAddress for `rysk.physicalLiquidityPool`),
+// their option handlers (`rysk.physicalOptionHandler`) and Authorities
+// (`rysk.authority`), keyed by vault symbol
+export const rysk = {
+  kpkUsdcWeth: "0x0fC2C168EB667D8A3A79d8d93fa104b35B0aB17C", // kpkUSDCWETH, KPK USDC/WETH Physical Vault (puts)
+  kpkUsdcWethAuthority: "0xB3948D8517FE96ea55E78e3a1cF1a14C0aeAa2C2", // Authority of kpkUSDCWETH
+  kpkUsdcWethOptionHandler: "0xf3ad148cE974AbCD3cab36D6260741Fe94b88041", // PhysicalOptionHandler of kpkUSDCWETH
+  kpkWethUsdc: "0x597b71795a0358137a5eaE5Ee6F35c4F58F53f13", // kpkWETHUSDC, KPK WETH/USDC Physical Vault (calls)
+  kpkWethUsdcAuthority: "0xe1A1F23acc590dBe019A2816A5688623674cDe69", // Authority of kpkWETHUSDC
+  kpkWethUsdcOptionHandler: "0x9CdE0025E7c8521f34d982e8C98991A9179229D7", // PhysicalOptionHandler of kpkWETHUSDC
+} as const
+
 export const siloV2 = {
   balSilo: "0x92E7E77163FFed918421E3CB6e0A22F2Fe8B37FA",
 } as const

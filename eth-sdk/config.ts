@@ -209,6 +209,14 @@ export const contracts = {
     resolv: {
       wstUsr: "0x1202F5C7b4B9E47a1A484E8B270be34dbbC75055",
     },
+    rysk: {
+      // Generic ABIs (implementations) reused for the concrete Rysk physical
+      // vaults, option handlers and Authorities via targetAddress in the
+      // policy (see @/addresses/eth `rysk`).
+      authority: "0x50efA1d9e5f8463A96e771CcE167E78E406E906f", // Authority implementation (kpkWETHUSDC)
+      physicalLiquidityPool: "0x6b6e675c9917b2E4E5Cd4F5eb8e488687bEd55D6", // PhysicalLiquidityPool implementation (kpkWETHUSDC)
+      physicalOptionHandler: "0x043756c1d6F73BAD406fFc9a656761B260C14482", // PhysicalOptionHandler implementation (kpkWETHUSDC)
+    },
     sablier: {
       v2LockUpDyn: "0x7CC7e125d83A581ff438608490Cc0f7bDff79127",
     },

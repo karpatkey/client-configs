@@ -35,8 +35,10 @@ import {
   euler,
   fluid,
   pendle,
+  rysk,
   stakeWiseV3,
 } from "@/addresses/eth"
+import { encodeBytes32String } from "defi-kit"
 import { zeroAddress, eAddress } from "@/addresses"
 import { contracts } from "@/contracts"
 import {
@@ -50,6 +52,43 @@ import { PermissionList } from "@/types"
 import { balancerV2Swap } from "@/exit_strategies/balancerV2"
 import { Parameters } from "../../../../parameters"
 import { timeLock } from "../../../../addresses"
+
+// Rysk options (PUR 11). Strikes and amounts use 8 decimals; prices are per
+// option in the premium token, with 18 decimals.
+const E8 = 10n ** 8n
+const E18 = 10n ** 18n
+// Deposit caps, enforced with refilling allowances (90-day period)
+const RYSK_WETH_DEPOSIT_KEY = "RYSK_WETH_DEPOSIT"
+const RYSK_USDC_DEPOSIT_KEY = "RYSK_USDC_DEPOSIT"
+const RYSK_WETH_DEPOSIT_CAP = 1_000n * E18 // 1,000 WETH (18 decimals)
+const RYSK_USDC_DEPOSIT_CAP = 2_000_000n * 10n ** 6n // 2,000,000 USDC (6 decimals)
+// Strike bounds (catch decimal mistakes): calls above $100, puts above $100
+// and below $10,000
+const RYSK_CALL_STRIKE_FLOOR = 100n * E8
+const RYSK_PUT_STRIKE_FLOOR = 100n * E8
+const RYSK_PUT_STRIKE_CEILING = 10_000n * E8
+// Minimum premium per option: 0.00001 WETH (calls) / 0.01 USDC (puts)
+const RYSK_CALL_MIN_PRICE = E18 / 100_000n
+const RYSK_PUT_MIN_PRICE = E18 / 100n
+// Buyback ceilings: calls 1 WETH per option; puts by strike band (USD)
+const RYSK_CALL_BUYBACK_MAX_PRICE = E18
+const RYSK_PUT_BUYBACK_BANDS = [
+  125n,
+  250n,
+  500n,
+  1_000n,
+  2_000n,
+  4_000n,
+  8_000n,
+  16_000n,
+]
+// Sale expiries: Friday 08:00 UTC, 52 weeks from 11 Dec 2026 to 3 Dec 2027.
+// Renew with a PUR before the list runs out (new sales are blocked after it).
+const RYSK_FIRST_EXPIRY = 1796976000 // Fri 11 Dec 2026 08:00:00 UTC
+const RYSK_EXPIRIES = Array.from(
+  { length: 52 },
+  (_, i) => RYSK_FIRST_EXPIRY + i * 7 * 24 * 60 * 60
+)
 
 export default (parameters: Parameters) =>
   [
@@ -631,6 +670,177 @@ export default (parameters: Parameters) =>
         },
       }
     ),
+
+    // Rysk - KPK physically settled options vaults: kpkUSDCWETH (cash-secured
+    // puts, USDC collateral) and kpkWETHUSDC (covered calls, WETH collateral).
+    // Vault functions take no recipient and act on msg.sender.
+    // depositSecondary is not granted (both vaults are PrimaryOnly).
+    // Approvals capped at the deposit caps (no unlimited approval)
+    {
+      targetAddress: USDC,
+      signature: "approve(address,uint256)",
+      condition: c.calldataMatches(
+        [rysk.kpkUsdcWeth, c.lte(RYSK_USDC_DEPOSIT_CAP)],
+        ["address", "uint256"]
+      ),
+    },
+    {
+      targetAddress: WETH,
+      signature: "approve(address,uint256)",
+      condition: c.calldataMatches(
+        [rysk.kpkWethUsdc, c.lte(RYSK_WETH_DEPOSIT_CAP)],
+        ["address", "uint256"]
+      ),
+    },
+    // Deposits within a refilling allowance: 2,000,000 USDC / 1,000 WETH per
+    // 90 days (set with setAllowance in the payload)
+    {
+      ...allow.mainnet.rysk.physicalLiquidityPool.depositPrimary(
+        c.withinAllowance(
+          encodeBytes32String(RYSK_USDC_DEPOSIT_KEY) as `0x${string}`
+        )
+      ),
+      targetAddress: rysk.kpkUsdcWeth,
+    },
+    {
+      ...allow.mainnet.rysk.physicalLiquidityPool.depositPrimary(
+        c.withinAllowance(
+          encodeBytes32String(RYSK_WETH_DEPOSIT_KEY) as `0x${string}`
+        )
+      ),
+      targetAddress: rysk.kpkWethUsdc,
+    },
+    // Redeem shares, withdraw, and collect the curator fees (manager seat)
+    ...[rysk.kpkUsdcWeth, rysk.kpkWethUsdc].flatMap((vault) => [
+      {
+        ...allow.mainnet.rysk.physicalLiquidityPool.redeem(),
+        targetAddress: vault,
+      },
+      {
+        ...allow.mainnet.rysk.physicalLiquidityPool.initiateWithdraw(),
+        targetAddress: vault,
+      },
+      {
+        ...allow.mainnet.rysk.physicalLiquidityPool.completeWithdraw(),
+        targetAddress: vault,
+      },
+      {
+        ...allow.mainnet.rysk.physicalLiquidityPool.withdrawCuratorFees(),
+        targetAddress: vault,
+      },
+    ]),
+    // Accept the manager (curator) seat on each vault's Authority
+    {
+      ...allow.mainnet.rysk.authority.pullManager(),
+      targetAddress: rysk.kpkUsdcWethAuthority,
+    },
+    {
+      ...allow.mainnet.rysk.authority.pullManager(),
+      targetAddress: rysk.kpkWethUsdcAuthority,
+    },
+    // Option orders (OTC, the market maker executes them): createOrder and
+    // deleteOrder (cancel before execution). executeRFQOrder not granted.
+    // Puts (kpkUSDCWETH handler): WETH/USDC series with USDC collateral,
+    // premium in USDC only. Sale: strike above $100 and below $10,000,
+    // price >= 0.01 USDC per option, expiry on the Friday 08:00 UTC list
+    {
+      ...allow.mainnet.rysk.physicalOptionHandler.createOrder(
+        {
+          expiration: c.or(...(RYSK_EXPIRIES as [number, number, ...number[]])),
+          strike: c.and(
+            c.gt(RYSK_PUT_STRIKE_FLOOR),
+            c.lt(RYSK_PUT_STRIKE_CEILING)
+          ),
+          isPut: true,
+          underlying: WETH,
+          strikeAsset: USDC,
+          collateral: USDC,
+        },
+        undefined,
+        c.gte(RYSK_PUT_MIN_PRICE),
+        undefined,
+        undefined,
+        false,
+        USDC
+      ),
+      targetAddress: rysk.kpkUsdcWethOptionHandler,
+    },
+    // Put buyback by strike band: strike in (previous band, band] -> price <=
+    // band in USDC per option, i.e. between 1x and 2x the strike (puts are
+    // only sold above a $100 strike)
+    ...RYSK_PUT_BUYBACK_BANDS.map((band, i) => ({
+      ...allow.mainnet.rysk.physicalOptionHandler.createOrder(
+        {
+          strike:
+            i === 0
+              ? c.lte(band * E8)
+              : c.and(
+                  c.gt(RYSK_PUT_BUYBACK_BANDS[i - 1]! * E8),
+                  c.lte(band * E8)
+                ),
+          isPut: true,
+          underlying: WETH,
+          strikeAsset: USDC,
+          collateral: USDC,
+        },
+        undefined,
+        c.lte(band * E18),
+        undefined,
+        undefined,
+        true,
+        USDC
+      ),
+      targetAddress: rysk.kpkUsdcWethOptionHandler,
+    })),
+    // Calls (kpkWETHUSDC handler): WETH/USDC series with WETH collateral,
+    // premium in WETH only. Sale: strike above $100, price >= 0.00001 WETH per
+    // option, expiry on the Friday 08:00 UTC list
+    {
+      ...allow.mainnet.rysk.physicalOptionHandler.createOrder(
+        {
+          expiration: c.or(...(RYSK_EXPIRIES as [number, number, ...number[]])),
+          strike: c.gt(RYSK_CALL_STRIKE_FLOOR),
+          isPut: false,
+          underlying: WETH,
+          strikeAsset: USDC,
+          collateral: WETH,
+        },
+        undefined,
+        c.gte(RYSK_CALL_MIN_PRICE),
+        undefined,
+        undefined,
+        false,
+        WETH
+      ),
+      targetAddress: rysk.kpkWethUsdcOptionHandler,
+    },
+    // Call buyback: price <= 1 WETH per option
+    {
+      ...allow.mainnet.rysk.physicalOptionHandler.createOrder(
+        {
+          isPut: false,
+          underlying: WETH,
+          strikeAsset: USDC,
+          collateral: WETH,
+        },
+        undefined,
+        c.lte(RYSK_CALL_BUYBACK_MAX_PRICE),
+        undefined,
+        undefined,
+        true,
+        WETH
+      ),
+      targetAddress: rysk.kpkWethUsdcOptionHandler,
+    },
+    // Cancel an order before the market maker executes it (both handlers)
+    {
+      ...allow.mainnet.rysk.physicalOptionHandler.deleteOrder(),
+      targetAddress: rysk.kpkUsdcWethOptionHandler,
+    },
+    {
+      ...allow.mainnet.rysk.physicalOptionHandler.deleteOrder(),
+      targetAddress: rysk.kpkWethUsdcOptionHandler,
+    },
 
     // Sky - DSR (DAI Savings Rate)
     // The DsrManager provides an easy to use smart contract that allows
