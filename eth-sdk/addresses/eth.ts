@@ -321,9 +321,9 @@ export const maverickV2 = {
 // Names are the ones StakeWise exposes on its subgraph; ethMetaVault is an
 // unnamed EthMetaVault (used by the StakeWise landing page to stake ETH).
 export const stakeWiseV3 = {
-  genesis: "0xAC0F906E433d58FA868F936E8A43230473652885", // Genesis
   chorusOneMaxVault: "0xe6d8d8aC54461b1C5eD15740EEe322043F696C08", // Chorus One Max Vault
   ethMetaVault: "0x15639e82d2072fa510e5d2b5f0db361c823bcad3", // unnamed EthMetaVault
+  genesis: "0xAC0F906E433d58FA868F936E8A43230473652885", // Genesis
 } as const
 
 export const morpho = {

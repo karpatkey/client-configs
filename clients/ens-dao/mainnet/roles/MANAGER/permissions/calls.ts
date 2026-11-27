@@ -455,17 +455,22 @@ export default (parameters: Parameters) =>
       c.avatar
     ),
     // Standard unstaking eETH -> ETH - A Withdraw Request NFT is issued
+    // Routed through the onchain-accounting assistant (delegatecall, ADR 0030)
+    // so the NFT id is fed to the balance adapter atomically; the assistant
+    // approves eETH to the LiquidityPool itself; the direct eETH approve is kept
+    // so app batches that include it still pass (only the direct request/claim
+    // entrypoints are replaced). weETH -> ETH = unwrap weETH (below) + this
+    // request. The weETH -> WithdrawAdapter approve is no longer used (the
+    // direct WithdrawAdapter request is not granted); remove it in a later PUR.
     allowErc20Approve([eETH], [contracts.mainnet.etherfi.liquidityPool]),
-    allow.mainnet.etherfi.liquidityPool.requestWithdraw(c.avatar),
-    // Standard unstaking weETH -> ETH - A Withdraw Request NFT is issued
     allowErc20Approve([weETH], [contracts.mainnet.etherfi.withdrawalAdapter]),
-    allow.mainnet.etherfi.withdrawalAdapter.requestWithdraw(
-      undefined,
-      c.avatar
-    ),
+    allow.mainnet.etherfi.assistant.requestWithdraw(undefined, {
+      delegatecall: true,
+    }),
     // Funds can be claimed once the request is finalized
-    // The same function is called for both paths (eETH/weETH -> ETH)
-    allow.mainnet.etherfi.withdrawRequestNft.claimWithdraw(),
+    allow.mainnet.etherfi.assistant.claimWithdraw(undefined, {
+      delegatecall: true,
+    }),
     // Express unstaking eETH -> ETH
     allowErc20Approve([eETH], [contracts.mainnet.etherfi.redemptionManager]),
     allow.mainnet.etherfi.redemptionManager.redeemEEth(
@@ -673,14 +678,20 @@ export default (parameters: Parameters) =>
       ...allow.mainnet.stakeWiseV3.vault.burnOsToken(),
       targetAddress: stakeWiseV3.genesis,
     },
-    {
-      ...allow.mainnet.stakeWiseV3.vault.enterExitQueue(undefined, c.avatar),
-      targetAddress: stakeWiseV3.genesis,
-    },
-    {
-      ...allow.mainnet.stakeWiseV3.vault.claimExitedAssets(),
-      targetAddress: stakeWiseV3.genesis,
-    },
+    // Exit queue routed through the onchain-accounting assistant (delegatecall,
+    // ADR 0030) so the exit position ticket is fed to the balance adapter atomically.
+    allow.mainnet.stakeWiseV3.assistant.enterExitQueue(
+      stakeWiseV3.genesis,
+      undefined,
+      { delegatecall: true }
+    ),
+    allow.mainnet.stakeWiseV3.assistant.claimExitedAssets(
+      stakeWiseV3.genesis,
+      undefined,
+      undefined,
+      undefined,
+      { delegatecall: true }
+    ),
     // StakeWise v3 - Exit queue adapter (ADR 0030): Safe-side recovery
     // (evict / submit / remove of its own onchain-accounting entries)
     ...allowStakeWiseV3AssistedBalanceRecoveryMainnet(),
