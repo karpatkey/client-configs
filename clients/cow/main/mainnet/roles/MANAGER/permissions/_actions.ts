@@ -56,6 +56,8 @@ export default (parameters: Parameters) => [
 
   // Compound v3 - Institutional Market (ciUSDCv3) - Deposit/withdraw USDC
   allowAction.compound_v3.deposit({ targets: ["ciUSDCv3"], tokens: ["USDC"] }),
+  // Compound v3 - Institutional Market (ciUSDGv3) - Deposit/withdraw USDG
+  allowAction.compound_v3.deposit({ targets: ["ciUSDGv3"], tokens: ["USDG"] }),
   // Compound v3 - Deposit USDC
   allowAction.compound_v3.deposit({ targets: ["cUSDCv3"], tokens: ["USDC"] }),
   // Compound v3 - Deposit USDS
